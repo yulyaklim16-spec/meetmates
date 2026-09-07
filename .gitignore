@@ -1,0 +1,19 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Node (появится на этапе прототипа)
+node_modules/
+dist/
+.env
+.env.local
+
+# Design tooling
+*.fig.bak
+.sketch-cache/
