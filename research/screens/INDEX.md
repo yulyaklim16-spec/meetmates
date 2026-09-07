@@ -13,8 +13,12 @@
 | `ami--app--03-telegram-gate--dostup-ogranichen.png` | AMI | **Доступ ограничен.** Продукт живёт как Telegram mini-app; из веба доступна только страница бота, сам интерфейс подбора закрыт авторизацией Telegram |
 | `tinder--landing--01-hero.png` | Tinder | Первый экран: «It starts with a swipe.™» — механика вынесена в главный слоган |
 | `tinder--app--02-recs-login-wall--dostup-ogranichen.png` | Tinder | **Доступ ограничен.** `/app/recs` без сессии редиректит на лендинг; колода свайпов недоступна |
-| `karabas--events--01-feed.png` | Karabas | Первый экран афиши: баннер, заголовок «Афіша подій 2026 в Україні» |
-| `karabas--events--02-feed-full.png` | Karabas | Лента целиком: карточки событий по категориям, участники нигде не показаны |
+| `peanut--landing--01-hero.png` | Peanut | Первый экран: «Find mom friends», «Trusted by 5M+ women monthly» |
+| `peanut--landing--02-three-pillars.png` | Peanut | Лендинг целиком: три контура — Swipe to Find Friends Nearby, Join Groups and Communities, Ask Questions and Get Advice |
+| `peanut--safety--03-community-guidelines.png` | Peanut | Community Guidelines: обязательная селфи-верификация, ложные жалобы как нарушение, запрет коммерции, анти-гостинг |
+| `peanut--app--04-store-screens.png` | Peanut | Карточка Google Play: витринные экраны, «Contains ads · In-app purchases», 1M+ загрузок. Внутренние экраны иначе **доступ ограничен** |
+| `karabas--events--01-feed.png` | Karabas | Первый экран афиши: баннер, заголовок «Афіша подій 2026 в Україні». Отложен из разбора — материал по софт-группе |
+| `karabas--events--02-feed-full.png` | Karabas | Лента целиком: карточки событий по категориям, участники нигде не показаны. Отложен из разбора |
 | `bumble-bff--landing--01-hero.png` | Bumble For Friends | Первый экран: «Find your people with Bumble For Friends», только App Store / Google Play |
 | `bumble-bff--landing--02-full.png` | Bumble For Friends | Лендинг целиком: «There are friends for every era. Even your messy ones.», интент-чипы, The Friendship Hub |
 | `bumble-bff--app--03-store-screens.png` | Bumble For Friends | Карточка Google Play: витринные экраны приложения, «Contains ads · In-app purchases», 1M+ загрузок. Сам продукт в Украине недоступен — внутренние экраны иначе **доступ ограничен** |
@@ -28,5 +32,5 @@
   где баннер виден в верхней части: это честная картина первого визита.
 - `tinder--landing--01-hero.png` и `tinder--app--02-...` визуально совпадают — это и есть результат:
   Tinder не показывает неавторизованному пользователю ничего, кроме лендинга.
-- Внутренние экраны AMI, Tinder и Bumble For Friends недоступны без регистрации.
-  Для BFF частично заменены витринными скриншотами из Google Play.
+- Внутренние экраны AMI, Tinder, Bumble For Friends и Peanut недоступны без регистрации.
+  Для BFF и Peanut частично заменены витринными скриншотами из Google Play.

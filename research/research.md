@@ -104,9 +104,11 @@
 
 ### Сводная таблица разбора
 
-**Первый проход сделан:** AMI, Tinder, Karabas, Bumble For Friends, Meetup разобраны по пяти осям —
+**Первый проход сделан:** AMI, Tinder, Peanut, Bumble For Friends, Meetup разобраны по пяти осям —
 [`competitor-analysis.md`](./competitor-analysis.md). Скриншоты — [`screens/`](./screens/).
-Второй проход: Peanut, Timeleft, Partiful, Instagram, беговые клубы.
+Karabas разобран и отложен: билетная платформа без людей давала пустые ячейки по осям
+«ключевой механизм» и «доверие», заменён на Peanut. Материал по нему сохранён в `screens/`.
+Второй проход: Timeleft, Partiful, Instagram, беговые клубы, Karabas.
 
 | Продукт | Группа | Точка входа | Механика | Безопасность | Что забираем | Что не повторяем |
 |---|---|---|---|---|---|---|
