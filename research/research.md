@@ -104,7 +104,9 @@
 
 ### Сводная таблица разбора
 
-Заполняется по мере разбора. Приоритет: Ramle → Bumble For Friends → AMI → Tinder → остальные.
+**Первый проход сделан:** AMI, Tinder, Karabas, Bumble For Friends, Meetup разобраны по пяти осям —
+[`competitor-analysis.md`](./competitor-analysis.md). Скриншоты — [`screens/`](./screens/).
+Второй проход: Peanut, Timeleft, Partiful, Instagram, беговые клубы.
 
 | Продукт | Группа | Точка входа | Механика | Безопасность | Что забираем | Что не повторяем |
 |---|---|---|---|---|---|---|
