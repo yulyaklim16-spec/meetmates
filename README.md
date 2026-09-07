@@ -23,7 +23,7 @@
 | Раздел | Что внутри | Статус |
 |---|---|---|
 | [CLAUDE.md](./CLAUDE.md) | Продуктовый бриф: объём, экраны, флоу, метрики, допущения | ✅ утверждён |
-| [research/](./research/) | [research.md](./research/research.md) — вопросы, гипотезы, конкуренты, гайд интервью · [screens/](./research/screens/) — скриншоты | 🟡 каркас готов, наполнение TBD |
+| [research/](./research/) | [research.md](./research/research.md) — вопросы, гипотезы, конкуренты (15 в трёх группах), гайд интервью · [screens/](./research/screens/) — скриншоты | 🟡 конкуренты определены, разбор и интервью TBD |
 | [wireframes/](./wireframes/) | Низкодетализированные экраны по пяти ключевым флоу | ⬜ не начато |
 | [concept/](./concept/) | Moodboard, ключевые экраны в визуале, логотип | ⬜ не начато |
 | [tokens/](./tokens/) | [tokens.css](./tokens/tokens.css) + [tokens.json](./tokens/tokens.json) — цвет, типографика, радиусы, тени, движение | ✅ базовый набор из брифа |
