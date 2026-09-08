@@ -17,3 +17,6 @@ dist/
 # Design tooling
 *.fig.bak
 .sketch-cache/
+
+# Browser automation artifacts (скриншоты переносятся в research/screens вручную)
+.playwright-mcp/
