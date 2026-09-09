@@ -20,3 +20,6 @@ dist/
 
 # Browser automation artifacts (скриншоты переносятся в research/screens вручную)
 .playwright-mcp/
+
+# Vercel
+.vercel/

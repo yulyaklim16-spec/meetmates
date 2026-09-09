@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MeetMates</title>
+<meta name="description" content="Навигация по материалам проекта: бриф, исследование, токены, этапы дизайна.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap">
+<!-- Единственный источник правды по цвету, радиусам, шкалам и движению -->
+<link rel="stylesheet" href="tokens/tokens.css">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Титульная страница проекта. Все значения — из tokens/tokens.css,
+   собственных цветов и радиусов здесь нет (Рабочие соглашения, п. 2).
+   Тема светлая: тёмная вынесена за объём v1 (CLAUDE.md §10),
+   поэтому страница осознанно одноцветная, а не «забыли про dark».
+   Градиент — только на акцентах, фон остаётся светлым (§8).
+   ───────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-family: var(--font);
+  font-size: var(--t-body-sm);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 var(--s-4) var(--s-7);
+}
+
+/* ── Шапка ─────────────────────────────────────────────────── */
+.masthead { padding: var(--s-7) 0 var(--s-6); }
+
+.brand {
+  display: inline-flex; align-items: center; gap: var(--s-3);
+  margin-bottom: var(--s-5);
+}
+.brand .dot {
+  width: 34px; height: 34px; border-radius: var(--r-pill);
+  background: var(--brand-gradient);
+  box-shadow: var(--shadow-md);
+  flex: none;
+}
+.brand .name {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: var(--t-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+  margin: 0 0 var(--s-4);
+  max-width: 20ch;
+}
+h1 .grad {
+  display: block;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+
+.lede {
+  font-size: var(--t-body);
+  color: var(--ink-600);
+  max-width: 56ch;
+  margin: 0 0 var(--s-5);
+}
+
+.facts {
+  display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+.fact { display: flex; align-items: baseline; gap: var(--s-2); }
+.fact b {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+.fact span { font-size: var(--t-caption); color: var(--ink-400); }
+
+/* ── Заголовки групп ───────────────────────────────────────── */
+.group { margin-top: var(--s-7); }
+.group-head {
+  display: flex; align-items: baseline; gap: var(--s-3);
+  margin-bottom: var(--s-4);
+}
+.group-head h2 {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.01em; margin: 0;
+}
+.group-head .hint { font-size: var(--t-caption); color: var(--ink-400); }
+
+/* ── Сетка карточек ────────────────────────────────────────── */
+.grid {
+  display: grid; gap: var(--s-4);
+  grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+}
+
+/* Сетки под точное число карточек, чтобы ни одна не оставалась
+   одна в ряду и не растягивалась на пустоту. */
+.group.base .grid { grid-template-columns: 2fr 1fr; }   /* 1 крупная + 2 в стопку */
+.group.ahead .grid { grid-template-columns: repeat(2, 1fr); }  /* ровно 2×2 */
+@media (max-width: 720px) {
+  .group.base .grid, .group.ahead .grid { grid-template-columns: 1fr; }
+}
+
+.card {
+  display: flex; flex-direction: column; gap: var(--s-3);
+  padding: var(--s-5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out);
+}
+a.card:hover, a.card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--brand-a);
+}
+a.card:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 3px; }
+
+.card .top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-3); }
+.card h3 {
+  font-size: var(--t-body); font-weight: var(--fw-bold);
+  margin: 0; letter-spacing: -0.005em;
+}
+.card p { margin: 0; font-size: var(--t-caption); color: var(--ink-600); line-height: 1.55; }
+.card .files {
+  margin-top: auto; padding-top: var(--s-2);
+  font-size: var(--t-micro); color: var(--ink-400);
+  font-variant-numeric: tabular-nums;
+}
+
+/* карточка без внешней ссылки: ссылки живут внутри строки файлов */
+.linkrow a { color: var(--brand-a); text-decoration: none; border-bottom: 1px solid var(--line); }
+.linkrow a:hover, .linkrow a:focus-visible { border-bottom-color: var(--brand-a); }
+
+/* карточка-заготовка: артефактов ещё нет, ведёт только к правилам */
+.card.stub { background: var(--surface-2); border-style: dashed; }
+.card.stub h3 { color: var(--ink-600); }
+
+/* карточка без ссылки: этап не начат */
+.card.none { background: transparent; border-style: dashed; opacity: .72; }
+.card.none h3 { color: var(--ink-400); }
+
+/* главная карточка этапа — единственное место с градиентом-заливкой */
+.card.feature {
+  grid-row: span 2;
+  background: var(--brand-gradient);
+  border-color: transparent;
+  color: var(--ink-on-brand);
+  box-shadow: var(--shadow-lg);
+}
+.card.feature h3 { font-size: var(--t-h2); letter-spacing: -0.02em; }
+.card.feature p { color: rgba(255, 255, 255, 0.86); font-size: var(--t-body-sm); }
+.card.feature .files { color: rgba(255, 255, 255, 0.72); }
+.card.feature .pill { background: rgba(255, 255, 255, 0.2); color: var(--ink-on-brand); }
+a.card.feature:hover, a.card.feature:focus-visible { border-color: transparent; box-shadow: var(--shadow-lg); }
+@media (max-width: 720px) { .card.feature { grid-row: span 1; } }
+
+/* ── Пилюли статуса ────────────────────────────────────────── */
+.pill {
+  flex: none;
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  padding: 3px 10px; border-radius: var(--r-pill);
+  letter-spacing: 0.02em; white-space: nowrap;
+}
+.pill.ready { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.pill.rules { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+.pill.empty { background: var(--surface-2); color: var(--ink-400); }
+
+/* ── Список документов ─────────────────────────────────────── */
+.docs {
+  display: grid; gap: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+.doc {
+  display: flex; align-items: baseline; gap: var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--line);
+  text-decoration: none; color: inherit;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.doc:last-child { border-bottom: none; }
+.doc:hover, .doc:focus-visible { background: var(--surface-2); }
+.doc:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.doc .nm { font-weight: var(--fw-medium); font-size: var(--t-body-sm); flex: none; min-width: 15ch; }
+.doc .ds { font-size: var(--t-caption); color: var(--ink-600); flex: 1; min-width: 0; }
+.doc .sz { font-size: var(--t-micro); color: var(--ink-400); font-variant-numeric: tabular-nums; flex: none; }
+@media (max-width: 620px) {
+  .doc { flex-direction: column; gap: var(--s-1); }
+  .doc .nm { min-width: 0; }
+}
+
+/* ── Подвал ────────────────────────────────────────────────── */
+footer {
+  margin-top: var(--s-7);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-caption);
+  color: var(--ink-400);
+}
+footer p { margin: 0 0 var(--s-2); max-width: 68ch; }
+footer a { color: var(--brand-a); }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="brand">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="name">MeetMates</span>
+    </div>
+
+    <h1>Планы и люди, <span class="grad">с кем их разделить</span></h1>
+
+    <p class="lede">
+      Веб-сервис для поиска единомышленников: свайпы знакомят, события дают повод встретиться.
+      Аудитория 18–35, mobile-first, один город на старте. Этап — дизайн-прототип.
+    </p>
+
+    <div class="facts">
+      <span class="fact"><b>5</b><span>документов исследования</span></span>
+      <span class="fact"><b>74</b><span>экрана конкурентов</span></span>
+      <span class="fact"><b>5</b><span>разобранных продуктов</span></span>
+      <span class="fact"><b>28</b><span>баллов в бенчмарке доверия</span></span>
+    </div>
+  </header>
+
+  <section class="group base">
+    <div class="group-head">
+      <h2>Основа</h2>
+      <span class="hint">то, с чем сверяется всё остальное</span>
+    </div>
+    <div class="grid">
+      <a class="card feature" href="research.html">
+        <div class="top">
+          <h3>Итоги исследования</h3>
+          <span class="pill">страница</span>
+        </div>
+        <p>
+          Конкуренты, бенчмарк доверия, паттерны знакомства и выводы — одной страницей,
+          с матрицами, скриншотами и источником под каждым фактом.
+        </p>
+        <span class="files">research.html · 4 секции · 17 экранов</span>
+      </a>
+
+      <a class="card" href="CLAUDE.md">
+        <div class="top">
+          <h3>Бриф продукта</h3>
+          <span class="pill ready">источник правды</span>
+        </div>
+        <p>
+          Объём MVP, информационная архитектура, безопасность и доверие, монетизация,
+          метрики и рабочие соглашения. Все решения сверяются с ним.
+        </p>
+        <span class="files">CLAUDE.md · 12 разделов</span>
+      </a>
+
+      <a class="card" href="README.md">
+        <div class="top">
+          <h3>Обзор репозитория</h3>
+          <span class="pill ready">готово</span>
+        </div>
+        <p>Что за проект, как устроены папки и в каком порядке появляются материалы.</p>
+        <span class="files">README.md</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-head">
+      <h2>Исследование</h2>
+      <span class="hint">этап пройден, кроме интервью с пользователями</span>
+    </div>
+    <div class="docs">
+      <a class="doc" href="research/research.md">
+        <span class="nm">research.md</span>
+        <span class="ds">Итоги этапа: конкуренты, бенчмарк, паттерны, выводы. Каждый факт с источником, пробелы помечены прямо.</span>
+        <span class="sz">4 секции</span>
+      </a>
+      <a class="doc" href="research/competitor-analysis.md">
+        <span class="nm">competitor-analysis.md</span>
+        <span class="ds">Пять конкурентов по пяти осям, три паттерна рынка, три отличия, вопросы к PM В1–В7 с ответами.</span>
+        <span class="sz">5 продуктов</span>
+      </a>
+      <a class="doc" href="research/trust-benchmark.md">
+        <span class="nm">trust-benchmark.md</span>
+        <span class="ds">Доверие к профилю до первого контакта: 8 критериев, 5 внекатегорийных эталонов, механизмы к переносу.</span>
+        <span class="sz">8 критериев</span>
+      </a>
+      <a class="doc" href="research/interaction-patterns.md">
+        <span class="nm">interaction-patterns.md</span>
+        <span class="ds">Пять способов свести людей, где каждый ломается, выбранный паттерн и цена решения.</span>
+        <span class="sz">5 паттернов</span>
+      </a>
+      <a class="doc" href="research/plan.md">
+        <span class="nm">plan.md</span>
+        <span class="ds">План этапа: вопросы исследования, гипотезы H1–H6, группы конкурентов, сценарий интервью, JTBD.</span>
+        <span class="sz">рабочий</span>
+      </a>
+      <a class="doc" href="research/screens/INDEX.md">
+        <span class="nm">screens/INDEX.md</span>
+        <span class="ds">Подписи ко всем скриншотам: что на экране и зачем он снят. Четыре съёмки, включая проходы внутрь Tinder и Meetup.</span>
+        <span class="sz">74 png</span>
+      </a>
+      <a class="doc" href="research/screens/README.md">
+        <span class="nm">screens/README.md</span>
+        <span class="ds">Правила именования и разграничение первичных и вторичных источников.</span>
+        <span class="sz">правила</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-head">
+      <h2>Дизайн-система</h2>
+      <span class="hint">токены готовы, компоненты — нет</span>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="top">
+          <h3>Токены</h3>
+          <span class="pill ready">готово</span>
+        </div>
+        <p>
+          Цвет, радиусы, отступы, типографика, тени и движение. Этой страницей и подключены —
+          всё, что вы видите, нарисовано ими.
+        </p>
+        <span class="files linkrow">
+          <a href="tokens/tokens.css">tokens.css</a> ·
+          <a href="tokens/tokens.json">tokens.json</a> ·
+          <a href="tokens/README.md">README</a>
+        </span>
+      </div>
+
+      <a class="card stub" href="design-system/README.md">
+        <div class="top">
+          <h3>Правила применения</h3>
+          <span class="pill rules">только правила</span>
+        </div>
+        <p>Когда что использовать, копирайт, инварианты. Пока описаны договорённости, самих правил применения нет.</p>
+        <span class="files">design-system/README.md · 56 строк</span>
+      </a>
+
+      <a class="card stub" href="components/README.md">
+        <div class="top">
+          <h3>Компоненты</h3>
+          <span class="pill rules">только правила</span>
+        </div>
+        <p>UI-компоненты и их состояния. Заведена структура, компонентов ещё нет.</p>
+        <span class="files">components/README.md · 40 строк</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="group ahead">
+    <div class="group-head">
+      <h2>Этапы впереди</h2>
+      <span class="hint">структура заведена, артефактов пока нет</span>
+    </div>
+    <div class="grid">
+      <a class="card stub" href="wireframes/README.md">
+        <div class="top">
+          <h3>Вайрфреймы</h3>
+          <span class="pill rules">только правила</span>
+        </div>
+        <p>Низкодетализированные экраны, структура и флоу. Следующий этап — блокирован ответом на В7, который уже получен.</p>
+        <span class="files">wireframes/README.md · 42 строки</span>
+      </a>
+
+      <a class="card stub" href="concept/README.md">
+        <div class="top">
+          <h3>Визуальная концепция</h3>
+          <span class="pill rules">только правила</span>
+        </div>
+        <p>Мудборд, ключевые экраны, бренд.</p>
+        <span class="files">concept/README.md · 35 строк</span>
+      </a>
+
+      <a class="card stub" href="handoff/README.md">
+        <div class="top">
+          <h3>Хендофф</h3>
+          <span class="pill rules">только правила</span>
+        </div>
+        <p>Спецификации, состояния экранов, ассеты для разработки.</p>
+        <span class="files">handoff/README.md · 39 строк</span>
+      </a>
+
+      <div class="card none">
+        <div class="top">
+          <h3>Прототип</h3>
+          <span class="pill empty">не начат</span>
+        </div>
+        <p>
+          Кликабельный HTML-прототип на мок-данных: реальные свайпы, переходы, анимации.
+          Папки ещё нет — появится на этапе сборки.
+        </p>
+        <span class="files">prototype/ · index.html, styles.css, app.js, data.js</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      Ссылки ведут только на файлы, которые существуют в репозитории на 9 сентября 2026.
+      Разделы со статусом «только правила» содержат README с договорённостями — сами артефакты
+      этапа не созданы, и карточка честно об этом говорит.
+    </p>
+    <p>
+      Страница сверстана на переменных из <a href="tokens/tokens.css">tokens/tokens.css</a>:
+      собственных цветов и радиусов в ней нет. Тёмная тема не сделана осознанно — она вне объёма v1
+      (бриф, §10).
+    </p>
+  </footer>
+
+</div>
+
+</body>
+</html>
