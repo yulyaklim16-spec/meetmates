@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Итоги исследования MeetMates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Итоги исследования MeetMates — тёмная одностраничная вёрстка.
+   Палитра выведена из tokens/tokens.css: brand violet и mint
+   осветлены/затемнены под тёмный фон, нейтрали уведены в фиолетовый.
+   Цвета баров прошли валидатор dataviz (6/6 на фоне #16121F).
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* ground & surfaces — нейтрали с фиолетовым уклоном, не серые */
+  --ground:      #0E0B16;
+  --surface:     #16121F;
+  --surface-2:   #1E1930;
+  --surface-3:   #262038;
+  --line:        #2A2340;
+  --line-soft:   #201B31;
+
+  /* ink */
+  --ink:         #EDEAF5;
+  --ink-2:       #A9A2C0;
+  --ink-3:       #7A7395;
+
+  /* accents — производные от --brand-a / --brand-b / --accent */
+  --violet:      #9D5CFF;
+  --violet-dim:  #6B44B0;
+  --pink:        #FF5E9F;
+  --mint:        #00D9A3;   /* текст, бейджи */
+  --mint-bar:    #00A87F;   /* заливка баров — прошла валидатор */
+  --amber:       #FFB020;
+  --danger:      #FF6B78;
+
+  --f-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --f-body:    "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --f-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --measure: 72ch;
+  --pad: clamp(20px, 5vw, 56px);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Шапка-навигация ───────────────────────────────────────── */
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 22px;
+  padding: 12px var(--pad);
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.topbar .mark {
+  font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-3); margin-right: auto;
+}
+.topbar a {
+  font-family: var(--f-mono); font-size: 12.5px; letter-spacing: .04em;
+  color: var(--ink-2); text-decoration: none; padding: 3px 0;
+  border-bottom: 1px solid transparent;
+}
+.topbar a:hover, .topbar a:focus-visible { color: var(--ink); border-bottom-color: var(--violet); }
+
+/* ── Общая сетка страницы ──────────────────────────────────── */
+.wrap { padding: 0 var(--pad) 96px; }
+.col  { max-width: var(--measure); }
+.wide { max-width: 1180px; }
+
+/* ── Титул ─────────────────────────────────────────────────── */
+.hero { padding: clamp(48px, 8vw, 92px) 0 40px; border-bottom: 1px solid var(--line); }
+.hero .eyebrow {
+  font-family: var(--f-mono); font-size: 12px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--violet); margin: 0 0 20px;
+}
+.hero h1 {
+  font-family: var(--f-display); font-weight: 500;
+  font-size: clamp(38px, 6.2vw, 66px); line-height: 1.04;
+  letter-spacing: -.015em; text-wrap: balance; margin: 0 0 22px;
+}
+.hero h1 em { font-style: italic; color: var(--violet); }
+.hero .lede { max-width: 62ch; font-size: 18px; color: var(--ink-2); margin: 0 0 28px; }
+.hero .lede strong { color: var(--ink); font-weight: 500; }
+
+.meta { display: flex; flex-wrap: wrap; gap: 10px 28px; font-family: var(--f-mono); font-size: 12.5px; color: var(--ink-3); }
+.meta b { color: var(--ink-2); font-weight: 500; }
+
+/* ── Секции ────────────────────────────────────────────────── */
+.section { padding: clamp(56px, 8vw, 88px) 0 0; }
+.section-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 12px; }
+.section-num {
+  font-family: var(--f-mono); font-size: 13px; color: var(--violet);
+  letter-spacing: .1em; padding-top: 6px;
+}
+.section h2 {
+  font-family: var(--f-display); font-weight: 500;
+  font-size: clamp(28px, 4.2vw, 44px); line-height: 1.1;
+  letter-spacing: -.01em; margin: 0; text-wrap: balance;
+}
+/* мера чтения: текст держим у 72ch, таблицы и галереи остаются во всю ширину */
+.section > p, .section > ul, .section > ol { max-width: var(--measure); }
+.standfirst { font-size: 17.5px; color: var(--ink-2); max-width: 64ch; margin: 0 0 8px; }
+
+h3 {
+  font-family: var(--f-display); font-weight: 600; font-size: 23px;
+  line-height: 1.22; margin: 44px 0 10px; letter-spacing: -.005em;
+}
+h4 {
+  font-family: var(--f-body); font-weight: 600; font-size: 15px;
+  letter-spacing: .01em; margin: 30px 0 8px; color: var(--ink);
+}
+p { margin: 0 0 16px; }
+a { color: var(--violet); text-decoration-color: color-mix(in srgb, var(--violet) 45%, transparent); text-underline-offset: 3px; }
+a:hover { color: var(--pink); }
+strong { font-weight: 600; color: var(--ink); }
+
+ul { margin: 0 0 18px; padding-left: 0; list-style: none; }
+li { position: relative; padding-left: 20px; margin-bottom: 9px; }
+li::before {
+  content: ""; position: absolute; left: 2px; top: .68em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--violet-dim);
+}
+ol { margin: 0 0 18px; padding-left: 22px; }
+ol li { padding-left: 4px; }
+ol li::before { display: none; }
+ol { counter-reset: none; }
+
+/* ── Чипы источников — главный носитель дисциплины документа ─ */
+.src {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--f-mono); font-size: 11.5px; line-height: 1.5;
+  padding: 1px 7px 2px; border-radius: 4px; white-space: nowrap;
+  border: 1px solid var(--line); background: var(--surface-2); color: var(--ink-2);
+  vertical-align: baseline;
+}
+.src::before { font-size: 10px; opacity: .9; }
+.src.screen::before { content: "▣"; color: var(--violet); }
+.src.link::before   { content: "↗"; color: var(--violet); }
+.src.own::before    { content: "◉"; color: var(--mint); }
+.src.own            { border-color: color-mix(in srgb, var(--mint) 30%, var(--line)); }
+.src.second::before { content: "◑"; color: var(--amber); }
+.src.claim::before  { content: "❝"; color: var(--ink-3); }
+.src.none {
+  border-color: color-mix(in srgb, var(--amber) 42%, var(--line));
+  background: color-mix(in srgb, var(--amber) 9%, var(--surface-2));
+  color: var(--amber);
+}
+.src.none::before { content: "⚠"; color: var(--amber); }
+.src a { color: inherit; text-decoration: none; border-bottom: 1px dotted currentColor; }
+
+.legend {
+  display: flex; flex-wrap: wrap; gap: 10px 16px;
+  padding: 16px 18px; margin: 26px 0 0;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+}
+.legend span.t { font-family: var(--f-mono); font-size: 11.5px; color: var(--ink-3); align-self: center; }
+
+/* ── Таблицы ───────────────────────────────────────────────── */
+.tablewrap {
+  overflow-x: auto; margin: 26px 0 8px;
+  border: 1px solid var(--line); border-radius: 12px; background: var(--surface);
+}
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+caption {
+  caption-side: bottom; text-align: left; padding: 12px 16px 0;
+  font-family: var(--f-mono); font-size: 11.5px; color: var(--ink-3); line-height: 1.6;
+}
+th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+thead th {
+  position: sticky; top: 0; background: var(--surface-2); z-index: 1;
+  font-family: var(--f-mono); font-weight: 500; font-size: 11.5px;
+  letter-spacing: .07em; text-transform: uppercase; color: var(--ink-2);
+  border-bottom: 1px solid var(--line);
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody th {
+  font-family: var(--f-body); font-weight: 600; font-size: 13.5px;
+  color: var(--ink); white-space: nowrap;
+}
+td em { font-style: normal; color: var(--amber); font-family: var(--f-mono); font-size: 12px; }
+.num { font-variant-numeric: tabular-nums; text-align: right; }
+
+/* ── Бар-чарт бенчмарка ────────────────────────────────────── */
+.scores { margin: 26px 0 4px; display: grid; gap: 3px; }
+.score-row {
+  display: grid; grid-template-columns: 118px 1fr 42px; align-items: center;
+  gap: 14px; padding: 5px 0;
+}
+.score-row .nm { font-size: 14px; color: var(--ink-2); }
+.score-row.us .nm { color: var(--mint); font-weight: 600; }
+.score-row.bg .nm { color: var(--ink-3); }
+.track { height: 100%; }
+.bar {
+  height: 20px; border-radius: 0 4px 4px 0; background: var(--violet);
+  display: block;
+}
+.score-row.us .bar { background: var(--mint-bar); }
+.score-row.bg .bar {
+  background: repeating-linear-gradient(135deg,
+    color-mix(in srgb, var(--violet) 34%, transparent) 0 3px,
+    transparent 3px 7px);
+  border: 1px solid color-mix(in srgb, var(--violet) 46%, transparent);
+  border-left: none;
+}
+.score-row .v { font-family: var(--f-mono); font-size: 13px; font-variant-numeric: tabular-nums; color: var(--ink-2); text-align: right; }
+.score-row.us .v { color: var(--mint); }
+
+/* ── Галерея скринов ───────────────────────────────────────── */
+.shots {
+  display: grid; gap: 18px; margin: 30px 0 10px;
+  grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+}
+.shot { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+.shot a {
+  display: block; border: 1px solid var(--line); border-radius: 10px;
+  overflow: hidden; background: var(--surface-2); line-height: 0;
+  transition: border-color .18s ease, transform .18s ease;
+}
+.shot a:hover, .shot a:focus-visible { border-color: var(--violet); transform: translateY(-2px); }
+.shot img { width: 100%; height: 258px; object-fit: cover; object-position: top center; display: block; }
+.shot .cap { font-size: 13px; color: var(--ink-2); line-height: 1.45; }
+.shot .fn {
+  font-family: var(--f-mono); font-size: 10.5px; color: var(--ink-3);
+  word-break: break-all; line-height: 1.4;
+}
+
+.strip { margin: 26px 0 10px; }
+.strip figure { margin: 0; }
+.strip .frame {
+  overflow-x: auto; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--surface-2); line-height: 0;
+}
+.strip img { display: block; height: 300px; width: auto; max-width: none; }
+.strip figcaption { font-size: 13.5px; color: var(--ink-2); margin-top: 10px; max-width: 78ch; }
+.strip figcaption .fn { font-family: var(--f-mono); font-size: 11px; color: var(--ink-3); display: block; margin-top: 4px; }
+
+/* ── Выноски ───────────────────────────────────────────────── */
+.note {
+  border-left: 2px solid var(--violet); padding: 4px 0 4px 20px;
+  margin: 24px 0; color: var(--ink-2); max-width: 68ch;
+}
+.note.warn { border-left-color: var(--amber); }
+.note.mint { border-left-color: var(--mint); }
+.note p:last-child { margin-bottom: 0; }
+
+.callout {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; padding: 22px 24px; margin: 26px 0; max-width: 84ch;
+}
+.callout h4 { margin-top: 0; }
+.callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+
+.stat-line {
+  display: flex; flex-wrap: wrap; gap: 26px 44px; margin: 26px 0 6px;
+  padding: 20px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+}
+.stat { min-width: 120px; }
+.stat .k { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: 5px; }
+.stat .v { font-family: var(--f-display); font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat .v.us { color: var(--mint); }
+.stat .s { font-size: 12.5px; color: var(--ink-3); display: block; margin-top: 5px; }
+
+/* ── Механизмы ─────────────────────────────────────────────── */
+.mechs { display: grid; gap: 16px; margin: 26px 0 10px; max-width: 92ch; }
+.mech {
+  display: grid; grid-template-columns: 34px 1fr; gap: 18px;
+  padding: 22px 24px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 12px;
+}
+.mech .n {
+  font-family: var(--f-display); font-size: 26px; line-height: 1;
+  color: var(--violet); font-variant-numeric: tabular-nums;
+}
+.mech h4 { margin: 0 0 8px; font-size: 16px; }
+.mech p { margin: 0 0 10px; font-size: 15px; }
+.mech p:last-child { margin-bottom: 0; }
+.mech .lbl { font-family: var(--f-mono); font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3); }
+.mech.reject { border-color: color-mix(in srgb, var(--danger) 34%, var(--line)); }
+.mech.reject .n { color: var(--danger); }
+.mech.later { border-style: dashed; }
+.mech.later .n { color: var(--ink-3); }
+
+/* ── Гипотезы ──────────────────────────────────────────────── */
+.hyp-id { font-family: var(--f-mono); font-weight: 500; color: var(--violet); }
+.from {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-3); white-space: nowrap;
+}
+
+footer {
+  margin-top: 84px; padding: 40px var(--pad) 60px;
+  border-top: 1px solid var(--line); background: var(--surface);
+}
+footer .col { max-width: 92ch; }
+footer h3 { margin-top: 0; }
+footer .srcgrid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+footer h4 { margin-top: 0; }
+footer p, footer li { font-size: 14px; color: var(--ink-2); }
+footer .fine { font-family: var(--f-mono); font-size: 11.5px; color: var(--ink-3); margin-top: 30px; line-height: 1.7; }
+
+@media (max-width: 620px) {
+  .score-row { grid-template-columns: 92px 1fr 36px; gap: 10px; }
+  .shot img { height: 210px; }
+  .strip img { height: 220px; }
+  .mech { grid-template-columns: 1fr; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <span class="mark">MeetMates · Research</span>
+  <a href="#competitors">01 Конкуренты</a>
+  <a href="#benchmark">02 Бенчмарк</a>
+  <a href="#patterns">03 Паттерны</a>
+  <a href="#conclusions">04 Выводы</a>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero wide">
+    <p class="eyebrow">Итоги этапа · 9 сентября 2026</p>
+    <h1>Что мы узнали, <em>и чего до сих пор не знаем</em></h1>
+    <p class="lede">
+      Пять конкурентов разобраны по пяти осям, доверие к профилю измерено на пяти внекатегорийных
+      эталонах, пять паттернов знакомства сопоставлены с нашим контекстом. <strong>Каждый факт
+      на этой странице несёт источник</strong> — скриншот, ссылку или указание на собственный проход.
+      Где источника нет, так и написано: данные не подтверждены.
+    </p>
+    <div class="meta">
+      <span><b>Разобрано</b> 5 конкурентов · 5 эталонов · 5 паттернов</span>
+      <span><b>Экранов</b> 60+ в <code>research/screens/</code></span>
+      <span><b>Интервью</b> не проводились</span>
+    </div>
+
+    <div class="legend">
+      <span class="t">Типы источников:</span>
+      <span class="src own">собственный проход</span>
+      <span class="src screen">скриншот</span>
+      <span class="src link">внешний источник</span>
+      <span class="src second">вторичный</span>
+      <span class="src claim">заявление вендора</span>
+      <span class="src none">данные не подтверждены</span>
+    </div>
+  </header>
+
+  <!-- ═══════════════ 01 КОНКУРЕНТЫ ═══════════════ -->
+  <section class="section wide" id="competitors">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>Конкуренты</h2>
+    </div>
+    <p class="standfirst">
+      AMI и Tinder (хард), Peanut, Bumble For Friends и Meetup (аспирационные).
+      Ramle исключён — сервис закрылся в июле 2026, снимать нечего.
+    </p>
+
+    <div class="note">
+      <p><strong>Что видели сами, а что нет.</strong> Tinder пройден изнутри с телефона, 28 экранов
+      <span class="src own">iOS · 2026-09-08</span>. Meetup — под аккаунтом, 28 экранов
+      <span class="src own">веб · 2026-09-08</span>. Внутренности Peanut, BFF и Partiful видели только
+      полосами Mobbin <span class="src second">Mobbin · 2026-09-09</span>. Внутренности AMI
+      <span class="src none">данные не подтверждены</span> — интерфейс закрыт авторизацией Telegram.
+      Внутренности Ramle <span class="src none">данные не подтверждены</span> — сервис закрыт до начала разбора.</p>
+    </div>
+
+    <h3>Сводная матрица: выводы × конкуренты</h3>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Вывод</th>
+            <th scope="col">AMI</th>
+            <th scope="col">Tinder</th>
+            <th scope="col">Peanut</th>
+            <th scope="col">Bumble For Friends</th>
+            <th scope="col">Meetup</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">П1 · Интент спрашивают все</th>
+            <td>Психосовместимость + дерево интересов</td>
+            <td>«Сейчас я ищу…», шесть карточек</td>
+            <td>Жизненный этап <em>заявлено</em></td>
+            <td>Интент-чипы «зачем ты здесь»</td>
+            <td>Три отдельных шага про намерение</td>
+          </tr>
+          <tr>
+            <th scope="row">П2 · Безопасность обещают, рычагов нет</th>
+            <td>На витрине ничего</td>
+            <td>Правила на первом экране, но верификация — фильтр входящих</td>
+            <td>Структурное условие входа <em>заявлено</em></td>
+            <td>Блог-статьи + Guidelines в футере</td>
+            <td>Одна настройка приватности, блок-листа нет</td>
+          </tr>
+          <tr>
+            <th scope="row">П3 · Пейволл в онбординге</th>
+            <td>Бесплатно, модели нет</td>
+            <td>Апсел внутри обучающего экрана</td>
+            <td>Реклама, IAP, B2B, офферы</td>
+            <td>Реклама + внутренние покупки</td>
+            <td>Подписка 8-м шагом из 9</td>
+          </tr>
+          <tr>
+            <th scope="row">О1 · Событие как самостоятельная единица</th>
+            <td>Событий нет</td>
+            <td>Explore — режимы поиска людей, не события</td>
+            <td>Встречи внутри групп, ленты нет</td>
+            <td>Events только в футере</td>
+            <td>Событие только внутри группы</td>
+          </tr>
+          <tr>
+            <th scope="row">О2 · Свайп против подбора</th>
+            <td><strong>Подбор без свайпов</strong></td>
+            <td>Свайп — ядро и слоган</td>
+            <td>Свайп по гео и этапу</td>
+            <td>Свайп, отдельным приложением</td>
+            <td>Свайпа нет в принципе</td>
+          </tr>
+          <tr>
+            <th scope="row">О3 · Репутация как проверяемый факт</th>
+            <td>Нет</td>
+            <td>Ни одного сигнала в профиле</td>
+            <td>Верификация <em>заявлена</em>, истории нет</td>
+            <td>Не показана</td>
+            <td>Рейтинг на группе, у человека голые счётчики</td>
+          </tr>
+        </tbody>
+        <caption>
+          П — паттерн рынка, О — отличие. Пометка «заявлено» у Peanut означает, что ячейка стоит
+          на Community Guidelines, то есть на словах вендора о себе, а не на увиденном интерфейсе.
+        </caption>
+      </table>
+    </div>
+
+    <h3>Три общих паттерна рынка</h3>
+
+    <h4>П1. Интент спрашивают все — «зачем ты здесь» перестало быть отличием</h4>
+    <p>
+      Tinder выносит намерение на отдельный шаг регистрации, среди шести карточек — «🤝 Найти друзей»
+      <span class="src screen">tinder--onboarding--10-looking-for</span>.
+      Meetup спрашивает намерение <strong>трижды</strong>: «What brings you to Meetup?»,
+      «Who do you want to meet?», «How do you like to hang out?»
+      <span class="src screen">meetup--onboarding--04, --08, --09</span>.
+      У Bumble For Friends строка намерения стоит прямо на карточке колоды — «Looking for friends
+      to hang out with in the city» <span class="src second">bumble-bff--app--04-flow-strip</span>.
+      У Peanut это отдельный флоу «Adding lifestage» <span class="src second">peanut--app--05-flow-strip</span>.
+    </p>
+    <p class="note mint">
+      <strong>Следствие:</strong> интент-чипы в §6 брифа остаются как гигиена категории, но отстройку
+      на них вешать нельзя — тем же приёмом Tinder задаёт дейтинговый фрейм.
+    </p>
+
+    <h4>П2. Безопасность обещают на входе, а управлять ею внутри почти нечем</h4>
+    <p>
+      Tinder открывает регистрацию четырьмя правилами сообщества — до анкеты, до единого экрана
+      с людьми <span class="src screen">tinder--onboarding--03-welcome-rules</span>. Но верификация
+      работает как <strong>фильтр входящих</strong>: «Чат с подтвержденными фото» может включить лишь
+      тот, кто верифицировался сам <span class="src screen">tinder--chat--29-message-settings-verified</span>.
+      Защита достаётся тем, кто и так в порядке.
+      У Meetup вся приватность — одна строка «кто может тебе писать: любой»
+      <span class="src screen">meetup--profile--27-privacy</span>, а блок-листа в настройках
+      <strong>нет вовсе</strong> <span class="src screen">meetup--profile--26-settings</span>.
+      Peanut заявляет обязательную селфи-верификацию <span class="src claim">Community Guidelines</span>,
+      но интерфейс <span class="src none">данные не подтверждены</span>.
+    </p>
+    <p class="note mint">
+      <strong>Следствие:</strong> Report и Block с любого экрана плюс блок-лист в настройках (§7.4) —
+      не гигиенический минимум, как считалось, а заметное преимущество над двумя из пяти.
+    </p>
+
+    <h4>П3. Пейволл переехал в онбординг — его показывают до первой ценности</h4>
+    <p>
+      Meetup продаёт подписку <strong>восьмым шагом из девяти</strong>: €12.99/мес или €111.99/год,
+      бесплатный путь спрятан мелкой ссылкой. Человек ещё не видел ни одного события
+      <span class="src screen">meetup--paywall--12-onboarding-paywall</span>.
+      Tinder встраивает апсел в обучающий экран: из трёх действий туториала два платные —
+      Суперлайк и Буст <span class="src screen">tinder--onboarding--19-tutorial-actions</span>.
+    </p>
+    <p class="note mint">
+      <strong>Следствие:</strong> запрет на любые намёки на деньги в v1 (§9) — осознанное отклонение
+      от нормы категории, и платим мы за него выручкой, а не доверием.
+    </p>
+
+    <div class="shots">
+      <figure class="shot">
+        <a href="research/screens/tinder--onboarding--10-looking-for.png" target="_blank" rel="noopener">
+          <img src="research/screens/tinder--onboarding--10-looking-for.png" alt="Экран Tinder «Сейчас я ищу…» с шестью карточками намерения" loading="lazy"></a>
+        <figcaption class="cap">«Найти друзей» — одна из шести карточек намерения. Дружба у Tinder есть, но как режим внутри дейтинга.
+          <span class="fn">tinder--onboarding--10-looking-for.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/meetup--onboarding--04-intent.png" target="_blank" rel="noopener">
+          <img src="research/screens/meetup--onboarding--04-intent.png" alt="Meetup, шаг 1 из 9: What brings you to Meetup" loading="lazy"></a>
+        <figcaption class="cap">Шаг 1 из 9. Организатор и участник разводятся на первом же экране.
+          <span class="fn">meetup--onboarding--04-intent.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/meetup--paywall--12-onboarding-paywall.png" target="_blank" rel="noopener">
+          <img src="research/screens/meetup--paywall--12-onboarding-paywall.png" alt="Пейволл Meetup+ внутри онбординга" loading="lazy"></a>
+        <figcaption class="cap">Пейволл восьмым шагом из девяти — до первого увиденного события.
+          <span class="fn">meetup--paywall--12-onboarding-paywall.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/tinder--onboarding--19-tutorial-actions.png" target="_blank" rel="noopener">
+          <img src="research/screens/tinder--onboarding--19-tutorial-actions.png" alt="Обучение Tinder: отмена свайпа, Суперлайк, Буст" loading="lazy"></a>
+        <figcaption class="cap">Обучение механике и продажа апселов слиты в один экран: два действия из трёх платные.
+          <span class="fn">tinder--onboarding--19-tutorial-actions.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/meetup--profile--27-privacy.png" target="_blank" rel="noopener">
+          <img src="research/screens/meetup--profile--27-privacy.png" alt="Экран Privacy у Meetup с единственной настройкой" loading="lazy"></a>
+        <figcaption class="cap">Вся приватность Meetup — одна строка. Ни управления геолокацией, ни блок-листа.
+          <span class="fn">meetup--profile--27-privacy.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/tinder--chat--29-message-settings-verified.png" target="_blank" rel="noopener">
+          <img src="research/screens/tinder--chat--29-message-settings-verified.png" alt="Настройки сообщений Tinder: чат с подтверждёнными фото" loading="lazy"></a>
+        <figcaption class="cap">Верификация как фильтр входящих — противоположность нашему гейту на отправку (§7.3).
+          <span class="fn">tinder--chat--29-message-settings-verified.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/meetup--events--22-create-group-step1.png" target="_blank" rel="noopener">
+          <img src="research/screens/meetup--events--22-create-group-step1.png" alt="Создание группы в Meetup, шаг 1 из 6" loading="lazy"></a>
+        <figcaption class="cap">У Meetup нельзя создать событие, не создав сначала группу — шесть шагов до первого события.
+          <span class="fn">meetup--events--22-create-group-step1.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/tinder--discover--24-explore-vibes.png" target="_blank" rel="noopener">
+          <img src="research/screens/tinder--discover--24-explore-vibes.png" alt="Вкладка Explore у Tinder с плитками намерений" loading="lazy"></a>
+        <figcaption class="cap">За плитками «Планы на сегодня» и «Будем друзьями» открывается та же колода людей, а не события.
+          <span class="fn">tinder--discover--24-explore-vibes.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/meetup--event--19-detail-top.png" target="_blank" rel="noopener">
+          <img src="research/screens/meetup--event--19-detail-top.png" alt="Карточка события Meetup с рейтингом группы 4.4 звезды" loading="lazy"></a>
+        <figcaption class="cap">Балл «4.4 ★ · 3 reviews» стоит на группе, а не на человеке. Цена Free рядом с Attend.
+          <span class="fn">meetup--event--19-detail-top.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/tinder--profile--30-my-profile-gold.png" target="_blank" rel="noopener">
+          <img src="research/screens/tinder--profile--30-my-profile-gold.png" alt="Свой профиль в Tinder — витрина апселов" loading="lazy"></a>
+        <figcaption class="cap">Профиль сделан витриной апселов; репутационных сигналов нет ни одного.
+          <span class="fn">tinder--profile--30-my-profile-gold.png</span></figcaption>
+      </figure>
+    </div>
+
+    <h3>Три отличия</h3>
+    <ul>
+      <li><strong>О1. Событие как самостоятельная единица не занято никем.</strong> У Tinder Explore —
+        это режимы поиска людей <span class="src screen">tinder--discover--24, --25</span>;
+        у Meetup событие нельзя создать без группы <span class="src screen">meetup--events--22</span>;
+        у Partiful событие самостоятельно и сделано как афиша, но контура открытия новых людей нет
+        вообще <span class="src second">partiful--app--01-flow-strip</span>.</li>
+      <li><strong>О2. Свайп против подбора — рынок разошёлся, середина свободна.</strong> AMI подбирает
+        без свайпов, Tinder вынес свайп в слоган <span class="src screen">tinder--landing--01-hero</span>,
+        у Meetup свайпа нет вовсе <span class="src own">проход 2026-09-08</span>. Связки «свайп +
+        собственный контур событий» нет ни у кого из пяти.</li>
+      <li><strong>О3. Репутация как проверяемый факт не сделана никем.</strong> Meetup ставит балл на
+        группу <span class="src screen">meetup--event--19-detail-top</span>, а у человека только счётчики
+        <span class="src screen">meetup--profile--24-my-profile</span>; у Tinder в профиле ни одного
+        сигнала <span class="src screen">tinder--profile--30-my-profile-gold</span>.</li>
+    </ul>
+
+    <div class="note warn">
+      <p><strong>Чего в этой секции нет.</strong> Почему Ramle не удержал вовлечённость без свайпов —
+      <span class="src none">данные не подтверждены</span>, доступны только слова основателя в прессе.
+      Внутренности AMI — <span class="src none">данные не подтверждены</span>.
+      Telegram-каналы знакомств Киева и ЗНАКОМКА / wave-love по осям не разбирались —
+      <span class="src none">данные не подтверждены</span>.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 02 БЕНЧМАРК ═══════════════ -->
+  <section class="section wide" id="benchmark">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Бенчмарк доверия</h2>
+    </div>
+    <p class="standfirst">
+      Измерение: сколько оснований доверять незнакомцу есть у пользователя <strong>до того</strong>,
+      как он написал первое сообщение или согласился встретиться. Выбрано потому, что это общая
+      слабость всех пяти конкурентов — строка О3 матрицы выше.
+    </p>
+
+    <div class="callout">
+      <h4>Почему это главный рычаг</h4>
+      <p>BlaBlaCar вместе с проф. Arun Sundararajan (NYU Stern) опросил 18 000+ участников в 11 странах
+        <span class="src link"><a href="https://blog.blablacar.com/trust" target="_blank" rel="noopener">blablacar.com/trust</a></span>.
+        Доверие к участнику <strong>с полным онлайн-профилем</strong> — 88%, против 58% для коллег,
+        42% для соседей и 16% для контакта из соцсетей.</p>
+      <p>Хорошо собранный профиль незнакомца вызывает больше доверия, чем реальный сосед. Значит доверие
+        строится конструкцией профиля, которую мы контролируем, а не социальным графом, которого у нас
+        на старте нет.</p>
+    </div>
+
+    <h3>Оценка по восьми критериям</h3>
+    <div class="scores" role="img" aria-label="Итоговые баллы: BlaBlaCar 35, Upwork 34, Airbnb 32, Couchsurfing 31, MeetMates 28, Nextdoor 23, Tinder 20, Meetup 18">
+      <div class="score-row"><span class="nm">BlaBlaCar</span><span class="track"><span class="bar" style="width:100%"></span></span><span class="v">35</span></div>
+      <div class="score-row"><span class="nm">Upwork</span><span class="track"><span class="bar" style="width:97.1%"></span></span><span class="v">34</span></div>
+      <div class="score-row"><span class="nm">Airbnb</span><span class="track"><span class="bar" style="width:91.4%"></span></span><span class="v">32</span></div>
+      <div class="score-row"><span class="nm">Couchsurfing</span><span class="track"><span class="bar" style="width:88.6%"></span></span><span class="v">31</span></div>
+      <div class="score-row us"><span class="nm">MeetMates</span><span class="track"><span class="bar" style="width:80%"></span></span><span class="v">28</span></div>
+      <div class="score-row bg"><span class="nm">Nextdoor</span><span class="track"><span class="bar" style="width:65.7%"></span></span><span class="v">23</span></div>
+      <div class="score-row bg"><span class="nm">Tinder</span><span class="track"><span class="bar" style="width:57.1%"></span></span><span class="v">20</span></div>
+      <div class="score-row bg"><span class="nm">Meetup</span><span class="track"><span class="bar" style="width:51.4%"></span></span><span class="v">18</span></div>
+    </div>
+    <p style="font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);max-width:78ch;margin-top:14px">
+      Сплошная заливка — эталоны и MeetMates. Штриховка — категорийный фон и Nextdoor, который посчитан
+      по семи критериям из восьми и строго с остальными не сравнивается. Максимум шкалы — 40 (8 критериев × 5).
+    </p>
+
+    <div class="stat-line">
+      <div class="stat"><span class="k">MeetMates было</span><span class="v">18</span><span class="s">редакция 2026-09-07</span></div>
+      <div class="stat"><span class="k">MeetMates стало</span><span class="v us">28</span><span class="s">после §5.5 и §7.5</span></div>
+      <div class="stat"><span class="k">Прямые конкуренты</span><span class="v">20 / 18</span><span class="s">Tinder / Meetup</span></div>
+      <div class="stat"><span class="k">Наш провал</span><span class="v">К4 = 2</span><span class="s">живость профиля</span></div>
+    </div>
+    <p>
+      Мы обгоняем обоих прямых конкурентов и стоим у нижней границы эталонов. Единственный критерий,
+      где нас обходит Tinder, — <strong>К4, живость профиля</strong>: в брифе есть цвет для «онлайн»
+      и индикатор прочтения в чате, но на карточке колоды нет ничего.
+      К1 и К5 остаются слабыми осознанно: документов мы не спрашиваем, точку на карте не показываем.
+    </p>
+
+    <h3>Топ-3 механизма для MVP</h3>
+    <div class="mechs">
+      <article class="mech">
+        <div class="n">1</div>
+        <div>
+          <h4>Подтверждение факта встречи — двустороннее, double-blind</h4>
+          <p><span class="lbl">Откуда</span> Airbnb (simultaneous reveal)
+            <span class="src link"><a href="https://www.airbnb.com/help/article/1237" target="_blank" rel="noopener">airbnb.com/help/1237</a></span>,
+            BlaBlaCar (взаимные оценки, окно 14 дней), Couchsurfing (double-blind)
+            <span class="src link"><a href="https://support.couchsurfing.org/hc/en-us/articles/50041760259355-What-Are-References-and-How-Do-They-Work" target="_blank" rel="noopener">couchsurfing · references</a></span>.</p>
+          <p><span class="lbl">Что делаем</span> После события участники отмечают тех, кого видели вживую.
+            Результат раскрывается, когда ответили все или закрылось окно в 14 дней. На профиле копится
+            факт: <code>6 meetups attended</code>.</p>
+          <p><span class="lbl">Почему</span> Закрывает К3 и К4 сразу и является <strong>единственным
+            источником истории, который наполняется сам</strong> — у нас есть события, значит есть повод.
+            Оценки личности нет, только факт присутствия.</p>
+        </div>
+      </article>
+
+      <article class="mech">
+        <div class="n">2</div>
+        <div>
+          <h4>Profile Strength — замещающий сигнал для новичка</h4>
+          <p><span class="lbl">Откуда</span> Upwork — бейдж Rising Talent вместо ещё не набранного Job Success Score
+            <span class="src link"><a href="https://support.upwork.com/hc/en-us/articles/360049702614-Learn-about-Upwork-s-talent-badges" target="_blank" rel="noopener">upwork · talent badges</a></span>;
+            BlaBlaCar — experience levels
+            <span class="src link"><a href="https://www.blablacar.co.uk/faq/question/what-are-experience-levels" target="_blank" rel="noopener">blablacar · levels</a></span>.</p>
+          <p><span class="lbl">Что делаем</span> Три ступени, видны на карточке до первого сообщения.
+            Считаются не из чужих отзывов, а из собственных действий, доступных в первый день.</p>
+          <p><span class="lbl">Почему</span> Закрывает К8 — единственный критерий, где мы проигрывали всем,
+            и единственный сигнал, работающий при пустой базе. Прямая компенсация принятого риска широкого
+            сегмента (§2.1). Поднял оценку по К8 с 2 до 4.</p>
+        </div>
+      </article>
+
+      <article class="mech">
+        <div class="n">3</div>
+        <div>
+          <h4>Приватная обратная связь после встречи</h4>
+          <p><span class="lbl">Откуда</span> Couchsurfing — Private Reference, видит только команда платформы
+            <span class="src link"><a href="https://support.couchsurfing.org/hc/en-us/articles/50048775643035-Is-Couchsurfing-Safe" target="_blank" rel="noopener">couchsurfing · safety</a></span>.
+            Ближайший аналог в категории — репорт Meetup с подписью «We won't share this information with
+            the organizer» <span class="src screen">meetup--safety--28-report-event</span>.</p>
+          <p><span class="lbl">Что делаем</span> Необязательное «Anything off?» после события. Уходит только
+            модерации, вторая сторона не узнаёт никогда.</p>
+          <p><span class="lbl">Почему</span> Между «всё нормально» и «пожаловаться» сейчас пропасть. Человек,
+            которому было неуютно, но не настолько, чтобы писать жалобу, не оставляет никакого следа — и мы
+            видим проблему, только когда она стала инцидентом.</p>
+        </div>
+      </article>
+
+      <article class="mech later">
+        <div class="n">4</div>
+        <div>
+          <h4>Признак отзывчивости на карточке — добавлен позже, 2026-09-08</h4>
+          <p>Появился, когда в бенчмарк вошёл критерий К4, где у нас единственный провал. Берём
+            <strong>отзывчивость</strong> (<code>Replies quickly</code>), а не присутствие: эталоны сходятся
+            на скорости ответа
+            <span class="src link"><a href="https://www.airbnb.com/help/article/430" target="_blank" rel="noopener">airbnb · response time</a></span>
+            <span class="src link"><a href="https://support.upwork.com/hc/en-us/articles/43854361755411-What-s-the-responsiveness-tag" target="_blank" rel="noopener">upwork · responsiveness</a></span>,
+            а Couchsurfing показ времени последнего входа сознательно убрал
+            <span class="src link"><a href="https://blog.couchsurfing.com/why-we-did-this/" target="_blank" rel="noopener">couchsurfing · why we did this</a></span>.
+            Бейдж присутствия есть только у Tinder <span class="src screen">tinder--discover--21-card-intent</span>.</p>
+        </div>
+      </article>
+    </div>
+
+    <h3>Один механизм, который не сработает</h3>
+    <div class="mechs">
+      <article class="mech reject">
+        <div class="n">✕</div>
+        <div>
+          <h4>Публичный звёздный рейтинг человека (1–5)</h4>
+          <p>Есть у Airbnb, BlaBlaCar и Upwork, выглядит самым очевидным заимствованием — и сломает продукт.
+            Зафиксирован как осознанный отказ в §10 брифа, а не как «отложено».</p>
+          <ol>
+            <li><strong>В эталонах оценивают услугу, у нас оценивали бы человека.</strong> Хоста — за жильё,
+              водителя — за поездку, фрилансера — за работу. У нас услуги нет: «4 из 5» относится к человеку
+              как к другу.</li>
+            <li><strong>Статусная иерархия убивает задачу продукта.</strong> Мы существуем, чтобы снижать
+              порог знакомства; публичный балл делает обратное.</li>
+            <li><strong>В социальном контексте у рейтинга нет дисперсии</strong> — все ставят 5, чтобы
+              не обидеть. Сигнал вырождается в шум, вред от иерархии остаётся.</li>
+            <li><strong>При нашей плотности это статистически бессмысленно</strong> — 1–2 оценки на человека
+              месяцами.</li>
+          </ol>
+          <p><span class="lbl">Подтверждение из прохода</span> Единственный из семи разобранных продуктов,
+            кто ставит балл в социальном контексте, ставит его <strong>группе</strong>, а не человеку
+            <span class="src screen">meetup--event--19-detail-top</span>, а у участника только счётчики
+            <span class="src screen">meetup--profile--24-my-profile</span>.</p>
+          <p><span class="lbl">Вместо него</span> Бинарный факт присутствия из механизма №1.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="shots">
+      <figure class="shot">
+        <a href="research/screens/meetup--safety--28-report-event.png" target="_blank" rel="noopener">
+          <img src="research/screens/meetup--safety--28-report-event.png" alt="Репорт события в Meetup как bottom sheet" loading="lazy"></a>
+        <figcaption class="cap">«We won't share this information with the organizer» — ближайший аналог нашей приватной обратной связи.
+          <span class="fn">meetup--safety--28-report-event.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/tinder--discover--20-card-verified.png" target="_blank" rel="noopener">
+          <img src="research/screens/tinder--discover--20-card-verified.png" alt="Карточка Tinder с бейджем Verified и приблизительным расстоянием" loading="lazy"></a>
+        <figcaption class="cap">Verified, «Недалеко» вместо числа, чипы интересов на фото — три сигнала на карточке уже есть.
+          <span class="fn">tinder--discover--20-card-verified.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/tinder--discover--21-card-intent.png" target="_blank" rel="noopener">
+          <img src="research/screens/tinder--discover--21-card-intent.png" alt="Карточка Tinder с бейджем «Активность сейчас»" loading="lazy"></a>
+        <figcaption class="cap">Бейдж присутствия «Активность сейчас» — единственный на рынке, и именно его мы не берём.
+          <span class="fn">tinder--discover--21-card-intent.png</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="research/screens/meetup--profile--24-my-profile.png" target="_blank" rel="noopener">
+          <img src="research/screens/meetup--profile--24-my-profile.png" alt="Профиль пользователя Meetup со счётчиками" loading="lazy"></a>
+        <figcaption class="cap">«2 Groups · 8 Interests · 0 RSVPs» — факты, а не оценки. Ни верификации, ни истории встреч.
+          <span class="fn">meetup--profile--24-my-profile.png</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 03 ПАТТЕРНЫ ═══════════════ -->
+  <section class="section wide" id="patterns">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>Паттерны знакомства</h2>
+    </div>
+    <p class="standfirst">
+      Пять принципиально разных механик. Различаются не интерфейсом, а двумя вещами:
+      <strong>какая единица лежит перед пользователем и кто делает выбор.</strong>
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Паттерн</th>
+            <th scope="col">Единица</th>
+            <th scope="col">Кто выбирает</th>
+            <th scope="col">Пример</th>
+            <th scope="col">Где ломается</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" class="num">1</th>
+            <td><strong>Попарный отбор</strong></td>
+            <td>Человек</td>
+            <td>Обе стороны, симметрично</td>
+            <td>Tinder, BFF, Peanut</td>
+            <td>Низкая плотность; асимметрия внимания; фото — слабый предиктор дружбы; матч ≠ разговор</td>
+          </tr>
+          <tr>
+            <th scope="row" class="num">2</th>
+            <td><strong>План как точка входа</strong></td>
+            <td>Событие</td>
+            <td>Участник, односторонне</td>
+            <td>Meetup, Partiful</td>
+            <td>Горлышко организатора; no-show; «событие есть, знакомства нет»</td>
+          </tr>
+          <tr>
+            <th scope="row" class="num">3</th>
+            <td><strong>Распределение системой</strong></td>
+            <td>Нет</td>
+            <td>Продукт</td>
+            <td>Timeleft <em>не проверено</em></td>
+            <td>Недобор; ответственность за вечер на продукте; из-за стола не выйти</td>
+          </tr>
+          <tr>
+            <th scope="row" class="num">4</th>
+            <td><strong>Обжитое пространство</strong></td>
+            <td>Комната</td>
+            <td>Никто</td>
+            <td>Discord, Geneva <em>не проверено</em></td>
+            <td>Мёртвая комната не чинится; модерация в каждой; знакомство может не наступить</td>
+          </tr>
+          <tr>
+            <th scope="row" class="num">5</th>
+            <td><strong>Запрос-отклик</strong></td>
+            <td>Нужда с дедлайном</td>
+            <td>Инициатор, асимметрично</td>
+            <td>Couchsurfing Hangouts <em>не проверено</em></td>
+            <td>Спам; асимметрия смелости; отклик нечитаем без репутации; ничего не копится</td>
+          </tr>
+        </tbody>
+        <caption>
+          Паттерны 3–5 стоят на вторичных источниках. Собственных проходов по Timeleft, Geneva
+          и Couchsurfing Hangouts нет, поэтому утверждать, чего в этих продуктах нет, по такому
+          материалу нельзя. Шестой кандидат — интро через общих знакомых — отброшен: он не существует
+          без импорта контактов, а тот вне объёма v1.
+        </caption>
+      </table>
+    </div>
+
+    <h3>Выбран: попарный отбор (swipe-first)</h3>
+    <p>
+      <strong>Решение PM от 2026-09-09</strong>, внесено в §4 брифа. Колода — точка входа; событие остаётся
+      вторым контуром по входу, но первым по тому, что мы обещаем (§1) и чем зарабатываем (§9). Этим же
+      решением закрыт вопрос В7: <strong>§1 отвечает за обещание, §4 — за входную механику</strong>,
+      и это разные вещи.
+    </p>
+
+    <div class="callout">
+      <h4>Почему он под наш контекст</h4>
+      <ol>
+        <li><strong>Быстрее всех даёт первую ценность.</strong> Обучать нечему, смысл понятен за десять
+          секунд — лучший из пяти по этому признаку. Прямо работает на TTFC, главную метрику §11.</li>
+        <li><strong>Механика уже знакома нашей аудитории.</strong> Tinder в Киеве — фактический дефолт
+          для знакомства с новыми людьми, физика свайпа считывается без объяснений
+          <span class="src own">проход 2026-09-08</span>.</li>
+        <li><strong>Совместим с сигналами доверия, на которые мы поставили.</strong> Правило 12 требует
+          показывать Verified, Profile Strength, счётчик встреч и отзывчивость <em style="color:var(--ink);font-family:var(--f-body)">до</em>
+          первого сообщения; карточка колоды — единственная поверхность, где все четыре видны сразу.
+          У Tinder на карточке уже три из них <span class="src screen">tinder--discover--20-card-verified</span>,
+          значит поверхность нагрузку выдерживает.</li>
+      </ol>
+    </div>
+
+    <div class="note warn">
+      <p><strong>Цена решения записана, а не оспаривается.</strong> Разбор рекомендовал обратное — событие
+      как точку входа: оно работает при плотности единица, только оно наполняет §5.5 и §9, и оно снимает
+      барьеры §2 структурно. Рекомендация отклонена. Отсюда три обязательные компенсации, все внесены
+      в бриф:</p>
+      <ul>
+        <li><strong>пустое состояние колоды проектируется первым</strong> — на старте это первый экран,
+          который увидит реальный человек;</li>
+        <li><strong>прогрессивное расширение радиуса</strong>: видимо, с вопросом в первый раз, только
+          по расстоянию, с потолком по границе агломерации;</li>
+        <li><strong>выход в события присутствует в Discover всегда</strong>, а не только когда карточки
+          кончились.</li>
+      </ul>
+    </div>
+
+    <p>
+      <strong>Отклонён — распределение системой.</strong> Требует наибольшей плотности из пяти, переносит
+      ответственность за плохой вечер на продукт и обнуляет собственные метрики брифа: TTFC теряет смысл,
+      если сообщения до встречи может не быть, а Profile Strength — лестница собственных действий,
+      которых при конфискованном выборе не остаётся.
+    </p>
+
+    <div class="strip">
+      <figure>
+        <div class="frame">
+          <img src="research/screens/partiful--app--01-flow-strip.png" alt="Полоса экранов Partiful из Mobbin: главная, карточка события, управление гостями, шеринг, опросник" loading="lazy">
+        </div>
+        <figcaption>
+          <strong>Паттерн 2 в чистом виде.</strong> Partiful: вкладки <code>Upcoming · Hosting · Open invites</code>
+          разводят роли прямо в навигации, событие подано как афиша, приглашение живёт отдельным объектом.
+          Подбора людей, матчей и профилей нет — продукт целиком про одно событие и его гостей.
+          <span class="fn">partiful--app--01-flow-strip.png · вторичный источник, Mobbin</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="strip">
+      <figure>
+        <div class="frame">
+          <img src="research/screens/bumble-bff--app--04-flow-strip.png" alt="Полоса экранов Bumble For Friends из Mobbin: разрешения, карточка колоды, матч, профиль, гео-гейт, группы" loading="lazy">
+        </div>
+        <figcaption>
+          <strong>Паттерн 1 у ближайшего эталона.</strong> Bumble For Friends: на карточке колоды —
+          район вместо километров, матч называется «You're connected with», но в группах стоят подписи
+          «Active now» и «Last active 21 minutes ago» — ровно тот бейдж присутствия, от которого мы отказались.
+          <span class="fn">bumble-bff--app--04-flow-strip.png · вторичный источник, Mobbin</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="strip">
+      <figure>
+        <div class="frame">
+          <img src="research/screens/meetup--app--29-flow-strip.png" alt="Полоса экранов Meetup из Mobbin: лента Нью-Йорка, карта событий, карточка события, список участников, профиль организатора" loading="lazy">
+        </div>
+        <figcaption>
+          <strong>Как выглядит плотность.</strong> Американский Meetup: <strong>326 going</strong> на событие
+          и 328 участников в списке — против 2–6 в киевской ленте. Бейдж «First event» у новичков,
+          на профиле организатора кнопки Chat / Add friend и блок «Looking to: … Make Friends».
+          <span class="fn">meetup--app--29-flow-strip.png · вторичный источник, Mobbin</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 04 ВЫВОДЫ ═══════════════ -->
+  <section class="section wide" id="conclusions">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2>Выводы</h2>
+    </div>
+    <p class="standfirst">
+      Каждая строка — пробел, выведенная из него гипотеза и раздел, откуда она взялась.
+      Гипотезы H1–H6 остаются в плане этапа; здесь нумерация продолжается с H7.
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Пробел</th>
+            <th scope="col">Гипотеза</th>
+            <th scope="col">Откуда</th>
+            <th scope="col">Как проверяем</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" class="hyp-id">H7</th>
+            <td>На карточке колоды нет ни одного признака, что человек жив в продукте: К4 = 2 балла, единственный критерий, где нас обходит Tinder</td>
+            <td>Признак отзывчивости грубым ведром поднимет долю отправленных первых сообщений сильнее, чем бейдж присутствия, и не создаст поверхности для слежки</td>
+            <td class="from">Бенчмарк · механизм 4</td>
+            <td>Тест прототипа: две версии карточки, с ведром и без</td>
+          </tr>
+          <tr>
+            <th scope="row" class="hyp-id">H8</th>
+            <td>Как поведёт себя человек, упёршийся в пустую колоду на первой сессии — <em>не проверено</em></td>
+            <td>Экран «карточки кончились» с расширением радиуса и живым списком событий удержит пользователя: он уйдёт во второй контур, а не из продукта</td>
+            <td class="from">Паттерны · цена решения</td>
+            <td>Тест прототипа с пустой базой; доля перешедших в Events</td>
+          </tr>
+          <tr>
+            <th scope="row" class="hyp-id">H9</th>
+            <td>Сколько людей готовы создать событие — <em>не проверено</em>. У Meetup горлышко закрыто ролью Super Organizer, у нас такой роли нет</td>
+            <td>Создания в два шага недостаточно: без посевных организаторов лента останется пустой, и порог §11 не будет достигнут</td>
+            <td class="from">Конкуренты О1 · Паттерны 2</td>
+            <td>Интервью про готовность организовать; счётчик созданных событий на тесте</td>
+          </tr>
+          <tr>
+            <th scope="row" class="hyp-id">H10</th>
+            <td>Матч даёт право написать, но не даёт темы. Доля матчей, дошедших до сообщения — <em>не проверено</em></td>
+            <td>Ice-breaker в пустом чате и общее событие в карточке поднимут конверсию матч → первое сообщение сильнее, чем изменения самой колоды</td>
+            <td class="from">Паттерны 1 · матч ≠ разговор</td>
+            <td>Тест прототипа; метрика TTFC</td>
+          </tr>
+          <tr>
+            <th scope="row" class="hyp-id">H11</th>
+            <td>Заполняемость post-event check-in — <em>не проверено</em>. Механизм взят с Airbnb и Couchsurfing, где у ответа есть цена сделки, а у нас её нет</td>
+            <td>Без напоминания и видимой выгоды отвечать будет меньшинство, и §5.5 не наполнится: счётчик встреч останется нулевым у большинства</td>
+            <td class="from">Бенчмарк · механизм 1</td>
+            <td>Метрика «заполняемость check-in»; на прототипе — качественно</td>
+          </tr>
+          <tr>
+            <th scope="row" class="hyp-id">H12</th>
+            <td>Кто и за какое время проверяет селфи — не решено (§12 брифа)</td>
+            <td>Задержка верификации напрямую бьёт по TTFC: получивший матч не станет ждать проверки и уйдёт</td>
+            <td class="from">Бенчмарк К1 · Конкуренты П2</td>
+            <td>Метрика «конверсия гейта верификации»; в прототипе верификация мгновенная</td>
+          </tr>
+          <tr>
+            <th scope="row" class="hyp-id">H13</th>
+            <td>Пороги ступеней Profile Strength — не решено (§12 брифа)</td>
+            <td>Если порог Regular недостижим за первую неделю, механизм не работает как замещающий сигнал и превращается в клеймо новичка</td>
+            <td class="from">Бенчмарк · механизм 2</td>
+            <td>Метрика «доля профилей выше Newcomer на 7-й день»</td>
+          </tr>
+          <tr>
+            <th scope="row" class="hyp-id">H14</th>
+            <td>Реальная плотность нашей аудитории в Киеве — <em>не проверено</em>. Известно только чужое: у Meetup 2–6 участников против 326 going в Нью-Йорке</td>
+            <td>Порог §11 (10 профилей и 3 события в радиусе) на старте не будет достигнут ни у кого, и swipe-first первые недели будет держаться на пустом состоянии</td>
+            <td class="from">Конкуренты В1 · Паттерны</td>
+            <td>Метрика ликвидности по фиксированному радиусу 10 км</td>
+          </tr>
+          <tr>
+            <th scope="row" class="hyp-id">H15</th>
+            <td>Почему Ramle не удержал вовлечённость без свайпов — <em>не проверено</em></td>
+            <td>Причина не в отсутствии свайпов, а в отсутствии повода встретиться: продукт на выборе активностей без контура событий не даёт вернуться</td>
+            <td class="from">Конкуренты О2</td>
+            <td>Интервью с бывшими пользователями, если найдутся</td>
+          </tr>
+        </tbody>
+        <caption>Курсивом «не проверено» помечены пробелы, под которыми нет источника вообще.</caption>
+      </table>
+    </div>
+
+    <h3>Что этап закрыл</h3>
+    <ul>
+      <li><strong>Вопрос 7 плана</strong> — «события vs люди»: ответ есть, swipe-first, решение PM 2026-09-09.</li>
+      <li><strong>Вопросы В1–В6 к PM</strong> — отвечены 2026-09-07 и 2026-09-08, решения в §1, §2.1, §6, §7.2, §7.3, §9 брифа.</li>
+      <li><strong>Вопрос В7</strong> — отвечен 2026-09-09, решение в §4 брифа.</li>
+    </ul>
+
+    <div class="note warn">
+      <h4 style="margin-top:0">Главное ограничение этого документа</h4>
+      <p>Гипотезы H1–H6 — все в статусе <code>TBD</code>, ни одна не проверена:
+      <strong>интервью с пользователями не проводились</strong>, план есть, результатов нет.
+      H7–H15 выше выведены, но тоже не проверены. Персоны и Jobs to be done — черновые,
+      строятся после интервью.</p>
+      <p>Пока интервью не проведены, всё, что здесь написано, стоит на конкурентах и эталонах,
+      но <strong>не на наших пользователях</strong>. Дополнительным разбором чужих продуктов
+      это не чинится.</p>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="col">
+    <h3>Источники</h3>
+    <div class="srcgrid">
+      <div>
+        <h4><span class="src own">первичное</span></h4>
+        <p>Собственный проход <strong>Tinder</strong> (iOS) 2026-09-08 — регистрация, туториал, колода,
+          Explore, чаты, настройки, профиль.</p>
+        <p>Собственный проход <strong>Meetup</strong> (веб, под аккаунтом) 2026-09-08 — онбординг из 9 шагов,
+          лента, карточка события, группа, чаты, профиль, настройки, репорт.</p>
+        <p>Лендинги всех продуктов, Playwright, 390 × 844, 2026-09-07.</p>
+      </div>
+      <div>
+        <h4><span class="src second">вторичное</span></h4>
+        <p><a href="https://mobbin.com/" target="_blank" rel="noopener">Mobbin</a> — полосы экранов Peanut,
+          BFF, Meetup, Partiful (2026-09-09). Кадры отобраны библиотекой, дата съёмки неизвестна.</p>
+        <p>Витрины Google Play — экраны отобраны вендором.</p>
+        <p><a href="https://growth.design/case-studies/tinder-monetization" target="_blank" rel="noopener">growth.design</a>
+          — выводы по монетизации подтверждены нашим проходом, замечания по онбордингу нет.</p>
+      </div>
+      <div>
+        <h4><span class="src claim">заявления вендоров</span></h4>
+        <p><a href="https://www.peanut-app.io/community-guidelines" target="_blank" rel="noopener">Peanut — Community Guidelines</a>,
+          <a href="https://support.bumbleforfriends.com/hc/en-us/articles/11429189275293-Which-countries-is-Bumble-For-Friends-available-in" target="_blank" rel="noopener">Bumble Support — страны доступности</a>,
+          <a href="https://ami-app.me/" target="_blank" rel="noopener">AMI</a>,
+          <a href="https://tinder.com/" target="_blank" rel="noopener">Tinder</a>,
+          <a href="https://www.meetup.com/" target="_blank" rel="noopener">Meetup</a>.</p>
+      </div>
+      <div>
+        <h4><span class="src link">исследования и справка эталонов</span></h4>
+        <p><a href="https://blog.blablacar.com/trust" target="_blank" rel="noopener">BlaBlaCar / NYU Stern — исследование доверия</a> ·
+          <a href="https://blog.blablacar.com/blog/inside-story/in-trust-we-trust" target="_blank" rel="noopener">D.R.E.A.M.S.</a> ·
+          <a href="https://www.blablacar.co.uk/faq/question/what-are-experience-levels" target="_blank" rel="noopener">experience levels</a> ·
+          <a href="https://www.airbnb.com/help/article/1237" target="_blank" rel="noopener">Airbnb — верификация</a> ·
+          <a href="https://www.airbnb.com/help/article/430" target="_blank" rel="noopener">Airbnb — время ответа</a> ·
+          <a href="https://support.couchsurfing.org/hc/en-us/articles/50041760259355-What-Are-References-and-How-Do-They-Work" target="_blank" rel="noopener">Couchsurfing — референсы</a> ·
+          <a href="https://blog.couchsurfing.com/why-we-did-this/" target="_blank" rel="noopener">Couchsurfing — почему убрали Last Login</a> ·
+          <a href="https://support.upwork.com/hc/en-us/articles/360049702614-Learn-about-Upwork-s-talent-badges" target="_blank" rel="noopener">Upwork — бейджи</a> ·
+          <a href="https://support.upwork.com/hc/en-us/articles/43854361755411-What-s-the-responsiveness-tag" target="_blank" rel="noopener">Upwork — тег отзывчивости</a> ·
+          <a href="https://withpersona.com/customers/nextdoor/" target="_blank" rel="noopener">Nextdoor — верификация через Persona</a> ·
+          <a href="https://dev.ua/news/zakryttia-ramle-1785231562" target="_blank" rel="noopener">dev.ua — закрытие Ramle</a></p>
+      </div>
+    </div>
+
+    <p class="fine">
+      <strong style="color:var(--amber)">Чего в источниках нет.</strong>
+      Интервью с пользователями — не проводились. Внутренности AMI, Ramle, Timeleft, Geneva,
+      Couchsurfing Hangouts — не проходились. Telegram-каналы знакомств Киева и ЗНАКОМКА / wave-love —
+      по осям не разбирались. Всё перечисленное помечено в тексте как «данные не подтверждены».
+      <br><br>
+      Собрано из <code>research/research.md</code> · экраны из <code>research/screens/</code> ·
+      полные разборы — <code>competitor-analysis.md</code>, <code>trust-benchmark.md</code>,
+      <code>interaction-patterns.md</code> · бриф — <code>CLAUDE.md</code>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
