@@ -4,7 +4,7 @@
 Съёмка с телефона — нативное разрешение устройства.
 Разбор — в [`../competitor-analysis.md`](../competitor-analysis.md).
 
-Три съёмки:
+Четыре съёмки:
 
 - **2026-09-07** — все продукты из веба, без авторизации. Экраны, закрытые логином,
   помечены **«доступ ограничен»** в подписи и суффиксом `--dostup-ogranichen` в имени файла.
@@ -15,6 +15,13 @@
   туториал, колода, Explore, чаты, настройки сообщений, свой профиль. Пометка
   «доступ ограничен» снимается и с Tinder. Скриншоты сняты с устройства, поэтому
   разрешение выше базового макета; пропорция 9:19.5 та же.
+- **2026-09-09** — четыре полосы экранов из **[Mobbin](https://mobbin.com/)**, библиотеки
+  UX-флоу (файлы `*--app--*-flow-strip.png`, ~1940 × 570). Это **не наша съёмка**: каждый файл —
+  готовая композитная полоса из 6–7 экранов одного продукта плюс перечень доступных
+  флоу справа. Так впервые видно изнутри Peanut, Bumble For Friends и Partiful —
+  продукты, которые из веба закрыты авторизацией или недоступны в регионе.
+  Пометка «доступ ограничен» с них **не снимается**: полоса показывает то, что отобрала
+  библиотека, а не то, что мы прошли сами, и проверить полноту флоу по ней нельзя.
 
 ## AMI · Peanut · Bumble For Friends · Karabas
 
@@ -27,9 +34,11 @@
 | `peanut--landing--02-three-pillars.png` | Peanut | Лендинг целиком: три контура — Swipe to Find Friends Nearby, Join Groups and Communities, Ask Questions and Get Advice |
 | `peanut--safety--03-community-guidelines.png` | Peanut | Community Guidelines: обязательная селфи-верификация, ложные жалобы как нарушение, запрет коммерции, анти-гостинг |
 | `peanut--app--04-store-screens.png` | Peanut | Карточка Google Play: витринные экраны, «Contains ads · In-app purchases», 1M+ загрузок. Внутренние экраны иначе **доступ ограничен** |
+| `peanut--app--05-flow-strip.png` | Peanut | **Полоса из Mobbin.** Сплэш → вход: Apple, Facebook, Google, телефон — пароля нет вообще, только OAuth и SMS. Слоган на экране входа «A safe space for women to connect, ask questions and find support». Справа перечень флоу продукта: Onboarding · Adding lifestage · Subscribing to Peanut · **Swiping to connect** · **Verifying profile** · Explore — свайпы и верификация подтверждаются как отдельные контуры |
 | `bumble-bff--landing--01-hero.png` | Bumble For Friends | Первый экран: «Find your people with Bumble For Friends», только App Store / Google Play |
 | `bumble-bff--landing--02-full.png` | Bumble For Friends | Лендинг целиком: «There are friends for every era. Even your messy ones.», интент-чипы, The Friendship Hub |
 | `bumble-bff--app--03-store-screens.png` | Bumble For Friends | Карточка Google Play: витринные экраны приложения, «Contains ads · In-app purchases», 1M+ загрузок. Сам продукт в Украине недоступен — внутренние экраны иначе **доступ ограничен** |
+| `bumble-bff--app--04-flow-strip.png` | Bumble For Friends | **Полоса из Mobbin — первый взгляд внутрь BFF.** Get Started с двумя тумблерами (Location, Notifications) вместо системных диалогов; карточка колоды: «32 • Granada Hills North, Granada Hills» — **район вместо километров**, чипы интересов на фото, строка намерения «Looking for friends to hang out with in the city»; экран матча «You are connected with Christine» без слова *match*; профиль целиком с блоками About me / What I am into; гейт «Add your location to see people & groups» с картой и радиусом в милях; **My groups** — групповые чаты вне событий, с подписями «Active now» и «Last active 21 minutes ago» (бейдж присутствия, от которого мы отказались — §5.5.3); вход по номеру телефона. Флоу справа: Onboarding · **Verifying identity** · User profile · People · Completing account · Chatting a user. Лица размыты источником |
 | `karabas--events--01-feed.png` | Karabas | Первый экран афиши: баннер, заголовок «Афіша подій 2026 в Україні». Отложен из разбора — материал по софт-группе |
 | `karabas--events--02-feed-full.png` | Karabas | Лента целиком: карточки событий по категориям, участники нигде не показаны. Отложен из разбора |
 
@@ -105,6 +114,24 @@
 | `meetup--profile--26-settings.png` | Настройки: Privacy, Mobile Notifications, Organizer Subscription, Meetup+ Subscription, Payment Methods, Payments Made / Received. **Списка заблокированных нет** |
 | `meetup--profile--27-privacy.png` | Экран Privacy целиком: единственная настройка — «Who can contact you on Meetup? → Anyone on Meetup». Ни управления геолокацией, ни блок-листа |
 | `meetup--safety--28-report-event.png` | Репорт как bottom sheet: Violent or hateful · Inappropriate · Poor quality or spam · Something that happened in person · Something else, с подписью «We won't share this information with the organizer». Ближайший аналог нашей приватной обратной связи (§7.5) |
+| `meetup--app--29-flow-strip.png` | **Полоса из Mobbin — американский Meetup, где база плотная.** Лента New York: карточка «1.4 mi · by Neverwinter Free Parties · 4.8 ★» и **326 going** против 2–6 участников в Киеве; **карта событий** с числом на каждом пине (переключатель Map / Back to list); карточка события с конфетти и статусом Going, «You and 1 guest»; экран Attendees — **328 · Canceled 48**, бейдж **First event** у новичков и **Super Organizer** у хоста, гости считаются как «2 guests»; профиль организатора с кнопками **Chat / Add friend** и блоком «Looking to: Practice Hobbies · Professionally Network · Socialize · **Make Friends**» — интент вынесен на чужой профиль. Флоу справа: Onboarding · Subscribing to standard · Event detail · Home · Explore · Switching to map view. Имена и лица части гостей размыты источником |
+
+## Partiful — полоса из Mobbin (2026-09-09)
+
+Первые экраны Partiful в наборе. Продукт заявлен в [`../research.md`](../research.md), §4
+как аспирационный эталон дизайна событий; строка в сводной таблице §4 заполнена
+2026-09-09 по этой полосе и помечена **[Mobbin]** как вторичный источник.
+
+| Файл | Что на экране |
+|---|---|
+| `partiful--app--01-flow-strip.png` | Сплэш; главная «Welcome to Partiful, Sam!» с вкладками **Upcoming · Hosting · Open invites** — роль организатора отделена от роли гостя прямо в навигации (наш §5.4, My events); карточка события целиком как **афиша**: обложка на весь экран, крупный титул, дата, таймзона `ET / ICT` и панель действий организатора внизу — Edit · Text Blast · **1 Going** · Invite · More; **Manage Guests** с вёдрами `Going 1 · Maybe 0 · Invited 1` и статусом, выставляемым вручную по каждому гостю; экран шеринга «Sending to someone? It looks way better when you share it» — **приглашение как объект**, ссылка `partiful.com` копируется, отправка через Messages; **Questionnaire** «Will you have cake?» — вопрос гостям с таблицей ответов. Аккаунта, матчей и подбора людей нет: продукт целиком про **одно событие и его гостей**. Флоу справа: Onboarding · Event detail · Home · **Creating an event** · **Inviting a guest** · Enabling text blasts |
+
+Почему это важно для нас: Partiful — единственный в наборе, кто делает событие
+самостоятельной единицей (§5.4 брифа) и не прячет его ни за группой, как Meetup,
+ни за анкетой, как Tinder. Тон — ровно тот «энергичный и яркий», что описан в §8.
+Обратная сторона: у Partiful нет ни открытия новых людей, ни репутации, ни блока
+безопасности — он работает на уже знакомой компании. Наш контур поиска (§5.2)
+закрывает ровно этот разрыв.
 
 ## Замечания к съёмке
 
@@ -118,6 +145,16 @@
 - Аккаунт Meetup при съёмке определился в **Бухарест** (по IP), поэтому домашняя лента,
   автовступление в группы и профиль показывают румынский контекст. Лента событий
   снята отдельно с принудительной локацией Киева.
+- Четыре файла `*--app--*-flow-strip.png` — **чужая съёмка из Mobbin**,
+  а не наш проход. Отсюда три ограничения: набор экранов отобран Mobbin;
+  дата съёмки самой библиотеки неизвестна, продукт мог с тех пор измениться;
+  полосы шире базового макета (~1940 × 570 против 390 × 844), потому что это композит
+  из 6–7 кадров, а не один экран. Ссылаться на них в разборе можно, но как
+  на вторичный источник: наблюдение, ради которого экран важен, стоит подтверждать
+  своей съёмкой, когда продукт станет доступен.
+- Демо-данные в этих полосах витринные: «Sam Lee», «Jane Doe», «Alex Smith» у Partiful,
+  «Judy Smith» в диалоге Google у Peanut. Это заготовки Mobbin, не реальные
+  люди; лица и часть имён у BFF и Meetup размыты источником.
 
 ### Как замазаны персональные данные
 
