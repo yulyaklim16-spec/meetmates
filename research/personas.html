@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Урок 2 — Персоны и JTBD · MeetMates</title>
+<meta name="description" content="Четыре персоны по кабинетному ресерчу, иерархия jobs без функций, JTBD-матрица. Все оценки важности — [?].">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<!-- Единственный источник правды по цвету, радиусам, шкалам и движению -->
+<link rel="stylesheet" href="../tokens/tokens.css">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Итоги исследования. Все значения — из tokens/tokens.css:
+   собственных цветов и радиусов здесь нет (Рабочие соглашения, п. 2).
+   Тёмная тема вне объёма v1 (§10), страница осознанно светлая.
+   Градиент — только на акцентах (§8).
+   ───────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-family: var(--font);
+  font-size: var(--t-body-sm);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip {
+  position: absolute; left: -9999px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface); border-radius: var(--r-sm);
+  font-weight: var(--fw-medium);
+}
+.skip:focus { left: var(--s-4); top: var(--s-4); z-index: 50; outline: 2px solid var(--brand-a); }
+
+.shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  gap: var(--s-7);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  align-items: start;
+}
+
+/* ── Боковая колонка ───────────────────────────────────────── */
+.side {
+  position: sticky; top: 0;
+  max-height: 100vh; overflow-y: auto;
+  padding: var(--s-6) 0 var(--s-6);
+}
+.side .brand {
+  display: flex; align-items: center; gap: var(--s-3);
+  margin-bottom: var(--s-2);
+}
+.side .dot {
+  width: 26px; height: 26px; border-radius: var(--r-pill);
+  background: var(--brand-gradient); flex: none; box-shadow: var(--shadow-sm);
+}
+.side .brand b { font-size: var(--t-body); letter-spacing: -0.01em; }
+.side .stage { font-size: var(--t-caption); color: var(--ink-400); margin: 0 0 var(--s-5); }
+
+.side .lbl {
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-400); margin: 0 0 var(--s-3);
+}
+
+.matlist { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--s-6); }
+.mat {
+  display: flex; gap: var(--s-3); align-items: baseline;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  text-decoration: none; color: var(--ink-900);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.mat:hover, .mat:focus-visible { background: var(--surface-2); }
+.mat:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.mat .n {
+  font-size: var(--t-micro); color: var(--ink-400);
+  font-variant-numeric: tabular-nums; flex: none; min-width: 2ch;
+}
+.mat .t { font-size: var(--t-caption); line-height: 1.45; }
+.mat .t i { display: block; font-style: normal; color: var(--ink-400); font-size: var(--t-micro); }
+.mat.current { background: var(--surface-2); }
+.mat.current .t { font-weight: var(--fw-medium); }
+.mat.soon .t { color: var(--ink-400); }
+.mat.soon .n { color: var(--line); }
+
+.anchors {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: var(--s-4); border-top: 1px solid var(--line);
+}
+.anchors a {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--t-caption);
+  text-decoration: none; color: var(--ink-600);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.anchors a:hover, .anchors a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
+.anchors a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+
+/* ── Основная колонка ──────────────────────────────────────── */
+main { padding: var(--s-7) 0 var(--s-7); min-width: 0; }
+
+.masthead { padding-bottom: var(--s-6); }
+.eyebrow { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand-a); margin: 0 0 var(--s-3); }
+h1 {
+  font-size: var(--t-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+  margin: 0 0 var(--s-4);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+h1 .grad {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.lede { font-size: var(--t-body); color: var(--ink-600); max-width: 60ch; margin: 0 0 var(--s-5); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+.chips span { font-size: var(--t-caption); color: var(--ink-600); }
+.chips b { font-weight: var(--fw-bold); color: var(--ink-900); font-variant-numeric: tabular-nums; }
+.chips a { color: var(--brand-a); }
+
+/* ── Секции ────────────────────────────────────────────────── */
+section { padding-top: var(--s-7); scroll-margin-top: var(--s-4); }
+section > h2 {
+  font-size: var(--t-h1); font-weight: var(--fw-black);
+  letter-spacing: -0.02em; margin: 0 0 var(--s-3);
+  padding-bottom: var(--s-3); border-bottom: 1px solid var(--line);
+}
+section > .intro { font-size: var(--t-body-sm); color: var(--ink-600); max-width: 66ch; margin: 0 0 var(--s-5); }
+
+h3 {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.01em; margin: var(--s-6) 0 var(--s-3);
+}
+h4 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(--s-5) 0 var(--s-2); }
+p { margin: 0 0 var(--s-3); max-width: 72ch; }
+a { color: var(--brand-a); text-underline-offset: 3px; }
+strong { font-weight: var(--fw-bold); }
+
+ul { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+li { margin-bottom: var(--s-2); }
+ol { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+
+/* ── Пара колонок «что видели / что решили» ────────────────── */
+.duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+.duo > div { border-top: 2px solid var(--ink-900); padding-top: var(--s-4); }
+.duo h3 { margin: 0 0 var(--s-3); font-size: var(--t-body); }
+.duo ul { margin: 0; }
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+
+/* ── Таблицы ───────────────────────────────────────────────── */
+.tw {
+  overflow-x: auto; margin: 0 0 var(--s-4);
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+}
+table { border-collapse: collapse; width: 100%; font-size: var(--t-caption); }
+caption {
+  caption-side: bottom; text-align: left;
+  padding: var(--s-3) var(--s-4) 0;
+  font-size: var(--t-micro); color: var(--ink-400); line-height: 1.6;
+}
+th, td {
+  text-align: left; vertical-align: top;
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+thead th {
+  background: var(--surface-2);
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600);
+  white-space: nowrap;
+}
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+tbody th { font-weight: var(--fw-bold); font-size: var(--t-caption); white-space: nowrap; }
+td .lbl-cell { display: none; }
+.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+/* ── Чипы источников ───────────────────────────────────────── */
+.src {
+  display: inline-block;
+  font-size: var(--t-micro); line-height: 1.6;
+  padding: 1px var(--s-2); border-radius: var(--r-sm);
+  background: var(--surface-2); color: var(--ink-600);
+  white-space: nowrap;
+}
+.src.own { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.src.none { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+
+/* ── Выноски ───────────────────────────────────────────────── */
+.note {
+  border-left: 3px solid var(--brand-a);
+  padding: var(--s-2) 0 var(--s-2) var(--s-4);
+  margin: 0 0 var(--s-4); max-width: 72ch;
+  color: var(--ink-600);
+}
+.note.warn { border-left-color: var(--warn); }
+.note p:last-child, .note ul:last-child { margin-bottom: 0; }
+
+.panel {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5);
+  margin: 0 0 var(--s-4); max-width: 80ch;
+}
+.panel h4 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child, .panel ol:last-child { margin-bottom: 0; }
+
+.scores { display: grid; gap: var(--s-1); margin: 0 0 var(--s-4); max-width: 620px; }
+.srow { display: grid; grid-template-columns: 108px 1fr 34px; align-items: center; gap: var(--s-3); }
+.srow .nm { font-size: var(--t-caption); color: var(--ink-600); }
+.srow .bar { height: 16px; border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--brand-a); }
+.srow .v { font-size: var(--t-caption); font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-600); }
+.srow.us .nm, .srow.us .v { color: var(--ink-900); font-weight: var(--fw-bold); }
+.srow.us .bar { background: var(--brand-gradient); }
+.srow.bg .nm, .srow.bg .v { color: var(--ink-400); }
+.srow.bg .bar { background: var(--surface-2); border: 1px solid var(--line); }
+
+/* ── Скриншоты ─────────────────────────────────────────────── */
+.gallery {
+  display: grid; gap: var(--s-5);
+  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+}
+figure { margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+figure a {
+  display: block; border: 1px solid var(--line); border-radius: var(--r-md);
+  overflow: hidden; background: var(--surface-2); line-height: 0;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+figure a:hover, figure a:focus-visible { border-color: var(--brand-a); box-shadow: var(--shadow-md); }
+figure a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 3px; }
+figure img { width: 100%; height: 268px; object-fit: cover; object-position: top center; display: block; }
+figcaption { font-size: var(--t-caption); color: var(--ink-600); line-height: 1.5; }
+figcaption b { display: block; color: var(--ink-900); font-weight: var(--fw-bold); margin-bottom: 2px; }
+figcaption .fn { display: block; margin-top: var(--s-2); font-size: var(--t-micro); color: var(--ink-400); word-break: break-all; }
+
+.wide-shot { grid-column: 1 / -1; }
+.wide-shot .frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2); line-height: 0; }
+.wide-shot img { height: 260px; width: auto; max-width: none; object-fit: fill; }
+
+.lesson-nav {
+  display: flex; justify-content: space-between; gap: var(--s-4);
+  margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--line);
+  font-weight: var(--fw-medium);
+}
+.lesson-nav a { text-decoration: none; }
+footer {
+  margin-top: var(--s-6); padding: var(--s-5) 0 var(--s-7);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-caption); color: var(--ink-400);
+}
+footer a { color: var(--brand-a); }
+footer p { max-width: 72ch; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; gap: 0; }
+  .side { position: static; max-height: none; padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
+  .matlist { display: none; }
+  .side .stage { margin-bottom: var(--s-3); }
+  .anchors { flex-direction: row; flex-wrap: wrap; border-top: none; padding-top: 0; }
+}
+
+/* ── Персоны ───────────────────────────────────────────────── */
+.persona {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5); margin: 0 0 var(--s-5);
+}
+.persona.primary { border-color: var(--brand-a); box-shadow: var(--shadow-sm); }
+.persona.supply { border-style: dashed; }
+.phead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s-4); }
+.phead h3 { margin: 0 0 var(--s-1); }
+.pscene { margin: 0; color: var(--ink-600); font-size: var(--t-caption); max-width: 60ch; }
+.pneed { margin: var(--s-4) 0; padding: var(--s-3) var(--s-4); background: var(--surface-2); border-radius: var(--r-sm); font-size: var(--t-caption); max-width: none; }
+.pgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4) var(--s-5); }
+.pgrid h4 { margin: 0 0 var(--s-2); font-size: var(--t-micro); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-400); }
+.pgrid ul { margin: 0; padding-left: var(--s-4); font-size: var(--t-caption); }
+.pgrid li { margin-bottom: var(--s-1); }
+.pquote {
+  margin: var(--s-5) 0 0; padding: var(--s-4) var(--s-5);
+  border-left: 3px solid var(--brand-a); background: var(--surface-2); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-body-sm); line-height: 1.5;
+}
+.pquote cite { display: block; margin-top: var(--s-2); font-style: normal; font-size: var(--t-micro); color: var(--ink-400); }
+.pnote { margin: var(--s-4) 0 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+@media (max-width: 760px) { .pgrid { grid-template-columns: 1fr; } .phead { flex-direction: column; } }
+
+/* ── Пилюли статуса (как на хабе) ─────────────────────────── */
+.pill { flex: none; font-size: var(--t-micro); font-weight: var(--fw-medium); padding: 3px 10px; border-radius: var(--r-pill); letter-spacing: 0.02em; white-space: nowrap; }
+.pill.ready { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.pill.rules { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+.pill.empty { background: var(--surface-2); color: var(--ink-400); }
+
+/* ── Jobs ──────────────────────────────────────────────────── */
+.job { margin: 0 0 var(--s-4); padding: var(--s-4) var(--s-5); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.job.main { border-color: var(--brand-a); }
+.jcode { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-a); margin-bottom: var(--s-2); }
+.job blockquote { margin: 0 0 var(--s-2); font-size: var(--t-body-sm); font-weight: var(--fw-medium); line-height: 1.5; }
+.job.main blockquote { font-size: var(--t-body); }
+.jmeta { margin: 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+.jlist li { margin-bottom: var(--s-2); }
+.lesson-nav .soon { color: var(--ink-400); }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#content">Перейти к материалу</a>
+
+<div class="shell">
+
+  <!-- ── Боковая колонка ─────────────────────────────────── -->
+  <aside class="side">
+    <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
+    <p class="stage">Design Engineering · Урок 2 из 12</p>
+
+    <nav aria-label="Уроки курса">
+      <p class="lbl">Уроки курса</p>
+      <div class="matlist">
+        <a class="mat" href="research.html"><span class="n">01</span><span class="t">Ресерч и бенчмарк<i>готово</i></span></a>
+        <a class="mat current" href="personas.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>текущий урок</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=3"><span class="n">03</span><span class="t">Информационная архитектура<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=4"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=5"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=6"><span class="n">06</span><span class="t">Концепт<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=7"><span class="n">07</span><span class="t">Сборка UI<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
+      </div>
+    </nav>
+
+    <nav class="anchors" aria-label="На этой странице">
+      <p class="lbl">В этом уроке</p>
+      <a href="#method">Метод</a>
+      <a href="#personas">Персоны</a>
+      <a href="#jobs">Jobs</a>
+      <a href="#matrix">Матрица</a>
+      <a href="#decisions">Решения</a>
+      <a href="#not-mvp">Не в MVP</a>
+      <a href="#next">Что проверяем</a>
+    </nav>
+  </aside>
+
+  <!-- ── Материал ────────────────────────────────────────── -->
+  <main id="content">
+
+    <div class="masthead">
+      <p class="eyebrow">Урок 2 из 12</p>
+      <h1>Персоны <span class="grad">и JTBD</span></h1>
+      <p class="lede">
+        От допущений о людях — к проверяемым jobs. Четыре персоны по кабинетному ресерчу,
+        иерархия jobs без названий функций, матрица job × персона × рынок. Интервью
+        не проводились: всё, что здесь, — конструкции для дизайна, а не портреты.
+      </p>
+      <div class="chips">
+        <span><b>4</b> персоны, 1 primary</span>
+        <span><b>1 + 5</b> main и related jobs</span>
+        <span><b>17</b> строк в матрице</span>
+        <span><b>0</b> интервью — все оценки важности <code>[?]</code></span>
+        <span>Источники: <a href="persones.md">persones.md</a>, <a href="jtbd.md">jtbd.md</a></span>
+      </div>
+    </div>
+
+    <!-- ── Метод ─────────────────────────────────────── -->
+    <section id="method">
+      <h2>Как собрана модель</h2>
+      <p class="intro">
+        Персоны и jobs синтезированы из <a href="research.html">урока 1</a>,
+        <a href="people.md">кабинетного ресерча о людях</a> и
+        <a href="assumptions.md">смоделированных допущений</a>. Правило одно на всё:
+        каждое утверждение — с источником, где источника нет — <code>[?]</code>,
+        и оно сформулировано как гипотеза.
+      </p>
+      <div class="duo">
+        <div>
+          <h3>Что подтверждено</h3>
+          <ul>
+            <li>Сегмент «переехал в Киев» — <strong>442 438</strong> зарегистрированных ВПО, 12% города (КМДА, A).</li>
+            <li>Дружба требует повтора: 40–60 часов до приятеля, 200+ до близкого друга (Холл, A) — выборка из переехавших.</li>
+            <li>Женщины чаще сообщают о нехватке общения (UNDP, A) и чаще боятся: 57% считают знакомства онлайн небезопасными (Pew, A).</li>
+            <li>Спрос на «компанию под план» в Киеве виден: 8 из 42 постов в дейтинг-канале ищут не пару.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Что нет</h3>
+          <ul>
+            <li>Ищут ли переехавшие компанию <strong>онлайн</strong> — 0 из 42 постов упоминают переезд. Первый сигнал против.</li>
+            <li>Важность любого job для любой персоны — <code>[?]</code> во всех клетках матрицы.</li>
+            <li>Что человек делает сегодня, когда некого позвать, — один случай, не данные.</li>
+            <li>Есть ли организатор в Киеве в достаточном числе — единственный вопрос, от которого зависит план запуска.</li>
+          </ul>
+        </div>
+      </div>
+      <p>
+        <strong>Уровни источников:</strong> <span class="src own">A</span> рецензируемое и официальное ·
+        <span class="src">B</span> коммерческая аналитика · <span class="src none">C</span> блоги и пересказы.
+        Имена, возраст и биографии персон — иллюстративные, они не из данных.
+      </p>
+    </section>
+
+    <!-- ── Персоны ───────────────────────────────────── -->
+    <section id="personas">
+      <h2>Люди и ситуации</h2>
+      <p class="intro">
+        Primary — та, под кого есть больше всего данных, а не та, кого больше всего хочется.
+        Остальные три secondary: у каждой либо тоньше данные, либо она описывает
+        не спрос, а предложение.
+      </p>
+
+      <!-- Даша -->
+      <article class="persona primary">
+        <div class="phead">
+          <div>
+            <h3>Даша, 26 — переехала в Киев</h3>
+            <p class="pscene">Круг общения остался в другом городе или стране. Работа и жильё есть, компании на субботу нет.</p>
+          </div>
+          <span class="pill ready">primary</span>
+        </div>
+        <p class="pneed"><strong>Смоделированная потребность.</strong> Собрать в новом городе двух-трёх людей, с кем можно пойти куда-то без повода, — и сделать это безопасно.</p>
+        <div class="pgrid">
+          <div>
+            <h4>Контекст</h4>
+            <ul>
+              <li>442 438 ВПО в Киеве, ~12% населения <span class="src own">A</span></li>
+              <li>17% молодёжи внутри страны — об одиночестве, против 54% уехавших. Она в меньшинстве, которому больно, — поэтому продавать одиночество нельзя <span class="src own">A</span></li>
+              <li>Сколько из них 18–35 и сколько ищут круг — <code>[?]</code></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Jobs</h4>
+            <ul>
+              <li><strong>M1</strong> — компания для планов и продолжение</li>
+              <li><strong>R1</strong> — от совпадения к встрече, минуя разговор ни о чём</li>
+              <li><strong>R2</strong> — риск понятен до выхода из дома <span class="src own">A</span></li>
+              <li><strong>R4</strong> — продолжить без усилия первого раза <span class="src own">A</span></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Боли</h4>
+            <ul>
+              <li>Дейтинг — самый массовый из измеренных инструментов, и он романтический: 870 тыс. недельных пользователей <span class="src">B</span></li>
+              <li>В дейтинг-канале 8 из 42 постов ищут не пару: «не хлопця, а саме друзів» — людей с её запросом выдавливает туда</li>
+              <li>Meetup в Киеве пуст: 2–6 участников на событие</li>
+              <li>Что делает сегодня — <code>[?]</code>; один случай: не шла никуда, круг появился через организацию, за месяцы</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Доверие</h4>
+            <ul>
+              <li><strong>Убеждает:</strong> верификация перед контактом, не на входе; Report и Block с любого экрана — у Meetup блок-листа нет</li>
+              <li><strong>Убеждает:</strong> общие интересы первой строкой — <code>[?]</code>, H4 открыта</li>
+              <li><strong>Отпугивает:</strong> намёк на дейтинг в первые секунды — <code>[?]</code>; слово «одинокая» в любом виде; бейдж «была онлайн» — отклонён</li>
+            </ul>
+          </div>
+        </div>
+        <blockquote class="pquote">
+          «Мені було настільки самотньо. Не було підтримки, не було можливості навіть піти з кимось на каву»
+          <cite>— Ірина, Мелитополь → Киев, 2022. <a href="https://hmarochos.kiev.ua/2026/08/03/vpo-v-kyyevi-yaki-programy-dlya-nyh-diyut-ta-yak-pereselenczi-adaptuyutsya-u-stolyczi/" target="_blank" rel="noopener">Хмарочос, 08.2026</a>. Пресса, n = 1</cite>
+        </blockquote>
+        <p class="pnote"><strong>Риск, который вскрыло доисследование:</strong> её может не быть онлайн. Тогда канал к ней — не колода, а посев событий через организации ВПО. Это меняет план запуска, не продукт.</p>
+      </article>
+
+      <!-- Максим -->
+      <article class="persona">
+        <div class="phead">
+          <div>
+            <h3>Максим, 31 — друзья разъехались</h3>
+            <p class="pscene">Никуда не переезжал — переехали от него. Город и быт те же, компании на четверг нет.</p>
+          </div>
+          <span class="pill rules">secondary</span>
+        </div>
+        <p class="pneed"><strong>Смоделированная потребность.</strong> Заменить не друзей, а привычку: была компания на настолки по четвергам — нужна компания на настолки по четвергам.</p>
+        <div class="pgrid">
+          <div>
+            <h4>Контекст</h4>
+            <ul>
+              <li>Что уехало много людей — факт: 4,59 млн ВПО, диаспора отдельно <span class="src own">A</span></li>
+              <li>Что оставшиеся чувствуют дефицит — <code>[?]</code>. UNDP меряет уехавших, не оставшихся. <strong>Самая тонкая по данным персона</strong></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Jobs</h4>
+            <ul>
+              <li><strong>M1</strong> — компания для планов и продолжение</li>
+              <li><strong>R4</strong> — продолжить без усилия первого раза — прежде всего он <span class="src own">A</span></li>
+              <li><strong>G4</strong> — заменить привычку, а не друзей — гипотеза</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Боли</h4>
+            <ul>
+              <li>Дружеские приложения не доводят до встречи: «we should grab a coffee — no date is set — the conversation dies» <span class="src none">C</span></li>
+              <li>Только ~5% дружб начинается онлайн против ~30% пар — если верно, инструмента для него не существует <span class="src none">C</span></li>
+              <li>Групповой чат старой компании жив, но пуст — <code>[?]</code></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Доверие</h4>
+            <ul>
+              <li><strong>Убеждает:</strong> серия, а не разовое событие; счётчик встреч — факт, не оценка; признак отзывчивости</li>
+              <li><strong>Отпугивает:</strong> мёртвые анкеты — «signed up six months ago, used it for a week, never log in» <span class="src none">C</span>; переписка вместо плана</li>
+            </ul>
+          </div>
+        </div>
+        <blockquote class="pquote">
+          «You match, you exchange pleasantries, someone says "we should definitely grab a coffee", everyone agrees, no date is set, the conversation dies.»
+          <cite>— <a href="https://firstmove.live/blog/why-no-one-responds-friendship-apps" target="_blank" rel="noopener">FirstMove, 06.2026</a>. Блог конкурента, не пользователь — C</cite>
+        </blockquote>
+      </article>
+
+      <!-- Оля -->
+      <article class="persona">
+        <div class="phead">
+          <div>
+            <h3>Оля, 29 — нужна компания для хобби</h3>
+            <p class="pscene">Живёт в Киеве давно, друзья есть — но никто из них не разделяет её занятие.</p>
+          </div>
+          <span class="pill rules">secondary</span>
+        </div>
+        <p class="pneed"><strong>Смоделированная потребность.</strong> Найти не человека, а компанию под занятие — и ходить регулярно, не тратя вечер впустую.</p>
+        <div class="pgrid">
+          <div>
+            <h4>Контекст</h4>
+            <ul>
+              <li>Барьер назван в брифе: «хобби, которым не с кем заняться»</li>
+              <li>Что таких людей много — <code>[?]</code>; что они есть и пишут — 8 из 42 постов в дейтинг-канале, минимум два под конкретное занятие</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Jobs</h4>
+            <ul>
+              <li><strong>M1</strong> — компания для планов и продолжение</li>
+              <li><strong>R3</strong> — уверена, что не окажусь одна</li>
+              <li><strong>R4</strong> — продолжить: хобби по определению повторяется</li>
+              <li><strong>G3</strong> — компания под конкретное хобби — гипотеза</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Боли</h4>
+            <ul>
+              <li>Тематические чаты не доводят до встречи: «пятьсот участников, ноль личных контактов» <span class="src none">C</span></li>
+              <li>Meetup требует создать группу, чтобы создать событие — шесть шагов</li>
+              <li>Афиши закрывают «куда», но не «с кем»: участники нигде не показаны</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Доверие</h4>
+            <ul>
+              <li><strong>Убеждает:</strong> аватары участников и счётчик на карточке; двухфазный счётчик «going → confirmed»; название площадки до Join</li>
+              <li><strong>Отпугивает:</strong> событие без людей на карточке; событие без знакомства — «тридцать человек в зале, ушёл один»; организатор-логотип вместо человека</li>
+            </ul>
+          </div>
+        </div>
+        <blockquote class="pquote">
+          «Хочу піти в зоопарк, візьму за компанію людину без депресії :)»<br>
+          «Шукаю друзів для не професійної гри в волейбол»
+          <cite>— два поста из <a href="https://t.me/s/kyiv_meet" target="_blank" rel="noopener">@kyiv_meet</a>, Киев, 09.2026. Люди написали сами, один канал, один день</cite>
+        </blockquote>
+      </article>
+
+      <!-- Артём -->
+      <article class="persona supply">
+        <div class="phead">
+          <div>
+            <h3>Артём, 33 — организатор</h3>
+            <p class="pscene">Уже что-то ведёт. Половина записавшихся не приходит, новых людей взять неоткуда.</p>
+          </div>
+          <span class="pill empty">secondary · предложение</span>
+        </div>
+        <p class="pneed"><strong>Смоделированная потребность.</strong> Собрать состав, который приходит, не пересоздавать событие каждую неделю и получать новых людей, а не только своих.</p>
+        <div class="pgrid">
+          <div>
+            <h4>Контекст</h4>
+            <ul>
+              <li>Создателей около 1% — измерено на контентных сообществах (90–9–1, NN/g) <span class="src own">A</span>; перенос на организаторов событий — <code>[?]</code></li>
+              <li>Роль существует как отдельный тип: Meetup разводит организатора и участника на первом экране, Partiful даёт «Hosting» вкладкой</li>
+              <li>Есть ли он в Киеве в достаточном числе — <code>[?]</code>. <strong>Единственный вопрос, от которого зависит план запуска</strong></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Jobs</h4>
+            <ul>
+              <li><strong>R5</strong> — чтобы это держалось не только на мне</li>
+              <li><strong>R3</strong> — со своей стороны: видит, кто не приехал</li>
+              <li><strong>S2</strong> — быть тем, кто собирает, а не площадкой — гипотеза</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Боли</h4>
+            <ul>
+              <li>Flake rate: no-show на бесплатных 28–50%+ <span class="src none">C</span></li>
+              <li>Meetup берёт с него деньги за право организовывать — при 2–6 участниках</li>
+              <li>Группа как обязательное предусловие — шесть шагов до первого события</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Доверие</h4>
+            <ul>
+              <li><strong>Убеждает:</strong> подтверждение за сутки и освобождение места по отказу; шаблоны; роль организатора как единственная; что мы не берём с него денег</li>
+              <li><strong>Отпугивает:</strong> молчаливая неявка без последствий; мёртвая лента, в которую он публикует; фиктивные участники — не делаем</li>
+            </ul>
+          </div>
+        </div>
+        <blockquote class="pquote">
+          «I hosted a virtual meetup and the flake rate was unbelievably high. I was expecting 1/3 of the people who RSVPed to show up and the turnout was much lower than that.»
+          <cite>— QTjl21, <a href="https://www.teamblind.com/post/hosting-meetups-with-a-high-flake-rate-aw3xrvih" target="_blank" rel="noopener">Blind, 07.2020</a>. Настоящий пост; онлайн, COVID, США — один человек, не норма</cite>
+        </blockquote>
+      </article>
+    </section>
+
+    <!-- ── Jobs ──────────────────────────────────────── -->
+    <section id="jobs">
+      <h2>Иерархия jobs</h2>
+      <p class="intro">
+        Формат «Когда [ситуация], я хочу [мотивация], чтобы [результат]». В формулировках нет функций —
+        ни названных, ни описанных: если по формулировке можно нарисовать экран, это фича, а не job.
+        Основной список — только jobs с данными о людях; всё эмоциональное, социальное и без данных —
+        в гипотезах.
+      </p>
+
+      <div class="job main">
+        <div class="jcode">M1 · главный</div>
+        <blockquote>Когда мне есть куда пойти, но не с кем — потому что я переехала и круг остался в другом городе, потому что друзья разъехались, или потому что никто из них не разделяет моё занятие, — я хочу, чтобы у моих планов была компания, а у компании — продолжение, чтобы через несколько встреч у меня было два-три человека здесь, которым можно написать «пойдём?» без повода.</blockquote>
+        <p class="jmeta">Даша, Максим, Оля · ситуация <span class="src own">A</span> · повтор <span class="src own">A</span> · причина 2 и 3 <code>[?]</code> · «два-три» — не измерено</p>
+      </div>
+
+      <h3>Related jobs — по пути к главному</h3>
+      <div class="job"><div class="jcode">R1 · начать с плана, а не с себя</div>
+        <blockquote>Когда я нашла человека с общими интересами и надо написать первой — а «привет, давай дружить» звучит нелепо, и темы для разговора нет, — я хочу перейти от совпадения к встрече, минуя разговор ни о чём, чтобы через неделю мы уже виделись, а не переписывались.</blockquote>
+        <p class="jmeta">Даша, Оля · матч → сообщение 30–50% в романтике <span class="src none">C</span> · «неловко первой» — главный ли барьер <code>[?]</code></p></div>
+      <div class="job"><div class="jcode">R2 · решиться идти</div>
+        <blockquote>Когда до встречи с человеком из интернета остаётся вечер и я решаю, идти ли, — а я видела его только на фотографиях и не знаю, где мы будем, — я хочу, чтобы риск был мне понятен до того, как я выйду из дома, чтобы прийти, а не написать «прости, не получится» за час до.</blockquote>
+        <p class="jmeta">Даша · страх измерен: Pew 57% / 19% <span class="src own">A</span> · доверие анкете 88% против 42% <span class="src own">A</span> · переносимость на Киев <code>[?]</code></p></div>
+      <div class="job"><div class="jcode">R3 · не приехать к пустому столу</div>
+        <blockquote>Когда я решаю, ехать ли на встречу, где записалось восемь незнакомых людей, — а я знаю по себе, что записаться легко, а прийти нет, — я хочу быть уверенной, что не окажусь там одна, чтобы поехать, а не остаться дома на всякий случай.</blockquote>
+        <p class="jmeta">Оля, Артём · Киев 2–6 — наш проход · живой голос организатора · no-show 28–50% <span class="src none">C</span></p></div>
+      <div class="job"><div class="jcode">R4 · увидеться снова, не начиная заново</div>
+        <blockquote>Когда встреча прошла хорошо и я хочу повторить — а договариваться заново с каждым из пятерых значит снова писать первой, — я хочу продолжить с теми же людьми без усилия первого раза, чтобы к третьему-четвёртому разу это были не незнакомцы, а свои.</blockquote>
+        <p class="jmeta">Максим, Оля · Холл: 40–60 часов, 15–20 встреч <span class="src own">A</span> · ни один из конкурентов не даёт повтора без группы · норма в разах <code>[?]</code></p></div>
+      <div class="job"><div class="jcode">R5 · собирать людей и не бросить · сторона предложения</div>
+        <blockquote>Когда я в пятый раз собираю ту же встречу и снова считаю, сколько из записавшихся придёт, — а новых людей взять неоткуда, потому что все, кого я знаю, уже здесь, — я хочу, чтобы это держалось не только на мне, чтобы не выгореть и не бросить на шестом.</blockquote>
+        <p class="jmeta">Артём · ~1% создателей <span class="src own">A</span> с оговоркой о переносе · живой голос · есть ли он в Киеве <code>[?]</code></p></div>
+
+      <h3>Эмоциональные и социальные — гипотезы</h3>
+      <ul class="jlist">
+        <li><strong>E1</strong> Чувствовать, что это нормально, а не признание, что нет друзей — UNDP меряет распространённость, не стигму <code>[?]</code></li>
+        <li><strong>E2</strong> Не чувствовать себя навязчивой при первом шаге — один источник C <code>[?]</code></li>
+        <li><strong>E3</strong> Знать, что могу уйти в любой момент — страх измерен (Pew), что снижает — нет <code>[?]</code></li>
+        <li><strong>S1</strong> Выглядеть тем, кому можно доверять — 88% против 42%; хочет ли сам — <code>[?]</code></li>
+        <li><strong>S2</strong> Быть тем, кто собирает, а не площадкой — механика рынка есть, мотивация <code>[?]</code></li>
+        <li><strong>S3</strong> Не быть единственной, кто знает, где я — Pew опрашивал дейтеров, не близких <code>[?]</code></li>
+      </ul>
+
+      <h3>Гипотезы без данных о людях</h3>
+      <ul class="jlist">
+        <li><strong>G1</strong> Решить быстро, стоит ли встречаться — H4 не проверена</li>
+        <li><strong>G2</strong> Не отказываться от плана, когда некого позвать — если подтвердится В1, станет самым важным related job: конкурент окажется не приложением, а отказом от плана</li>
+        <li><strong>G3</strong> Компания под конкретное хобби — размер сегмента не измерен</li>
+        <li><strong>G4</strong> Заменить привычку, а не друзей — об оставшихся данных нет</li>
+        <li><strong>G5</strong> Действовать, пока есть настроение, а не ждать — только прототип</li>
+      </ul>
+    </section>
+
+    <!-- ── Матрица ───────────────────────────────────── -->
+    <section id="matrix">
+      <h2>JTBD-матрица</h2>
+      <p class="intro">
+        Строки — jobs, колонки — персоны. В клетке — важность 1–3 и чем подтверждено.
+        <strong><code>[?]</code> — важность не измерена: стоит во всех клетках</strong>, потому что интервью не было.
+        «Ситуация ✓» подтверждает только, что под ситуацией есть данные, — не даёт права на число.
+        Среднее не берётся.
+      </p>
+      <div class="tw">
+        <table>
+          <caption>Пятнадцать jobs из семнадцати имеют хотя бы одну подтверждённую ситуацию; ни один не имеет измеренной важности. Полная версия с источниками в каждой клетке — <a href="jtbd.md">jtbd.md</a>.</caption>
+          <thead>
+            <tr><th>Job</th><th>Даша</th><th>Максим</th><th>Оля</th><th>Артём</th><th>Функция-кандидат</th><th>Рынок</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">M1 компания и продолжение</th><td><b>[?]</b> ситуация ✓ A</td><td><b>[?]</b> не измерена</td><td><b>[?]</b> допущение</td><td>—</td><td>Знакомство по интересам; событие как повод; серия</td><td><em>Частично.</em> Знакомство у всех; повтор без группы — ни у кого</td></tr>
+            <tr><th scope="row">R1 от совпадения к встрече</th><td><b>[?]</b> роль ✓</td><td><b>[?]</b> роль ✓</td><td><b>[?]</b> роль ✓</td><td>—</td><td>Первое сообщение как приглашение на план</td><td><em>Нет.</em> Совпадение дают все, дальше пустой чат</td></tr>
+            <tr><th scope="row">R2 риск понятен</th><td><b>[?]</b> ситуация ✓ A (Pew)</td><td><b>[?]</b> роль ✓</td><td><b>[?]</b> роль ✓</td><td>—</td><td>Верификация перед контактом; сигналы доверия на карточке</td><td><em>Частично.</em> Tinder: Verified как фильтр входящих</td></tr>
+            <tr><th scope="row">R3 не окажусь одна</th><td><b>[?]</b> роль ✓</td><td><b>[?]</b> роль ✓</td><td><b>[?]</b> ситуация ✓ проход</td><td><b>[?]</b> ситуация ✓ голос</td><td>Подтверждение за сутки; двухфазный счётчик</td><td><em>Нет.</em> Подтверждённую явку не показывает никто</td></tr>
+            <tr><th scope="row">R4 без усилия первого раза</th><td><b>[?]</b> ситуация ✓ A (Холл)</td><td><b>[?]</b> ситуация ✓ A</td><td><b>[?]</b> роль ✓</td><td><b>[?]</b> роль ✓</td><td>Серия как объект из события: состав, чат, история</td><td><em>Нет.</em> Meetup — только через группу; у остальных повтора нет</td></tr>
+            <tr><th scope="row">R5 держалось не только на мне</th><td>—</td><td>—</td><td>—</td><td><b>[?]</b> ситуация ✓ A + голос</td><td>Шаблоны; серия; подтверждение; посев</td><td><em>Частично.</em> Meetup даёт роль, но берёт плату и требует группу</td></tr>
+            <tr><th scope="row">E1 это нормально</th><td><b>[?]</b> распространённость ✓ A</td><td><b>[?]</b></td><td><b>[?]</b></td><td>—</td><td>Копирайт про планы, не про одиночество</td><td><b>[?]</b> BFF «friends for every era», эффект не измерен</td></tr>
+            <tr><th scope="row">E2 не навязчивая</th><td><b>[?]</b> один источник C</td><td><b>[?]</b></td><td><b>[?]</b></td><td>—</td><td>Взаимное согласие; повод как первое сообщение</td><td><em>Частично за механикой</em></td></tr>
+            <tr><th scope="row">E3 можно уйти</th><td><b>[?]</b> страх ✓ A</td><td><b>[?]</b></td><td><b>[?]</b></td><td>—</td><td>Публичное место по умолчанию</td><td><b>[?]</b> не исследовалось</td></tr>
+            <tr><th scope="row">S1 можно доверять</th><td><b>[?]</b> доверие анкете ✓ A</td><td><b>[?]</b></td><td><b>[?]</b></td><td><b>[?]</b></td><td>Заработанная первая ступень; счётчик встреч; отзывчивость</td><td><em>Частично.</em> Meetup — счётчики без истории; Tinder — ничего</td></tr>
+            <tr><th scope="row">S2 собирает, а не площадка</th><td>—</td><td>—</td><td>—</td><td><b>[?]</b> механика ✓</td><td>Организатор — человек с профилем</td><td><em>Частично.</em> Super Organizer, Hosting</td></tr>
+            <tr><th scope="row">S3 не единственная, кто знает</th><td><b>[?]</b> страх ✓ A</td><td>—</td><td><b>[?]</b></td><td>—</td><td>Ссылка близкому</td><td><em>Частично.</em> Share My Date у Tinder</td></tr>
+            <tr><th scope="row">G1 решить быстро</th><td><b>[?]</b> допущение</td><td><b>[?]</b></td><td><b>[?]</b></td><td>—</td><td>Порядок чтения карточки</td><td><b>[?]</b></td></tr>
+            <tr><th scope="row">G2 не отказываться от плана</th><td><b>[?]</b> допущение</td><td>—</td><td><b>[?]</b></td><td>—</td><td>Рано определять</td><td><b>[?]</b></td></tr>
+            <tr><th scope="row">G3 под хобби</th><td>—</td><td>—</td><td><b>[?]</b> размер не измерен</td><td>—</td><td>Событие по категории</td><td><em>Частично.</em> Афиши — «куда», не «с кем»</td></tr>
+            <tr><th scope="row">G4 заменить привычку</th><td>—</td><td><b>[?]</b> данных нет</td><td>—</td><td>—</td><td>Серия — если подтвердится</td><td><b>[?]</b></td></tr>
+            <tr><th scope="row">G5 пока есть настроение</th><td><b>[?]</b> уверенность нулевая</td><td>—</td><td>—</td><td>—</td><td>Мгновенная верификация — или отложенный доступ</td><td><b>[?]</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <p><strong>Что матрица позволяет решить.</strong> Охват и подкреплённость — да; приоритет — нет.
+        Но она показывает пустую нишу: <strong>R3 и R4 не закрывает никто из проверенных конкурентов</strong>, R1 не закрыт по существу.
+        Пробел рынка — не в знакомстве, которого у всех хватает, а во всём, что происходит после первой встречи.</p>
+      </div>
+    </section>
+
+    <!-- ── Решения ───────────────────────────────────── -->
+    <section id="decisions">
+      <h2>Что берём в продукт</h2>
+      <p class="intro">
+        Ядро MVP как <strong>гипотеза</strong>, не ранжирование: три кандидата, под ситуацией primary которых есть данные,
+        и которые не закрывает рынок. Число 3 им не присвоено.
+      </p>
+      <ol>
+        <li><strong>[?] R4 — продолжить без усилия первого раза.</strong> Два источника A, один измерен на переехавших. Не закрыт никем. <em>Функции-кандидаты:</em> серия из события, общий чат и состав, метрика повтора.</li>
+        <li><strong>[?] R2 — риск понятен до выхода из дома.</strong> Страх измерен (Pew). Рынок закрывает не там: у Tinder верификация защищает уже верифицированных. <em>Функции-кандидаты:</em> верификация перед первым сообщением и Join, сигналы доверия на карточке, публичное место по умолчанию.</li>
+        <li><strong>[?] R3 — уверена, что не окажусь одна.</strong> Самый слабый по данным: наш проход и один голос. В ядре потому, что не закрыт никем. <em>Функции-кандидаты:</em> подтверждение за сутки, освобождение места по отказу, двухфазный счётчик.</li>
+      </ol>
+      <p>R1 в ядро не вошёл, хотя рынок его не закрывает: под ним только уровень C. Если В2 интервью подтвердит «неловко первой» как главный барьер, R1 встанет на место R3.</p>
+    </section>
+
+    <!-- ── Не в MVP ──────────────────────────────────── -->
+    <section id="not-mvp">
+      <h2>Что не тянем в MVP</h2>
+      <p class="intro">По строгому критерию «не закрывает ни один job в матрице».</p>
+      <ul>
+        <li><strong>Отмена последнего свайпа.</strong> В брифе «опционально». Ни одного job не закрывает — удобство механики, не прогресс человека. <em>Кандидат на вылет.</em></li>
+        <li><strong>Конфетти и анимация совпадения.</strong> Момент совпадения — вход в R1, но празднование job не закрывает и рискует читаться как дейтинг. <em>Кандидат на упрощение.</em></li>
+        <li><strong>Ссылка близкому «Share my plans».</strong> Закрывает только S3, а S3 — гипотеза. <em>Кандидат на перенос за v1.</em></li>
+      </ul>
+      <p><strong>Нельзя честно назвать не закрывающими job:</strong> верификацию (R2), Profile Strength (S1), подтверждение встречи (R3, R4), отзывчивость (S1), Report / Block (E3), шаблоны (R5), напоминание (R3), серию (R4).</p>
+    </section>
+
+    <!-- ── Что проверяем ─────────────────────────────── -->
+    <section id="next">
+      <h2>Что проверяем дальше</h2>
+      <p class="intro">Три точечных вопроса, закрывающих самые опасные дыры — те, где дизайн-решение уже принято, а стоит на <code>[?]</code>.</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Вопрос</th><th>Закрывает</th><th>Где искать</th><th>Статус</th></tr></thead>
+          <tbody>
+            <tr><td><strong>В-1.</strong> Ищут ли переехавшие в Киев компанию онлайн — и где?</td><td>Primary-персона; G2</td><td>Telegram-чаты ВПО, @kyiv_meet, DOU, Reddit r/Kyiv</td><td><strong>Закрыт наполовину:</strong> компанию ищут онлайн — да, 8 из 42; переехавшие — 0 из 42, первый сигнал против. Остаток — в интервью В1</td></tr>
+            <tr><td><strong>В-2.</strong> Что делают люди, когда перед первым сообщением требуют верификацию, и сколько ждут?</td><td>Гейт §7.3; G5</td><td>Отзывы Peanut в сторах; r/Bumble, r/hingeapp, r/Tinder — «verification taking days»; сроки в справке; Airbnb ID-верификация</td><td>Открыт</td></tr>
+            <tr><td><strong>В-3.</strong> Существуют ли в Киеве организаторы регулярных встреч вне Meetup, сколько их?</td><td>R5; посев §2.1; план запуска</td><td>Список организаторов Meetup Киев; беговые и настольные клубы в Telegram — поимённо; Facebook Events, Instagram-теги</td><td>Открыт</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Какой вопрос интервью закрывает какой job</h3>
+      <ul class="jlist">
+        <li><strong>В1</strong> что сделал в последний раз, когда хотел пойти и не с кем — M1, G2. <em>Уточнён:</em> переехавших спрашивать «куда написала, когда некого было позвать»</li>
+        <li><strong>В2</strong> искал ли компанию через интернет, что останавливало — R1, E1, E2</li>
+        <li><strong>В3</strong> сколько раз надо увидеться, чтобы человек перестал быть незнакомцем — R4</li>
+        <li><strong>В4</strong> что должно быть написано о человеке, чтобы согласиться встретиться — G1, S1</li>
+        <li><strong>В5</strong> организовал бы сам, что для этого нужно — R5, S2</li>
+        <li><strong>В6</strong> записывался на бесплатное и не шёл, почему — R3</li>
+        <li><strong>В7</strong> <em>(женщинам)</em> что нужно, чтобы чувствовать себя в безопасности — R2, E3, S3</li>
+      </ul>
+      <p>Каждый job закрывается хотя бы одним вопросом. G5 — единственный, который интервью не закроет: поведение в моменте, только прототип.</p>
+    </section>
+
+    <nav class="lesson-nav" aria-label="Соседние уроки">
+      <a href="research.html">← Урок 1 · Ресерч и бенчмарк</a>
+      <span class="soon">Урок 3 · Информационная архитектура — скоро</span>
+    </nav>
+
+    <footer>
+      <p>
+        Полные рабочие материалы: <a href="persones.md">persones.md</a>,
+        <a href="jtbd.md">jtbd.md</a>, <a href="people.md">people.md</a>,
+        <a href="assumptions.md">assumptions.md</a>. Бриф — <a href="../CLAUDE.md">CLAUDE.md</a>.
+      </p>
+      <p>
+        Страница свёрстана на переменных из <a href="../tokens/tokens.css">tokens/tokens.css</a>.
+      </p>
+      <!--PUBLIC-NOTE-->
+    </footer>
+
+  </main>
+</div>
+
+</body>
+</html>

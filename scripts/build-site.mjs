@@ -1,12 +1,11 @@
 // Сборка публичного сайта.
 //
-// В deploy уходит: редирект в корне, страница итогов research/research.html,
-// токены, которыми она отрисовывается, и только те скриншоты, на которые
-// страница действительно ссылается.
+// В deploy уходит: редирект в корне, страницы уроков, токены, которыми они
+// отрисовываются, и только те скриншоты, на которые страницы действительно ссылаются.
 //
 // Чего в deploy нет: внутренних .md — бриф, разборы, планы. Иначе Vercel
 // отдавал бы продуктовую стратегию статикой по прямым ссылкам.
-// Ссылки страницы на такие файлы переписываются на приватный GitHub: у команды
+// Ссылки страниц на такие файлы переписываются на приватный GitHub: у команды
 // они откроются, у постороннего — упрутся в аутентификацию GitHub.
 
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, rmSync, existsSync } from 'node:fs';
@@ -15,7 +14,9 @@ import { dirname, join, posix } from 'node:path';
 
 const ROOT = process.cwd();
 const OUT = join(ROOT, 'dist');
-const PAGE = 'research/research.html';   // страница относительно корня репозитория
+
+// страницы сайта относительно корня репозитория
+const PAGES = ['research/research.html', 'research/personas.html', 'lessons/index.html'];
 
 // ── база для ссылок на исходники ───────────────────────────────
 // читаем из git, чтобы адрес репозитория не был зашит в скрипт
@@ -46,14 +47,20 @@ function copyAsset(rel) {
   return true;
 }
 
-// ── 1. скриншоты, на которые ссылается страница ────────────────
-// пути в разметке даны относительно research/, приводим к корню репозитория
-const pageDir = posix.dirname(PAGE);
-const page = readFileSync(join(ROOT, PAGE), 'utf8');
+// ── 1. скриншоты, на которые ссылаются страницы ────────────────
+// пути в разметке даны относительно папки страницы, приводим к корню репозитория
+const pages = PAGES.map((rel) => ({
+  rel,
+  dir: posix.dirname(rel),
+  html: readFileSync(join(ROOT, rel), 'utf8'),
+}));
 
-const shots = new Set(
-  [...page.matchAll(/(?:src|href)="([^":]+\.png)"/g)].map((m) => posix.normalize(posix.join(pageDir, m[1])))
-);
+const shots = new Set();
+for (const p of pages) {
+  for (const m of p.html.matchAll(/(?:src|href)="([^":]+\.png)"/g)) {
+    shots.add(posix.normalize(posix.join(p.dir, m[1])));
+  }
+}
 const missing = [];
 for (const rel of shots) if (!copyAsset(rel)) missing.push(rel);
 if (missing.length) {
@@ -61,13 +68,13 @@ if (missing.length) {
   process.exit(1);
 }
 
-// ── 2. токены: страница отрисовывается ими ─────────────────────
+// ── 2. токены: страницы отрисовываются ими ─────────────────────
 if (!copyAsset('tokens/tokens.css')) {
-  console.error('Нет tokens/tokens.css — страница останется без стилей');
+  console.error('Нет tokens/tokens.css — страницы останутся без стилей');
   process.exit(1);
 }
 
-// ── 3. страница: ссылки на внутренние документы уводим на GitHub ─
+// ── 3. страницы: ссылки на внутренние документы уводим на GitHub ─
 const rewritten = [];
 const dropped = [];
 const publish = (html, dirRelativeToRoot) =>
@@ -75,8 +82,14 @@ const publish = (html, dirRelativeToRoot) =>
     const href = attrs.match(/href="([^"]+)"/);
     if (!href) return tag;
     const url = href[1];
-    // внешние ссылки, якоря, страницы сайта и картинки оставляем как есть
-    if (/^(https?:|mailto:|#)/.test(url) || url.endsWith('.html') || url.endsWith('.png')) return tag;
+    // внешние ссылки, якоря, страницы сайта, папки с query и картинки оставляем как есть
+    if (
+      /^(https?:|mailto:|#)/.test(url) ||
+      url.endsWith('.html') ||
+      url.endsWith('.png') ||
+      url.includes('?') ||
+      url.endsWith('/')
+    ) return tag;
 
     if (BLOB) {
       const fromRoot = posix.normalize(posix.join(dirRelativeToRoot, url));
@@ -93,17 +106,19 @@ const note = BLOB
   ? 'Ссылки на документы ведут в приватный репозиторий на GitHub: сами файлы на этом сайте не публикуются.'
   : 'Ссылки на документы сняты: файлы на этом сайте не публикуются.';
 
-mkdirSync(join(OUT, pageDir), { recursive: true });
-writeFileSync(
-  join(OUT, PAGE),
-  publish(page, pageDir).replace('<!--PUBLIC-NOTE-->', `<p>${note}</p>`),
-  'utf8'
-);
+for (const p of pages) {
+  mkdirSync(join(OUT, p.dir), { recursive: true });
+  writeFileSync(
+    join(OUT, p.rel),
+    publish(p.html, p.dir).replace('<!--PUBLIC-NOTE-->', `<p>${note}</p>`),
+    'utf8'
+  );
+}
 
 // ── 4. редирект в корне ────────────────────────────────────────
 writeFileSync(join(OUT, 'index.html'), readFileSync(join(ROOT, 'index.html'), 'utf8'), 'utf8');
 
-// ── 5. без индексации: страница внутренняя ─────────────────────
+// ── 5. без индексации: страницы внутренние ─────────────────────
 writeFileSync(join(OUT, 'robots.txt'), 'User-agent: *\nDisallow: /\n', 'utf8');
 
 // ── 6. проверка: ни одного .md в сборке ────────────────────────
@@ -114,7 +129,7 @@ if (leaked.length) {
 }
 
 console.log(
-  `dist готов: index.html (редирект) + ${PAGE} + tokens.css + ${copied.length - 1} скриншотов\n` +
+  `dist готов: index.html (редирект) + ${PAGES.join(', ')} + tokens.css + ${copied.length - 1} скриншотов\n` +
   (BLOB
     ? `ссылок уведено на ${BLOB}: ${rewritten.length}`
     : `ссылок снято (репозиторий не определён): ${dropped.length}`)

@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Скоро · MeetMates</title>
+<meta name="description" content="Четыре персоны по кабинетному ресерчу, иерархия jobs без функций, JTBD-матрица. Все оценки важности — [?].">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<!-- Единственный источник правды по цвету, радиусам, шкалам и движению -->
+<link rel="stylesheet" href="../tokens/tokens.css">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Итоги исследования. Все значения — из tokens/tokens.css:
+   собственных цветов и радиусов здесь нет (Рабочие соглашения, п. 2).
+   Тёмная тема вне объёма v1 (§10), страница осознанно светлая.
+   Градиент — только на акцентах (§8).
+   ───────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-family: var(--font);
+  font-size: var(--t-body-sm);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip {
+  position: absolute; left: -9999px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface); border-radius: var(--r-sm);
+  font-weight: var(--fw-medium);
+}
+.skip:focus { left: var(--s-4); top: var(--s-4); z-index: 50; outline: 2px solid var(--brand-a); }
+
+.shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  gap: var(--s-7);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  align-items: start;
+}
+
+/* ── Боковая колонка ───────────────────────────────────────── */
+.side {
+  position: sticky; top: 0;
+  max-height: 100vh; overflow-y: auto;
+  padding: var(--s-6) 0 var(--s-6);
+}
+.side .brand {
+  display: flex; align-items: center; gap: var(--s-3);
+  margin-bottom: var(--s-2);
+}
+.side .dot {
+  width: 26px; height: 26px; border-radius: var(--r-pill);
+  background: var(--brand-gradient); flex: none; box-shadow: var(--shadow-sm);
+}
+.side .brand b { font-size: var(--t-body); letter-spacing: -0.01em; }
+.side .stage { font-size: var(--t-caption); color: var(--ink-400); margin: 0 0 var(--s-5); }
+
+.side .lbl {
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-400); margin: 0 0 var(--s-3);
+}
+
+.matlist { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--s-6); }
+.mat {
+  display: flex; gap: var(--s-3); align-items: baseline;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  text-decoration: none; color: var(--ink-900);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.mat:hover, .mat:focus-visible { background: var(--surface-2); }
+.mat:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.mat .n {
+  font-size: var(--t-micro); color: var(--ink-400);
+  font-variant-numeric: tabular-nums; flex: none; min-width: 2ch;
+}
+.mat .t { font-size: var(--t-caption); line-height: 1.45; }
+.mat .t i { display: block; font-style: normal; color: var(--ink-400); font-size: var(--t-micro); }
+.mat.current { background: var(--surface-2); }
+.mat.current .t { font-weight: var(--fw-medium); }
+.mat.soon .t { color: var(--ink-400); }
+.mat.soon .n { color: var(--line); }
+
+.anchors {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: var(--s-4); border-top: 1px solid var(--line);
+}
+.anchors a {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--t-caption);
+  text-decoration: none; color: var(--ink-600);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.anchors a:hover, .anchors a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
+.anchors a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+
+/* ── Основная колонка ──────────────────────────────────────── */
+main { padding: var(--s-7) 0 var(--s-7); min-width: 0; }
+
+.masthead { padding-bottom: var(--s-6); }
+.eyebrow { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand-a); margin: 0 0 var(--s-3); }
+h1 {
+  font-size: var(--t-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+  margin: 0 0 var(--s-4);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+h1 .grad {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.lede { font-size: var(--t-body); color: var(--ink-600); max-width: 60ch; margin: 0 0 var(--s-5); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+.chips span { font-size: var(--t-caption); color: var(--ink-600); }
+.chips b { font-weight: var(--fw-bold); color: var(--ink-900); font-variant-numeric: tabular-nums; }
+.chips a { color: var(--brand-a); }
+
+/* ── Секции ────────────────────────────────────────────────── */
+section { padding-top: var(--s-7); scroll-margin-top: var(--s-4); }
+section > h2 {
+  font-size: var(--t-h1); font-weight: var(--fw-black);
+  letter-spacing: -0.02em; margin: 0 0 var(--s-3);
+  padding-bottom: var(--s-3); border-bottom: 1px solid var(--line);
+}
+section > .intro { font-size: var(--t-body-sm); color: var(--ink-600); max-width: 66ch; margin: 0 0 var(--s-5); }
+
+h3 {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.01em; margin: var(--s-6) 0 var(--s-3);
+}
+h4 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(--s-5) 0 var(--s-2); }
+p { margin: 0 0 var(--s-3); max-width: 72ch; }
+a { color: var(--brand-a); text-underline-offset: 3px; }
+strong { font-weight: var(--fw-bold); }
+
+ul { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+li { margin-bottom: var(--s-2); }
+ol { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+
+/* ── Пара колонок «что видели / что решили» ────────────────── */
+.duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+.duo > div { border-top: 2px solid var(--ink-900); padding-top: var(--s-4); }
+.duo h3 { margin: 0 0 var(--s-3); font-size: var(--t-body); }
+.duo ul { margin: 0; }
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+
+/* ── Таблицы ───────────────────────────────────────────────── */
+.tw {
+  overflow-x: auto; margin: 0 0 var(--s-4);
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+}
+table { border-collapse: collapse; width: 100%; font-size: var(--t-caption); }
+caption {
+  caption-side: bottom; text-align: left;
+  padding: var(--s-3) var(--s-4) 0;
+  font-size: var(--t-micro); color: var(--ink-400); line-height: 1.6;
+}
+th, td {
+  text-align: left; vertical-align: top;
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+thead th {
+  background: var(--surface-2);
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600);
+  white-space: nowrap;
+}
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+tbody th { font-weight: var(--fw-bold); font-size: var(--t-caption); white-space: nowrap; }
+td .lbl-cell { display: none; }
+.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+/* ── Чипы источников ───────────────────────────────────────── */
+.src {
+  display: inline-block;
+  font-size: var(--t-micro); line-height: 1.6;
+  padding: 1px var(--s-2); border-radius: var(--r-sm);
+  background: var(--surface-2); color: var(--ink-600);
+  white-space: nowrap;
+}
+.src.own { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.src.none { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+
+/* ── Выноски ───────────────────────────────────────────────── */
+.note {
+  border-left: 3px solid var(--brand-a);
+  padding: var(--s-2) 0 var(--s-2) var(--s-4);
+  margin: 0 0 var(--s-4); max-width: 72ch;
+  color: var(--ink-600);
+}
+.note.warn { border-left-color: var(--warn); }
+.note p:last-child, .note ul:last-child { margin-bottom: 0; }
+
+.panel {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5);
+  margin: 0 0 var(--s-4); max-width: 80ch;
+}
+.panel h4 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child, .panel ol:last-child { margin-bottom: 0; }
+
+.scores { display: grid; gap: var(--s-1); margin: 0 0 var(--s-4); max-width: 620px; }
+.srow { display: grid; grid-template-columns: 108px 1fr 34px; align-items: center; gap: var(--s-3); }
+.srow .nm { font-size: var(--t-caption); color: var(--ink-600); }
+.srow .bar { height: 16px; border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--brand-a); }
+.srow .v { font-size: var(--t-caption); font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-600); }
+.srow.us .nm, .srow.us .v { color: var(--ink-900); font-weight: var(--fw-bold); }
+.srow.us .bar { background: var(--brand-gradient); }
+.srow.bg .nm, .srow.bg .v { color: var(--ink-400); }
+.srow.bg .bar { background: var(--surface-2); border: 1px solid var(--line); }
+
+/* ── Скриншоты ─────────────────────────────────────────────── */
+.gallery {
+  display: grid; gap: var(--s-5);
+  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+}
+figure { margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+figure a {
+  display: block; border: 1px solid var(--line); border-radius: var(--r-md);
+  overflow: hidden; background: var(--surface-2); line-height: 0;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+figure a:hover, figure a:focus-visible { border-color: var(--brand-a); box-shadow: var(--shadow-md); }
+figure a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 3px; }
+figure img { width: 100%; height: 268px; object-fit: cover; object-position: top center; display: block; }
+figcaption { font-size: var(--t-caption); color: var(--ink-600); line-height: 1.5; }
+figcaption b { display: block; color: var(--ink-900); font-weight: var(--fw-bold); margin-bottom: 2px; }
+figcaption .fn { display: block; margin-top: var(--s-2); font-size: var(--t-micro); color: var(--ink-400); word-break: break-all; }
+
+.wide-shot { grid-column: 1 / -1; }
+.wide-shot .frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2); line-height: 0; }
+.wide-shot img { height: 260px; width: auto; max-width: none; object-fit: fill; }
+
+.lesson-nav {
+  display: flex; justify-content: space-between; gap: var(--s-4);
+  margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--line);
+  font-weight: var(--fw-medium);
+}
+.lesson-nav a { text-decoration: none; }
+footer {
+  margin-top: var(--s-6); padding: var(--s-5) 0 var(--s-7);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-caption); color: var(--ink-400);
+}
+footer a { color: var(--brand-a); }
+footer p { max-width: 72ch; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; gap: 0; }
+  .side { position: static; max-height: none; padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
+  .matlist { display: none; }
+  .side .stage { margin-bottom: var(--s-3); }
+  .anchors { flex-direction: row; flex-wrap: wrap; border-top: none; padding-top: 0; }
+}
+
+/* ── Персоны ───────────────────────────────────────────────── */
+.persona {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5); margin: 0 0 var(--s-5);
+}
+.persona.primary { border-color: var(--brand-a); box-shadow: var(--shadow-sm); }
+.persona.supply { border-style: dashed; }
+.phead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s-4); }
+.phead h3 { margin: 0 0 var(--s-1); }
+.pscene { margin: 0; color: var(--ink-600); font-size: var(--t-caption); max-width: 60ch; }
+.pneed { margin: var(--s-4) 0; padding: var(--s-3) var(--s-4); background: var(--surface-2); border-radius: var(--r-sm); font-size: var(--t-caption); max-width: none; }
+.pgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4) var(--s-5); }
+.pgrid h4 { margin: 0 0 var(--s-2); font-size: var(--t-micro); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-400); }
+.pgrid ul { margin: 0; padding-left: var(--s-4); font-size: var(--t-caption); }
+.pgrid li { margin-bottom: var(--s-1); }
+.pquote {
+  margin: var(--s-5) 0 0; padding: var(--s-4) var(--s-5);
+  border-left: 3px solid var(--brand-a); background: var(--surface-2); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-body-sm); line-height: 1.5;
+}
+.pquote cite { display: block; margin-top: var(--s-2); font-style: normal; font-size: var(--t-micro); color: var(--ink-400); }
+.pnote { margin: var(--s-4) 0 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+@media (max-width: 760px) { .pgrid { grid-template-columns: 1fr; } .phead { flex-direction: column; } }
+
+/* ── Пилюли статуса (как на хабе) ─────────────────────────── */
+.pill { flex: none; font-size: var(--t-micro); font-weight: var(--fw-medium); padding: 3px 10px; border-radius: var(--r-pill); letter-spacing: 0.02em; white-space: nowrap; }
+.pill.ready { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.pill.rules { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+.pill.empty { background: var(--surface-2); color: var(--ink-400); }
+
+/* ── Jobs ──────────────────────────────────────────────────── */
+.job { margin: 0 0 var(--s-4); padding: var(--s-4) var(--s-5); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.job.main { border-color: var(--brand-a); }
+.jcode { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-a); margin-bottom: var(--s-2); }
+.job blockquote { margin: 0 0 var(--s-2); font-size: var(--t-body-sm); font-weight: var(--fw-medium); line-height: 1.5; }
+.job.main blockquote { font-size: var(--t-body); }
+.jmeta { margin: 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+.jlist li { margin-bottom: var(--s-2); }
+.lesson-nav .soon { color: var(--ink-400); }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#content">Перейти к материалу</a>
+
+<div class="shell">
+
+  <!-- ── Боковая колонка ─────────────────────────────────── -->
+  <aside class="side">
+    <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
+    <p class="stage">Design Engineering</p>
+
+    <nav aria-label="Уроки курса">
+      <p class="lbl">Уроки курса</p>
+      <div class="matlist">
+        <a class="mat" href="../research/research.html"><span class="n">01</span><span class="t">Ресерч и бенчмарк<i>готово</i></span></a>
+        <a class="mat" href="../research/personas.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>готово</i></span></a>
+        <a class="mat soon" href="?lesson=3"><span class="n">03</span><span class="t">Информационная архитектура<i>скоро</i></span></a>
+        <a class="mat soon" href="?lesson=4"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>скоро</i></span></a>
+        <a class="mat soon" href="?lesson=5"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>скоро</i></span></a>
+        <a class="mat soon" href="?lesson=6"><span class="n">06</span><span class="t">Концепт<i>скоро</i></span></a>
+        <a class="mat soon" href="?lesson=7"><span class="n">07</span><span class="t">Сборка UI<i>скоро</i></span></a>
+        <a class="mat soon" href="?lesson=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
+        <a class="mat soon" href="?lesson=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
+        <a class="mat soon" href="?lesson=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
+        <a class="mat soon" href="?lesson=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="?lesson=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
+      </div>
+    </nav>
+
+  </aside>
+
+  <!-- ── Материал ────────────────────────────────────────── -->
+  <main id="content">
+    <div class="masthead">
+      <p class="eyebrow" id="eyebrow">Урок</p>
+      <h1 id="title">Скоро</h1>
+      <p class="lede" id="lede">Этот урок ещё не собран. Готовы первые два: ресерч и бенчмарк, персоны и JTBD.</p>
+      <div class="chips">
+        <span><a href="../research/research.html">Урок 1 · Ресерч и бенчмарк</a></span>
+        <span><a href="../research/personas.html">Урок 2 · Персоны и JTBD</a></span>
+      </div>
+    </div>
+    <script>
+      // Заголовок по номеру урока из адреса: ?lesson=N. Имена совпадают с меню слева.
+      (function () {
+        var names = {3:'Информационная архитектура',4:'Прототипирование и вайрфрейминг',5:'Tone of voice и микрокопи',
+                     6:'Концепт',7:'Сборка UI',8:'Design Tokens',9:'Дизайн-система',10:'Responsive',
+                     11:'Анимация и микроинтеракции',12:'Хендофф и документация'};
+        var n = parseInt(new URLSearchParams(location.search).get('lesson'), 10);
+        if (names[n]) {
+          document.getElementById('eyebrow').textContent = 'Урок ' + n + ' из 12';
+          document.getElementById('title').textContent = names[n];
+          document.title = 'Урок ' + n + ' — ' + names[n] + ' · MeetMates';
+          var links = document.querySelectorAll('.mat');
+          links.forEach(function (a) { if (a.querySelector('.n') && a.querySelector('.n').textContent === String(n).padStart(2,'0')) { a.classList.add('current'); a.querySelector('i').textContent = 'текущий урок'; } });
+        }
+      })();
+    </script>
+  </main>
+</div>
+
+</body>
+</html>

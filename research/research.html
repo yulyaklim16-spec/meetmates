@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MeetMates — итоги исследования</title>
+<title>Урок 1 — Ресерч и бенчмарк · MeetMates</title>
 <meta name="description" content="Конкуренты, бенчмарк доверия, паттерны знакомства и выводы. Каждый факт с источником.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,6 +89,8 @@ body {
 .mat .t i { display: block; font-style: normal; color: var(--ink-400); font-size: var(--t-micro); }
 .mat.current { background: var(--surface-2); }
 .mat.current .t { font-weight: var(--fw-medium); }
+.mat.soon .t { color: var(--ink-400); }
+.mat.soon .n { color: var(--line); }
 
 .anchors {
   display: flex; flex-direction: column; gap: 2px;
@@ -108,6 +110,7 @@ body {
 main { padding: var(--s-7) 0 var(--s-7); min-width: 0; }
 
 .masthead { padding-bottom: var(--s-6); }
+.eyebrow { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand-a); margin: 0 0 var(--s-3); }
 h1 {
   font-size: var(--t-display);
   font-weight: var(--fw-black);
@@ -245,8 +248,14 @@ figcaption .fn { display: block; margin-top: var(--s-2); font-size: var(--t-micr
 .wide-shot .frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2); line-height: 0; }
 .wide-shot img { height: 260px; width: auto; max-width: none; object-fit: fill; }
 
+.lesson-nav {
+  display: flex; justify-content: space-between; gap: var(--s-4);
+  margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--line);
+  font-weight: var(--fw-medium);
+}
+.lesson-nav a { text-decoration: none; }
 footer {
-  margin-top: var(--s-7); padding: var(--s-5) 0 var(--s-7);
+  margin-top: var(--s-6); padding: var(--s-5) 0 var(--s-7);
   border-top: 1px solid var(--line);
   font-size: var(--t-caption); color: var(--ink-400);
 }
@@ -257,6 +266,7 @@ footer p { max-width: 72ch; }
   .shell { grid-template-columns: 1fr; gap: 0; }
   .side { position: static; max-height: none; padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
   .matlist { display: none; }
+  .side .stage { margin-bottom: var(--s-3); }
   .anchors { flex-direction: row; flex-wrap: wrap; border-top: none; padding-top: 0; }
 }
 </style>
@@ -270,22 +280,28 @@ footer p { max-width: 72ch; }
   <!-- ── Боковая колонка ─────────────────────────────────── -->
   <aside class="side">
     <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
-    <p class="stage">Этап 1 из 6 — исследование</p>
+    <p class="stage">Design Engineering · Урок 1 из 12</p>
 
-    <nav aria-label="Материалы проекта">
-      <p class="lbl">Материалы</p>
+    <nav aria-label="Уроки курса">
+      <p class="lbl">Уроки курса</p>
       <div class="matlist">
-        <a class="mat current" href="research.html"><span class="n">01</span><span class="t">Исследование<i>текущая страница</i></span></a>
-        <a class="mat" href="../wireframes/README.md"><span class="n">02</span><span class="t">Вайрфреймы<i>только правила</i></span></a>
-        <a class="mat" href="../concept/README.md"><span class="n">03</span><span class="t">Концепция<i>только правила</i></span></a>
-        <a class="mat" href="../tokens/tokens.css"><span class="n">04</span><span class="t">Токены<i>готово</i></span></a>
-        <a class="mat" href="../components/README.md"><span class="n">05</span><span class="t">Компоненты<i>только правила</i></span></a>
-        <a class="mat" href="../handoff/README.md"><span class="n">06</span><span class="t">Хендофф<i>только правила</i></span></a>
+        <a class="mat current" href="research.html"><span class="n">01</span><span class="t">Ресерч и бенчмарк<i>текущий урок</i></span></a>
+        <a class="mat" href="personas.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>готово</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=3"><span class="n">03</span><span class="t">Информационная архитектура<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=4"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=5"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=6"><span class="n">06</span><span class="t">Концепт<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=7"><span class="n">07</span><span class="t">Сборка UI<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="../lessons/?lesson=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
       </div>
     </nav>
 
     <nav class="anchors" aria-label="На этой странице">
-      <p class="lbl">На этой странице</p>
+      <p class="lbl">В этом уроке</p>
       <a href="#overview">Коротко</a>
       <a href="#konkurenty">Конкуренты</a>
       <a href="#benchmark">Бенчмарк доверия</a>
@@ -299,7 +315,8 @@ footer p { max-width: 72ch; }
   <main id="content">
 
     <div class="masthead">
-      <h1>Что мы узнали, <span class="grad">и чего до сих пор не знаем</span></h1>
+      <p class="eyebrow">Урок 1 из 12</p>
+      <h1>Ресерч <span class="grad">и бенчмарк</span></h1>
       <p class="lede">
         Конкурентный ландшафт, бенчмарк доверия и паттерны знакомства — первая внешняя проверка
         допущений продуктового брифа. Собрано 2026-09-09; живые интервью ещё не проводились.
@@ -803,6 +820,11 @@ footer p { max-width: 72ch; }
         </figure>
       </div>
     </section>
+
+    <nav class="lesson-nav" aria-label="Соседние уроки">
+      <span></span>
+      <a href="personas.html">Урок 2 · Персоны и JTBD →</a>
+    </nav>
 
     <footer>
       <p>
