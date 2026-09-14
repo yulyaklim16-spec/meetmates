@@ -248,12 +248,12 @@ figcaption .fn { display: block; margin-top: var(--s-2); font-size: var(--t-micr
 .wide-shot .frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2); line-height: 0; }
 .wide-shot img { height: 260px; width: auto; max-width: none; object-fit: fill; }
 
-.lesson-nav {
+.section-nav {
   display: flex; justify-content: space-between; gap: var(--s-4);
   margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--line);
   font-weight: var(--fw-medium);
 }
-.lesson-nav a { text-decoration: none; }
+.section-nav a { text-decoration: none; }
 footer {
   margin-top: var(--s-6); padding: var(--s-5) 0 var(--s-7);
   border-top: 1px solid var(--line);
@@ -308,7 +308,7 @@ footer p { max-width: 72ch; }
 .job.main blockquote { font-size: var(--t-body); }
 .jmeta { margin: 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
 .jlist li { margin-bottom: var(--s-2); }
-.lesson-nav .soon { color: var(--ink-400); }
+.section-nav .soon { color: var(--ink-400); }
 </style>
 </head>
 <body>
@@ -320,23 +320,23 @@ footer p { max-width: 72ch; }
   <!-- ── Боковая колонка ─────────────────────────────────── -->
   <aside class="side">
     <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
-    <p class="stage">Design Engineering</p>
+    <p class="stage">Разделы проекта</p>
 
-    <nav aria-label="Уроки курса">
-      <p class="lbl">Уроки курса</p>
+    <nav aria-label="Разделы">
+      <p class="lbl">Разделы</p>
       <div class="matlist">
         <a class="mat" href="../research/research.html"><span class="n">01</span><span class="t">Ресерч и бенчмарк<i>готово</i></span></a>
         <a class="mat" href="../research/personas.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>готово</i></span></a>
-        <a class="mat soon" href="?lesson=3"><span class="n">03</span><span class="t">Информационная архитектура<i>скоро</i></span></a>
-        <a class="mat soon" href="?lesson=4"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>скоро</i></span></a>
-        <a class="mat soon" href="?lesson=5"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>скоро</i></span></a>
-        <a class="mat soon" href="?lesson=6"><span class="n">06</span><span class="t">Концепт<i>скоро</i></span></a>
-        <a class="mat soon" href="?lesson=7"><span class="n">07</span><span class="t">Сборка UI<i>скоро</i></span></a>
-        <a class="mat soon" href="?lesson=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
-        <a class="mat soon" href="?lesson=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
-        <a class="mat soon" href="?lesson=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
-        <a class="mat soon" href="?lesson=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
-        <a class="mat soon" href="?lesson=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=3"><span class="n">03</span><span class="t">Информационная архитектура<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=4"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=5"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=6"><span class="n">06</span><span class="t">Концепт<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=7"><span class="n">07</span><span class="t">Сборка UI<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
       </div>
     </nav>
 
@@ -347,10 +347,10 @@ footer p { max-width: 72ch; }
     <div class="masthead">
       <p class="eyebrow" id="eyebrow">Урок</p>
       <h1 id="title">Скоро</h1>
-      <p class="lede" id="lede">Этот урок ещё не собран. Готовы первые два: ресерч и бенчмарк, персоны и JTBD.</p>
+      <p class="lede" id="lede">Этот раздел ещё не собран. Готовы первые два: ресерч и бенчмарк, персоны и JTBD.</p>
       <div class="chips">
-        <span><a href="../research/research.html">Урок 1 · Ресерч и бенчмарк</a></span>
-        <span><a href="../research/personas.html">Урок 2 · Персоны и JTBD</a></span>
+        <span><a href="../research/research.html">Раздел 1 · Ресерч и бенчмарк</a></span>
+        <span><a href="../research/personas.html">Раздел 2 · Персоны и JTBD</a></span>
       </div>
     </div>
     <script>
@@ -359,13 +359,13 @@ footer p { max-width: 72ch; }
         var names = {3:'Информационная архитектура',4:'Прототипирование и вайрфрейминг',5:'Tone of voice и микрокопи',
                      6:'Концепт',7:'Сборка UI',8:'Design Tokens',9:'Дизайн-система',10:'Responsive',
                      11:'Анимация и микроинтеракции',12:'Хендофф и документация'};
-        var n = parseInt(new URLSearchParams(location.search).get('lesson'), 10);
+        var n = parseInt(new URLSearchParams(location.search).get('section'), 10);
         if (names[n]) {
-          document.getElementById('eyebrow').textContent = 'Урок ' + n + ' из 12';
+          document.getElementById('eyebrow').textContent = 'Раздел ' + n + ' из 12';
           document.getElementById('title').textContent = names[n];
-          document.title = 'Урок ' + n + ' — ' + names[n] + ' · MeetMates';
+          document.title = 'Раздел ' + n + ' — ' + names[n] + ' · MeetMates';
           var links = document.querySelectorAll('.mat');
-          links.forEach(function (a) { if (a.querySelector('.n') && a.querySelector('.n').textContent === String(n).padStart(2,'0')) { a.classList.add('current'); a.querySelector('i').textContent = 'текущий урок'; } });
+          links.forEach(function (a) { if (a.querySelector('.n') && a.querySelector('.n').textContent === String(n).padStart(2,'0')) { a.classList.add('current'); a.querySelector('i').textContent = 'текущий раздел'; } });
         }
       })();
     </script>
