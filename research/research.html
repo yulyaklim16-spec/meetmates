@@ -380,71 +380,23 @@ footer p { max-width: 72ch; }
         <p><strong>Что видели сами:</strong> Tinder — 28 экранов с телефона, Meetup — 28 под аккаунтом <span class="src own">08.09.2026</span>. Peanut, BFF и Partiful — полосы Mobbin <span class="src">вторичный источник</span>. Внутренности AMI — <span class="src none">данные не подтверждены</span>.</p>
       </div>
 
-      <div class="tw">
+            <div class="tw">
         <table>
-          <caption>Сводная матрица: выводы × конкуренты. П — паттерн рынка, О — отличие. «Заявлено» означает, что ячейка стоит на словах вендора, а не на увиденном интерфейсе.</caption>
+          <caption>Профиль каждого продукта по шести осям. Последняя строка — мы, чтобы отличие читалось в тех же категориях. «Заявлено» означает, что ячейка стоит на словах вендора, а не на увиденном интерфейсе.</caption>
           <thead>
-            <tr>
-              <th scope="col">Вывод</th>
-              <th scope="col">AMI</th>
-              <th scope="col">Tinder</th>
-              <th scope="col">Peanut</th>
-              <th scope="col">Bumble For Friends</th>
-              <th scope="col">Meetup</th>
-            </tr>
+            <tr><th scope="col">Продукт</th><th scope="col">Группа</th><th scope="col">Аудитория</th><th scope="col">Основа продукта</th><th scope="col">Ключевой механизм</th><th scope="col">Доверие</th><th scope="col">Монетизация</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">П1 · Интент спрашивают все</th>
-              <td>Психосовместимость + дерево интересов</td>
-              <td>«Сейчас я ищу…», шесть карточек</td>
-              <td>Жизненный этап, заявлено</td>
-              <td>Интент-чипы «зачем ты здесь»</td>
-              <td>Три отдельных шага про намерение</td>
-            </tr>
-            <tr>
-              <th scope="row">П2 · Безопасность обещают, рычагов нет</th>
-              <td>На витрине ничего</td>
-              <td>Правила на первом экране, но верификация — фильтр входящих</td>
-              <td>Структурное условие входа, заявлено</td>
-              <td>Блог-статьи и Guidelines в футере</td>
-              <td>Одна настройка приватности, блок-листа нет</td>
-            </tr>
-            <tr>
-              <th scope="row">П3 · Пейволл в онбординге</th>
-              <td>Бесплатно, модели нет</td>
-              <td>Апсел внутри обучающего экрана</td>
-              <td>Реклама, IAP, B2B, офферы</td>
-              <td>Реклама и внутренние покупки</td>
-              <td>Подписка 8-м шагом из 9</td>
-            </tr>
-            <tr>
-              <th scope="row">О1 · Событие как самостоятельная единица</th>
-              <td>Событий нет</td>
-              <td>Explore — режимы поиска людей, не события</td>
-              <td>Встречи внутри групп, ленты нет</td>
-              <td>Events только в футере</td>
-              <td>Событие только внутри группы</td>
-            </tr>
-            <tr>
-              <th scope="row">О2 · Свайп против подбора</th>
-              <td><strong>Подбор без свайпов</strong></td>
-              <td>Свайп — ядро и слоган</td>
-              <td>Свайп по гео и этапу</td>
-              <td>Свайп, отдельным приложением</td>
-              <td>Свайпа нет в принципе</td>
-            </tr>
-            <tr>
-              <th scope="row">О3 · Репутация как проверяемый факт</th>
-              <td>Нет</td>
-              <td>Ни одного сигнала в профиле</td>
-              <td>Верификация заявлена, истории нет</td>
-              <td>Не показана</td>
-              <td>Рейтинг на группе, у человека голые счётчики</td>
-            </tr>
+            <tr><th scope="row">AMI</th><td>хард</td><td>Украина, украиноязычные. Романтика и дружба в одном продукте</td><td>Профиль + дерево интересов + психосовместимость. Событий нет</td><td>Алгоритмический подбор <b>без свайпов</b>, два раздельных режима</td><td><span class="src none">на витрине не заявлено ничего</span></td><td>Бесплатно, модели нет</td></tr>
+            <tr><th scope="row">Tinder</th><td>хард</td><td>190 стран, 18+. Дружба есть — как режим внутри дейтинга</td><td>Фотопрофиль + интересы. Explore — режимы поиска людей, не события</td><td>Свайп → взаимный лайк → чат</td><td>Инструментов больше всех, но верификация — <b>фильтр входящих</b>; в профиле ни одного сигнала</td><td>Подписки и Boost; апсел встроен в обучение</td></tr>
+            <tr><th scope="row">Peanut</th><td>аспирационный</td><td>Женщины на этапе материнства — узкий сегмент с общей срочной потребностью</td><td>Три равноправных контура: свайпы, группы, Q&amp;A</td><td>Свайп по гео и жизненному этапу → чат → группа → встреча</td><td>Селфи-верификация обязательна для всех <span class="src">заявлено вендором</span></td><td>Реклама, внутренние покупки, B2B</td></tr>
+            <tr><th scope="row">Bumble For Friends</th><td>аспирационный</td><td>Дружба, не дейтинг. В Украине недоступно</td><td>Профиль + интент-чипы. События — ссылкой в футере</td><td>Свайп-матчинг, вынесен в отдельное приложение от дейтинга</td><td>Вынесено в контент, а не в интерфейс: статьи и Guidelines</td><td>Реклама и внутренние покупки</td></tr>
+            <tr><th scope="row">Meetup</th><td>аспирационный</td><td>Широкая международная, фактический перекос в профнетворкинг</td><td>Группы → события → профиль. Онбординг 9 шагов, 7 про предпочтения</td><td>Гео + интерес → группа → регулярное событие → RSVP</td><td>Рейтинг стоит <b>на группе</b>, у человека голые счётчики. Блок-листа нет</td><td>Подписка участника €12.99/мес, восьмым шагом из девяти</td></tr>
+            <tr><th scope="row"><b>MeetMates</b></th><td>—</td><td>Киев, 18–35. Дружба, романтического контура нет</td><td>Колода людей + <b>запрос на компанию</b> как вторая единица</td><td>Свайп → матч → чат; отклик на запрос → подтверждение автором → встреча</td><td>Верификация перед контактом, ступень, счётчик подтверждённых встреч</td><td>v1 бесплатен; целевая модель открыта заново (§9)</td></tr>
           </tbody>
         </table>
       </div>
+
 
       <h3>Три общих паттерна рынка</h3>
 
@@ -510,51 +462,23 @@ footer p { max-width: 72ch; }
       </p>
 
       <h3>Ключевые находки по механизмам</h3>
-      <div class="tw">
+            <div class="tw">
         <table>
-          <caption>Три механизма перенесены в MVP, четвёртый добавлен после пересборки бенчмарка, один отклонён осознанно.</caption>
+          <caption>Для каждого механизма — что он закрывает и <b>чего не доказывает</b>. Граница важнее самого сигнала: она решает, как его подписывать в интерфейсе.</caption>
           <thead>
-            <tr>
-              <th scope="col">Механизм</th>
-              <th scope="col">Откуда</th>
-              <th scope="col">Что закрывает</th>
-              <th scope="col">Статус</th>
-            </tr>
+            <tr><th scope="col">Механизм</th><th scope="col">Откуда</th><th scope="col">Что закрывает</th><th scope="col">Граница — чего не доказывает</th><th scope="col">Статус</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">Подтверждение встречи, double-blind</th>
-              <td>Airbnb, BlaBlaCar, Couchsurfing</td>
-              <td>К3 и К4 сразу. Единственный источник истории, который наполняется сам</td>
-              <td>в MVP, §5.5.1</td>
-            </tr>
-            <tr>
-              <th scope="row">Profile Strength</th>
-              <td>Upwork (Rising Talent), BlaBlaCar (levels)</td>
-              <td>К8 — работа на новичке. Единственный сигнал, работающий при пустой базе</td>
-              <td>в MVP, §5.5.2</td>
-            </tr>
-            <tr>
-              <th scope="row">Приватная обратная связь</th>
-              <td>Couchsurfing (Private Reference)</td>
-              <td>Разрыв между «всё нормально» и «пожаловаться»</td>
-              <td>в MVP, §7.5</td>
-            </tr>
-            <tr>
-              <th scope="row">Признак отзывчивости</th>
-              <td>Airbnb (response time), Upwork (тег)</td>
-              <td>К4. Берём отзывчивость, а не присутствие</td>
-              <td>в MVP, §5.5.3</td>
-            </tr>
-            <tr>
-              <th scope="row">Публичный звёздный рейтинг</th>
-              <td>Airbnb, BlaBlaCar, Upwork</td>
-              <td>Ничего — сломал бы продукт</td>
-              <td><strong>отклонён, §10</strong></td>
-            </tr>
+            <tr><th scope="row">Подтверждение встречи, double-blind</th><td>Airbnb, BlaBlaCar, Couchsurfing</td><td>К3 и К4. Единственная история, которая наполняется сама</td><td>Говорит, что человек <b>дошёл</b>, — и ничего о том, как прошло</td><td>в MVP, §5.5.1</td></tr>
+            <tr><th scope="row">Profile Strength</th><td>Upwork (Rising Talent), BlaBlaCar (levels)</td><td>К8 — работа на новичке. Единственный сигнал при пустой базе</td><td>Меряет <b>собственные действия</b>, а не человека и не чужое мнение</td><td>в MVP, §5.5.2</td></tr>
+            <tr><th scope="row">Признак отзывчивости</th><td>Airbnb (response time), Upwork (тег)</td><td>К4 — живая анкета против мёртвой</td><td>Про <b>скорость ответа</b>, не про то, где человек сейчас: бейджа присутствия не делаем</td><td>в MVP, §5.5.3</td></tr>
+            <tr><th scope="row">Приватная обратная связь</th><td>Couchsurfing (Private Reference)</td><td>Разрыв между «всё нормально» и «пожаловаться»</td><td>Ранний сигнал модерации, <b>не наказание</b> и не видимый второй стороне</td><td>в MVP, §7.5</td></tr>
+            <tr><th scope="row">Верификация селфи</th><td>Bumble, Tinder, Peanut</td><td>К1 — что человек тот, за кого себя выдаёт</td><td>Подтверждает <b>живое фото</b>, не личность, не пол и не намерение</td><td>в MVP, §7.3</td></tr>
+            <tr><th scope="row">Публичный звёздный рейтинг</th><td>Airbnb, BlaBlaCar, Upwork</td><td>Ничего — сломал бы продукт</td><td>В эталонах оценивают <b>услугу</b>; у нас оценивали бы человека как друга</td><td>отклонён, §10</td></tr>
           </tbody>
         </table>
       </div>
+
 
       <h4>Почему рейтинг не сработает</h4>
       <ol>
@@ -804,69 +728,70 @@ footer p { max-width: 72ch; }
     <section id="screens">
       <h2>Скриншоты</h2>
       <p class="intro">
-        Десять экранов, на которых держатся выводы выше. Полный набор — 74 файла с подписями
-        в <a href="screens/INDEX.md">screens/INDEX.md</a>. Кликните, чтобы открыть в полном размере.
+        Каждый экран — доказательство одного продуктового решения, а не иллюстрация.
+        В подписи: что из него следует и в какой пункт брифа это ушло.
+        Полный набор — 74 файла в <a href="screens/INDEX.md">screens/INDEX.md</a>.
       </p>
 
       <div class="gallery">
         <figure>
           <a href="screens/tinder--onboarding--10-looking-for.png" target="_blank" rel="noopener">
             <img src="screens/tinder--onboarding--10-looking-for.png" alt="Экран Tinder «Сейчас я ищу…» с шестью карточками намерения" loading="lazy"></a>
-          <figcaption><b>Tinder · шаг намерения</b>«Найти друзей» — одна из шести карточек. Дружба у Tinder есть, но как режим внутри дейтинга.
+          <figcaption><b>Tinder · шаг намерения</b><strong>Дружбу Tinder уже продаёт</strong> — как режим внутри дейтинга, бесплатно и в 190 странах. Значит «мы не дейтинг» работает на него, а не на нас: отстройка переехала на единицу и репутацию (§1).
             <span class="fn">tinder--onboarding--10-looking-for.png</span></figcaption>
         </figure>
         <figure>
           <a href="screens/tinder--discover--20-card-verified.png" target="_blank" rel="noopener">
             <img src="screens/tinder--discover--20-card-verified.png" alt="Карточка Tinder с бейджем Verified и приблизительным расстоянием" loading="lazy"></a>
-          <figcaption><b>Tinder · карточка колоды</b>Verified, «Недалеко» вместо числа, чипы интересов на фото — три из четырёх наших сигналов уже помещаются.
+          <figcaption><b>Tinder · карточка колоды</b><strong>Четыре сигнала доверия на карточку помещаются</strong> — три из них тут уже есть. Правило 12 технически реалистично, а не пожелание.
             <span class="fn">tinder--discover--20-card-verified.png</span></figcaption>
         </figure>
         <figure>
           <a href="screens/tinder--chat--29-message-settings-verified.png" target="_blank" rel="noopener">
             <img src="screens/tinder--chat--29-message-settings-verified.png" alt="Настройки сообщений Tinder: чат с подтверждёнными фото" loading="lazy"></a>
-          <figcaption><b>Tinder · настройки сообщений</b>Верификация как фильтр входящих: включить может лишь тот, кто верифицировался сам. Противоположность нашему гейту.
+          <figcaption><b>Tinder · настройки сообщений</b><strong>Верификация как фильтр входящих, а не гейт:</strong> включить её может лишь тот, кто верифицировался сам. Наш гейт стоит наоборот — перед отправкой (§7.3).
             <span class="fn">tinder--chat--29-message-settings-verified.png</span></figcaption>
         </figure>
         <figure>
           <a href="screens/tinder--profile--30-my-profile-gold.png" target="_blank" rel="noopener">
             <img src="screens/tinder--profile--30-my-profile-gold.png" alt="Свой профиль в Tinder — витрина апселов" loading="lazy"></a>
-          <figcaption><b>Tinder · свой профиль</b>Профиль сделан витриной апселов; репутационных сигналов нет ни одного.
+          <figcaption><b>Tinder · свой профиль</b><strong>Профиль сделан витриной апселов, репутации ноль.</strong> Ниша «репутация из проверяемых фактов» на рынке свободна (§5.5).
             <span class="fn">tinder--profile--30-my-profile-gold.png</span></figcaption>
         </figure>
         <figure>
           <a href="screens/meetup--onboarding--04-intent.png" target="_blank" rel="noopener">
             <img src="screens/meetup--onboarding--04-intent.png" alt="Meetup, шаг 1 из 9: What brings you to Meetup" loading="lazy"></a>
-          <figcaption><b>Meetup · шаг 1 из 9</b>Организатор и участник разводятся на первом же экране. Намерение спрашивают ещё дважды.
+          <figcaption><b>Meetup · шаг 1 из 9</b><strong>Организатор и участник — разные роли с первого экрана.</strong> Мы эту развилку убрали: запрос создаёт обычный участник (§5.4).
             <span class="fn">meetup--onboarding--04-intent.png</span></figcaption>
         </figure>
         <figure>
           <a href="screens/meetup--paywall--12-onboarding-paywall.png" target="_blank" rel="noopener">
             <img src="screens/meetup--paywall--12-onboarding-paywall.png" alt="Пейволл Meetup+ внутри онбординга" loading="lazy"></a>
-          <figcaption><b>Meetup · пейволл в онбординге</b>Восьмой шаг из девяти, €12.99/мес, до первого увиденного события. Бесплатный путь — мелкой ссылкой.
+          <figcaption><b>Meetup · пейволл в онбординге</b><strong>Платить просят раньше, чем показали ценность</strong> — восьмым шагом из девяти, до первого события. Отсюда запрет на любые намёки о деньгах в v1 (§9).
             <span class="fn">meetup--paywall--12-onboarding-paywall.png</span></figcaption>
         </figure>
         <figure>
           <a href="screens/meetup--event--19-detail-top.png" target="_blank" rel="noopener">
             <img src="screens/meetup--event--19-detail-top.png" alt="Карточка события Meetup с рейтингом группы 4.4 звезды" loading="lazy"></a>
-          <figcaption><b>Meetup · карточка события</b>«4.4 ★ · 3 reviews» стоит на группе, а не на человеке. Наш аргумент против рейтинга, подтверждённый независимо.
+          <figcaption><b>Meetup · карточка события</b><strong>Балл стоит на группе, а не на человеке.</strong> Единственный в категории, кто оценивает в социальном контексте, людей всё равно не оценивает (§10).
             <span class="fn">meetup--event--19-detail-top.png</span></figcaption>
         </figure>
         <figure>
           <a href="screens/meetup--profile--27-privacy.png" target="_blank" rel="noopener">
             <img src="screens/meetup--profile--27-privacy.png" alt="Экран Privacy у Meetup с единственной настройкой" loading="lazy"></a>
-          <figcaption><b>Meetup · приватность</b>Вся приватность — одна строка «кто может тебе писать: любой». Ни геолокации, ни блок-листа.
+          <figcaption><b>Meetup · приватность</b><strong>Управлять безопасностью внутри нечем:</strong> одна строка, блок-листа нет. Report и Block с любого экрана — преимущество, а не гигиена (§7.4).
             <span class="fn">meetup--profile--27-privacy.png</span></figcaption>
         </figure>
         <figure>
           <a href="screens/meetup--events--22-create-group-step1.png" target="_blank" rel="noopener">
             <img src="screens/meetup--events--22-create-group-step1.png" alt="Создание группы в Meetup, шаг 1 из 6" loading="lazy"></a>
-          <figcaption><b>Meetup · создание группы</b>Событие нельзя создать, не создав сначала группу — шесть шагов до первого события. У нас два.
+          <figcaption><b>Meetup · создание группы</b><strong>Группа — предусловие события: шесть шагов до первого.</strong> У нас запрос создаётся в один шаг, и это главный барьер, который мы снимаем (§5.4).
             <span class="fn">meetup--events--22-create-group-step1.png</span></figcaption>
         </figure>
         <figure>
           <a href="screens/meetup--safety--28-report-event.png" target="_blank" rel="noopener">
             <img src="screens/meetup--safety--28-report-event.png" alt="Репорт события в Meetup как bottom sheet" loading="lazy"></a>
-          <figcaption><b>Meetup · репорт</b>«We won't share this information with the organizer» — ближайший в категории аналог нашей приватной обратной связи.
+          <figcaption><b>Meetup · репорт</b><strong>Приватный канал жалобы в категории существует</strong> — «we won’t share this information with the organizer». Ближайший аналог нашей приватной обратной связи (§7.5).
             <span class="fn">meetup--safety--28-report-event.png</span></figcaption>
         </figure>
 
@@ -874,21 +799,21 @@ footer p { max-width: 72ch; }
           <div class="frame">
             <img src="screens/partiful--app--01-flow-strip.png" alt="Полоса экранов Partiful: главная, карточка события, управление гостями, шеринг, опросник" loading="lazy">
           </div>
-          <figcaption><b>Partiful · полоса флоу</b>Событие как самостоятельная единица в чистом виде: вкладки Upcoming / Hosting / Open invites, событие подано афишей, приглашение живёт отдельным объектом. Подбора людей нет вовсе.
+          <figcaption><b>Partiful · полоса флоу</b><strong>План как самостоятельная единица работает</strong> — но контура знакомства нет вовсе. Наша ниша ровно между Partiful и Tinder.<span class="src">вторичный источник, Mobbin</span>
             <span class="fn">partiful--app--01-flow-strip.png · вторичный источник, Mobbin</span></figcaption>
         </figure>
         <figure class="wide-shot">
           <div class="frame">
             <img src="screens/bumble-bff--app--04-flow-strip.png" alt="Полоса экранов Bumble For Friends: разрешения, карточка колоды, матч, профиль, гео-гейт, группы" loading="lazy">
           </div>
-          <figcaption><b>Bumble For Friends · полоса флоу</b>На карточке колоды район вместо километров, матч называется «You're connected with». Но в группах — «Active now» и «Last active 21 minutes ago», ровно тот бейдж присутствия, от которого мы отказались.
+          <figcaption><b>Bumble For Friends · полоса флоу</b><strong>Бейдж присутствия живёт в группах:</strong> «Last active 21 minutes ago». Мы от него отказались — отзывчивость показываем, присутствие нет (§5.5.3).<span class="src">вторичный источник, Mobbin</span>
             <span class="fn">bumble-bff--app--04-flow-strip.png · вторичный источник, Mobbin</span></figcaption>
         </figure>
         <figure class="wide-shot">
           <div class="frame">
             <img src="screens/meetup--app--29-flow-strip.png" alt="Полоса экранов Meetup: лента Нью-Йорка, карта событий, карточка события, список участников, профиль организатора" loading="lazy">
           </div>
-          <figcaption><b>Meetup · как выглядит плотность</b>326 going на событие и 328 участников в списке — против 2–6 в киевской ленте. Бейдж «First event» у новичков, на профиле организатора Chat / Add friend.
+          <figcaption><b>Meetup · как выглядит плотность</b><strong>326 участников против 2–6 в киевской ленте.</strong> Механика не сломана — сломана плотность, и это риск №1 нашего широкого сегмента (§2.1).<span class="src">вторичный источник, Mobbin</span>
             <span class="fn">meetup--app--29-flow-strip.png · вторичный источник, Mobbin</span></figcaption>
         </figure>
       </div>
