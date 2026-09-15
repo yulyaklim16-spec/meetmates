@@ -28,12 +28,16 @@ UI-компоненты MeetMates: разметка, стили и поведе�
 **Продуктовые**
 `SwipeCard` (фото, градиентная подложка, имя, возраст, расстояние, общие теги, лейблы LIKE/SKIP) ·
 `SwipeDeck` (стек + физика драга) · `SwipeControls` (skip / like / undo) · `MatchModal` ·
-`EventCard` · `EventDetailHeader` · `ParticipantsRow` · `JoinButton` (Join / Joined / Full) ·
+`PlanCard` · `PlanDetailHeader` · `ParticipantsRow` · `RespondButton` (Ask to join / Waiting / Confirmed) ·
+`SpotsCounter` (двухфазный: going → confirmed) · `WhoCanJoinPicker` (Anyone / Women only / Men only) ·
 `ChatListItem` · `MessageBubble` · `IceBreakerChips` · `ReportSheet` · `VerifiedBadge` ·
 `DistanceLabel` (округлённое расстояние, см. правило геоприватности)
 
 **Состояния**
-`EmptyState` (пустая колода, пустая лента, пустой чат) · `Skeleton` · `ErrorState` · `Toast`
+`EmptyState` (пустая колода, пустая лента запросов, пустой чат) · `Skeleton` · `ErrorState` · `Toast`
+
+*Имена обновлены 2026-09-15 вместе с заменой единицы: событие с организатором
+заменено запросом на компанию — `../CLAUDE.md` §5.4.*
 
 ## Статус
 

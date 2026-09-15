@@ -8,7 +8,7 @@
 - Оттенки серого, одна гарнитура, блоки-плейсхолдеры вместо изображений.
 - Показываем реальные тексты кнопок и заголовков (на английском) — они часть проектирования.
 - Каждый экран рисуется в трёх состояниях: **обычное · пустое · загрузка/ошибка**.
-  Пустые состояния для MeetMates критичны: пустая колода и пустая лента запросов — норма на старте, а не край. Пустая лента событий — это норма на старте.
+  Пустые состояния для MeetMates критичны: пустая колода и пустая лента запросов — норма на старте, а не край.
 - Базовая ширина 390px. Отмечать, что попадает на первый экран без скролла.
 
 ## Что покрываем
@@ -37,6 +37,6 @@
 |---|---|---|
 | First run | Splash · Sign in · Age gate · Profile setup · Interests · Location · Verification | TBD |
 | Swipe → Match → Chat | Deck · Filters · Profile detail · Match modal · Empty deck · Conversation | TBD |
-| Join event | Feed · Event detail · Group chat · Empty feed | TBD |
-| Create event | Step 1 · Step 2 · My events | TBD |
+| Ask to join | Feed · Plan detail · Responses · Plan chat · Empty feed | TBD |
+| Create plan | Один шаг (занятие · сколько нужно · кто может откликнуться) · My plans | TBD |
 | Safety | Report sheet · Block confirm · Safety center · Blocked users | TBD |
