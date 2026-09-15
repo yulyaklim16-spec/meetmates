@@ -23,6 +23,7 @@
 | Раздел | Что внутри | Статус |
 |---|---|---|
 | [CLAUDE.md](./CLAUDE.md) | Продуктовый бриф: объём, экраны, флоу, метрики, допущения | ✅ утверждён |
+| [DECISIONS.md](./DECISIONS.md) | Журнал решений: что, когда, почему и какой ценой — `D-01`…`D-30` | ✅ |
 | [research/](./research/) | [research.md](./research/research.md) — итоги: конкуренты, бенчмарк, паттерны, выводы, два доисследования · [competitor-analysis.md](./research/competitor-analysis.md) — пятёрка по пяти осям · [trust-benchmark.md](./research/trust-benchmark.md) — доверие до первого контакта, 8 критериев × 5 эталонов · [interaction-patterns.md](./research/interaction-patterns.md) — пять паттернов знакомства · [people.md](./research/people.md) — кабинетный ресерч о людях · [assumptions.md](./research/assumptions.md) — смоделированные ответы, карантин · [plan.md](./research/plan.md) — вопросы, гипотезы H1–H6, план интервью · [screens/](./research/screens/) — 74 скрина | 🟡 разборы готовы, интервью TBD |
 | **Люди** | [persones.md](./research/persones.md) и [jtbd.md](./research/jtbd.md) — см. секцию ниже · страницы: [research.html](./research/research.html), [persones.html](./research/persones.html) | 🟡 по кабинетному ресерчу |
 | [wireframes/](./wireframes/) | Низкодетализированные экраны по пяти ключевым флоу | ⬜ не начато |
