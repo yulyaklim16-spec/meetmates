@@ -21,6 +21,14 @@ const PAGES = ['research/research.html', 'research/persones.html', 'sections/ind
 // ── база для ссылок на исходники ───────────────────────────────
 // читаем из git, чтобы адрес репозитория не был зашит в скрипт
 function repoBlobBase() {
+  // На Vercel репозиторий приезжает без .git — git-команды там не работают.
+  // Адрес собираем из переменных окружения сборки, иначе ссылки на исходники
+  // в задеплоенной версии молча превращаются в текст.
+  const { VERCEL_GIT_REPO_OWNER: owner, VERCEL_GIT_REPO_SLUG: slug } = process.env;
+  if (owner && slug) {
+    const branch = process.env.VERCEL_GIT_COMMIT_REF || 'main';
+    return `https://github.com/${owner}/${slug}/blob/${branch}/`;
+  }
   try {
     const url = execSync('git config --get remote.origin.url', { encoding: 'utf8' }).trim();
     const m = url.match(/github\.com[:/](.+?)(?:\.git)?$/);
