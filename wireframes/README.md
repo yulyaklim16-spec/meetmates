@@ -17,7 +17,7 @@
 
 Порядок работы — по пяти ключевым флоу, а не по отдельным экранам:
 
-1. **First run** — Splash → онбординг → первая колода
+1. **First run** — вход → онбординг → первая колода
 2. **Swipe → Match → Chat**
 3. **Ask to join** — лента запросов → карточка запроса → отклик → автор подтвердил → чат
 4. **Create plan** — один шаг
@@ -54,7 +54,7 @@
 
 | Флоу | Экраны | Статус |
 |---|---|---|
-| First run | Splash · Sign in · Age gate · Profile setup · Interests · Location · Verification | TBD |
+| First run | Sign in · Profile setup (с датой рождения) · Interests · Intent · Location · Verification — Splash и age gate стали состояниями `D-38` | TBD |
 | Swipe → Match → Chat | Deck · Filters · Profile detail · Match modal · Empty deck · Conversation | TBD |
 | Ask to join | Feed · Plan detail · Responses · Plan chat · Empty feed | TBD |
 | Create plan | Один шаг (занятие · сколько нужно · кто может откликнуться) · My plans | TBD |

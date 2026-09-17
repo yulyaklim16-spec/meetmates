@@ -451,11 +451,13 @@ safety center (2 тапа).
 
 ### Список экранов прототипа
 
-**Onboarding (вне табов):** Splash → Sign in / Sign up → Age gate 18+ → Profile setup (name, age, photos)
+**Onboarding (вне табов):** Sign in / Sign up → Profile setup (name, date of birth, photos)
 → Interests picker → **Intent picker** → Location permission → Photo verification (selfie,
 с состояниями **Verification failed** и **Sent to manual review** — §7.3) → Discover.
 Верификацию и локацию можно пропустить (skip) с понятной ценой отказа: без верификации
 доступен просмотр и свайпы, но не сообщения и не отклик на запрос (§7.3).
+**Splash и возрастной гейт — состояния, а не экраны** `D-38`: загрузка при старте —
+состояние входа; «младше 18» — отказ на настройке профиля, где и вводится дата рождения.
 
 **Intent picker** — чипы «зачем ты здесь»: `Just moved here` · `New to the city` · `New hobby` ·
 `Weekend plans` · `Work friends` · `Just curious`. Один-два выбора, шаг пропускаемый.
@@ -466,21 +468,22 @@ safety center (2 тапа).
 
 **People:** Deck · Filters sheet · Profile detail · Match modal · Empty deck
 **Plans:** Feed · Filters · Plan detail · Create plan (1 шаг) · My plans · Responses ·
-Plan chat · **Reminder (Still going?)** · **Post-meet check-in** · **Repeat offer** ·
-**Private feedback** · Empty feed
+Plan chat · **Reminder (Still going?)** · **Post-meet check-in** (с полем «Anything off?»,
+`D-38`) · **Repeat offer** · Empty feed
 **Chats:** Chat list (+ empty) · Conversation · Report sheet · Block confirm
 **За аватаром (глубокий слой):** My profile · Edit profile · Interests edit ·
-**Profile strength (что поднимет уровень)** · Settings · Location (разрешение вкл/выкл) ·
-Safety center · Blocked users
+**Profile strength (что поднимет уровень)** · Location (разрешение на онбординге, потом
+вкл/выкл — один экран) · Safety center · Blocked users. **Экрана Settings нет** `D-38`:
+аккаунт и уведомления — backlog
 
 ### Ключевые user flows (обязательны в кликабельном прототипе)
 
-1. **First run:** Splash → онбординг целиком → первая колода.
+1. **First run:** вход → онбординг целиком → первая колода.
 2. **Swipe → Match → Chat:** свайп вправо → match modal → Say hi → диалог.
 3. **Ask to join:** лента → карточка запроса → отклик → автор подтвердил → чат → I am going.
 4. **Create plan:** Plans → + → один шаг → опубликовано → появилось в My plans.
 5. **Safety:** профиль/чат → Report → выбор причины → подтверждение → Block.
-6. **Trust loop:** встреча прошла → Post-meet check-in («Who made it?») → Private feedback →
+6. **Trust loop:** встреча прошла → Post-meet check-in («Who made it?» + «Anything off?») →
    счётчик встреч на профиле вырос → Profile Strength поднялся.
 
 ## 7. Безопасность
@@ -557,8 +560,9 @@ Safety center · Blocked users
 она нужна модерации как ранний сигнал, а не человеку напрямую. Остаётся в MVP на этом
 основании, и это записано, чтобы не искать под неё job задним числом.
 
-- После встречи — необязательное поле **«Anything off?»**. Уходит **только модерации**,
-  вторая сторона не узнаёт никогда.
+- После встречи — необязательное поле **«Anything off?»** на экране check-in, отдельного
+  экрана нет `D-38`. Уходит **только модерации**, вторая сторона не узнаёт никогда.
+  Рядом с «кого видел» поле обязано читаться как заметка о встрече, а не оценка человека.
 - Закрывает разрыв между «всё нормально» и «пожаловаться»: человеку, которому было
   неуютно, но не настолько, чтобы писать жалобу, сейчас некуда деться.
 - Формулировка не обвиняющая: это заметка для команды, а не жалоба.
@@ -667,7 +671,7 @@ Safety center · Blocked users
 | Доля с ≥ 1 матчем за первые 48 часов | Работает ли колода |
 | Доля откликнувшихся или создавших запрос за первую неделю | Работает ли второй контур |
 | **Доля диалогов, дошедших до назначенного дня** `D-37` | **Работает ли основной путь.** R1 — центральный job после `D-37`, и до потоков метрики под него не было. Низкая — чат стал перепиской, а не дорогой |
-| Конверсия онбординга (Splash → профиль с 3+ тегами и фото) | Где отваливаются |
+| Конверсия онбординга (вход → профиль с 3+ тегами и фото) | Где отваливаются |
 | **Конверсия гейта верификации** — доля дошедших до матча, кто верифицировался | Низкая — гейт стоит не там |
 
 ### Ради чего всё
