@@ -16,6 +16,10 @@
 > | `(["Тупик: …"])` | **тупик** — человек не может ничего сделать дальше |
 >
 > Тупики важнее happy-path: именно там продукт теряет человека.
+>
+> **У каждого потока два блока:** сначала разметка текстом — её видно и можно
+> скопировать, — потом та же разметка в блоке `mermaid`, которую GitHub рисует.
+> **При правке меняются оба.**
 
 ---
 
@@ -28,6 +32,104 @@
 **Основной путь — через чат** `D-37`: колода → взаимный свайп → диалог → договорились.
 **Второй путь** — лента запросов: он не зависит от взаимности и потому не убран в глубину.
 Считается от **пустой колоды**: на старте она увидит именно её (`D-22`).
+
+**Разметка `flowchart TD`:**
+
+```
+flowchart TD
+    Start([Открыла приложение после онбординга]) --> Deck[Колода]
+    Deck --> DeckLoad["Loading: грузим людей рядом"]
+    DeckLoad --> HasPeople{Есть люди в радиусе?}
+
+    HasPeople -->|сбой| DeckErr["Error: колода не загрузилась"]
+    DeckErr --> Deck
+    HasPeople -->|нет| DeckEmpty["Empty: людей рядом нет, расширить радиус или посмотреть планы"]
+    HasPeople -->|да| Person[Профиль другого человека]
+
+    DeckEmpty --> WiderRadius{Расширить радиус?}
+    WiderRadius -->|да| Radius["Колода: расширение радиуса"]
+    Radius --> HasPeople
+    WiderRadius -->|нет| Feed
+
+    Person --> Trust{Интересы совпадают и профиль внушает доверие?}
+    Trust -->|нет| Deck
+    Trust -->|да| Like["Колода: лайк отправлен"]
+    Like --> Mutual{Взаимный лайк?}
+    Mutual -->|пока нет| Deck
+    Mutual -->|да| Match[Совпадение]
+
+    Match --> IsVerified{Верифицирована?}
+    IsVerified -->|нет| Gate["Диалог: гейт верификации"]
+    Gate --> Verify[Верификация]
+    Verify --> Recognised{Распознали?}
+    Recognised -->|да| VerifyOk["Верификация: пройдена"]
+    VerifyOk --> Dialog
+    Recognised -->|нет| VerifyFail["Error: не распознали, назвать причину и дать пересдать"]
+    VerifyFail --> ThirdTry{Третья попытка?}
+    ThirdTry -->|нет| Verify
+    ThirdTry -->|да| Manual["Loading: отправили на ручную проверку"]
+    Manual --> StuckManual(["Тупик: ждёт человека, писать пока нельзя"])
+    IsVerified -->|да| Dialog[Диалог]
+
+    Dialog --> Exit{Как выходим из разговора?}
+    Exit -->|никак| DeadChat["Empty: разговор без даты"]
+    DeadChat --> StuckNoPlan(["Тупик: переписка без плана"])
+    Exit -->|договорились сами| DateSet
+    Exit -->|зовём вдвоём в чужой запрос| Pair[Позвать вдвоём в запрос]
+
+    Pair --> SecondAgrees{Второй согласился?}
+    SecondAgrees -->|нет| Dialog
+    SecondAgrees -->|да| AuthorPair{Автор подтвердил пару?}
+    AuthorPair -->|нет| Dialog
+    AuthorPair -->|да| DateSet{День назначен?}
+
+    DateSet -->|нет| StuckNoPlan
+    DateSet -->|да| Remind[Напоминание Still going?]
+    Remind --> Happened{Встреча состоялась?}
+    Happened -->|нет| StuckNoShow(["Тупик: не дошли, компания не собралась"])
+    Happened -->|да| WhoMade[Кто дошёл Who made it?]
+    WhoMade --> Offer[Предложение повторить]
+    Offer --> Again{Повторить с ними же?}
+    Again -->|нет| WinOnce(["Job частично: одна встреча была, продолжения нет"])
+    Again -->|да| Series["Карточка запроса: серия с историей"]
+    Series --> WinRepeat(["Job закрыт: повтор с теми же людьми"])
+
+    Feed[Лента запросов — ВТОРОЙ ПУТЬ] --> FeedLoad["Loading: грузим планы рядом"]
+    FeedLoad --> HasPlans{Есть подходящие запросы?}
+    HasPlans -->|сбой| FeedErr["Error: лента не загрузилась"]
+    FeedErr --> Feed
+    HasPlans -->|да| PlanCard[Карточка запроса]
+    HasPlans -->|нет| FeedEmpty["Empty: планов рядом нет, создать свой"]
+
+    FeedEmpty --> CreateOwn{Создать свой запрос?}
+    CreateOwn -->|нет| StuckNothing(["Тупик: ни людей, ни планов — ушла"])
+    CreateOwn -->|да| Create[Создание запроса]
+    Create --> Published{Опубликовалось?}
+    Published -->|сбой| CreateErr["Error: запрос не опубликовался"]
+    CreateErr --> Create
+    Published -->|да| MyPlans[Мои планы]
+    MyPlans --> Responses[Отклики на мой запрос]
+    Responses --> AnyResponse{Кто-нибудь откликнулся?}
+    AnyResponse -->|нет| RespEmpty["Empty: откликов пока нет"]
+    RespEmpty --> StillAlive{Запрос ещё живой?}
+    StillAlive -->|да| Responses
+    StillAlive -->|нет, 14 дней прошли| Expired["Карточка запроса: погас"]
+    Expired --> Extend{Продлить?}
+    Extend -->|да| MyPlans
+    Extend -->|нет| StuckNoOne(["Тупик: никто не позвал, запрос погас"])
+    AnyResponse -->|да| Confirm["Отклики: подтвердить или отклонить"]
+    Confirm --> Dialog
+
+    PlanCard --> Ask["Карточка запроса: отклик отправлен"]
+    Ask --> Wait["Loading: жду ответа автора"]
+    Wait --> AuthorReplied{Автор ответил?}
+    AuthorReplied -->|отклонил| Rejected["Error: отклик отклонён, искать дальше"]
+    Rejected --> Feed
+    AuthorReplied -->|молчит| StuckSilence(["Тупик: ответа нет, статус не меняется"])
+    AuthorReplied -->|подтвердил| Dialog
+```
+
+**Как это выглядит:**
 
 ```mermaid
 flowchart TD
@@ -171,6 +273,45 @@ flowchart TD
 **Кто:** Даша и Оля. **Центральный job основного пути** `D-37`: всё, что до диалога,
 ведёт сюда, всё, что после, — уже следствие.
 
+**Разметка `flowchart TD`:**
+
+```
+flowchart TD
+    Start([Открылся диалог]) --> Empty["Empty: пустой чат с ice-breaker"]
+    Empty --> Started{Разговор пошёл?}
+    Started -->|нет| Dead
+    Started -->|да| Dialog[Диалог]
+
+    Dialog --> Proposed{Кто-то предложил встретиться?}
+    Proposed -->|нет| Dead["Empty: разговор без даты"]
+    Proposed -->|да| HasActivity{Названо конкретное занятие?}
+
+    HasActivity -->|нет, просто «надо пересечься»| Dead
+    HasActivity -->|да, своё| Create[Создание запроса]
+    HasActivity -->|да, чужое из ленты| Pair[Позвать вдвоём в запрос]
+
+    Create --> Published{Опубликовалось?}
+    Published -->|сбой| CreateErr["Error: запрос не опубликовался"]
+    CreateErr --> Create
+    Published -->|да| DateSet
+
+    Pair --> SecondAgrees{Второй согласился?}
+    SecondAgrees -->|нет| Dialog
+    SecondAgrees -->|да| AuthorPair{Автор подтвердил пару?}
+    AuthorPair -->|нет| Dialog
+    AuthorPair -->|да| DateSet{День назначен?}
+
+    DateSet -->|нет| Dead
+    DateSet -->|да| Remind[Напоминание Still going?]
+    Remind --> Win(["Job закрыт: встреча назначена"])
+
+    Dead --> Revived{Вернулись к разговору за 14 дней?}
+    Revived -->|да| Dialog
+    Revived -->|нет| Stuck(["Тупик: разговор затух, встречи не было"])
+```
+
+**Как это выглядит:**
+
 ```mermaid
 flowchart TD
     Start([Открылся диалог]) --> Empty["Empty: пустой чат с ice-breaker"]
@@ -235,6 +376,47 @@ flowchart TD
 
 **Кто:** Даша, primary.
 
+**Разметка `flowchart TD`:**
+
+```
+flowchart TD
+    Start([В чате зашла речь о встрече]) --> PlanCard[Карточка запроса]
+    PlanCard --> WhoAuthor{Сигналов на карточке достаточно?}
+    WhoAuthor -->|нет| Person[Профиль другого человека]
+    WhoAuthor -->|да| HasVerified{Verified есть?}
+    Person --> HasVerified
+
+    HasVerified -->|нет| GoAnyway{Идти без верификации автора?}
+    GoAnyway -->|нет| StuckUnverified(["Тупик: не пошла, автор не проверен"])
+    GoAnyway -->|да| IsPublic{Место публичное?}
+    HasVerified -->|да| IsPublic
+
+    IsPublic -->|нет, приватный адрес| Warn["Error: приватное место, показать предупреждение"]
+    Warn --> StillGo{Всё равно идти?}
+    StillGo -->|нет| StuckPlace(["Тупик: не пошла, место не устраивает"])
+    StillGo -->|да| Ask["Карточка запроса: отклик отправлен"]
+    IsPublic -->|да| Ask
+
+    Ask --> Wait["Loading: жду ответа автора"]
+    Wait --> Confirmed{Автор подтвердил?}
+    Confirmed -->|нет| Rejected["Error: отклик отклонён, искать дальше"]
+    Rejected --> BackToFeed(["Вернулась в ленту"])
+    Confirmed -->|да| Dialog[Диалог]
+
+    Dialog --> LimitWho{Хочу ограничить, кто идёт?}
+    LimitWho -->|да, только свой пол| Create["Создание запроса: кто может откликнуться"]
+    LimitWho -->|нет| Share[Ссылка близкому Share my plans]
+    Create --> Share
+    Share --> Uneasy{Тревожно после разговора?}
+    Uneasy -->|да| Report[Жалоба]
+    Report --> Block[Блокировка]
+    Block --> StuckBlocked(["Контакт прекращён, человек в списке заблокированных"])
+    Uneasy -->|нет| Safety[Safety center]
+    Safety --> Win(["Job закрыт: пошла, риск был понятен заранее"])
+```
+
+**Как это выглядит:**
+
 ```mermaid
 flowchart TD
     Start([В чате зашла речь о встрече]) --> PlanCard[Карточка запроса]
@@ -295,6 +477,39 @@ flowchart TD
 
 **Кто:** Максим и Оля (secondary), Даша (primary) — источник Холла измерен на переехавших.
 
+**Разметка `flowchart TD`:**
+
+```
+flowchart TD
+    Start([Встреча прошла]) --> WhoMade[Кто дошёл Who made it?]
+    WhoMade --> InWindow{Ответила в окно 14 дней?}
+    InWindow -->|нет| Closed["Empty: окно check-in закрыто"]
+    Closed --> StuckNotCounted(["Тупик: встреча не засчитана, счётчик не вырос"])
+    InWindow -->|да| MarkedBack{Кого-то отметили в ответ?}
+    MarkedBack -->|нет| StuckNoProof(["Тупик: присутствие не подтверждено"])
+    MarkedBack -->|да| Profile["Мой профиль: счётчик встреч вырос"]
+
+    Profile --> WantAgain{Повторить с теми же?}
+    WantAgain -->|нет| Feed[Лента запросов]
+    Feed --> NewSearch(["Job не закрыт: ищет новую компанию"])
+    WantAgain -->|да| Offer[Предложение повторить]
+
+    Offer --> AnyoneIn{Кто-то из участников согласился?}
+    AnyoneIn -->|нет, предложение погасло| OfferDead["Empty: предложение повторить погасло"]
+    OfferDead --> SameGone(["Job не закрыт: состав не собрался"])
+    AnyoneIn -->|да| Series["Карточка запроса: серия с историей"]
+    Series --> SeriesChat["Диалог: чат серии"]
+    SeriesChat --> FromBefore{Пришёл кто-то из прошлого состава?}
+
+    FromBefore -->|нет| SameGone
+    FromBefore -->|да| Remind[Напоминание Still going?]
+    Remind --> SecondTime{Дошли во второй раз?}
+    SecondTime -->|нет| StuckFellApart(["Тупик: серия распалась на второй встрече"])
+    SecondTime -->|да| Win(["Job закрыт: пара с двумя встречами"])
+```
+
+**Как это выглядит:**
+
 ```mermaid
 flowchart TD
     Start([Встреча прошла]) --> WhoMade[Кто дошёл Who made it?]
@@ -351,6 +566,35 @@ flowchart TD
 вопрос «сколько подтвердило» вырождается в «только я или никто».
 **Но экран напоминания рисуется сначала под пару** — там молчание единственного участника
 означает, что встречи не будет вовсе (`D-24`).
+
+**Разметка `flowchart TD`:**
+
+```
+flowchart TD
+    Start([За сутки до встречи]) --> Remind[Напоминание Still going?]
+    Remind --> Answered{Ответила?}
+
+    Answered -->|нет| Silent["Карточка запроса: счётчик going"]
+    Answered -->|Can't make it| Freed["Карточка запроса: место освободилось"]
+    Freed --> WinHonest(["Job закрыт иначе: вышла заранее, честнее молчаливой неявки"])
+    Answered -->|Yes| Confirmed["Карточка запроса: счётчик confirmed"]
+
+    Silent --> SilenceFrees{Молчание освобождает место?}
+    SilenceFrees -->|нет, по правилу| Confirmed
+
+    Confirmed --> HowMany{Сколько подтвердило?}
+    HowMany -->|только я| Alone["Карточка запроса: 1 confirmed"]
+    Alone --> GoAlone{Ехать одной?}
+    GoAlone -->|нет| StuckNotGone(["Тупик: не поехала, компания не собралась"])
+    GoAlone -->|да| WhoMade
+    HowMany -->|двое и больше| WhoMade[Кто дошёл Who made it?]
+
+    WhoMade --> AnyoneElse{Кто-то дошёл кроме меня?}
+    AnyoneElse -->|нет| StuckEmptyTable(["Тупик: приехала к пустому столу, job провален"])
+    AnyoneElse -->|да| Win(["Job закрыт: встреча состоялась, присутствие засчитано"])
+```
+
+**Как это выглядит:**
 
 ```mermaid
 flowchart TD
