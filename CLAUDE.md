@@ -488,10 +488,11 @@ safety center (2 тапа). Экрана «настройки» между ни�
 
 **People:** Deck · Filters sheet · Profile detail · Match modal · Empty deck
 **Plans:** Feed · Filters · Plan detail · Create plan (1 шаг) · My plans · Responses ·
-Plan chat · **Reminder (Still going?)** · **Post-meet check-in** (с полем «Anything off?»,
-`D-38`) · **Repeat offer** · Empty feed
-**Chats:** Chat list (+ empty) · Conversation · Report sheet · Block confirm
-**За аватаром (глубокий слой):** My profile · Edit profile · Interests edit ·
+**Reminder (Still going?)** · **Post-meet check-in** (с полем «Anything off?»,
+`D-38`) · **Repeat offer** · **Share my plans** (§7.2) · Empty feed
+**Chats:** Chat list (+ empty) · Conversation (1:1 и чат запроса — один экран) ·
+**Invite together** (`D-36`, вход из диалога и с карточки запроса) · Report sheet · Block confirm
+**За аватаром (глубокий слой):** My profile · Edit profile (анкета, фото, интересы) ·
 **Profile strength (что поднимет уровень)** · Location (разрешение на онбординге, потом
 вкл/выкл — один экран) · Safety center · Blocked users. **Экрана Settings нет** `D-38`:
 аккаунт и тонкая настройка уведомлений — backlog; само разрешение — состояние карточки

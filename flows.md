@@ -756,7 +756,7 @@ flowchart TD
     Alive -->|нет, 14 дней| Expired["Карточка запроса: погас"]
     Expired --> Extend{Продлить?}
     Extend -->|да| MyPlans
-    Extend -->|нет| BackToFeed([Вернулась в ленту])
+    Extend -->|нет| BackToFeed([Вернулся в ленту])
     Any -->|да, один| Confirm["Отклики: подтвердить или отклонить"]
     Any -->|да, пара вдвоём| PairConfirm["Отклики: пара — подтвердить обоих или никого  D-36"]
     PairConfirm --> Confirm
@@ -764,7 +764,7 @@ flowchart TD
     Verified -->|нет| Gate["Отклики: гейт верификации"]
     Gate --> Verify[Верификация]
     Verify --> Confirm
-    Verified -->|да| Confirmed{Кого-то подтвердила?}
+    Verified -->|да| Confirmed{Кого-то подтвердил?}
     Confirmed -->|никого| Responses
     Confirmed -->|да| DateSet{День назначен?}
     DateSet -->|нет| Dialog["Диалог: чат запроса без даты"]
@@ -775,7 +775,7 @@ flowchart TD
     Happened -->|да| WhoMade[Кто дошёл Who made it?]
     WhoMade --> Offer[Предложение повторить]
     Offer --> Again{Кто-то согласился повторить?}
-    Again -->|нет| Once(["Job частично: собрала один раз"])
+    Again -->|нет| Once(["Job частично: собрал один раз"])
     Again -->|да| Win(["Job закрыт: компания дожила до второй встречи"])
 ```
 
@@ -804,7 +804,7 @@ flowchart TD
     Alive -->|нет, 14 дней| Expired["Карточка запроса: погас"]
     Expired --> Extend{Продлить?}
     Extend -->|да| MyPlans
-    Extend -->|нет| BackToFeed([Вернулась в ленту])
+    Extend -->|нет| BackToFeed([Вернулся в ленту])
     Any -->|да, один| Confirm["Отклики: подтвердить или отклонить"]
     Any -->|да, пара вдвоём| PairConfirm["Отклики: пара — подтвердить обоих или никого  D-36"]
     PairConfirm --> Confirm
@@ -812,7 +812,7 @@ flowchart TD
     Verified -->|нет| Gate["Отклики: гейт верификации"]
     Gate --> Verify[Верификация]
     Verify --> Confirm
-    Verified -->|да| Confirmed{Кого-то подтвердила?}
+    Verified -->|да| Confirmed{Кого-то подтвердил?}
     Confirmed -->|никого| Responses
     Confirmed -->|да| DateSet{День назначен?}
     DateSet -->|нет| Dialog["Диалог: чат запроса без даты"]
@@ -823,7 +823,7 @@ flowchart TD
     Happened -->|да| WhoMade[Кто дошёл Who made it?]
     WhoMade --> Offer[Предложение повторить]
     Offer --> Again{Кто-то согласился повторить?}
-    Again -->|нет| Once(["Job частично: собрала один раз"])
+    Again -->|нет| Once(["Job частично: собрал один раз"])
     Again -->|да| Win(["Job закрыт: компания дожила до второй встречи"])
 ```
 
@@ -872,8 +872,8 @@ flowchart TD
     Steps -->|верификация| Verify[Верификация]
     Steps -->|фото, интересы| Edit[Редактирование профиля]
     Steps -->|только встречи| Feed[Лента запросов]
-    Verify --> Grew
-    Edit --> Grew
+    Verify --> Tier
+    Edit --> Tier
     Feed --> Later(["Job не закрыт: ступень растёт только встречами"])
     Card --> Win(["Job закрыт: на карточке видно, что мне можно доверять"])
 ```
@@ -897,8 +897,8 @@ flowchart TD
     Steps -->|верификация| Verify[Верификация]
     Steps -->|фото, интересы| Edit[Редактирование профиля]
     Steps -->|только встречи| Feed[Лента запросов]
-    Verify --> Grew
-    Edit --> Grew
+    Verify --> Tier
+    Edit --> Tier
     Feed --> Later(["Job не закрыт: ступень растёт только встречами"])
     Card --> Win(["Job закрыт: на карточке видно, что мне можно доверять"])
 ```
