@@ -1,0 +1,1797 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Информационная архитектура · MeetMates</title>
+<meta name="description" content="Дерево экранов с job у каждого экрана, навигация в три слоя, матрица покрытия jobs × экраны и потоки как Mermaid-диаграммы.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<!-- Единственный источник правды по цвету, радиусам, шкалам и движению -->
+<link rel="stylesheet" href="../tokens/tokens.css">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Итоги исследования. Все значения — из tokens/tokens.css:
+   собственных цветов и радиусов здесь нет (Рабочие соглашения, п. 2).
+   Тёмная тема вне объёма v1 (§10), страница осознанно светлая.
+   Градиент — только на акцентах (§8).
+   ───────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-family: var(--font);
+  font-size: var(--t-body-sm);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip {
+  position: absolute; left: -9999px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface); border-radius: var(--r-sm);
+  font-weight: var(--fw-medium);
+}
+.skip:focus { left: var(--s-4); top: var(--s-4); z-index: 50; outline: 2px solid var(--brand-a); }
+
+.shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  gap: var(--s-7);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  align-items: start;
+}
+
+/* ── Боковая колонка ───────────────────────────────────────── */
+.side {
+  position: sticky; top: 0;
+  max-height: 100vh; overflow-y: auto;
+  padding: var(--s-6) 0 var(--s-6);
+}
+.side .brand {
+  display: flex; align-items: center; gap: var(--s-3);
+  margin-bottom: var(--s-2);
+}
+.side .dot {
+  width: 26px; height: 26px; border-radius: var(--r-pill);
+  background: var(--brand-gradient); flex: none; box-shadow: var(--shadow-sm);
+}
+.side .brand b { font-size: var(--t-body); letter-spacing: -0.01em; }
+.side .stage { font-size: var(--t-caption); color: var(--ink-400); margin: 0 0 var(--s-5); }
+
+.side .lbl {
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-400); margin: 0 0 var(--s-3);
+}
+
+.matlist { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--s-6); }
+.mat {
+  display: flex; gap: var(--s-3); align-items: baseline;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  text-decoration: none; color: var(--ink-900);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.mat:hover, .mat:focus-visible { background: var(--surface-2); }
+.mat:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.mat .n {
+  font-size: var(--t-micro); color: var(--ink-400);
+  font-variant-numeric: tabular-nums; flex: none; min-width: 2ch;
+}
+.mat .t { font-size: var(--t-caption); line-height: 1.45; }
+.mat .t i { display: block; font-style: normal; color: var(--ink-400); font-size: var(--t-micro); }
+.mat.current { background: var(--surface-2); }
+.mat.current .t { font-weight: var(--fw-medium); }
+.mat.soon .t { color: var(--ink-400); }
+.mat.soon .n { color: var(--line); }
+
+.anchors {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: var(--s-4); border-top: 1px solid var(--line);
+}
+.anchors a {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--t-caption);
+  text-decoration: none; color: var(--ink-600);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.anchors a:hover, .anchors a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
+.anchors a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+
+/* ── Основная колонка ──────────────────────────────────────── */
+main { padding: var(--s-7) 0 var(--s-7); min-width: 0; }
+
+.masthead { padding-bottom: var(--s-6); }
+.eyebrow { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand-a); margin: 0 0 var(--s-3); }
+h1 {
+  font-size: var(--t-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+  margin: 0 0 var(--s-4);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+h1 .grad {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.lede { font-size: var(--t-body); color: var(--ink-600); max-width: 60ch; margin: 0 0 var(--s-5); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+.chips span { font-size: var(--t-caption); color: var(--ink-600); }
+.chips b { font-weight: var(--fw-bold); color: var(--ink-900); font-variant-numeric: tabular-nums; }
+.chips a { color: var(--brand-a); }
+
+/* ── Секции ────────────────────────────────────────────────── */
+section { padding-top: var(--s-7); scroll-margin-top: var(--s-4); }
+section > h2 {
+  font-size: var(--t-h1); font-weight: var(--fw-black);
+  letter-spacing: -0.02em; margin: 0 0 var(--s-3);
+  padding-bottom: var(--s-3); border-bottom: 1px solid var(--line);
+}
+section > .intro { font-size: var(--t-body-sm); color: var(--ink-600); max-width: 66ch; margin: 0 0 var(--s-5); }
+
+h3 {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.01em; margin: var(--s-6) 0 var(--s-3);
+}
+h4 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(--s-5) 0 var(--s-2); }
+p { margin: 0 0 var(--s-3); max-width: 72ch; }
+a { color: var(--brand-a); text-underline-offset: 3px; }
+strong { font-weight: var(--fw-bold); }
+
+ul { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+li { margin-bottom: var(--s-2); }
+ol { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+
+/* ── Пара колонок «что видели / что решили» ────────────────── */
+.duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+.duo > div { border-top: 2px solid var(--ink-900); padding-top: var(--s-4); }
+.duo h3 { margin: 0 0 var(--s-3); font-size: var(--t-body); }
+.duo ul { margin: 0; }
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+
+/* ── Таблицы ───────────────────────────────────────────────── */
+.tw {
+  overflow-x: auto; margin: 0 0 var(--s-4);
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+}
+table { border-collapse: collapse; width: 100%; font-size: var(--t-caption); }
+caption {
+  caption-side: bottom; text-align: left;
+  padding: var(--s-3) var(--s-4) 0;
+  font-size: var(--t-micro); color: var(--ink-400); line-height: 1.6;
+}
+th, td {
+  text-align: left; vertical-align: top;
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+thead th {
+  background: var(--surface-2);
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600);
+  white-space: nowrap;
+}
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+tbody th { font-weight: var(--fw-bold); font-size: var(--t-caption); white-space: nowrap; }
+td .lbl-cell { display: none; }
+.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+/* ── Чипы источников ───────────────────────────────────────── */
+.src {
+  display: inline-block;
+  font-size: var(--t-micro); line-height: 1.6;
+  padding: 1px var(--s-2); border-radius: var(--r-sm);
+  background: var(--surface-2); color: var(--ink-600);
+  white-space: nowrap;
+}
+.src.own { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.src.none { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+
+/* ── Выноски ───────────────────────────────────────────────── */
+.note {
+  border-left: 3px solid var(--brand-a);
+  padding: var(--s-2) 0 var(--s-2) var(--s-4);
+  margin: 0 0 var(--s-4); max-width: 72ch;
+  color: var(--ink-600);
+}
+.note.warn { border-left-color: var(--warn); }
+.note p:last-child, .note ul:last-child { margin-bottom: 0; }
+
+.panel {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5);
+  margin: 0 0 var(--s-4); max-width: 80ch;
+}
+.panel h4 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child, .panel ol:last-child { margin-bottom: 0; }
+
+.scores { display: grid; gap: var(--s-1); margin: 0 0 var(--s-4); max-width: 620px; }
+.srow { display: grid; grid-template-columns: 108px 1fr 34px; align-items: center; gap: var(--s-3); }
+.srow .nm { font-size: var(--t-caption); color: var(--ink-600); }
+.srow .bar { height: 16px; border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--brand-a); }
+.srow .v { font-size: var(--t-caption); font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-600); }
+.srow.us .nm, .srow.us .v { color: var(--ink-900); font-weight: var(--fw-bold); }
+.srow.us .bar { background: var(--brand-gradient); }
+.srow.bg .nm, .srow.bg .v { color: var(--ink-400); }
+.srow.bg .bar { background: var(--surface-2); border: 1px solid var(--line); }
+
+/* ── Скриншоты ─────────────────────────────────────────────── */
+.gallery {
+  display: grid; gap: var(--s-5);
+  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+}
+figure { margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+figure a {
+  display: block; border: 1px solid var(--line); border-radius: var(--r-md);
+  overflow: hidden; background: var(--surface-2); line-height: 0;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+figure a:hover, figure a:focus-visible { border-color: var(--brand-a); box-shadow: var(--shadow-md); }
+figure a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 3px; }
+figure img { width: 100%; height: 268px; object-fit: cover; object-position: top center; display: block; }
+figcaption { font-size: var(--t-caption); color: var(--ink-600); line-height: 1.5; }
+figcaption b { display: block; color: var(--ink-900); font-weight: var(--fw-bold); margin-bottom: 2px; }
+figcaption .fn { display: block; margin-top: var(--s-2); font-size: var(--t-micro); color: var(--ink-400); word-break: break-all; }
+
+.wide-shot { grid-column: 1 / -1; }
+.wide-shot .frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2); line-height: 0; }
+.wide-shot img { height: 260px; width: auto; max-width: none; object-fit: fill; }
+
+.section-nav {
+  display: flex; justify-content: space-between; gap: var(--s-4);
+  margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--line);
+  font-weight: var(--fw-medium);
+}
+.section-nav a { text-decoration: none; }
+footer {
+  margin-top: var(--s-6); padding: var(--s-5) 0 var(--s-7);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-caption); color: var(--ink-400);
+}
+footer a { color: var(--brand-a); }
+footer p { max-width: 72ch; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; gap: 0; }
+  .side { position: static; max-height: none; padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
+  .matlist { display: none; }
+  .side .stage { margin-bottom: var(--s-3); }
+  .anchors { flex-direction: row; flex-wrap: wrap; border-top: none; padding-top: 0; }
+}
+
+/* ── Персоны ───────────────────────────────────────────────── */
+.persona {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5); margin: 0 0 var(--s-5);
+}
+.persona.primary { border-color: var(--brand-a); box-shadow: var(--shadow-sm); }
+.persona.supply { border-style: dashed; }
+.phead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s-4); }
+.phead h3 { margin: 0 0 var(--s-1); }
+.pscene { margin: 0; color: var(--ink-600); font-size: var(--t-caption); max-width: 60ch; }
+.pneed { margin: var(--s-4) 0; padding: var(--s-3) var(--s-4); background: var(--surface-2); border-radius: var(--r-sm); font-size: var(--t-caption); max-width: none; }
+.pgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4) var(--s-5); }
+.pgrid h4 { margin: 0 0 var(--s-2); font-size: var(--t-micro); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-400); }
+.pgrid ul { margin: 0; padding-left: var(--s-4); font-size: var(--t-caption); }
+.pgrid li { margin-bottom: var(--s-1); }
+.pquote {
+  margin: var(--s-5) 0 0; padding: var(--s-4) var(--s-5);
+  border-left: 3px solid var(--brand-a); background: var(--surface-2); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-body-sm); line-height: 1.5;
+}
+.pquote cite { display: block; margin-top: var(--s-2); font-style: normal; font-size: var(--t-micro); color: var(--ink-400); }
+.pnote { margin: var(--s-4) 0 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+@media (max-width: 760px) { .pgrid { grid-template-columns: 1fr; } .phead { flex-direction: column; } }
+
+/* ── Пилюли статуса (как на хабе) ─────────────────────────── */
+.pill { flex: none; font-size: var(--t-micro); font-weight: var(--fw-medium); padding: 3px 10px; border-radius: var(--r-pill); letter-spacing: 0.02em; white-space: nowrap; }
+.pill.ready { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.pill.rules { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+.pill.empty { background: var(--surface-2); color: var(--ink-400); }
+
+/* ── Jobs ──────────────────────────────────────────────────── */
+.job { margin: 0 0 var(--s-4); padding: var(--s-4) var(--s-5); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.job.main { border-color: var(--brand-a); }
+.jcode { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-a); margin-bottom: var(--s-2); }
+.job blockquote { margin: 0 0 var(--s-2); font-size: var(--t-body-sm); font-weight: var(--fw-medium); line-height: 1.5; }
+.job.main blockquote { font-size: var(--t-body); }
+.jmeta { margin: 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+.jlist li { margin-bottom: var(--s-2); }
+.section-nav .soon { color: var(--ink-400); }
+
+/* ── Раздел 03: дерево, job-подписи, диаграммы ─────────────── */
+.branch { margin: 0 0 var(--s-5); }
+.branch h3 { margin: var(--s-5) 0 var(--s-3); }
+.screens { list-style: none; margin: 0; padding: 0; max-width: none; display: grid; gap: var(--s-2); }
+.screen { border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); padding: var(--s-3) var(--s-4); }
+.screen.same { border-style: dashed; }
+.shead { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-3); }
+.code { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.06em; color: var(--ink-400); font-variant-numeric: tabular-nums; min-width: 3.2em; }
+.sname { font-weight: var(--fw-bold); }
+.jobs { display: inline-flex; flex-wrap: wrap; gap: var(--s-1); }
+.jp { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.04em; padding: 1px 8px; border-radius: var(--r-pill); background: var(--surface-2); color: var(--ink-600); cursor: help; }
+.jp.main { background: var(--brand-gradient); color: var(--ink-on-brand); }
+.jp.hyp { background: var(--surface); border: 1px dashed var(--line); color: var(--ink-400); }
+.who { margin-left: auto; font-size: var(--t-caption); color: var(--ink-400); }
+.who.pri { color: var(--ink-600); }
+.snote { margin: var(--s-2) 0 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+.states { margin: var(--s-2) 0 0; padding-left: 0; list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-2); max-width: none; }
+.states li { margin: 0; font-size: var(--t-micro); color: var(--ink-600); padding: 2px 8px; border-radius: var(--r-sm); background: var(--surface-2); }
+.joblegend { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); margin: 0 0 var(--s-5); font-size: var(--t-caption); color: var(--ink-600); }
+.joblegend span { white-space: nowrap; }
+code.dcode { color: var(--brand-a); background: color-mix(in srgb, var(--brand-a) 8%, var(--surface)); }
+pre.ascii { font-size: var(--t-caption); line-height: 1.45; overflow-x: auto; padding: var(--s-4); background: var(--surface-2); border-radius: var(--r-md); max-width: none; }
+.diagram { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); padding: var(--s-4); margin: var(--s-4) 0; overflow-x: auto; }
+.diagram pre.mermaid { margin: 0; font-size: var(--t-caption); color: var(--ink-400); }
+.diagram svg { display: block; width: 100%; height: auto; max-width: none; }
+.diagram.scroll svg { width: auto; }
+.diagram.scroll { max-height: 80vh; overflow: auto; }
+.dbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); margin: 0 0 var(--s-3); }
+.dbar button { font: inherit; font-size: var(--t-caption); padding: 4px 12px; border-radius: var(--r-pill); border: 1px solid var(--line); background: var(--surface); color: var(--ink-600); cursor: pointer; min-height: 32px; }
+.dbar button.on { background: var(--surface-2); color: var(--ink-900); border-color: var(--ink-400); }
+.dbar button:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 2px; }
+.dbar .dim { font-size: var(--t-micro); color: var(--ink-400); margin-left: auto; }
+.diagram .term-dead > * > path, .diagram .term-dead rect { fill: color-mix(in srgb, var(--danger) 14%, var(--surface)) !important; stroke: var(--danger) !important; }
+.diagram .term-win > * > path, .diagram .term-win rect { fill: color-mix(in srgb, var(--accent) 18%, var(--surface)) !important; stroke: var(--accent) !important; }
+.diagram .term-open > * > path, .diagram .term-open rect { fill: color-mix(in srgb, var(--warn) 18%, var(--surface)) !important; stroke: var(--warn) !important; }
+details.src { margin: 0 0 var(--s-5); }
+details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(--ink-600); }
+details.src pre { margin-top: var(--s-3); }
+.flow { padding-top: var(--s-6); border-top: 1px solid var(--line); }
+.flow h3 { font-size: var(--t-h2); margin-top: 0; }
+.flow blockquote { margin: 0 0 var(--s-4); padding: var(--s-3) var(--s-4); border-left: 3px solid var(--brand-a); background: var(--surface-2); border-radius: 0 var(--r-md) var(--r-md) 0; max-width: 72ch; }
+.flow blockquote p:last-child { margin-bottom: 0; }
+blockquote { margin: 0 0 var(--s-4); padding: var(--s-3) var(--s-4); border-left: 3px solid var(--line); color: var(--ink-600); max-width: 72ch; }
+blockquote p:last-child { margin-bottom: 0; }
+.tw.matrix table { font-size: var(--t-micro); }
+.tw.matrix td.c { text-align: center; }
+.tw.matrix th, .tw.matrix td { padding: 4px 6px; white-space: nowrap; }
+h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(--s-4) 0 var(--s-2); }
+</style>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  // Цвета диаграмм — из токенов (§8): фон узлов surface-2, обводка brand-a, текст ink-900.
+  const css = getComputedStyle(document.documentElement);
+  const v = (n) => css.getPropertyValue(n).trim();
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    securityLevel: 'loose',
+    flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis', padding: 8, nodeSpacing: 28, rankSpacing: 36 },
+    themeVariables: {
+      fontFamily: v('--font') || 'Inter, sans-serif',
+      fontSize: '13px',
+      primaryColor: v('--surface-2') || '#F4F1FB',
+      primaryTextColor: v('--ink-900') || '#14121F',
+      primaryBorderColor: v('--brand-a') || '#7B2FF7',
+      lineColor: v('--ink-600') || '#55506B',
+      secondaryColor: v('--surface') || '#FFFFFF',
+      tertiaryColor: v('--surface') || '#FFFFFF',
+      clusterBkg: v('--surface') || '#FFFFFF',
+      edgeLabelBackground: v('--surface') || '#FFFFFF',
+    },
+  });
+  // Крупные потоки не помещаются в колонку: по умолчанию — по ширине (обзор),
+  // «100 %» — натуральный размер в прокручиваемом окне, «отдельно» — SVG во вкладке.
+  await mermaid.run();
+  for (const box of document.querySelectorAll('.diagram')) {
+    const svg = box.querySelector('svg');
+    if (!svg) continue;
+    // терминалы: тупик — danger, job закрыт — accent, не закрыт / частично — warn
+    for (const node of svg.querySelectorAll('g.node')) {
+      const t = node.textContent.trim();
+      const cls = t.startsWith('Тупик') ? 'term-dead' : t.startsWith('Job закрыт') ? 'term-win' : /^Job (не закрыт|частично)/.test(t) ? 'term-open' : '';
+      if (cls) node.classList.add(cls);
+    }
+    const natural = svg.viewBox.baseVal.width;
+    const bar = document.createElement('div');
+    bar.className = 'dbar';
+    bar.innerHTML = '<button type="button" data-mode="fit" class="on">По ширине</button><button type="button" data-mode="full">100 %</button><button type="button" data-mode="open">Открыть отдельно</button><span class="dim">' + Math.round(natural) + ' px</span>';
+    box.prepend(bar);
+    bar.addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      if (b.dataset.mode === 'open') {
+        const clone = svg.cloneNode(true);
+        clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        clone.style.maxWidth = 'none'; clone.setAttribute('width', natural); clone.removeAttribute('height');
+        const url = URL.createObjectURL(new Blob([clone.outerHTML], { type: 'image/svg+xml' }));
+        window.open(url, '_blank');
+        return;
+      }
+      bar.querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b));
+      if (b.dataset.mode === 'full') { svg.style.width = natural + 'px'; box.classList.add('scroll'); }
+      else { svg.style.width = ''; box.classList.remove('scroll'); }
+    });
+  }
+</script>
+</head>
+<body>
+
+<a class="skip" href="#content">Перейти к материалу</a>
+
+<div class="shell">
+
+  <aside class="side">
+    <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
+    <p class="stage">Разделы проекта</p>
+
+    <nav aria-label="Разделы">
+      <p class="lbl">Разделы</p>
+      <div class="matlist">
+        <a class="mat" href="../research/research.html"><span class="n">01</span><span class="t">Ресерч и бенчмарк<i>готово</i></span></a>
+        <a class="mat" href="../research/persones.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>готово</i></span></a>
+        <a class="mat" href="ia.html"><span class="n">03</span><span class="t">Информационная архитектура<i>готово</i></span></a>
+        <a class="mat soon" href="?section=4"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=5"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=6"><span class="n">06</span><span class="t">Концепт<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=7"><span class="n">07</span><span class="t">Сборка UI<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
+      </div>
+    </nav>
+
+    <nav class="anchors" aria-label="На этой странице">
+      <a href="#tree">Дерево экранов</a>
+      <a href="#nav">Навигация</a>
+      <a href="#trace">Трассировка</a>
+      <a href="#flows">Потоки</a>
+      <a href="#entities">Сущности</a>
+    </nav>
+
+  </aside>
+
+  <main id="content">
+    <div class="masthead">
+      <p class="eyebrow">Раздел 3 из 12</p>
+      <h1><span class="grad">Информационная архитектура</span></h1>
+      <p class="lede">Из чего собирается интерфейс: сущности → экраны с job у каждого → навигация в три слоя → матрица покрытия jobs × экраны → потоки с тупиками и состояниями. Собрано из <a href="../sitemap.md">sitemap.md</a> и <a href="../flows.md">flows.md</a>; страница пересобирается скриптом, руками не правится.</p>
+      <div class="chips">
+        <span><b>30</b> экранов</span>
+        <span><b>3</b> вкладки</span>
+        <span><b>7</b> потоков</span>
+        <span><b>0</b> сирот</span>
+      </div>
+      <!--PUBLIC-NOTE-->
+    </div>
+
+    <section id="tree">
+      <h2>Дерево экранов</h2>
+      <p class="intro">Экран определяется объектом, который показывает; смена статуса — состояние, не экран. У каждого экрана — job, ради которых он существует, и кому он нужен: <b>P</b> — primary-персоне (Даша), <b>S</b> — только secondary, <b>А</b> — Артёму как автору <code>+N</code>.</p>
+      <div class="joblegend"><span><b>M1</b> компания для планов и продолжение</span><span><b>R1</b> довести разговор до встречи</span><span><b>R2</b> решиться идти</span><span><b>R3</b> не приехать к пустому столу</span><span><b>R4</b> увидеться снова, не начиная заново</span><span><b>R5</b> собирать людей и не бросить</span><span><b>E1</b> чувствовать, что это нормально</span><span><b>E2</b> не чувствовать себя навязчивой</span><span><b>E3</b> знать, что можно уйти</span><span><b>S1</b> выглядеть тем, кому можно доверять</span><span><b>S2</b> быть тем, кто собирает</span><span><b>S3</b> чтобы за меня не волновались</span><span><b>G1</b> решить быстро</span><span><b>G2</b> не отказываться от плана</span><span><b>G3</b> найти компанию под конкретное хобби</span><span><b>G4</b> заменить привычку, а не друзей</span><span><b>G5</b> не ждать, когда уже решил</span></div>
+      
+<div class="branch">
+  <h3>Человек</h3>
+  <ol class="screens">
+    <li class="screen">
+      <div class="shead"><span class="code">I.1</span><span class="sname">Профиль другого человека</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="решиться идти">R2</span><span class="jp hyp" title="Решить быстро">G1</span></span><span class="who pri">P</span></div>
+      <p class="snote">фото · интересы с подсветкой общих · сигналы доверия · ближайшие запросы</p>
+      
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">I.2</span><span class="sname">Мой профиль — как меня видят</span><span class="jobs"><span class="jp" title="выглядеть тем, кому можно доверять">S1</span></span><span class="who pri">P</span></div>
+      
+      <ul class="states"><li>счётчик встреч вырос</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">I.3</span><span class="sname">Редактирование профиля</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="выглядеть тем, кому можно доверять">S1</span><span class="jp" title="решиться идти">R2</span></span><span class="who pri">P</span></div>
+      <p class="snote">анкета · фото · интересы · пол</p>
+      
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">I.4</span><span class="sname">Что поднимет уровень</span><span class="jobs"><span class="jp" title="выглядеть тем, кому можно доверять">S1</span></span><span class="who pri">P</span></div>
+      
+      
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">I.5</span><span class="sname">Верификация — селфи по позе</span><span class="jobs"><span class="jp" title="решиться идти">R2</span><span class="jp hyp" title="Не ждать, когда уже решил">G5</span></span><span class="who pri">P</span></div>
+      
+      <ul class="states"><li>захват · обработка · пройдена</li><li>не распознали — причина, пересдать</li><li>на ручной проверке</li><li>камера недоступна / доступ к камере отклонён</li><li>результат ручной проверки: отказ с причиной, пересдать</li></ul>
+    </li>
+  </ol>
+</div>
+
+<div class="branch">
+  <h3>Колода и совпадение</h3>
+  <ol class="screens">
+    <li class="screen">
+      <div class="shead"><span class="code">II.1</span><span class="sname">Колода</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp hyp" title="Решить быстро">G1</span></span><span class="who pri">P</span></div>
+      
+      <ul class="states"><li>полная · ПУСТАЯ (проектируется первой) · расширение радиуса</li><li>загрузка · ОШИБКА загрузки · лайк отправлен</li><li>пусто по фильтрам — Reset filters (действие человека; D-11 расширяет только расстояние)</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">II.2</span><span class="sname">Фильтры колоды</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="решиться идти">R2</span></span><span class="who pri">P</span></div>
+      <p class="snote">возраст · радиус · интересы · только верифицированные</p>
+      
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">II.3</span><span class="sname">Совпадение — модальный момент, «Say hi»</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="не чувствовать себя навязчивой">E2</span></span><span class="who pri">P</span></div>
+      
+      
+    </li>
+  </ol>
+</div>
+
+<div class="branch">
+  <h3>Запрос на компанию</h3>
+  <ol class="screens">
+    <li class="screen">
+      <div class="shead"><span class="code">III.1</span><span class="sname">Лента запросов</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp hyp" title="Не отказываться от плана">G2</span><span class="jp hyp" title="Найти компанию под конкретное хобби">G3</span></span><span class="who pri">P</span></div>
+      
+      <ul class="states"><li>полная · ПУСТАЯ (главный экран старта, D-22) · нет датированных</li><li>загрузка · ОШИБКА загрузки</li><li>пусто по фильтрам — Reset filters</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">III.2</span><span class="sname">Фильтры ленты</span><span class="jobs"><span class="jp hyp" title="Найти компанию под конкретное хобби">G3</span><span class="jp" title="не приехать к пустому столу">R3</span></span><span class="who sec">S — Оля, Артём</span></div>
+      <p class="snote">дата · расстояние · категория · размер компании</p>
+      
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">III.3</span><span class="sname">Карточка запроса</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="довести разговор до встречи">R1</span><span class="jp" title="решиться идти">R2</span><span class="jp" title="не приехать к пустому столу">R3</span><span class="jp" title="увидеться снова, не начиная заново">R4</span><span class="jp" title="знать, что можно уйти">E3</span></span><span class="who pri">P</span></div>
+      <p class="snote">занятие · когда · где · кто нужен · кто откликнулся · автор с сигналами</p>
+      <ul class="states"><li>чужой открытый · отклик отправлен · жду ответа · подтверждена</li><li>ОТКЛИК ОТКЛОНЁН · предупреждение о приватном месте</li><li>счётчик going · счётчик confirmed · место освободилось · 1 confirmed</li><li>свой с откликами · собран · прошёл · погас (продлить) · серия с историей</li><li>из диалога: +1 с датой, в ленте не показывается  D-39</li><li>уведомления: запросить при первом подтверждённом плане · выключены — напоминание и check-in здесь  D-40</li><li>автор не ответил — отозвать · смотреть другие планы</li><li>отменён (свой) · отменена автором (чужой, +1)  D-41</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">III.4</span><span class="sname">Создание запроса — один шаг</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="довести разговор до встречи">R1</span><span class="jp hyp" title="Не отказываться от плана">G2</span><span class="jp" title="собирать людей и не бросить">R5</span><span class="jp" title="быть тем, кто собирает">S2</span></span><span class="who pri">P · А</span></div>
+      <p class="snote">занятие · сколько нужно · кто может откликнуться · шаблоны · опционально: дата · место · описание</p>
+      <ul class="states"><li>ОШИБКА публикации</li><li>загрузка · пустое занятие · плейсхолдер-тест копирайта D-23, не блокирует</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">III.5</span><span class="sname">Отклики на мой запрос</span><span class="jobs"><span class="jp" title="решиться идти">R2</span><span class="jp" title="не приехать к пустому столу">R3</span><span class="jp" title="собирать людей и не бросить">R5</span></span><span class="who pri">P · А</span></div>
+      <p class="snote">подтвердить · отклонить</p>
+      <ul class="states"><li>ПУСТО — никто не откликнулся — смотреть чужие планы</li><li>загрузка · ошибка</li><li>пара: подтвердить обоих или никого  D-36</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">III.6</span><span class="sname">Мои планы</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="увидеться снова, не начиная заново">R4</span></span><span class="who pri">P</span></div>
+      <p class="snote">мои запросы · куда иду · прошедшие · серия — одной строкой</p>
+      <ul class="states"><li>по вкладке пусто</li></ul>
+    </li>
+  </ol>
+</div>
+
+<div class="branch">
+  <h3>Чат — основная дорога к встрече  D-37</h3>
+  <ol class="screens">
+    <li class="screen">
+      <div class="shead"><span class="code">IV.1</span><span class="sname">Список чатов — 1:1 и чаты запросов вместе</span><span class="jobs"><span class="jp" title="увидеться снова, не начиная заново">R4</span><span class="jp" title="довести разговор до встречи">R1</span></span><span class="who pri">P</span></div>
+      
+      <ul class="states"><li>пустой</li><li>архив — после блокировки, причина не показывается  §7.4</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">IV.2</span><span class="sname">Диалог</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="довести разговор до встречи">R1</span><span class="jp" title="увидеться снова, не начиная заново">R4</span><span class="jp" title="не чувствовать себя навязчивой">E2</span></span><span class="who pri">P · А</span></div>
+      <p class="snote">1:1 из совпадения · чат запроса (+1 диалог, +N группа) · серия — один чат · выход наружу: предложить план · позвать вдвоём · назначить день</p>
+      <ul class="states"><li>пустой (ice-breaker) · ГЕЙТ (не верифицирован) · обычный</li><li>РАЗГОВОР БЕЗ ДАТЫ — провал R1, не молчание</li><li>сообщение не отправилось · чат серии</li><li>предложение дня: ждёт ответа второго · принято — запрос создан  D-39</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">IV.3</span><span class="sname">Позвать вдвоём в запрос</span><span class="jobs"><span class="jp" title="довести разговор до встречи">R1</span><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="не чувствовать себя навязчивой">E2</span></span><span class="who pri">P</span></div>
+      <p class="snote">выбор запроса из ленты · согласие второго · один отклик на двоих  D-36 · вход из диалога и с карточки запроса (Invite)</p>
+      <ul class="states"><li>ждёт согласия второго · ждёт автора · подтверждено · отклонено</li><li>второй не верифицирован · на +1 нельзя — такие запросы в выборе скрыты  D-36</li></ul>
+    </li>
+  </ol>
+</div>
+
+<div class="branch">
+  <h3>Встреча</h3>
+  <ol class="screens">
+    <li class="screen">
+      <div class="shead"><span class="code">V.1</span><span class="sname">Напоминание «Still going?»</span><span class="jobs"><span class="jp" title="не приехать к пустому столу">R3</span></span><span class="who sec">S — Оля, Артём</span></div>
+      <p class="snote">Yes · Can't make it · вариант на +1 рисуется первым — D-24, D-35</p>
+      <ul class="states"><li>встреча отменена</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">V.2</span><span class="sname">Кто дошёл «Who made it?»</span><span class="jobs"><span class="jp" title="выглядеть тем, кому можно доверять">S1</span><span class="jp" title="увидеться снова, не начиная заново">R4</span><span class="jp main" title="компания для планов и продолжение">M1</span></span><span class="who pri">P</span></div>
+      <p class="snote">поле «Anything off?» — необязательное, только модерации; было экраном V.5, D-31</p>
+      <ul class="states"><li>окно открыто · пропущено · закрыто</li><li>никто не пришёл · раскладка на паре — отметить одного  D-24</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">V.3</span><span class="sname">Предложение повторить</span><span class="jobs"><span class="jp" title="увидеться снова, не начиная заново">R4</span><span class="jp hyp" title="Заменить привычку, а не друзей">G4</span><span class="jp main" title="компания для планов и продолжение">M1</span></span><span class="who pri">P</span></div>
+      <p class="snote">после даты встречи · любому участнику · живёт 14 дней  D-34</p>
+      <ul class="states"><li>предложено · принято · отклонено · погасло</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">V.4</span><span class="sname">Ссылка близкому «Share my plans»</span><span class="jobs"><span class="jp" title="чтобы за меня не волновались">S3</span></span><span class="who pri">P — S3 в очереди</span></div>
+      
+      <ul class="states"><li>дата не назначена — делиться нечем</li></ul>
+    </li>
+  </ol>
+</div>
+
+<div class="branch">
+  <h3>Безопасность</h3>
+  <ol class="screens">
+    <li class="screen">
+      <div class="shead"><span class="code">VI.1</span><span class="sname">Жалоба — причина, комментарий</span><span class="jobs"><span class="jp" title="знать, что можно уйти">E3</span><span class="jp" title="решиться идти">R2</span></span><span class="who pri">P</span></div>
+      
+      <ul class="states"><li>отправлено · ошибка отправки</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">VI.2</span><span class="sname">Блокировка — подтверждение</span><span class="jobs"><span class="jp" title="знать, что можно уйти">E3</span></span><span class="who pri">P</span></div>
+      
+      
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">VI.3</span><span class="sname">Заблокированные</span><span class="jobs"><span class="jp" title="знать, что можно уйти">E3</span></span><span class="who pri">P</span></div>
+      
+      <ul class="states"><li>пусто</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">VI.4</span><span class="sname">Safety center — перед первой встречей</span><span class="jobs"><span class="jp" title="знать, что можно уйти">E3</span><span class="jp" title="чтобы за меня не волновались">S3</span></span><span class="who pri">P</span></div>
+      
+      <ul class="states"><li>sheet перед первой встречей — второй вход в тот же экран  §7.2</li></ul>
+    </li>
+  </ol>
+</div>
+
+<div class="branch">
+  <h3>Вход в продукт</h3>
+  <ol class="screens">
+    <li class="screen">
+      <div class="shead"><span class="code">VII.2</span><span class="sname">Регистрация / вход</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span></span><span class="who pri">P — по трассировке</span></div>
+      
+      <ul class="states"><li>ЗАГРУЗКА ПРИ СТАРТЕ — было экраном Splash, VII.1</li><li>ошибка входа · email занят · OAuth отменён</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">VII.4</span><span class="sname">Настройка профиля — имя, дата рождения, фото</span><span class="jobs"><span class="jp" title="выглядеть тем, кому можно доверять">S1</span><span class="jp" title="решиться идти">R2</span></span><span class="who pri">P</span></div>
+      
+      <ul class="states"><li>МЛАДШЕ 18 — отказ; возрастной гейт был экраном VII.3</li><li>фото не загрузилось · меньше 2 фото</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">VII.5</span><span class="sname">Выбор интересов — минимум 3</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp hyp" title="Найти компанию под конкретное хобби">G3</span></span><span class="who pri">P</span></div>
+      
+      <ul class="states"><li>меньше 3 интересов</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">VII.6</span><span class="sname">Интент — «зачем ты здесь»</span><span class="jobs"><span class="jp" title="чувствовать, что это нормально">E1</span></span><span class="who pri">P — по трассировке; под вопросом D-08</span></div>
+      
+      <ul class="states"><li>мало данных — срез плотности скрыт, порог [?]</li></ul>
+    </li>
+    <li class="screen">
+      <div class="shead"><span class="code">VII.7</span><span class="sname">Геолокация — разрешение, потом вкл/выкл</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span></span><span class="who pri">P — по трассировке, D-32</span></div>
+      
+      <ul class="states"><li>запрос на онбординге · включена · выключена — было экраном VIII.2</li><li>отклонено в ОС — как включить (ведёт в настройки ОС)</li></ul>
+    </li>
+    <li class="screen same">
+      <div class="shead"><span class="code">= I.5</span><span class="sname">Верификация — тот же экран, что в «Человек»</span><span class="jobs"><span class="jp" title="решиться идти">R2</span><span class="jp hyp" title="Не ждать, когда уже решил">G5</span></span><span class="who pri">P</span></div>
+      <p class="snote">пропускаема, с названной ценой: «verify to start chatting»</p>
+      
+    </li>
+  </ol>
+</div>
+      <details class="src"><summary>Правила раздела и сводка</summary><p><strong>Правила раздела.</strong></p>
+<ul><li>Экраны выведены из сущностей и jobs, <strong>не из структуры конкурентов</strong>. Вкладок здесь нет — группировка по объектам и по тому, что человек пытается сделать.</li>
+<li>У каждого экрана в скобках — job со ссылкой на [<code>jtbd.md</code>](./research/jtbd.md). Нет job — <strong>[СИРОТА]</strong>.</li>
+<li><strong>Empty · loading · error · гейт — состояния экрана, не экраны.</strong> Они стоят под экраном с пометкой <code>~</code>. Пустая колода — состояние колоды, хотя проектируется первой.</li>
+<li>Глубина — два уровня: объект → экран. Третий уровень появится на шаге 3 сознательно.</li>
+<li>Состояния, помеченные ЗАГЛАВНЫМИ, найдены при построении потоков ([<code>flows.md</code>](./flows.md), 2026-09-17) — их в инвентаризации не было.</li>
+<li>Состояния обычным регистром без пометки — добавлены разбором тупиков и состояний 2026-09-18.</li></ul>
+<p><strong>Обозначения.</strong> <code>P</code> — нужен primary-персоне (Даша): среди jobs экрана есть её job по матрице. <code>S</code> — только secondary (Максим · Оля · Артём). <code>А</code> — нужен Артёму как автору <code>+N</code>. <code>~</code> — состояние. Job в скобках, ссылка ведёт на формулировку.</p><p><strong>Отклик</strong> и <strong>Серия</strong> своих экранов не имеют: отклик — действие на карточке запроса, «жду ответа» — её состояние; серия — строка в «Моих планах», история на карточке и один чат.</p>
+<p><strong>Почему в дереве нет вкладок.</strong> Дерево — не навигация: ветки здесь объекты, а не разделы. Как до экранов добираться, выведено ниже в разделе «Навигация» из того, что человек делает чаще — и получилось три вкладки, а не четыре <code class="dcode">D-33</code>.</p>
+<h4 id="сводка">Сводка</h4>
+<div class="tw"><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody>
+<tr><td>Экранов</td><td><strong>30</strong></td><td>без состояний; верификация посчитана один раз, хотя стоит в двух ветках. Было 35: пять стали состояниями по трассировке</td></tr>
+<tr><td>С job</td><td><strong>30</strong></td><td>три из них — по трассировке (<code>✓*</code>): регистрация, интент, геолокация</td></tr>
+<tr><td><strong>Сироты</strong></td><td><strong>0</strong></td><td>было 8; решения по каждой — раздел «Трассировка»</td></tr>
+<tr><td>Только secondary</td><td><strong>2</strong></td><td>фильтры ленты (G3, R3) · напоминание «Still going?» (R3)</td></tr>
+<tr><td>Нужны Артёму как автору <code>+N</code></td><td>3</td><td>создание · отклики на мой запрос · диалог группы; check-in — общий, не авторский</td></tr>
+</tbody></table></div>
+<p><strong>Что сироты сказали.</strong> Восемь экранов без job были известны по инвентаризации сущностей — <strong>ни один не нашёлся неожиданно</strong>. Разбор в «Трассировке» показал, что четыре из них не экраны, а состояния других (Splash, возрастной гейт, геолокация вкл/выкл, приватная обратная связь), три закрывают job, который просто не был назван (регистрация, интент, геолокация), и один — настройки — не нужен никому и ушёл в backlog.</p>
+<p><strong>Что говорит колонка «кому».</strong> Из 30 экранов с job только два не нужны Даше — и оба про <code>+N</code>-компанию. Primary-путь идёт через колоду, запрос на <code>+1</code> и чат; всё про группу и явку — сторона Оли и Артёма. Это подтверждает <code class="dcode">D-24</code>: продукт под пару в первую очередь.</p>
+<h4 id="две-проверки-до-шага-3">Две проверки до шага 3</h4>
+<ol><li><s><strong>Владение R3</strong></s> — **решено <code class="dcode">D-35</code>:** R3 остаётся групповым job, владельцы Оля и Артём. Напоминание <code>Still going?</code> — secondary по владению, **но вариант на <code>+1</code> рисуется первым**: там молчание единственного участника означает, что встречи не будет вовсе (<code class="dcode">D-24</code>).</li>
+<li>~~**Формулировка <code class="dcode">D-26</code><strong>~~ — </strong>выровнена 17.09:** «не распознали» и «на ручной проверке» названы состояниями и в журнале, и в брифе. Само правило «экран или состояние» перенесено в §6 брифа, чтобы расхождение не возникало снова.</li></ol></details>
+    </section>
+
+    <section id="nav">
+      <h2>Навигация</h2>
+      <p>Экраны — из раздела выше, нового дерева нет. Здесь решается только, <strong>как до них добираться</strong>: что видно всегда, что появляется в потоке, что спрятано.</p>
+<h4 id="1-глобальная-навигация-три-пункта">1. Глобальная навигация — три пункта</h4>
+<p>Каждый пункт — вход в кластер jobs, и у каждого названо, <strong>какой job за ним стоит</strong>. Четвёртого пункта нет сознательно — объяснение ниже.</p>
+<div class="tw"><table><thead><tr><th>Пункт</th><th>Экран за ним</th><th>Job-кластер</th><th>Почему это отдельный вход</th></tr></thead><tbody>
+<tr><td><strong>People</strong></td><td>Колода</td><td><strong>M1</strong> «знакомство по интересам» · G1 «решить быстро»</td><td>Единственный экран, где человек <strong>выбирает людей</strong>. Начало основного пути <code class="dcode">D-10</code>, <code class="dcode">D-37</code></td></tr>
+<tr><td><strong>Plans</strong></td><td>Лента запросов · сегмент «Мои»</td><td><strong>M1</strong> · G2 · G3 · R4 (мои планы — продолжить)</td><td><strong>Второй путь и дом объекта.</strong> Основной идёт через чат <code class="dcode">D-37</code>, но он вероятностный — отклик зависит только от человека</td></tr>
+<tr><td><strong>Chats</strong></td><td>Список чатов</td><td><strong>R1 довести разговор до встречи</strong> · R4 «продолжить с теми же»</td><td><strong>Дорога к встрече на основном пути</strong> <code class="dcode">D-37</code>, не просто переписка. И единственное место, где уже найденные люди</td></tr>
+</tbody></table></div>
+<p><strong>Почему не четыре.</strong> В первой версии брифа §6 стояла четвёртая вкладка — Profile. Job за ней есть: S1 «выглядеть тем, кому можно доверять», верификация (R2, G5), «что поднимет уровень». Но это <strong>редкие действия</strong>: профиль правят раз в неделю, верификацию проходят один раз, ступень смотрят иногда. Вкладка на постоянной панели нужна тому, что делают <strong>каждый день</strong>, а Profile попал бы туда потому, что так у всех. Он уходит в <strong>глубокий слой</strong> — за аватар в шапке любого глобального экрана, один тап отовсюду.</p>
+<blockquote><p>**Принято <code class="dcode">D-33</code>:** §6 брифа переписан под три вкладки, профиль в глубоком слое. Глубина main job от этого не изменилась — она 3 тапа при любом варианте.</p></blockquote>
+<p><strong>Что ещё не попало в глобальное — и почему:</strong></p>
+<ul><li><strong>«+» создать запрос</strong> — не плавающая кнопка на всех экранах, а кнопка в шапке Plans и <strong>в каждом пустом состоянии</strong> (обязательство §2.1, п. 3). Она про один объект, ей место рядом с ним.</li>
+<li><strong>Мои планы</strong> — сегмент внутри Plans (Лента · Мои), не отдельный пункт: это тот же объект с другой стороны.</li>
+<li><strong>Уведомления</strong> — не пункт и не экран: напоминание и check-in приходят пушем и открывают свой экран напрямую.</li></ul>
+<h4 id="2-глубина-до-main-job">2. Глубина до main job</h4>
+<p><strong>Main job:</strong> собрать в новом городе двух-трёх людей, с кем можно куда-то пойти без повода. <strong>Primary-персона:</strong> Даша, переехала.</p>
+<p><strong>Что считаем.</strong> Целиком job закрывается неделями — двумя-тремя состоявшимися встречами и повтором, — и тапами не меряется; его меряет метрика повтора (§11). Тапами меряется <strong>первое действие, которое двигает M1</strong>: откликнуться на чей-то план или опубликовать свой. Первый экран после онбординга — колода (<code class="dcode">D-10</code>). На старте она <strong>пустая</strong> (<code class="dcode">D-22</code>): считаем от неё, потому что реальная Даша увидит именно её.</p>
+<div class="tw"><table><thead><tr><th>Путь</th><th>Тапы</th><th></th></tr></thead><tbody>
+<tr><td><strong>Откликнуться на чужой план</strong></td><td>Колода (пустая) → <code>Plans</code> <strong>1</strong> → карточка запроса <strong>2</strong> → <code>Ask to join</code> <strong>3</strong></td><td><strong>3</strong></td></tr>
+<tr><td><strong>Опубликовать свой</strong></td><td>Колода → <code>Plans</code> <strong>1</strong> → <code>+</code> <strong>2</strong> → заполнить одно поле и <code>Post</code> <strong>3</strong></td><td><strong>3</strong> <em>+ ввод</em></td></tr>
+<tr><td>Через человека</td><td>Колода → карточка <strong>1</strong> → профиль → его запрос <strong>2</strong> → <code>Ask to join</code> <strong>3</strong></td><td><strong>3</strong>, только если у человека есть запрос</td></tr>
+<tr><td>Через совпадение</td><td>Свайп → совпадение → <code>Say hi</code> → сообщение</td><td>не считается: совпадение — вероятность, не действие</td></tr>
+</tbody></table></div>
+<p><strong>Глубина — 3. Ровно на границе, перестраивать не нужно.</strong></p>
+<p><strong>Компромисс, который эту тройку даёт.</strong> Один тап из трёх — цена <code class="dcode">D-10</code>: первый экран колода, а не лента. Если бы продукт открывался планами, путь был бы <strong>2</strong> (лента → карточка → отклик). Решение принято с этой ценой сознательно, и вот что её гасит:</p>
+<ul><li><strong>пустая колода ведёт в планы одним тапом</strong> — не «нет людей», а «посмотреть планы рядом»;</li>
+<li><strong>выход в планы есть на колоде всегда</strong>, не только в пустом состоянии (§4);</li>
+<li>сама <code>Plans</code> — глобальная, а не спрятанная за профилем: путь через человека тоже 3, но он работает, только если у человека есть запрос.</li></ul>
+<p><strong>Что было бы 4 и почему этого не будет:</strong> Plans внутри Profile, или «Мои планы» отдельной вкладкой с лентой внутри, или карточка запроса за двумя экранами — любой из вариантов даёт 4. Именно поэтому Plans в глобальной панели, а Profile — нет.</p>
+<p><strong>Онбординг не считается:</strong> это один раз. Но записано, сколько там шагов до первой колоды — шесть экранов после <code class="dcode">D-38</code>, из них три пропускаемые (интент, геолокация, верификация).</p>
+<p><strong>Два пути, которые укорачивает пуш</strong> <code class="dcode">D-40</code>:</p>
+<ul><li>Г3 — отклики: пуш «X wants to join» → 1 тап;</li>
+<li>Г6 — предложение повторить: пуш → 1 тап; без пуша — с карточки прошедшей встречи.</li></ul>
+<h4 id="3-три-слоя">3. Три слоя</h4>
+<p><strong>Глобальное — видно всегда.</strong> Нижняя панель <code>People · Plans · Chats</code> · аватар в шапке (вход в глубокий слой) · на <code>Plans</code> — кнопка <code>+</code>.</p>
+<p><strong>Контекстное — появляется в потоке, когда есть объект.</strong></p>
+<div class="tw"><table><thead><tr><th>Появляется</th><th>Откуда</th></tr></thead><tbody>
+<tr><td>Создание запроса</td><td><code>+</code> в шапке Plans и в каждом пустом состоянии</td></tr>
+<tr><td>Фильтры колоды · фильтры ленты</td><td>Иконка на колоде / ленте → bottom sheet</td></tr>
+<tr><td>Карточка запроса</td><td>Из ленты, из профиля человека, из чата, из пуша</td></tr>
+<tr><td>Совпадение</td><td>Модальный момент после взаимного лайка</td></tr>
+<tr><td>Диалог</td><td>Из списка чатов, из совпадения, из подтверждённого отклика</td></tr>
+<tr><td>Назначить день</td><td>Действие в композере диалога, 2 тапа от Chats  D-39</td></tr>
+<tr><td>Позвать вдвоём</td><td>Из диалога — и с карточки запроса в ленте кнопкой <code>Invite</code> (выбор из совпадений): Plans → карточка → Invite, 3 тапа</td></tr>
+<tr><td>Гейт верификации</td><td>Внутри диалога и на <code>Ask to join</code>, когда не верифицирован</td></tr>
+<tr><td>Отклики на мой запрос</td><td>Список откликов <strong>первой строкой</strong> в <code>Plans → Мои</code>, не за карточкой; бейдж на вкладке</td></tr>
+<tr><td>Разрешение на уведомления</td><td>Sheet на карточке при первом подтверждённом плане  D-40</td></tr>
+<tr><td>Напоминание <code>Still going?</code></td><td>Пуш за сутки → свой экран; без пуша — с карточки плана</td></tr>
+<tr><td>Кто дошёл <code>Who made it?</code></td><td>Пуш после встречи → свой экран</td></tr>
+<tr><td>Поле «Anything off?»</td><td>На экране <code>Who made it?</code>, необязательное</td></tr>
+<tr><td>Ссылка близкому</td><td>С карточки встречи <strong>и из шапки диалога</strong>, когда дата назначена</td></tr>
+<tr><td>Safety tips</td><td>Sheet при первом подтверждённом плане — содержимое Safety center (VI.4); сам раздел остаётся за аватаром</td></tr>
+<tr><td>Жалоба · блокировка</td><td>Меню <code>⋯</code> на любом экране, где виден другой человек</td></tr>
+<tr><td>Расширение радиуса</td><td>Карточка-разделитель внутри колоды</td></tr>
+</tbody></table></div>
+<p><strong>Глубокое — редкие действия, за аватаром.</strong></p>
+<div class="tw"><table><thead><tr><th>Экран</th><th>Тапов от любого глобального</th></tr></thead><tbody>
+<tr><td>Мой профиль</td><td>1</td></tr>
+<tr><td>Редактирование · что поднимет уровень · верификация</td><td>2</td></tr>
+<tr><td>Геолокация · заблокированные · safety center</td><td>2</td></tr>
+</tbody></table></div>
+<p>Верификация — в двух слоях сразу: глубоко (по своей воле) и контекстно (гейт в момент максимальной мотивации, <code class="dcode">D-03</code>). Второй вход важнее первого.</p>
+<p><strong>Одноразовое — онбординг, до первого глобального экрана.</strong> Регистрация / вход → настройка профиля (с датой рождения) → выбор интересов → интент → геолокация → верификация → колода. Шесть экранов, три пропускаемые; Splash и возрастной гейт — состояния первого и второго <code class="dcode">D-38</code>. В слои не входит: после первого прохода к ним не возвращаются, а профиль и верификация дальше живут в глубоком слое.</p>
+<h4 id="сводка-навигации">Сводка навигации</h4>
+<div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>Глобальных пунктов</td><td><strong>3</strong> — People · Plans · Chats; каждый с названным job</td></tr>
+<tr><td>Глубина до первого действия в main job</td><td><strong>3 тапа</strong> на всех детерминированных путях</td></tr>
+<tr><td>Цена <code class="dcode">D-10</code></td><td>1 тап из 3; гасится выходом в планы с колоды</td></tr>
+<tr><td>Расхождение с брифом</td><td>снято: §6 переписан под три вкладки <code class="dcode">D-33</code></td></tr>
+</tbody></table></div>
+    </section>
+
+    <section id="trace">
+      <h2>Трассировка</h2>
+      <blockquote><p>Матрица покрытия <strong>jobs × экраны</strong>. Строки — все jobs <code>jtbd.md</code> с данными о людях: main, related, emotional, social — двенадцать. Столбцы — все экраны из дерева выше, теми же кодами. <code>✓</code> стоит, если экран <strong>реально участвует в закрытии job</strong> — так, как зафиксировано тегом в дереве, — а не «как-то касается».</p>
+<p>Гипотезы G1–G5 строками не идут: в <code>jtbd.md</code> это jobs <strong>без данных о людях</strong>, и матрица покрытия считает только подтверждённые. Их теги в дереве остаются, справочно: G1 — I.1, II.1 · G2 — III.1, III.4 · G3 — III.1, III.2, VII.5 · G4 — V.3 · G5 — I.5.</p></blockquote>
+<p><strong>Коды экранов:</strong> I.1 Профиль другого человека · I.2 Мой профиль · I.3 Редактирование профиля · I.4 Что поднимет уровень · I.5 Верификация · II.1 Колода · II.2 Фильтры колоды · II.3 Совпадение · III.1 Лента запросов · III.2 Фильтры ленты · III.3 Карточка запроса · III.4 Создание запроса · III.5 Отклики на мой запрос · III.6 Мои планы · IV.1 Список чатов · IV.2 Диалог · IV.3 Позвать вдвоём в запрос · V.1 Напоминание Still going? · V.2 Кто дошёл Who made it? · V.3 Предложение повторить · V.4 Ссылка близкому Share my plans · VI.1 Жалоба · VI.2 Блокировка · VI.3 Заблокированные · VI.4 Safety center · VII.2 Регистрация / вход · VII.4 Настройка профиля · VII.5 Выбор интересов · VII.6 Интент · VII.7 Геолокация.</p>
+<p><code>✓</code> — из дерева. <code>✓*</code> — привязано здесь, решением по конкретной сироте. <code>Σ</code> — отметок в строке и столбце; цель — ни одного нуля.</p>
+<div class="tw matrix"><table><thead><tr><th>Job</th><th>I.1</th><th>I.2</th><th>I.3</th><th>I.4</th><th>I.5</th><th>II.1</th><th>II.2</th><th>II.3</th><th>III.1</th><th>III.2</th><th>III.3</th><th>III.4</th><th>III.5</th><th>III.6</th><th>IV.1</th><th>IV.2</th><th>IV.3</th><th>V.1</th><th>V.2</th><th>V.3</th><th>V.4</th><th>VI.1</th><th>VI.2</th><th>VI.3</th><th>VI.4</th><th>VII.2</th><th>VII.4</th><th>VII.5</th><th>VII.6</th><th>VII.7</th><th><strong>Σ</strong></th></tr></thead><tbody>
+<tr><td><strong>M1</strong> компания для планов и продолжение</td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓*</td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c">✓*</td><td class="c"><strong>16</strong></td></tr>
+<tr><td><strong>R1</strong> довести разговор до встречи</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><strong>5</strong></td></tr>
+<tr><td><strong>R2</strong> решиться идти</td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><strong>8</strong></td></tr>
+<tr><td><strong>R3</strong> не приехать к пустому столу</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><strong>4</strong></td></tr>
+<tr><td><strong>R4</strong> увидеться снова, не начиная заново</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><strong>6</strong></td></tr>
+<tr><td><strong>R5</strong> собирать людей и не бросить</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><strong>2</strong></td></tr>
+<tr><td><strong>E1</strong> чувствовать, что это нормально</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓*</td><td class="c"></td><td class="c"><strong>1</strong></td></tr>
+<tr><td><strong>E2</strong> не чувствовать себя навязчивой</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><strong>3</strong></td></tr>
+<tr><td><strong>E3</strong> знать, что можно уйти</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><strong>5</strong></td></tr>
+<tr><td><strong>S1</strong> выглядеть тем, кому можно доверять</td><td class="c"></td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><strong>5</strong></td></tr>
+<tr><td><strong>S2</strong> быть тем, кто собирает</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><strong>1</strong></td></tr>
+<tr><td><strong>S3</strong> чтобы за меня не волновались</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">✓</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><strong>2</strong></td></tr>
+<tr><td><strong>Σ</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>3</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>6</strong></td><td class="c"><strong>4</strong></td><td class="c"><strong>3</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>4</strong></td><td class="c"><strong>3</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>3</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>58</strong></td></tr>
+</tbody></table></div>
+<p><strong>Пустых строк и столбцов: 0.</strong> До решений ниже было иначе: столбцов без <code>✓</code> — <strong>восемь</strong> (V.5, VII.1, VII.2, VII.3, VII.6, VII.7, VIII.1, VIII.2 — все восемь помечены <code>[СИРОТА]</code> ещё в дереве), строк без <code>✓</code> — <strong>одна</strong> (E1). Дерево выше уже перерисовано под решения; пять экранов из него ушли, поэтому кодов VII.1, VII.3, V.5, VIII.1 и VIII.2 в матрице нет — <strong>коды не перенумерованы</strong>, чтобы ссылки на них в этом файле не ломались.</p>
+<h4 id="экраны-сироты-столбец-без">Экраны-сироты (столбец без ✓)</h4>
+<p>Восемь экранов существовали без job. Каждый — дефект: либо экран лишний, либо его job не назван. Решения — одно из четырёх: <strong>удалить · привязать · добавить · backlog</strong>.</p>
+<div class="tw"><table><thead><tr><th>Экран</th><th>Решение</th><th>Основание</th></tr></thead><tbody>
+<tr><td><strong>VII.1</strong> Splash</td><td><strong>Удалить экран</strong> → состояние «загрузка при старте» экрана VII.2</td><td>По правилу §6 брифа объект тот же — вход; меняется только статус. Splash не показывает ничего, что нельзя показать в состоянии загрузки</td></tr>
+<tr><td><strong>VII.2</strong> Регистрация / вход</td><td><strong>Привязать к M1</strong> <code>✓*</code></td><td>Регистрация создаёт сущность «Человек» — а в разделе «Сущности» именно она порождает M1: «нужен второй человек». Без аккаунта второго человека нет ни у кого. Один job, не больше: вход не ищет, не пишет и не подтверждает</td></tr>
+<tr><td><strong>VII.3</strong> Возрастной гейт 18+</td><td><strong>Удалить экран</strong> → поле «дата рождения» и состояние «младше 18 — отказ» на VII.4</td><td>§12 брифа: гейт — «дата рождения, без документов». VII.4 уже собирает возраст; второй экран под то же поле — дубль. <strong>Правило 18+ остаётся</strong>, экран под него — нет</td></tr>
+<tr><td><strong>V.5</strong> Приватная обратная связь</td><td><strong>Удалить экран</strong> → необязательное поле «Anything off?» на V.2 «Кто дошёл»</td><td><code class="dcode">D-31</code> оставил обратную связь в MVP как гигиену и запретил выдумывать под неё job. Матрица это не отменяет: поле остаётся, адресат тот же — только модерация. Уходит экран: объект один — «после встречи», и человеку приходит один экран, а не два подряд</td></tr>
+<tr><td><strong>VII.6</strong> Интент</td><td><strong>Привязать к E1</strong> <code>✓*</code></td><td>В <code>jtbd.md</code> E1 закрывается копирайтом <code class="dcode">D-20</code> — правилом, которое действует везде и потому нигде не даёт отметки. Одно место, где правило становится содержанием экрана: §2.1 брифа, обязательство 4 — срез плотности «ещё 12 человек недавно переехали». Увидеть, что таких двенадцать, и есть «делаю обычную вещь». E1 в ожидании (Д1 · П0 · Ц1), поэтому чипы **остаются под <code class="dcode">D-08</code>**: нуль снят, судьба экрана — нет</td></tr>
+<tr><td><strong>VII.7</strong> Разрешение геолокации</td><td><strong>Привязать к M1</strong> <code>✓*</code>; VIII.2 сливается сюда</td><td>Без геолокации нет «рядом»: колода и лента строятся по радиусу, а плотность в одном городе — главный риск M1 (§2.1). Разрешение на онбординге и вкл/выкл в настройках — один объект в двух состояниях (<code class="dcode">D-32</code>), а не два экрана</td></tr>
+<tr><td><strong>VIII.1</strong> Настройки — аккаунт, уведомления</td><td><strong>Удалить экран, содержимое — в backlog</strong></td><td>Всё, что за аватаром нужно job, уже имеет свой экран: заблокированные (E3), геолокация (M1), профиль и верификация. Остаток — аккаунт и уведомления — не требует ни один job; настройки уведомлений в «Под вопросом» с 16.09 как «новая поверхность, не потребность». Удаление аккаунта — требование закона: вернётся с ним как состояние VII.2, не как раздел «Настройки». Разрешение на пуш решено отдельно <code class="dcode">D-40</code></td></tr>
+<tr><td><strong>VIII.2</strong> Геолокация вкл/выкл</td><td><strong>Удалить экран</strong> → состояние VII.7</td><td>См. VII.7: тот же объект, другой статус</td></tr>
+</tbody></table></div>
+<p><strong>Добавлять экран не пришлось ни разу</strong>: у каждой сироты нашёлся либо job, либо экран, в котором она — состояние. Это ожидаемо для дерева, выведенного из сущностей: лишние экраны в нём — экраны инфраструктуры, а не выдуманные функции.</p>
+<p>**Ограничитель для <code>✓*</code>-условий.** Регистрация и геолокация привязаны к M1 как условие, без которого job невозможен физически: без аккаунта нет второго человека, без радиуса нет «рядом». Так привязывается только это и только к M1 — третьего такого экрана нет, и появиться он не должен: иначе матрица перестанет ловить рост инфраструктуры.</p>
+<h4 id="jobs-сироты-строка-без">Jobs-сироты (строка без ✓)</h4>
+<p><strong>E1 — «чувствовать, что делаю обычную вещь, а не признаюсь, что у меня нет друзей».</strong></p>
+<ul><li>**Решение: привязать к имеющемуся экрану — VII.6 Интент, <code>✓*</code>.** Основание — в строке VII.6 таблицы выше: E1 закрывался правилом копирайта, у которого нет экрана, а срез плотности на интенте — единственное место, где это правило показывается, а не соблюдается. Дыры в продукте нет: человеку негде было это <em>увидеть</em>, а не <em>сделать</em>.</li>
+<li><strong>Чего решение не даёт:</strong> стигма в нашей аудитории не подтверждена <code>[?]</code>, E1 в ожидании. Привязка снимает нуль в матрице, не поднимает job в приоритете.</li></ul>
+<p><strong>Зависимость.</strong> E1 держится на одном экране VII.6, а VII.6 — на <code class="dcode">D-08</code>. Уйдут чипы — E1 снова нуль. <code class="dcode">D-08</code> решается вместе с E1, не отдельно.</p>
+<p>Других jobs-сирот нет. Самые тонкие строки — <strong>S2</strong> и <strong>S3</strong> по одному-два экрана: у S2 экран один по определению (автор виден, потому что запрос создал человек), у S3 — ссылка близкому и safety center.</p>
+<h4 id="проверка-потоками">Проверка потоками</h4>
+<p>Отметки в матрице — теги дерева. Вторая независимая опора — [<code>flows.md</code>](./flows.md): через какие экраны job реально проходит. Сверка показала, что **теги дерева отстали от <code class="dcode">D-37</code>**: R1 был переформулирован («довести разговор до встречи»), а колода, фильтры, профиль, совпадение и выбор интересов всё ещё несли R1 в старом смысле — «найти человека с общими интересами». В потоке R1 ни один из них не встречается; в потоке M1 — все.</p>
+<div class="tw"><table><thead><tr><th>Что показали потоки</th><th>Что исправлено в дереве</th></tr></thead><tbody>
+<tr><td>Поток M1 идёт через колоду, профиль, совпадение и диалог — ни один не нёс M1</td><td>Знакомство по интересам — это M1 («что строим» в матрице <code>jtbd.md</code>): <strong>R1 → M1</strong> на пяти экранах входа; диалог получил M1 как основная дорога <code class="dcode">D-37</code></td></tr>
+<tr><td>Поток R1 выходит из чата в создание запроса — экран нёс только M1</td><td><strong>+ R1</strong> на создании: «предложить план» — один из трёх выходов из разговора</td></tr>
+<tr><td>Поток R3 живёт на карточке запроса: двухфазный счётчик — её состояние</td><td><strong>+ R3</strong> на карточке</td></tr>
+<tr><td>Поток R4 живёт там же: «серия с историей» — её состояние</td><td><strong>+ R4</strong> на карточке</td></tr>
+</tbody></table></div>
+<p>Что потоки проходят, но что тегом не стало: верификация, напоминание и отклики в потоке M1, safety center и блокировка в потоке R2. Экран, через который путь <strong>проходит</strong>, не то же, что экран, который job <strong>закрывает</strong>: гейт и выходы в безопасность остаются за своими job. Обратный остаток тоже есть: фильтры, выбор интересов и настройка профиля помечены job, но в потоках не рисуются — это настройка перед путём, а не шаг пути.</p>
+<p>Ту же правку получили сущности выше и §6 брифа: People — вход в M1, а не в R1.</p>
+<p><strong>E3 закрыт местом, не моментом.</strong> Сущность «Запрос» приписывает E3 полю «место» (публичное по умолчанию, предупреждение о приватном) — тег <code>E3</code> добавлен на карточку запроса III.3. Момент «уйти со встречи» экрана не имеет, и это сознательно: продукт отвечает за место, а не за то, что происходит за столом.</p>
+<p>**О4 закрыт: у встречи из чата есть объект — запрос <code class="dcode">D-39</code>.** Раньше поток M1 выходил из диалога в «договорились сами», и у этой встречи не было ни экрана, ни объекта. Оговорка О7 к «экрана у встречи нет по устройству»: после <code class="dcode">D-39</code> любая встреча порождается запросом — довод за чтение «состояние запроса», сущность 6.</p>
+<p>**О5 закрыт <code class="dcode">D-40</code>:** у уведомлений не было экрана — и не будет: разрешение на пуш — состояние карточки запроса III.3, а у напоминания, check-in и предложения повторить есть вход с карточки плана без пуша.</p>
+<h4 id="итог">Итог</h4>
+<div class="tw"><table><thead><tr><th></th><th>До</th><th>После</th></tr></thead><tbody>
+<tr><td>Экранов</td><td>35</td><td><strong>30</strong> — пять стали состояниями</td></tr>
+<tr><td>Столбцов без ✓</td><td>8</td><td><strong>0</strong></td></tr>
+<tr><td>Строк без ✓</td><td>1 (E1)</td><td><strong>0</strong></td></tr>
+<tr><td>Отметок по 12 job</td><td>54</td><td><strong>58</strong></td></tr>
+</tbody></table></div>
+<p>**Принято как <code class="dcode">D-38</code>:** пять экранов — состояния, «Настройки» — backlog. §6 брифа переписан под это; правила 18+, <code class="dcode">D-31</code> и <code class="dcode">D-32</code> не менялись.</p>
+    </section>
+
+    <section id="flows">
+      <h2>Потоки</h2>
+      <blockquote><p>Экраны и состояния — из [<code>sitemap.md</code>](./sitemap.md), новых не придумано. Jobs — из [<code>research/jtbd.md</code>](./research/jtbd.md): main job, четыре related, поток автора и trust loop; решения — [<code>DECISIONS.md</code>](./DECISIONS.md).</p>
+<p><strong>Разметка.</strong> Все диаграммы — <code>flowchart TD</code>, одна запись на весь файл:</p>
+<div class="tw"><table><thead><tr><th>Запись</th><th>Что означает</th></tr></thead><tbody>
+<tr><td><code>Name([текст])</code></td><td>начало или конец пути</td></tr>
+<tr><td><code>Name[текст]</code></td><td>экран</td></tr>
+<tr><td><code>Name[&quot;Loading: …&quot;]</code> · <code>[&quot;Empty: …&quot;]</code> · <code>[&quot;Error: …&quot;]</code></td><td><strong>состояние</strong> экрана, тип назван в тексте</td></tr>
+<tr><td><code>Name{вопрос?}</code></td><td>точка решения</td></tr>
+<tr><td>`--&gt;</td><td>да|нет</td><td>`</td><td>ветвь решения</td></tr>
+<tr><td><code>([&quot;Job закрыт: …&quot;])</code></td><td>job закрыт</td></tr>
+<tr><td><code>([&quot;Тупик: …&quot;])</code></td><td><strong>тупик</strong> — человек не может ничего сделать дальше</td></tr>
+<tr><td><code>([&quot;Job не закрыт: … — назад в колоду&quot;])</code> · <code>([Вернулась в ленту])</code></td><td>конец пути <strong>с возвратом</strong> на экран; «Тупик» — только когда действия нет</td></tr>
+</tbody></table></div>
+<p>Тупики важнее happy-path: именно там продукт теряет человека.</p>
+<p><strong>У каждого потока два блока:</strong> сначала разметка текстом — её видно и можно скопировать, — потом та же разметка в блоке <code>mermaid</code>, которую GitHub рисует. <strong>При правке меняются оба.</strong></p></blockquote>
+      <article class="flow" id="flow-m1">
+        <h3>M1 — компания для планов и продолжение</h3>
+        <blockquote><p>Когда мне есть куда пойти, но не с кем, я хочу, чтобы у моих планов была компания, а у компании — продолжение.</p></blockquote>
+<p><strong>Кто:</strong> Даша, primary. <strong>Основной путь — через чат</strong> <code class="dcode">D-37</code>: колода → взаимный свайп → диалог → договорились. <strong>Второй путь</strong> — лента запросов: он не зависит от взаимности и потому не убран в глубину. Считается от <strong>пустой колоды</strong>: на старте она увидит именно её (<code class="dcode">D-22</code>).</p>
+<div class="diagram"><pre class="mermaid">flowchart TD
+    Start([Открыла приложение после онбординга]) --&gt; Deck[Колода]
+    Deck --&gt; DeckLoad[&quot;Loading: грузим людей рядом&quot;]
+    DeckLoad --&gt; HasPeople{Есть люди в радиусе?}
+
+    HasPeople --&gt;|сбой| DeckErr[&quot;Error: колода не загрузилась&quot;]
+    DeckErr --&gt; Deck
+    HasPeople --&gt;|нет| DeckEmpty[&quot;Empty: людей рядом нет, расширить радиус или посмотреть планы&quot;]
+    HasPeople --&gt;|да| Person[Профиль другого человека]
+
+    DeckEmpty --&gt; WiderRadius{Расширить радиус?}
+    WiderRadius --&gt;|да| Radius[&quot;Колода: расширение радиуса&quot;]
+    Radius --&gt; HasPeople
+    WiderRadius --&gt;|нет| Feed
+
+    Person --&gt; Trust{Интересы совпадают и профиль внушает доверие?}
+    Trust --&gt;|нет| Deck
+    Trust --&gt;|да| Like[&quot;Колода: лайк отправлен&quot;]
+    Like --&gt; Mutual{Взаимный лайк?}
+    Mutual --&gt;|пока нет| Deck
+    Mutual --&gt;|да| Match[Совпадение]
+
+    Match --&gt; IsVerified{Верифицирована?}
+    IsVerified --&gt;|нет| Gate[&quot;Диалог: гейт верификации&quot;]
+    Gate --&gt; Now{Верифицироваться сейчас?}
+    Now --&gt;|да| Verify[Верификация]
+    Now --&gt;|позже| BackToDeck([&quot;Вернулась в колоду — матч и гейт остались&quot;])
+    Verify --&gt; Recognised{Распознали?}
+    Recognised --&gt;|да| VerifyOk[&quot;Верификация: пройдена&quot;]
+    VerifyOk --&gt; Dialog
+    Recognised --&gt;|нет| VerifyFail[&quot;Error: не распознали, назвать причину и дать пересдать&quot;]
+    VerifyFail --&gt; Twice{Вторая неудача подряд?}
+    Twice --&gt;|нет| Verify
+    Twice --&gt;|да| Manual[&quot;Верификация: на ручной проверке&quot;]
+    Manual --&gt; ManualGate[&quot;Диалог: гейт — на проверке, писать пока нельзя&quot;]
+    ManualGate --&gt; ManualResult{Результат проверки?}
+    ManualResult --&gt;|пройдена| VerifyOk
+    ManualResult --&gt;|отказ с причиной| VerifyFail
+    IsVerified --&gt;|да| Dialog[Диалог]
+
+    Dialog --&gt; Exit{Как выходим из разговора?}
+    Exit --&gt;|никак| DeadChat[&quot;Empty: разговор без даты&quot;]
+    DeadChat --&gt; Revived{Вернулись к разговору за 14 дней?}
+    Revived --&gt;|да| Dialog
+    Revived --&gt;|нет| NoPlan([&quot;Job не закрыт: разговор затух — назад в колоду&quot;])
+    Exit --&gt;|предложила день — занятие и дата| DayOffer[&quot;Диалог: предложение дня, ждёт ответа&quot;]
+    DayOffer --&gt; DayOK{Второй принял?}
+    DayOK --&gt;|нет| Dialog
+    DayOK --&gt;|да| FromChat[&quot;Карточка запроса: +1 с датой из диалога&quot;]
+    FromChat --&gt; Remind
+    Exit --&gt;|зовём вдвоём в чужой запрос| Pair[Позвать вдвоём в запрос]
+
+    Pair --&gt; SecondAgrees{Второй согласился?}
+    SecondAgrees --&gt;|нет| Dialog
+    SecondAgrees --&gt;|да| AuthorPair{Автор подтвердил пару?}
+    AuthorPair --&gt;|нет| Dialog
+    AuthorPair --&gt;|да| DateSet{День назначен?}
+
+    DateSet --&gt;|нет| DeadChat
+    DateSet --&gt;|да| Remind[Напоминание Still going?]
+    Remind --&gt; Happened{Встреча состоялась?}
+    Happened --&gt;|нет| NoShow([&quot;Job не закрыт: не дошли — назад в колоду&quot;])
+    Happened --&gt;|да| WhoMade[Кто дошёл Who made it?]
+    WhoMade --&gt;|пуш или карточка, D-40| Offer[Предложение повторить]
+    Offer --&gt; Again{Повторить с ними же?}
+    Again --&gt;|нет| WinOnce([&quot;Job частично: одна встреча была, продолжения нет&quot;])
+    Again --&gt;|да| Series[&quot;Карточка запроса: серия с историей&quot;]
+    Series --&gt; WinRepeat([&quot;Job закрыт: повтор с теми же людьми&quot;])
+
+    Feed[Лента запросов — ВТОРОЙ ПУТЬ] --&gt; FeedLoad[&quot;Loading: грузим планы рядом&quot;]
+    FeedLoad --&gt; HasPlans{Есть подходящие запросы?}
+    HasPlans --&gt;|сбой| FeedErr[&quot;Error: лента не загрузилась&quot;]
+    FeedErr --&gt; Feed
+    HasPlans --&gt;|да| PlanCard[Карточка запроса]
+    HasPlans --&gt;|нет| FeedEmpty[&quot;Empty: планов рядом нет — расширить радиус или создать свой&quot;]
+
+    FeedEmpty --&gt; FeedWider{Расширить радиус ленты?}
+    FeedWider --&gt;|да| FeedLoad
+    FeedWider --&gt;|нет| CreateOwn{Создать свой запрос?}
+    CreateOwn --&gt;|нет, в колоде люди есть| BackToDeck
+    CreateOwn --&gt;|нет, и колода пуста| StuckNothing([&quot;Тупик: ни людей, ни планов — ушла&quot;])
+    CreateOwn --&gt;|да| Create[Создание запроса]
+    Create --&gt; Published{Опубликовалось?}
+    Published --&gt;|сбой| CreateErr[&quot;Error: запрос не опубликовался&quot;]
+    CreateErr --&gt; Create
+    Published --&gt;|да| MyPlans[Мои планы]
+    MyPlans --&gt; Responses[Отклики на мой запрос]
+    Responses --&gt; AnyResponse{Кто-нибудь откликнулся?}
+    AnyResponse --&gt;|нет| RespEmpty[&quot;Empty: откликов пока нет — смотреть чужие планы&quot;]
+    RespEmpty --&gt; LookAround{Пока ждёт?}
+    LookAround --&gt;|смотрит чужие| Feed
+    LookAround --&gt;|ждёт| StillAlive{Запрос ещё живой?}
+    StillAlive --&gt;|да| Responses
+    StillAlive --&gt;|нет, 14 дней прошли| Expired[&quot;Карточка запроса: погас&quot;]
+    Expired --&gt; Extend{Продлить?}
+    Extend --&gt;|да| MyPlans
+    Extend --&gt;|нет| BackToFeed([Вернулась в ленту])
+    AnyResponse --&gt;|да| Confirm[&quot;Отклики: подтвердить или отклонить&quot;]
+    Confirm --&gt; Dialog
+
+    PlanCard --&gt; Ask[&quot;Карточка запроса: отклик отправлен&quot;]
+    Ask --&gt; Sent{Отклик ушёл?}
+    Sent --&gt;|сбой| AskErr[&quot;Error: отклик не отправился&quot;]
+    AskErr --&gt; PlanCard
+    Sent --&gt;|да| Wait[&quot;Карточка запроса: жду ответа&quot;]
+    Wait --&gt; AuthorReplied{Автор ответил?}
+    AuthorReplied --&gt;|отклонил| Rejected[&quot;Error: отклик отклонён, искать дальше&quot;]
+    Rejected --&gt; Feed
+    AuthorReplied --&gt;|молчит| NoReply[&quot;Карточка запроса: автор не ответил — отозвать или смотреть другие&quot;]
+    NoReply --&gt; Withdraw{Отозвать отклик?}
+    Withdraw --&gt;|да| Feed
+    Withdraw --&gt;|нет| Alive{Запрос ещё жив?}
+    Alive --&gt;|да| Wait
+    Alive --&gt;|нет, погас| Feed
+    AuthorReplied --&gt;|подтвердил| Dialog</pre></div>
+<details class="src"><summary>Разметка <code>flowchart TD</code></summary><pre class="ascii">flowchart TD
+    Start([Открыла приложение после онбординга]) --&gt; Deck[Колода]
+    Deck --&gt; DeckLoad[&quot;Loading: грузим людей рядом&quot;]
+    DeckLoad --&gt; HasPeople{Есть люди в радиусе?}
+
+    HasPeople --&gt;|сбой| DeckErr[&quot;Error: колода не загрузилась&quot;]
+    DeckErr --&gt; Deck
+    HasPeople --&gt;|нет| DeckEmpty[&quot;Empty: людей рядом нет, расширить радиус или посмотреть планы&quot;]
+    HasPeople --&gt;|да| Person[Профиль другого человека]
+
+    DeckEmpty --&gt; WiderRadius{Расширить радиус?}
+    WiderRadius --&gt;|да| Radius[&quot;Колода: расширение радиуса&quot;]
+    Radius --&gt; HasPeople
+    WiderRadius --&gt;|нет| Feed
+
+    Person --&gt; Trust{Интересы совпадают и профиль внушает доверие?}
+    Trust --&gt;|нет| Deck
+    Trust --&gt;|да| Like[&quot;Колода: лайк отправлен&quot;]
+    Like --&gt; Mutual{Взаимный лайк?}
+    Mutual --&gt;|пока нет| Deck
+    Mutual --&gt;|да| Match[Совпадение]
+
+    Match --&gt; IsVerified{Верифицирована?}
+    IsVerified --&gt;|нет| Gate[&quot;Диалог: гейт верификации&quot;]
+    Gate --&gt; Now{Верифицироваться сейчас?}
+    Now --&gt;|да| Verify[Верификация]
+    Now --&gt;|позже| BackToDeck([&quot;Вернулась в колоду — матч и гейт остались&quot;])
+    Verify --&gt; Recognised{Распознали?}
+    Recognised --&gt;|да| VerifyOk[&quot;Верификация: пройдена&quot;]
+    VerifyOk --&gt; Dialog
+    Recognised --&gt;|нет| VerifyFail[&quot;Error: не распознали, назвать причину и дать пересдать&quot;]
+    VerifyFail --&gt; Twice{Вторая неудача подряд?}
+    Twice --&gt;|нет| Verify
+    Twice --&gt;|да| Manual[&quot;Верификация: на ручной проверке&quot;]
+    Manual --&gt; ManualGate[&quot;Диалог: гейт — на проверке, писать пока нельзя&quot;]
+    ManualGate --&gt; ManualResult{Результат проверки?}
+    ManualResult --&gt;|пройдена| VerifyOk
+    ManualResult --&gt;|отказ с причиной| VerifyFail
+    IsVerified --&gt;|да| Dialog[Диалог]
+
+    Dialog --&gt; Exit{Как выходим из разговора?}
+    Exit --&gt;|никак| DeadChat[&quot;Empty: разговор без даты&quot;]
+    DeadChat --&gt; Revived{Вернулись к разговору за 14 дней?}
+    Revived --&gt;|да| Dialog
+    Revived --&gt;|нет| NoPlan([&quot;Job не закрыт: разговор затух — назад в колоду&quot;])
+    Exit --&gt;|предложила день — занятие и дата| DayOffer[&quot;Диалог: предложение дня, ждёт ответа&quot;]
+    DayOffer --&gt; DayOK{Второй принял?}
+    DayOK --&gt;|нет| Dialog
+    DayOK --&gt;|да| FromChat[&quot;Карточка запроса: +1 с датой из диалога&quot;]
+    FromChat --&gt; Remind
+    Exit --&gt;|зовём вдвоём в чужой запрос| Pair[Позвать вдвоём в запрос]
+
+    Pair --&gt; SecondAgrees{Второй согласился?}
+    SecondAgrees --&gt;|нет| Dialog
+    SecondAgrees --&gt;|да| AuthorPair{Автор подтвердил пару?}
+    AuthorPair --&gt;|нет| Dialog
+    AuthorPair --&gt;|да| DateSet{День назначен?}
+
+    DateSet --&gt;|нет| DeadChat
+    DateSet --&gt;|да| Remind[Напоминание Still going?]
+    Remind --&gt; Happened{Встреча состоялась?}
+    Happened --&gt;|нет| NoShow([&quot;Job не закрыт: не дошли — назад в колоду&quot;])
+    Happened --&gt;|да| WhoMade[Кто дошёл Who made it?]
+    WhoMade --&gt;|пуш или карточка, D-40| Offer[Предложение повторить]
+    Offer --&gt; Again{Повторить с ними же?}
+    Again --&gt;|нет| WinOnce([&quot;Job частично: одна встреча была, продолжения нет&quot;])
+    Again --&gt;|да| Series[&quot;Карточка запроса: серия с историей&quot;]
+    Series --&gt; WinRepeat([&quot;Job закрыт: повтор с теми же людьми&quot;])
+
+    Feed[Лента запросов — ВТОРОЙ ПУТЬ] --&gt; FeedLoad[&quot;Loading: грузим планы рядом&quot;]
+    FeedLoad --&gt; HasPlans{Есть подходящие запросы?}
+    HasPlans --&gt;|сбой| FeedErr[&quot;Error: лента не загрузилась&quot;]
+    FeedErr --&gt; Feed
+    HasPlans --&gt;|да| PlanCard[Карточка запроса]
+    HasPlans --&gt;|нет| FeedEmpty[&quot;Empty: планов рядом нет — расширить радиус или создать свой&quot;]
+
+    FeedEmpty --&gt; FeedWider{Расширить радиус ленты?}
+    FeedWider --&gt;|да| FeedLoad
+    FeedWider --&gt;|нет| CreateOwn{Создать свой запрос?}
+    CreateOwn --&gt;|нет, в колоде люди есть| BackToDeck
+    CreateOwn --&gt;|нет, и колода пуста| StuckNothing([&quot;Тупик: ни людей, ни планов — ушла&quot;])
+    CreateOwn --&gt;|да| Create[Создание запроса]
+    Create --&gt; Published{Опубликовалось?}
+    Published --&gt;|сбой| CreateErr[&quot;Error: запрос не опубликовался&quot;]
+    CreateErr --&gt; Create
+    Published --&gt;|да| MyPlans[Мои планы]
+    MyPlans --&gt; Responses[Отклики на мой запрос]
+    Responses --&gt; AnyResponse{Кто-нибудь откликнулся?}
+    AnyResponse --&gt;|нет| RespEmpty[&quot;Empty: откликов пока нет — смотреть чужие планы&quot;]
+    RespEmpty --&gt; LookAround{Пока ждёт?}
+    LookAround --&gt;|смотрит чужие| Feed
+    LookAround --&gt;|ждёт| StillAlive{Запрос ещё живой?}
+    StillAlive --&gt;|да| Responses
+    StillAlive --&gt;|нет, 14 дней прошли| Expired[&quot;Карточка запроса: погас&quot;]
+    Expired --&gt; Extend{Продлить?}
+    Extend --&gt;|да| MyPlans
+    Extend --&gt;|нет| BackToFeed([Вернулась в ленту])
+    AnyResponse --&gt;|да| Confirm[&quot;Отклики: подтвердить или отклонить&quot;]
+    Confirm --&gt; Dialog
+
+    PlanCard --&gt; Ask[&quot;Карточка запроса: отклик отправлен&quot;]
+    Ask --&gt; Sent{Отклик ушёл?}
+    Sent --&gt;|сбой| AskErr[&quot;Error: отклик не отправился&quot;]
+    AskErr --&gt; PlanCard
+    Sent --&gt;|да| Wait[&quot;Карточка запроса: жду ответа&quot;]
+    Wait --&gt; AuthorReplied{Автор ответил?}
+    AuthorReplied --&gt;|отклонил| Rejected[&quot;Error: отклик отклонён, искать дальше&quot;]
+    Rejected --&gt; Feed
+    AuthorReplied --&gt;|молчит| NoReply[&quot;Карточка запроса: автор не ответил — отозвать или смотреть другие&quot;]
+    NoReply --&gt; Withdraw{Отозвать отклик?}
+    Withdraw --&gt;|да| Feed
+    Withdraw --&gt;|нет| Alive{Запрос ещё жив?}
+    Alive --&gt;|да| Wait
+    Alive --&gt;|нет, погас| Feed
+    AuthorReplied --&gt;|подтвердил| Dialog
+</pre></details>
+<p><strong>Оба пути сходятся в диалоге.</strong> Дальше — одинаково: разговор, выход из него в день, встреча, повтор. Это и есть смысл <code class="dcode">D-37</code>: чат не финал знакомства, а дорога к встрече.</p>
+<p><strong>Точки решения.</strong></p>
+<ol><li><strong>Люди в радиусе есть?</strong> — на старте чаще «нет»: плотность главный риск (<code class="dcode">D-02</code>).</li>
+<li><strong>Расширить радиус?</strong> — спрашиваем один раз, дальше помним (<code class="dcode">D-11</code>).</li>
+<li><strong>Интересы совпадают и профиль внушает доверие?</strong> — на карточке первой строкой общие интересы (<code class="dcode">D-13</code>), под ними четыре сигнала доверия (правило 12).</li>
+<li><strong>Взаимный лайк?</strong> — <strong>не тупик, а ожидание</strong>, и это цена <code class="dcode">D-37</code>: основной путь упирается в чужое решение. Второй путь от взаимности не зависит.</li>
+<li><strong>Верифицирована?</strong> — гейт срабатывает в момент максимальной мотивации (<code class="dcode">D-03</code>). <strong>Верифицироваться сейчас?</strong> — гейт не запирает: «позже» возвращает в колоду, матч и чат остаются в списке в состоянии гейта (§5.3).</li>
+<li><strong>Как выходим из разговора?</strong> — три выхода: предложить день (<code class="dcode">D-39</code>), позвать друг друга вдвоём в чужой запрос (<code class="dcode">D-36</code>), никак. Третий — провал R1.</li>
+<li><strong>Второй согласился?</strong> и <strong>автор подтвердил пару?</strong> — пара атомарна: берут обоих или никого (<code class="dcode">D-36</code>).</li>
+<li><strong>Дата назначена?</strong> — без даты нечего напоминать и нечего засчитывать (<code class="dcode">D-23</code>).</li>
+<li><strong>Повторить с ними же?</strong> — единственный переход, который двигает M1 по существу.</li>
+<li><strong>Расширить радиус ленты?</strong> — та же развилка, что у колоды: пустая лента ведёт в радиус и в создание (§2.1), а не только в создание.</li></ol>
+<p><strong>Состояния в потоке.</strong> Загрузка колоды и ленты · пусто в колоде, ленте и откликах · ошибка загрузки колоды и ленты · ошибка публикации · расширение радиуса · лайк отправлен · гейт верификации · не распознали · на ручной проверке · <strong>разговор без даты</strong> · ждёт согласия второго · жду ответа · отклик отклонён · запрос погас · ручная проверка: результат · отклик не отправился · откликов нет — смотреть чужие · автор не ответил — отозвать или смотреть другие.</p>
+<p><strong>Один тупик.</strong></p>
+<div class="tw"><table><thead><tr><th>Тупик</th><th>Где</th><th>Чем дорог</th></tr></thead><tbody>
+<tr><td>Ни людей, ни планов</td><td>Пустая лента при пустой колоде</td><td>Старт, когда база пуста: принятый риск <code class="dcode">D-02</code>, потоку он нужен как напоминание</td></tr>
+</tbody></table></div>
+<p>«Автор молчит» тупиком больше не считается: отклик живёт, пока жив запрос, и его можно отозвать в любой момент (§5.4) — это состояние карточки с выходом в ленту.</p>
+<p><strong>Главный провал основного пути — не тупик.</strong> Разговор без даты кончается возвратом в колоду: формально ничего не сломалось, но M1 не сдвинулся. Раньше он стоял в таблице тупиков; теперь это терминал «Job не закрыт», а провал измеряется метрикой §11 — долей диалогов, дошедших до назначенного дня.</p>
+<p><strong>«Взаимного лайка нет» тупиком не считается</strong> — это ожидание, из которого колода выводит обратно. Тупик там, где человек <strong>не может ничего сделать дальше</strong>.</p>
+      </article>
+      <article class="flow" id="flow-r1">
+        <h3>R1 — довести разговор до встречи</h3>
+        <blockquote><p>Когда мы совпали и переписка идёт, а до встречи не доходит — «надо как-нибудь пересечься» и тишина, — я хочу, чтобы у разговора был выход в конкретный день.</p></blockquote>
+<p><strong>Кто:</strong> Даша и Оля. <strong>Центральный job основного пути</strong> <code class="dcode">D-37</code>: всё, что до диалога, ведёт сюда, всё, что после, — уже следствие.</p>
+<div class="diagram"><pre class="mermaid">flowchart TD
+    Start([Открылся диалог]) --&gt; Empty[&quot;Empty: пустой чат с ice-breaker&quot;]
+    Empty --&gt; Started{Разговор пошёл?}
+    Started --&gt;|нет| Dead
+    Started --&gt;|да| Dialog[Диалог]
+
+    Dialog --&gt; Proposed{Кто-то предложил встретиться?}
+    Proposed --&gt;|нет| Dead[&quot;Empty: разговор без даты&quot;]
+    Proposed --&gt;|да| HasActivity{Названо конкретное занятие?}
+
+    HasActivity --&gt;|нет, просто «надо пересечься»| Dead
+    HasActivity --&gt;|да, на двоих — занятие и день| DayOffer[&quot;Диалог: предложение дня, ждёт ответа&quot;]
+    DayOffer --&gt; DayOK{Второй принял?}
+    DayOK --&gt;|нет| Dialog
+    DayOK --&gt;|да| FromChat[&quot;Карточка запроса: +1 с датой из диалога&quot;]
+    FromChat --&gt; Remind
+    HasActivity --&gt;|да, план на больше людей| Create[Создание запроса]
+    HasActivity --&gt;|да, чужое из ленты| Pair[Позвать вдвоём в запрос]
+
+    Create --&gt; Published{Опубликовалось?}
+    Published --&gt;|сбой| CreateErr[&quot;Error: запрос не опубликовался&quot;]
+    CreateErr --&gt; Create
+    Published --&gt;|да| DateSet
+
+    Pair --&gt; SecondAgrees{Второй согласился?}
+    SecondAgrees --&gt;|нет| Dialog
+    SecondAgrees --&gt;|да| AuthorPair{Автор подтвердил пару?}
+    AuthorPair --&gt;|нет| Dialog
+    AuthorPair --&gt;|да| DateSet{День назначен?}
+
+    DateSet --&gt;|нет| Dead
+    DateSet --&gt;|да| Remind[Напоминание Still going?]
+    Remind --&gt; Win([&quot;Job закрыт: встреча назначена&quot;])
+
+    Dead --&gt; Revived{Вернулись к разговору за 14 дней?}
+    Revived --&gt;|да| Dialog
+    Revived --&gt;|нет| NoPlan([&quot;Job не закрыт: разговор затух — назад в колоду&quot;])</pre></div>
+<details class="src"><summary>Разметка <code>flowchart TD</code></summary><pre class="ascii">flowchart TD
+    Start([Открылся диалог]) --&gt; Empty[&quot;Empty: пустой чат с ice-breaker&quot;]
+    Empty --&gt; Started{Разговор пошёл?}
+    Started --&gt;|нет| Dead
+    Started --&gt;|да| Dialog[Диалог]
+
+    Dialog --&gt; Proposed{Кто-то предложил встретиться?}
+    Proposed --&gt;|нет| Dead[&quot;Empty: разговор без даты&quot;]
+    Proposed --&gt;|да| HasActivity{Названо конкретное занятие?}
+
+    HasActivity --&gt;|нет, просто «надо пересечься»| Dead
+    HasActivity --&gt;|да, на двоих — занятие и день| DayOffer[&quot;Диалог: предложение дня, ждёт ответа&quot;]
+    DayOffer --&gt; DayOK{Второй принял?}
+    DayOK --&gt;|нет| Dialog
+    DayOK --&gt;|да| FromChat[&quot;Карточка запроса: +1 с датой из диалога&quot;]
+    FromChat --&gt; Remind
+    HasActivity --&gt;|да, план на больше людей| Create[Создание запроса]
+    HasActivity --&gt;|да, чужое из ленты| Pair[Позвать вдвоём в запрос]
+
+    Create --&gt; Published{Опубликовалось?}
+    Published --&gt;|сбой| CreateErr[&quot;Error: запрос не опубликовался&quot;]
+    CreateErr --&gt; Create
+    Published --&gt;|да| DateSet
+
+    Pair --&gt; SecondAgrees{Второй согласился?}
+    SecondAgrees --&gt;|нет| Dialog
+    SecondAgrees --&gt;|да| AuthorPair{Автор подтвердил пару?}
+    AuthorPair --&gt;|нет| Dialog
+    AuthorPair --&gt;|да| DateSet{День назначен?}
+
+    DateSet --&gt;|нет| Dead
+    DateSet --&gt;|да| Remind[Напоминание Still going?]
+    Remind --&gt; Win([&quot;Job закрыт: встреча назначена&quot;])
+
+    Dead --&gt; Revived{Вернулись к разговору за 14 дней?}
+    Revived --&gt;|да| Dialog
+    Revived --&gt;|нет| NoPlan([&quot;Job не закрыт: разговор затух — назад в колоду&quot;])
+</pre></details>
+<p><strong>Точки решения.</strong></p>
+<ol><li><strong>Разговор пошёл?</strong> — ice-breaker в пустом чате существует ради этой развилки.</li>
+<li><strong>Кто-то предложил встретиться?</strong> — самый частый провал в категории: «we should definitely grab a coffee… no date is set, the conversation dies» (FirstMove, <strong>C</strong>).</li>
+<li><strong>Есть конкретное занятие?</strong> — «надо пересечься» это <strong>не</strong> выход: по <code class="dcode">D-23</code> занятие обязательно, и здесь та же граница, что между запросом и анкетой.</li>
+<li><strong>На двоих, на больше людей или чужое?</strong> — три выхода из чата: предложить день на двоих (<code class="dcode">D-39</code>), опубликовать план на компанию, позвать друг друга в чужой запрос вдвоём (<code class="dcode">D-36</code>).</li>
+<li><strong>День назначен?</strong> — дата появляется при договорённости, а не при создании (<code class="dcode">D-23</code>).</li></ol>
+<p><strong>Состояния.</strong> Пустой диалог с ice-breaker · <strong>разговор без даты</strong> · ошибка публикации · ждёт согласия второго.</p>
+<p><strong>Тупика нет, но есть главный провал продукта:</strong> разговор затух. Человек возвращается в колоду — формально ничего не сломалось, — но люди совпали, поговорили, и M1 не сдвинулся ни на шаг. <strong>Метрика:</strong> доля диалогов, дошедших до назначенного дня (§11).</p>
+      </article>
+      <article class="flow" id="flow-r2">
+        <h3>R2 — решиться идти</h3>
+        <blockquote><p>Когда мы уже списались и пора договариваться о встрече — а всё, что я о нём знаю, он рассказал о себе сам, — я хочу понимать, чем рискую, до того как соглашусь на место и время.</p></blockquote>
+<p><strong>Кто:</strong> Даша, primary.</p>
+<div class="diagram"><pre class="mermaid">flowchart TD
+    Start([В чате зашла речь о встрече]) --&gt; PlanCard[Карточка запроса]
+    BackToFeed([&quot;Вернулась в ленту&quot;])
+    PlanCard --&gt; WhoAuthor{Сигналов на карточке достаточно?}
+    WhoAuthor --&gt;|нет| Person[Профиль другого человека]
+    WhoAuthor --&gt;|да| HasVerified{Verified есть?}
+    Person --&gt; HasVerified
+
+    HasVerified --&gt;|нет| GoAnyway{Идти без верификации автора?}
+    GoAnyway --&gt;|нет| BackToFeed
+    GoAnyway --&gt;|да| IsPublic{Место публичное?}
+    HasVerified --&gt;|да| IsPublic
+
+    IsPublic --&gt;|нет, приватный адрес| Warn[&quot;Error: приватное место, показать предупреждение&quot;]
+    Warn --&gt; StillGo{Всё равно идти?}
+    StillGo --&gt;|нет| BackToFeed
+    StillGo --&gt;|да| Ask[&quot;Карточка запроса: отклик отправлен&quot;]
+    IsPublic --&gt;|да| Ask
+
+    Ask --&gt; Wait[&quot;Loading: жду ответа автора&quot;]
+    Wait --&gt; Confirmed{Автор подтвердил?}
+    Confirmed --&gt;|нет| Rejected[&quot;Error: отклик отклонён, искать дальше&quot;]
+    Rejected --&gt; BackToFeed
+    Confirmed --&gt;|молчит| NoReply[&quot;Карточка запроса: автор не ответил — отозвать или смотреть другие&quot;]
+    NoReply --&gt; BackToFeed
+    Confirmed --&gt;|да| Dialog[Диалог]
+
+    Dialog --&gt;|день назначен| Share[Ссылка близкому Share my plans]
+    Share --&gt; FirstMeet{Первая встреча в продукте?}
+    FirstMeet --&gt;|да| Tips[&quot;Safety center: sheet перед первой встречей&quot;]
+    Tips --&gt; Uneasy{Тревожно после разговора?}
+    FirstMeet --&gt;|нет| Uneasy
+    Uneasy --&gt;|да| Report[Жалоба]
+    Report --&gt; Block[Блокировка]
+    Block --&gt; StuckBlocked([&quot;Контакт прекращён, человек в списке заблокированных&quot;])
+    Uneasy --&gt;|нет| Win([&quot;Job закрыт: пошла, риск был понятен заранее&quot;])</pre></div>
+<details class="src"><summary>Разметка <code>flowchart TD</code></summary><pre class="ascii">flowchart TD
+    Start([В чате зашла речь о встрече]) --&gt; PlanCard[Карточка запроса]
+    BackToFeed([&quot;Вернулась в ленту&quot;])
+    PlanCard --&gt; WhoAuthor{Сигналов на карточке достаточно?}
+    WhoAuthor --&gt;|нет| Person[Профиль другого человека]
+    WhoAuthor --&gt;|да| HasVerified{Verified есть?}
+    Person --&gt; HasVerified
+
+    HasVerified --&gt;|нет| GoAnyway{Идти без верификации автора?}
+    GoAnyway --&gt;|нет| BackToFeed
+    GoAnyway --&gt;|да| IsPublic{Место публичное?}
+    HasVerified --&gt;|да| IsPublic
+
+    IsPublic --&gt;|нет, приватный адрес| Warn[&quot;Error: приватное место, показать предупреждение&quot;]
+    Warn --&gt; StillGo{Всё равно идти?}
+    StillGo --&gt;|нет| BackToFeed
+    StillGo --&gt;|да| Ask[&quot;Карточка запроса: отклик отправлен&quot;]
+    IsPublic --&gt;|да| Ask
+
+    Ask --&gt; Wait[&quot;Loading: жду ответа автора&quot;]
+    Wait --&gt; Confirmed{Автор подтвердил?}
+    Confirmed --&gt;|нет| Rejected[&quot;Error: отклик отклонён, искать дальше&quot;]
+    Rejected --&gt; BackToFeed
+    Confirmed --&gt;|молчит| NoReply[&quot;Карточка запроса: автор не ответил — отозвать или смотреть другие&quot;]
+    NoReply --&gt; BackToFeed
+    Confirmed --&gt;|да| Dialog[Диалог]
+
+    Dialog --&gt;|день назначен| Share[Ссылка близкому Share my plans]
+    Share --&gt; FirstMeet{Первая встреча в продукте?}
+    FirstMeet --&gt;|да| Tips[&quot;Safety center: sheet перед первой встречей&quot;]
+    Tips --&gt; Uneasy{Тревожно после разговора?}
+    FirstMeet --&gt;|нет| Uneasy
+    Uneasy --&gt;|да| Report[Жалоба]
+    Report --&gt; Block[Блокировка]
+    Block --&gt; StuckBlocked([&quot;Контакт прекращён, человек в списке заблокированных&quot;])
+    Uneasy --&gt;|нет| Win([&quot;Job закрыт: пошла, риск был понятен заранее&quot;])
+</pre></details>
+<p><strong>Точки решения.</strong></p>
+<ol><li><strong>Кто автор?</strong> — если четырёх сигналов на карточке мало, человек уходит в профиль целиком.</li>
+<li><strong>Verified есть?</strong> — единственный сигнал, который что-то доказывает; и то только живое фото (<code class="dcode">D-26</code>).</li>
+<li><strong>Место публичное?</strong> — публичное по умолчанию, приватное показывает предупреждение (<code class="dcode">D-07</code>).</li>
+<li><strong>Первая встреча в продукте?</strong> — safety tips показываются sheet'ом перед первой встречей (§7.2), тот же экран доступен за аватаром.</li>
+<li><strong>Тревожно после разговора?</strong> — Report и Block доступны с любого экрана (правило 4).</li></ol>
+<p><strong>Состояния.</strong> Предупреждение о приватном месте · жду ответа · отклик отклонён · автор не ответил — отозвать или смотреть другие.</p>
+<p><strong>Тупиков нет.</strong> Два отказа — «автор не проверен» и «место не устраивает» — осознанные и возвращают в ленту. Единственный терминал без job — блокировка, и это выход, а не провал.</p>
+      </article>
+      <article class="flow" id="flow-r4">
+        <h3>R4 — увидеться снова, не начиная заново</h3>
+        <blockquote><p>Когда встреча прошла хорошо и я хочу повторить — а договариваться заново с каждым значит снова писать первой, — я хочу продолжить с теми же людьми без усилия первого раза.</p></blockquote>
+<p><strong>Кто:</strong> Максим и Оля (secondary), Даша (primary) — источник Холла измерен на переехавших.</p>
+<div class="diagram"><pre class="mermaid">flowchart TD
+    Start([Встреча прошла]) --&gt; Notif{Уведомления разрешены?}
+    Notif --&gt;|да, пуш| WhoMade[Кто дошёл Who made it?]
+    Notif --&gt;|нет| CardCheck[&quot;Карточка запроса: уведомления выключены — check-in и повтор здесь&quot;]
+    CardCheck --&gt; WhoMade
+    WhoMade --&gt; InWindow{Ответила в окно 14 дней?}
+    InWindow --&gt;|нет| Closed[&quot;Empty: окно check-in закрыто&quot;]
+    Closed --&gt;|встреча не засчитана, но предложение придёт, D-34| WantAgain{Повторить с теми же?}
+    InWindow --&gt;|да| MarkedBack{Кого-то отметили в ответ?}
+    MarkedBack --&gt;|нет, присутствие не подтверждено| WantAgain
+    MarkedBack --&gt;|да| Profile[&quot;Мой профиль: счётчик встреч вырос&quot;]
+
+    Profile --&gt; WantAgain
+    WantAgain --&gt;|нет| Feed[Лента запросов]
+    Feed --&gt; NewSearch([&quot;Job не закрыт: ищет новую компанию&quot;])
+    WantAgain --&gt;|да| Offer[Предложение повторить]
+
+    Offer --&gt; AnyoneIn{Кто-то из участников согласился?}
+    AnyoneIn --&gt;|нет, предложение погасло| OfferDead[&quot;Empty: предложение повторить погасло — назад в ленту&quot;]
+    OfferDead --&gt; Feed
+    AnyoneIn --&gt;|да| Series[&quot;Карточка запроса: серия с историей&quot;]
+    Series --&gt; SeriesChat[&quot;Диалог: чат серии&quot;]
+    SeriesChat --&gt; Remind[Напоминание Still going?]
+
+    Remind --&gt; SecondTime{Дошли во второй раз?}
+    SecondTime --&gt;|нет, вторичный срез §11 не засчитан| Feed
+    SecondTime --&gt;|да| Win([&quot;Job закрыт: пара с двумя встречами&quot;])</pre></div>
+<details class="src"><summary>Разметка <code>flowchart TD</code></summary><pre class="ascii">flowchart TD
+    Start([Встреча прошла]) --&gt; Notif{Уведомления разрешены?}
+    Notif --&gt;|да, пуш| WhoMade[Кто дошёл Who made it?]
+    Notif --&gt;|нет| CardCheck[&quot;Карточка запроса: уведомления выключены — check-in и повтор здесь&quot;]
+    CardCheck --&gt; WhoMade
+    WhoMade --&gt; InWindow{Ответила в окно 14 дней?}
+    InWindow --&gt;|нет| Closed[&quot;Empty: окно check-in закрыто&quot;]
+    Closed --&gt;|встреча не засчитана, но предложение придёт, D-34| WantAgain{Повторить с теми же?}
+    InWindow --&gt;|да| MarkedBack{Кого-то отметили в ответ?}
+    MarkedBack --&gt;|нет, присутствие не подтверждено| WantAgain
+    MarkedBack --&gt;|да| Profile[&quot;Мой профиль: счётчик встреч вырос&quot;]
+
+    Profile --&gt; WantAgain
+    WantAgain --&gt;|нет| Feed[Лента запросов]
+    Feed --&gt; NewSearch([&quot;Job не закрыт: ищет новую компанию&quot;])
+    WantAgain --&gt;|да| Offer[Предложение повторить]
+
+    Offer --&gt; AnyoneIn{Кто-то из участников согласился?}
+    AnyoneIn --&gt;|нет, предложение погасло| OfferDead[&quot;Empty: предложение повторить погасло — назад в ленту&quot;]
+    OfferDead --&gt; Feed
+    AnyoneIn --&gt;|да| Series[&quot;Карточка запроса: серия с историей&quot;]
+    Series --&gt; SeriesChat[&quot;Диалог: чат серии&quot;]
+    SeriesChat --&gt; Remind[Напоминание Still going?]
+
+    Remind --&gt; SecondTime{Дошли во второй раз?}
+    SecondTime --&gt;|нет, вторичный срез §11 не засчитан| Feed
+    SecondTime --&gt;|да| Win([&quot;Job закрыт: пара с двумя встречами&quot;])
+</pre></details>
+<p><strong>Точки решения.</strong></p>
+<ol><li><strong>Ответила в окно?</strong> — окно 14 дней, пропустить можно; при заполняемости ниже 40 % механизм репутации не наполняется (<code class="dcode">D-18</code>).</li>
+<li><strong>Кого-то отметили в ответ?</strong> — присутствие засчитано, если отметил хотя бы один другой.</li>
+<li><strong>Кто-то согласился?</strong> — предложение повторить приходит <strong>после встречи любому участнику</strong> и не зависит от check-in (<code class="dcode">D-34</code>). Прежняя развилка «запрос был помечен как повторяющийся?» снята: она спрашивала о повторе до того, как человек мог о нём судить, и роняла R4 тихо.</li></ol>
+<p><strong>Состояния.</strong> Окно check-in закрыто · предложение повторить погасло · серия с историей · чат серии · уведомления выключены — check-in и повтор с карточки (<code class="dcode">D-40</code>).</p>
+<p><strong>Тупиков нет — есть две дыры измерения.</strong> Пропущенный check-in и неподтверждённое присутствие не мешают повтору (<code class="dcode">D-34</code>), но счётчик встреч не растёт, и метрика повтора §11 читается как нижняя граница. Развилка «дошли во второй раз?» — место, где считается вторичный срез §11: пришёл ли на второй раз кто-то из первого состава.</p>
+      </article>
+      <article class="flow" id="flow-r3">
+        <h3>R3 — не приехать к пустому столу</h3>
+        <blockquote><p>Когда я решаю, ехать ли на встречу, где записалось восемь незнакомых людей, — я хочу быть уверенной, что не окажусь там одна.</p></blockquote>
+<p><strong>Кто:</strong> Оля и Артём — <strong>secondary-flow</strong> <code class="dcode">D-35</code>. На <code>+1</code> пустого стола не бывает: вопрос «сколько подтвердило» вырождается в «только я или никто». <strong>Но экран напоминания рисуется сначала под пару</strong> — там молчание единственного участника означает, что встречи не будет вовсе (<code class="dcode">D-24</code>).</p>
+<div class="diagram"><pre class="mermaid">flowchart TD
+    Start([За сутки до встречи]) --&gt; Notif{Уведомления разрешены?}
+    Notif --&gt;|да, пуш| Remind[Напоминание Still going?]
+    Notif --&gt;|нет| CardRemind[&quot;Карточка запроса: уведомления выключены — ответить здесь&quot;]
+    CardRemind --&gt; Remind
+    Remind --&gt; Answered{Ответила?}
+
+    Answered --&gt;|нет| Silent[&quot;Карточка запроса: счётчик going&quot;]
+    Answered --&gt;|Can't make it| Freed[&quot;Карточка запроса: место освободилось&quot;]
+    Freed --&gt; WinHonest([&quot;Job закрыт иначе: вышла заранее, честнее молчаливой неявки&quot;])
+    Answered --&gt;|Yes| Confirmed[&quot;Карточка запроса: счётчик confirmed&quot;]
+
+    Silent --&gt;|место не освобождается, D-16| HowMany{Сколько подтвердило?}
+
+    Confirmed --&gt; HowMany
+    HowMany --&gt;|только я| Alone[&quot;Карточка запроса: 1 confirmed&quot;]
+    Alone --&gt; GoAlone{Ехать одной?}
+    GoAlone --&gt;|нет, Can't make it| Freed
+    GoAlone --&gt;|да| WhoMade
+    HowMany --&gt;|двое и больше| WhoMade[Кто дошёл Who made it?]
+
+    WhoMade --&gt; AnyoneElse{Кто-то дошёл кроме меня?}
+    AnyoneElse --&gt;|нет| StuckEmptyTable([&quot;Тупик: приехала к пустому столу, job провален&quot;])
+    AnyoneElse --&gt;|да| Win([&quot;Job закрыт: встреча состоялась, присутствие засчитано&quot;])</pre></div>
+<details class="src"><summary>Разметка <code>flowchart TD</code></summary><pre class="ascii">flowchart TD
+    Start([За сутки до встречи]) --&gt; Notif{Уведомления разрешены?}
+    Notif --&gt;|да, пуш| Remind[Напоминание Still going?]
+    Notif --&gt;|нет| CardRemind[&quot;Карточка запроса: уведомления выключены — ответить здесь&quot;]
+    CardRemind --&gt; Remind
+    Remind --&gt; Answered{Ответила?}
+
+    Answered --&gt;|нет| Silent[&quot;Карточка запроса: счётчик going&quot;]
+    Answered --&gt;|Can't make it| Freed[&quot;Карточка запроса: место освободилось&quot;]
+    Freed --&gt; WinHonest([&quot;Job закрыт иначе: вышла заранее, честнее молчаливой неявки&quot;])
+    Answered --&gt;|Yes| Confirmed[&quot;Карточка запроса: счётчик confirmed&quot;]
+
+    Silent --&gt;|место не освобождается, D-16| HowMany{Сколько подтвердило?}
+
+    Confirmed --&gt; HowMany
+    HowMany --&gt;|только я| Alone[&quot;Карточка запроса: 1 confirmed&quot;]
+    Alone --&gt; GoAlone{Ехать одной?}
+    GoAlone --&gt;|нет, Can't make it| Freed
+    GoAlone --&gt;|да| WhoMade
+    HowMany --&gt;|двое и больше| WhoMade[Кто дошёл Who made it?]
+
+    WhoMade --&gt; AnyoneElse{Кто-то дошёл кроме меня?}
+    AnyoneElse --&gt;|нет| StuckEmptyTable([&quot;Тупик: приехала к пустому столу, job провален&quot;])
+    AnyoneElse --&gt;|да| Win([&quot;Job закрыт: встреча состоялась, присутствие засчитано&quot;])
+</pre></details>
+<p><strong>Точки решения.</strong></p>
+<ol><li><strong>Ответила?</strong> — три исхода, и молчание не равно отказу (<code class="dcode">D-16</code>).</li>
+<li><strong>Молчание</strong> — не развилка, а правило <code class="dcode">D-16</code>: место не освобождается, человек остаётся <code>going</code>.</li>
+<li><strong>Сколько подтвердило?</strong> — на <code>+1</code> ответ всегда «только я или никто», поэтому этот flow и не про Дашу <code class="dcode">D-35</code>. Механизм при этом на паре не слабее, а сильнее: один неответ означает, что встречи нет.</li>
+<li><strong>Кто-то дошёл кроме меня?</strong> — единственная проверка, которая закрывает job фактом.</li></ol>
+<p><strong>Состояния.</strong> Счётчик <code>going</code> · счётчик <code>confirmed</code> · место освободилось · <code>1 confirmed</code> · уведомления выключены — ответить с карточки (<code class="dcode">D-40</code>).</p>
+<p><strong>Один тупик — пустой стол.</strong> «Не поехала» тупиком больше не считается: это <code>Can't make it</code>, место освобождается, остальные знают.</p>
+      </article>
+      <article class="flow" id="flow-r5-s2">
+        <h3>R5 / S2 — автор: собрать компанию и не бросить</h3>
+        <blockquote><p>Когда я в пятый раз собираю ту же встречу и снова считаю, сколько из записавшихся придёт, — а новых людей взять неоткуда, потому что все, кого я знаю, уже здесь, — я хочу, чтобы это держалось не только на мне, чтобы не выгореть и не бросить на шестом.</p>
+<p><strong>S2:</strong> когда я организую встречу, я хочу, чтобы меня знали как человека, который собирает людей, а не как безымянное объявление.</p></blockquote>
+<p><strong>Кто:</strong> Артём (R5, S2) — сторона предложения.</p>
+<div class="diagram"><pre class="mermaid">flowchart TD
+    Start([Есть план, нужна компания]) --&gt; Create[Создание запроса]
+    Create --&gt; Tmpl{Шаблон подходит?}
+    Tmpl --&gt;|да| Filled[&quot;Создание запроса: заполнено из шаблона&quot;]
+    Tmpl --&gt;|нет| Typed[&quot;Создание запроса: занятие своими словами&quot;]
+    Filled --&gt; HowMany{Сколько нужно?}
+    Typed --&gt; HowMany
+    HowMany --&gt;|+1, по умолчанию| Limit{Ограничить свой пол?  D-25}
+    HowMany --&gt;|+N| Limit
+    Limit --&gt;|нет, Anyone| Publish{Опубликовалось?}
+    Limit --&gt;|да, только свой пол| Publish
+    Publish --&gt;|сбой| CreateErr[&quot;Error: запрос не опубликовался&quot;]
+    CreateErr --&gt; Create
+    Publish --&gt;|да| MyPlans[Мои планы]
+    MyPlans --&gt; Responses[Отклики на мой запрос]
+    Responses --&gt; Any{Кто-нибудь откликнулся?}
+    Any --&gt;|нет| RespEmpty[&quot;Empty: откликов пока нет — смотреть чужие планы&quot;]
+    RespEmpty --&gt; Alive{Запрос ещё жив?}
+    Alive --&gt;|да| Responses
+    Alive --&gt;|нет, 14 дней| Expired[&quot;Карточка запроса: погас&quot;]
+    Expired --&gt; Extend{Продлить?}
+    Extend --&gt;|да| MyPlans
+    Extend --&gt;|нет| BackToFeed([Вернулся в ленту])
+    Any --&gt;|да, один| Confirm[&quot;Отклики: подтвердить или отклонить&quot;]
+    Any --&gt;|да, пара вдвоём| PairConfirm[&quot;Отклики: пара — подтвердить обоих или никого  D-36&quot;]
+    PairConfirm --&gt; Confirm
+    Confirm --&gt; Verified{Автор верифицирован?}
+    Verified --&gt;|нет| Gate[&quot;Отклики: гейт верификации&quot;]
+    Gate --&gt; Verify[Верификация]
+    Verify --&gt; Confirm
+    Verified --&gt;|да| Confirmed{Кого-то подтвердил?}
+    Confirmed --&gt;|никого| Responses
+    Confirmed --&gt;|да| DateSet{День назначен?}
+    DateSet --&gt;|нет| Dialog[&quot;Диалог: чат запроса без даты&quot;]
+    Dialog --&gt; DateSet
+    DateSet --&gt;|да| Remind[Напоминание Still going?]
+    Remind --&gt; Happened{Встреча состоялась?}
+    Happened --&gt;|нет| NoShow([&quot;Job не закрыт: не собрались — назад в ленту&quot;])
+    Happened --&gt;|да| WhoMade[Кто дошёл Who made it?]
+    WhoMade --&gt; Offer[Предложение повторить]
+    Offer --&gt; Again{Кто-то согласился повторить?}
+    Again --&gt;|нет| Once([&quot;Job частично: собрал один раз&quot;])
+    Again --&gt;|да| Win([&quot;Job закрыт: компания дожила до второй встречи&quot;])</pre></div>
+<details class="src"><summary>Разметка <code>flowchart TD</code></summary><pre class="ascii">flowchart TD
+    Start([Есть план, нужна компания]) --&gt; Create[Создание запроса]
+    Create --&gt; Tmpl{Шаблон подходит?}
+    Tmpl --&gt;|да| Filled[&quot;Создание запроса: заполнено из шаблона&quot;]
+    Tmpl --&gt;|нет| Typed[&quot;Создание запроса: занятие своими словами&quot;]
+    Filled --&gt; HowMany{Сколько нужно?}
+    Typed --&gt; HowMany
+    HowMany --&gt;|+1, по умолчанию| Limit{Ограничить свой пол?  D-25}
+    HowMany --&gt;|+N| Limit
+    Limit --&gt;|нет, Anyone| Publish{Опубликовалось?}
+    Limit --&gt;|да, только свой пол| Publish
+    Publish --&gt;|сбой| CreateErr[&quot;Error: запрос не опубликовался&quot;]
+    CreateErr --&gt; Create
+    Publish --&gt;|да| MyPlans[Мои планы]
+    MyPlans --&gt; Responses[Отклики на мой запрос]
+    Responses --&gt; Any{Кто-нибудь откликнулся?}
+    Any --&gt;|нет| RespEmpty[&quot;Empty: откликов пока нет — смотреть чужие планы&quot;]
+    RespEmpty --&gt; Alive{Запрос ещё жив?}
+    Alive --&gt;|да| Responses
+    Alive --&gt;|нет, 14 дней| Expired[&quot;Карточка запроса: погас&quot;]
+    Expired --&gt; Extend{Продлить?}
+    Extend --&gt;|да| MyPlans
+    Extend --&gt;|нет| BackToFeed([Вернулся в ленту])
+    Any --&gt;|да, один| Confirm[&quot;Отклики: подтвердить или отклонить&quot;]
+    Any --&gt;|да, пара вдвоём| PairConfirm[&quot;Отклики: пара — подтвердить обоих или никого  D-36&quot;]
+    PairConfirm --&gt; Confirm
+    Confirm --&gt; Verified{Автор верифицирован?}
+    Verified --&gt;|нет| Gate[&quot;Отклики: гейт верификации&quot;]
+    Gate --&gt; Verify[Верификация]
+    Verify --&gt; Confirm
+    Verified --&gt;|да| Confirmed{Кого-то подтвердил?}
+    Confirmed --&gt;|никого| Responses
+    Confirmed --&gt;|да| DateSet{День назначен?}
+    DateSet --&gt;|нет| Dialog[&quot;Диалог: чат запроса без даты&quot;]
+    Dialog --&gt; DateSet
+    DateSet --&gt;|да| Remind[Напоминание Still going?]
+    Remind --&gt; Happened{Встреча состоялась?}
+    Happened --&gt;|нет| NoShow([&quot;Job не закрыт: не собрались — назад в ленту&quot;])
+    Happened --&gt;|да| WhoMade[Кто дошёл Who made it?]
+    WhoMade --&gt; Offer[Предложение повторить]
+    Offer --&gt; Again{Кто-то согласился повторить?}
+    Again --&gt;|нет| Once([&quot;Job частично: собрал один раз&quot;])
+    Again --&gt;|да| Win([&quot;Job закрыт: компания дожила до второй встречи&quot;])
+</pre></details>
+<p><strong>Точки решения.</strong></p>
+<ol><li><strong>Шаблон подходит?</strong> — шаблоны предзаполняют единственный шаг создания (§5.4 «Шаблоны»).</li>
+<li><strong>Сколько нужно?</strong> — шаг открывается на <code>+1</code>, интерфейс не подталкивает вверх (<code class="dcode">D-24</code>).</li>
+<li><strong>Ограничить свой пол?</strong> — <code class="dcode">D-25</code>: доступно только тому, кто указал пол, и только на свой пол.</li>
+<li><strong>Пара вдвоём?</strong> — подтвердить обоих или никого (<code class="dcode">D-36</code>).</li>
+<li><strong>Автор верифицирован?</strong> — гейт верификации стоит на подтверждении отклика (§7.3, правило 9).</li>
+<li><strong>День назначен?</strong> — страховка 2: дата обязана появиться при подтверждении (<code class="dcode">D-23</code>).</li></ol>
+<p><strong>Состояния.</strong> Заполнено из шаблона · своими словами · ошибка публикации · откликов нет · погас · пара · гейт на подтверждении · чат без даты.</p>
+<p><strong>Тупиков нет.</strong> Пустые отклики, погасший запрос и несобравшаяся встреча — терминалы с возвратом в ленту.</p>
+      </article>
+      <article class="flow" id="flow-s1">
+        <h3>S1 — выглядеть тем, кому можно доверять (trust loop)</h3>
+        <blockquote><p>Когда я прихожу к незнакомым людям, я хочу, чтобы во мне видели человека, которому можно доверять, а не случайного из интернета.</p></blockquote>
+<p><strong>Кто:</strong> Даша, Максим, Артём (S1).</p>
+<div class="diagram"><pre class="mermaid">flowchart TD
+    Start([Встреча прошла]) --&gt; WhoMade[Кто дошёл Who made it?]
+    WhoMade --&gt; Filled{Отметила, кого видела?}
+    Filled --&gt;|да| Counted{Отметил хотя бы один другой участник?}
+    Filled --&gt;|нет, окно закрылось| Closed[&quot;Empty: окно check-in закрыто&quot;]
+    Closed --&gt; Counted
+    Counted --&gt;|нет| NotCounted[&quot;Мой профиль: счётчик не вырос&quot;]
+    NotCounted --&gt; Boost[Что поднимет уровень]
+    Counted --&gt;|да| Grew[&quot;Мой профиль: счётчик встреч вырос&quot;]
+    Grew --&gt; Tier{Ступень поднялась?}
+    Tier --&gt;|нет| Boost
+    Tier --&gt;|да| Card[&quot;Профиль другого человека: новая ступень видна на карточке&quot;]
+    Boost --&gt; Steps{Есть шаг, который могу сделать сегодня?}
+    Steps --&gt;|верификация| Verify[Верификация]
+    Steps --&gt;|фото, интересы| Edit[Редактирование профиля]
+    Steps --&gt;|только встречи| Feed[Лента запросов]
+    Verify --&gt; Tier
+    Edit --&gt; Tier
+    Feed --&gt; Later([&quot;Job не закрыт: ступень растёт только встречами&quot;])
+    Card --&gt; Win([&quot;Job закрыт: на карточке видно, что мне можно доверять&quot;])</pre></div>
+<details class="src"><summary>Разметка <code>flowchart TD</code></summary><pre class="ascii">flowchart TD
+    Start([Встреча прошла]) --&gt; WhoMade[Кто дошёл Who made it?]
+    WhoMade --&gt; Filled{Отметила, кого видела?}
+    Filled --&gt;|да| Counted{Отметил хотя бы один другой участник?}
+    Filled --&gt;|нет, окно закрылось| Closed[&quot;Empty: окно check-in закрыто&quot;]
+    Closed --&gt; Counted
+    Counted --&gt;|нет| NotCounted[&quot;Мой профиль: счётчик не вырос&quot;]
+    NotCounted --&gt; Boost[Что поднимет уровень]
+    Counted --&gt;|да| Grew[&quot;Мой профиль: счётчик встреч вырос&quot;]
+    Grew --&gt; Tier{Ступень поднялась?}
+    Tier --&gt;|нет| Boost
+    Tier --&gt;|да| Card[&quot;Профиль другого человека: новая ступень видна на карточке&quot;]
+    Boost --&gt; Steps{Есть шаг, который могу сделать сегодня?}
+    Steps --&gt;|верификация| Verify[Верификация]
+    Steps --&gt;|фото, интересы| Edit[Редактирование профиля]
+    Steps --&gt;|только встречи| Feed[Лента запросов]
+    Verify --&gt; Tier
+    Edit --&gt; Tier
+    Feed --&gt; Later([&quot;Job не закрыт: ступень растёт только встречами&quot;])
+    Card --&gt; Win([&quot;Job закрыт: на карточке видно, что мне можно доверять&quot;])
+</pre></details>
+<p><strong>Точки решения.</strong></p>
+<ol><li><strong>Отметил хотя бы один другой участник?</strong> — double-blind: кто кого отметил, не видит никто (§5.5.1).</li>
+<li><strong>Ступень поднялась?</strong> — первая ступень зарабатывается (<code class="dcode">D-14</code>); пороги <code>[?]</code>, калибруются на данных.</li>
+<li><strong>Есть шаг на сегодня?</strong> — экран «что поднимет уровень» называет конкретные шаги.</li></ol>
+<p><strong>Состояния.</strong> Окно закрыто · счётчик не вырос · вырос.</p>
+<p><strong>Тупиков нет.</strong> Единственный терминал без успеха — «ступень растёт только встречами» — ведёт в ленту запросов.</p>
+      </article>
+      <article class="flow">
+        <h3>Что эти flows показали</h3>
+        <div class="tw"><table><thead><tr><th>Находка</th><th>Куда идёт</th></tr></thead><tbody>
+<tr><td><strong>Тупиков осталось два из четырнадцати</strong> — остальные оказались возвратами без стрелки</td><td>Легенда дополнена терминалом «Job не закрыт … назад»; настоящие тупики — пустой старт (<code class="dcode">D-02</code>) и пустой стол (R3, <code class="dcode">D-35</code>); «автор молчит» — закрыто уточнением §5.4: отклик живёт, пока жив запрос, и его можно отозвать</td></tr>
+<tr><td><strong>Ошибки загрузки и публикации</strong> не были описаны как состояния</td><td>Добавлены в <code>sitemap.md</code></td></tr>
+<tr><td><strong>«Отклик отклонён» и «отклики: пусто»</strong> не были состояниями</td><td>Добавлены в <code>sitemap.md</code></td></tr>
+<tr><td><s>R4 ломается на развилке «запрос не был помечен повторяющимся»</s></td><td>**Решено <code class="dcode">D-34</code>:** повтор предлагается после встречи, начать может любой участник</td></tr>
+<tr><td>~~R3 на <code>+1</code> вырождается~~</td><td>**Решено <code class="dcode">D-35</code>:** R3 остаётся групповым, но экран напоминания рисуется pair-first</td></tr>
+<tr><td><strong>Главный тупик продукта — «разговор без даты»</strong></td><td>Стал именованным состоянием диалога; выход из чата спроектирован в §5.3</td></tr>
+<tr><td><strong>У R1 не было метрики</strong>, хотя после <code class="dcode">D-37</code> это центральный job основного пути</td><td><strong>Добавлена в §11:</strong> доля диалогов, дошедших до назначенного дня</td></tr>
+<tr><td><strong>«Взаимного лайка нет» — не тупик, а ожидание</strong></td><td>Цена <code class="dcode">D-37</code>: основной путь упирается в чужое решение, поэтому второй путь остаётся глобальным</td></tr>
+<tr><td>**Теги дерева экранов отстали от <code class="dcode">D-37</code>**: колода и вход несли R1 в старом смысле, а поток R1 через них не идёт</td><td>Сверка потоков с матрицей — <code>sitemap.md</code>, «Трассировка → Проверка потоками»; теги девяти экранов выровнены</td></tr>
+<tr><td><strong>«Договорились сами» не имело объекта</strong> — встречу порождал только запрос</td><td>**Решено <code class="dcode">D-39</code>:** день из чата — запрос <code>+1</code> с датой</td></tr>
+<tr><td><strong>Потоки автора и trust loop</strong> были обязательны по §6 брифа (flows 4 и 6), но не нарисованы</td><td>Добавлены R5/S2 и S1; ветка «ограничить свой пол» ушла из R2 сюда</td></tr>
+</tbody></table></div>
+      </article>
+    </section>
+
+    <section id="entities">
+      <h2>Сущности</h2>
+      <p><strong>Правило отбора.</strong> Сущность попадает в основной список, только если её требует хотя бы один job из <code>jtbd.md</code>. Всё, что есть в брифе, но ни одним job не порождается, — в разделе «Под вопросом» ниже, а не здесь. <code>[?]</code> — объект предполагается, а не выведен.</p>
+<p><strong>Как читать связи:</strong> <code>→</code> «состоит из / порождает», <code>←</code> «принадлежит / ссылается на».</p>
+<h4 id="карта-связей">Карта связей</h4>
+<pre class="ascii">Человек ──────────── лайк ──→ Совпадение ──→ Чат 1:1
+   │                                            └─ день назначен ──→ Запрос +1 с датой  D-39
+   ├─ автор ─→ Запрос ──→ Отклик ──→ (подтверждён) ──→ Чат запроса
+   │              │                                        │
+   │              ├─ повтор ─→ Серия ──────────────────────┤
+   │              │                                        │
+   │              └─ дата назначена ─→ Встреча ←───────────┘
+   │                                     ├─→ Подтверждение явки (Still going?)
+   │                                     ├─→ Подтверждение присутствия (Who made it?)
+   │                                     └─→ Ссылка близкому
+   │
+   ├─→ Верификация · Ступень · Отзывчивость · Счётчик встреч  (сигналы доверия)
+   └─→ Жалоба / Блокировка</pre>
+<h4 id="1-человек-профиль">1. Человек (профиль)</h4>
+<p><strong>Порождает:</strong> M1 «не с кем» — нужен второй человек, и находится он по интересам; R2 «всё, что я о нём знаю, он рассказал сам»; S1 «чтобы во мне видели человека, которому можно доверять»; G1 «за несколько секунд понять».</p>
+<div class="tw"><table><thead><tr><th>Часть</th><th>Поля</th><th>Из какого job</th></tr></thead><tbody>
+<tr><td>Идентификация</td><td>имя, возраст, город</td><td>M1, G1</td></tr>
+<tr><td>Фото</td><td>2–6, одно главное</td><td>R2 · G1 — по ним судят до контакта</td></tr>
+<tr><td>Интересы</td><td>3+ тега из каталога</td><td>M1 («знакомство по интересам»), G3</td></tr>
+<tr><td>Био</td><td>до ~150 символов</td><td>G1</td></tr>
+<tr><td>Пол</td><td>опционально; нужен только для ограничения отклика на своём запросе</td><td>R2 (через ограничение «кто может откликнуться»)</td></tr>
+<tr><td>Интент</td><td>чипы «зачем ты здесь»</td><td><strong>ни одного job</strong> → см. «Под вопросом»</td></tr>
+<tr><td><strong>Сигналы доверия</strong></td><td>Verified · ступень · счётчик подтверждённых встреч · отзывчивость</td><td>R2, S1, G1</td></tr>
+<tr><td>Предпочтения</td><td>возрастной диапазон, радиус, кого ищу</td><td>— служебные, job не порождает <code>[?]</code></td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> → свои запросы · → отклики · → совпадения · → чаты · → подтверждённые встречи (счётчик) · → верификация · → жалобы и блокировки (в обе стороны).</p>
+<p><strong>Чего в профиле нет по job:</strong> оценок от других людей (S1 — «выглядеть тем, кому можно доверять», а не «быть оценённым»), присутствия «онлайн».</p>
+<h4 id="2-запрос-на-компанию">2. Запрос на компанию</h4>
+<p><strong>Порождает:</strong> M1 «у моих планов была компания»; R1 «у разговора есть выход в конкретный день» — запрос и есть то, во что разговор выходит <code class="dcode">D-37</code>, включая день, назначенный в чате <code class="dcode">D-39</code>; G2 «хочу куда-то пойти, а компании нет»; G3 «занятие есть, компании нет»; R5, S2 — со стороны автора.</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Обязательность</th><th>Из какого job</th></tr></thead><tbody>
+<tr><td><strong>Занятие</strong> — что делаем</td><td>обязательно</td><td>G2, G3, R1</td></tr>
+<tr><td><strong>Сколько нужно</strong></td><td>обязательно, по умолчанию <code>+1</code></td><td>R3 («записалось восемь» — размер компании), M1</td></tr>
+<tr><td>Дата и время</td><td>опционально; появляется при подтверждении отклика</td><td>R3 (напоминание нужно к дате)</td></tr>
+<tr><td>Место</td><td>опционально; публичное по умолчанию; точный адрес — только подтверждённым</td><td>R2 («не знаю, где мы будем»), E3 («могу уйти»)</td></tr>
+<tr><td>Описание</td><td>опционально</td><td>—</td></tr>
+<tr><td>Категория / теги</td><td>опционально</td><td>G3 (фильтр по хобби)</td></tr>
+<tr><td><strong>Кто может откликнуться</strong></td><td><code>Anyone</code> · <code>Women only</code> · <code>Men only</code>, только свой пол</td><td>R2</td></tr>
+<tr><td>Автор</td><td>ссылка на профиль</td><td>S2 («не безымянное объявление»)</td></tr>
+<tr><td>Статус</td><td>открыт · компания собрана · встреча назначена · прошёл · погас · <strong>отменён</strong> <code class="dcode">D-41</code></td><td>R3, R4</td></tr>
+<tr><td>Срок жизни</td><td>14 дней без даты</td><td>— страховка, не job</td></tr>
+<tr><td>Повторяется</td><td>да / нет → порождает серию</td><td>R4, G4</td></tr>
+<tr><td>Шаблон</td><td>из какого создан</td><td>R5</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← автор (человек) · → отклики · → участники (подтверждённые отклики) · → чат запроса · → встреча (когда назначена дата) · → серия (если повторяется) · ← шаблон.</p>
+<p><strong>Чего у запроса нет по job:</strong> лимита мест как у события (его заменяет «сколько нужно»), роли организатора (R5 — «держалось не только на мне», не «я веду группу»), цены.</p>
+<h4 id="3-отклик">3. Отклик</h4>
+<p><strong>Порождает:</strong> M1 — второй путь к компании, не зависящий от взаимности; E2 «не чувствовать себя навязчивой» — отклик на явный запрос не навязчив по определению; R2 — автор подтверждает, значит контролирует, с кем идёт.</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
+<tr><td>Кто</td><td>профиль откликнувшегося</td></tr>
+<tr><td>На что</td><td>запрос</td></tr>
+<tr><td>Статус</td><td>ожидает · подтверждён автором · отклонён · отозван</td></tr>
+<tr><td>Время</td><td>создания и решения</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← человек · ← запрос · → чат (открывается после подтверждения) · → участие во встрече.</p>
+<p><strong>Асимметрия — часть сущности, а не экрана:</strong> отклик не занимает место, пока автор не подтвердил. Это единственный контакт без взаимного лайка.</p>
+<h4 id="3a-совместный-отклик-d-36">3a. Совместный отклик <code class="dcode">D-36</code></h4>
+<p><strong>Порождает:</strong> R1 «выход в конкретный день» — паре нужен способ пойти куда-то вместе; M1; E2 — вдвоём порог ниже, чем одной.</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
+<tr><td>Кто</td><td><strong>два профиля</strong> со взаимным лайком, оба верифицированы</td></tr>
+<tr><td>На что</td><td>чужой запрос, только <code>+2</code> и больше</td></tr>
+<tr><td>Согласие второго</td><td>обязательно: втащить человека нельзя</td></tr>
+<tr><td>Для автора</td><td>один отклик, <strong>два места</strong></td></tr>
+<tr><td>Атомарность</td><td>подтверждается пара целиком или никто</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← совпадение · ← два человека · ← запрос · → чат запроса.</p>
+<p><strong>Чего нет по устройству:</strong> пара не помещается в <code>+1</code> — а <code>+1</code> рекомендован (<code class="dcode">D-24</code>). Это записанное противоречие, а не недосмотр. Пара в <code>+1</code> бывает — но как автор + один, из диалога <code class="dcode">D-39</code>, не как совместный отклик.</p>
+<h4 id="4-совпадение-матч">4. Совпадение (матч)</h4>
+<p><strong>Порождает:</strong> M1 — второй человек найден, и по интересам; здесь же начинается R1: «Say hi» открывает диалог, которому нужен выход в день <code class="dcode">D-37</code>; E2 — взаимное согласие до контакта снимает навязчивость.</p>
+<div class="tw"><table><thead><tr><th>Часть</th><th>Поля</th></tr></thead><tbody>
+<tr><td>Лайк</td><td>кто → кого, время; skip не хранится как сущность <code>[?]</code></td></tr>
+<tr><td>Совпадение</td><td>два профиля, число общих интересов, время</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← два человека · → чат 1:1.</p>
+<p><strong>Оговорка:</strong> сама механика колоды — решение <code class="dcode">D-10</code>, не требование job. Job M1 требует, чтобы второй человек нашёлся по интересам; что находка происходит через взаимный лайк — наш выбор. Сущность в списке потому, что E2 требует взаимного согласия до контакта.</p>
+<h4 id="5-чат">5. Чат</h4>
+<p><strong>Порождает:</strong> R4 «продолжить с теми же людьми без усилия первого раза» — чат хранит контекст между встречами; R1 «довести разговор до встречи» — чат и есть основная дорога к ней <code class="dcode">D-37</code>; провал R1 — не переписка, а разговор без даты.</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
+<tr><td>Тип</td><td>1:1 (из совпадения) · запроса (<code>+1</code> — диалог, <code>+N</code> — групповой) · серии</td></tr>
+<tr><td>Участники</td><td>профили</td></tr>
+<tr><td>Привязка</td><td>совпадение · запрос · серия</td></tr>
+<tr><td>Сообщения</td><td>текст, эмодзи, прочитано; медиа — нет</td></tr>
+<tr><td>Ice-breaker</td><td>подсказки в пустом чате</td><td></td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← совпадение или запрос · → участники · ← серия (один чат на серию).</p>
+<p><strong>Чего у чата нет по job:</strong> статуса присутствия собеседника — S1 требует отзывчивости, не «онлайн».</p>
+<h4 id="6-встреча">6. Встреча</h4>
+<p><strong>Порождает:</strong> R3 «не окажусь там одна»; R4 «встреча прошла хорошо и я хочу повторить»; M1 «через несколько встреч»; E3 «могу уйти в любой момент».</p>
+<p><code>[?]</code> <strong>Отдельная ли это сущность</strong> — или состояние запроса «дата назначена». По job она отдельна: у неё свои события (напоминание, явка, check-in), а у запроса без даты их нет. В модели данных может оказаться тем же объектом. После <code class="dcode">D-39</code> любая встреча порождается запросом — довод за чтение «состояние запроса».</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Из какого job</th></tr></thead><tbody>
+<tr><td>Запрос-источник</td><td>—</td></tr>
+<tr><td>Дата и время</td><td>R3 (к чему напоминать)</td></tr>
+<tr><td>Место: площадка, район, точный адрес — только участникам</td><td>R2, E3</td></tr>
+<tr><td>Состав: подтверждённые участники</td><td>R3</td></tr>
+<tr><td>Подтверждения явки</td><td>R3</td></tr>
+<tr><td>Факты присутствия</td><td>S1, R4, M1</td></tr>
+<tr><td>Приватная обратная связь</td><td><strong>ни одного job</strong> — гигиена безопасности, раздел «Гигиена» <code class="dcode">D-31</code></td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← запрос · → участники · → подтверждения явки · → подтверждения присутствия · → ссылка близкому · ← серия.</p>
+<h4 id="7-подтверждение-явки-still-going">7. Подтверждение явки (<code>Still going?</code>)</h4>
+<p><strong>Порождает:</strong> R3 напрямую — «записаться легко, а прийти нет».</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
+<tr><td>Участник</td><td>профиль</td></tr>
+<tr><td>Встреча</td><td>ссылка</td></tr>
+<tr><td>Ответ</td><td><code>Yes</code> · <code>Can't make it</code> · нет ответа</td></tr>
+<tr><td>Время</td><td>за сутки до встречи</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← встреча · ← человек · → счётчик в ленте (двухфазный: <code>going</code> → <code>confirmed</code>).</p>
+<p><strong>Часть сущности:</strong> молчание — не отказ; <code>Can't make it</code> освобождает место, «нет ответа» — нет.</p>
+<h4 id="8-подтверждение-присутствия-who-made-it">8. Подтверждение присутствия (<code>Who made it?</code>)</h4>
+<p><strong>Порождает:</strong> S1 «выглядеть тем, кому можно доверять» — единственная история, которая наполняется сама; R4 — история встреч с теми же людьми; M1 — «через несколько встреч».</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
+<tr><td>Кто отметил</td><td>профиль</td></tr>
+<tr><td>Кого</td><td>профили участников</td></tr>
+<tr><td>Встреча</td><td>ссылка</td></tr>
+<tr><td>Окно</td><td>14 дней</td></tr>
+<tr><td>Режим</td><td>double-blind: кто кого отметил, не видит никто</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← встреча · ← люди · → счётчик <code>meetups attended</code> на профиле · → метрика повтора.</p>
+<p><strong>Часть сущности:</strong> засчитано, если отметил хотя бы один другой участник. На паре double-blind вырождается — это свойство сущности, а не экрана.</p>
+<h4 id="9-серия-повторяющийся-запрос">9. Серия (повторяющийся запрос)</h4>
+<p><strong>Порождает:</strong> R4 «продолжить с теми же людьми без усилия первого раза»; R5 «в пятый раз собираю ту же встречу»; G4 «вернуть не людей, а то, что мы делали».</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
+<tr><td>Базовый запрос</td><td>из чего возникла</td></tr>
+<tr><td>Состав</td><td>переносится между встречами</td></tr>
+<tr><td>Чат</td><td>один на серию</td></tr>
+<tr><td>История встреч</td><td>список</td></tr>
+<tr><td>Правило повтора</td><td>еженедельно <code>[?]</code> — интервал не задан</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← запрос · → встречи · → чат · → участники.</p>
+<p><strong>Часть сущности:</strong> серию нельзя создать отдельно — она возникает из запроса, когда автор отмечает «повторяется».</p>
+<h4 id="10-верификация">10. Верификация</h4>
+<p><strong>Порождает:</strong> R2 «риск понятен до выхода из дома»; G5 «доказать, что я — это я».</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
+<tr><td>Статус</td><td>не начата · ожидает · пройдена · отказ · на ручной проверке</td></tr>
+<tr><td>Причина отказа</td><td>лицо вне кадра · темно · поза не совпала</td></tr>
+<tr><td>Попытки</td><td>без лимита</td></tr>
+<tr><td>Результат</td><td>бейдж Verified на профиле</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← человек · → бейдж Verified · → доступ к отклику и первому сообщению.</p>
+<p><strong>Чего верификация не доказывает — часть сущности:</strong> живое фото — да; личность, пол, намерение — нет.</p>
+<h4 id="11-жалоба-и-блокировка">11. Жалоба и блокировка</h4>
+<p><strong>Порождает:</strong> E3 «никто не удержит» — возможность выйти из контакта; R2.</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
+<tr><td>Кто → на кого</td><td>профили</td></tr>
+<tr><td>Контекст</td><td>профиль · карточка · чат · запрос</td></tr>
+<tr><td>Причина</td><td>harassment · fake profile · inappropriate photos · spam · underage · other</td></tr>
+<tr><td>Комментарий</td><td>текст</td></tr>
+<tr><td>Блокировка</td><td>мгновенная, взаимная; чат в архив</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← два человека · → модерация <code>[?]</code> (бэкстейдж, в продукте не видна) · → список заблокированных.</p>
+<h4 id="12-ссылка-близкому-share-my-plans">12. Ссылка близкому (<code>Share my plans</code>)</h4>
+<p><strong>Порождает:</strong> S3 «не быть единственной, кто знает, где я».</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
+<tr><td>Встреча</td><td>куда, когда, с кем</td></tr>
+<tr><td>Получатель</td><td>вне продукта</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← встреча.</p>
+<p><strong>Оговорка:</strong> S3 в матрице — очередь, функция в <code>jtbd.md</code> — кандидат на перенос за v1. Сущность есть, потому что job есть; приоритет функции — другой вопрос.</p>
+<h4 id="13-шаблон-запроса">13. Шаблон запроса</h4>
+<p><strong>Порождает:</strong> R5 «не сочинять запрос каждую неделю»; G2 — образец формулировки для человека, который привык описывать себя, а не дело.</p>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
+<tr><td>Название</td><td>прогулка · настолки · пробежка · кофе · кино</td></tr>
+<tr><td>Предзаполнение</td><td>занятие, категория, типовой размер</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> → запрос.</p>
+<h4 id="14-интерес-тег">14. Интерес (тег)</h4>
+<p><strong>Порождает:</strong> M1 «знакомство по интересам»; G3 «компания под конкретное хобби»; G1.</p>
+<p>Справочная сущность: курируемый каталог — Sports, Music, Food, Games, Outdoors, Art, Movies, Travel, Tech, Books. Связывает <strong>человека ↔ запрос ↔ фильтр</strong> — единственный объект, через который совпадение считается.</p>
+<p><strong>Связи:</strong> ← профили · ← запросы · ← фильтры.</p>
+<h4 id="15-фильтр">15. Фильтр</h4>
+<p><strong>Порождает:</strong> G3 — фильтр ленты по категории; R2 — «Verified only».</p>
+<p>Не хранимый объект, а параметры запроса к колоде и ленте:</p>
+<div class="tw"><table><thead><tr><th>Где</th><th>Параметры</th><th>Из какого job</th></tr></thead><tbody>
+<tr><td>Колода</td><td>возраст, радиус, интересы, только верифицированные</td><td>R2</td></tr>
+<tr><td>Лента запросов</td><td>дата (только к датированным), расстояние, категория, размер компании</td><td>G3, R3</td></tr>
+</tbody></table></div>
+<p><strong>Чего в фильтре нет по job:</strong> пола. R2 закрывается ограничением на своём запросе, а не фильтром чужих.</p>
+      <h3>Под вопросом</h3>
+      <p>Есть в брифе, но ни один job из <code>jtbd.md</code> не требует. Не выброшены — но перед тем как рисовать для них экран, нужен job или решение, что это гигиена.</p>
+<div class="tw"><table><thead><tr><th>Объект</th><th>Откуда в брифе</th><th>Почему без job</th></tr></thead><tbody>
+<tr><td><strong>Интент</strong> («Just moved here», «New hobby»…)</td><td>§6, <code class="dcode">D-08</code></td><td>Бриф сам назвал чипы «гигиеной категории, а не отстройкой». Срез плотности «ещё 12 переехали» служит обязательству §2.1, а не job человека. E1 «чувствовать, что это нормально» — <strong>привязан в «Трассировке»</strong> <code>✓*</code>, но E1 в ожидании, и чипы остаются под <code class="dcode">D-08</code></td></tr>
+<tr><td><s>Приватная обратная связь</s></td><td>§7.5</td><td>**Решено <code class="dcode">D-31</code>:** гигиена безопасности, остаётся в MVP. Перенесена в раздел «Гигиена» ниже</td></tr>
+<tr><td><s>Настройки приватности</s></td><td>§7.1</td><td>**Решено <code class="dcode">D-32</code>:** переключатели уходят из v1, инвариант остаётся. Сущности нет</td></tr>
+<tr><td><strong>Цена запроса</strong> (поле <code>Free</code>)</td><td>§9</td><td>Зарезервировано под модель выручки, которая открыта заново <code class="dcode">D-28</code>. Job у неё нет и не будет — это не про человека</td></tr>
+<tr><td><strong>Настройки уведомлений</strong></td><td>§5.4 (следствие напоминания)</td><td>Напоминание порождает R3, настройки к нему — нет. Появились как «новая поверхность», не как потребность. **Разрешение — состояние карточки <code class="dcode">D-40</code>; тонкая настройка — backlog <code class="dcode">D-38</code>.**</td></tr>
+<tr><td><strong>Предпочтения по компании</strong> (возрастной диапазон, кого ищу)</td><td>§5.1</td><td>Параметры подбора; job их не называет. Возможно, часть фильтра <code>[?]</code></td></tr>
+<tr><td><strong>Undo последнего свайпа</strong></td><td>§5.2</td><td>В <code>jtbd.md</code> уже помечен кандидатом на вылет: удобство механики, не прогресс человека</td></tr>
+<tr><td><strong>Модерация</strong></td><td>§7.4, §7.5</td><td>Принимает жалобы и сигналы; для человека невидима. Сущность бэкстейджа, в продуктовую модель не входит <code>[?]</code></td></tr>
+</tbody></table></div>
+<p><strong>Решено 2026-09-16.</strong> Два объекта из этой таблицы разобраны, потому что оба стояли в MVP: обратная связь — гигиена (<code class="dcode">D-31</code>), переключатели приватности — вне v1 (<code class="dcode">D-32</code>). Остальные шесть ждут той же развилки: job, гигиена или вылет.</p>
+      <h3>Гигиена безопасности</h3>
+      <p>Сущности, которые порождает <strong>обязательство продукта</strong>, а не job человека. Они в MVP, но под них не выдумывается job — и экран под них рисуется как служебный, не как ценность.</p>
+<h4 id="г1-приватная-обратная-связь-anything-off-d-31">Г1. Приватная обратная связь (<code>Anything off?</code>) <code class="dcode">D-31</code></h4>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
+<tr><td>Кто</td><td>профиль участника</td></tr>
+<tr><td>Встреча</td><td>ссылка</td></tr>
+<tr><td>Текст</td><td>свободный, необязательный</td></tr>
+<tr><td>Адресат</td><td>только модерация; вторая сторона не узнаёт никогда</td></tr>
+</tbody></table></div>
+<p><strong>Связи:</strong> ← встреча · ← человек · → модерация.</p>
+<p><strong>Экрана нет</strong> <code class="dcode">D-38</code> — необязательное поле на экране «Кто дошёл»: объект один, «после встречи». Сущность и адресат не меняются.</p>
+<p><strong>Почему без job:</strong> служит платформе — ранний сигнал до того, как ситуация станет инцидентом. Если интервью (вопрос 8 в гайде) покажут, что человеку это нужно самому, появится job и сущность переедет в основной список.</p>
+    </section>
+
+    <footer>
+      <p>Раздел 3 из 12 · Информационная архитектура. Источники — <a href="../sitemap.md">sitemap.md</a>, <a href="../flows.md">flows.md</a>; решения — <a href="../DECISIONS.md">DECISIONS.md</a>.</p>
+      <nav class="section-nav"><a href="../research/persones.html">← Раздел 2 · Персоны и JTBD</a></nav>
+    </footer>
+  </main>
+</div>
+
+</body>
+</html>

@@ -16,7 +16,7 @@ const ROOT = process.cwd();
 const OUT = join(ROOT, 'dist');
 
 // страницы сайта относительно корня репозитория
-const PAGES = ['research/research.html', 'research/persones.html', 'sections/index.html'];
+const PAGES = ['research/research.html', 'research/persones.html', 'sections/index.html', 'sections/ia.html'];
 
 // ── база для ссылок на исходники ───────────────────────────────
 // читаем из git, чтобы адрес репозитория не был зашит в скрипт
