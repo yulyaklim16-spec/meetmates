@@ -15,13 +15,14 @@
 
 Полный список экранов — в [`../CLAUDE.md`](../CLAUDE.md), §6.
 
-Порядок работы — по пяти ключевым флоу, а не по отдельным экранам:
+Порядок работы — по шести ключевым флоу (§6 брифа), а не по отдельным экранам:
 
 1. **First run** — вход → онбординг → первая колода
 2. **Swipe → Match → Chat**
 3. **Ask to join** — лента запросов → карточка запроса → отклик → автор подтвердил → чат
 4. **Create plan** — один шаг
 5. **Safety** — Report → причина → Block
+6. **Trust loop** — встреча прошла → Who made it? (+ Anything off?) → счётчик встреч → Profile Strength
 
 ## Именование
 
@@ -47,7 +48,7 @@
 | У верификации есть состояние отказа `D-26` | Два экрана: «не распознали» и «отправили на ручную проверку» |
 | Report / Block с любого экрана | На каждом макете, где виден другой человек |
 
-**Готовность этапа:** по каждому из пяти флоу есть все три состояния, и ни один экран
+**Готовность этапа:** по каждому из шести флоу есть все три состояния, и ни один экран
 не оказывается тупиком при пустых данных.
 
 ## Статус
@@ -56,6 +57,7 @@
 |---|---|---|
 | First run | Sign in · Profile setup (с датой рождения) · Interests · Intent · Location · Verification — Splash и age gate стали состояниями `D-38` | TBD |
 | Swipe → Match → Chat | Deck · Filters · Profile detail · Match modal · Empty deck · Conversation | TBD |
-| Ask to join | Feed · Plan detail · Responses · Plan chat · Empty feed | TBD |
+| Ask to join | Feed · Plan detail · Responses · Conversation (чат запроса — тот же экран) · Empty feed | TBD |
 | Create plan | Один шаг (занятие · сколько нужно · кто может откликнуться) · My plans | TBD |
 | Safety | Report sheet · Block confirm · Safety center · Blocked users | TBD |
+| Trust loop | Post-meet check-in · Repeat offer · My profile · Profile strength | TBD |
