@@ -317,13 +317,13 @@ footer p { max-width: 72ch; }
 .screen { border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); padding: var(--s-3) var(--s-4); }
 .screen.same { border-style: dashed; }
 .shead { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-3); }
-.code { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.06em; color: var(--ink-400); font-variant-numeric: tabular-nums; min-width: 3.2em; }
+.code { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.06em; color: var(--ink-600); font-variant-numeric: tabular-nums; min-width: 3.2em; }
 .sname { font-weight: var(--fw-bold); }
 .jobs { display: inline-flex; flex-wrap: wrap; gap: var(--s-1); }
 .jp { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.04em; padding: 1px 8px; border-radius: var(--r-pill); background: var(--surface-2); color: var(--ink-600); cursor: help; }
 .jp.main { background: var(--brand-gradient); color: var(--ink-on-brand); }
-.jp.hyp { background: var(--surface); border: 1px dashed var(--line); color: var(--ink-400); }
-.who { margin-left: auto; font-size: var(--t-caption); color: var(--ink-400); }
+.jp.hyp { background: var(--surface); border: 1px dashed var(--ink-400); color: var(--ink-600); }
+.who { margin-left: auto; font-size: var(--t-caption); color: var(--ink-600); }
 .who.pri { color: var(--ink-600); }
 .snote { margin: var(--s-2) 0 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
 .states { margin: var(--s-2) 0 0; padding-left: 0; list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-2); max-width: none; }
@@ -333,7 +333,7 @@ footer p { max-width: 72ch; }
 code.dcode { color: var(--brand-a); background: color-mix(in srgb, var(--brand-a) 8%, var(--surface)); }
 pre.ascii { font-size: var(--t-caption); line-height: 1.45; overflow-x: auto; padding: var(--s-4); background: var(--surface-2); border-radius: var(--r-md); max-width: none; }
 .diagram { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); padding: var(--s-4); margin: var(--s-4) 0; overflow-x: auto; }
-.diagram pre.mermaid { margin: 0; font-size: var(--t-caption); color: var(--ink-400); }
+.diagram pre.mermaid { margin: 0; font-size: var(--t-caption); color: var(--ink-600); }
 .diagram svg { display: block; width: 100%; height: auto; max-width: none; }
 .diagram.scroll svg { width: auto; }
 .diagram.scroll { max-height: 80vh; overflow: auto; }
@@ -341,7 +341,7 @@ pre.ascii { font-size: var(--t-caption); line-height: 1.45; overflow-x: auto; pa
 .dbar button { font: inherit; font-size: var(--t-caption); padding: 4px 12px; border-radius: var(--r-pill); border: 1px solid var(--line); background: var(--surface); color: var(--ink-600); cursor: pointer; min-height: 32px; }
 .dbar button.on { background: var(--surface-2); color: var(--ink-900); border-color: var(--ink-400); }
 .dbar button:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 2px; }
-.dbar .dim { font-size: var(--t-micro); color: var(--ink-400); margin-left: auto; }
+.dbar .dim { font-size: var(--t-micro); color: var(--ink-600); margin-left: auto; }
 .diagram .term-dead > * > path, .diagram .term-dead rect { fill: color-mix(in srgb, var(--danger) 14%, var(--surface)) !important; stroke: var(--danger) !important; }
 .diagram .term-win > * > path, .diagram .term-win rect { fill: color-mix(in srgb, var(--accent) 18%, var(--surface)) !important; stroke: var(--accent) !important; }
 .diagram .term-open > * > path, .diagram .term-open rect { fill: color-mix(in srgb, var(--warn) 18%, var(--surface)) !important; stroke: var(--warn) !important; }
@@ -358,6 +358,81 @@ blockquote p:last-child { margin-bottom: 0; }
 .tw.matrix td.c { text-align: center; }
 .tw.matrix th, .tw.matrix td { padding: 4px 6px; white-space: nowrap; }
 h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(--s-4) 0 var(--s-2); }
+
+/* ── Поверхности браузера: выделение, каретка, фокус, цифры ── */
+::selection { background: color-mix(in srgb, var(--brand-a) 22%, var(--surface)); color: var(--ink-900); }
+:root { accent-color: var(--brand-a); caret-color: var(--brand-a); scrollbar-color: var(--line) transparent; scrollbar-width: thin; }
+:where(a, button, summary, [tabindex]):focus-visible { outline: 2px solid var(--brand-a); outline-offset: 2px; border-radius: var(--r-sm); }
+table, .num, .enum, .code { font-variant-numeric: tabular-nums; }
+
+/* ── Карта связей ───────────────────────────────────────────── */
+.diagram.map { padding: var(--s-5) var(--s-4) var(--s-4); }
+.map svg { display: block; width: 100%; height: auto; }
+.map .nd rect { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; transition: fill var(--dur-fast) var(--ease-out), stroke var(--dur-fast) var(--ease-out); }
+.map .nd .nn { font-size: 10px; font-weight: var(--fw-medium); letter-spacing: 0.08em; fill: var(--ink-600); font-variant-numeric: tabular-nums; }
+.map .nd .nl { font-size: 13px; font-weight: var(--fw-bold); fill: var(--ink-900); }
+.map .nd .nc { font-size: 10.5px; fill: var(--ink-600); }
+.map .nd { cursor: pointer; }
+.map .nd:hover rect, .map .nd:focus-visible rect, .map .nd.on rect { fill: var(--surface-2); stroke: var(--brand-a); }
+.map .nd:focus-visible { outline: none; }
+.map .nd:focus-visible rect { stroke-width: 2.5; }
+.map .nd.band rect { fill: transparent; stroke-dasharray: 3 4; }
+.map .ed path { fill: none; stroke: var(--ink-600); stroke-width: 1.5; transition: stroke var(--dur-fast) var(--ease-out), stroke-width var(--dur-fast) var(--ease-out); }
+.map .ed .el { font-size: 10.5px; fill: var(--ink-600); text-anchor: middle; paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.map .ed.loop path { stroke: var(--accent); stroke-dasharray: 5 5; }
+.map .ed.loop .el { fill: color-mix(in srgb, var(--accent) 65%, var(--ink-900)); }
+.map .ed.on path { stroke: var(--brand-a); stroke-width: 2.5; }
+.map .ed.on .el { fill: var(--brand-a); }
+.map marker path { fill: var(--ink-600); }
+.map .ed.on marker path { fill: var(--brand-a); }
+.map .bandline { stroke: var(--line); stroke-width: 1; }
+.map .bandlbl { font-size: 10px; font-weight: var(--fw-medium); letter-spacing: 0.1em; text-transform: uppercase; fill: var(--ink-600); }
+.map.dim .nd:not(.on) rect { stroke: color-mix(in srgb, var(--line) 60%, transparent); }
+.map.dim .nd:not(.on) .nl { fill: var(--ink-400); }
+.map.dim .ed:not(.on) path { stroke: color-mix(in srgb, var(--ink-400) 35%, transparent); }
+.map.dim .ed:not(.on) .el { opacity: 0.35; }
+.mapnote { font-size: var(--t-caption); color: var(--ink-600); margin: 0 0 var(--s-6); max-width: 72ch; }
+
+/* ── Карточки сущностей ─────────────────────────────────────── */
+.ents { display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); align-items: start; margin: 0 0 var(--s-6); }
+.ent { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); padding: var(--s-4) var(--s-5) var(--s-5); scroll-margin-top: var(--s-5); transition: border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
+.ent:target, .ent.on { border-color: var(--brand-a); box-shadow: var(--shadow-md); }
+.ent > header { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-3); margin-bottom: var(--s-3); }
+.ent .enum { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.08em; color: var(--ink-600); }
+.ent h3 { margin: 0; font-size: var(--t-body); letter-spacing: -0.01em; }
+.ent h3 .alt { font-weight: var(--fw-regular); color: var(--ink-600); margin-left: var(--s-2); }
+.ent .jobs { margin-left: auto; }
+.ent .lbl { display: block; font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-600); margin-bottom: var(--s-1); }
+.ent .born { font-size: var(--t-caption); color: var(--ink-600); margin: 0 0 var(--s-4); max-width: none; }
+.ent.nojob { border-style: dashed; }
+.fields { display: grid; grid-template-columns: minmax(6.5em, 12em) minmax(0, 1fr); gap: 1px var(--s-3); margin: 0 0 var(--s-4); font-size: var(--t-caption); }
+.fields dt { font-weight: var(--fw-medium); color: var(--ink-900); padding: 8px 0 7px; border-top: 1px solid var(--line); }
+.fields dd { margin: 0; color: var(--ink-600); padding: 8px 0 7px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: var(--s-1) var(--s-2); }
+.fields dt:first-of-type, .fields dd:first-of-type { border-top: 0; }
+.fields .fv { min-width: 0; }
+.fields dd.only-jobs { grid-template-columns: auto; justify-items: start; }
+.fields dd.only-jobs .fj { justify-self: start; }
+.fields .fj { display: inline-flex; gap: 2px; justify-self: end; }
+.ent .pr { font-size: var(--t-caption); color: var(--ink-600); margin: 0 0 var(--s-3); max-width: none; }
+.links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-1); margin: 0 0 var(--s-3); }
+.links .lbl { width: 100%; }
+.lk { font-size: var(--t-micro); color: var(--ink-600); background: var(--surface-2); border-radius: var(--r-pill); padding: 3px 10px; text-decoration: none; display: inline-flex; align-items: baseline; gap: 5px; }
+a.lk:hover, a.lk:focus-visible { background: color-mix(in srgb, var(--brand-a) 12%, var(--surface)); color: var(--ink-900); }
+.lk .ar { color: var(--ink-600); font-size: 11px; }
+a.lk.out .ar { color: var(--brand-a); }
+a.lk.in .ar { color: var(--accent); }
+.ent .nt { font-size: var(--t-caption); color: var(--ink-600); margin: var(--s-3) 0 0; padding-top: var(--s-3); border-top: 1px solid var(--line); max-width: none; }
+.ent .nt + .nt { border-top: 0; padding-top: 0; margin-top: var(--s-2); }
+/* В узкой колонке две колонки полей не помещаются: подпись встаёт над значением */
+@media (max-width: 560px) {
+  .ent { padding: var(--s-4); }
+  .fields { grid-template-columns: 1fr; }
+  .fields dt { border-top: 1px solid var(--line); padding: var(--s-2) 0 0; }
+  .fields dt:first-of-type { border-top: 0; padding-top: 0; }
+  .fields dd { border-top: 0; padding: var(--s-1) 0 var(--s-2); }
+  .ent > header .jobs { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .ent, .map .nd rect, .map .ed path { transition: none; } }
 </style>
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
@@ -413,6 +488,45 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
       if (b.dataset.mode === 'full') { svg.style.width = natural + 'px'; box.classList.add('scroll'); }
       else { svg.style.width = ''; box.classList.remove('scroll'); }
     });
+    // Карта связей в узкой колонке ужимается до нечитаемого — открываем её в натуральную величину.
+    if (box.classList.contains('map') && box.clientWidth < natural * 0.72) {
+      bar.querySelector('[data-mode="full"]').click();
+    }
+  }
+
+  // Карта и карточки — один объект в двух видах: узел подсвечивает свою карточку,
+  // карточка — свой узел и рёбра, которыми он связан.
+  const map = document.querySelector('.diagram.map svg');
+  if (map) {
+    const nodes = [...map.querySelectorAll('.nd')];
+    const edges = [...map.querySelectorAll('.ed')];
+    const cards = new Map([...document.querySelectorAll('.ent')].map((c) => [c.dataset.e, c]));
+    const clear = () => {
+      map.closest('.map').classList.remove('dim');
+      nodes.forEach((n) => n.classList.remove('on'));
+      edges.forEach((e) => e.classList.remove('on'));
+      cards.forEach((c) => c.classList.remove('on'));
+    };
+    const show = (num) => {
+      clear();
+      const linked = edges.filter((e) => e.dataset.from === num || e.dataset.to === num);
+      if (!nodes.some((n) => n.dataset.e === num) && !linked.length) return;
+      map.closest('.map').classList.add('dim');
+      const near = new Set([num]);
+      linked.forEach((e) => { e.classList.add('on'); near.add(e.dataset.from); near.add(e.dataset.to); });
+      nodes.forEach((n) => n.classList.toggle('on', near.has(n.dataset.e)));
+      cards.get(num)?.classList.add('on');
+    };
+    for (const n of nodes) {
+      n.addEventListener('mouseenter', () => show(n.dataset.e));
+      n.addEventListener('focus', () => show(n.dataset.e));
+      n.addEventListener('mouseleave', clear);
+      n.addEventListener('blur', clear);
+    }
+    for (const [num, card] of cards) {
+      card.addEventListener('mouseenter', () => show(num));
+      card.addEventListener('mouseleave', clear);
+    }
   }
 </script>
 </head>
@@ -678,7 +792,7 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
 <li>Состояния обычным регистром без пометки — добавлены разбором тупиков и состояний 2026-09-18.</li></ul>
 <p><strong>Обозначения.</strong> <code>P</code> — нужен primary-персоне (Даша): среди jobs экрана есть её job по матрице. <code>S</code> — только secondary (Максим · Оля · Артём). <code>А</code> — нужен Артёму как автору <code>+N</code>. <code>~</code> — состояние. Job в скобках, ссылка ведёт на формулировку.</p><p><strong>Отклик</strong> и <strong>Серия</strong> своих экранов не имеют: отклик — действие на карточке запроса, «жду ответа» — её состояние; серия — строка в «Моих планах», история на карточке и один чат.</p>
 <p><strong>Почему в дереве нет вкладок.</strong> Дерево — не навигация: ветки здесь объекты, а не разделы. Как до экранов добираться, выведено ниже в разделе «Навигация» из того, что человек делает чаще — и получилось три вкладки, а не четыре <code class="dcode">D-33</code>.</p>
-<h4 id="сводка">Сводка</h4>
+<h3 id="сводка">Сводка</h3>
 <div class="tw"><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody>
 <tr><td>Экранов</td><td><strong>30</strong></td><td>без состояний; верификация посчитана один раз, хотя стоит в двух ветках. Было 35: пять стали состояниями по трассировке</td></tr>
 <tr><td>С job</td><td><strong>30</strong></td><td>три из них — по трассировке (<code>✓*</code>): регистрация, интент, геолокация</td></tr>
@@ -688,7 +802,7 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
 </tbody></table></div>
 <p><strong>Что сироты сказали.</strong> Восемь экранов без job были известны по инвентаризации сущностей — <strong>ни один не нашёлся неожиданно</strong>. Разбор в «Трассировке» показал, что четыре из них не экраны, а состояния других (Splash, возрастной гейт, геолокация вкл/выкл, приватная обратная связь), три закрывают job, который просто не был назван (регистрация, интент, геолокация), и один — настройки — не нужен никому и ушёл в backlog.</p>
 <p><strong>Что говорит колонка «кому».</strong> Из 30 экранов с job только два не нужны Даше — и оба про <code>+N</code>-компанию. Primary-путь идёт через колоду, запрос на <code>+1</code> и чат; всё про группу и явку — сторона Оли и Артёма. Это подтверждает <code class="dcode">D-24</code>: продукт под пару в первую очередь.</p>
-<h4 id="две-проверки-до-шага-3">Две проверки до шага 3</h4>
+<h3 id="две-проверки-до-шага-3">Две проверки до шага 3</h3>
 <ol><li><s><strong>Владение R3</strong></s> — **решено <code class="dcode">D-35</code>:** R3 остаётся групповым job, владельцы Оля и Артём. Напоминание <code>Still going?</code> — secondary по владению, **но вариант на <code>+1</code> рисуется первым**: там молчание единственного участника означает, что встречи не будет вовсе (<code class="dcode">D-24</code>).</li>
 <li>~~**Формулировка <code class="dcode">D-26</code><strong>~~ — </strong>выровнена 17.09:** «не распознали» и «на ручной проверке» названы состояниями и в журнале, и в брифе. Само правило «экран или состояние» перенесено в §6 брифа, чтобы расхождение не возникало снова.</li></ol></details>
     </section>
@@ -696,7 +810,7 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
     <section id="nav">
       <h2>Навигация</h2>
       <p>Экраны — из раздела выше, нового дерева нет. Здесь решается только, <strong>как до них добираться</strong>: что видно всегда, что появляется в потоке, что спрятано.</p>
-<h4 id="1-глобальная-навигация-три-пункта">1. Глобальная навигация — три пункта</h4>
+<h3 id="1-глобальная-навигация-три-пункта">1. Глобальная навигация — три пункта</h3>
 <p>Каждый пункт — вход в кластер jobs, и у каждого названо, <strong>какой job за ним стоит</strong>. Четвёртого пункта нет сознательно — объяснение ниже.</p>
 <div class="tw"><table><thead><tr><th>Пункт</th><th>Экран за ним</th><th>Job-кластер</th><th>Почему это отдельный вход</th></tr></thead><tbody>
 <tr><td><strong>People</strong></td><td>Колода</td><td><strong>M1</strong> «знакомство по интересам» · G1 «решить быстро»</td><td>Единственный экран, где человек <strong>выбирает людей</strong>. Начало основного пути <code class="dcode">D-10</code>, <code class="dcode">D-37</code></td></tr>
@@ -709,7 +823,7 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
 <ul><li><strong>«+» создать запрос</strong> — не плавающая кнопка на всех экранах, а кнопка в шапке Plans и <strong>в каждом пустом состоянии</strong> (обязательство §2.1, п. 3). Она про один объект, ей место рядом с ним.</li>
 <li><strong>Мои планы</strong> — сегмент внутри Plans (Лента · Мои), не отдельный пункт: это тот же объект с другой стороны.</li>
 <li><strong>Уведомления</strong> — не пункт и не экран: напоминание и check-in приходят пушем и открывают свой экран напрямую.</li></ul>
-<h4 id="2-глубина-до-main-job">2. Глубина до main job</h4>
+<h3 id="2-глубина-до-main-job">2. Глубина до main job</h3>
 <p><strong>Main job:</strong> собрать в новом городе двух-трёх людей, с кем можно куда-то пойти без повода. <strong>Primary-персона:</strong> Даша, переехала.</p>
 <p><strong>Что считаем.</strong> Целиком job закрывается неделями — двумя-тремя состоявшимися встречами и повтором, — и тапами не меряется; его меряет метрика повтора (§11). Тапами меряется <strong>первое действие, которое двигает M1</strong>: откликнуться на чей-то план или опубликовать свой. Первый экран после онбординга — колода (<code class="dcode">D-10</code>). На старте она <strong>пустая</strong> (<code class="dcode">D-22</code>): считаем от неё, потому что реальная Даша увидит именно её.</p>
 <div class="tw"><table><thead><tr><th>Путь</th><th>Тапы</th><th></th></tr></thead><tbody>
@@ -728,7 +842,7 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
 <p><strong>Два пути, которые укорачивает пуш</strong> <code class="dcode">D-40</code>:</p>
 <ul><li>Г3 — отклики: пуш «X wants to join» → 1 тап;</li>
 <li>Г6 — предложение повторить: пуш → 1 тап; без пуша — с карточки прошедшей встречи.</li></ul>
-<h4 id="3-три-слоя">3. Три слоя</h4>
+<h3 id="3-три-слоя">3. Три слоя</h3>
 <p><strong>Глобальное — видно всегда.</strong> Нижняя панель <code>People · Plans · Chats</code> · аватар в шапке (вход в глубокий слой) · на <code>Plans</code> — кнопка <code>+</code>.</p>
 <p><strong>Контекстное — появляется в потоке, когда есть объект.</strong></p>
 <div class="tw"><table><thead><tr><th>Появляется</th><th>Откуда</th></tr></thead><tbody>
@@ -758,7 +872,7 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
 </tbody></table></div>
 <p>Верификация — в двух слоях сразу: глубоко (по своей воле) и контекстно (гейт в момент максимальной мотивации, <code class="dcode">D-03</code>). Второй вход важнее первого.</p>
 <p><strong>Одноразовое — онбординг, до первого глобального экрана.</strong> Регистрация / вход → настройка профиля (с датой рождения) → выбор интересов → интент → геолокация → верификация → колода. Шесть экранов, три пропускаемые; Splash и возрастной гейт — состояния первого и второго <code class="dcode">D-38</code>. В слои не входит: после первого прохода к ним не возвращаются, а профиль и верификация дальше живут в глубоком слое.</p>
-<h4 id="сводка-навигации">Сводка навигации</h4>
+<h3 id="сводка-навигации">Сводка навигации</h3>
 <div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody>
 <tr><td>Глобальных пунктов</td><td><strong>3</strong> — People · Plans · Chats; каждый с названным job</td></tr>
 <tr><td>Глубина до первого действия в main job</td><td><strong>3 тапа</strong> на всех детерминированных путях</td></tr>
@@ -789,7 +903,7 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
 <tr><td><strong>Σ</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>3</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>6</strong></td><td class="c"><strong>4</strong></td><td class="c"><strong>3</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>4</strong></td><td class="c"><strong>3</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>3</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>2</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>1</strong></td><td class="c"><strong>58</strong></td></tr>
 </tbody></table></div>
 <p><strong>Пустых строк и столбцов: 0.</strong> До решений ниже было иначе: столбцов без <code>✓</code> — <strong>восемь</strong> (V.5, VII.1, VII.2, VII.3, VII.6, VII.7, VIII.1, VIII.2 — все восемь помечены <code>[СИРОТА]</code> ещё в дереве), строк без <code>✓</code> — <strong>одна</strong> (E1). Дерево выше уже перерисовано под решения; пять экранов из него ушли, поэтому кодов VII.1, VII.3, V.5, VIII.1 и VIII.2 в матрице нет — <strong>коды не перенумерованы</strong>, чтобы ссылки на них в этом файле не ломались.</p>
-<h4 id="экраны-сироты-столбец-без">Экраны-сироты (столбец без ✓)</h4>
+<h3 id="экраны-сироты-столбец-без">Экраны-сироты (столбец без ✓)</h3>
 <p>Восемь экранов существовали без job. Каждый — дефект: либо экран лишний, либо его job не назван. Решения — одно из четырёх: <strong>удалить · привязать · добавить · backlog</strong>.</p>
 <div class="tw"><table><thead><tr><th>Экран</th><th>Решение</th><th>Основание</th></tr></thead><tbody>
 <tr><td><strong>VII.1</strong> Splash</td><td><strong>Удалить экран</strong> → состояние «загрузка при старте» экрана VII.2</td><td>По правилу §6 брифа объект тот же — вход; меняется только статус. Splash не показывает ничего, что нельзя показать в состоянии загрузки</td></tr>
@@ -803,13 +917,13 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
 </tbody></table></div>
 <p><strong>Добавлять экран не пришлось ни разу</strong>: у каждой сироты нашёлся либо job, либо экран, в котором она — состояние. Это ожидаемо для дерева, выведенного из сущностей: лишние экраны в нём — экраны инфраструктуры, а не выдуманные функции.</p>
 <p>**Ограничитель для <code>✓*</code>-условий.** Регистрация и геолокация привязаны к M1 как условие, без которого job невозможен физически: без аккаунта нет второго человека, без радиуса нет «рядом». Так привязывается только это и только к M1 — третьего такого экрана нет, и появиться он не должен: иначе матрица перестанет ловить рост инфраструктуры.</p>
-<h4 id="jobs-сироты-строка-без">Jobs-сироты (строка без ✓)</h4>
+<h3 id="jobs-сироты-строка-без">Jobs-сироты (строка без ✓)</h3>
 <p><strong>E1 — «чувствовать, что делаю обычную вещь, а не признаюсь, что у меня нет друзей».</strong></p>
 <ul><li>**Решение: привязать к имеющемуся экрану — VII.6 Интент, <code>✓*</code>.** Основание — в строке VII.6 таблицы выше: E1 закрывался правилом копирайта, у которого нет экрана, а срез плотности на интенте — единственное место, где это правило показывается, а не соблюдается. Дыры в продукте нет: человеку негде было это <em>увидеть</em>, а не <em>сделать</em>.</li>
 <li><strong>Чего решение не даёт:</strong> стигма в нашей аудитории не подтверждена <code>[?]</code>, E1 в ожидании. Привязка снимает нуль в матрице, не поднимает job в приоритете.</li></ul>
 <p><strong>Зависимость.</strong> E1 держится на одном экране VII.6, а VII.6 — на <code class="dcode">D-08</code>. Уйдут чипы — E1 снова нуль. <code class="dcode">D-08</code> решается вместе с E1, не отдельно.</p>
 <p>Других jobs-сирот нет. Самые тонкие строки — <strong>S2</strong> и <strong>S3</strong> по одному-два экрана: у S2 экран один по определению (автор виден, потому что запрос создал человек), у S3 — ссылка близкому и safety center.</p>
-<h4 id="проверка-потоками">Проверка потоками</h4>
+<h3 id="проверка-потоками">Проверка потоками</h3>
 <p>Отметки в матрице — теги дерева. Вторая независимая опора — [<code>flows.md</code>](./flows.md): через какие экраны job реально проходит. Сверка показала, что **теги дерева отстали от <code class="dcode">D-37</code>**: R1 был переформулирован («довести разговор до встречи»), а колода, фильтры, профиль, совпадение и выбор интересов всё ещё несли R1 в старом смысле — «найти человека с общими интересами». В потоке R1 ни один из них не встречается; в потоке M1 — все.</p>
 <div class="tw"><table><thead><tr><th>Что показали потоки</th><th>Что исправлено в дереве</th></tr></thead><tbody>
 <tr><td>Поток M1 идёт через колоду, профиль, совпадение и диалог — ни один не нёс M1</td><td>Знакомство по интересам — это M1 («что строим» в матрице <code>jtbd.md</code>): <strong>R1 → M1</strong> на пяти экранах входа; диалог получил M1 как основная дорога <code class="dcode">D-37</code></td></tr>
@@ -822,7 +936,7 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
 <p><strong>E3 закрыт местом, не моментом.</strong> Сущность «Запрос» приписывает E3 полю «место» (публичное по умолчанию, предупреждение о приватном) — тег <code>E3</code> добавлен на карточку запроса III.3. Момент «уйти со встречи» экрана не имеет, и это сознательно: продукт отвечает за место, а не за то, что происходит за столом.</p>
 <p>**О4 закрыт: у встречи из чата есть объект — запрос <code class="dcode">D-39</code>.** Раньше поток M1 выходил из диалога в «договорились сами», и у этой встречи не было ни экрана, ни объекта. Оговорка О7 к «экрана у встречи нет по устройству»: после <code class="dcode">D-39</code> любая встреча порождается запросом — довод за чтение «состояние запроса», сущность 6.</p>
 <p>**О5 закрыт <code class="dcode">D-40</code>:** у уведомлений не было экрана — и не будет: разрешение на пуш — состояние карточки запроса III.3, а у напоминания, check-in и предложения повторить есть вход с карточки плана без пуша.</p>
-<h4 id="итог">Итог</h4>
+<h3 id="итог">Итог</h3>
 <div class="tw"><table><thead><tr><th></th><th>До</th><th>После</th></tr></thead><tbody>
 <tr><td>Экранов</td><td>35</td><td><strong>30</strong> — пять стали состояниями</td></tr>
 <tr><td>Столбцов без ✓</td><td>8</td><td><strong>0</strong></td></tr>
@@ -1579,191 +1693,227 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
 
     <section id="entities">
       <h2>Сущности</h2>
-      <p><strong>Правило отбора.</strong> Сущность попадает в основной список, только если её требует хотя бы один job из <code>jtbd.md</code>. Всё, что есть в брифе, но ни одним job не порождается, — в разделе «Под вопросом» ниже, а не здесь. <code>[?]</code> — объект предполагается, а не выведен.</p>
-<p><strong>Как читать связи:</strong> <code>→</code> «состоит из / порождает», <code>←</code> «принадлежит / ссылается на».</p>
-<p><strong>Состояние.</strong> 16 сущностей, у каждой есть job; без job — только «Под вопросом» и «Гигиена» ниже. Ни один job из <code>jtbd.md</code> не остался без сущности, кроме <strong>E1</strong> «чувствовать, что это нормально»: его несёт интент, а интент — в «Под вопросом» (<code class="dcode">D-08</code>). Сверено 22.09 после решений <code class="dcode">D-39</code>–<code class="dcode">D-41</code>.</p>
-<h4 id="карта-связей">Карта связей</h4>
-<pre class="ascii">Человек ──────────── лайк ──→ Совпадение ──→ Чат 1:1
-   │                                            └─ день назначен ──→ Запрос +1 с датой  D-39
-   ├─ автор ─→ Запрос ──→ Отклик ──→ (подтверждён) ──→ Чат запроса
-   │              │                                        │
-   │              ├─ повтор ─→ Серия ──────────────────────┤
-   │              │                                        │
-   │              └─ дата назначена ─→ Встреча ←───────────┘
-   │                                     ├─→ Подтверждение явки (Still going?)
-   │                                     ├─→ Подтверждение присутствия (Who made it?)
-   │                                     └─→ Ссылка близкому
-   │
-   ├─→ Верификация · Ступень · Отзывчивость · Счётчик встреч  (сигналы доверия)
-   └─→ Жалоба / Блокировка</pre>
-<h4 id="1-человек-профиль">1. Человек (профиль)</h4>
-<p><strong>Порождает:</strong> M1 «не с кем» — нужен второй человек, и находится он по интересам; R2 «всё, что я о нём знаю, он рассказал сам»; S1 «чтобы во мне видели человека, которому можно доверять»; G1 «за несколько секунд понять».</p>
-<div class="tw"><table><thead><tr><th>Часть</th><th>Поля</th><th>Из какого job</th></tr></thead><tbody>
-<tr><td>Идентификация</td><td>имя, возраст, город</td><td>M1, G1</td></tr>
-<tr><td>Фото</td><td>2–6, одно главное</td><td>R2 · G1 — по ним судят до контакта</td></tr>
-<tr><td>Интересы</td><td>3+ тега из каталога</td><td>M1 («знакомство по интересам»), G3</td></tr>
-<tr><td>Био</td><td>до ~150 символов</td><td>G1</td></tr>
-<tr><td>Пол</td><td>опционально; нужен только для ограничения отклика на своём запросе</td><td>R2 (через ограничение «кто может откликнуться»)</td></tr>
-<tr><td>Интент</td><td>чипы «зачем ты здесь»</td><td><strong>ни одного job</strong> → см. «Под вопросом»</td></tr>
-<tr><td><strong>Сигналы доверия</strong></td><td>Verified · ступень · счётчик подтверждённых встреч · отзывчивость</td><td>R2, S1, G1</td></tr>
-<tr><td>Предпочтения</td><td>возрастной диапазон, радиус, кого ищу</td><td>— служебные, job не порождает <code>[?]</code></td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> → свои запросы · → отклики · → совпадения · → чаты · → подтверждённые встречи (счётчик) · → верификация · → жалобы и блокировки (в обе стороны).</p>
-<p><strong>Чего в профиле нет по job:</strong> оценок от других людей (S1 — «выглядеть тем, кому можно доверять», а не «быть оценённым»), присутствия «онлайн».</p>
-<h4 id="2-запрос-на-компанию">2. Запрос на компанию</h4>
-<p><strong>Порождает:</strong> M1 «у моих планов была компания»; R1 «у разговора есть выход в конкретный день» — запрос и есть то, во что разговор выходит <code class="dcode">D-37</code>, включая день, назначенный в чате <code class="dcode">D-39</code>; G2 «хочу куда-то пойти, а компании нет»; G3 «занятие есть, компании нет»; R5, S2 — со стороны автора.</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Обязательность</th><th>Из какого job</th></tr></thead><tbody>
-<tr><td><strong>Занятие</strong> — что делаем</td><td>обязательно</td><td>G2, G3, R1</td></tr>
-<tr><td><strong>Сколько нужно</strong></td><td>обязательно, по умолчанию <code>+1</code></td><td>R3 («записалось восемь» — размер компании), M1</td></tr>
-<tr><td>Дата и время</td><td>опционально; появляется при подтверждении отклика <strong>или задана сразу, если запрос создан из диалога</strong> <code class="dcode">D-39</code></td><td>R3 (напоминание нужно к дате), R1</td></tr>
-<tr><td>Место</td><td>опционально; публичное по умолчанию; точный адрес — только подтверждённым</td><td>R2 («не знаю, где мы будем»), E3 («могу уйти»)</td></tr>
-<tr><td>Описание</td><td>опционально</td><td>—</td></tr>
-<tr><td>Категория / теги</td><td>опционально</td><td>G3 (фильтр по хобби)</td></tr>
-<tr><td><strong>Кто может откликнуться</strong></td><td><code>Anyone</code> · <code>Women only</code> · <code>Men only</code>, только свой пол</td><td>R2</td></tr>
-<tr><td>Автор</td><td>ссылка на профиль</td><td>S2 («не безымянное объявление»)</td></tr>
-<tr><td>Статус</td><td>открыт · компания собрана · встреча назначена · прошёл · погас · <strong>отменён</strong> <code class="dcode">D-41</code></td><td>R3, R4</td></tr>
-<tr><td>Срок жизни</td><td>14 дней без даты</td><td>— страховка, не job</td></tr>
-<tr><td>Повторяется</td><td>да / нет → порождает серию</td><td>R4, G4</td></tr>
-<tr><td>Шаблон</td><td>из какого создан</td><td>R5</td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← автор (человек) · → отклики · → участники (подтверждённые отклики) · → чат запроса · → встреча (когда назначена дата) · → серия (если повторяется) · ← шаблон.</p>
-<p><strong>Чего у запроса нет по job:</strong> лимита мест как у события (его заменяет «сколько нужно»), роли организатора (R5 — «держалось не только на мне», не «я веду группу»), цены.</p>
-<h4 id="3-отклик">3. Отклик</h4>
-<p><strong>Порождает:</strong> M1 — второй путь к компании, не зависящий от взаимности; E2 «не чувствовать себя навязчивой» — отклик на явный запрос не навязчив по определению; R2 — автор подтверждает, значит контролирует, с кем идёт.</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
-<tr><td>Кто</td><td>профиль откликнувшегося</td></tr>
-<tr><td>На что</td><td>запрос</td></tr>
-<tr><td>Статус</td><td>ожидает · подтверждён автором · отклонён · отозван</td></tr>
-<tr><td>Время</td><td>создания и решения</td></tr>
-<tr><td>Срок</td><td>живёт, пока жив запрос: гаснет вместе с ним или с наступлением даты; отозвать можно всегда</td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← человек · ← запрос · → чат (открывается после подтверждения) · → участие во встрече.</p>
-<p><strong>Асимметрия — часть сущности, а не экрана:</strong> отклик не занимает место, пока автор не подтвердил. Это единственный контакт без взаимного лайка.</p>
-<h4 id="3a-совместный-отклик-d-36">3a. Совместный отклик <code class="dcode">D-36</code></h4>
-<p><strong>Порождает:</strong> R1 «выход в конкретный день» — паре нужен способ пойти куда-то вместе; M1; E2 — вдвоём порог ниже, чем одной.</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
-<tr><td>Кто</td><td><strong>два профиля</strong> со взаимным лайком, оба верифицированы</td></tr>
-<tr><td>На что</td><td>чужой запрос, только <code>+2</code> и больше</td></tr>
-<tr><td>Согласие второго</td><td>обязательно: втащить человека нельзя</td></tr>
-<tr><td>Для автора</td><td>один отклик, <strong>два места</strong></td></tr>
-<tr><td>Атомарность</td><td>подтверждается пара целиком или никто</td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← совпадение · ← два человека · ← запрос · → чат запроса.</p>
-<p><strong>Чего нет по устройству:</strong> пара не помещается в <code>+1</code> — а <code>+1</code> рекомендован (<code class="dcode">D-24</code>). Это записанное противоречие, а не недосмотр. Пара в <code>+1</code> бывает — но как автор + один, из диалога <code class="dcode">D-39</code>, не как совместный отклик.</p>
-<h4 id="4-совпадение-матч">4. Совпадение (матч)</h4>
-<p><strong>Порождает:</strong> M1 — второй человек найден, и по интересам; здесь же начинается R1: «Say hi» открывает диалог, которому нужен выход в день <code class="dcode">D-37</code>; E2 — взаимное согласие до контакта снимает навязчивость.</p>
-<div class="tw"><table><thead><tr><th>Часть</th><th>Поля</th></tr></thead><tbody>
-<tr><td>Лайк</td><td>кто → кого, время; skip не хранится как сущность <code>[?]</code></td></tr>
-<tr><td>Совпадение</td><td>два профиля, число общих интересов, время</td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← два человека · → чат 1:1.</p>
-<p><strong>Оговорка:</strong> сама механика колоды — решение <code class="dcode">D-10</code>, не требование job. Job M1 требует, чтобы второй человек нашёлся по интересам; что находка происходит через взаимный лайк — наш выбор. Сущность в списке потому, что E2 требует взаимного согласия до контакта.</p>
-<h4 id="5-чат">5. Чат</h4>
-<p><strong>Порождает:</strong> R4 «продолжить с теми же людьми без усилия первого раза» — чат хранит контекст между встречами; R1 «довести разговор до встречи» — чат и есть основная дорога к ней <code class="dcode">D-37</code>; провал R1 — не переписка, а разговор без даты.</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
-<tr><td>Тип</td><td>1:1 (из совпадения) · запроса (<code>+1</code> — диалог, <code>+N</code> — групповой) · серии</td></tr>
-<tr><td>Участники</td><td>профили</td></tr>
-<tr><td>Привязка</td><td>совпадение · запрос · серия</td></tr>
-<tr><td>Сообщения</td><td>текст, эмодзи, прочитано; медиа — нет</td></tr>
-<tr><td>Ice-breaker</td><td>подсказки в пустом чате</td><td></td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← совпадение или запрос · → участники · ← серия (один чат на серию).</p>
-<p><strong>Чего у чата нет по job:</strong> статуса присутствия собеседника — S1 требует отзывчивости, не «онлайн».</p>
-<h4 id="6-встреча">6. Встреча</h4>
-<p><strong>Порождает:</strong> R3 «не окажусь там одна»; R4 «встреча прошла хорошо и я хочу повторить»; M1 «через несколько встреч»; E3 «могу уйти в любой момент».</p>
-<p><code>[?]</code> <strong>Отдельная ли это сущность</strong> — или состояние запроса «дата назначена». По job она отдельна: у неё свои события (напоминание, явка, check-in), а у запроса без даты их нет. В модели данных может оказаться тем же объектом. После <code class="dcode">D-39</code> любая встреча порождается запросом — довод за чтение «состояние запроса».</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Из какого job</th></tr></thead><tbody>
-<tr><td>Запрос-источник</td><td>—</td></tr>
-<tr><td>Дата и время</td><td>R3 (к чему напоминать)</td></tr>
-<tr><td>Место: площадка, район, точный адрес — только участникам</td><td>R2, E3</td></tr>
-<tr><td>Состав: подтверждённые участники</td><td>R3</td></tr>
-<tr><td>Подтверждения явки</td><td>R3</td></tr>
-<tr><td>Факты присутствия</td><td>S1, R4, M1</td></tr>
-<tr><td>Отмена</td><td>статус запроса-источника «отменён» <code class="dcode">D-41</code>; на <code>+1</code> встречи не будет вовсе</td><td>R3</td></tr>
-<tr><td>Приватная обратная связь</td><td><strong>ни одного job</strong> — гигиена безопасности, раздел «Гигиена» <code class="dcode">D-31</code></td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← запрос · → участники · → подтверждения явки · → подтверждения присутствия · → ссылка близкому · ← серия.</p>
-<h4 id="7-подтверждение-явки-still-going">7. Подтверждение явки (<code>Still going?</code>)</h4>
-<p><strong>Порождает:</strong> R3 напрямую — «записаться легко, а прийти нет».</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
-<tr><td>Участник</td><td>профиль</td></tr>
-<tr><td>Встреча</td><td>ссылка</td></tr>
-<tr><td>Ответ</td><td><code>Yes</code> · <code>Can't make it</code> · нет ответа</td></tr>
-<tr><td>Время</td><td>за сутки до встречи</td></tr>
-<tr><td>Доставка</td><td>пуш при разрешении <code class="dcode">D-40</code>, иначе — с карточки плана</td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← встреча · ← человек · → счётчик в ленте (двухфазный: <code>going</code> → <code>confirmed</code>).</p>
-<p><strong>Часть сущности:</strong> молчание — не отказ; <code>Can't make it</code> освобождает место, «нет ответа» — нет.</p>
-<h4 id="8-подтверждение-присутствия-who-made-it">8. Подтверждение присутствия (<code>Who made it?</code>)</h4>
-<p><strong>Порождает:</strong> S1 «выглядеть тем, кому можно доверять» — единственная история, которая наполняется сама; R4 — история встреч с теми же людьми; M1 — «через несколько встреч».</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
-<tr><td>Кто отметил</td><td>профиль</td></tr>
-<tr><td>Кого</td><td>профили участников</td></tr>
-<tr><td>Встреча</td><td>ссылка</td></tr>
-<tr><td>Окно</td><td>14 дней</td></tr>
-<tr><td>Режим</td><td>double-blind: кто кого отметил, не видит никто</td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← встреча · ← люди · → счётчик <code>meetups attended</code> на профиле · → метрика повтора.</p>
-<p><strong>Часть сущности:</strong> засчитано, если отметил хотя бы один другой участник. На паре double-blind вырождается — это свойство сущности, а не экрана.</p>
-<h4 id="9-серия-повторяющийся-запрос">9. Серия (повторяющийся запрос)</h4>
-<p><strong>Порождает:</strong> R4 «продолжить с теми же людьми без усилия первого раза»; R5 «в пятый раз собираю ту же встречу»; G4 «вернуть не людей, а то, что мы делали».</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
-<tr><td>Базовый запрос</td><td>из чего возникла</td></tr>
-<tr><td>Состав</td><td>переносится между встречами</td></tr>
-<tr><td>Чат</td><td>один на серию</td></tr>
-<tr><td>История встреч</td><td>список</td></tr>
-<tr><td>Правило повтора</td><td>еженедельно <code>[?]</code> — интервал не задан</td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← запрос · → встречи · → чат · → участники.</p>
-<p><strong>Часть сущности:</strong> серию нельзя создать отдельно — она возникает из запроса, когда автор отмечает «повторяется».</p>
-<h4 id="10-верификация">10. Верификация</h4>
-<p><strong>Порождает:</strong> R2 «риск понятен до выхода из дома»; G5 «доказать, что я — это я».</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
-<tr><td>Статус</td><td>не начата · ожидает · пройдена · отказ · на ручной проверке</td></tr>
-<tr><td>Причина отказа</td><td>лицо вне кадра · темно · поза не совпала</td></tr>
-<tr><td>Попытки</td><td>без лимита</td></tr>
-<tr><td>Результат</td><td>бейдж Verified на профиле</td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← человек · → бейдж Verified · → доступ к отклику и первому сообщению.</p>
-<p><strong>Чего верификация не доказывает — часть сущности:</strong> живое фото — да; личность, пол, намерение — нет.</p>
-<h4 id="11-жалоба-и-блокировка">11. Жалоба и блокировка</h4>
-<p><strong>Порождает:</strong> E3 «никто не удержит» — возможность выйти из контакта; R2.</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
-<tr><td>Кто → на кого</td><td>профили</td></tr>
-<tr><td>Контекст</td><td>профиль · карточка · чат · запрос</td></tr>
-<tr><td>Причина</td><td>harassment · fake profile · inappropriate photos · spam · underage · other</td></tr>
-<tr><td>Комментарий</td><td>текст</td></tr>
-<tr><td>Блокировка</td><td>мгновенная, взаимная; чат в архив</td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← два человека · → модерация <code>[?]</code> (бэкстейдж, в продукте не видна) · → список заблокированных.</p>
-<h4 id="12-ссылка-близкому-share-my-plans">12. Ссылка близкому (<code>Share my plans</code>)</h4>
-<p><strong>Порождает:</strong> S3 «не быть единственной, кто знает, где я».</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
-<tr><td>Встреча</td><td>куда, когда, с кем</td></tr>
-<tr><td>Получатель</td><td>вне продукта</td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> ← встреча.</p>
-<p><strong>Оговорка:</strong> S3 в матрице — очередь, функция в <code>jtbd.md</code> — кандидат на перенос за v1. Сущность есть, потому что job есть; приоритет функции — другой вопрос.</p>
-<h4 id="13-шаблон-запроса">13. Шаблон запроса</h4>
-<p><strong>Порождает:</strong> R5 «не сочинять запрос каждую неделю»; G2 — образец формулировки для человека, который привык описывать себя, а не дело.</p>
-<div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
-<tr><td>Название</td><td>прогулка · настолки · пробежка · кофе · кино</td></tr>
-<tr><td>Предзаполнение</td><td>занятие, категория, типовой размер</td></tr>
-</tbody></table></div>
-<p><strong>Связи:</strong> → запрос.</p>
-<h4 id="14-интерес-тег">14. Интерес (тег)</h4>
-<p><strong>Порождает:</strong> M1 «знакомство по интересам»; G3 «компания под конкретное хобби»; G1.</p>
-<p>Справочная сущность: курируемый каталог — Sports, Music, Food, Games, Outdoors, Art, Movies, Travel, Tech, Books. Связывает <strong>человека ↔ запрос ↔ фильтр</strong> — единственный объект, через который совпадение считается.</p>
-<p><strong>Связи:</strong> ← профили · ← запросы · ← фильтры.</p>
-<h4 id="15-фильтр">15. Фильтр</h4>
-<p><strong>Порождает:</strong> G3 — фильтр ленты по категории; R2 — «Verified only».</p>
-<p>Не хранимый объект, а параметры запроса к колоде и ленте:</p>
-<div class="tw"><table><thead><tr><th>Где</th><th>Параметры</th><th>Из какого job</th></tr></thead><tbody>
-<tr><td>Колода</td><td>возраст, радиус, интересы, только верифицированные</td><td>R2</td></tr>
-<tr><td>Лента запросов</td><td>дата (только к датированным), расстояние, категория, размер компании</td><td>G3, R3</td></tr>
-</tbody></table></div>
-<p><strong>Чего в фильтре нет по job:</strong> пола. R2 закрывается ограничением на своём запросе, а не фильтром чужих.</p>
-      <h3>Под вопросом</h3>
+      <p class="intro">Объекты, с которыми человек имеет дело, чтобы закрыть свой job. В основной перечень сущность попадает, только если её требует хотя бы один job из <a href="../research/jtbd.md">jtbd.md</a>; всё остальное — в «Под вопросом» ниже. <code>[?]</code> — объект предполагается, а не выведен.</p>
+      <div class="diagram map"><svg viewBox="0 0 1068 538" role="img" aria-labelledby="ia-map-title">
+  <title id="ia-map-title">Карта связей: 11 сущностей в цепочке и 5 поперёк неё</title>
+  <defs><marker id="ia-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 z"/></marker></defs>
+  <g class="edges"><g class="ed" data-from="1" data-to="4"><path d="M168 181 L188.0 181.0 Q199 181 199.0 170.0 L199.0 56.0 Q199 45 210.0 45.0 L230 45" marker-end="url(#ia-arrow)"/><text class="el" x="214.5" y="38.0">лайк</text></g>
+<g class="ed" data-from="1" data-to="2"><path d="M168 197 L230 189" marker-end="url(#ia-arrow)"/><text class="el" x="199.0" y="190.0">автор</text></g>
+<g class="ed" data-from="4" data-to="5"><path d="M376 45 L438 45" marker-end="url(#ia-arrow)"/></g>
+<g class="ed" data-from="5" data-to="2"><path d="M481 68 L481.0 83.0 Q481 94 470.0 94.0 L348.0 94.0 Q337 94 337.0 105.0 L337 166" marker-end="url(#ia-arrow)"/><text class="el" x="409.0" y="87.0">день назначен · D-39</text></g>
+<g class="ed" data-from="2" data-to="3"><path d="M376 189 L438 189" marker-end="url(#ia-arrow)"/></g>
+<g class="ed" data-from="3" data-to="5"><path d="M551 166 L551 68" marker-end="url(#ia-arrow)"/><text class="el" x="551.0" y="159.0">подтверждён</text></g>
+<g class="ed" data-from="4" data-to="3a"><path d="M257 68 L257.0 264.4 Q257 275.4 268.0 275.4 L438 275.4" marker-end="url(#ia-arrow)"/><text class="el" x="347.5" y="268.4">пара · D-36</text></g>
+<g class="ed" data-from="3a" data-to="2"><path d="M438 275.4 L430.5 275.4 Q423 275.4 423.0 267.9 L423.0 241.0 Q423 230 412.0 230.0 L342.0 230.0 Q333 230 333.0 221.0 L333 212" marker-end="url(#ia-arrow)"/></g>
+<g class="ed" data-from="2" data-to="9"><path d="M269 212 L269 310" marker-end="url(#ia-arrow)"/><text class="el" x="269.0" y="205.0">повтор</text></g>
+<g class="ed" data-from="9" data-to="6"><path d="M376 333 L738.0 333.0 Q749 333 749.0 322.0 L749 140" marker-end="url(#ia-arrow)"/></g>
+<g class="ed" data-from="2" data-to="6"><path d="M376 177 L390.0 177.0 Q401 177 401.0 166.0 L401.0 128.0 Q401 117 412.0 117.0 L646 117" marker-end="url(#ia-arrow)"/><text class="el" x="523.5" y="110.0">дата назначена</text></g>
+<g class="ed" data-from="6" data-to="7"><path d="M792 117 L854 45" marker-end="url(#ia-arrow)"/></g>
+<g class="ed" data-from="6" data-to="8"><path d="M792 117 L854 117" marker-end="url(#ia-arrow)"/></g>
+<g class="ed" data-from="6" data-to="12"><path d="M792 117 L854 189" marker-end="url(#ia-arrow)"/></g>
+<g class="ed loop" data-from="8" data-to="1"><path d="M1000 117 L1021.0 117.0 Q1032 117 1032.0 128.0 L1032.0 379.0 Q1032 390 1021.0 390.0 L106.0 390.0 Q95 390 95.0 379.0 L95 212" marker-end="url(#ia-arrow)"/><text class="el" x="563.5" y="383.0">счётчик встреч</text></g></g>
+  <g class="nodes"><a href="#e-1" class="nd" data-e="1" aria-label="Человек — сущность 1">
+      <rect x="22" y="166" width="146" height="46" rx="12"/>
+      <text class="nn" x="36" y="185">1</text>
+      <text class="nl" x="36" y="199">Человек</text>
+    </a>
+<a href="#e-4" class="nd" data-e="4" aria-label="Совпадение — сущность 4">
+      <rect x="230" y="22" width="146" height="46" rx="12"/>
+      <text class="nn" x="244" y="41">4</text>
+      <text class="nl" x="244" y="55">Совпадение</text>
+    </a>
+<a href="#e-2" class="nd" data-e="2" aria-label="Запрос на компанию — сущность 2">
+      <rect x="230" y="166" width="146" height="46" rx="12"/>
+      <text class="nn" x="244" y="185">2</text>
+      <text class="nl" x="244" y="199">Запрос</text>
+    </a>
+<a href="#e-9" class="nd" data-e="9" aria-label="Серия — сущность 9">
+      <rect x="230" y="310" width="146" height="46" rx="12"/>
+      <text class="nn" x="244" y="329">9</text>
+      <text class="nl" x="244" y="343">Серия</text>
+    </a>
+<a href="#e-5" class="nd" data-e="5" aria-label="Чат — сущность 5">
+      <rect x="438" y="22" width="146" height="46" rx="12"/>
+      <text class="nn" x="452" y="41">5</text>
+      <text class="nl" x="452" y="55">Чат</text>
+    </a>
+<a href="#e-3" class="nd" data-e="3" aria-label="Отклик — сущность 3">
+      <rect x="438" y="166" width="146" height="46" rx="12"/>
+      <text class="nn" x="452" y="185">3</text>
+      <text class="nl" x="452" y="199">Отклик</text>
+    </a>
+<a href="#e-3a" class="nd" data-e="3a" aria-label="Совместный отклик — сущность 3a">
+      <rect x="438" y="252.4" width="146" height="46" rx="12"/>
+      <text class="nn" x="452" y="271.4">3a</text>
+      <text class="nl" x="452" y="285.4">Совместный отклик</text>
+    </a>
+<a href="#e-6" class="nd" data-e="6" aria-label="Встреча — сущность 6">
+      <rect x="646" y="94" width="146" height="46" rx="12"/>
+      <text class="nn" x="660" y="113">6</text>
+      <text class="nl" x="660" y="127">Встреча</text>
+    </a>
+<a href="#e-7" class="nd" data-e="7" aria-label="Подтверждение явки — сущность 7">
+      <rect x="854" y="22" width="146" height="46" rx="12"/>
+      <text class="nn" x="868" y="41">7</text>
+      <text class="nl" x="868" y="55">Явка</text>
+    </a>
+<a href="#e-8" class="nd" data-e="8" aria-label="Подтверждение присутствия — сущность 8">
+      <rect x="854" y="94" width="146" height="46" rx="12"/>
+      <text class="nn" x="868" y="113">8</text>
+      <text class="nl" x="868" y="127">Присутствие</text>
+    </a>
+<a href="#e-12" class="nd" data-e="12" aria-label="Ссылка близкому — сущность 12">
+      <rect x="854" y="166" width="146" height="46" rx="12"/>
+      <text class="nn" x="868" y="185">12</text>
+      <text class="nl" x="868" y="199">Ссылка близкому</text>
+    </a></g>
+  <line class="bandline" x1="22" y1="416" x2="1046" y2="416"/>
+  <text class="bandlbl" x="22" y="430">Действуют поперёк цепочки</text>
+  <g class="nodes"><a href="#e-10" class="nd band" data-e="10" aria-label="Верификация — сущность 10">
+      <rect x="22" y="442" width="179.6" height="38" rx="10"/>
+      <text class="nn" x="34" y="458">10</text>
+      <text class="nl" x="34" y="471">Верификация</text>
+      <text class="nc" x="34" y="494">гейт перед откликом и</text><text class="nc" x="34" y="507">первым сообщением</text>
+    </a>
+<a href="#e-11" class="nd band" data-e="11" aria-label="Жалоба и блокировка — сущность 11">
+      <rect x="221.6" y="442" width="179.6" height="38" rx="10"/>
+      <text class="nn" x="233.6" y="458">11</text>
+      <text class="nl" x="233.6" y="471">Жалоба и блокировка</text>
+      <text class="nc" x="233.6" y="494">выход из контакта, с любого</text><text class="nc" x="233.6" y="507">экрана</text>
+    </a>
+<a href="#e-14" class="nd band" data-e="14" aria-label="Интерес — сущность 14">
+      <rect x="421.2" y="442" width="179.6" height="38" rx="10"/>
+      <text class="nn" x="433.2" y="458">14</text>
+      <text class="nl" x="433.2" y="471">Интерес</text>
+      <text class="nc" x="433.2" y="494">связывает человека, запрос</text><text class="nc" x="433.2" y="507">и фильтр</text>
+    </a>
+<a href="#e-13" class="nd band" data-e="13" aria-label="Шаблон запроса — сущность 13">
+      <rect x="620.8" y="442" width="179.6" height="38" rx="10"/>
+      <text class="nn" x="632.8" y="458">13</text>
+      <text class="nl" x="632.8" y="471">Шаблон</text>
+      <text class="nc" x="632.8" y="494">предзаполняет запрос при</text><text class="nc" x="632.8" y="507">создании</text>
+    </a>
+<a href="#e-15" class="nd band" data-e="15" aria-label="Фильтр — сущность 15">
+      <rect x="820.4" y="442" width="179.6" height="38" rx="10"/>
+      <text class="nn" x="832.4" y="458">15</text>
+      <text class="nl" x="832.4" y="471">Фильтр</text>
+      <text class="nc" x="832.4" y="494">параметры колоды и ленты,</text><text class="nc" x="832.4" y="507">не хранится</text>
+    </a></g>
+</svg></div>
+      <p class="mapnote">Узел ведёт к карточке. 16 сущностей, у каждой есть job; единственный job без сущности — <b>E1</b> «чувствовать, что это нормально»: его несёт интент, а интент — в «Под вопросом».</p>
+      <div class="ents"><article class="ent" id="e-1" data-e="1">
+      <header><span class="enum">1</span><h3>Человек<span class="alt">профиль</span></h3><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="решиться идти">R2</span><span class="jp" title="выглядеть тем, кому можно доверять">S1</span><span class="jp hyp" title="Решить быстро">G1</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>M1 «не с кем» — нужен второй человек, и находится он по интересам; R2 «всё, что я о нём знаю, он рассказал сам»; S1 «чтобы во мне видели человека, которому можно доверять»; G1 «за несколько секунд понять».</p>
+      <dl class="fields"><dt>Идентификация</dt><dd><span class="fv">имя, возраст, город</span><span class="fj"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp hyp" title="Решить быстро">G1</span></span></dd><dt>Фото</dt><dd><span class="fv">2–6, одно главное · по ним судят до контакта</span><span class="fj"><span class="jp" title="решиться идти">R2</span><span class="jp hyp" title="Решить быстро">G1</span></span></dd><dt>Интересы</dt><dd><span class="fv">3+ тега из каталога · «знакомство по интересам»</span><span class="fj"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp hyp" title="Найти компанию под конкретное хобби">G3</span></span></dd><dt>Био</dt><dd><span class="fv">до ~150 символов</span><span class="fj"><span class="jp hyp" title="Решить быстро">G1</span></span></dd><dt>Пол</dt><dd><span class="fv">опционально; нужен только для ограничения отклика на своём запросе · через ограничение «кто может откликнуться»</span><span class="fj"><span class="jp" title="решиться идти">R2</span></span></dd><dt>Интент</dt><dd><span class="fv">чипы «зачем ты здесь» · <strong>ни одного job</strong> → см. «Под вопросом»</span></dd><dt><strong>Сигналы доверия</strong></dt><dd><span class="fv">Verified · ступень · счётчик подтверждённых встреч · отзывчивость</span><span class="fj"><span class="jp" title="решиться идти">R2</span><span class="jp" title="выглядеть тем, кому можно доверять">S1</span><span class="jp hyp" title="Решить быстро">G1</span></span></dd><dt>Предпочтения</dt><dd><span class="fv">возрастной диапазон, радиус, кого ищу · служебные, job не порождает <code>[?]</code></span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk out" href="#e-2"><span class="ar" aria-hidden="true">→</span>свои запросы</a><a class="lk out" href="#e-3"><span class="ar" aria-hidden="true">→</span>отклики</a><a class="lk out" href="#e-4"><span class="ar" aria-hidden="true">→</span>совпадения</a><span class="lk out"><span class="ar" aria-hidden="true">→</span>чаты</span><a class="lk out" href="#e-6"><span class="ar" aria-hidden="true">→</span>подтверждённые встречи (счётчик)</a><a class="lk out" href="#e-10"><span class="ar" aria-hidden="true">→</span>верификация</a><a class="lk out" href="#e-11"><span class="ar" aria-hidden="true">→</span>жалобы и блокировки (в обе стороны)</a></div>
+      <p class="nt"><strong>Чего в профиле нет по job:</strong> оценок от других людей (S1 — «выглядеть тем, кому можно доверять», а не «быть оценённым»), присутствия «онлайн».</p>
+    </article>
+<article class="ent" id="e-2" data-e="2">
+      <header><span class="enum">2</span><h3>Запрос на компанию</h3><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="довести разговор до встречи">R1</span><span class="jp hyp" title="Не отказываться от плана">G2</span><span class="jp hyp" title="Найти компанию под конкретное хобби">G3</span><span class="jp" title="собирать людей и не бросить">R5</span><span class="jp" title="быть тем, кто собирает">S2</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>M1 «у моих планов была компания»; R1 «у разговора есть выход в конкретный день» — запрос и есть то, во что разговор выходит <code class="dcode">D-37</code>, включая день, назначенный в чате <code class="dcode">D-39</code>; G2 «хочу куда-то пойти, а компании нет»; G3 «занятие есть, компании нет»; R5, S2 — со стороны автора.</p>
+      <dl class="fields"><dt><strong>Занятие</strong> — что делаем</dt><dd><span class="fv">обязательно</span><span class="fj"><span class="jp hyp" title="Не отказываться от плана">G2</span><span class="jp hyp" title="Найти компанию под конкретное хобби">G3</span><span class="jp" title="довести разговор до встречи">R1</span></span></dd><dt><strong>Сколько нужно</strong></dt><dd><span class="fv">обязательно, по умолчанию <code>+1</code> · «записалось восемь» — размер компании</span><span class="fj"><span class="jp" title="не приехать к пустому столу">R3</span><span class="jp main" title="компания для планов и продолжение">M1</span></span></dd><dt>Дата и время</dt><dd><span class="fv">опционально; появляется при подтверждении отклика <strong>или задана сразу, если запрос создан из диалога</strong> <code class="dcode">D-39</code> · напоминание нужно к дате</span><span class="fj"><span class="jp" title="не приехать к пустому столу">R3</span><span class="jp" title="довести разговор до встречи">R1</span></span></dd><dt>Место</dt><dd><span class="fv">опционально; публичное по умолчанию; точный адрес — только подтверждённым · «не знаю, где мы будем»), («могу уйти»</span><span class="fj"><span class="jp" title="решиться идти">R2</span><span class="jp" title="знать, что можно уйти">E3</span></span></dd><dt>Описание</dt><dd><span class="fv">опционально · —</span></dd><dt>Категория / теги</dt><dd><span class="fv">опционально · фильтр по хобби</span><span class="fj"><span class="jp hyp" title="Найти компанию под конкретное хобби">G3</span></span></dd><dt><strong>Кто может откликнуться</strong></dt><dd><span class="fv"><code>Anyone</code> · <code>Women only</code> · <code>Men only</code>, только свой пол</span><span class="fj"><span class="jp" title="решиться идти">R2</span></span></dd><dt>Автор</dt><dd><span class="fv">ссылка на профиль · «не безымянное объявление»</span><span class="fj"><span class="jp" title="быть тем, кто собирает">S2</span></span></dd><dt>Статус</dt><dd><span class="fv">открыт · компания собрана · встреча назначена · прошёл · погас · <strong>отменён</strong> <code class="dcode">D-41</code></span><span class="fj"><span class="jp" title="не приехать к пустому столу">R3</span><span class="jp" title="увидеться снова, не начиная заново">R4</span></span></dd><dt>Срок жизни</dt><dd><span class="fv">14 дней без даты · страховка, не job</span></dd><dt>Повторяется</dt><dd><span class="fv">да / нет → порождает серию</span><span class="fj"><span class="jp" title="увидеться снова, не начиная заново">R4</span><span class="jp hyp" title="Заменить привычку, а не друзей">G4</span></span></dd><dt>Шаблон</dt><dd><span class="fv">из какого создан</span><span class="fj"><span class="jp" title="собирать людей и не бросить">R5</span></span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-1"><span class="ar" aria-hidden="true">←</span>автор (человек)</a><a class="lk out" href="#e-3"><span class="ar" aria-hidden="true">→</span>отклики</a><a class="lk out" href="#e-3"><span class="ar" aria-hidden="true">→</span>участники (подтверждённые отклики)</a><span class="lk out"><span class="ar" aria-hidden="true">→</span>чат запроса</span><a class="lk out" href="#e-6"><span class="ar" aria-hidden="true">→</span>встреча (когда назначена дата)</a><a class="lk out" href="#e-9"><span class="ar" aria-hidden="true">→</span>серия (если повторяется)</a><a class="lk in" href="#e-13"><span class="ar" aria-hidden="true">←</span>шаблон</a></div>
+      <p class="nt"><strong>Чего у запроса нет по job:</strong> лимита мест как у события (его заменяет «сколько нужно»), роли организатора (R5 — «держалось не только на мне», не «я веду группу»), цены.</p>
+    </article>
+<article class="ent" id="e-3" data-e="3">
+      <header><span class="enum">3</span><h3>Отклик</h3><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="не чувствовать себя навязчивой">E2</span><span class="jp" title="решиться идти">R2</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>M1 — второй путь к компании, не зависящий от взаимности; E2 «не чувствовать себя навязчивой» — отклик на явный запрос не навязчив по определению; R2 — автор подтверждает, значит контролирует, с кем идёт.</p>
+      <dl class="fields"><dt>Кто</dt><dd><span class="fv">профиль откликнувшегося</span></dd><dt>На что</dt><dd><span class="fv">запрос</span></dd><dt>Статус</dt><dd><span class="fv">ожидает · подтверждён автором · отклонён · отозван</span></dd><dt>Время</dt><dd><span class="fv">создания и решения</span></dd><dt>Срок</dt><dd><span class="fv">живёт, пока жив запрос: гаснет вместе с ним или с наступлением даты; отозвать можно всегда</span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-1"><span class="ar" aria-hidden="true">←</span>человек</a><a class="lk in" href="#e-2"><span class="ar" aria-hidden="true">←</span>запрос</a><a class="lk out" href="#e-7"><span class="ar" aria-hidden="true">→</span>чат (открывается после подтверждения)</a><a class="lk out" href="#e-6"><span class="ar" aria-hidden="true">→</span>участие во встрече</a></div>
+      <p class="nt"><strong>Асимметрия — часть сущности, а не экрана:</strong> отклик не занимает место, пока автор не подтвердил. Это единственный контакт без взаимного лайка.</p>
+    </article>
+<article class="ent" id="e-3a" data-e="3a">
+      <header><span class="enum">3a</span><h3>Совместный отклик</h3><code class="dcode">D-36</code><span class="jobs"><span class="jp" title="довести разговор до встречи">R1</span><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="не чувствовать себя навязчивой">E2</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>R1 «выход в конкретный день» — паре нужен способ пойти куда-то вместе; M1; E2 — вдвоём порог ниже, чем одной.</p>
+      <dl class="fields"><dt>Кто</dt><dd><span class="fv"><strong>два профиля</strong> со взаимным лайком, оба верифицированы</span></dd><dt>На что</dt><dd><span class="fv">чужой запрос, только <code>+2</code> и больше</span></dd><dt>Согласие второго</dt><dd><span class="fv">обязательно: втащить человека нельзя</span></dd><dt>Для автора</dt><dd><span class="fv">один отклик, <strong>два места</strong></span></dd><dt>Атомарность</dt><dd><span class="fv">подтверждается пара целиком или никто</span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-4"><span class="ar" aria-hidden="true">←</span>совпадение</a><a class="lk in" href="#e-1"><span class="ar" aria-hidden="true">←</span>два человека</a><a class="lk in" href="#e-2"><span class="ar" aria-hidden="true">←</span>запрос</a><a class="lk out" href="#e-2"><span class="ar" aria-hidden="true">→</span>чат запроса</a></div>
+      <p class="nt"><strong>Чего нет по устройству:</strong> пара не помещается в <code>+1</code> — а <code>+1</code> рекомендован (<code class="dcode">D-24</code>). Это записанное противоречие, а не недосмотр. Пара в <code>+1</code> бывает — но как автор + один, из диалога <code class="dcode">D-39</code>, не как совместный отклик.</p>
+    </article>
+<article class="ent" id="e-4" data-e="4">
+      <header><span class="enum">4</span><h3>Совпадение<span class="alt">матч</span></h3><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="довести разговор до встречи">R1</span><span class="jp" title="не чувствовать себя навязчивой">E2</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>M1 — второй человек найден, и по интересам; здесь же начинается R1: «Say hi» открывает диалог, которому нужен выход в день <code class="dcode">D-37</code>; E2 — взаимное согласие до контакта снимает навязчивость.</p>
+      <dl class="fields"><dt>Лайк</dt><dd><span class="fv">кто → кого, время; skip не хранится как сущность <code>[?]</code></span></dd><dt>Совпадение</dt><dd><span class="fv">два профиля, число общих интересов, время</span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-1"><span class="ar" aria-hidden="true">←</span>два человека</a><span class="lk out"><span class="ar" aria-hidden="true">→</span>чат 1:1</span></div>
+      <p class="nt"><strong>Оговорка:</strong> сама механика колоды — решение <code class="dcode">D-10</code>, не требование job. Job M1 требует, чтобы второй человек нашёлся по интересам; что находка происходит через взаимный лайк — наш выбор. Сущность в списке потому, что E2 требует взаимного согласия до контакта.</p>
+    </article>
+<article class="ent" id="e-5" data-e="5">
+      <header><span class="enum">5</span><h3>Чат</h3><span class="jobs"><span class="jp" title="увидеться снова, не начиная заново">R4</span><span class="jp" title="довести разговор до встречи">R1</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>R4 «продолжить с теми же людьми без усилия первого раза» — чат хранит контекст между встречами; R1 «довести разговор до встречи» — чат и есть основная дорога к ней <code class="dcode">D-37</code>; провал R1 — не переписка, а разговор без даты.</p>
+      <dl class="fields"><dt>Тип</dt><dd><span class="fv">1:1 (из совпадения) · запроса (<code>+1</code> — диалог, <code>+N</code> — групповой) · серии</span></dd><dt>Участники</dt><dd><span class="fv">профили</span></dd><dt>Привязка</dt><dd><span class="fv">совпадение · запрос · серия</span></dd><dt>Сообщения</dt><dd><span class="fv">текст, эмодзи, прочитано; медиа — нет</span></dd><dt>Ice-breaker</dt><dd><span class="fv">подсказки в пустом чате</span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-2"><span class="ar" aria-hidden="true">←</span>совпадение или запрос</a><span class="lk out"><span class="ar" aria-hidden="true">→</span>участники</span><a class="lk in" href="#e-9"><span class="ar" aria-hidden="true">←</span>серия (один чат на серию)</a></div>
+      <p class="nt"><strong>Чего у чата нет по job:</strong> статуса присутствия собеседника — S1 требует отзывчивости, не «онлайн».</p>
+    </article>
+<article class="ent" id="e-6" data-e="6">
+      <header><span class="enum">6</span><h3>Встреча</h3><span class="jobs"><span class="jp" title="не приехать к пустому столу">R3</span><span class="jp" title="увидеться снова, не начиная заново">R4</span><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="знать, что можно уйти">E3</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>R3 «не окажусь там одна»; R4 «встреча прошла хорошо и я хочу повторить»; M1 «через несколько встреч»; E3 «могу уйти в любой момент».</p>
+      <dl class="fields"><dt>Запрос-источник</dt><dd><span class="fv">—</span></dd><dt>Дата и время</dt><dd><span class="fv">к чему напоминать</span><span class="fj"><span class="jp" title="не приехать к пустому столу">R3</span></span></dd><dt>Место: площадка, район, точный адрес — только участникам</dt><dd class="only-jobs"><span class="fj"><span class="jp" title="решиться идти">R2</span><span class="jp" title="знать, что можно уйти">E3</span></span></dd><dt>Состав: подтверждённые участники</dt><dd class="only-jobs"><span class="fj"><span class="jp" title="не приехать к пустому столу">R3</span></span></dd><dt>Подтверждения явки</dt><dd class="only-jobs"><span class="fj"><span class="jp" title="не приехать к пустому столу">R3</span></span></dd><dt>Факты присутствия</dt><dd class="only-jobs"><span class="fj"><span class="jp" title="выглядеть тем, кому можно доверять">S1</span><span class="jp" title="увидеться снова, не начиная заново">R4</span><span class="jp main" title="компания для планов и продолжение">M1</span></span></dd><dt>Отмена</dt><dd><span class="fv">статус запроса-источника «отменён» <code class="dcode">D-41</code>; на <code>+1</code> встречи не будет вовсе</span><span class="fj"><span class="jp" title="не приехать к пустому столу">R3</span></span></dd><dt>Приватная обратная связь</dt><dd><span class="fv"><strong>ни одного job</strong> — гигиена безопасности, раздел «Гигиена» <code class="dcode">D-31</code></span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-2"><span class="ar" aria-hidden="true">←</span>запрос</a><span class="lk out"><span class="ar" aria-hidden="true">→</span>участники</span><a class="lk out" href="#e-7"><span class="ar" aria-hidden="true">→</span>подтверждения явки</a><a class="lk out" href="#e-7"><span class="ar" aria-hidden="true">→</span>подтверждения присутствия</a><a class="lk out" href="#e-12"><span class="ar" aria-hidden="true">→</span>ссылка близкому</a><a class="lk in" href="#e-9"><span class="ar" aria-hidden="true">←</span>серия</a></div>
+      <p class="nt"><code>[?]</code> <strong>Отдельная ли это сущность</strong> — или состояние запроса «дата назначена». По job она отдельна: у неё свои события (напоминание, явка, check-in), а у запроса без даты их нет. В модели данных может оказаться тем же объектом. После <code class="dcode">D-39</code> любая встреча порождается запросом — довод за чтение «состояние запроса».</p>
+    </article>
+<article class="ent" id="e-7" data-e="7">
+      <header><span class="enum">7</span><h3>Подтверждение явки<span class="alt"><code>Still going?</code></span></h3><span class="jobs"><span class="jp" title="не приехать к пустому столу">R3</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>R3 напрямую — «записаться легко, а прийти нет».</p>
+      <dl class="fields"><dt>Участник</dt><dd><span class="fv">профиль</span></dd><dt>Встреча</dt><dd><span class="fv">ссылка</span></dd><dt>Ответ</dt><dd><span class="fv"><code>Yes</code> · <code>Can't make it</code> · нет ответа</span></dd><dt>Время</dt><dd><span class="fv">за сутки до встречи</span></dd><dt>Доставка</dt><dd><span class="fv">пуш при разрешении <code class="dcode">D-40</code>, иначе — с карточки плана</span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-6"><span class="ar" aria-hidden="true">←</span>встреча</a><a class="lk in" href="#e-1"><span class="ar" aria-hidden="true">←</span>человек</a><span class="lk out"><span class="ar" aria-hidden="true">→</span>счётчик в ленте (двухфазный: <code>going</code> → <code>confirmed</code>)</span></div>
+      <p class="nt"><strong>Часть сущности:</strong> молчание — не отказ; <code>Can't make it</code> освобождает место, «нет ответа» — нет.</p>
+    </article>
+<article class="ent" id="e-8" data-e="8">
+      <header><span class="enum">8</span><h3>Подтверждение присутствия<span class="alt"><code>Who made it?</code></span></h3><span class="jobs"><span class="jp" title="выглядеть тем, кому можно доверять">S1</span><span class="jp" title="увидеться снова, не начиная заново">R4</span><span class="jp main" title="компания для планов и продолжение">M1</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>S1 «выглядеть тем, кому можно доверять» — единственная история, которая наполняется сама; R4 — история встреч с теми же людьми; M1 — «через несколько встреч».</p>
+      <dl class="fields"><dt>Кто отметил</dt><dd><span class="fv">профиль</span></dd><dt>Кого</dt><dd><span class="fv">профили участников</span></dd><dt>Встреча</dt><dd><span class="fv">ссылка</span></dd><dt>Окно</dt><dd><span class="fv">14 дней</span></dd><dt>Режим</dt><dd><span class="fv">double-blind: кто кого отметил, не видит никто</span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-6"><span class="ar" aria-hidden="true">←</span>встреча</a><span class="lk in"><span class="ar" aria-hidden="true">←</span>люди</span><span class="lk out"><span class="ar" aria-hidden="true">→</span>счётчик <code>meetups attended</code> на профиле</span><span class="lk out"><span class="ar" aria-hidden="true">→</span>метрика повтора</span></div>
+      <p class="nt"><strong>Часть сущности:</strong> засчитано, если отметил хотя бы один другой участник. На паре double-blind вырождается — это свойство сущности, а не экрана.</p>
+    </article>
+<article class="ent" id="e-9" data-e="9">
+      <header><span class="enum">9</span><h3>Серия<span class="alt">повторяющийся запрос</span></h3><span class="jobs"><span class="jp" title="увидеться снова, не начиная заново">R4</span><span class="jp" title="собирать людей и не бросить">R5</span><span class="jp hyp" title="Заменить привычку, а не друзей">G4</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>R4 «продолжить с теми же людьми без усилия первого раза»; R5 «в пятый раз собираю ту же встречу»; G4 «вернуть не людей, а то, что мы делали».</p>
+      <dl class="fields"><dt>Базовый запрос</dt><dd><span class="fv">из чего возникла</span></dd><dt>Состав</dt><dd><span class="fv">переносится между встречами</span></dd><dt>Чат</dt><dd><span class="fv">один на серию</span></dd><dt>История встреч</dt><dd><span class="fv">список</span></dd><dt>Правило повтора</dt><dd><span class="fv">еженедельно <code>[?]</code> — интервал не задан</span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-2"><span class="ar" aria-hidden="true">←</span>запрос</a><a class="lk out" href="#e-6"><span class="ar" aria-hidden="true">→</span>встречи</a><span class="lk out"><span class="ar" aria-hidden="true">→</span>чат</span><span class="lk out"><span class="ar" aria-hidden="true">→</span>участники</span></div>
+      <p class="nt"><strong>Часть сущности:</strong> серию нельзя создать отдельно — она возникает из запроса, когда автор отмечает «повторяется».</p>
+    </article>
+<article class="ent" id="e-10" data-e="10">
+      <header><span class="enum">10</span><h3>Верификация</h3><span class="jobs"><span class="jp" title="решиться идти">R2</span><span class="jp hyp" title="Не ждать, когда уже решил">G5</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>R2 «риск понятен до выхода из дома»; G5 «доказать, что я — это я».</p>
+      <dl class="fields"><dt>Статус</dt><dd><span class="fv">не начата · ожидает · пройдена · отказ · на ручной проверке</span></dd><dt>Причина отказа</dt><dd><span class="fv">лицо вне кадра · темно · поза не совпала</span></dd><dt>Попытки</dt><dd><span class="fv">без лимита</span></dd><dt>Результат</dt><dd><span class="fv">бейдж Verified на профиле</span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-1"><span class="ar" aria-hidden="true">←</span>человек</a><span class="lk out"><span class="ar" aria-hidden="true">→</span>бейдж Verified</span><a class="lk out" href="#e-3"><span class="ar" aria-hidden="true">→</span>доступ к отклику и первому сообщению</a></div>
+      <p class="nt"><strong>Чего верификация не доказывает — часть сущности:</strong> живое фото — да; личность, пол, намерение — нет.</p>
+    </article>
+<article class="ent" id="e-11" data-e="11">
+      <header><span class="enum">11</span><h3>Жалоба и блокировка</h3><span class="jobs"><span class="jp" title="знать, что можно уйти">E3</span><span class="jp" title="решиться идти">R2</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>E3 «никто не удержит» — возможность выйти из контакта; R2.</p>
+      <dl class="fields"><dt>Кто → на кого</dt><dd><span class="fv">профили</span></dd><dt>Контекст</dt><dd><span class="fv">профиль · карточка · чат · запрос</span></dd><dt>Причина</dt><dd><span class="fv">harassment · fake profile · inappropriate photos · spam · underage · other</span></dd><dt>Комментарий</dt><dd><span class="fv">текст</span></dd><dt>Блокировка</dt><dd><span class="fv">мгновенная, взаимная; чат в архив</span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-1"><span class="ar" aria-hidden="true">←</span>два человека</a><span class="lk out"><span class="ar" aria-hidden="true">→</span>модерация <code>[?]</code> (бэкстейдж, в продукте не видна)</span><span class="lk out"><span class="ar" aria-hidden="true">→</span>список заблокированных</span></div>
+      
+    </article>
+<article class="ent" id="e-12" data-e="12">
+      <header><span class="enum">12</span><h3>Ссылка близкому<span class="alt"><code>Share my plans</code></span></h3><span class="jobs"><span class="jp" title="чтобы за меня не волновались">S3</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>S3 «не быть единственной, кто знает, где я».</p>
+      <dl class="fields"><dt>Встреча</dt><dd><span class="fv">куда, когда, с кем</span></dd><dt>Получатель</dt><dd><span class="fv">вне продукта</span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk in" href="#e-6"><span class="ar" aria-hidden="true">←</span>встреча</a></div>
+      <p class="nt"><strong>Оговорка:</strong> S3 в матрице — очередь, функция в <code>jtbd.md</code> — кандидат на перенос за v1. Сущность есть, потому что job есть; приоритет функции — другой вопрос.</p>
+    </article>
+<article class="ent" id="e-13" data-e="13">
+      <header><span class="enum">13</span><h3>Шаблон запроса</h3><span class="jobs"><span class="jp" title="собирать людей и не бросить">R5</span><span class="jp hyp" title="Не отказываться от плана">G2</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>R5 «не сочинять запрос каждую неделю»; G2 — образец формулировки для человека, который привык описывать себя, а не дело.</p>
+      <dl class="fields"><dt>Название</dt><dd><span class="fv">прогулка · настолки · пробежка · кофе · кино</span></dd><dt>Предзаполнение</dt><dd><span class="fv">занятие, категория, типовой размер</span></dd></dl>
+      <div class="links"><span class="lbl">Связи</span><a class="lk out" href="#e-2"><span class="ar" aria-hidden="true">→</span>запрос</a></div>
+      
+    </article>
+<article class="ent" id="e-14" data-e="14">
+      <header><span class="enum">14</span><h3>Интерес<span class="alt">тег</span></h3><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp hyp" title="Найти компанию под конкретное хобби">G3</span><span class="jp hyp" title="Решить быстро">G1</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>M1 «знакомство по интересам»; G3 «компания под конкретное хобби»; G1.</p>
+      <p class="pr">Справочная сущность: курируемый каталог — Sports, Music, Food, Games, Outdoors, Art, Movies, Travel, Tech, Books. Связывает <strong>человека ↔ запрос ↔ фильтр</strong> — единственный объект, через который совпадение считается.</p>
+      <div class="links"><span class="lbl">Связи</span><span class="lk in"><span class="ar" aria-hidden="true">←</span>профили</span><a class="lk in" href="#e-2"><span class="ar" aria-hidden="true">←</span>запросы</a><a class="lk in" href="#e-15"><span class="ar" aria-hidden="true">←</span>фильтры</a></div>
+      
+    </article>
+<article class="ent" id="e-15" data-e="15">
+      <header><span class="enum">15</span><h3>Фильтр</h3><span class="jobs"><span class="jp hyp" title="Найти компанию под конкретное хобби">G3</span><span class="jp" title="решиться идти">R2</span></span></header>
+      <p class="born"><span class="lbl">Порождает</span>G3 — фильтр ленты по категории; R2 — «Verified only».</p>
+      <dl class="fields"><dt>Колода</dt><dd><span class="fv">возраст, радиус, интересы, только верифицированные</span><span class="fj"><span class="jp" title="решиться идти">R2</span></span></dd><dt>Лента запросов</dt><dd><span class="fv">дата (только к датированным), расстояние, категория, размер компании</span><span class="fj"><span class="jp hyp" title="Найти компанию под конкретное хобби">G3</span><span class="jp" title="не приехать к пустому столу">R3</span></span></dd></dl><p class="pr">Не хранимый объект, а параметры запроса к колоде и ленте:</p>
+      
+      <p class="nt"><strong>Чего в фильтре нет по job:</strong> пола. R2 закрывается ограничением на своём запросе, а не фильтром чужих.</p>
+    </article></div>
+      <h3 id="under-question">Под вопросом</h3>
       <p>Есть в брифе, но ни один job из <code>jtbd.md</code> не требует. Не выброшены — но перед тем как рисовать для них экран, нужен job или решение, что это гигиена.</p>
 <div class="tw"><table><thead><tr><th>Объект</th><th>Откуда в брифе</th><th>Почему без job</th></tr></thead><tbody>
 <tr><td><strong>Интент</strong> («Just moved here», «New hobby»…)</td><td>§6, <code class="dcode">D-08</code></td><td>Бриф сам назвал чипы «гигиеной категории, а не отстройкой». Срез плотности «ещё 12 переехали» служит обязательству §2.1, а не job человека. E1 «чувствовать, что это нормально» — <strong>привязан в «Трассировке»</strong> <code>✓*</code>, но E1 в ожидании, и чипы остаются под <code class="dcode">D-08</code></td></tr>
@@ -1778,7 +1928,7 @@ h5, h6 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(-
 <p><strong>Решено 2026-09-16.</strong> Два объекта из этой таблицы разобраны, потому что оба стояли в MVP: обратная связь — гигиена (<code class="dcode">D-31</code>), переключатели приватности — вне v1 (<code class="dcode">D-32</code>). Остальные шесть ждут той же развилки: job, гигиена или вылет.</p>
       <h3>Гигиена безопасности</h3>
       <p>Сущности, которые порождает <strong>обязательство продукта</strong>, а не job человека. Они в MVP, но под них не выдумывается job — и экран под них рисуется как служебный, не как ценность.</p>
-<h4 id="г1-приватная-обратная-связь-anything-off-d-31">Г1. Приватная обратная связь (<code>Anything off?</code>) <code class="dcode">D-31</code></h4>
+<h3 id="г1-приватная-обратная-связь-anything-off-d-31">Г1. Приватная обратная связь (<code>Anything off?</code>) <code class="dcode">D-31</code></h3>
 <div class="tw"><table><thead><tr><th>Поле</th><th>Значения</th></tr></thead><tbody>
 <tr><td>Кто</td><td>профиль участника</td></tr>
 <tr><td>Встреча</td><td>ссылка</td></tr>
