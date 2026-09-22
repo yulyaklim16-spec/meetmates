@@ -781,8 +781,7 @@ const page = `${head}${extraCss}</style>
 
   <main id="content">
     <div class="masthead">
-      <p class="eyebrow">Раздел 3 из 12</p>
-      <h1><span class="grad">Информационная архитектура</span></h1>
+      <h1>Информационная архитектура</h1>
       <p class="lede">Из чего собирается интерфейс: сущности → экраны с job у каждого → навигация в три слоя → матрица покрытия jobs × экраны → потоки с тупиками и состояниями. Собрано из <a href="../sitemap.md">sitemap.md</a> и <a href="../flows.md">flows.md</a>; страница пересобирается скриптом, руками не правится.</p>
       <div class="chips">
         <span><b>${T.count}</b> экранов</span>
