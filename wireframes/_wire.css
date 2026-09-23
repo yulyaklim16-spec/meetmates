@@ -16,13 +16,8 @@
 * { box-sizing: border-box; }
 
 body {
-  /* сама страница — рамка мобильного макета 390 × 844 (§3 брифа) */
-  position: relative;
-  max-width: var(--screen-max);
-  min-height: 844px;
-  margin: var(--s-6) auto;
-  padding: 0;
-  border: 1px solid var(--w-line);
+  margin: 0;
+  padding: var(--s-6) var(--s-4) var(--s-7);
   background: var(--w-surface);
   color: var(--w-ink);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -30,6 +25,69 @@ body {
   line-height: 1.45;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+/* ── мокап телефона ──────────────────────────────────────────
+   Мы строим мобильный веб, и продукт владеет не всей высотой:
+   844px экрана делят системная строка (47), панель браузера (50,
+   в Safari iOS она снизу) и индикатор жеста (34). Продукту остаётся
+   713px — сгиб проходит там, а не по краю экрана.
+   Корпус и экран — единственные два `div` в наборе: семантики
+   у них нет, это устройство, а не содержимое (_conventions.md §5). */
+.device {
+  flex: none;
+  width: calc(var(--screen-max) + 24px);
+  padding: 12px;
+  border: 1px solid var(--w-line);
+  border-radius: 46px;
+  background: var(--w-surface);
+}
+.screen {
+  position: relative;
+  width: var(--screen-max);
+  height: 844px;
+  border: 1px solid var(--w-line);
+  border-radius: 34px;
+  background: var(--w-surface);
+  display: flex;
+  flex-direction: column;
+  /* подписи зон выходят за пределы экрана — не режем */
+  overflow: visible;
+}
+
+/* системная строка и панель браузера: чужие зоны, продукт их не рисует */
+.statusbar, .browserbar {
+  flex: none;
+  display: flex; align-items: center; gap: var(--s-2);
+  color: var(--w-ink-2);
+  font-size: 12px;
+  background: var(--w-fill);
+}
+.statusbar {
+  height: 47px;
+  padding: 0 var(--s-5);
+  justify-content: space-between;
+  border-bottom: 1px solid var(--w-line);
+  border-radius: 33px 33px 0 0;
+}
+.browserbar {
+  height: 50px;
+  padding: 0 var(--s-4);
+  justify-content: center;
+  border-top: 1px solid var(--w-line);
+}
+.homebar {
+  flex: none;
+  height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 0 0 33px 33px;
+}
+.homebar::after {
+  content: "";
+  width: 134px; height: 5px;
+  border-radius: var(--r-pill);
+  background: var(--w-line);
 }
 
 h1, h2, h3 { margin: 0; font-size: 1rem; line-height: 1.3; }
@@ -61,6 +119,9 @@ nav a {
 nav a[aria-current="page"] { color: var(--w-ink); font-weight: 600; box-shadow: inset 0 2px 0 var(--w-ink); }
 
 /* ── main и зоны ─────────────────────────────────────────── */
+/* .app — то, чем владеет продукт: 713px между чужими зонами */
+.app { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
 main { flex: 1; min-height: 0; padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-4); }
 section { display: flex; flex-direction: column; gap: var(--s-3); }
 /* колода: карточка занимает всю свободную высоту — фото на всю площадь, §8 */
@@ -145,7 +206,7 @@ a { color: var(--w-ink); }
 /* ── служебное: не едет в прототип ───────────────────────── */
 /* Подписи зон стоят справа от колонки 390px и не участвуют в раскладке:
    иначе они распирают макет и сгиб перестаёт что-либо значить. */
-header, main > section { position: relative; }
+.screen header, .screen main > section { position: relative; }
 .ann {
   position: absolute; top: 0; left: calc(100% + var(--s-4));
   width: 230px;
@@ -163,24 +224,29 @@ header, main > section { position: relative; }
   .ann { position: static; width: auto; margin: 0 0 var(--s-2); }
 }
 
-/* сгиб — ровно 844px от верха рамки, вне потока: что ниже, то уже по скроллу */
+/* сгиб — нижняя граница того, чем владеет продукт: над панелью браузера */
+/* границу рисует верхняя рамка панели браузера — сгибу нужна только подпись */
 .fold {
-  position: absolute; top: 844px; left: 0; right: 0;
-  margin: 0; border: 0;
-  border-top: 1px dashed var(--w-ink-2);
+  position: absolute; left: 0; right: 0; bottom: 84px;
+  height: 0; line-height: 0;
+  margin: 0; padding: 0; border: 0;
+  text-align: right;
 }
-.fold::after {
-  content: "сгиб 844px";
-  position: absolute; right: 0; top: 2px;
+.fold span {
+  display: inline-block;
+  line-height: 1.4;
+  transform: translateY(-100%);
+  margin-right: var(--s-3);
+  padding: 0 var(--s-2);
+  background: var(--w-surface);
   font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--w-ink-2);
-  background: var(--w-surface);
-  padding-left: var(--s-2);
 }
 
-/* служебный блок стоит под рамкой, а не внутри неё: иначе он врёт про высоту экрана */
+/* служебный блок стоит под мокапом, а не внутри экрана */
 .meta {
-  position: absolute; top: 100%; left: 0; right: 0;
+  width: calc(var(--screen-max) + 24px);
+  margin-top: var(--s-5);
   padding: var(--s-4) 0 0;
   font-size: 12px;
   color: var(--w-ink-2);

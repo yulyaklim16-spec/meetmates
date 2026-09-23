@@ -22,7 +22,15 @@
 </head>
 <body>
 
-<!-- ЗОНА 1: шапка. Главное действие — сузить выдачу фильтрами (II.2) -->
+<!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
+     жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
+<div class="device">
+ <div class="screen">
+
+  <!-- зона системы: safe-area сверху, 47px -->
+  <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
+
+  <!-- ЗОНА 1: шапка. Главное действие — сузить выдачу фильтрами (II.2) -->
 <header>
   <h1>Discover</h1>
   <button type="button">Filters</button>
@@ -30,7 +38,7 @@
   <p class="ann"><b>Зона 1 — шапка.</b> Главное действие: Filters → II.2 Фильтры колоды. Profile — вход в глубокий слой, §6</p>
 </header>
 
-<main>
+  <main class="app">
   <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком (I.1) -->
   <section class="stretch" aria-labelledby="deck-h">
     <h2 id="deck-h">People nearby</h2>
@@ -38,7 +46,7 @@
 
     <article class="card">
       <figure>
-        <p class="photo" aria-hidden="true">Photo</p>
+        <p class="photo" aria-hidden="true"></p>
         <figcaption>Photo 1 of 4</figcaption>
       </figure>
 
@@ -94,14 +102,22 @@
   </section>
 </main>
 
-<!-- ЗОНА 5: глобальная навигация, три вкладки D-33 -->
-<nav aria-label="Основная навигация">
-  <a href="deck.html" aria-current="page">People</a>
-  <a href="feed.html">Plans</a>
-  <a href="chats.html">Chats</a>
-</nav>
+  <!-- ЗОНА 5: глобальная навигация, три вкладки D-33 -->
+  <nav aria-label="Основная навигация">
+    <a href="deck.html" aria-current="page">People</a>
+    <a href="feed.html">Plans</a>
+    <a href="chats.html">Chats</a>
+  </nav>
 
-<hr class="fold">
+  <p class="fold"><span>сгиб — ниже не наше</span></p>
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  <p class="browserbar">meetmates.app</p>
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+
+ </div>
+</div>
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
@@ -115,8 +131,11 @@
     <li aria-disabled="true">deck-error — колода не загрузилась</li>
     <li aria-disabled="true">deck-loading — грузим людей рядом</li>
   </ul>
-  <p>Всё содержимое помещается в первый экран: сгиб 844px совпадает с низом рамки,
-    прокручивать нечего.</p>
+  <p><b>Высота:</b> экран 844px, но продукту принадлежит 713 — остальное забирают
+    системная строка (47), панель браузера Safari (50, снизу) и индикатор жеста (34).
+    Содержимое умещается: прокручивать нечего.</p>
+  <p><b>Находка:</b> наш таб-бар оказывается вплотную над панелью браузера. На концепте
+    проверить, не читаются ли две панели как одна.</p>
   <p>Источники: sitemap.md (II.1) · flows.md (M1) · _screens.md · _conventions.md.
     Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
