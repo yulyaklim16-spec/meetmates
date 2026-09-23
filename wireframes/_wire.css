@@ -1,0 +1,191 @@
+/* Общие стили вайрфреймов. Правила — _conventions.md.
+   Цвета: только серый, и он ничего не кодирует — состояние объясняется текстом.
+   Отступы, радиусы и тач-таргеты берём из токенов проекта, палитру — нет. */
+
+@import url("../tokens/tokens.css");
+
+:root {
+  --w-surface: #ffffff;   /* фон страницы и карточек */
+  --w-fill:    #f6f6f6;   /* второстепенная зона: поле, кнопка, sheet */
+  --w-zone:    #ededed;   /* плашка-заполнитель: фото, аватар */
+  --w-line:    #d6d6d6;   /* границы и разделители */
+  --w-ink:     #1a1a1a;   /* основной текст */
+  --w-ink-2:   #555555;   /* вторичный текст и подписи, 7,4:1 */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  /* сама страница — рамка мобильного макета 390 × 844 (§3 брифа) */
+  position: relative;
+  max-width: var(--screen-max);
+  min-height: 844px;
+  margin: var(--s-6) auto;
+  padding: 0;
+  border: 1px solid var(--w-line);
+  background: var(--w-surface);
+  color: var(--w-ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3 { margin: 0; font-size: 1rem; line-height: 1.3; }
+h1 { font-size: 1.05rem; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* ── шапка и таб-бар ─────────────────────────────────────── */
+header {
+  display: flex; align-items: center; gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--w-line);
+}
+header h1 { margin-right: auto; }
+
+nav[aria-label] {
+  display: flex;
+  border-top: 1px solid var(--w-line);
+  margin-top: auto;
+}
+nav a {
+  flex: 1;
+  min-height: var(--tap-min);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--w-ink-2);
+  text-decoration: none;
+  padding: var(--s-2);
+}
+nav a[aria-current="page"] { color: var(--w-ink); font-weight: 600; box-shadow: inset 0 2px 0 var(--w-ink); }
+
+/* ── main и зоны ─────────────────────────────────────────── */
+main { flex: 1; min-height: 0; padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-4); }
+section { display: flex; flex-direction: column; gap: var(--s-3); }
+/* колода: карточка занимает всю свободную высоту — фото на всю площадь, §8 */
+section.stretch, section.stretch .card { flex: 1; min-height: 0; }
+
+/* ── карточка человека ───────────────────────────────────── */
+/* §8: фото на всю площадь, текст — на подложке снизу. В сером подложка
+   просто непрозрачная, градиент появится на концепте. */
+.card {
+  position: relative;
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.card figure { margin: 0; }
+.photo {
+  height: 100%;
+  min-height: 280px;
+  margin: 0;
+  background: var(--w-zone);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--w-ink-2);
+}
+.card figcaption {
+  position: absolute; top: 0; left: 0;
+  padding: var(--s-2) var(--s-3);
+  background: var(--w-surface);
+  border-right: 1px solid var(--w-line);
+  border-bottom: 1px solid var(--w-line);
+  color: var(--w-ink-2);
+  font-size: 13px;
+}
+.card .body {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: var(--s-4);
+  background: var(--w-surface);
+  border-top: 1px solid var(--w-line);
+  display: flex; flex-direction: column; gap: var(--s-2);
+}
+.common { font-weight: 700; }
+.tags { display: flex; flex-wrap: wrap; gap: var(--s-2); color: var(--w-ink-2); font-size: 14px; }
+.tags li + li::before { content: "·"; margin-right: var(--s-2); }
+.signals { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.signals li {
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-pill);
+  padding: 2px var(--s-3);
+  font-size: 13px;
+  color: var(--w-ink-2);
+}
+.distance { color: var(--w-ink-2); font-size: 14px; }
+
+/* ── кнопки и ссылки-действия ────────────────────────────── */
+button, .btn {
+  font: inherit;
+  min-height: var(--tap-min);
+  padding: var(--s-2) var(--s-4);
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-sm);
+  background: var(--w-fill);
+  color: var(--w-ink);
+  cursor: pointer;
+  text-align: center;
+}
+button.primary { border-color: var(--w-ink); font-weight: 600; }
+button.quiet { background: var(--w-surface); }
+.row { display: flex; gap: var(--s-3); }
+.row > * { flex: 1; }
+:where(a, button, [tabindex]):focus-visible { outline: 2px solid var(--w-ink); outline-offset: 2px; }
+a { color: var(--w-ink); }
+
+.exit {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s-3);
+  min-height: var(--tap-min);
+  padding: var(--s-3) var(--s-4);
+  border: 1px dashed var(--w-line);
+  border-radius: var(--r-sm);
+  text-decoration: none;
+}
+
+/* ── служебное: не едет в прототип ───────────────────────── */
+/* Подписи зон стоят справа от колонки 390px и не участвуют в раскладке:
+   иначе они распирают макет и сгиб перестаёт что-либо значить. */
+header, main > section { position: relative; }
+.ann {
+  position: absolute; top: 0; left: calc(100% + var(--s-4));
+  width: 230px;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--w-ink-2);
+  border-left: 1px solid var(--w-line);
+  padding-left: var(--s-3);
+}
+.ann b { font-weight: 700; color: var(--w-ink); }
+@media (max-width: 760px) {
+  /* на узком экране подписи возвращаются в поток — макет читается хуже, но не рвётся */
+  .ann { position: static; width: auto; margin: 0 0 var(--s-2); }
+}
+
+/* сгиб — ровно 844px от верха рамки, вне потока: что ниже, то уже по скроллу */
+.fold {
+  position: absolute; top: 844px; left: 0; right: 0;
+  margin: 0; border: 0;
+  border-top: 1px dashed var(--w-ink-2);
+}
+.fold::after {
+  content: "сгиб 844px";
+  position: absolute; right: 0; top: 2px;
+  font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--w-ink-2);
+  background: var(--w-surface);
+  padding-left: var(--s-2);
+}
+
+/* служебный блок стоит под рамкой, а не внутри неё: иначе он врёт про высоту экрана */
+.meta {
+  position: absolute; top: 100%; left: 0; right: 0;
+  padding: var(--s-4) 0 0;
+  font-size: 12px;
+  color: var(--w-ink-2);
+  display: flex; flex-direction: column; gap: var(--s-2);
+}
+.meta b { color: var(--w-ink); font-weight: 600; }
+.meta ul { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-3); }
+.meta li[aria-disabled="true"] { color: #8a8a8a; }

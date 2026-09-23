@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Колода · успех · MeetMates wireframe</title>
+<!--
+  Экран:  II.1 Колода — sitemap.md, ветка «Колода и совпадение»
+  Job:    M1 «Когда мне есть куда пойти, но не с кем… я хочу, чтобы у моих планов
+          была компания» · G1 «за несколько секунд понять, стоит ли встречаться»
+  Поток:  flows.md, M1 — Start([Открыла приложение после онбординга]) → Deck →
+          DeckLoad → HasPeople{Есть люди в радиусе?} →|да| Person
+  Шаг:    первый шаг основного пути D-37. Экран закрывает ровно одно: показать
+          человека, по которому можно принять решение свайпа. Совпадение,
+          разговор и день — следующие экраны, не этот.
+  Состояние: успех (рабочий вид, люди в радиусе есть). Остальные — отдельными
+          страницами: deck-empty, deck-error, deck-loading.
+  Порядок чтения карточки задан D-13 и не произволен: общие интересы → имя
+          и возраст → сигналы доверия → расстояние.
+-->
+<link rel="stylesheet" href="_wire.css">
+</head>
+<body>
+
+<!-- ЗОНА 1: шапка. Главное действие — сузить выдачу фильтрами (II.2) -->
+<header>
+  <h1>Discover</h1>
+  <button type="button">Filters</button>
+  <button type="button">Profile</button>
+  <p class="ann"><b>Зона 1 — шапка.</b> Главное действие: Filters → II.2 Фильтры колоды. Profile — вход в глубокий слой, §6</p>
+</header>
+
+<main>
+  <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком (I.1) -->
+  <section class="stretch" aria-labelledby="deck-h">
+    <h2 id="deck-h">People nearby</h2>
+    <p class="ann"><b>Зона 2 — карточка человека.</b> Главное действие: открыть профиль целиком → I.1. More → Report / Block: на экране виден другой человек, правило 4</p>
+
+    <article class="card">
+      <figure>
+        <p class="photo" aria-hidden="true">Photo</p>
+        <figcaption>Photo 1 of 4</figcaption>
+      </figure>
+
+      <section class="body" aria-label="Olena, 26">
+        <!-- 1. Общие интересы — первой строкой, D-13 -->
+        <p class="common">3 common interests</p>
+        <ul class="tags">
+          <li>Hiking</li>
+          <li>Board games</li>
+          <li>Coffee</li>
+        </ul>
+
+        <!-- 2. Имя и возраст — идентификация, не решение -->
+        <h3>Olena, 26</h3>
+
+        <!-- 3. Сигналы доверия — все четыре до первого сообщения, правило 12 -->
+        <ul class="signals">
+          <li>Verified</li>
+          <li>Regular</li>
+          <li>6 meetups attended</li>
+          <li>Replies quickly</li>
+        </ul>
+
+        <!-- 4. Расстояние — последним. Округлённое, §7.1: ни района, ни точки на карте -->
+        <p class="distance">~2 km away</p>
+
+        <p class="row">
+          <a class="btn" href="profile.html">Open profile</a>
+          <button type="button" class="quiet">More</button>
+        </p>
+      </section>
+    </article>
+  </section>
+
+  <!-- ЗОНА 3: решение по карточке. Главное действие — Like -->
+  <section aria-labelledby="act-h">
+    <h2 id="act-h" hidden>Decision</h2>
+    <p class="ann"><b>Зона 3 — решение по карточке.</b> Главное действие: Like. Взаимный лайк → II.3 Совпадение</p>
+    <p class="row">
+      <button type="button">Skip</button>
+      <button type="button" class="primary">Like</button>
+    </p>
+  </section>
+
+  <!-- ЗОНА 4: выход во второй путь. Обязателен всегда, а не только в пустом виде (§4, D-10) -->
+  <section aria-labelledby="exit-h">
+    <h2 id="exit-h" hidden>Second path</h2>
+    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Главное действие: перейти в ленту запросов → III.1</p>
+    <a class="exit" href="feed.html">
+      <span>See plans nearby</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
+</main>
+
+<!-- ЗОНА 5: глобальная навигация, три вкладки D-33 -->
+<nav aria-label="Основная навигация">
+  <a href="deck.html" aria-current="page">People</a>
+  <a href="feed.html">Plans</a>
+  <a href="chats.html">Chats</a>
+</nav>
+
+<hr class="fold">
+
+<!-- служебное: на прототип не едет -->
+<footer class="meta">
+  <p><b>II.1 Колода · состояние «успех»</b> — рабочий вид: люди в радиусе есть.</p>
+  <p>Шаг потока M1: <b>Start → Deck → HasPeople →|да| Person</b>. Экран даёт материал
+    для решения свайпа — и ничего больше.</p>
+  <p>Состояния этого экрана:</p>
+  <ul>
+    <li><b>успех</b> — эта страница</li>
+    <li aria-disabled="true">deck-empty — людей рядом нет</li>
+    <li aria-disabled="true">deck-error — колода не загрузилась</li>
+    <li aria-disabled="true">deck-loading — грузим людей рядом</li>
+  </ul>
+  <p>Всё содержимое помещается в первый экран: сгиб 844px совпадает с низом рамки,
+    прокручивать нечего.</p>
+  <p>Источники: sitemap.md (II.1) · flows.md (M1) · _screens.md · _conventions.md.
+    Серый ничего не кодирует: состояние читается из текста.</p>
+</footer>
+
+</body>
+</html>
