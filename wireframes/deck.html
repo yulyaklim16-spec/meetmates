@@ -24,7 +24,7 @@
 
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
-  <p class="t">Макеты · 1 из 34</p>
+  <p class="t">Макеты · 1 из 44</p>
   <ul>
     <li class="grp">Колода и совпадение
       <ul>
@@ -62,6 +62,12 @@
             <li class="stub"><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
+        <li class="scr"><span class="c">I.2</span> Мой профиль — как меня видят
+          <ul>
+            <li class="stub"><a href="my-profile.html">рабочий вид</a></li>
+            <li class="stub"><a href="my-profile-loading.html">загрузка</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="grp">Чат
@@ -83,6 +89,14 @@
             <li class="stub"><a href="invite-error.html">ошибка</a></li>
             <li class="stub"><a href="invite-success.html">успех</a></li>
             <li class="stub"><a href="invite-waiting.html">ожидание чужого решения · D-42</a></li>
+          </ul>
+        </li>
+        <li class="scr"><span class="c">IV.1</span> Список чатов
+          <ul>
+            <li class="stub"><a href="chats.html">рабочий вид</a></li>
+            <li class="stub"><a href="chats-empty.html">пусто</a></li>
+            <li class="stub"><a href="chats-error.html">ошибка</a></li>
+            <li class="stub"><a href="chats-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -108,6 +122,18 @@
         </li>
       </ul>
     </li>
+    <li class="grp">—
+      <ul>
+        <li class="scr"><span class="c">IX.1</span> Поиск людей и планов
+          <ul>
+            <li class="stub"><a href="search.html">рабочий вид</a></li>
+            <li class="stub"><a href="search-empty.html">пусто</a></li>
+            <li class="stub"><a href="search-error.html">ошибка</a></li>
+            <li class="stub"><a href="search-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
   </ul>
   <p class="n">Серым — заглушка: страница есть, макет не нарисован. Панель собирается
     из _screens.md и sitemap.md скриптом build-wireframes.mjs.</p>
@@ -126,15 +152,14 @@
 <header>
   <h1>Discover</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
-  <button type="button"><span class="avatar" aria-hidden="true"></span>Profile</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Главное действие: Filters → II.2 Фильтры колоды. Profile — аватар, вход в глубокий слой, §6. Квадрат и круг — заполнители иконки и аватара в реальный размер</p>
+  <p class="ann"><b>Зона 1 — шапка.</b> Главное действие: Filters → II.2 Фильтры колоды. Аватар отсюда ушёл: профиль стал вкладкой `D-43`. Квадрат — заполнитель иконки в реальный размер</p>
 </header>
 
   <main class="app">
   <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком (I.1) -->
   <section class="stretch" aria-labelledby="deck-h">
     <h2 id="deck-h">People nearby</h2>
-    <p class="ann"><b>Зона 2 — карточка человека.</b> Главное действие: открыть профиль целиком → I.1. Кнопка «⋯» → Report / Block: на экране виден другой человек, правило 4. Иконка стоит рядом со своим текстом: продукт не решал, что кнопка будет без подписи</p>
+    <p class="ann"><b>Зона 2 — карточка человека.</b> Главное действие: тап по всей карточке → профиль I.1, §5.2. Кнопок внутри нет: Report / Block живут в профиле и в чате, до них один тап `D-44`</p>
 
     <article class="card">
       <figure>
@@ -165,11 +190,8 @@
         <!-- 4. Расстояние — последним. Округлённое, §7.1: ни района, ни точки на карте -->
         <p class="distance">~2 km away</p>
 
-        <p class="row">
-          <a class="btn" href="profile.html">Open profile</a>
-          <button type="button" class="quiet"><span class="ico" aria-hidden="true"></span>More</button>
-        </p>
       </section>
+      <a class="cardlink" href="profile.html" aria-label="Olena, 26 — open profile"></a>
     </article>
   </section>
 
@@ -194,11 +216,13 @@
   </section>
 </main>
 
-  <!-- ЗОНА 5: глобальная навигация, три вкладки D-33 -->
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">
     <a href="deck.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>People</a>
+    <a href="search.html"><span class="ico lg" aria-hidden="true"></span>Search</a>
     <a href="feed.html"><span class="ico lg" aria-hidden="true"></span>Plans</a>
     <a href="chats.html"><span class="ico lg" aria-hidden="true"></span>Chats</a>
+    <a href="my-profile.html"><span class="ico lg" aria-hidden="true"></span>Profile</a>
   </nav>
 
   <p class="fold"><span>сгиб — ниже не наше</span></p>
@@ -226,7 +250,11 @@
   <p><b>Высота:</b> экран 844px, но продукту принадлежит 713 — остальное забирают
     системная строка (47), панель браузера Safari (50, снизу) и индикатор жеста (34).
     Содержимое умещается: прокручивать нечего.</p>
-  <p><b>Заполнители:</b> иконки и аватар стоят слотами в реальный размер — они меняют
+  <p><b>Пять вкладок</b> `D-43`: People · Search · Plans · Chats · Profile. На 390px
+    каждой достаётся 78px — подписи короткие, иконка обязательна.</p>
+  <p><b>Report / Block</b> с карточки убраны `D-44`: они в профиле, который открывается
+    тапом по карточке, и в чате. Правило 4 читается теперь как «один тап», и это цена.</p>
+  <p><b>Заполнители:</b> иконки стоят слотами в реальный размер — они меняют
     раскладку (таб-бар выше, пилюля <code>Verified</code> длиннее), но формы не рисуют:
     набор иконок решается на концепте.</p>
   <p><b>Находка:</b> наш таб-бар оказывается вплотную над панелью браузера. На концепте

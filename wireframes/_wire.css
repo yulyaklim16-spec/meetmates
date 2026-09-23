@@ -159,6 +159,7 @@ header h1 { margin-right: auto; }
 }
 .screen nav a {
   flex: 1;
+  min-width: 0;
   min-height: var(--tap-min);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
   color: var(--w-ink-2);
@@ -204,6 +205,10 @@ section.stretch, section.stretch .card { flex: 1; min-height: 0; }
   color: var(--w-ink-2);
   font-size: 13px;
 }
+/* вся карточка — ссылка на профиль (§5.2): прозрачный слой поверх фото,
+   текстовая подложка остаётся кликабельной как часть той же ссылки */
+.cardlink { position: absolute; inset: 0; }
+.cardlink:focus-visible { outline: 2px solid var(--w-ink); outline-offset: -3px; }
 .card .body {
   position: absolute; left: 0; right: 0; bottom: 0;
   padding: var(--s-4);

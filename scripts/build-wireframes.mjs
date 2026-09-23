@@ -35,8 +35,9 @@ const STATES = [
 ];
 
 function screens() {
-  const rows = [...screensMd.matchAll(/^\| \*\*([IVX]+\.\d+)\*\* ([^|]+?) \| `([a-z]+)` \| (.+?) \|\s*$/gm)];
-  if (rows.length !== 8) throw new Error(`в _screens.md найдено ${rows.length} экранов вместо восьми`);
+  // две таблицы одного формата: восемь экранов главного потока и экраны за вкладками D-43
+  const rows = [...screensMd.matchAll(/^\| \*\*([IVX]+\.\d+)\*\* ([^|]+?) \| `([a-z-]+)` \| (.+?) \|\s*$/gm)];
+  if (rows.length < 8) throw new Error(`в _screens.md найдено ${rows.length} экранов, ожидалось не меньше восьми`);
   // экраны с ожиданием — отдельная таблица D-42
   const waitBlock = screensMd.slice(screensMd.indexOf('### Пятое состояние'), screensMd.indexOf('### Почему так'));
   const waits = new Set([...waitBlock.matchAll(/\*\*([IVX]+\.\d+)\*\*/g)].map((m) => m[1]));
@@ -84,8 +85,8 @@ const META = meta();
 const BRANCH = branches();
 for (const s of list) {
   s.branch = BRANCH[s.code] || '—';
-  s.meta = META[s.code];
-  if (!s.meta) throw new Error(`нет job для экрана ${s.code}`);
+  // у экранов за вкладками D-43 своей строки с job нет: берём теги дерева
+  s.meta = META[s.code] || { job: `теги дерева sitemap.md`, flow: 'в потоках flows.md пока нет — D-43 принят после того, как они нарисованы' };
   for (const p of s.pages) {
     const abs = join(ROOT, 'wireframes', p.file);
     p.exists = existsSync(abs);

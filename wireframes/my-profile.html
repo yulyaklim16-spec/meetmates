@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Карточка запроса · загрузка · MeetMates wireframe</title>
+<title>Мой профиль — как меня видят · рабочий вид · MeetMates wireframe</title>
 <!-- stub -->
 <!--
   Страница-заглушка: создана скриптом build-wireframes.mjs, макет не нарисован.
-  Экран:  III.3 Карточка запроса — sitemap.md, ветка «Запрос на компанию»
-  Job:    M1 · R1 (то, во что разговор выходит) · R2 (что за место и кто автор)
-  Поток:  M1: точка схода обоих путей — PlanCard → Ask → Wait → AuthorReplied (второй путь) и DayOK →|да| FromChat (день из диалога D-39)
-  Состояние: загрузка
+  Экран:  I.2 Мой профиль — как меня видят — sitemap.md, ветка «Человек»
+  Job:    теги дерева sitemap.md
+  Поток:  в потоках flows.md пока нет — D-43 принят после того, как они нарисованы
+  Состояние: рабочий вид
   Рисовать по правилам _conventions.md: мокап телефона, семантическая разметка,
   настоящий текст, серый без цвета. Заменить содержимое .app целиком.
 -->
@@ -60,7 +60,7 @@
         </li>
         <li class="scr"><span class="c">I.2</span> Мой профиль — как меня видят
           <ul>
-            <li class="stub"><a href="my-profile.html">рабочий вид</a></li>
+            <li class="now stub"><b aria-current="page">рабочий вид</b></li>
             <li class="stub"><a href="my-profile-loading.html">загрузка</a></li>
           </ul>
         </li>
@@ -111,7 +111,7 @@
           <ul>
             <li class="stub"><a href="plan.html">рабочий вид</a></li>
             <li class="stub"><a href="plan-error.html">ошибка</a></li>
-            <li class="now stub"><b aria-current="page">загрузка</b></li>
+            <li class="stub"><a href="plan-loading.html">загрузка</a></li>
             <li class="stub"><a href="plan-success.html">успех</a></li>
             <li class="stub"><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
@@ -141,8 +141,8 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
   <main class="app empty">
-    <p class="stub-t">III.3 Карточка запроса</p>
-    <p class="stub-s">загрузка</p>
+    <p class="stub-t">I.2 Мой профиль — как меня видят</p>
+    <p class="stub-s">рабочий вид</p>
     <p class="stub-n">Макет не нарисован</p>
   </main>
 
@@ -154,9 +154,9 @@
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>III.3 Карточка запроса · загрузка</b> — заглушка, макет не нарисован.</p>
-  <p><b>Job:</b> M1 · R1 (то, во что разговор выходит) · R2 (что за место и кто автор)</p>
-  <p><b>Место в потоке:</b> M1: точка схода обоих путей — PlanCard → Ask → Wait → AuthorReplied (второй путь) и DayOK →|да| FromChat (день из диалога D-39)</p>
+  <p><b>I.2 Мой профиль — как меня видят · рабочий вид</b> — заглушка, макет не нарисован.</p>
+  <p><b>Job:</b> теги дерева sitemap.md</p>
+  <p><b>Место в потоке:</b> в потоках flows.md пока нет — D-43 принят после того, как они нарисованы</p>
   <p>Правила — _conventions.md · что рисуем — _screens.md · экраны и состояния — sitemap.md.</p>
 </footer>
 
