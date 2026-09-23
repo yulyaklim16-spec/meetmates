@@ -23,9 +23,58 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 15px;
   line-height: 1.45;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* слева — панель со всеми макетами, справа — телефон и место для подписей зон */
+  display: grid;
+  grid-template-columns: 236px minmax(0, 700px);
+  gap: var(--s-6);
+  justify-content: center;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  body { grid-template-columns: minmax(0, 1fr); }
+  .wfnav { position: static !important; border-right: 0; }
+  .device, .meta { grid-column: 1; }
+}
+
+/* ── панель навигации по всем макетам (служебная, на прототип не едет) ── */
+.wfnav {
+  position: sticky; top: var(--s-6);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--w-ink-2);
+  border-right: 1px solid var(--w-line);
+  padding-right: var(--s-4);
+}
+.wfnav .t {
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--w-ink); font-weight: 700;
+  margin-bottom: var(--s-3);
+}
+.wfnav .n { margin-top: var(--s-4); font-size: 11px; color: var(--w-ink-2); }
+.wfnav ul { list-style: none; margin: 0; padding: 0; }
+.wfnav .grp {
+  margin-bottom: var(--s-3);
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--w-ink-2);
+}
+.wfnav .grp > ul { margin-top: var(--s-2); text-transform: none; letter-spacing: 0; }
+.wfnav .scr {
+  color: var(--w-ink);
+  font-size: 12px;
+  margin-bottom: var(--s-2);
+  padding-left: var(--s-3);
+  border-left: 1px solid var(--w-line);
+}
+.wfnav .scr .c { color: var(--w-ink-2); font-variant-numeric: tabular-nums; }
+.wfnav .scr > ul { margin: 2px 0 var(--s-2); padding-left: var(--s-3); }
+.wfnav .scr > ul li { padding: 1px 0; }
+.wfnav a { color: var(--w-ink-2); text-decoration: none; }
+.wfnav a:hover, .wfnav a:focus-visible { color: var(--w-ink); text-decoration: underline; }
+.wfnav .stub a { color: #8a8a8a; }
+.wfnav .now b {
+  color: var(--w-ink); font-weight: 700;
+  display: inline-block;
+  box-shadow: -8px 0 0 -7px var(--w-ink);
 }
 
 /* ── мокап телефона ──────────────────────────────────────────
@@ -36,7 +85,7 @@ body {
    Корпус и экран — единственные два `div` в наборе: семантики
    у них нет, это устройство, а не содержимое (_conventions.md §5). */
 .device {
-  flex: none;
+  grid-column: 2;
   width: calc(var(--screen-max) + 24px);
   padding: 12px;
   border: 1px solid var(--w-line);
@@ -103,12 +152,12 @@ header {
 }
 header h1 { margin-right: auto; }
 
-nav[aria-label] {
+.screen nav[aria-label] {
   display: flex;
   border-top: 1px solid var(--w-line);
   margin-top: auto;
 }
-nav a {
+.screen nav a {
   flex: 1;
   min-height: var(--tap-min);
   display: flex; align-items: center; justify-content: center;
@@ -116,7 +165,7 @@ nav a {
   text-decoration: none;
   padding: var(--s-2);
 }
-nav a[aria-current="page"] { color: var(--w-ink); font-weight: 600; box-shadow: inset 0 2px 0 var(--w-ink); }
+.screen nav a[aria-current="page"] { color: var(--w-ink); font-weight: 600; box-shadow: inset 0 2px 0 var(--w-ink); }
 
 /* ── main и зоны ─────────────────────────────────────────── */
 /* .app — то, чем владеет продукт: 713px между чужими зонами */
@@ -244,7 +293,25 @@ a { color: var(--w-ink); }
 }
 
 /* служебный блок стоит под мокапом, а не внутри экрана */
+/* ── заглушка: страница есть, макет не нарисован ─────────── */
+.app.empty {
+  align-items: center; justify-content: center;
+  gap: var(--s-2);
+  text-align: center;
+  color: var(--w-ink-2);
+}
+.stub-t { font-weight: 700; color: var(--w-ink); }
+.stub-s { font-size: 13px; }
+.stub-n {
+  margin-top: var(--s-3);
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  border: 1px dashed var(--w-line);
+  border-radius: var(--r-sm);
+  padding: var(--s-2) var(--s-4);
+}
+
 .meta {
+  grid-column: 2;
   width: calc(var(--screen-max) + 24px);
   margin-top: var(--s-5);
   padding: var(--s-4) 0 0;

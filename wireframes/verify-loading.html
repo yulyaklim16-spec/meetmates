@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Верификация · загрузка · MeetMates wireframe</title>
+<!-- stub -->
+<!--
+  Страница-заглушка: создана скриптом build-wireframes.mjs, макет не нарисован.
+  Экран:  I.5 Верификация — sitemap.md, ветка «Человек»
+  Job:    R2 (тот же риск, но с моей стороны) · G5: «Когда продукт меня проверяет, я хочу, чтобы у меня был способ доказать, что я — это я, чтобы не остаться снаружи из-за чужой ошибки»
+  Поток:  M1: Match → IsVerified →|нет| Gate → Now → Verify. Гейт перед первым сообщением D-03
+  Состояние: загрузка
+  Рисовать по правилам _conventions.md: мокап телефона, семантическая разметка,
+  настоящий текст, серый без цвета. Заменить содержимое .app целиком.
+-->
+<link rel="stylesheet" href="_wire.css">
+</head>
+<body>
+
+<!-- nav:start -->
+<nav class="wfnav" aria-label="Все макеты">
+  <p class="t">Макеты · 1 из 34</p>
+  <ul>
+    <li class="grp">Колода и совпадение
+      <ul>
+        <li class="scr"><span class="c">II.1</span> Колода
+          <ul>
+            <li><a href="deck.html">рабочий вид</a></li>
+            <li class="stub"><a href="deck-empty.html">пусто</a></li>
+            <li class="stub"><a href="deck-error.html">ошибка</a></li>
+            <li class="stub"><a href="deck-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+        <li class="scr"><span class="c">II.3</span> Совпадение
+          <ul>
+            <li class="stub"><a href="match.html">успех — он же рабочий вид</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">Человек
+      <ul>
+        <li class="scr"><span class="c">I.1</span> Профиль другого человека
+          <ul>
+            <li class="stub"><a href="profile.html">рабочий вид</a></li>
+            <li class="stub"><a href="profile-empty.html">пусто</a></li>
+            <li class="stub"><a href="profile-error.html">ошибка</a></li>
+            <li class="stub"><a href="profile-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+        <li class="scr"><span class="c">I.5</span> Верификация
+          <ul>
+            <li class="stub"><a href="verify.html">рабочий вид</a></li>
+            <li class="stub"><a href="verify-error.html">ошибка</a></li>
+            <li class="now stub"><b aria-current="page">загрузка</b></li>
+            <li class="stub"><a href="verify-success.html">успех</a></li>
+            <li class="stub"><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">Чат
+      <ul>
+        <li class="scr"><span class="c">IV.2</span> Диалог
+          <ul>
+            <li class="stub"><a href="dialog.html">рабочий вид</a></li>
+            <li class="stub"><a href="dialog-empty.html">пусто</a></li>
+            <li class="stub"><a href="dialog-error.html">ошибка</a></li>
+            <li class="stub"><a href="dialog-loading.html">загрузка</a></li>
+            <li class="stub"><a href="dialog-success.html">успех</a></li>
+            <li class="stub"><a href="dialog-waiting.html">ожидание чужого решения · D-42</a></li>
+          </ul>
+        </li>
+        <li class="scr"><span class="c">IV.3</span> Позвать вдвоём в запрос
+          <ul>
+            <li class="stub"><a href="invite.html">рабочий вид</a></li>
+            <li class="stub"><a href="invite-empty.html">пусто</a></li>
+            <li class="stub"><a href="invite-error.html">ошибка</a></li>
+            <li class="stub"><a href="invite-success.html">успех</a></li>
+            <li class="stub"><a href="invite-waiting.html">ожидание чужого решения · D-42</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">Запрос на компанию
+      <ul>
+        <li class="scr"><span class="c">III.1</span> Лента запросов
+          <ul>
+            <li class="stub"><a href="feed.html">рабочий вид</a></li>
+            <li class="stub"><a href="feed-empty.html">пусто</a></li>
+            <li class="stub"><a href="feed-error.html">ошибка</a></li>
+            <li class="stub"><a href="feed-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+        <li class="scr"><span class="c">III.3</span> Карточка запроса
+          <ul>
+            <li class="stub"><a href="plan.html">рабочий вид</a></li>
+            <li class="stub"><a href="plan-error.html">ошибка</a></li>
+            <li class="stub"><a href="plan-loading.html">загрузка</a></li>
+            <li class="stub"><a href="plan-success.html">успех</a></li>
+            <li class="stub"><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <p class="n">Серым — заглушка: страница есть, макет не нарисован. Панель собирается
+    из _screens.md и sitemap.md скриптом build-wireframes.mjs.</p>
+</nav>
+<!-- nav:end -->
+
+<div class="device">
+ <div class="screen">
+  <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
+
+  <main class="app empty">
+    <p class="stub-t">I.5 Верификация</p>
+    <p class="stub-s">загрузка</p>
+    <p class="stub-n">Макет не нарисован</p>
+  </main>
+
+  <p class="fold"><span>сгиб — ниже не наше</span></p>
+  <p class="browserbar">meetmates.app</p>
+  <p class="homebar" aria-hidden="true"></p>
+ </div>
+</div>
+
+<!-- служебное: на прототип не едет -->
+<footer class="meta">
+  <p><b>I.5 Верификация · загрузка</b> — заглушка, макет не нарисован.</p>
+  <p><b>Job:</b> R2 (тот же риск, но с моей стороны) · G5: «Когда продукт меня проверяет, я хочу, чтобы у меня был способ доказать, что я — это я, чтобы не остаться снаружи из-за чужой ошибки»</p>
+  <p><b>Место в потоке:</b> M1: Match → IsVerified →|нет| Gate → Now → Verify. Гейт перед первым сообщением D-03</p>
+  <p>Правила — _conventions.md · что рисуем — _screens.md · экраны и состояния — sitemap.md.</p>
+</footer>
+
+</body>
+</html>

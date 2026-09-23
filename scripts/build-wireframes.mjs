@@ -1,11 +1,15 @@
-// Сборка раздела 04 «Прототипирование и вайрфрейминг» — sections/wireframes.html.
+// Сборка вайрфреймов и раздела 04 «Прототипирование и вайрфрейминг».
 //
-// Навигация по макетам строится из wireframes/_screens.md: список страниц выводится
-// из таблицы состояний, а есть страница или ещё нет — проверяется по файловой системе.
-// Значит раздел не врёт: появился файл — появилась ссылка, руками ничего не отмечается.
+// Делает три вещи, все из одних данных — wireframes/_screens.md и sitemap.md:
+//   1. панель навигации (раздел → экран → состояния) и вставляет её в каждую
+//      страницу между метками <!-- nav:start --> и <!-- nav:end -->;
+//   2. страницы-заглушки для всего, что ещё не нарисовано, — чтобы из панели
+//      можно было перейти куда угодно, а не упереться в 404;
+//   3. sections/wireframes.html — раздел сайта, где заглушки считаются отдельно
+//      от нарисованного, иначе раздел бы врал про готовность.
 //
-// Запуск: node scripts/build-wireframes.mjs — после добавления любой страницы в wireframes/.
-// Оболочка (стили, боковая колонка) берётся из sections/index.html, как и у раздела 3.
+// Запуск: node scripts/build-wireframes.mjs — после любой правки макетов или _screens.md.
+// Оболочка раздела (стили, боковая колонка) берётся из sections/index.html, как у раздела 3.
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -14,9 +18,12 @@ const ROOT = process.cwd();
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
 
 const screensMd = read('wireframes/_screens.md');
+const sitemapMd = read('sitemap.md');
 const shell = read('sections/index.html');
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+// markdown → текст: для комментариев и подписей внутри страниц
+const plain = (s) => s.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[*`]/g, '').replace(/\\\|/g, '|').replace(/\s+/g, ' ').trim();
 
 // ── экраны из таблицы состояний ────────────────────────────────────────
 // | **II.1** Колода | `deck` | ✓ | ✓ | ✓ | — |
@@ -49,16 +56,137 @@ function screens() {
   });
 }
 
+// ── job и место в потоке: из первой таблицы _screens.md ────────────────
+function meta() {
+  const rows = [...screensMd.matchAll(/^\| \*\*([IVX]+\.\d+)\*\* \| \*\*([^*]+)\*\* \| (.+?) \| (.+?) \|\s*$/gm)];
+  if (rows.length !== 8) throw new Error(`в _screens.md найдено ${rows.length} строк с job вместо восьми`);
+  return Object.fromEntries(rows.map(([, code, , job, flow]) => [code, { job: plain(job), flow: plain(flow) }]));
+}
+
+// ── ветка дерева («раздел»), к которой относится экран — из sitemap.md ──
+function branches() {
+  const t0 = sitemapMd.indexOf('```\nMeetMates');
+  const tree = sitemapMd.slice(t0, sitemapMd.indexOf('```', t0 + 5));
+  const map = {};
+  let branch = null;
+  for (const line of tree.split('\n')) {
+    const b = line.match(/^[├└]── (.+)$/);
+    if (b) { branch = b[1].trim().replace(/\s+D-\d+$/, '').replace(/\s+—.*$/, ''); continue; }
+    const s = line.match(/^[│ ]   [├└]── (?:= )?([IVX]+\.\d+) /);
+    if (s && branch && !map[s[1]]) map[s[1]] = branch;
+  }
+  return map;
+}
+
 // ── что из этого уже нарисовано ────────────────────────────────────────
 const list = screens();
-for (const s of list) for (const p of s.pages) p.exists = existsSync(join(ROOT, 'wireframes', p.file));
-const done = list.flatMap((s) => s.pages).filter((p) => p.exists);
+const META = meta();
+const BRANCH = branches();
+for (const s of list) {
+  s.branch = BRANCH[s.code] || '—';
+  s.meta = META[s.code];
+  if (!s.meta) throw new Error(`нет job для экрана ${s.code}`);
+  for (const p of s.pages) {
+    const abs = join(ROOT, 'wireframes', p.file);
+    p.exists = existsSync(abs);
+    // заглушка помечает себя сама — так раздел отличает её от нарисованного
+    p.stub = p.exists && read(`wireframes/${p.file}`).includes('<!-- stub -->');
+  }
+}
+const drawn = list.flatMap((s) => s.pages).filter((p) => p.exists && !p.stub);
 const total = list.flatMap((s) => s.pages).length;
-if (!done.length) throw new Error('в wireframes/ нет ни одной страницы — раздел показывать нечего');
+if (!drawn.length) throw new Error('в wireframes/ нет ни одного нарисованного макета');
 
 // показываем первый нарисованный макет; его экран — первый в навигации
-const current = done[0];
+const current = drawn[0];
 const currentScreen = list.find((s) => s.pages.includes(current));
+
+// ── панель навигации внутри макетов ────────────────────────────────────
+// Дерево: раздел → экран → состояния. Текущая страница отмечена aria-current.
+function panel(activeFile) {
+  const groups = [];
+  for (const s of list) {
+    const g = groups.find((x) => x.title === s.branch) || (groups.push({ title: s.branch, screens: [] }), groups.at(-1));
+    g.screens.push(s);
+  }
+  const rows = groups.map((g) => `    <li class="grp">${esc(g.title)}
+      <ul>
+${g.screens.map((s) => `        <li class="scr"><span class="c">${esc(s.code)}</span> ${esc(s.name)}
+          <ul>
+${s.pages.map((p) => {
+      const cur = p.file === activeFile;
+      const cls = [cur ? 'now' : '', p.stub ? 'stub' : ''].filter(Boolean).join(' ');
+      const label = `${esc(p.title)}`;
+      return `            <li${cls ? ` class="${cls}"` : ''}>` +
+        (cur ? `<b aria-current="page">${label}</b>` : `<a href="${p.file}">${label}</a>`) + `</li>`;
+    }).join('\n')}
+          </ul>
+        </li>`).join('\n')}
+      </ul>
+    </li>`).join('\n');
+  return `<nav class="wfnav" aria-label="Все макеты">
+  <p class="t">Макеты · ${drawn.length} из ${total}</p>
+  <ul>
+${rows}
+  </ul>
+  <p class="n">Серым — заглушка: страница есть, макет не нарисован. Панель собирается
+    из _screens.md и sitemap.md скриптом build-wireframes.mjs.</p>
+</nav>`;
+}
+
+// ── страница-заглушка ──────────────────────────────────────────────────
+function stubPage(s, p) {
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(s.name)} · ${esc(p.title)} · MeetMates wireframe</title>
+<!-- stub -->
+<!--
+  Страница-заглушка: создана скриптом build-wireframes.mjs, макет не нарисован.
+  Экран:  ${s.code} ${s.name} — sitemap.md, ветка «${s.branch}»
+  Job:    ${s.meta.job}
+  Поток:  ${s.meta.flow}
+  Состояние: ${p.title}
+  Рисовать по правилам _conventions.md: мокап телефона, семантическая разметка,
+  настоящий текст, серый без цвета. Заменить содержимое .app целиком.
+-->
+<link rel="stylesheet" href="_wire.css">
+</head>
+<body>
+
+<!-- nav:start -->
+<!-- nav:end -->
+
+<div class="device">
+ <div class="screen">
+  <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
+
+  <main class="app empty">
+    <p class="stub-t">${esc(s.code)} ${esc(s.name)}</p>
+    <p class="stub-s">${esc(p.title)}</p>
+    <p class="stub-n">Макет не нарисован</p>
+  </main>
+
+  <p class="fold"><span>сгиб — ниже не наше</span></p>
+  <p class="browserbar">meetmates.app</p>
+  <p class="homebar" aria-hidden="true"></p>
+ </div>
+</div>
+
+<!-- служебное: на прототип не едет -->
+<footer class="meta">
+  <p><b>${esc(s.code)} ${esc(s.name)} · ${esc(p.title)}</b> — заглушка, макет не нарисован.</p>
+  <p><b>Job:</b> ${esc(s.meta.job)}</p>
+  <p><b>Место в потоке:</b> ${esc(s.meta.flow)}</p>
+  <p>Правила — _conventions.md · что рисуем — _screens.md · экраны и состояния — sitemap.md.</p>
+</footer>
+
+</body>
+</html>
+`;
+}
 
 // ── страница раздела ───────────────────────────────────────────────────
 const head = shell.slice(0, shell.indexOf('</style>'))
@@ -100,14 +228,37 @@ const extraCss = `
 .viewer .cap { font-size: var(--t-caption); color: var(--ink-600); max-width: 70ch; }
 `;
 
+// ── 1–2. заглушки и панель в каждой странице ──────────────────────────
+let written = 0;
+for (const s of list) {
+  for (const p of s.pages) {
+    if (!p.exists) {
+      writeFileSync(join(ROOT, 'wireframes', p.file), stubPage(s, p), 'utf8');
+      p.exists = true; p.stub = true; written++;
+    }
+  }
+}
+let injected = 0;
+for (const s of list) {
+  for (const p of s.pages) {
+    const rel = `wireframes/${p.file}`;
+    const html = read(rel);
+    const a = html.indexOf('<!-- nav:start -->');
+    const b = html.indexOf('<!-- nav:end -->');
+    if (a === -1 || b === -1) throw new Error(`в ${p.file} нет меток <!-- nav:start --> / <!-- nav:end -->`);
+    const next = html.slice(0, a) + '<!-- nav:start -->\n' + panel(p.file) + '\n' + html.slice(b);
+    if (next !== html) { writeFileSync(join(ROOT, rel), next, 'utf8'); injected++; }
+  }
+}
+
 const navHtml = list.map((s) => {
-  const ready = s.pages.filter((p) => p.exists).length;
+  const ready = s.pages.filter((p) => !p.stub).length;
   return `      <li>
         <p class="sh"><span class="code">${esc(s.code)}</span><b>${esc(s.name)}</b><span class="n">${ready} из ${s.pages.length}</span></p>
         <ul>
-${s.pages.map((p) => p.exists
-    ? `          <li><a href="../wireframes/${p.file}">${p.file}</a><span>${esc(p.title)}</span></li>`
-    : `          <li class="todo">${p.file}<span>${esc(p.title)} — не нарисован</span></li>`).join('\n')}
+${s.pages.map((p) => p.stub
+    ? `          <li class="todo"><a href="../wireframes/${p.file}">${p.file}</a><span>${esc(p.title)} — заглушка</span></li>`
+    : `          <li><a href="../wireframes/${p.file}">${p.file}</a><span>${esc(p.title)}</span></li>`).join('\n')}
         </ul>
       </li>`;
 }).join('\n');
@@ -127,7 +278,7 @@ const page = `${head}${extraCss}</style>
       <h1>Прототипирование и вайрфрейминг</h1>
       <p class="lede">Низкодетализированные экраны в сером: структура, иерархия и зоны — до того как в них вложат визуал. Каждый макет стоит в мокапе телефона, потому что продукт владеет не всем экраном, и каждое состояние — отдельная страница. Правила — <a href="../wireframes/_conventions.md">_conventions.md</a>, что рисуем — <a href="../wireframes/_screens.md">_screens.md</a>.</p>
       <div class="chips">
-        <span><b>${done.length}</b> из ${total} страниц</span>
+        <span><b>${drawn.length}</b> из ${total} макетов</span>
         <span><b>${list.length}</b> экранов главного потока</span>
         <span><b>713</b> px продукту из 844</span>
       </div>
@@ -136,7 +287,7 @@ const page = `${head}${extraCss}</style>
 
     <section id="nav">
       <h2>Макеты</h2>
-      <p class="intro">Восемь экранов главного потока и их состояния. Ссылка есть там, где страница нарисована; остальное — план, выведенный из таблицы состояний <a href="../wireframes/_screens.md">_screens.md</a>. Список собирается сборкой, отмечать готовность руками не нужно.</p>
+      <p class="intro">Восемь экранов главного потока и их состояния. Страницы существуют все: где макета ещё нет, стоит заглушка — так из панели внутри любого макета можно перейти куда угодно, а не упереться в 404. Список и заглушки собираются сборкой из таблицы состояний <a href="../wireframes/_screens.md">_screens.md</a>, отмечать готовность руками не нужно.</p>
       <ol class="wf">
 ${navHtml}
       </ol>
@@ -178,4 +329,8 @@ ${navHtml}
 `;
 
 writeFileSync(join(ROOT, 'sections/wireframes.html'), page, 'utf8');
-console.log(`sections/wireframes.html: ${done.length} из ${total} страниц, ${list.length} экранов`);
+console.log(
+  `вайрфреймы: ${drawn.length} нарисовано из ${total}; заглушек создано ${written}, панель обновлена в ${injected}
+` +
+  `sections/wireframes.html: ${list.length} экранов`
+);
