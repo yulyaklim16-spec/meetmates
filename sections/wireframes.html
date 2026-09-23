@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Скоро · MeetMates</title>
-<meta name="description" content="Четыре персоны по кабинетному ресерчу, иерархия jobs без функций, JTBD-матрица. Все оценки важности — [?].">
+<title>Прототипирование и вайрфрейминг · MeetMates</title>
+<meta name="description" content="Вайрфреймы главного потока: макеты в мокапе телефона, по странице на состояние. Навигация по экранам и текущий макет.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
@@ -304,6 +304,28 @@ footer p { max-width: 72ch; }
 .jmeta { margin: 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
 .jlist li { margin-bottom: var(--s-2); }
 .section-nav .soon { color: var(--ink-600); }
+
+/* ── Раздел 04: навигация по макетам и просмотр ────────────── */
+.wf { list-style: none; padding: 0; display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); align-items: start; margin: 0 0 var(--s-6); }
+.wf > li { border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); padding: var(--s-3) var(--s-4); }
+.wf .sh { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-3); margin-bottom: var(--s-2); }
+.wf .sh .code { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.06em; color: var(--ink-600); }
+.wf .sh b { font-size: var(--t-body-sm); }
+.wf .sh .n { margin-left: auto; font-size: var(--t-micro); color: var(--ink-600); }
+.wf ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 1px; max-width: none; }
+.wf ul li { margin: 0; border-top: 1px solid var(--line); padding: 5px 0; font-size: var(--t-caption); display: flex; gap: var(--s-3); align-items: baseline; }
+.wf ul li:first-child { border-top: 0; }
+.wf ul li span { margin-left: auto; color: var(--ink-600); font-size: var(--t-micro); }
+.wf a { text-decoration: none; }
+.wf a:hover, .wf a:focus-visible { text-decoration: underline; }
+.wf .todo { color: var(--ink-400); }
+.wf .todo span { color: var(--ink-400); }
+
+/* фрейм должен быть шире 760px: у самого макета там брейкпоинт, ниже которого
+   служебные подписи возвращаются в поток и ломают колонку 390 */
+.viewer { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface-2); padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-4); margin: 0 0 var(--s-5); }
+.viewer iframe { width: 100%; height: 1320px; border: 0; background: var(--surface); border-radius: var(--r-md); }
+.viewer .cap { font-size: var(--t-caption); color: var(--ink-600); max-width: 70ch; }
 </style>
 </head>
 <body>
@@ -312,7 +334,6 @@ footer p { max-width: 72ch; }
 
 <div class="shell">
 
-  <!-- ── Боковая колонка ─────────────────────────────────── -->
   <aside class="side">
     <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
     <p class="stage">Разделы проекта</p>
@@ -335,38 +356,135 @@ footer p { max-width: 72ch; }
       </div>
     </nav>
 
+    <nav class="anchors" aria-label="На этой странице">
+      <a href="#nav">Макеты</a>
+      <a href="#view">Текущий макет</a>
+      <a href="#rules">Правила</a>
+    </nav>
+
   </aside>
 
-  <!-- ── Материал ────────────────────────────────────────── -->
   <main id="content">
     <div class="masthead">
-      <h1 id="title">Скоро</h1>
-      <p class="lede" id="lede">Этот раздел ещё не собран. Готовы первые четыре: ресерч и бенчмарк, персоны и JTBD, информационная архитектура, вайрфреймы.</p>
+      <h1>Прототипирование и вайрфрейминг</h1>
+      <p class="lede">Низкодетализированные экраны в сером: структура, иерархия и зоны — до того как в них вложат визуал. Каждый макет стоит в мокапе телефона, потому что продукт владеет не всем экраном, и каждое состояние — отдельная страница. Правила — <a href="../wireframes/_conventions.md">_conventions.md</a>, что рисуем — <a href="../wireframes/_screens.md">_screens.md</a>.</p>
       <div class="chips">
-        <span><a href="../research/research.html">Раздел 1 · Ресерч и бенчмарк</a></span>
-        <span><a href="../research/persones.html">Раздел 2 · Персоны и JTBD</a></span>
-        <span><a href="ia.html">Раздел 3 · Информационная архитектура</a></span>
-        <span><a href="wireframes.html">Раздел 4 · Прототипирование</a></span>
+        <span><b>1</b> из 34 страниц</span>
+        <span><b>8</b> экранов главного потока</span>
+        <span><b>713</b> px продукту из 844</span>
       </div>
+      <!--PUBLIC-NOTE-->
     </div>
-    <script>
-      // Заголовок по номеру раздела из адреса: ?section=N. Имена совпадают с меню слева.
-      (function () {
-        var names = {5:'Tone of voice и микрокопи',
-                     6:'Концепт',7:'Сборка UI',8:'Design Tokens',9:'Дизайн-система',10:'Responsive',
-                     11:'Анимация и микроинтеракции',12:'Хендофф и документация'};
-        var n = parseInt(new URLSearchParams(location.search).get('section'), 10);
-        // Раздел 3 собран отдельной страницей — старый адрес ?section=3 ведёт на неё.
-        if (n === 3) { location.replace('ia.html'); return; }
-        if (n === 4) { location.replace('wireframes.html'); return; }
-        if (names[n]) {
-          document.getElementById('title').textContent = names[n];
-          document.title = 'Раздел ' + n + ' — ' + names[n] + ' · MeetMates';
-          var links = document.querySelectorAll('.mat');
-          links.forEach(function (a) { if (a.querySelector('.n') && a.querySelector('.n').textContent === String(n).padStart(2,'0')) { a.classList.add('current'); a.querySelector('i').textContent = 'текущий раздел'; } });
-        }
-      })();
-    </script>
+
+    <section id="nav">
+      <h2>Макеты</h2>
+      <p class="intro">Восемь экранов главного потока и их состояния. Ссылка есть там, где страница нарисована; остальное — план, выведенный из таблицы состояний <a href="../wireframes/_screens.md">_screens.md</a>. Список собирается сборкой, отмечать готовность руками не нужно.</p>
+      <ol class="wf">
+      <li>
+        <p class="sh"><span class="code">II.1</span><b>Колода</b><span class="n">1 из 4</span></p>
+        <ul>
+          <li><a href="../wireframes/deck.html">deck.html</a><span>рабочий вид</span></li>
+          <li class="todo">deck-empty.html<span>пусто — не нарисован</span></li>
+          <li class="todo">deck-error.html<span>ошибка — не нарисован</span></li>
+          <li class="todo">deck-loading.html<span>загрузка — не нарисован</span></li>
+        </ul>
+      </li>
+      <li>
+        <p class="sh"><span class="code">I.1</span><b>Профиль другого человека</b><span class="n">0 из 4</span></p>
+        <ul>
+          <li class="todo">profile.html<span>рабочий вид — не нарисован</span></li>
+          <li class="todo">profile-empty.html<span>пусто — не нарисован</span></li>
+          <li class="todo">profile-error.html<span>ошибка — не нарисован</span></li>
+          <li class="todo">profile-loading.html<span>загрузка — не нарисован</span></li>
+        </ul>
+      </li>
+      <li>
+        <p class="sh"><span class="code">II.3</span><b>Совпадение</b><span class="n">0 из 1</span></p>
+        <ul>
+          <li class="todo">match.html<span>успех — он же рабочий вид — не нарисован</span></li>
+        </ul>
+      </li>
+      <li>
+        <p class="sh"><span class="code">I.5</span><b>Верификация</b><span class="n">0 из 5</span></p>
+        <ul>
+          <li class="todo">verify.html<span>рабочий вид — не нарисован</span></li>
+          <li class="todo">verify-error.html<span>ошибка — не нарисован</span></li>
+          <li class="todo">verify-loading.html<span>загрузка — не нарисован</span></li>
+          <li class="todo">verify-success.html<span>успех — не нарисован</span></li>
+          <li class="todo">verify-waiting.html<span>ожидание чужого решения · D-42 — не нарисован</span></li>
+        </ul>
+      </li>
+      <li>
+        <p class="sh"><span class="code">IV.2</span><b>Диалог</b><span class="n">0 из 6</span></p>
+        <ul>
+          <li class="todo">dialog.html<span>рабочий вид — не нарисован</span></li>
+          <li class="todo">dialog-empty.html<span>пусто — не нарисован</span></li>
+          <li class="todo">dialog-error.html<span>ошибка — не нарисован</span></li>
+          <li class="todo">dialog-loading.html<span>загрузка — не нарисован</span></li>
+          <li class="todo">dialog-success.html<span>успех — не нарисован</span></li>
+          <li class="todo">dialog-waiting.html<span>ожидание чужого решения · D-42 — не нарисован</span></li>
+        </ul>
+      </li>
+      <li>
+        <p class="sh"><span class="code">IV.3</span><b>Позвать вдвоём в запрос</b><span class="n">0 из 5</span></p>
+        <ul>
+          <li class="todo">invite.html<span>рабочий вид — не нарисован</span></li>
+          <li class="todo">invite-empty.html<span>пусто — не нарисован</span></li>
+          <li class="todo">invite-error.html<span>ошибка — не нарисован</span></li>
+          <li class="todo">invite-success.html<span>успех — не нарисован</span></li>
+          <li class="todo">invite-waiting.html<span>ожидание чужого решения · D-42 — не нарисован</span></li>
+        </ul>
+      </li>
+      <li>
+        <p class="sh"><span class="code">III.1</span><b>Лента запросов</b><span class="n">0 из 4</span></p>
+        <ul>
+          <li class="todo">feed.html<span>рабочий вид — не нарисован</span></li>
+          <li class="todo">feed-empty.html<span>пусто — не нарисован</span></li>
+          <li class="todo">feed-error.html<span>ошибка — не нарисован</span></li>
+          <li class="todo">feed-loading.html<span>загрузка — не нарисован</span></li>
+        </ul>
+      </li>
+      <li>
+        <p class="sh"><span class="code">III.3</span><b>Карточка запроса</b><span class="n">0 из 5</span></p>
+        <ul>
+          <li class="todo">plan.html<span>рабочий вид — не нарисован</span></li>
+          <li class="todo">plan-error.html<span>ошибка — не нарисован</span></li>
+          <li class="todo">plan-loading.html<span>загрузка — не нарисован</span></li>
+          <li class="todo">plan-success.html<span>успех — не нарисован</span></li>
+          <li class="todo">plan-waiting.html<span>ожидание чужого решения · D-42 — не нарисован</span></li>
+        </ul>
+      </li>
+      </ol>
+    </section>
+
+    <section id="view">
+      <h2>Текущий макет</h2>
+      <p class="intro"><b>II.1 Колода</b> — рабочий вид. Экран, с которого Даша начинает главный job: колода после онбординга, первый шаг основного пути <code class="dcode">D-37</code>. Справа от мокапа — подписи зон и их главные действия; под ним — служебный блок со ссылкой на источник. Ни то, ни другое в прототип не едет.</p>
+      <div class="viewer">
+        <iframe src="../wireframes/deck.html" title="Вайрфрейм: Колода" loading="lazy"></iframe>
+        <p class="cap">Мокап показывает, что из 844px экрана продукту принадлежит 713: остальное забирают системная строка, панель браузера Safari и индикатор жеста. <a href="../wireframes/deck.html">Открыть страницу отдельно</a></p>
+      </div>
+    </section>
+
+    <section id="rules">
+      <h2>Правила, по которым это нарисовано</h2>
+      <p class="intro">Полностью — <a href="../wireframes/_conventions.md">_conventions.md</a>. Здесь то, что видно на макете.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Правило</th><th>Как это видно</th></tr></thead>
+        <tbody>
+          <tr><td><b>Мокап телефона обязателен</b></td><td>Продукту принадлежит 713px из 844; системные зоны нарисованы и подписаны. Не поместилось — находка, а не повод растянуть рамку</td></tr>
+          <tr><td><b>Серый ничего не кодирует</b></td><td>Состояние объясняется текстом. Непонятно в сером — непонятно и в цвете, просто выяснится позже и дороже</td></tr>
+          <tr><td><b>Одно состояние — одна страница</b></td><td>Структура одинаковая, содержимое разное: видно, что это тот же экран. Пятое состояние — ожидание чужого решения <code class="dcode">D-42</code></td></tr>
+          <tr><td><b>Текст настоящий</b></td><td><code>3 common interests</code>, <code>6 meetups attended</code>, <code>~2 km away</code> — и те же запреты копирайта, что в продукте</td></tr>
+          <tr><td><b>Семантическая разметка</b></td><td><code>header</code>, <code>main</code>, <code>nav</code>, <code>article</code>, <code>button</code>; <code>div</code> — только корпус и экран телефона</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <footer>
+      <p>Раздел 4 из 12 · Прототипирование и вайрфрейминг. Источники — <a href="../wireframes/_screens.md">_screens.md</a>, <a href="../wireframes/_conventions.md">_conventions.md</a>; экраны и состояния — <a href="../sitemap.md">sitemap.md</a>.</p>
+      <nav class="section-nav"><a href="ia.html">← Раздел 3 · Информационная архитектура</a></nav>
+    </footer>
   </main>
 </div>
 

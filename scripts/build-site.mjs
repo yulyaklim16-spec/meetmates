@@ -16,7 +16,7 @@ const ROOT = process.cwd();
 const OUT = join(ROOT, 'dist');
 
 // страницы сайта относительно корня репозитория
-const PAGES = ['research/research.html', 'research/persones.html', 'sections/index.html', 'sections/ia.html'];
+const PAGES = ['research/research.html', 'research/persones.html', 'sections/index.html', 'sections/ia.html', 'sections/wireframes.html'];
 
 // ── база для ссылок на исходники ───────────────────────────────
 // читаем из git, чтобы адрес репозитория не был зашит в скрипт
@@ -82,6 +82,19 @@ if (!copyAsset('tokens/tokens.css')) {
   process.exit(1);
 }
 
+// ── 2a. вайрфреймы: раздел 4 показывает их во фрейме, значит они едут на сайт.
+// Только .html и .css — разборы и задания в wireframes/*.md остаются в репозитории.
+import { readdirSync } from 'node:fs';
+const wire = readdirSync(join(ROOT, 'wireframes'))
+  .filter((f) => f.endsWith('.html') || f.endsWith('.css'))
+  .sort();
+for (const f of wire) {
+  if (!copyAsset(posix.join('wireframes', f))) {
+    console.error(`Не скопировался вайрфрейм: ${f}`);
+    process.exit(1);
+  }
+}
+
 // ── 3. страницы: ссылки на внутренние документы уводим на GitHub ─
 const rewritten = [];
 const dropped = [];
@@ -137,7 +150,7 @@ if (leaked.length) {
 }
 
 console.log(
-  `dist готов: index.html (редирект) + ${PAGES.join(', ')} + tokens.css + ${copied.length - 1} скриншотов\n` +
+  `dist готов: index.html (редирект) + ${PAGES.join(', ')} + tokens.css + ${shots.size} скриншотов + ${wire.length} файлов вайрфреймов\n` +
   (BLOB
     ? `ссылок уведено на ${BLOB}: ${rewritten.length}`
     : `ссылок снято (репозиторий не определён): ${dropped.length}`)
