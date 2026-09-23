@@ -125,16 +125,16 @@
   <!-- ЗОНА 1: шапка. Главное действие — сузить выдачу фильтрами (II.2) -->
 <header>
   <h1>Discover</h1>
-  <button type="button">Filters</button>
-  <button type="button">Profile</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Главное действие: Filters → II.2 Фильтры колоды. Profile — вход в глубокий слой, §6</p>
+  <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
+  <button type="button"><span class="avatar" aria-hidden="true"></span>Profile</button>
+  <p class="ann"><b>Зона 1 — шапка.</b> Главное действие: Filters → II.2 Фильтры колоды. Profile — аватар, вход в глубокий слой, §6. Квадрат и круг — заполнители иконки и аватара в реальный размер</p>
 </header>
 
   <main class="app">
   <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком (I.1) -->
   <section class="stretch" aria-labelledby="deck-h">
     <h2 id="deck-h">People nearby</h2>
-    <p class="ann"><b>Зона 2 — карточка человека.</b> Главное действие: открыть профиль целиком → I.1. More → Report / Block: на экране виден другой человек, правило 4</p>
+    <p class="ann"><b>Зона 2 — карточка человека.</b> Главное действие: открыть профиль целиком → I.1. Кнопка «⋯» → Report / Block: на экране виден другой человек, правило 4. Иконка стоит рядом со своим текстом: продукт не решал, что кнопка будет без подписи</p>
 
     <article class="card">
       <figure>
@@ -156,7 +156,7 @@
 
         <!-- 3. Сигналы доверия — все четыре до первого сообщения, правило 12 -->
         <ul class="signals">
-          <li>Verified</li>
+          <li><span class="ico sm" aria-hidden="true"></span>Verified</li>
           <li>Regular</li>
           <li>6 meetups attended</li>
           <li>Replies quickly</li>
@@ -167,7 +167,7 @@
 
         <p class="row">
           <a class="btn" href="profile.html">Open profile</a>
-          <button type="button" class="quiet">More</button>
+          <button type="button" class="quiet"><span class="ico" aria-hidden="true"></span>More</button>
         </p>
       </section>
     </article>
@@ -196,9 +196,9 @@
 
   <!-- ЗОНА 5: глобальная навигация, три вкладки D-33 -->
   <nav aria-label="Основная навигация">
-    <a href="deck.html" aria-current="page">People</a>
-    <a href="feed.html">Plans</a>
-    <a href="chats.html">Chats</a>
+    <a href="deck.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>People</a>
+    <a href="feed.html"><span class="ico lg" aria-hidden="true"></span>Plans</a>
+    <a href="chats.html"><span class="ico lg" aria-hidden="true"></span>Chats</a>
   </nav>
 
   <p class="fold"><span>сгиб — ниже не наше</span></p>
@@ -226,6 +226,9 @@
   <p><b>Высота:</b> экран 844px, но продукту принадлежит 713 — остальное забирают
     системная строка (47), панель браузера Safari (50, снизу) и индикатор жеста (34).
     Содержимое умещается: прокручивать нечего.</p>
+  <p><b>Заполнители:</b> иконки и аватар стоят слотами в реальный размер — они меняют
+    раскладку (таб-бар выше, пилюля <code>Verified</code> длиннее), но формы не рисуют:
+    набор иконок решается на концепте.</p>
   <p><b>Находка:</b> наш таб-бар оказывается вплотную над панелью браузера. На концепте
     проверить, не читаются ли две панели как одна.</p>
   <p>Источники: sitemap.md (II.1) · flows.md (M1) · _screens.md · _conventions.md.

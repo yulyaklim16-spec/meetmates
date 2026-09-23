@@ -160,9 +160,10 @@ header h1 { margin-right: auto; }
 .screen nav a {
   flex: 1;
   min-height: var(--tap-min);
-  display: flex; align-items: center; justify-content: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
   color: var(--w-ink-2);
   text-decoration: none;
+  font-size: 12px;
   padding: var(--s-2);
 }
 .screen nav a[aria-current="page"] { color: var(--w-ink); font-weight: 600; box-shadow: inset 0 2px 0 var(--w-ink); }
@@ -215,11 +216,31 @@ section.stretch, section.stretch .card { flex: 1; min-height: 0; }
 .tags li + li::before { content: "·"; margin-right: var(--s-2); }
 .signals { display: flex; flex-wrap: wrap; gap: var(--s-2); }
 .signals li {
+  display: inline-flex; align-items: center; gap: var(--s-2);
   border: 1px solid var(--w-line);
   border-radius: var(--r-pill);
   padding: 2px var(--s-3);
   font-size: 13px;
   color: var(--w-ink-2);
+}
+
+/* ── заполнители: место будущего элемента в его настоящем размере ──
+   Форму не рисуем: набор и стиль иконок решаются на концепте (_conventions.md §1). */
+.ico {
+  flex: none;
+  width: 20px; height: 20px;
+  border: 1px solid var(--w-line);
+  border-radius: 4px;
+  background: var(--w-fill);
+}
+.ico.lg { width: 24px; height: 24px; }
+.ico.sm { width: 14px; height: 14px; border-radius: 3px; }
+.avatar {
+  flex: none;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--w-zone);
+  border: 1px solid var(--w-line);
 }
 .distance { color: var(--w-ink-2); font-size: 14px; }
 
@@ -227,6 +248,7 @@ section.stretch, section.stretch .card { flex: 1; min-height: 0; }
 button, .btn {
   font: inherit;
   min-height: var(--tap-min);
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
   padding: var(--s-2) var(--s-4);
   border: 1px solid var(--w-line);
   border-radius: var(--r-sm);
@@ -282,9 +304,9 @@ a { color: var(--w-ink); }
   text-align: right;
 }
 .fold span {
+  /* подпись висит под линией, в зоне браузера: над линией её задевает таб-бар */
   display: inline-block;
   line-height: 1.4;
-  transform: translateY(-100%);
   margin-right: var(--s-3);
   padding: 0 var(--s-2);
   background: var(--w-surface);
