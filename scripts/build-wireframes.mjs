@@ -141,7 +141,8 @@ ${states.map((p) => `            ${node(p, p.file === activeFile)}`).join('\n')}
       </ul>
     </li>`).join('\n');
   return `<nav class="wfnav" aria-label="Все макеты">
-  <p class="t">Макеты · ${drawn.length} из ${total}</p>
+  <p class="h">Вайрфреймы</p>
+  <p class="t">Главный поток · мобильный веб · ${drawn.length} из ${total}</p>
   <ul>
 ${rows}
   </ul>
@@ -196,7 +197,8 @@ ${states.map((p) => `                  <li${p.stub ? ' class="todo"' : ''}><a hr
           </li>`).join('\n');
   return `
       <div class="wftree">
-        <p class="lbl">Макеты · ${drawn.length} из ${total}</p>
+        <p class="h">Вайрфреймы</p>
+        <p class="sub">Главный поток · мобильный веб · ${drawn.length} из ${total}</p>
         <ul>
 ${rows}
         </ul>
@@ -302,17 +304,34 @@ const extraCss = `
 
 /* дерево макетов в боковой колонке: раздел → экран → состояния.
    Вложенность держат отступ и вертикальная линия, как в самих макетах. */
-.wftree { margin: var(--s-2) 0 var(--s-3); padding-left: 30px; }
-.wftree .lbl { margin: 0 0 var(--s-2); }
+.wftree { margin: var(--s-4) 0 var(--s-3); padding: var(--s-4) 0 0 30px; border-top: 1px solid var(--line); }
+.wftree .h { margin: 0; font-size: var(--t-body-sm); font-weight: var(--fw-bold); letter-spacing: -0.01em; }
+.wftree .sub { margin: 0 0 var(--s-4); font-size: var(--t-micro); color: var(--ink-600); }
 .wftree ul { list-style: none; margin: 0; padding: 0; max-width: none; }
 .wftree li { margin: 0; }
-.wftree .grp { margin-bottom: var(--s-3); }
-.wftree .gt { font-size: var(--t-micro); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600); margin: 0 0 2px; }
-.wftree a { display: block; padding: 2px 0; text-decoration: none; font-size: var(--t-micro); line-height: 1.45; color: var(--ink-600); }
-.wftree a:hover, .wftree a:focus-visible { color: var(--ink-900); text-decoration: underline; }
-.wftree .s { color: var(--ink-900); font-size: var(--t-caption); }
-.wftree .s .c { color: var(--ink-400); }
-.wftree .scr > ul { margin: 0 0 var(--s-2) var(--s-2); padding-left: var(--s-3); border-left: 1px solid var(--line); }
+/* разделы отбиты линией — уровень 1 читается как группа, а не как ещё один пункт */
+.wftree .grp { padding-bottom: var(--s-3); }
+.wftree .grp + .grp { border-top: 1px solid var(--line); padding-top: var(--s-3); }
+.wftree .gt {
+  margin: 0 0 var(--s-2);
+  padding: 3px var(--s-2);
+  font-size: var(--t-micro); letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-900); font-weight: var(--fw-medium);
+}
+.wftree a {
+  display: block;
+  padding: 4px var(--s-2);
+  border-radius: var(--r-sm);
+  text-decoration: none;
+  font-size: var(--t-micro); line-height: 1.4;
+  color: var(--ink-600);
+}
+.wftree a:hover, .wftree a:focus-visible { color: var(--ink-900); background: var(--surface-2); }
+/* уровень 2 — экран */
+.wftree .s { color: var(--ink-900); font-size: var(--t-caption); font-weight: var(--fw-medium); }
+.wftree .s .c { color: var(--ink-400); font-weight: var(--fw-regular); }
+/* уровень 3 — состояния, вдоль вертикальной линии */
+.wftree .scr > ul { margin: 1px 0 var(--s-2) var(--s-3); padding-left: var(--s-2); border-left: 1px solid var(--line); }
 .wftree .todo > a, .wftree a.todo { color: var(--ink-400); }
 
 /* фрейм должен быть шире 760px: у самого макета там брейкпоинт, ниже которого
