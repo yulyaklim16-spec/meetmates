@@ -478,7 +478,7 @@ flowchart TD
     NoReply --> BackToFeed
     Confirmed -->|да| Dialog[Диалог]
 
-    Dialog -->|день назначен| Share[Ссылка близкому Share my plans]
+    Dialog -->|день назначен| Share[Ссылка близкому Share my events]
     Share --> FirstMeet{Первая встреча в продукте?}
     FirstMeet -->|да| Tips["Safety center: sheet перед первой встречей"]
     Tips --> Uneasy{Тревожно после разговора?}
@@ -519,7 +519,7 @@ flowchart TD
     NoReply --> BackToFeed
     Confirmed -->|да| Dialog[Диалог]
 
-    Dialog -->|день назначен| Share[Ссылка близкому Share my plans]
+    Dialog -->|день назначен| Share[Ссылка близкому Share my events]
     Share --> FirstMeet{Первая встреча в продукте?}
     FirstMeet -->|да| Tips["Safety center: sheet перед первой встречей"]
     Tips --> Uneasy{Тревожно после разговора?}

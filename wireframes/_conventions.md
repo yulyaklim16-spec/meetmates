@@ -124,6 +124,13 @@
 | Верификация | `Verify to start chatting` · `Face partly out of frame — try again` · `Sent to a human reviewer` |
 | Пустые состояния | `You are all caught up` · `No events within 5 km yet` · `Reset filters` · `Look at events` |
 
+**Повторяющееся действие называется одинаково на всех экранах.** Выход в ленту —
+`Look at events` (варианты `Look at other events`, `Look at all events`, `Look at events on
+your own` — когда рядом есть от чего отличать); выход в колоду — `See people`; создание —
+`Post an event`; чат после подтверждения — `Open the chat`; отложить верификацию —
+`Keep browsing`. Свои вещи человек называет своими: `My events`, `My chats`, `My matches`,
+`My profile`, `Share my events`. Система обращается к нему на `your`: `Loading your chats`.
+
 **Фото, дошедшее не целиком, показывается заблюренным** `D-51` — и в карточке, и в галерее
 профиля. Серый прямоугольник остаётся только там, где предмета ещё нет вовсе (строка плана,
 имя, счётчик). У чужого профиля состояния ошибки нет: не дошло — значит грузится.
