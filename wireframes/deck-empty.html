@@ -171,30 +171,25 @@
   </section>
 
   <!-- ЗОНА 3: что дальше. Skip / Like ушли — решать нечего.
-       Порядок: сначала расстояние (D-11 расширяет только его), потом фильтры -->
+       Оба действия в одной строке: это две стороны одного вопроса — «почему пусто» -->
   <section aria-labelledby="act-h">
     <h2 id="act-h" hidden>What next</h2>
-    <p class="ann"><b>Зона 3 — что дальше.</b> Skip и Like ушли: решать нечего. Главное действие — показать людей подальше; расширяется только расстояние `D-11`. Фильтры человек снимает сам</p>
+    <p class="ann"><b>Зона 3 — что дальше.</b> Skip и Like ушли: решать нечего. Два действия рядом — расширить поиск (`D-11` трогает только расстояние) или снять фильтры самому</p>
     <p class="row">
-      <a class="btn primary" href="deck-loading.html">Show people from further out</a>
-    </p>
-    <p class="row">
+      <a class="btn primary" href="deck-loading.html">Expand search</a>
       <a class="btn quiet" href="deck.html">Reset filters</a>
     </p>
   </section>
 
   <!-- ЗОНА 4: выход во второй путь. В пустом виде это уже не запасной выход,
-       а основной: план не зависит от взаимности (§4, §2.1 п. 1 и 3) -->
+       а основной: событие не зависит от взаимности (§4, §2.1 п. 1) -->
   <section aria-labelledby="exit-h">
     <h2 id="exit-h" hidden>Second path</h2>
-    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Здесь их два: чужие планы и свой. Кнопка создания обязана быть в каждом пустом состоянии — §2.1, п. 3</p>
+    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Один выход, и он ведёт туда, где создание и живёт: кнопка `+` стоит в шапке Events `D-46`</p>
     <a class="exit" href="feed.html">
       <span>See events nearby</span>
       <span aria-hidden="true">&rarr;</span>
     </a>
-    <p class="row">
-      <button type="button"><span class="ico" aria-hidden="true"></span>Post an event of your own</button>
-    </p>
   </section>
 </main>
 
@@ -224,16 +219,16 @@
     «да» — <code>Show people from further out</code>, «нет» — <code>See events nearby</code>.</p>
   <p><b>Откуда каждый выход:</b></p>
   <ul>
-    <li><b>Show people from further out</b> — flows.md M1, ветка <code>WiderRadius →|да| Radius</code>; §5.2, <code>D-11</code></li>
+    <li><b>Expand search</b> — flows.md M1, ветка <code>WiderRadius →|да| Radius</code>; §5.2, <code>D-11</code></li>
     <li><b>See events nearby</b> — flows.md M1, ветка <code>WiderRadius →|нет| Feed</code>; §4</li>
     <li><b>Reset filters</b> — sitemap.md, состояние «пусто по фильтрам»; §5.2</li>
-    <li><b>Post an event of your own</b> — §2.1, п. 3: кнопка создания есть в каждом пустом состоянии</li>
   </ul>
   <p><b>Почему выходов больше, чем в рабочем виде.</b> Это не запасной экран: на старте
     Даша увидит именно его (§4, <code>D-22</code>), и он обязан не выглядеть пустым — §2.1, п. 1.</p>
-  <p><b>Находка 1.</b> <code>Post an event of your own</code> ведёт на III.4 «Создание запроса» —
-    экрана нет в наборе вайрфреймов (_screens.md, «чего нет в наборе»: сторона автора, шаг 8).
-    Нарисован кнопкой без перехода: обязательство §2.1 п. 3 видно, дорисовать экран — отдельный шаг.</p>
+  <p><b>Создание отсюда убрано</b> <code>D-46</code>. Кнопка «создать своё» стояла здесь по §2.1 п. 3,
+    но вела в никуда: экрана III.4 в наборе нет, а вкладка Events держит `+` в шапке. Пустая колода
+    теперь предлагает одно — уйти во второй путь, а создание встречает там, где живёт.
+    <b>Цена:</b> путь «создать своё» из пустой колоды стал на тап длиннее.</p>
   <p><b>Находка 2.</b> В flows.md у <code>DeckEmpty</code> два выхода, а состояний пустоты
     в sitemap.md два: «людей рядом нет» и «пусто по фильтрам». <code>Reset filters</code>
     рёбра в потоке не имеет — либо добавить ветку в M1, либо развести на две страницы.</p>
