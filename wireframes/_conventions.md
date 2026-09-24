@@ -122,7 +122,22 @@
 | Запрос на компанию | `Go for a walk on the embankment?` · `Sat, 14 Jun · 18:00` · `No date yet` · `Podil` · `+1 · 1 spot left` · `2 going · 1 spot left` · `Who can join: women only` · `Ask to join` |
 | Диалог | `Say hi` · `Suggest a day` · `Invite together` · `Still going?` · `Yes` · `Can't make it` |
 | Верификация | `Verify to start chatting` · `Face partly out of frame — try again` · `Sent to a human reviewer` |
-| Пустые состояния | `You are all caught up` · `No events within 5 km yet` · `Reset filters` · `Look at events` |
+| Пустые состояния | `You are all caught up` · `No events within 5 km yet` · `No chats yet` · `Reset filters` · `Look at events` |
+
+**Заголовок экрана называет объект, а не обещание:** `My profile`, `My events`, `My chats`,
+`People nearby`, `Events nearby`, `Board games`, `Olena, 26`. Обещание живёт заголовком
+секции — `How others see you` над карточкой в своём профиле.
+
+**Пустое состояние называет, чего нет, по имени:** `No events yet`, `No chats yet`,
+`No events that fit two yet`, `No events from Olena yet`, `No events within 5 km yet`.
+«Nothing here yet» так не работает: «здесь» — это не объект. Исключение одно —
+`You are all caught up` в колоде (§5.2 брифа): там не пусто, там всё просмотрено.
+Ниже заголовка — строка о том, что сюда попадёт, и **хотя бы один выход** (правило 10).
+
+**Ошибка загрузки называется «Couldn't load …»** — данные не пришли: `Couldn't load your
+chats`, `Couldn't load events nearby`, `Couldn't run your search`. Если не прошло **действие**,
+заголовок называет действие: `Message didn't send`. Оба семейства говорят, что ничего
+не потеряно, и дают `Try again`.
 
 **Повторяющееся действие называется одинаково на всех экранах.** Выход в ленту —
 `Look at events` (варианты `Look at other events`, `Look at all events`, `Look at events on
