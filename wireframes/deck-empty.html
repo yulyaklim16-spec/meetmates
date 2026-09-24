@@ -197,7 +197,7 @@
     <section aria-labelledby="exit-h">
       <h2 id="exit-h" hidden>Second path</h2>
       <a class="exit" href="feed.html">
-        <span>See events nearby</span>
+        <span>Look at events</span>
         <span aria-hidden="true">&rarr;</span>
       </a>
     </section>
@@ -235,11 +235,11 @@
 <footer class="meta">
   <p><b>II.1 Колода · состояние «пусто»</b> — людей в радиусе под текущими фильтрами не осталось.</p>
   <p>Шаг потока M1: <b>HasPeople →|нет| DeckEmpty → WiderRadius</b>. Оба ответа нарисованы:
-    «да» — <code>Show people from further out</code>, «нет» — <code>See events nearby</code>.</p>
+    «да» — <code>Show people from further out</code>, «нет» — <code>Look at events</code>.</p>
   <p><b>Откуда каждый выход:</b></p>
   <ul>
     <li><b>Expand search</b> — flows.md M1, ветка <code>WiderRadius →|да| Radius</code>; §5.2, <code>D-11</code></li>
-    <li><b>See events nearby</b> — flows.md M1, ветка <code>WiderRadius →|нет| Feed</code>; §4</li>
+    <li><b>Look at events</b> — flows.md M1, ветка <code>WiderRadius →|нет| Feed</code>; §4</li>
     <li><b>Reset filters</b> — sitemap.md, состояние «пусто по фильтрам»; §5.2</li>
   </ul>
   <p><b>Почему выходов больше, чем в рабочем виде.</b> Это не запасной экран: на старте
