@@ -468,6 +468,18 @@ a { color: var(--w-ink); }
   border-radius: var(--r-sm);
 }
 .pane .state { flex: none; }
+
+/* строка о непришедшей части: не экран ошибки, а полоса внутри рабочего вида */
+.strip {
+  display: flex; align-items: center; gap: var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  border: 1px dashed var(--w-line);
+  border-radius: var(--r-sm);
+  color: var(--w-ink-2);
+  font-size: 13px;
+}
+.strip span { flex: 1; }
+.strip .btn { flex: none; min-height: var(--tap-min); font-size: 13px; }
 .state h1, .state h3 { font-size: 1.05rem; }
 .state p { color: var(--w-ink-2); max-width: 30ch; }
 

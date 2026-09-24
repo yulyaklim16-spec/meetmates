@@ -193,18 +193,17 @@
 
       <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
 
-      <article class="state">
-        <h3>Couldn&rsquo;t load the rest</h3>
-        <p>3 more photos and Olena&rsquo;s events didn&rsquo;t arrive. The connection dropped.</p>
-        <p class="row"><a class="btn primary" href="profile.html">Try again</a></p>
-      </article>
     </div>
   </section>
 
-  <!-- ЗОНА 3: планы не дошли — их место занято повтором, а не пустотой -->
+  <!-- ЗОНА 3: одна строка вместо экрана ошибки. Не дошла часть — про неё и сказано -->
   <section aria-labelledby="pl-h">
-    <h2 id="pl-h" hidden>Olena&rsquo;s events</h2>
-    <p class="ann"><b>Зона 3 — повтор для непришедшего.</b> Перезагружается только та часть, которой нет: остальное на экране и работает</p>
+    <h2 id="pl-h">Olena&rsquo;s events</h2>
+    <p class="ann"><b>Зона 3 — строка о непришедшем.</b> Не экран ошибки, а полоса на месте того, чего нет: остальное работает, решение тоже</p>
+    <p class="strip">
+      <span>3 photos and Olena&rsquo;s events didn&rsquo;t arrive &mdash; the connection dropped.</span>
+      <a class="btn quiet" href="profile.html">Try again</a>
+    </p>
     <a class="exit" href="feed.html">
       <span>See events nearby</span>
       <span aria-hidden="true">&rarr;</span>
@@ -253,8 +252,9 @@
     Поэтому Skip и Like живые во всех трёх.</p>
   <p><b>Что именно сломалось, названо.</b> Не «something went wrong», а «3 фото и планы
     не пришли» — то же правило, что у непройденной верификации <code>D-26</code>.</p>
-  <p><b>Повтор частичный:</b> кнопка перезагружает только непришедшее. Перерисовывать
-    весь экран значило бы отобрать у человека то, что уже пришло, и решение вместе с ним.</p>
+  <p><b>Это не экран ошибки, а строка внутри рабочего вида.</b> Сломалась часть — про неё
+    и сказано, одной полосой на её месте. Экран целиком остаётся рабочим: фото, интересы,
+    сигналы доверия и оба действия на месте, повтор перезагружает только непришедшее.</p>
   <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
     Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
