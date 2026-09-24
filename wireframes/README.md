@@ -65,12 +65,12 @@ wireframes/<screen>-<state>.html    deck-empty.html · plan-waiting.html
 
 ## Статус
 
-**Нарисовано 50 страниц из 50** — 13 экранов и все состояния, отмеченные в таблице
+**Нарисовано 49 страниц из 49** — 13 экранов и все состояния, отмеченные в таблице
 [`_screens.md`](./_screens.md). Чего в таблице нет, того нет и в наборе.
 
 | Флоу | Экраны | Статус |
 |---|---|---|
-| Swipe → Match → Chat | Deck (4 состояния) · Profile detail (4) · Match · Conversation (6) | ✅ нарисован |
+| Swipe → Match → Chat | Deck (4 состояния) · Profile detail (3, ошибки нет `D-51`) · Match · Conversation (6) | ✅ нарисован |
 | Ask to join | Feed (4) · Plan detail (5) · Conversation — тот же экран · Позвать вдвоём (5) | ✅ нарисован |
 | Верификация как гейт | Verify (6 страниц: четыре состояния, ожидание `D-42` и второй успех — в онбординге) | ✅ нарисован |
 | За вкладками | Search (4) · Chats (4) · My events (4) `D-50` · My profile (2) | ✅ нарисованы |

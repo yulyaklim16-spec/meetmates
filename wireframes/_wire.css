@@ -495,6 +495,20 @@ a { color: var(--w-ink); }
 .skel.w-s { width: 28%; }
 .skel.pill { height: 22px; border-radius: var(--r-pill); }
 .skel.thumb { flex: 1; height: 64px; }
+/* фото, дошедшее не целиком: заблюрено, а не заменено серым  D-51.
+   Мягкие пятна дают предмет, который блюру есть что размывать; масштаб срезает
+   размытые края, иначе они светлеют по контуру. Анимации нет — правило 8 не задето */
+.thumb { flex: 1; height: 64px; background: var(--w-zone); border-radius: var(--r-sm); }
+.skelrow { overflow: hidden; }
+.blur {
+  background:
+    radial-gradient(58% 52% at 34% 30%, var(--w-line), transparent 70%),
+    radial-gradient(44% 40% at 71% 66%, var(--w-line), transparent 70%),
+    var(--w-zone);
+  filter: blur(6px);
+  transform: scale(1.08);
+}
+.photo.blur { color: transparent; }
 .card .body.skeleton { gap: var(--s-3); }
 .skelrow { display: flex; gap: var(--s-2); }
 /* строка состояния внутри экрана: загрузка объясняется текстом, а не оттенком */
