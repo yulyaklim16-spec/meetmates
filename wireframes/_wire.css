@@ -636,12 +636,17 @@ a { color: var(--w-ink); }
 .pane {
   flex: 1; min-height: 0;
   overflow-y: auto; overflow-x: hidden;
-  /* полосу прокрутки прячем: на телефоне она наложенная, а на десктопе съедала
-     15px ширины — и карточка в профиле оказывалась уже, чем в колоде */
-  scrollbar-width: none;
+  /* полоса прокрутки видна — это подсказка, что ниже ещё есть содержимое.
+     Место под неё резервируется всегда, поэтому карточка одной ширины
+     и там, где прокрутки нет */
+  scrollbar-width: thin;
+  scrollbar-color: var(--w-line) transparent;
+  scrollbar-gutter: stable;
   display: flex; flex-direction: column; gap: var(--s-4);
 }
-.pane::-webkit-scrollbar { display: none; }
+.pane::-webkit-scrollbar { width: 6px; }
+.pane::-webkit-scrollbar-thumb { background: var(--w-line); border-radius: var(--r-pill); }
+.pane::-webkit-scrollbar-track { background: transparent; }
 
 /* подписи зон стоят колонкой рядом с телефоном, а не внутри зоны:
    внутри прокручиваемой области их обрезал бы контейнер прокрутки */

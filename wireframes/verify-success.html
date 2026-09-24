@@ -8,9 +8,9 @@
   Экран:  I.5 Верификация — sitemap.md, ветка «Человек»
   Job:    R2 · G5
   Поток:  flows.md, M1 — Recognised →|да| VerifyOk → Dialog
-  Состояние: успех — «пройдена». Это «получилось» с последствием, а не галочка:
+  Состояние: успех после гейта — «пройдена», «получилось» с последствием:
           сразу за ним открывается поле ввода в чате, ради которого гейт и стоял.
-  Поэтому главное действие ведёт обратно в тот самый разговор.
+  Второй успех — в онбординге, когда чата ещё нет: verify-success-signup.
 -->
 <link rel="stylesheet" href="_wire.css">
 </head>
@@ -19,7 +19,7 @@
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
   <p class="h">Вайрфреймы</p>
-  <p class="t">Главный поток · мобильный веб · 45 из 45</p>
+  <p class="t">Главный поток · мобильный веб · 46 из 46</p>
   <ul>
     <li class="grp">
       <p class="gt">Вход в продукт</p>
@@ -56,6 +56,7 @@
             <li><a href="verify-loading.html">загрузка</a></li>
             <li class="now"><b aria-current="page">успех</b></li>
             <li><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="verify-success-signup.html">успех в онбординге: до первого свайпа, возвращать в чат некуда</a></li>
           </ul>
         </li>
         <li class="scr"><a class="s" href="my-profile.html"><span class="c">I.2</span> Мой профиль — как меня видят</a>
@@ -142,6 +143,7 @@
     <li><a href="verify-loading.html">загрузка</a></li>
     <li class="now"><b aria-current="page">успех</b></li>
     <li><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
+    <li><a href="verify-success-signup.html">успех в онбординге: до первого свайпа, возвращать в чат некуда</a></li>
   </ul>
 </nav>
 <!-- states:end -->

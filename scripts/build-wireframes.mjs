@@ -38,11 +38,16 @@ const STATES = [
 
 function screens() {
   // две таблицы одного формата: восемь экранов главного потока и экраны за вкладками D-43
-  const rows = [...screensMd.matchAll(/^\| \*\*([IVX]+\.\d+)\*\* ([^|]+?) \| `([a-z-]+)` \| (.+?) \|\s*$/gm)];
+  // строки ниже таблицы «Состояния сверх четвёрки» — не экраны, а состояния
+  const tablesOnly = screensMd.slice(0, screensMd.indexOf('### Состояния сверх четвёрки'));
+  const rows = [...tablesOnly.matchAll(/^\| \*\*([IVX]+\.\d+)\*\* ([^|]+?) \| `([a-z-]+)` \| (.+?) \|\s*$/gm)];
   if (rows.length < 8) throw new Error(`в _screens.md найдено ${rows.length} экранов, ожидалось не меньше восьми`);
   // экраны с ожиданием — отдельная таблица D-42
   const waitBlock = screensMd.slice(screensMd.indexOf('### Пятое состояние'), screensMd.indexOf('### Почему так'));
   const waits = new Set([...waitBlock.matchAll(/\*\*([IVX]+\.\d+)\*\*/g)].map((m) => m[1]));
+  const extraBlock = screensMd.slice(screensMd.indexOf('### Состояния сверх четвёрки'), screensMd.indexOf('### Почему так'));
+  const extra = [...extraBlock.matchAll(/^\| \*\*([IVX]+\.\d+)\*\* [^|]+\| `([a-z-]+)` \| (.+?) \|\s*$/gm)]
+    .map((m) => [m[1], m[2], plain(m[3])]);
 
   return rows.map(([, code, name, file, tail]) => {
     const flags = tail.split('|').map((c) => c.trim());
@@ -55,6 +60,8 @@ function screens() {
       pages.push({ file: `${file}${s.suffix}.html`, title: s.title });
     }
     if (waits.has(code)) pages.push({ file: `${file}-waiting.html`, title: 'ожидание чужого решения · D-42' });
+    // состояния сверх четвёрки перечислены поимённо — таблица «Состояния сверх четвёрки»
+    for (const [, f, title] of extra) if (f.startsWith(file + '-')) pages.push({ file: `${f}.html`, title });
     return { code, name: name.trim(), file, pages };
   });
 }
