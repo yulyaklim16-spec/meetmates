@@ -28,7 +28,7 @@
 
 | | Что там | Числа |
 |---|---|---|
-| [sitemap.md](./sitemap.md) | **Сущности** (15 + совместный отклик), «под вопросом», гигиена · **Дерево экранов** по объектам, у каждого — job, кому нужен, состояния · **Навигация**: три вкладки People · Plans · Chats, аватар — глубокий слой, глубина до main job · **Трассировка**: матрица jobs × экраны, сироты и решения по ним | 30 экранов · 8 веток · 3 вкладки · 3 тапа · матрица 12 × 30 без нулей |
+| [sitemap.md](./sitemap.md) | **Сущности** (15 + совместный отклик), «под вопросом», гигиена · **Дерево экранов** по объектам, у каждого — job, кому нужен, состояния · **Навигация**: пять вкладок People · Events · Search · Chats · Profile, глубокий слой за вкладкой Profile, глубина до main job · **Трассировка**: матрица jobs × экраны, сироты и решения по ним | 31 экран · 9 веток · 5 вкладок · 3 тапа · матрица 12 × 31 без нулей |
 | [flows.md](./flows.md) | Потоки как `flowchart TD`: main job M1, related R1–R4, поток автора R5/S2, trust loop S1. У каждого — точки решения, состояния, тупики | 7 потоков · 2 настоящих тупика · 14 диаграмм (текст + mermaid) |
 | [раздел 3 на сайте](https://meetmates.vercel.app/sections/ia.html) | То же одной страницей: дерево с job-подписями, матрица, все потоки как Mermaid | собирается `node scripts/build-ia.mjs`, руками не правится |
 
@@ -66,8 +66,8 @@
 | **Репутация** | Подтверждение встречи, Profile Strength, признак отзывчивости |
 | **Безопасность** | Верификация перед контактом, Report/Block везде, приватная обратная связь |
 
-Навигация — **три вкладки: People · Plans · Chats** `D-33`; профиль, геолокация и заблокированные —
-за аватаром в шапке, экрана настроек нет `D-38`. Экраны и флоу целиком — [CLAUDE.md](./CLAUDE.md), §6 ·
+Навигация — **пять вкладок: People · Events · Search · Chats · Profile** `D-43`; геолокация и заблокированные —
+за вкладкой Profile, экрана настроек нет `D-38`. Экраны и флоу целиком — [CLAUDE.md](./CLAUDE.md), §6 ·
 разбор навигации — [sitemap.md](./sitemap.md).
 
 ---
@@ -118,7 +118,7 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 | Этап | Статус | Что в нём |
 |---|---|---|
 | [research/](./research/) | 🟡 разборы готовы, интервью TBD | Конкуренты, бенчмарк доверия, паттерны, люди, jobs |
-| [wireframes/](./wireframes/) | ⬜ | Шесть ключевых флоу в трёх состояниях каждый |
+| [wireframes/](./wireframes/) | ✅ 44 страницы из 44 | 11 экранов и все состояния из таблицы `_screens.md`, в мокапе телефона, связаны по рёбрам `flows.md` |
 | [concept/](./concept/) | ⬜ | Moodboard, четыре ключевых экрана, логотип |
 | [tokens/](./tokens/) | ✅ базовый набор | [tokens.css](./tokens/tokens.css) + [tokens.json](./tokens/tokens.json) |
 | [components/](./components/) | ⬜ | UI-компоненты и все их состояния |
@@ -127,7 +127,8 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 
 Опубликованные страницы: [раздел 1 — ресерч](https://meetmates.vercel.app/research/research.html) ·
 [раздел 2 — персоны и JTBD](https://meetmates.vercel.app/research/persones.html) ·
-[раздел 3 — информационная архитектура](https://meetmates.vercel.app/sections/ia.html).
+[раздел 3 — информационная архитектура](https://meetmates.vercel.app/sections/ia.html) ·
+[раздел 4 — прототипирование и вайрфрейминг](https://meetmates.vercel.app/sections/wireframes.html).
 `.md` наружу не отдаются — стратегия остаётся в репозитории.
 
 ---

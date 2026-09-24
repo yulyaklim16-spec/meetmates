@@ -82,7 +82,7 @@
 | Что на экране | Чем размечается |
 |---|---|
 | Шапка экрана: заголовок, кнопка назад, `⋯` | `<header>` |
-| Нижний таб-бар `People · Plans · Chats` | `<nav aria-label="Основная навигация">` |
+| Нижний таб-бар `People · Events · Search · Chats · Profile` | `<nav aria-label="Основная навигация">` |
 | Содержимое экрана | `<main>` |
 | Смысловой блок со своим заголовком | `<section>` + `<h2>` |
 | Карточка человека, карточка запроса, сообщение, отклик | `<article>` |
@@ -121,7 +121,7 @@
 | Запрос на компанию | `Go for a walk on the embankment?` · `Sat, 14 Jun · 18:00` · `No date yet` · `Podil` · `+1 · 1 spot left` · `2 going · 1 spot left` · `Who can join: women only` · `Ask to join` |
 | Диалог | `Say hi` · `Suggest a day` · `Invite together` · `Still going?` · `Yes` · `Can't make it` |
 | Верификация | `Verify to start chatting` · `Face partly out of frame — try again` · `Sent to a human reviewer` |
-| Пустые состояния | `You are all caught up` · `No plans nearby yet` · `Reset filters` · `See plans nearby` |
+| Пустые состояния | `You are all caught up` · `No events within 5 km yet` · `Reset filters` · `See events nearby` |
 
 **Три запрета копирайта действуют и на вайрфреймах** — текст настоящий, значит и правила
 настоящие:
@@ -223,7 +223,7 @@ wireframes/<screen>-success.html      только если «получилос
 
 **Одна команда на всё:** `node scripts/build-wireframes.mjs` — создаёт недостающие
 заглушки, обновляет панель во всех страницах и пересобирает раздел 4 сайта. Раздел
-считает заглушки отдельно от нарисованного, поэтому «1 из 34» остаётся правдой.
+считает заглушки отдельно от нарисованного, поэтому счёт «нарисовано из набора» не врёт.
 
 ---
 

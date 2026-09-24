@@ -65,11 +65,16 @@ wireframes/<screen>-<state>.html    deck-empty.html · plan-waiting.html
 
 ## Статус
 
+**Нарисовано 44 страницы из 44** — 11 экранов и все состояния, отмеченные в таблице
+[`_screens.md`](./_screens.md). Чего в таблице нет, того нет и в наборе.
+
 | Флоу | Экраны | Статус |
 |---|---|---|
-| First run | Sign in · Profile setup (с датой рождения) · Interests · Intent · Location · Verification — Splash и age gate стали состояниями `D-38` | TBD |
-| Swipe → Match → Chat | Deck · Filters · Profile detail · Match modal · Empty deck · Conversation | TBD |
-| Ask to join | Feed · Plan detail · Responses · Conversation (чат запроса — тот же экран) · Empty feed | TBD |
-| Create plan | Один шаг (занятие · сколько нужно · кто может откликнуться) · My plans | TBD |
-| Safety | Report sheet · Block confirm · Safety center · Blocked users | TBD |
-| Trust loop | Post-meet check-in · Repeat offer · My profile · Profile strength | TBD |
+| Swipe → Match → Chat | Deck (4 состояния) · Profile detail (4) · Match · Conversation (6) | ✅ нарисован |
+| Ask to join | Feed (4) · Plan detail (5) · Conversation — тот же экран · Позвать вдвоём (5) | ✅ нарисован |
+| Верификация как гейт | Verify (5 состояний, включая ожидание `D-42`) | ✅ нарисован |
+| За вкладками | Search (4) · Chats (4) · My profile (2) | ✅ нарисованы |
+| First run | Sign in · Profile setup · Interests · Intent · Location · Verification | ⬜ вне набора: онбординг позади старта потока M1 |
+| Create event | Один шаг (занятие · сколько нужно · кто может откликнуться) · My events | ⬜ вне набора: сторона автора, поток R5/S2 |
+| Safety | Report sheet · Block confirm · Safety center · Blocked users | ⬜ вне набора: поток E3 |
+| Trust loop | Post-meet check-in · Repeat offer · Profile strength | ⬜ вне набора: после назначенного дня |
