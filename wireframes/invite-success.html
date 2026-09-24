@@ -161,7 +161,7 @@
     <p class="ann"><b>Зона 2 — факт.</b> Пара пришла одним откликом и заняла два места: разделить её нельзя `D-36`</p>
     <article class="state">
       <h3>You&rsquo;re both in</h3>
-      <p>Andrii confirmed the two of you for board games at Kyiv Games Club, Saturday 18:00. The plan chat is open.</p>
+      <p>Andrii confirmed the two of you for board games at Kyiv Games Club, Saturday 18:00. The event chat is open.</p>
     </article>
   </section>
 
@@ -170,14 +170,14 @@
     <h2 id="act-h" hidden>What next</h2>
     <p class="ann"><b>Зона 3 — дорога дальше.</b> Главное действие: открыть чат запроса. На `+N` он групповой — единственное исключение из правила §4</p>
     <p class="row">
-      <a class="btn primary" href="dialog.html">Open the plan chat</a>
+      <a class="btn primary" href="dialog.html">Open the event chat</a>
     </p>
     <p>We&rsquo;ll ask you the day before: still going?</p>
   </section>
 
   <!-- ЗОНА 4: карточка плана -->
   <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>The plan</h2>
+    <h2 id="ex-h" hidden>The event</h2>
     <p class="ann"><b>Зона 4 — сам план.</b> Где и когда — на карточке; точный адрес виден только подтверждённым участникам (§7.2)</p>
     <a class="exit" href="plan-success.html">
       <span>Board games at Kyiv Games Club &middot; Sat 18:00</span>
@@ -189,7 +189,7 @@
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">
     <a href="deck.html"><span class="ico lg" aria-hidden="true"></span>People</a>
-    <a href="feed.html"><span class="ico lg" aria-hidden="true"></span>Plans</a>
+    <a href="feed.html"><span class="ico lg" aria-hidden="true"></span>Events</a>
     <a href="search.html"><span class="ico lg" aria-hidden="true"></span>Search</a>
     <a href="chats.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>Chats</a>
     <a href="my-profile.html"><span class="ico lg" aria-hidden="true"></span>Profile</a>
@@ -217,7 +217,7 @@
     откликом и занимает два места; подтвердить можно только обоих или никого.</p>
   <p><b>Атомарность видна в тексте:</b> «вас двоих», а не «тебя». Пару, пришедшую вместе,
     не разделяют — подтвердить можно только обоих или никого (<code>D-36</code>).</p>
-  <p><b>Выходы:</b> <code>Open the plan chat</code> → диалог запроса;
+  <p><b>Выходы:</b> <code>Open the event chat</code> → диалог запроса;
     карточка плана → III.3, состояние «подтверждена». Дальше — напоминание за сутки
     (flows.md <code>DateSet →|да| Remind</code>).</p>
   <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.

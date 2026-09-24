@@ -151,7 +151,7 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <h1 id="fd-h">Plans nearby</h1>
+  <h1 id="fd-h">Events nearby</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
   <button type="button" class="primary"><span class="ico" aria-hidden="true"></span>New</button>
   <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Кнопка создания живёт здесь и в каждом пустом состоянии — §2.1, п. 3. Фильтр по дате не прячет бессрочные (§5.4)</p>
@@ -161,8 +161,8 @@
   <section class="stretch" aria-labelledby="fd-h">
     <p class="ann"><b>Зона 2 — состояние вместо ленты.</b> На старте Даша увидит именно его `D-22`. Текст про планы, а не про то, что вокруг никого — правило 13</p>
     <article class="state">
-      <h3>No plans within 5 km yet</h3>
-      <p>Plans here are posted by people like you &mdash; and yours would be the first one nearby.</p>
+      <h3>No events within 5 km yet</h3>
+      <p>Events here are posted by people like you &mdash; and yours would be the first one nearby.</p>
     </article>
   </section>
 
@@ -171,10 +171,10 @@
     <h2 id="act-h" hidden>What next</h2>
     <p class="ann"><b>Зона 3 — что дальше.</b> Главное действие: свой план в один шаг — он не зависит ни от чьей взаимности. Ниже — расширить радиус</p>
     <p class="row">
-      <button type="button" class="primary">Post a plan of your own</button>
+      <button type="button" class="primary">Post an event of your own</button>
     </p>
     <p class="row">
-      <a class="btn quiet" href="feed-loading.html">Show plans further out</a>
+      <a class="btn quiet" href="feed-loading.html">Show events further out</a>
     </p>
   </section>
 
@@ -192,7 +192,7 @@
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">
     <a href="deck.html"><span class="ico lg" aria-hidden="true"></span>People</a>
-    <a href="feed.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>Plans</a>
+    <a href="feed.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>Events</a>
     <a href="search.html"><span class="ico lg" aria-hidden="true"></span>Search</a>
     <a href="chats.html"><span class="ico lg" aria-hidden="true"></span>Chats</a>
     <a href="my-profile.html"><span class="ico lg" aria-hidden="true"></span>Profile</a>
@@ -216,13 +216,13 @@
   <p><b>Место в потоке M1:</b> ветка «ВТОРОЙ ПУТЬ» — <code>Feed → FeedLoad → HasPlans</code>.
     Путь детерминированный: отклик зависит только от неё, поэтому лента не убрана
     в глубину (§4).</p>
-  <p><b>Откуда каждый выход:</b> <code>Post a plan of your own</code> —
-    <code>CreateOwn →|да| Create</code>; <code>Show plans further out</code> —
+  <p><b>Откуда каждый выход:</b> <code>Post an event of your own</code> —
+    <code>CreateOwn →|да| Create</code>; <code>Show events further out</code> —
     <code>FeedWider →|да| FeedLoad</code>; <code>See people nearby</code> —
     <code>CreateOwn →|нет, в колоде люди есть| BackToDeck</code> (flows.md, M1).</p>
   <p><b>Порядок действий не случаен.</b> Создание стоит первым: оно единственное
     не зависит ни от плотности, ни от чужого решения — §2.1, п. 3.</p>
-  <p><b>Находка.</b> <code>Post a plan of your own</code> ведёт на III.4 «Создание запроса» —
+  <p><b>Находка.</b> <code>Post an event of your own</code> ведёт на III.4 «Создание запроса» —
     экрана нет в наборе (_screens.md, «чего нет в наборе»). Здесь ссылка ведёт в загрузку
     ленты как ближайшее честное место; экран нужно дорисовать.</p>
   <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
