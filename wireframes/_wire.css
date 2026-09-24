@@ -36,7 +36,9 @@ body {
   .wfstates, .device, .meta { grid-column: 1; }
 }
 
-/* ── панель навигации по всем макетам (служебная, на прототип не едет) ── */
+/* ── панель навигации по всем макетам (служебная, на прототип не едет) ──
+   Дерево в три уровня: раздел → экран → его состояния. Вложенность видна
+   отступом и вертикальной линией, текущий узел — заливкой, а не цветом. */
 .wfnav {
   grid-row: 1 / span 3;   /* полоса состояний, мокап, служебный блок */
   position: sticky; top: var(--s-6);
@@ -48,35 +50,57 @@ body {
 }
 .wfnav .t {
   font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--w-ink); font-weight: 700;
-  margin-bottom: var(--s-3);
+  color: var(--w-ink-2); font-weight: 600;
+  margin-bottom: var(--s-4);
 }
-.wfnav .n { margin-top: var(--s-4); font-size: 11px; color: var(--w-ink-2); }
+.wfnav .n { margin-top: var(--s-5); font-size: 11px; color: var(--w-ink-2); }
 .wfnav ul { list-style: none; margin: 0; padding: 0; }
-.wfnav .grp {
-  margin-bottom: var(--s-3);
-  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--w-ink-2);
-}
-.wfnav .grp > ul { margin-top: var(--s-2); text-transform: none; letter-spacing: 0; }
-.wfnav .scr {
-  color: var(--w-ink);
-  font-size: 12px;
+
+/* уровень 1 — раздел дерева экранов (ветка sitemap.md) */
+.wfnav .grp { margin-bottom: var(--s-5); }
+.wfnav .gt {
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--w-ink); font-weight: 700;
   margin-bottom: var(--s-2);
+}
+
+/* уровень 2 — экран: ссылка на свой рабочий вид */
+.wfnav .scr { margin-bottom: 1px; }
+.wfnav .s {
+  display: block;
+  padding: 5px var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: 12px; font-weight: 600;
+  color: var(--w-ink);
+  text-decoration: none;
+}
+.wfnav .s .c { color: var(--w-ink-2); font-weight: 400; font-variant-numeric: tabular-nums; }
+.wfnav .scr.stub > .s { color: #8a8a8a; }
+.wfnav .scr.stub > .s .c { color: #a5a5a5; }
+
+/* уровень 3 — состояния экрана, вдоль вертикальной линии */
+.wfnav .scr > ul {
+  margin: 1px 0 var(--s-3) var(--s-3);
   padding-left: var(--s-3);
   border-left: 1px solid var(--w-line);
 }
-.wfnav .scr .c { color: var(--w-ink-2); font-variant-numeric: tabular-nums; }
-.wfnav .scr > ul { margin: 2px 0 var(--s-2); padding-left: var(--s-3); }
-.wfnav .scr > ul li { padding: 1px 0; }
-.wfnav a { color: var(--w-ink-2); text-decoration: none; }
-.wfnav a:hover, .wfnav a:focus-visible { color: var(--w-ink); text-decoration: underline; }
-.wfnav .stub a { color: #8a8a8a; }
-.wfnav .now b {
-  color: var(--w-ink); font-weight: 700;
-  display: inline-block;
-  box-shadow: -8px 0 0 -7px var(--w-ink);
+.wfnav .scr > ul a, .wfnav .scr > ul b {
+  display: block;
+  padding: 3px var(--s-3);
+  border-radius: var(--r-sm);
+  font-weight: 400;
 }
+
+.wfnav a { color: var(--w-ink-2); text-decoration: none; }
+.wfnav a:hover, .wfnav a:focus-visible { color: var(--w-ink); background: var(--w-fill); }
+.wfnav .stub > a { color: #8a8a8a; }
+
+/* экран, внутри которого мы находимся: линия его состояний темнеет.
+   Заливка остаётся за текущей страницей — два разных признака не должны спорить */
+.wfnav .scr.open > ul { border-left-color: var(--w-ink); }
+
+/* текущая страница: залита и не является ссылкой */
+.wfnav .now > b { background: var(--w-fill); color: var(--w-ink); font-weight: 700; }
 
 /* ── мокап телефона ──────────────────────────────────────────
    Мы строим мобильный веб, и продукт владеет не всей высотой:

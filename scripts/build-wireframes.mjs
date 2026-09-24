@@ -112,19 +112,32 @@ function panel(activeFile) {
     const g = groups.find((x) => x.title === s.branch) || (groups.push({ title: s.branch, screens: [] }), groups.at(-1));
     g.screens.push(s);
   }
-  const rows = groups.map((g) => `    <li class="grp">${esc(g.title)}
+  // узел состояния: ссылка на свою страницу, текущее — не ссылка
+  const node = (p, active, extra) => {
+    const cls = [active ? 'now' : '', p.stub ? 'stub' : '', extra || ''].filter(Boolean).join(' ');
+    const label = esc(p.title);
+    return `<li${cls ? ` class="${cls}"` : ''}>` +
+      (active ? `<b aria-current="page">${label}</b>` : `<a href="${p.file}">${label}</a>`) + `</li>`;
+  };
+  const rows = groups.map((g) => `    <li class="grp">
+      <p class="gt">${esc(g.title)}</p>
       <ul>
-${g.screens.map((s) => `        <li class="scr"><span class="c">${esc(s.code)}</span> ${esc(s.name)}
+${g.screens.map((s) => {
+    const [base, ...states] = s.pages;                    // рабочий вид — сам экран
+    const here = s.pages.some((p) => p.file === activeFile);
+    const baseCur = base.file === activeFile;
+    const cls = ['scr', here ? 'open' : '', baseCur ? 'now' : '', base.stub ? 'stub' : ''].filter(Boolean).join(' ');
+    const label = `<span class="c">${esc(s.code)}</span> ${esc(s.name)}`;
+    const head = baseCur
+      ? `<b class="s" aria-current="page">${label}</b>`
+      : `<a class="s" href="${base.file}">${label}</a>`;
+    if (!states.length) return `        <li class="${cls}">${head}</li>`;
+    return `        <li class="${cls}">${head}
           <ul>
-${s.pages.map((p) => {
-      const cur = p.file === activeFile;
-      const cls = [cur ? 'now' : '', p.stub ? 'stub' : ''].filter(Boolean).join(' ');
-      const label = `${esc(p.title)}`;
-      return `            <li${cls ? ` class="${cls}"` : ''}>` +
-        (cur ? `<b aria-current="page">${label}</b>` : `<a href="${p.file}">${label}</a>`) + `</li>`;
-    }).join('\n')}
+${states.map((p) => `            ${node(p, p.file === activeFile)}`).join('\n')}
           </ul>
-        </li>`).join('\n')}
+        </li>`;
+  }).join('\n')}
       </ul>
     </li>`).join('\n');
   return `<nav class="wfnav" aria-label="Все макеты">
@@ -132,7 +145,8 @@ ${s.pages.map((p) => {
   <ul>
 ${rows}
   </ul>
-  <p class="n">Серым — заглушка: страница есть, макет не нарисован. Панель собирается
+  <p class="n">Дерево: раздел → экран → его состояния. Экран ведёт на рабочий вид,
+    серым — заглушка: страница есть, макет не нарисован. Панель собирается
     из _screens.md и sitemap.md скриптом build-wireframes.mjs.</p>
 </nav>`;
 }
