@@ -425,7 +425,7 @@ a { color: var(--w-ink); }
   border: 1px dashed var(--w-line);
   border-radius: var(--r-sm);
 }
-.state h3 { font-size: 1.05rem; }
+.state h1, .state h3 { font-size: 1.05rem; }
 .state p { color: var(--w-ink-2); max-width: 30ch; }
 
 /* ── заглушки загрузки: место будущего содержимого ──────────
