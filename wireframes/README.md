@@ -30,7 +30,7 @@
 3. **Ask to join** — лента запросов → карточка запроса → отклик → автор подтвердил → чат
 4. **Create plan** — один шаг
 5. **Safety** — Report → причина → Block
-6. **Trust loop** — встреча прошла → Who made it? (+ Anything off?) → счётчик встреч → Profile Strength
+6. **Trust loop** — встреча прошла → Who made it? (+ Anything off?) → счётчик встреч вырос
 
 ## Именование
 
@@ -65,16 +65,17 @@ wireframes/<screen>-<state>.html    deck-empty.html · plan-waiting.html
 
 ## Статус
 
-**Нарисовано 44 страницы из 44** — 11 экранов и все состояния, отмеченные в таблице
+**Нарисовано 50 страниц из 50** — 13 экранов и все состояния, отмеченные в таблице
 [`_screens.md`](./_screens.md). Чего в таблице нет, того нет и в наборе.
 
 | Флоу | Экраны | Статус |
 |---|---|---|
 | Swipe → Match → Chat | Deck (4 состояния) · Profile detail (4) · Match · Conversation (6) | ✅ нарисован |
 | Ask to join | Feed (4) · Plan detail (5) · Conversation — тот же экран · Позвать вдвоём (5) | ✅ нарисован |
-| Верификация как гейт | Verify (5 состояний, включая ожидание `D-42`) | ✅ нарисован |
-| За вкладками | Search (4) · Chats (4) · My profile (2) | ✅ нарисованы |
+| Верификация как гейт | Verify (6 страниц: четыре состояния, ожидание `D-42` и второй успех — в онбординге) | ✅ нарисован |
+| За вкладками | Search (4) · Chats (4) · My events (4) `D-50` · My profile (2) | ✅ нарисованы |
+| Онбординг — как это работает | Radar `D-47` (состояний нет: данные иллюстративные) | ✅ нарисован |
 | First run | Sign in · Profile setup · Interests · Intent · Location · Verification | ⬜ вне набора: онбординг позади старта потока M1 |
-| Create event | Один шаг (занятие · сколько нужно · кто может откликнуться) · My events | ⬜ вне набора: сторона автора, поток R5/S2 |
+| Create event | Один шаг: занятие · сколько нужно · кто может откликнуться | ⬜ вне набора: сторона автора, поток R5/S2 |
 | Safety | Report sheet · Block confirm · Safety center · Blocked users | ⬜ вне набора: поток E3 |
-| Trust loop | Post-meet check-in · Repeat offer · Profile strength | ⬜ вне набора: после назначенного дня |
+| Trust loop | Post-meet check-in · Repeat offer | ⬜ вне набора: после назначенного дня |

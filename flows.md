@@ -125,7 +125,7 @@ flowchart TD
     Create --> Published{Опубликовалось?}
     Published -->|сбой| CreateErr["Error: запрос не опубликовался"]
     CreateErr --> Create
-    Published -->|да| MyPlans[Мои планы]
+    Published -->|да| MyPlans[Мои события]
     MyPlans --> Responses[Отклики на мой запрос]
     Responses --> AnyResponse{Кто-нибудь откликнулся?}
     AnyResponse -->|нет| RespEmpty["Empty: откликов пока нет — смотреть чужие планы"]
@@ -245,7 +245,7 @@ flowchart TD
     Create --> Published{Опубликовалось?}
     Published -->|сбой| CreateErr["Error: запрос не опубликовался"]
     CreateErr --> Create
-    Published -->|да| MyPlans[Мои планы]
+    Published -->|да| MyPlans[Мои события]
     MyPlans --> Responses[Отклики на мой запрос]
     Responses --> AnyResponse{Кто-нибудь откликнулся?}
     AnyResponse -->|нет| RespEmpty["Empty: откликов пока нет — смотреть чужие планы"]
@@ -749,7 +749,7 @@ flowchart TD
     Limit -->|да, только свой пол| Publish
     Publish -->|сбой| CreateErr["Error: запрос не опубликовался"]
     CreateErr --> Create
-    Publish -->|да| MyPlans[Мои планы]
+    Publish -->|да| MyPlans[Мои события]
     MyPlans --> Responses[Отклики на мой запрос]
     Responses --> Any{Кто-нибудь откликнулся?}
     Any -->|нет| RespEmpty["Empty: откликов пока нет — смотреть чужие планы"]
@@ -797,7 +797,7 @@ flowchart TD
     Limit -->|да, только свой пол| Publish
     Publish -->|сбой| CreateErr["Error: запрос не опубликовался"]
     CreateErr --> Create
-    Publish -->|да| MyPlans[Мои планы]
+    Publish -->|да| MyPlans[Мои события]
     MyPlans --> Responses[Отклики на мой запрос]
     Responses --> Any{Кто-нибудь откликнулся?}
     Any -->|нет| RespEmpty["Empty: откликов пока нет — смотреть чужие планы"]

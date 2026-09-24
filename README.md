@@ -118,7 +118,7 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 | Этап | Статус | Что в нём |
 |---|---|---|
 | [research/](./research/) | 🟡 разборы готовы, интервью TBD | Конкуренты, бенчмарк доверия, паттерны, люди, jobs |
-| [wireframes/](./wireframes/) | ✅ 44 страницы из 44 | 11 экранов и все состояния из таблицы `_screens.md`, в мокапе телефона, связаны по рёбрам `flows.md` |
+| [wireframes/](./wireframes/) | ✅ 50 страниц из 50 | 13 экранов и все состояния из таблицы `_screens.md`, в мокапе телефона, связаны по рёбрам `flows.md` |
 | [concept/](./concept/) | ⬜ | Moodboard, четыре ключевых экрана, логотип |
 | [tokens/](./tokens/) | ✅ базовый набор | [tokens.css](./tokens/tokens.css) + [tokens.json](./tokens/tokens.json) |
 | [components/](./components/) | ⬜ | UI-компоненты и все их состояния |
