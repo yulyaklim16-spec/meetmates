@@ -4,15 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Верификация · загрузка · MeetMates wireframe</title>
-<!-- stub -->
 <!--
-  Страница-заглушка: создана скриптом build-wireframes.mjs, макет не нарисован.
   Экран:  I.5 Верификация — sitemap.md, ветка «Человек»
-  Job:    R2 (тот же риск, но с моей стороны) · G5: «Когда продукт меня проверяет, я хочу, чтобы у меня был способ доказать, что я — это я, чтобы не остаться снаружи из-за чужой ошибки»
-  Поток:  M1: Match → IsVerified →|нет| Gate → Now → Verify. Гейт перед первым сообщением D-03
-  Состояние: загрузка
-  Рисовать по правилам _conventions.md: мокап телефона, семантическая разметка,
-  настоящий текст, серый без цвета. Заменить содержимое .app целиком.
+  Job:    R2 · G5
+  Поток:  flows.md, M1 — Verify → Recognised{Распознали?}
+  Состояние: загрузка — «обработка»: секунды, пока автоматика смотрит селфи.
+          Это не ожидание чужого решения D-42: там ждут человека, днями,
+          и там спиннер запрещён. Здесь ждут машину, и срок известен.
 -->
 <link rel="stylesheet" href="_wire.css">
 </head>
@@ -21,7 +19,7 @@
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
   <p class="h">Вайрфреймы</p>
-  <p class="t">Главный поток · мобильный веб · 4 из 44</p>
+  <p class="t">Главный поток · мобильный веб · 44 из 44</p>
   <ul>
     <li class="grp">
       <p class="gt">Колода и совпадение</p>
@@ -33,30 +31,30 @@
             <li><a href="deck-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="match.html"><span class="c">II.3</span> Совпадение</a></li>
+        <li class="scr"><a class="s" href="match.html"><span class="c">II.3</span> Совпадение</a></li>
       </ul>
     </li>
     <li class="grp">
       <p class="gt">Человек</p>
       <ul>
-        <li class="scr stub"><a class="s" href="profile.html"><span class="c">I.1</span> Профиль другого человека</a>
+        <li class="scr"><a class="s" href="profile.html"><span class="c">I.1</span> Профиль другого человека</a>
           <ul>
-            <li class="stub"><a href="profile-empty.html">пусто</a></li>
-            <li class="stub"><a href="profile-error.html">ошибка</a></li>
-            <li class="stub"><a href="profile-loading.html">загрузка</a></li>
+            <li><a href="profile-empty.html">пусто</a></li>
+            <li><a href="profile-error.html">ошибка</a></li>
+            <li><a href="profile-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr open stub"><a class="s" href="verify.html"><span class="c">I.5</span> Верификация</a>
+        <li class="scr open"><a class="s" href="verify.html"><span class="c">I.5</span> Верификация</a>
           <ul>
-            <li class="stub"><a href="verify-error.html">ошибка</a></li>
-            <li class="now stub"><b aria-current="page">загрузка</b></li>
-            <li class="stub"><a href="verify-success.html">успех</a></li>
-            <li class="stub"><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="verify-error.html">ошибка</a></li>
+            <li class="now"><b aria-current="page">загрузка</b></li>
+            <li><a href="verify-success.html">успех</a></li>
+            <li><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="my-profile.html"><span class="c">I.2</span> Мой профиль — как меня видят</a>
+        <li class="scr"><a class="s" href="my-profile.html"><span class="c">I.2</span> Мой профиль — как меня видят</a>
           <ul>
-            <li class="stub"><a href="my-profile-loading.html">загрузка</a></li>
+            <li><a href="my-profile-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -64,28 +62,28 @@
     <li class="grp">
       <p class="gt">Чат</p>
       <ul>
-        <li class="scr stub"><a class="s" href="dialog.html"><span class="c">IV.2</span> Диалог</a>
+        <li class="scr"><a class="s" href="dialog.html"><span class="c">IV.2</span> Диалог</a>
           <ul>
-            <li class="stub"><a href="dialog-empty.html">пусто</a></li>
-            <li class="stub"><a href="dialog-error.html">ошибка</a></li>
-            <li class="stub"><a href="dialog-loading.html">загрузка</a></li>
-            <li class="stub"><a href="dialog-success.html">успех</a></li>
-            <li class="stub"><a href="dialog-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="dialog-empty.html">пусто</a></li>
+            <li><a href="dialog-error.html">ошибка</a></li>
+            <li><a href="dialog-loading.html">загрузка</a></li>
+            <li><a href="dialog-success.html">успех</a></li>
+            <li><a href="dialog-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="invite.html"><span class="c">IV.3</span> Позвать вдвоём в запрос</a>
+        <li class="scr"><a class="s" href="invite.html"><span class="c">IV.3</span> Позвать вдвоём в запрос</a>
           <ul>
-            <li class="stub"><a href="invite-empty.html">пусто</a></li>
-            <li class="stub"><a href="invite-error.html">ошибка</a></li>
-            <li class="stub"><a href="invite-success.html">успех</a></li>
-            <li class="stub"><a href="invite-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="invite-empty.html">пусто</a></li>
+            <li><a href="invite-error.html">ошибка</a></li>
+            <li><a href="invite-success.html">успех</a></li>
+            <li><a href="invite-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="chats.html"><span class="c">IV.1</span> Список чатов</a>
+        <li class="scr"><a class="s" href="chats.html"><span class="c">IV.1</span> Список чатов</a>
           <ul>
-            <li class="stub"><a href="chats-empty.html">пусто</a></li>
-            <li class="stub"><a href="chats-error.html">ошибка</a></li>
-            <li class="stub"><a href="chats-loading.html">загрузка</a></li>
+            <li><a href="chats-empty.html">пусто</a></li>
+            <li><a href="chats-error.html">ошибка</a></li>
+            <li><a href="chats-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -93,19 +91,19 @@
     <li class="grp">
       <p class="gt">Запрос на компанию</p>
       <ul>
-        <li class="scr stub"><a class="s" href="feed.html"><span class="c">III.1</span> Лента запросов</a>
+        <li class="scr"><a class="s" href="feed.html"><span class="c">III.1</span> Лента запросов</a>
           <ul>
-            <li class="stub"><a href="feed-empty.html">пусто</a></li>
-            <li class="stub"><a href="feed-error.html">ошибка</a></li>
-            <li class="stub"><a href="feed-loading.html">загрузка</a></li>
+            <li><a href="feed-empty.html">пусто</a></li>
+            <li><a href="feed-error.html">ошибка</a></li>
+            <li><a href="feed-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="plan.html"><span class="c">III.3</span> Карточка запроса</a>
+        <li class="scr"><a class="s" href="plan.html"><span class="c">III.3</span> Карточка запроса</a>
           <ul>
-            <li class="stub"><a href="plan-error.html">ошибка</a></li>
-            <li class="stub"><a href="plan-loading.html">загрузка</a></li>
-            <li class="stub"><a href="plan-success.html">успех</a></li>
-            <li class="stub"><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="plan-error.html">ошибка</a></li>
+            <li><a href="plan-loading.html">загрузка</a></li>
+            <li><a href="plan-success.html">успех</a></li>
+            <li><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
       </ul>
@@ -113,11 +111,11 @@
     <li class="grp">
       <p class="gt">Поиск</p>
       <ul>
-        <li class="scr stub"><a class="s" href="search.html"><span class="c">IX.1</span> Поиск людей и планов</a>
+        <li class="scr"><a class="s" href="search.html"><span class="c">IX.1</span> Поиск людей и планов</a>
           <ul>
-            <li class="stub"><a href="search-empty.html">пусто</a></li>
-            <li class="stub"><a href="search-error.html">ошибка</a></li>
-            <li class="stub"><a href="search-loading.html">загрузка</a></li>
+            <li><a href="search-empty.html">пусто</a></li>
+            <li><a href="search-error.html">ошибка</a></li>
+            <li><a href="search-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -133,37 +131,96 @@
 <nav class="wfstates" aria-label="Состояния экрана I.5 Верификация">
   <p class="t">I.5 Верификация · состояния этого экрана</p>
   <ul>
-    <li class="stub"><a href="verify.html">рабочий вид</a></li>
-    <li class="stub"><a href="verify-error.html">ошибка</a></li>
-    <li class="now stub"><b aria-current="page">загрузка</b></li>
-    <li class="stub"><a href="verify-success.html">успех</a></li>
-    <li class="stub"><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
+    <li><a href="verify.html">рабочий вид</a></li>
+    <li><a href="verify-error.html">ошибка</a></li>
+    <li class="now"><b aria-current="page">загрузка</b></li>
+    <li><a href="verify-success.html">успех</a></li>
+    <li><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
   </ul>
 </nav>
 <!-- states:end -->
 
+<!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
+     жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
  <div class="screen">
+
+  <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
-  <main class="app empty">
-    <p class="stub-t">I.5 Верификация</p>
-    <p class="stub-s">загрузка</p>
-    <p class="stub-n">Макет не нарисован</p>
+<header>
+  <a href="dialog.html" aria-label="Back to the chat"><span class="ico" aria-hidden="true"></span></a>
+  <h1>Verification</h1>
+  <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
+</header>
+  <main class="app">
+  <!-- ЗОНА 2: обработка. Кадр остаётся на месте: человек видит, что проверяют -->
+  <section class="stretch" aria-labelledby="cam-h">
+    <h2 id="cam-h" hidden>Checking</h2>
+    <p class="note" role="status">Checking your selfie</p>
+    <p class="ann"><b>Зона 2 — обработка.</b> Снятый кадр остаётся на экране: видно, что проверяют именно его</p>
+    <article class="card">
+      <figure>
+        <p class="photo" aria-hidden="true"></p>
+        <figcaption>Your selfie</figcaption>
+      </figure>
+      <section class="body skeleton">
+        <p class="skel line w-m"></p>
+        <p class="skel line w-s"></p>
+      </section>
+    </article>
+  </section>
+
+  <!-- ЗОНА 3: действие выключено, но стоит на месте -->
+  <section aria-labelledby="act-h">
+    <h2 id="act-h" hidden>Checking</h2>
+    <p class="ann"><b>Зона 3 — действие на паузе.</b> Кнопка остаётся на месте выключенной: раскладка не должна прыгать под пальцем</p>
+    <p class="row">
+      <button type="button" class="primary" disabled>Checking&hellip;</button>
+    </p>
+  </section>
+
+  <!-- ЗОНА 4: ждать необязательно -->
+  <section aria-labelledby="skip-h">
+    <h2 id="skip-h" hidden>Later</h2>
+    <p class="ann"><b>Зона 4 — ждать необязательно.</b> Проверка идёт и без нас на экране</p>
+    <p>This takes a few seconds. You can keep browsing while we check.</p>
+    <a class="exit" href="deck.html">
+      <span>Keep browsing</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
   </main>
 
+  <!-- ЗОНА 5: таб-бара нет — экран забирает всё, объяснение в служебном блоке -->
+
   <p class="fold"><span>сгиб — ниже не наше</span></p>
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
   <p class="browserbar">meetmates.app</p>
+  <!-- зона системы: safe-area снизу, 34px -->
   <p class="homebar" aria-hidden="true"></p>
+
  </div>
 </div>
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>I.5 Верификация · загрузка</b> — заглушка, макет не нарисован.</p>
-  <p><b>Job:</b> R2 (тот же риск, но с моей стороны) · G5: «Когда продукт меня проверяет, я хочу, чтобы у меня был способ доказать, что я — это я, чтобы не остаться снаружи из-за чужой ошибки»</p>
-  <p><b>Место в потоке:</b> M1: Match → IsVerified →|нет| Gate → Now → Verify. Гейт перед первым сообщением D-03</p>
-  <p>Правила — _conventions.md · что рисуем — _screens.md · экраны и состояния — sitemap.md.</p>
+  <p><b>I.5 Верификация · загрузка</b> — автоматика смотрит селфи, секунды.</p>
+  <p><b>Job:</b> R2 (тот же риск, но с моей стороны) · G5 «когда продукт меня проверяет,
+    я хочу, чтобы у меня был способ доказать, что я — это я, чтобы не остаться снаружи
+    из-за чужой ошибки».</p>
+  <p><b>Место в потоке M1:</b> <code>Match → IsVerified →|нет| Gate → Now →|да| Verify →
+    Recognised</code>. Гейт стоит перед первым сообщением, а не на входе — <code>D-03</code>.</p>
+  <p><b>Таб-бара нет:</b> съёмка забирает весь экран. Второй такой экран в наборе —
+    модальное «Совпадение».</p>
+  <p><b>Отличие от ожидания <code>D-42</code>.</b> Здесь ждут машину и знают срок — секунды.
+    На ручной проверке ждут живого модератора, и это отдельная страница: там спиннера нет,
+    потому что он соврал бы про длительность.</p>
+  <p><b>Выходы:</b> дальше — успех, ошибка или ручная проверка (flows.md
+    <code>Recognised</code>, <code>Twice</code>); <code>Keep browsing</code> → колода.</p>
+  <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
+    Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
 
 </body>

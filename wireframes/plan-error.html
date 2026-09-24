@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Карточка запроса · ошибка · MeetMates wireframe</title>
-<!-- stub -->
 <!--
-  Страница-заглушка: создана скриптом build-wireframes.mjs, макет не нарисован.
   Экран:  III.3 Карточка запроса — sitemap.md, ветка «Запрос на компанию»
-  Job:    M1 · R1 (то, во что разговор выходит) · R2 (что за место и кто автор)
-  Поток:  M1: точка схода обоих путей — PlanCard → Ask → Wait → AuthorReplied (второй путь) и DayOK →|да| FromChat (день из диалога D-39)
-  Состояние: ошибка
-  Рисовать по правилам _conventions.md: мокап телефона, семантическая разметка,
-  настоящий текст, серый без цвета. Заменить содержимое .app целиком.
+  Job:    M1 · R1 · R2
+  Поток:  flows.md, M1 — AuthorReplied →|отклонил| Rejected["Error: отклик
+          отклонён, искать дальше"] → Feed
+  Состояние: ошибка. В дереве их три: ОТКЛИК ОТКЛОНЁН (эта раскладка),
+          «отклик не отправился» (AskErr) и «отменена автором» (D-41).
+  Отказ — не проступок ни одной из сторон: текст не объясняет причину,
+          которой у нас нет, и не оставляет человека без следующего шага.
 -->
 <link rel="stylesheet" href="_wire.css">
 </head>
@@ -21,7 +21,7 @@
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
   <p class="h">Вайрфреймы</p>
-  <p class="t">Главный поток · мобильный веб · 4 из 44</p>
+  <p class="t">Главный поток · мобильный веб · 44 из 44</p>
   <ul>
     <li class="grp">
       <p class="gt">Колода и совпадение</p>
@@ -33,30 +33,30 @@
             <li><a href="deck-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="match.html"><span class="c">II.3</span> Совпадение</a></li>
+        <li class="scr"><a class="s" href="match.html"><span class="c">II.3</span> Совпадение</a></li>
       </ul>
     </li>
     <li class="grp">
       <p class="gt">Человек</p>
       <ul>
-        <li class="scr stub"><a class="s" href="profile.html"><span class="c">I.1</span> Профиль другого человека</a>
+        <li class="scr"><a class="s" href="profile.html"><span class="c">I.1</span> Профиль другого человека</a>
           <ul>
-            <li class="stub"><a href="profile-empty.html">пусто</a></li>
-            <li class="stub"><a href="profile-error.html">ошибка</a></li>
-            <li class="stub"><a href="profile-loading.html">загрузка</a></li>
+            <li><a href="profile-empty.html">пусто</a></li>
+            <li><a href="profile-error.html">ошибка</a></li>
+            <li><a href="profile-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="verify.html"><span class="c">I.5</span> Верификация</a>
+        <li class="scr"><a class="s" href="verify.html"><span class="c">I.5</span> Верификация</a>
           <ul>
-            <li class="stub"><a href="verify-error.html">ошибка</a></li>
-            <li class="stub"><a href="verify-loading.html">загрузка</a></li>
-            <li class="stub"><a href="verify-success.html">успех</a></li>
-            <li class="stub"><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="verify-error.html">ошибка</a></li>
+            <li><a href="verify-loading.html">загрузка</a></li>
+            <li><a href="verify-success.html">успех</a></li>
+            <li><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="my-profile.html"><span class="c">I.2</span> Мой профиль — как меня видят</a>
+        <li class="scr"><a class="s" href="my-profile.html"><span class="c">I.2</span> Мой профиль — как меня видят</a>
           <ul>
-            <li class="stub"><a href="my-profile-loading.html">загрузка</a></li>
+            <li><a href="my-profile-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -64,28 +64,28 @@
     <li class="grp">
       <p class="gt">Чат</p>
       <ul>
-        <li class="scr stub"><a class="s" href="dialog.html"><span class="c">IV.2</span> Диалог</a>
+        <li class="scr"><a class="s" href="dialog.html"><span class="c">IV.2</span> Диалог</a>
           <ul>
-            <li class="stub"><a href="dialog-empty.html">пусто</a></li>
-            <li class="stub"><a href="dialog-error.html">ошибка</a></li>
-            <li class="stub"><a href="dialog-loading.html">загрузка</a></li>
-            <li class="stub"><a href="dialog-success.html">успех</a></li>
-            <li class="stub"><a href="dialog-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="dialog-empty.html">пусто</a></li>
+            <li><a href="dialog-error.html">ошибка</a></li>
+            <li><a href="dialog-loading.html">загрузка</a></li>
+            <li><a href="dialog-success.html">успех</a></li>
+            <li><a href="dialog-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="invite.html"><span class="c">IV.3</span> Позвать вдвоём в запрос</a>
+        <li class="scr"><a class="s" href="invite.html"><span class="c">IV.3</span> Позвать вдвоём в запрос</a>
           <ul>
-            <li class="stub"><a href="invite-empty.html">пусто</a></li>
-            <li class="stub"><a href="invite-error.html">ошибка</a></li>
-            <li class="stub"><a href="invite-success.html">успех</a></li>
-            <li class="stub"><a href="invite-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="invite-empty.html">пусто</a></li>
+            <li><a href="invite-error.html">ошибка</a></li>
+            <li><a href="invite-success.html">успех</a></li>
+            <li><a href="invite-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="chats.html"><span class="c">IV.1</span> Список чатов</a>
+        <li class="scr"><a class="s" href="chats.html"><span class="c">IV.1</span> Список чатов</a>
           <ul>
-            <li class="stub"><a href="chats-empty.html">пусто</a></li>
-            <li class="stub"><a href="chats-error.html">ошибка</a></li>
-            <li class="stub"><a href="chats-loading.html">загрузка</a></li>
+            <li><a href="chats-empty.html">пусто</a></li>
+            <li><a href="chats-error.html">ошибка</a></li>
+            <li><a href="chats-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -93,19 +93,19 @@
     <li class="grp">
       <p class="gt">Запрос на компанию</p>
       <ul>
-        <li class="scr stub"><a class="s" href="feed.html"><span class="c">III.1</span> Лента запросов</a>
+        <li class="scr"><a class="s" href="feed.html"><span class="c">III.1</span> Лента запросов</a>
           <ul>
-            <li class="stub"><a href="feed-empty.html">пусто</a></li>
-            <li class="stub"><a href="feed-error.html">ошибка</a></li>
-            <li class="stub"><a href="feed-loading.html">загрузка</a></li>
+            <li><a href="feed-empty.html">пусто</a></li>
+            <li><a href="feed-error.html">ошибка</a></li>
+            <li><a href="feed-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr open stub"><a class="s" href="plan.html"><span class="c">III.3</span> Карточка запроса</a>
+        <li class="scr open"><a class="s" href="plan.html"><span class="c">III.3</span> Карточка запроса</a>
           <ul>
-            <li class="now stub"><b aria-current="page">ошибка</b></li>
-            <li class="stub"><a href="plan-loading.html">загрузка</a></li>
-            <li class="stub"><a href="plan-success.html">успех</a></li>
-            <li class="stub"><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li class="now"><b aria-current="page">ошибка</b></li>
+            <li><a href="plan-loading.html">загрузка</a></li>
+            <li><a href="plan-success.html">успех</a></li>
+            <li><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
       </ul>
@@ -113,11 +113,11 @@
     <li class="grp">
       <p class="gt">Поиск</p>
       <ul>
-        <li class="scr stub"><a class="s" href="search.html"><span class="c">IX.1</span> Поиск людей и планов</a>
+        <li class="scr"><a class="s" href="search.html"><span class="c">IX.1</span> Поиск людей и планов</a>
           <ul>
-            <li class="stub"><a href="search-empty.html">пусто</a></li>
-            <li class="stub"><a href="search-error.html">ошибка</a></li>
-            <li class="stub"><a href="search-loading.html">загрузка</a></li>
+            <li><a href="search-empty.html">пусто</a></li>
+            <li><a href="search-error.html">ошибка</a></li>
+            <li><a href="search-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -133,37 +133,103 @@
 <nav class="wfstates" aria-label="Состояния экрана III.3 Карточка запроса">
   <p class="t">III.3 Карточка запроса · состояния этого экрана</p>
   <ul>
-    <li class="stub"><a href="plan.html">рабочий вид</a></li>
-    <li class="now stub"><b aria-current="page">ошибка</b></li>
-    <li class="stub"><a href="plan-loading.html">загрузка</a></li>
-    <li class="stub"><a href="plan-success.html">успех</a></li>
-    <li class="stub"><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
+    <li><a href="plan.html">рабочий вид</a></li>
+    <li class="now"><b aria-current="page">ошибка</b></li>
+    <li><a href="plan-loading.html">загрузка</a></li>
+    <li><a href="plan-success.html">успех</a></li>
+    <li><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
   </ul>
 </nav>
 <!-- states:end -->
 
+<!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
+     жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
  <div class="screen">
+
+  <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
-  <main class="app empty">
-    <p class="stub-t">III.3 Карточка запроса</p>
-    <p class="stub-s">ошибка</p>
-    <p class="stub-n">Макет не нарисован</p>
+<header>
+  <a href="feed.html" aria-label="Back to plans"><span class="ico" aria-hidden="true"></span></a>
+  <h1>Board games</h1>
+  <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
+  <p class="ann"><b>Зона 1 — шапка.</b> Report здесь же: на карточке запроса виден автор, значит до жалобы один тап — правило 4, `D-44`</p>
+</header>
+  <main class="app">
+  <!-- ЗОНА 2: отказ. Без выдуманной причины и без упрёка -->
+  <section class="stretch" aria-labelledby="err-h">
+    <h2 id="err-h" hidden>Declined</h2>
+    <p class="ann"><b>Зона 2 — отказ.</b> Причину автор не объясняет, и мы её не выдумываем. Текст переводит человека к следующему шагу, а не к разбору</p>
+    <article class="state" role="alert">
+      <h3>Andrii didn&rsquo;t take this one</h3>
+      <p>Board games at Kyiv Games Club is closed for you. It happens &mdash; people pick who they go with, and that&rsquo;s the point of confirming.</p>
+    </article>
+  </section>
+
+  <!-- ЗОНА 3: следующий шаг. Ровно то, что делает поток: искать дальше -->
+  <section aria-labelledby="act-h">
+    <h2 id="act-h" hidden>What next</h2>
+    <p class="ann"><b>Зона 3 — следующий шаг.</b> Поток говорит прямо: <code>Rejected → Feed</code>. Главное действие — другой план, а не повтор в тот же</p>
+    <p class="row">
+      <a class="btn primary" href="feed.html">Find another plan</a>
+    </p>
+    <p class="row">
+      <a class="btn quiet" href="deck.html">See people nearby</a>
+    </p>
+  </section>
+
+  <!-- ЗОНА 4: свой план — путь, где отказать некому -->
+  <section aria-labelledby="ex-h">
+    <h2 id="ex-h" hidden>Your own</h2>
+    <p class="ann"><b>Зона 4 — свой план.</b> Единственный путь, где чужого решения нет вовсе: создание в один шаг (§2.1, п. 3)</p>
+    <a class="exit" href="feed-empty.html">
+      <span>Post a plan of your own</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
   </main>
 
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav aria-label="Основная навигация">
+    <a href="deck.html"><span class="ico lg" aria-hidden="true"></span>People</a>
+    <a href="search.html"><span class="ico lg" aria-hidden="true"></span>Search</a>
+    <a href="feed.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>Plans</a>
+    <a href="chats.html"><span class="ico lg" aria-hidden="true"></span>Chats</a>
+    <a href="my-profile.html"><span class="ico lg" aria-hidden="true"></span>Profile</a>
+  </nav>
+
   <p class="fold"><span>сгиб — ниже не наше</span></p>
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
   <p class="browserbar">meetmates.app</p>
+  <!-- зона системы: safe-area снизу, 34px -->
   <p class="homebar" aria-hidden="true"></p>
+
  </div>
 </div>
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>III.3 Карточка запроса · ошибка</b> — заглушка, макет не нарисован.</p>
-  <p><b>Job:</b> M1 · R1 (то, во что разговор выходит) · R2 (что за место и кто автор)</p>
-  <p><b>Место в потоке:</b> M1: точка схода обоих путей — PlanCard → Ask → Wait → AuthorReplied (второй путь) и DayOK →|да| FromChat (день из диалога D-39)</p>
-  <p>Правила — _conventions.md · что рисуем — _screens.md · экраны и состояния — sitemap.md.</p>
+  <p><b>III.3 Карточка запроса · ошибка</b> — отклик отклонён.</p>
+  <p><b>Job:</b> M1 · R1 (то, во что выходит разговор) · R2 «что за место и кто автор».</p>
+  <p><b>Место в потоке M1:</b> точка схода обоих путей — <code>PlanCard → Ask → Wait →
+    AuthorReplied</code> (второй путь) и <code>DayOK →|да| FromChat</code> (день из диалога
+    <code>D-39</code>).</p>
+  <p><b>Автор — не роль.</b> Он подтверждает отклики и ни за что не отвечает
+    (<code>D-29</code>): ни за явку, ни за встречу. Поэтому на карточке он показан
+    как участник с сигналами доверия, а не как организатор.</p>
+  <p><b>Одно состояние, три причины</b> (sitemap.md): «ОТКЛИК ОТКЛОНЁН» — эта раскладка;
+    «отклик не отправился» (<code>AskErr → PlanCard</code>) — то же место, другой текст
+    и кнопка <code>Try again</code>; «отменена автором» (<code>D-41</code>) — то же место,
+    текст про отмену встречи.</p>
+  <p><b>Отказ автора — его право</b> (§5.4): подтверждение даёт ему контроль над тем,
+    с кем он идёт, и закрывает job «риск понятен до выхода из дома». Копирайт это
+    объясняет, а не извиняется.</p>
+  <p><b>Выходы:</b> <code>Find another plan</code> — ребро <code>Rejected → Feed</code>
+    (flows.md); остальные два — §4 и §2.1.</p>
+  <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
+    Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
 
 </body>

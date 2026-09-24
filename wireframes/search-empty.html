@@ -4,15 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Поиск людей и планов · пусто · MeetMates wireframe</title>
-<!-- stub -->
 <!--
-  Страница-заглушка: создана скриптом build-wireframes.mjs, макет не нарисован.
-  Экран:  IX.1 Поиск людей и планов — sitemap.md, ветка «—»
-  Job:    теги дерева sitemap.md
-  Поток:  в потоках flows.md пока нет — D-43 принят после того, как они нарисованы
-  Состояние: пусто
-  Рисовать по правилам _conventions.md: мокап телефона, семантическая разметка,
-  настоящий текст, серый без цвета. Заменить содержимое .app целиком.
+  Экран:  IX.1 Поиск людей и планов — sitemap.md, ветка «Поиск»  D-43
+  Job:    M1 · G3
+  Поток:  в flows.md узла нет — долг D-43
+  Состояние: пусто — по запросу ничего не нашлось. Вкладка обещает то, чего
+          при малой базе может не быть (§2.1): пустой результат встаёт
+          в один ряд с пустой колодой и пустой лентой как экран старта.
+  Значит выхода здесь два, и оба ведут к делу, а не к повтору запроса.
 -->
 <link rel="stylesheet" href="_wire.css">
 </head>
@@ -21,7 +20,7 @@
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
   <p class="h">Вайрфреймы</p>
-  <p class="t">Главный поток · мобильный веб · 4 из 44</p>
+  <p class="t">Главный поток · мобильный веб · 44 из 44</p>
   <ul>
     <li class="grp">
       <p class="gt">Колода и совпадение</p>
@@ -33,30 +32,30 @@
             <li><a href="deck-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="match.html"><span class="c">II.3</span> Совпадение</a></li>
+        <li class="scr"><a class="s" href="match.html"><span class="c">II.3</span> Совпадение</a></li>
       </ul>
     </li>
     <li class="grp">
       <p class="gt">Человек</p>
       <ul>
-        <li class="scr stub"><a class="s" href="profile.html"><span class="c">I.1</span> Профиль другого человека</a>
+        <li class="scr"><a class="s" href="profile.html"><span class="c">I.1</span> Профиль другого человека</a>
           <ul>
-            <li class="stub"><a href="profile-empty.html">пусто</a></li>
-            <li class="stub"><a href="profile-error.html">ошибка</a></li>
-            <li class="stub"><a href="profile-loading.html">загрузка</a></li>
+            <li><a href="profile-empty.html">пусто</a></li>
+            <li><a href="profile-error.html">ошибка</a></li>
+            <li><a href="profile-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="verify.html"><span class="c">I.5</span> Верификация</a>
+        <li class="scr"><a class="s" href="verify.html"><span class="c">I.5</span> Верификация</a>
           <ul>
-            <li class="stub"><a href="verify-error.html">ошибка</a></li>
-            <li class="stub"><a href="verify-loading.html">загрузка</a></li>
-            <li class="stub"><a href="verify-success.html">успех</a></li>
-            <li class="stub"><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="verify-error.html">ошибка</a></li>
+            <li><a href="verify-loading.html">загрузка</a></li>
+            <li><a href="verify-success.html">успех</a></li>
+            <li><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="my-profile.html"><span class="c">I.2</span> Мой профиль — как меня видят</a>
+        <li class="scr"><a class="s" href="my-profile.html"><span class="c">I.2</span> Мой профиль — как меня видят</a>
           <ul>
-            <li class="stub"><a href="my-profile-loading.html">загрузка</a></li>
+            <li><a href="my-profile-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -64,28 +63,28 @@
     <li class="grp">
       <p class="gt">Чат</p>
       <ul>
-        <li class="scr stub"><a class="s" href="dialog.html"><span class="c">IV.2</span> Диалог</a>
+        <li class="scr"><a class="s" href="dialog.html"><span class="c">IV.2</span> Диалог</a>
           <ul>
-            <li class="stub"><a href="dialog-empty.html">пусто</a></li>
-            <li class="stub"><a href="dialog-error.html">ошибка</a></li>
-            <li class="stub"><a href="dialog-loading.html">загрузка</a></li>
-            <li class="stub"><a href="dialog-success.html">успех</a></li>
-            <li class="stub"><a href="dialog-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="dialog-empty.html">пусто</a></li>
+            <li><a href="dialog-error.html">ошибка</a></li>
+            <li><a href="dialog-loading.html">загрузка</a></li>
+            <li><a href="dialog-success.html">успех</a></li>
+            <li><a href="dialog-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="invite.html"><span class="c">IV.3</span> Позвать вдвоём в запрос</a>
+        <li class="scr"><a class="s" href="invite.html"><span class="c">IV.3</span> Позвать вдвоём в запрос</a>
           <ul>
-            <li class="stub"><a href="invite-empty.html">пусто</a></li>
-            <li class="stub"><a href="invite-error.html">ошибка</a></li>
-            <li class="stub"><a href="invite-success.html">успех</a></li>
-            <li class="stub"><a href="invite-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="invite-empty.html">пусто</a></li>
+            <li><a href="invite-error.html">ошибка</a></li>
+            <li><a href="invite-success.html">успех</a></li>
+            <li><a href="invite-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="chats.html"><span class="c">IV.1</span> Список чатов</a>
+        <li class="scr"><a class="s" href="chats.html"><span class="c">IV.1</span> Список чатов</a>
           <ul>
-            <li class="stub"><a href="chats-empty.html">пусто</a></li>
-            <li class="stub"><a href="chats-error.html">ошибка</a></li>
-            <li class="stub"><a href="chats-loading.html">загрузка</a></li>
+            <li><a href="chats-empty.html">пусто</a></li>
+            <li><a href="chats-error.html">ошибка</a></li>
+            <li><a href="chats-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -93,19 +92,19 @@
     <li class="grp">
       <p class="gt">Запрос на компанию</p>
       <ul>
-        <li class="scr stub"><a class="s" href="feed.html"><span class="c">III.1</span> Лента запросов</a>
+        <li class="scr"><a class="s" href="feed.html"><span class="c">III.1</span> Лента запросов</a>
           <ul>
-            <li class="stub"><a href="feed-empty.html">пусто</a></li>
-            <li class="stub"><a href="feed-error.html">ошибка</a></li>
-            <li class="stub"><a href="feed-loading.html">загрузка</a></li>
+            <li><a href="feed-empty.html">пусто</a></li>
+            <li><a href="feed-error.html">ошибка</a></li>
+            <li><a href="feed-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="plan.html"><span class="c">III.3</span> Карточка запроса</a>
+        <li class="scr"><a class="s" href="plan.html"><span class="c">III.3</span> Карточка запроса</a>
           <ul>
-            <li class="stub"><a href="plan-error.html">ошибка</a></li>
-            <li class="stub"><a href="plan-loading.html">загрузка</a></li>
-            <li class="stub"><a href="plan-success.html">успех</a></li>
-            <li class="stub"><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="plan-error.html">ошибка</a></li>
+            <li><a href="plan-loading.html">загрузка</a></li>
+            <li><a href="plan-success.html">успех</a></li>
+            <li><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
       </ul>
@@ -113,11 +112,11 @@
     <li class="grp">
       <p class="gt">Поиск</p>
       <ul>
-        <li class="scr open stub"><a class="s" href="search.html"><span class="c">IX.1</span> Поиск людей и планов</a>
+        <li class="scr open"><a class="s" href="search.html"><span class="c">IX.1</span> Поиск людей и планов</a>
           <ul>
-            <li class="now stub"><b aria-current="page">пусто</b></li>
-            <li class="stub"><a href="search-error.html">ошибка</a></li>
-            <li class="stub"><a href="search-loading.html">загрузка</a></li>
+            <li class="now"><b aria-current="page">пусто</b></li>
+            <li><a href="search-error.html">ошибка</a></li>
+            <li><a href="search-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -133,36 +132,97 @@
 <nav class="wfstates" aria-label="Состояния экрана IX.1 Поиск людей и планов">
   <p class="t">IX.1 Поиск людей и планов · состояния этого экрана</p>
   <ul>
-    <li class="stub"><a href="search.html">рабочий вид</a></li>
-    <li class="now stub"><b aria-current="page">пусто</b></li>
-    <li class="stub"><a href="search-error.html">ошибка</a></li>
-    <li class="stub"><a href="search-loading.html">загрузка</a></li>
+    <li><a href="search.html">рабочий вид</a></li>
+    <li class="now"><b aria-current="page">пусто</b></li>
+    <li><a href="search-error.html">ошибка</a></li>
+    <li><a href="search-loading.html">загрузка</a></li>
   </ul>
 </nav>
 <!-- states:end -->
 
+<!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
+     жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
  <div class="screen">
+
+  <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
-  <main class="app empty">
-    <p class="stub-t">IX.1 Поиск людей и планов</p>
-    <p class="stub-s">пусто</p>
-    <p class="stub-n">Макет не нарисован</p>
+<header>
+  <h1>Search</h1>
+  <p class="ann"><b>Зона 1 — шапка.</b> Одно поле на людей и планы `D-43`: разделять их вкладками значит заставлять выбирать до того, как человек знает, что найдётся</p>
+</header>
+  <main class="app">
+  <!-- ЗОНА 2: поле с запросом, который ничего не дал -->
+  <section aria-labelledby="q-h">
+    <h2 id="q-h" hidden>Query</h2>
+    <p class="ann"><b>Зона 2 — поле.</b> Запрос остаётся: его правят, а не набирают заново</p>
+    <form class="field" role="search">
+      <span class="ico" aria-hidden="true"></span>
+      <label class="vh" for="q">Search people and plans</label>
+      <input id="q" type="search" value="bouldering">
+    </form>
+  </section>
+
+  <!-- ЗОНА 3: ничего не нашлось. Причина в плотности, и об этом честно -->
+  <section class="stretch" aria-labelledby="res-h">
+    <h2 id="res-h" hidden>Nothing found</h2>
+    <p class="ann"><b>Зона 3 — ничего не нашлось.</b> Названо, что искали, и предложено дело: свой план по этому же занятию — §2.1, п. 3</p>
+    <article class="state">
+      <h3>Nothing for &ldquo;bouldering&rdquo; yet</h3>
+      <p>No plans and no people with this interest nearby. You could be the first to post one.</p>
+    </article>
+  </section>
+
+  <!-- ЗОНА 4: два выхода, оба к делу -->
+  <section aria-labelledby="ex-h">
+    <h2 id="ex-h" hidden>What next</h2>
+    <p class="ann"><b>Зона 4 — что дальше.</b> Главное действие: свой план по этому занятию. Второй выход — вся лента, где занятие может называться иначе</p>
+    <p class="row">
+      <a class="btn primary" href="feed-empty.html">Post a bouldering plan</a>
+    </p>
+    <a class="exit" href="feed.html">
+      <span>Browse all plans nearby</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
   </main>
 
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav aria-label="Основная навигация">
+    <a href="deck.html"><span class="ico lg" aria-hidden="true"></span>People</a>
+    <a href="search.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>Search</a>
+    <a href="feed.html"><span class="ico lg" aria-hidden="true"></span>Plans</a>
+    <a href="chats.html"><span class="ico lg" aria-hidden="true"></span>Chats</a>
+    <a href="my-profile.html"><span class="ico lg" aria-hidden="true"></span>Profile</a>
+  </nav>
+
   <p class="fold"><span>сгиб — ниже не наше</span></p>
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
   <p class="browserbar">meetmates.app</p>
+  <!-- зона системы: safe-area снизу, 34px -->
   <p class="homebar" aria-hidden="true"></p>
+
  </div>
 </div>
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>IX.1 Поиск людей и планов · пусто</b> — заглушка, макет не нарисован.</p>
-  <p><b>Job:</b> теги дерева sitemap.md</p>
-  <p><b>Место в потоке:</b> в потоках flows.md пока нет — D-43 принят после того, как они нарисованы</p>
-  <p>Правила — _conventions.md · что рисуем — _screens.md · экраны и состояния — sitemap.md.</p>
+  <p><b>IX.1 Поиск · пусто</b> — по запросу ничего не нашлось.</p>
+  <p><b>Job:</b> M1 · G3 «занятие есть, компании нет» — единственное место, где ищут
+    <b>конкретное</b>: человека по имени или интересу, план по занятию. Колода и лента
+    этого не делают: они показывают, что есть рядом.</p>
+  <p><b>Долг <code>D-43</code>:</b> поиска нет ни в одном потоке <code>flows.md</code> —
+    решение принято после того, как потоки нарисованы. Поэтому выходы здесь взяты
+    не из потока, а из §4 и §2.1: при следующем проходе поиск получит место в потоке
+    или выяснится, что вкладка ему не нужна.</p>
+  <p><b>Цена пяти вкладок</b> <code>D-43</code>: Search обещает то, чего при малой базе
+    нет. Это было записано ценой решения — и вот экран, где цена видна.</p>
+  <p><b>Выходы:</b> создать план по тому же занятию (§2.1, п. 3) и вся лента.
+    Повтор того же запроса кнопкой не предлагается: он ничего не изменит.</p>
+  <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
+    Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
 
 </body>

@@ -4,15 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Список чатов · рабочий вид · MeetMates wireframe</title>
-<!-- stub -->
 <!--
-  Страница-заглушка: создана скриптом build-wireframes.mjs, макет не нарисован.
-  Экран:  IV.1 Список чатов — sitemap.md, ветка «Чат»
-  Job:    теги дерева sitemap.md
-  Поток:  в потоках flows.md пока нет — D-43 принят после того, как они нарисованы
-  Состояние: рабочий вид
-  Рисовать по правилам _conventions.md: мокап телефона, семантическая разметка,
-  настоящий текст, серый без цвета. Заменить содержимое .app целиком.
+  Экран:  IV.1 Список чатов — 1:1 и чаты запросов вместе — sitemap.md,
+          ветка «Чат — основная дорога к встрече D-37»
+  Job:    R1 · R4
+  Поток:  в потоке M1 не встречается; вход в IV.2 Диалог
+  Состояние: рабочий вид — разговоры есть.
+  Чат запроса и диалог 1:1 в одном списке: §5.4 открывает чат после
+          подтверждения отклика, и отдельного списка для него нет.
 -->
 <link rel="stylesheet" href="_wire.css">
 </head>
@@ -21,7 +20,7 @@
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
   <p class="h">Вайрфреймы</p>
-  <p class="t">Главный поток · мобильный веб · 4 из 44</p>
+  <p class="t">Главный поток · мобильный веб · 44 из 44</p>
   <ul>
     <li class="grp">
       <p class="gt">Колода и совпадение</p>
@@ -33,30 +32,30 @@
             <li><a href="deck-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="match.html"><span class="c">II.3</span> Совпадение</a></li>
+        <li class="scr"><a class="s" href="match.html"><span class="c">II.3</span> Совпадение</a></li>
       </ul>
     </li>
     <li class="grp">
       <p class="gt">Человек</p>
       <ul>
-        <li class="scr stub"><a class="s" href="profile.html"><span class="c">I.1</span> Профиль другого человека</a>
+        <li class="scr"><a class="s" href="profile.html"><span class="c">I.1</span> Профиль другого человека</a>
           <ul>
-            <li class="stub"><a href="profile-empty.html">пусто</a></li>
-            <li class="stub"><a href="profile-error.html">ошибка</a></li>
-            <li class="stub"><a href="profile-loading.html">загрузка</a></li>
+            <li><a href="profile-empty.html">пусто</a></li>
+            <li><a href="profile-error.html">ошибка</a></li>
+            <li><a href="profile-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="verify.html"><span class="c">I.5</span> Верификация</a>
+        <li class="scr"><a class="s" href="verify.html"><span class="c">I.5</span> Верификация</a>
           <ul>
-            <li class="stub"><a href="verify-error.html">ошибка</a></li>
-            <li class="stub"><a href="verify-loading.html">загрузка</a></li>
-            <li class="stub"><a href="verify-success.html">успех</a></li>
-            <li class="stub"><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="verify-error.html">ошибка</a></li>
+            <li><a href="verify-loading.html">загрузка</a></li>
+            <li><a href="verify-success.html">успех</a></li>
+            <li><a href="verify-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="my-profile.html"><span class="c">I.2</span> Мой профиль — как меня видят</a>
+        <li class="scr"><a class="s" href="my-profile.html"><span class="c">I.2</span> Мой профиль — как меня видят</a>
           <ul>
-            <li class="stub"><a href="my-profile-loading.html">загрузка</a></li>
+            <li><a href="my-profile-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -64,28 +63,28 @@
     <li class="grp">
       <p class="gt">Чат</p>
       <ul>
-        <li class="scr stub"><a class="s" href="dialog.html"><span class="c">IV.2</span> Диалог</a>
+        <li class="scr"><a class="s" href="dialog.html"><span class="c">IV.2</span> Диалог</a>
           <ul>
-            <li class="stub"><a href="dialog-empty.html">пусто</a></li>
-            <li class="stub"><a href="dialog-error.html">ошибка</a></li>
-            <li class="stub"><a href="dialog-loading.html">загрузка</a></li>
-            <li class="stub"><a href="dialog-success.html">успех</a></li>
-            <li class="stub"><a href="dialog-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="dialog-empty.html">пусто</a></li>
+            <li><a href="dialog-error.html">ошибка</a></li>
+            <li><a href="dialog-loading.html">загрузка</a></li>
+            <li><a href="dialog-success.html">успех</a></li>
+            <li><a href="dialog-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="invite.html"><span class="c">IV.3</span> Позвать вдвоём в запрос</a>
+        <li class="scr"><a class="s" href="invite.html"><span class="c">IV.3</span> Позвать вдвоём в запрос</a>
           <ul>
-            <li class="stub"><a href="invite-empty.html">пусто</a></li>
-            <li class="stub"><a href="invite-error.html">ошибка</a></li>
-            <li class="stub"><a href="invite-success.html">успех</a></li>
-            <li class="stub"><a href="invite-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="invite-empty.html">пусто</a></li>
+            <li><a href="invite-error.html">ошибка</a></li>
+            <li><a href="invite-success.html">успех</a></li>
+            <li><a href="invite-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr open now stub"><b class="s" aria-current="page"><span class="c">IV.1</span> Список чатов</b>
+        <li class="scr open now"><b class="s" aria-current="page"><span class="c">IV.1</span> Список чатов</b>
           <ul>
-            <li class="stub"><a href="chats-empty.html">пусто</a></li>
-            <li class="stub"><a href="chats-error.html">ошибка</a></li>
-            <li class="stub"><a href="chats-loading.html">загрузка</a></li>
+            <li><a href="chats-empty.html">пусто</a></li>
+            <li><a href="chats-error.html">ошибка</a></li>
+            <li><a href="chats-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -93,19 +92,19 @@
     <li class="grp">
       <p class="gt">Запрос на компанию</p>
       <ul>
-        <li class="scr stub"><a class="s" href="feed.html"><span class="c">III.1</span> Лента запросов</a>
+        <li class="scr"><a class="s" href="feed.html"><span class="c">III.1</span> Лента запросов</a>
           <ul>
-            <li class="stub"><a href="feed-empty.html">пусто</a></li>
-            <li class="stub"><a href="feed-error.html">ошибка</a></li>
-            <li class="stub"><a href="feed-loading.html">загрузка</a></li>
+            <li><a href="feed-empty.html">пусто</a></li>
+            <li><a href="feed-error.html">ошибка</a></li>
+            <li><a href="feed-loading.html">загрузка</a></li>
           </ul>
         </li>
-        <li class="scr stub"><a class="s" href="plan.html"><span class="c">III.3</span> Карточка запроса</a>
+        <li class="scr"><a class="s" href="plan.html"><span class="c">III.3</span> Карточка запроса</a>
           <ul>
-            <li class="stub"><a href="plan-error.html">ошибка</a></li>
-            <li class="stub"><a href="plan-loading.html">загрузка</a></li>
-            <li class="stub"><a href="plan-success.html">успех</a></li>
-            <li class="stub"><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
+            <li><a href="plan-error.html">ошибка</a></li>
+            <li><a href="plan-loading.html">загрузка</a></li>
+            <li><a href="plan-success.html">успех</a></li>
+            <li><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
       </ul>
@@ -113,11 +112,11 @@
     <li class="grp">
       <p class="gt">Поиск</p>
       <ul>
-        <li class="scr stub"><a class="s" href="search.html"><span class="c">IX.1</span> Поиск людей и планов</a>
+        <li class="scr"><a class="s" href="search.html"><span class="c">IX.1</span> Поиск людей и планов</a>
           <ul>
-            <li class="stub"><a href="search-empty.html">пусто</a></li>
-            <li class="stub"><a href="search-error.html">ошибка</a></li>
-            <li class="stub"><a href="search-loading.html">загрузка</a></li>
+            <li><a href="search-empty.html">пусто</a></li>
+            <li><a href="search-error.html">ошибка</a></li>
+            <li><a href="search-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -133,36 +132,93 @@
 <nav class="wfstates" aria-label="Состояния экрана IV.1 Список чатов">
   <p class="t">IV.1 Список чатов · состояния этого экрана</p>
   <ul>
-    <li class="now stub"><b aria-current="page">рабочий вид</b></li>
-    <li class="stub"><a href="chats-empty.html">пусто</a></li>
-    <li class="stub"><a href="chats-error.html">ошибка</a></li>
-    <li class="stub"><a href="chats-loading.html">загрузка</a></li>
+    <li class="now"><b aria-current="page">рабочий вид</b></li>
+    <li><a href="chats-empty.html">пусто</a></li>
+    <li><a href="chats-error.html">ошибка</a></li>
+    <li><a href="chats-loading.html">загрузка</a></li>
   </ul>
 </nav>
 <!-- states:end -->
 
+<!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
+     жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
  <div class="screen">
+
+  <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
-  <main class="app empty">
-    <p class="stub-t">IV.1 Список чатов</p>
-    <p class="stub-s">рабочий вид</p>
-    <p class="stub-n">Макет не нарисован</p>
+<header>
+  <h1>Chats</h1>
+  <p class="ann"><b>Зона 1 — шапка.</b> Диалоги 1:1 и чаты запросов лежат вместе: для человека это одна сущность — разговор с теми, кого уже нашёл</p>
+</header>
+  <main class="app">
+  <!-- ЗОНА 2: список. Непрочитанные, время, последняя реплика -->
+  <section class="scrolly" aria-labelledby="ch-h">
+    <h2 id="ch-h" hidden>Your chats</h2>
+    <p class="ann"><b>Зона 2 — список.</b> Диалоги и чаты запросов вместе. Бейджа присутствия нет нигде `D-06`</p>
+    <div class="pane">
+      <ul class="rows">
+        <li><a class="item" href="dialog.html">
+          <span class="top"><b>Olena</b><span class="when">19:08 &middot; 1 new</span></span>
+          <span class="who"><span class="avatar" aria-hidden="true"></span>Let&rsquo;s go then. Which day works for you?</span>
+        </a></li>
+        <li><a class="item" href="dialog.html">
+          <span class="top"><b>Board games at Kyiv Games Club</b><span class="when">Yesterday</span></span>
+          <span class="who">Plan chat &middot; 3 people &middot; Andrii: see you at six</span>
+        </a></li>
+        <li><a class="item" href="dialog-empty.html">
+          <span class="top"><b>Maryna</b><span class="when">Mon</span></span>
+          <span class="who">You matched &mdash; no messages yet</span>
+        </a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ЗОНА 3: выход туда, где берутся новые разговоры -->
+  <section aria-labelledby="ex-h">
+    <h2 id="ex-h" hidden>More people</h2>
+    <p class="ann"><b>Зона 3 — откуда берутся новые.</b> Список чатов конечен: новые разговоры приходят из колоды и из откликов</p>
+    <a class="exit" href="deck.html">
+      <span>See people nearby</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
   </main>
 
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav aria-label="Основная навигация">
+    <a href="deck.html"><span class="ico lg" aria-hidden="true"></span>People</a>
+    <a href="search.html"><span class="ico lg" aria-hidden="true"></span>Search</a>
+    <a href="feed.html"><span class="ico lg" aria-hidden="true"></span>Plans</a>
+    <a href="chats.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>Chats</a>
+    <a href="my-profile.html"><span class="ico lg" aria-hidden="true"></span>Profile</a>
+  </nav>
+
   <p class="fold"><span>сгиб — ниже не наше</span></p>
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
   <p class="browserbar">meetmates.app</p>
+  <!-- зона системы: safe-area снизу, 34px -->
   <p class="homebar" aria-hidden="true"></p>
+
  </div>
 </div>
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>IV.1 Список чатов · рабочий вид</b> — заглушка, макет не нарисован.</p>
-  <p><b>Job:</b> теги дерева sitemap.md</p>
-  <p><b>Место в потоке:</b> в потоках flows.md пока нет — D-43 принят после того, как они нарисованы</p>
-  <p>Правила — _conventions.md · что рисуем — _screens.md · экраны и состояния — sitemap.md.</p>
+  <p><b>IV.1 Список чатов · рабочий вид</b> — разговоры есть.</p>
+  <p><b>Job:</b> R1 «довести разговор до встречи» · R4 «продолжить с теми же людьми
+    без усилия первого раза». Единственное место, где живут уже найденные люди.</p>
+  <p><b>В потоке M1 экран не встречается</b> (_screens.md): диалог открывается
+    из совпадения и из подтверждённого отклика. Вкладка ведёт сюда с каждого экрана,
+    поэтому страницы нужны.</p>
+  <p><b>Третья строка — матч без сообщений:</b> у неё свой вход — пустой диалог
+    с ice-breaker. Именно там ломается E2, и список не должен её прятать.</p>
+  <p><b>Архив</b> — состояние сверх четвёрки (§7.4): после блокировки чат уходит туда,
+    и причина не показывается. В таблице состояний его нет, поэтому страницы нет.</p>
+  <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
+    Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
 
 </body>

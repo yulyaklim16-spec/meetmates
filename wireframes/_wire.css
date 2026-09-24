@@ -25,7 +25,7 @@ body {
   line-height: 1.45;
   /* слева — панель со всеми макетами, справа — телефон и место для подписей зон */
   display: grid;
-  grid-template-columns: 236px minmax(0, 700px);
+  grid-template-columns: 236px minmax(0, 780px);
   gap: var(--s-6);
   justify-content: center;
   align-items: start;
@@ -319,12 +319,12 @@ a { color: var(--w-ink); }
 /* ── служебное: не едет в прототип ───────────────────────── */
 /* Подписи зон стоят справа от колонки 390px и не участвуют в раскладке:
    иначе они распирают макет и сгиб перестаёт что-либо значить. */
-.screen header, .screen main > section { position: relative; }
+.screen header, .screen main section { position: relative; }
 .ann {
   position: absolute; top: 0; left: calc(100% + var(--s-4));
-  width: 230px;
-  font-size: 11px;
-  line-height: 1.5;
+  width: 300px;
+  font-size: 10px;
+  line-height: 1.42;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--w-ink-2);
@@ -437,7 +437,82 @@ a { color: var(--w-ink); }
 .skel.w-m { width: 44%; }
 .skel.w-s { width: 28%; }
 .skel.pill { height: 22px; border-radius: var(--r-pill); }
+.skel.thumb { flex: 1; height: 64px; }
 .card .body.skeleton { gap: var(--s-3); }
 .skelrow { display: flex; gap: var(--s-2); }
 /* строка состояния внутри экрана: загрузка объясняется текстом, а не оттенком */
 .note { color: var(--w-ink-2); font-size: 14px; }
+
+/* ── список: лента планов, чаты, результаты поиска ───────── */
+.rows { display: flex; flex-direction: column; gap: var(--s-3); }
+.item {
+  display: flex; flex-direction: column; gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-sm);
+  text-decoration: none;
+  color: var(--w-ink);
+}
+.item .top { display: flex; align-items: baseline; gap: var(--s-3); }
+.item .top b { font-size: 15px; }
+.item .when { margin-left: auto; flex: none; color: var(--w-ink-2); font-size: 13px; }
+.item .who { display: flex; align-items: center; gap: var(--s-2); color: var(--w-ink-2); font-size: 13px; }
+
+/* ── чат: сообщения и поле ввода ──────────────────────────── */
+.msgs { display: flex; flex-direction: column; gap: var(--s-2); }
+.bubble {
+  max-width: 78%;
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-sm);
+}
+.bubble.me { align-self: flex-end; background: var(--w-fill); }
+.bubble .t { display: block; margin-top: 2px; color: var(--w-ink-2); font-size: 11px; }
+.field {
+  display: flex; align-items: center; gap: var(--s-2);
+  min-height: var(--tap-min);
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-pill);
+  color: var(--w-ink-2);
+}
+.field input {
+  flex: 1; min-width: 0;
+  border: 0; background: none; padding: 0;
+  font: inherit; color: var(--w-ink);
+}
+.field input::placeholder { color: var(--w-ink-2); }
+/* подпись поля нужна разметке, но не глазу: экран и так называет, что это */
+.vh {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip-path: inset(50%); overflow: hidden; white-space: nowrap;
+}
+/* совпадение — модальный момент: dialog занимает весь экран телефона */
+.screen dialog[open] {
+  flex: 1; min-height: 0;
+  display: flex; flex-direction: column; gap: var(--s-4);
+  width: 100%; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0;
+  background: none; color: inherit;
+}
+
+/* ── полоса-объявление: успех, ожидание, предупреждение ──── */
+.banner {
+  display: flex; flex-direction: column; gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-sm);
+  background: var(--w-fill);
+}
+.banner b { font-size: 15px; }
+
+/* область с прокруткой: действия закреплены, содержимое едет под ними.
+   Прокручивается не сама зона, а вложенная в неё панель: подпись зоны стоит
+   абсолютом и была бы обрезана контейнером прокрутки вместе с ней. */
+.scrolly { flex: 1; min-height: 0; }
+.pane {
+  flex: 1; min-height: 0;
+  overflow-y: auto; overflow-x: hidden;
+  display: flex; flex-direction: column; gap: var(--s-3);
+}
