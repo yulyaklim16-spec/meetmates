@@ -170,6 +170,39 @@ ${items}
 </nav>`;
 }
 
+// ── то же дерево для боковой колонки раздела 4 ─────────────────────────
+// Ссылки ведут из sections/ в wireframes/, текущей страницы здесь нет:
+// мы стоим на разделе, а не внутри макета.
+function sideTree() {
+  const groups = [];
+  for (const s of list) {
+    const g = groups.find((x) => x.title === s.branch) || (groups.push({ title: s.branch, screens: [] }), groups.at(-1));
+    g.screens.push(s);
+  }
+  const rows = groups.map((g) => `          <li class="grp">
+            <p class="gt">${esc(g.title)}</p>
+            <ul>
+${g.screens.map((s) => {
+    const [base, ...states] = s.pages;
+    const head = `<a class="s${base.stub ? ' todo' : ''}" href="../wireframes/${base.file}"><span class="c">${esc(s.code)}</span> ${esc(s.name)}</a>`;
+    if (!states.length) return `              <li class="scr">${head}</li>`;
+    return `              <li class="scr">${head}
+                <ul>
+${states.map((p) => `                  <li${p.stub ? ' class="todo"' : ''}><a href="../wireframes/${p.file}">${esc(p.title)}</a></li>`).join('\n')}
+                </ul>
+              </li>`;
+  }).join('\n')}
+            </ul>
+          </li>`).join('\n');
+  return `
+      <div class="wftree">
+        <p class="lbl">Макеты · ${drawn.length} из ${total}</p>
+        <ul>
+${rows}
+        </ul>
+      </div>`;
+}
+
 // ── страница-заглушка ──────────────────────────────────────────────────
 function stubPage(s, p) {
   return `<!doctype html>
@@ -232,9 +265,12 @@ const head = shell.slice(0, shell.indexOf('</style>'))
   .replace(/<title>[^<]*<\/title>/, '<title>Прототипирование и вайрфрейминг · MeetMates</title>')
   .replace(/<meta name="description" content="[^"]*">/, '<meta name="description" content="Вайрфреймы главного потока: макеты в мокапе телефона, по странице на состояние. Навигация по экранам и текущий макет.">');
 
-const aside = shell.slice(shell.indexOf('<aside class="side">'), shell.indexOf('</aside>') + '</aside>'.length)
-  .replace(/<a class="mat soon" href="\?section=4">([\s\S]*?)<i>скоро<\/i>/, '<a class="mat current" href="wireframes.html">$1<i>текущий раздел</i>')
-  .replace(/<a class="mat soon" href="\?section=3">([\s\S]*?)<i>скоро<\/i>/, '<a class="mat" href="ia.html">$1<i>готово</i>')
+const asideSrc = shell.slice(shell.indexOf('<aside class="side">'), shell.indexOf('</aside>') + '</aside>'.length);
+// пункт 04 становится текущим, и сразу под ним раскрывается дерево макетов
+const cur = /<a class="mat"([^>]*)href="wireframes\.html">([\s\S]*?)<i>[^<]*<\/i><\/span><\/a>/;
+if (!cur.test(asideSrc)) throw new Error('в sections/index.html не найден пункт 04 — боковая колонка изменилась');
+const aside = asideSrc
+  .replace(cur, (m, attrs, head) => `<a class="mat current"${attrs}href="wireframes.html" aria-current="page">${head}<i>текущий раздел</i></span></a>${sideTree()}`)
   .replace('</nav>', `</nav>
 
     <nav class="anchors" aria-label="На этой странице">
@@ -258,7 +294,26 @@ const extraCss = `
 .wf a { text-decoration: none; }
 .wf a:hover, .wf a:focus-visible { text-decoration: underline; }
 .wf .todo { color: var(--ink-400); }
+/* раздел дерева — строка во всю ширину сетки, а не карточка среди экранов */
+.wf .branch { grid-column: 1 / -1; border: 0; background: none; padding: var(--s-3) 0 0; }
+.wf .branch h3 { margin: 0; font-size: var(--t-micro); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600); }
+.wf .branch:first-child { padding-top: 0; }
 .wf .todo span { color: var(--ink-400); }
+
+/* дерево макетов в боковой колонке: раздел → экран → состояния.
+   Вложенность держат отступ и вертикальная линия, как в самих макетах. */
+.wftree { margin: var(--s-2) 0 var(--s-3); padding-left: 30px; }
+.wftree .lbl { margin: 0 0 var(--s-2); }
+.wftree ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.wftree li { margin: 0; }
+.wftree .grp { margin-bottom: var(--s-3); }
+.wftree .gt { font-size: var(--t-micro); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600); margin: 0 0 2px; }
+.wftree a { display: block; padding: 2px 0; text-decoration: none; font-size: var(--t-micro); line-height: 1.45; color: var(--ink-600); }
+.wftree a:hover, .wftree a:focus-visible { color: var(--ink-900); text-decoration: underline; }
+.wftree .s { color: var(--ink-900); font-size: var(--t-caption); }
+.wftree .s .c { color: var(--ink-400); }
+.wftree .scr > ul { margin: 0 0 var(--s-2) var(--s-2); padding-left: var(--s-3); border-left: 1px solid var(--line); }
+.wftree .todo > a, .wftree a.todo { color: var(--ink-400); }
 
 /* фрейм должен быть шире 760px: у самого макета там брейкпоинт, ниже которого
    служебные подписи возвращаются в поток и ломают колонку 390 */
@@ -299,7 +354,13 @@ for (const s of list) {
   }
 }
 
-const navHtml = list.map((s) => {
+const navGroups = [];
+for (const s of list) {
+  const g = navGroups.find((x) => x.title === s.branch) || (navGroups.push({ title: s.branch, screens: [] }), navGroups.at(-1));
+  g.screens.push(s);
+}
+const navHtml = navGroups.map((g) => `      <li class="branch"><h3>${esc(g.title)}</h3></li>
+` + g.screens.map((s) => {
   const ready = s.pages.filter((p) => !p.stub).length;
   return `      <li>
         <p class="sh"><span class="code">${esc(s.code)}</span><b>${esc(s.name)}</b><span class="n">${ready} из ${s.pages.length}</span></p>
@@ -309,7 +370,7 @@ ${s.pages.map((p) => p.stub
     : `          <li><a href="../wireframes/${p.file}">${p.file}</a><span>${esc(p.title)}</span></li>`).join('\n')}
         </ul>
       </li>`;
-}).join('\n');
+}).join('\n')).join('\n');
 
 const page = `${head}${extraCss}</style>
 </head>
