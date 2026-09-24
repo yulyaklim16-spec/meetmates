@@ -2,7 +2,9 @@
 //
 // Делает три вещи, все из одних данных — wireframes/_screens.md и sitemap.md:
 //   1. панель навигации (раздел → экран → состояния) и вставляет её в каждую
-//      страницу между метками <!-- nav:start --> и <!-- nav:end -->;
+//      страницу между метками <!-- nav:start --> и <!-- nav:end -->, а над мокапом —
+//      полосу состояний этого экрана между <!-- states:start --> и <!-- states:end -->;
+//      метки полосы дописываются сами, если их в странице нет;
 //   2. страницы-заглушки для всего, что ещё не нарисовано, — чтобы из панели
 //      можно было перейти куда угодно, а не упереться в 404;
 //   3. sections/wireframes.html — раздел сайта, где заглушки считаются отдельно
@@ -135,6 +137,25 @@ ${rows}
 </nav>`;
 }
 
+// ── полоса состояний экрана: над мокапом ───────────────────────────────
+// Панель слева ведёт по всем макетам, полоса — по состояниям одного экрана.
+// Состояния сравнивают друг с другом, и открыть соседнее должно быть дёшево.
+function strip(s, activeFile) {
+  const items = s.pages.map((p) => {
+    const cur = p.file === activeFile;
+    const cls = [cur ? 'now' : '', p.stub ? 'stub' : ''].filter(Boolean).join(' ');
+    const label = esc(p.title);
+    return `    <li${cls ? ` class="${cls}"` : ''}>` +
+      (cur ? `<b aria-current="page">${label}</b>` : `<a href="${p.file}">${label}</a>`) + `</li>`;
+  }).join('\n');
+  return `<nav class="wfstates" aria-label="Состояния экрана ${esc(s.code)} ${esc(s.name)}">
+  <p class="t">${esc(s.code)} ${esc(s.name)} · состояния этого экрана</p>
+  <ul>
+${items}
+  </ul>
+</nav>`;
+}
+
 // ── страница-заглушка ──────────────────────────────────────────────────
 function stubPage(s, p) {
   return `<!doctype html>
@@ -159,6 +180,9 @@ function stubPage(s, p) {
 
 <!-- nav:start -->
 <!-- nav:end -->
+
+<!-- states:start -->
+<!-- states:end -->
 
 <div class="device">
  <div class="screen">
@@ -247,7 +271,16 @@ for (const s of list) {
     const a = html.indexOf('<!-- nav:start -->');
     const b = html.indexOf('<!-- nav:end -->');
     if (a === -1 || b === -1) throw new Error(`в ${p.file} нет меток <!-- nav:start --> / <!-- nav:end -->`);
-    const next = html.slice(0, a) + '<!-- nav:start -->\n' + panel(p.file) + '\n' + html.slice(b);
+    let next = html.slice(0, a) + '<!-- nav:start -->\n' + panel(p.file) + '\n' + html.slice(b);
+    // метки полосы состояний дописываются сами: страницу, нарисованную руками,
+    // не должно заботить, какие служебные блоки в неё вставляются
+    if (!next.includes('<!-- states:start -->')) {
+      next = next.replace('<div class="device">', '<!-- states:start -->\n<!-- states:end -->\n\n<div class="device">');
+    }
+    const c = next.indexOf('<!-- states:start -->');
+    const d = next.indexOf('<!-- states:end -->');
+    if (c === -1 || d === -1) throw new Error(`в ${p.file} не удалось поставить метки <!-- states:* -->`);
+    next = next.slice(0, c) + '<!-- states:start -->\n' + strip(s, p.file) + '\n' + next.slice(d);
     if (next !== html) { writeFileSync(join(ROOT, rel), next, 'utf8'); injected++; }
   }
 }

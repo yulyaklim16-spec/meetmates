@@ -33,11 +33,12 @@ body {
 @media (max-width: 900px) {
   body { grid-template-columns: minmax(0, 1fr); }
   .wfnav { position: static !important; border-right: 0; }
-  .device, .meta { grid-column: 1; }
+  .wfstates, .device, .meta { grid-column: 1; }
 }
 
 /* ── панель навигации по всем макетам (служебная, на прототип не едет) ── */
 .wfnav {
+  grid-row: 1 / span 3;   /* полоса состояний, мокап, служебный блок */
   position: sticky; top: var(--s-6);
   font-size: 12px;
   line-height: 1.4;
@@ -262,8 +263,12 @@ button, .btn {
   cursor: pointer;
   text-align: center;
 }
-button.primary { border-color: var(--w-ink); font-weight: 600; }
-button.quiet { background: var(--w-surface); }
+a.btn { text-decoration: none; }
+button.primary, a.btn.primary { border-color: var(--w-ink); font-weight: 600; }
+button.quiet, a.btn.quiet { background: var(--w-surface); }
+/* выключено на время загрузки: кнопка стоит на месте, но не нажимается.
+   Гашение — не кодирование состояния цветом: оттенка тут нет, есть приглушённость */
+button[disabled] { opacity: 0.5; cursor: default; }
 .row { display: flex; gap: var(--s-3); }
 .row > * { flex: 1; }
 :where(a, button, [tabindex]):focus-visible { outline: 2px solid var(--w-ink); outline-offset: 2px; }
@@ -349,3 +354,58 @@ a { color: var(--w-ink); }
 .meta b { color: var(--w-ink); font-weight: 600; }
 .meta ul { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-3); }
 .meta li[aria-disabled="true"] { color: #8a8a8a; }
+
+/* ── полоса состояний экрана: над мокапом, служебная ────────
+   Панель слева ведёт по всем макетам, полоса — по состояниям этого экрана:
+   их сравнивают друг с другом, а не с чужими, и держать их рядом должно
+   быть дёшево (_conventions.md §4). Собирается тем же скриптом. */
+.wfstates {
+  grid-column: 2;
+  width: calc(var(--screen-max) + 24px);
+  margin-bottom: var(--s-4);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--w-line);
+  font-size: 12px;
+  color: var(--w-ink-2);
+}
+.wfstates .t {
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--w-ink); font-weight: 700;
+  margin-bottom: var(--s-2);
+}
+.wfstates ul { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-3); }
+.wfstates li + li::before { content: "·"; margin-right: var(--s-3); color: var(--w-line); }
+.wfstates a { color: var(--w-ink-2); text-decoration: none; }
+.wfstates a:hover, .wfstates a:focus-visible { color: var(--w-ink); text-decoration: underline; }
+.wfstates .stub a { color: #8a8a8a; }
+.wfstates .now b { color: var(--w-ink); font-weight: 700; }
+
+/* ── состояние вместо содержимого: пусто и ошибка ───────────
+   Стоит в той же зоне, что карточка человека, и занимает её целиком:
+   так видно, что это тот же экран, а не другой. Выход рисуется кнопкой
+   в зоне решения — состояние без выхода было бы тупиком (правило 10). */
+.state {
+  flex: 1; min-height: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--s-3);
+  text-align: center;
+  padding: var(--s-6) var(--s-5);
+  border: 1px dashed var(--w-line);
+  border-radius: var(--r-sm);
+}
+.state h3 { font-size: 1.05rem; }
+.state p { color: var(--w-ink-2); max-width: 30ch; }
+
+/* ── заглушки загрузки: место будущего содержимого ──────────
+   Тот же размер и та же раскладка, что у карточки в рабочем виде:
+   когда данные придут, ничего не прыгнет. Текста нет — он неизвестен. */
+.skel { background: var(--w-zone); border-radius: var(--r-sm); }
+.skel.line { height: 13px; }
+.skel.w-l { width: 62%; }
+.skel.w-m { width: 44%; }
+.skel.w-s { width: 28%; }
+.skel.pill { height: 22px; border-radius: var(--r-pill); }
+.card .body.skeleton { gap: var(--s-3); }
+.skelrow { display: flex; gap: var(--s-2); }
+/* строка состояния внутри экрана: загрузка объясняется текстом, а не оттенком */
+.note { color: var(--w-ink-2); font-size: 14px; }

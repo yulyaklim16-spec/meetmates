@@ -4,15 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Колода · загрузка · MeetMates wireframe</title>
-<!-- stub -->
 <!--
-  Страница-заглушка: создана скриптом build-wireframes.mjs, макет не нарисован.
   Экран:  II.1 Колода — sitemap.md, ветка «Колода и совпадение»
-  Job:    M1: «Когда мне есть куда пойти, но не с кем… я хочу, чтобы у моих планов была компания, а у компании — продолжение»
-  Поток:  M1, вход: Start → Deck. Первый экран после онбординга, начало основного пути D-37
-  Состояние: загрузка
-  Рисовать по правилам _conventions.md: мокап телефона, семантическая разметка,
-  настоящий текст, серый без цвета. Заменить содержимое .app целиком.
+  Job:    M1 «Когда мне есть куда пойти, но не с кем… я хочу, чтобы у моих планов
+          была компания» · G1 «за несколько секунд понять, стоит ли встречаться»
+  Поток:  flows.md, M1 — Deck → DeckLoad["Loading: грузим людей рядом"]
+          → HasPeople{Есть люди в радиусе?}. Дальше три исхода: рабочий вид,
+          пусто, ошибка — три соседние страницы.
+  Состояние: загрузка. Секунды, а не дни: ждём данные, а не человека.
+          Ожидание чужого решения — другой класс `D-42`, и спиннер там запрещён;
+          здесь он был бы честен, но мы рисуем заглушки — они держат раскладку.
+  Структура и зоны те же, что в deck.html: на месте карточки — её скелет
+          в том же размере, чтобы при приходе данных ничего не прыгнуло.
 -->
 <link rel="stylesheet" href="_wire.css">
 </head>
@@ -20,16 +23,16 @@
 
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
-  <p class="t">Макеты · 1 из 44</p>
+  <p class="t">Макеты · 4 из 44</p>
   <ul>
     <li class="grp">Колода и совпадение
       <ul>
         <li class="scr"><span class="c">II.1</span> Колода
           <ul>
             <li><a href="deck.html">рабочий вид</a></li>
-            <li class="stub"><a href="deck-empty.html">пусто</a></li>
-            <li class="stub"><a href="deck-error.html">ошибка</a></li>
-            <li class="now stub"><b aria-current="page">загрузка</b></li>
+            <li><a href="deck-empty.html">пусто</a></li>
+            <li><a href="deck-error.html">ошибка</a></li>
+            <li class="now"><b aria-current="page">загрузка</b></li>
           </ul>
         </li>
         <li class="scr"><span class="c">II.3</span> Совпадение
@@ -136,28 +139,121 @@
 </nav>
 <!-- nav:end -->
 
+<!-- states:start -->
+<nav class="wfstates" aria-label="Состояния экрана II.1 Колода">
+  <p class="t">II.1 Колода · состояния этого экрана</p>
+  <ul>
+    <li><a href="deck.html">рабочий вид</a></li>
+    <li><a href="deck-empty.html">пусто</a></li>
+    <li><a href="deck-error.html">ошибка</a></li>
+    <li class="now"><b aria-current="page">загрузка</b></li>
+  </ul>
+</nav>
+<!-- states:end -->
+
+<!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
+     жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
  <div class="screen">
+
+  <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
-  <main class="app empty">
-    <p class="stub-t">II.1 Колода</p>
-    <p class="stub-s">загрузка</p>
-    <p class="stub-n">Макет не нарисован</p>
-  </main>
+  <!-- ЗОНА 1: шапка. Не меняется: она уже здесь, её грузить нечего -->
+<header>
+  <h1>Discover</h1>
+  <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
+  <p class="ann"><b>Зона 1 — шапка.</b> Приходит сразу: экран начинается не с пустоты, а с известного</p>
+</header>
+
+  <main class="app" aria-busy="true">
+  <!-- ЗОНА 2: скелет карточки. Те же блоки и те же размеры, что в рабочем виде -->
+  <section class="stretch" aria-labelledby="deck-h">
+    <h2 id="deck-h">People nearby</h2>
+    <p class="note" role="status">Looking for people near you</p>
+    <p class="ann"><b>Зона 2 — скелет карточки.</b> Блоки стоят там же и того же размера, что в рабочем виде: когда данные придут, ничего не прыгнет. Порядок скелета — порядок чтения `D-13`. Текста нет: он ещё неизвестен</p>
+
+    <article class="card" aria-hidden="true">
+      <figure>
+        <p class="photo"></p>
+      </figure>
+
+      <section class="body skeleton">
+        <!-- порядок скелета повторяет порядок чтения D-13: интересы → имя →
+             сигналы → расстояние. Иначе при подгрузке блоки поменялись бы местами -->
+        <p class="skel line w-l"></p>
+        <p class="skelrow">
+          <span class="skel pill w-s"></span>
+          <span class="skel pill w-s"></span>
+          <span class="skel pill w-s"></span>
+        </p>
+        <p class="skel line w-m"></p>
+        <p class="skelrow">
+          <span class="skel pill w-m"></span>
+          <span class="skel pill w-m"></span>
+        </p>
+        <p class="skel line w-s"></p>
+      </section>
+    </article>
+  </section>
+
+  <!-- ЗОНА 3: решение по карточке. Кнопки на месте, но нажимать нечего -->
+  <section aria-labelledby="act-h">
+    <h2 id="act-h" hidden>Decision</h2>
+    <p class="ann"><b>Зона 3 — решение по карточке.</b> Кнопки на месте, но выключены: убрать — сдвинуть раскладку дважды</p>
+    <p class="row">
+      <button type="button" disabled>Skip</button>
+      <button type="button" class="primary" disabled>Like</button>
+    </p>
+  </section>
+
+  <!-- ЗОНА 4: выход во второй путь. Живой: ждать загрузку необязательно -->
+  <section aria-labelledby="exit-h">
+    <h2 id="exit-h" hidden>Second path</h2>
+    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Работает во время загрузки: дожидаться колоду человек не обязан</p>
+    <a class="exit" href="feed.html">
+      <span>See plans nearby</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
+</main>
+
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav aria-label="Основная навигация">
+    <a href="deck.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>People</a>
+    <a href="search.html"><span class="ico lg" aria-hidden="true"></span>Search</a>
+    <a href="feed.html"><span class="ico lg" aria-hidden="true"></span>Plans</a>
+    <a href="chats.html"><span class="ico lg" aria-hidden="true"></span>Chats</a>
+    <a href="my-profile.html"><span class="ico lg" aria-hidden="true"></span>Profile</a>
+  </nav>
 
   <p class="fold"><span>сгиб — ниже не наше</span></p>
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
   <p class="browserbar">meetmates.app</p>
+  <!-- зона системы: safe-area снизу, 34px -->
   <p class="homebar" aria-hidden="true"></p>
+
  </div>
 </div>
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>II.1 Колода · загрузка</b> — заглушка, макет не нарисован.</p>
-  <p><b>Job:</b> M1: «Когда мне есть куда пойти, но не с кем… я хочу, чтобы у моих планов была компания, а у компании — продолжение»</p>
-  <p><b>Место в потоке:</b> M1, вход: Start → Deck. Первый экран после онбординга, начало основного пути D-37</p>
-  <p>Правила — _conventions.md · что рисуем — _screens.md · экраны и состояния — sitemap.md.</p>
+  <p><b>II.1 Колода · состояние «загрузка»</b> — грузим людей рядом.</p>
+  <p>Шаг потока M1: <b>Deck → DeckLoad → HasPeople</b>. Три исхода — три соседние
+    страницы: рабочий вид, пусто, ошибка.</p>
+  <p><b>Почему заглушки, а не спиннер.</b> Скелет держит раскладку: блоки стоят в тех же
+    местах и того же размера, и приход данных ничего не сдвигает. Спиннер этого не делает
+    и вдобавок ничего не говорит о том, что грузится.</p>
+  <p><b>Это не ожидание чужого решения</b> <code>D-42</code>. Здесь ждут данные — секунды;
+    там ждут человека — дни, и там спиннер запрещён. Разницу видно по тексту:
+    <code>Looking for people near you</code> против «ждём ответа автора».</p>
+  <p><b>Выключенные кнопки — решение, а не заглушка.</b> Skip и Like остаются на месте
+    выключенными: убрать их значило бы сдвинуть раскладку дважды, второй раз — под
+    целящимся пальцем.</p>
+  <p><b>Выход во второй путь живой:</b> дожидаться колоду человек не обязан — §4.</p>
+  <p>Источники: sitemap.md (II.1) · flows.md (M1) · _screens.md · _conventions.md.
+    Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
 
 </body>

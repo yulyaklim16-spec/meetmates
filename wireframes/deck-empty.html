@@ -4,15 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Колода · пусто · MeetMates wireframe</title>
-<!-- stub -->
 <!--
-  Страница-заглушка: создана скриптом build-wireframes.mjs, макет не нарисован.
   Экран:  II.1 Колода — sitemap.md, ветка «Колода и совпадение»
-  Job:    M1: «Когда мне есть куда пойти, но не с кем… я хочу, чтобы у моих планов была компания, а у компании — продолжение»
-  Поток:  M1, вход: Start → Deck. Первый экран после онбординга, начало основного пути D-37
-  Состояние: пусто
-  Рисовать по правилам _conventions.md: мокап телефона, семантическая разметка,
-  настоящий текст, серый без цвета. Заменить содержимое .app целиком.
+  Job:    M1 «Когда мне есть куда пойти, но не с кем… я хочу, чтобы у моих планов
+          была компания» · G1 «за несколько секунд понять, стоит ли встречаться»
+  Поток:  flows.md, M1 — HasPeople →|нет| DeckEmpty → WiderRadius{Расширить радиус?}
+          →|да| Radius → HasPeople · →|нет| Feed
+  Состояние: пусто. Людей в радиусе, подходящих под фильтры, не осталось.
+          Для Даши на старте это не edge case, а первый экран (§4, §2.1) —
+          поэтому выходов здесь больше, чем в рабочем виде, а не меньше.
+  Структура и зоны те же, что в deck.html: меняется содержимое зон 2 и 3.
+          Зона 3 из «решения по карточке» становится «что дальше»: решать нечего.
+  Не тупик (правило 10): три выхода нарисованы кнопками, а не подразумеваются.
 -->
 <link rel="stylesheet" href="_wire.css">
 </head>
@@ -20,16 +23,16 @@
 
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
-  <p class="t">Макеты · 1 из 44</p>
+  <p class="t">Макеты · 4 из 44</p>
   <ul>
     <li class="grp">Колода и совпадение
       <ul>
         <li class="scr"><span class="c">II.1</span> Колода
           <ul>
             <li><a href="deck.html">рабочий вид</a></li>
-            <li class="now stub"><b aria-current="page">пусто</b></li>
-            <li class="stub"><a href="deck-error.html">ошибка</a></li>
-            <li class="stub"><a href="deck-loading.html">загрузка</a></li>
+            <li class="now"><b aria-current="page">пусто</b></li>
+            <li><a href="deck-error.html">ошибка</a></li>
+            <li><a href="deck-loading.html">загрузка</a></li>
           </ul>
         </li>
         <li class="scr"><span class="c">II.3</span> Совпадение
@@ -136,28 +139,116 @@
 </nav>
 <!-- nav:end -->
 
+<!-- states:start -->
+<nav class="wfstates" aria-label="Состояния экрана II.1 Колода">
+  <p class="t">II.1 Колода · состояния этого экрана</p>
+  <ul>
+    <li><a href="deck.html">рабочий вид</a></li>
+    <li class="now"><b aria-current="page">пусто</b></li>
+    <li><a href="deck-error.html">ошибка</a></li>
+    <li><a href="deck-loading.html">загрузка</a></li>
+  </ul>
+</nav>
+<!-- states:end -->
+
+<!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
+     жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
  <div class="screen">
+
+  <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
-  <main class="app empty">
-    <p class="stub-t">II.1 Колода</p>
-    <p class="stub-s">пусто</p>
-    <p class="stub-n">Макет не нарисован</p>
-  </main>
+  <!-- ЗОНА 1: шапка. Не меняется: фильтры отсюда и в пустом виде доступны -->
+<header>
+  <h1>Discover</h1>
+  <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
+  <p class="ann"><b>Зона 1 — шапка.</b> Та же, что в рабочем виде: колода часто пуста из-за фильтров, и вход в них остаётся</p>
+</header>
+
+  <main class="app">
+  <!-- ЗОНА 2: вместо карточки — состояние. Занимает ту же площадь: тот же экран -->
+  <section class="stretch" aria-labelledby="deck-h">
+    <h2 id="deck-h">People nearby</h2>
+    <p class="ann"><b>Зона 2 — состояние вместо карточки.</b> Занимает ту же площадь: это тот же экран. Текст называет, что произошло, и не винит человека. Про одиночество не говорим — правило 13: кончился список, а не «ты одна»</p>
+
+    <article class="state">
+      <h3>You are all caught up</h3>
+      <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
+    </article>
+  </section>
+
+  <!-- ЗОНА 3: что дальше. Skip / Like ушли — решать нечего.
+       Порядок: сначала расстояние (D-11 расширяет только его), потом фильтры -->
+  <section aria-labelledby="act-h">
+    <h2 id="act-h" hidden>What next</h2>
+    <p class="ann"><b>Зона 3 — что дальше.</b> Skip и Like ушли: решать нечего. Главное действие — показать людей подальше; расширяется только расстояние `D-11`. Фильтры человек снимает сам</p>
+    <p class="row">
+      <a class="btn primary" href="deck-loading.html">Show people from further out</a>
+    </p>
+    <p class="row">
+      <a class="btn quiet" href="deck.html">Reset filters</a>
+    </p>
+  </section>
+
+  <!-- ЗОНА 4: выход во второй путь. В пустом виде это уже не запасной выход,
+       а основной: план не зависит от взаимности (§4, §2.1 п. 1 и 3) -->
+  <section aria-labelledby="exit-h">
+    <h2 id="exit-h" hidden>Second path</h2>
+    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Здесь их два: чужие планы и свой. Кнопка создания обязана быть в каждом пустом состоянии — §2.1, п. 3</p>
+    <a class="exit" href="feed.html">
+      <span>See plans nearby</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+    <p class="row">
+      <button type="button"><span class="ico" aria-hidden="true"></span>Post a plan of your own</button>
+    </p>
+  </section>
+</main>
+
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav aria-label="Основная навигация">
+    <a href="deck.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>People</a>
+    <a href="search.html"><span class="ico lg" aria-hidden="true"></span>Search</a>
+    <a href="feed.html"><span class="ico lg" aria-hidden="true"></span>Plans</a>
+    <a href="chats.html"><span class="ico lg" aria-hidden="true"></span>Chats</a>
+    <a href="my-profile.html"><span class="ico lg" aria-hidden="true"></span>Profile</a>
+  </nav>
 
   <p class="fold"><span>сгиб — ниже не наше</span></p>
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
   <p class="browserbar">meetmates.app</p>
+  <!-- зона системы: safe-area снизу, 34px -->
   <p class="homebar" aria-hidden="true"></p>
+
  </div>
 </div>
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>II.1 Колода · пусто</b> — заглушка, макет не нарисован.</p>
-  <p><b>Job:</b> M1: «Когда мне есть куда пойти, но не с кем… я хочу, чтобы у моих планов была компания, а у компании — продолжение»</p>
-  <p><b>Место в потоке:</b> M1, вход: Start → Deck. Первый экран после онбординга, начало основного пути D-37</p>
-  <p>Правила — _conventions.md · что рисуем — _screens.md · экраны и состояния — sitemap.md.</p>
+  <p><b>II.1 Колода · состояние «пусто»</b> — людей в радиусе под текущими фильтрами не осталось.</p>
+  <p>Шаг потока M1: <b>HasPeople →|нет| DeckEmpty → WiderRadius</b>. Оба ответа нарисованы:
+    «да» — <code>Show people from further out</code>, «нет» — <code>See plans nearby</code>.</p>
+  <p><b>Откуда каждый выход:</b></p>
+  <ul>
+    <li><b>Show people from further out</b> — flows.md M1, ветка <code>WiderRadius →|да| Radius</code>; §5.2, <code>D-11</code></li>
+    <li><b>See plans nearby</b> — flows.md M1, ветка <code>WiderRadius →|нет| Feed</code>; §4</li>
+    <li><b>Reset filters</b> — sitemap.md, состояние «пусто по фильтрам»; §5.2</li>
+    <li><b>Post a plan of your own</b> — §2.1, п. 3: кнопка создания есть в каждом пустом состоянии</li>
+  </ul>
+  <p><b>Почему выходов больше, чем в рабочем виде.</b> Это не запасной экран: на старте
+    Даша увидит именно его (§4, <code>D-22</code>), и он обязан не выглядеть пустым — §2.1, п. 1.</p>
+  <p><b>Находка 1.</b> <code>Post a plan of your own</code> ведёт на III.4 «Создание запроса» —
+    экрана нет в наборе вайрфреймов (_screens.md, «чего нет в наборе»: сторона автора, шаг 8).
+    Нарисован кнопкой без перехода: обязательство §2.1 п. 3 видно, дорисовать экран — отдельный шаг.</p>
+  <p><b>Находка 2.</b> В flows.md у <code>DeckEmpty</code> два выхода, а состояний пустоты
+    в sitemap.md два: «людей рядом нет» и «пусто по фильтрам». <code>Reset filters</code>
+    рёбра в потоке не имеет — либо добавить ветку в M1, либо развести на две страницы.</p>
+  <p><b>Текст.</b> <code>You are all caught up</code> — §5.2 дословно. Про нехватку людей
+    не говорим, говорим про конец списка: правило 13.</p>
+  <p>Источники: sitemap.md (II.1) · flows.md (M1) · _screens.md · _conventions.md.
+    Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
 
 </body>

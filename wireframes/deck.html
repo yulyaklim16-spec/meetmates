@@ -24,16 +24,16 @@
 
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
-  <p class="t">Макеты · 1 из 44</p>
+  <p class="t">Макеты · 4 из 44</p>
   <ul>
     <li class="grp">Колода и совпадение
       <ul>
         <li class="scr"><span class="c">II.1</span> Колода
           <ul>
             <li class="now"><b aria-current="page">рабочий вид</b></li>
-            <li class="stub"><a href="deck-empty.html">пусто</a></li>
-            <li class="stub"><a href="deck-error.html">ошибка</a></li>
-            <li class="stub"><a href="deck-loading.html">загрузка</a></li>
+            <li><a href="deck-empty.html">пусто</a></li>
+            <li><a href="deck-error.html">ошибка</a></li>
+            <li><a href="deck-loading.html">загрузка</a></li>
           </ul>
         </li>
         <li class="scr"><span class="c">II.3</span> Совпадение
@@ -140,6 +140,18 @@
 </nav>
 <!-- nav:end -->
 
+<!-- states:start -->
+<nav class="wfstates" aria-label="Состояния экрана II.1 Колода">
+  <p class="t">II.1 Колода · состояния этого экрана</p>
+  <ul>
+    <li class="now"><b aria-current="page">рабочий вид</b></li>
+    <li><a href="deck-empty.html">пусто</a></li>
+    <li><a href="deck-error.html">ошибка</a></li>
+    <li><a href="deck-loading.html">загрузка</a></li>
+  </ul>
+</nav>
+<!-- states:end -->
+
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
@@ -152,7 +164,7 @@
 <header>
   <h1>Discover</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Главное действие: Filters → II.2 Фильтры колоды. Аватар отсюда ушёл: профиль стал вкладкой `D-43`. Квадрат — заполнитель иконки в реальный размер</p>
+  <p class="ann"><b>Зона 1 — шапка.</b> Главное действие: Filters → II.2. Аватар ушёл: профиль стал вкладкой `D-43`</p>
 </header>
 
   <main class="app">
@@ -243,9 +255,9 @@
   <p>Состояния этого экрана:</p>
   <ul>
     <li><b>успех</b> — эта страница</li>
-    <li aria-disabled="true">deck-empty — людей рядом нет</li>
-    <li aria-disabled="true">deck-error — колода не загрузилась</li>
-    <li aria-disabled="true">deck-loading — грузим людей рядом</li>
+    <li><a href="deck-empty.html">пусто</a> — людей рядом нет</li>
+    <li><a href="deck-error.html">ошибка</a> — колода не загрузилась</li>
+    <li><a href="deck-loading.html">загрузка</a> — грузим людей рядом</li>
   </ul>
   <p><b>Высота:</b> экран 844px, но продукту принадлежит 713 — остальное забирают
     системная строка (47), панель браузера Safari (50, снизу) и индикатор жеста (34).

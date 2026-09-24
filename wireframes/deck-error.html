@@ -4,15 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Колода · ошибка · MeetMates wireframe</title>
-<!-- stub -->
 <!--
-  Страница-заглушка: создана скриптом build-wireframes.mjs, макет не нарисован.
   Экран:  II.1 Колода — sitemap.md, ветка «Колода и совпадение»
-  Job:    M1: «Когда мне есть куда пойти, но не с кем… я хочу, чтобы у моих планов была компания, а у компании — продолжение»
-  Поток:  M1, вход: Start → Deck. Первый экран после онбординга, начало основного пути D-37
-  Состояние: ошибка
-  Рисовать по правилам _conventions.md: мокап телефона, семантическая разметка,
-  настоящий текст, серый без цвета. Заменить содержимое .app целиком.
+  Job:    M1 «Когда мне есть куда пойти, но не с кем… я хочу, чтобы у моих планов
+          была компания» · G1 «за несколько секунд понять, стоит ли встречаться»
+  Поток:  flows.md, M1 — HasPeople →|сбой| DeckErr["Error: колода не загрузилась"]
+          → Deck (обратно в колоду, то есть через загрузку)
+  Состояние: ошибка загрузки. Отличается от «пусто» тем, что данных нет не потому,
+          что людей нет: причина на нашей стороне, и человек её не исправлял.
+  Структура и зоны те же, что в deck.html: меняется содержимое зон 2 и 3.
+  Правило D-26 читается и здесь: причина называется, а не «something went wrong».
+  Не тупик (правило 10): повтор и выход в планы нарисованы кнопками.
 -->
 <link rel="stylesheet" href="_wire.css">
 </head>
@@ -20,16 +22,16 @@
 
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
-  <p class="t">Макеты · 1 из 44</p>
+  <p class="t">Макеты · 4 из 44</p>
   <ul>
     <li class="grp">Колода и совпадение
       <ul>
         <li class="scr"><span class="c">II.1</span> Колода
           <ul>
             <li><a href="deck.html">рабочий вид</a></li>
-            <li class="stub"><a href="deck-empty.html">пусто</a></li>
-            <li class="now stub"><b aria-current="page">ошибка</b></li>
-            <li class="stub"><a href="deck-loading.html">загрузка</a></li>
+            <li><a href="deck-empty.html">пусто</a></li>
+            <li class="now"><b aria-current="page">ошибка</b></li>
+            <li><a href="deck-loading.html">загрузка</a></li>
           </ul>
         </li>
         <li class="scr"><span class="c">II.3</span> Совпадение
@@ -136,28 +138,105 @@
 </nav>
 <!-- nav:end -->
 
+<!-- states:start -->
+<nav class="wfstates" aria-label="Состояния экрана II.1 Колода">
+  <p class="t">II.1 Колода · состояния этого экрана</p>
+  <ul>
+    <li><a href="deck.html">рабочий вид</a></li>
+    <li><a href="deck-empty.html">пусто</a></li>
+    <li class="now"><b aria-current="page">ошибка</b></li>
+    <li><a href="deck-loading.html">загрузка</a></li>
+  </ul>
+</nav>
+<!-- states:end -->
+
+<!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
+     жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
  <div class="screen">
+
+  <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
-  <main class="app empty">
-    <p class="stub-t">II.1 Колода</p>
-    <p class="stub-s">ошибка</p>
-    <p class="stub-n">Макет не нарисован</p>
-  </main>
+  <!-- ЗОНА 1: шапка. Не меняется -->
+<header>
+  <h1>Discover</h1>
+  <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
+  <p class="ann"><b>Зона 1 — шапка.</b> Та же, что в рабочем виде: сломалась загрузка, а не экран</p>
+</header>
+
+  <main class="app">
+  <!-- ЗОНА 2: вместо карточки — состояние. Причина названа, вины на человеке нет -->
+  <section class="stretch" aria-labelledby="deck-h">
+    <h2 id="deck-h">People nearby</h2>
+    <p class="ann"><b>Зона 2 — состояние вместо карточки.</b> Причина названа словами — соединение. Никаких «something went wrong»: то же правило, что у непройденной верификации `D-26`. Вины человека здесь нет, и текст об этом не намекает</p>
+
+    <article class="state" role="alert">
+      <h3>Couldn&rsquo;t load people nearby</h3>
+      <p>The connection dropped while we were looking. Your likes and matches are safe.</p>
+    </article>
+  </section>
+
+  <!-- ЗОНА 3: что дальше. Повтор — главное действие; flows.md M1: DeckErr → Deck -->
+  <section aria-labelledby="act-h">
+    <h2 id="act-h" hidden>What next</h2>
+    <p class="ann"><b>Зона 3 — что дальше.</b> Одно действие — повторить. Ведёт в загрузку: попытка должна быть видна</p>
+    <p class="row">
+      <a class="btn primary" href="deck-loading.html">Try again</a>
+    </p>
+  </section>
+
+  <!-- ЗОНА 4: выход во второй путь. Обязателен всегда (§4, D-10) -->
+  <section aria-labelledby="exit-h">
+    <h2 id="exit-h" hidden>Second path</h2>
+    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Тот же, что в рабочем виде: ошибка — не повод запереть человека в одном экране. Правило 10 действует и здесь</p>
+    <a class="exit" href="feed.html">
+      <span>See plans nearby</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
+</main>
+
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav aria-label="Основная навигация">
+    <a href="deck.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>People</a>
+    <a href="search.html"><span class="ico lg" aria-hidden="true"></span>Search</a>
+    <a href="feed.html"><span class="ico lg" aria-hidden="true"></span>Plans</a>
+    <a href="chats.html"><span class="ico lg" aria-hidden="true"></span>Chats</a>
+    <a href="my-profile.html"><span class="ico lg" aria-hidden="true"></span>Profile</a>
+  </nav>
 
   <p class="fold"><span>сгиб — ниже не наше</span></p>
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
   <p class="browserbar">meetmates.app</p>
+  <!-- зона системы: safe-area снизу, 34px -->
   <p class="homebar" aria-hidden="true"></p>
+
  </div>
 </div>
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>II.1 Колода · ошибка</b> — заглушка, макет не нарисован.</p>
-  <p><b>Job:</b> M1: «Когда мне есть куда пойти, но не с кем… я хочу, чтобы у моих планов была компания, а у компании — продолжение»</p>
-  <p><b>Место в потоке:</b> M1, вход: Start → Deck. Первый экран после онбординга, начало основного пути D-37</p>
-  <p>Правила — _conventions.md · что рисуем — _screens.md · экраны и состояния — sitemap.md.</p>
+  <p><b>II.1 Колода · состояние «ошибка»</b> — колода не загрузилась.</p>
+  <p>Шаг потока M1: <b>HasPeople →|сбой| DeckErr → Deck</b>. Ребро «назад в колоду»
+    нарисовано кнопкой <code>Try again</code>, которая ведёт через загрузку.</p>
+  <p><b>Откуда каждый выход:</b></p>
+  <ul>
+    <li><b>Try again</b> — flows.md M1, ребро <code>DeckErr → Deck</code></li>
+    <li><b>See plans nearby</b> — §4: выход в запросы есть в Discover всегда, а не только когда карточки кончились</li>
+  </ul>
+  <p><b>Чем ошибка отличается от пустоты.</b> В пустом виде данные пришли и людей нет —
+    человеку есть что делать с радиусом и фильтрами. Здесь данных нет вовсе, и менять
+    фильтры бессмысленно: они ничего не изменят. Поэтому в зоне 3 одно действие, а не два.</p>
+  <p><b>Находка.</b> Если лежит сеть, а не наш сервер, <code>See plans nearby</code> приведёт
+    в такую же ошибку ленты. Выход честен только при сбое на нашей стороне — на концепте
+    решить, различаем ли мы два случая или пишем один текст на оба.</p>
+  <p><b>Текст.</b> Причина названа словами — соединение. Это то же правило, что
+    у непройденной верификации <code>D-26</code>: автоматика, которая говорит
+    «что-то пошло не так», производит однозвёздные отзывы.</p>
+  <p>Источники: sitemap.md (II.1) · flows.md (M1) · _screens.md · _conventions.md.
+    Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
 
 </body>
