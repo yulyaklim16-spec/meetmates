@@ -229,6 +229,44 @@ section.stretch, section.stretch .card { flex: 1; min-height: 0; }
   display: flex; align-items: center; justify-content: center;
   color: var(--w-ink-2);
 }
+/* пагинация фото: полосы вверху карточки вместо подписи «Photo 1 of 4».
+   Сколько полос — столько фотографий; активная показывает, какое открыто. */
+.pager {
+  position: absolute; top: var(--s-2); left: var(--s-2); right: var(--s-2);
+  display: flex; gap: 3px;
+  margin: 0;
+}
+.pager span {
+  flex: 1; height: 3px;
+  border-radius: var(--r-pill);
+  background: var(--w-line);
+}
+.pager span.on { background: var(--w-ink); }
+
+/* строка под полосами: слева — факт о поведении, справа — округлённое расстояние.
+   Бейджа присутствия здесь нет и не будет — правило 12, D-06. */
+.cardtop {
+  position: absolute; top: 18px; left: var(--s-2); right: var(--s-2);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-2);
+  margin: 0;
+}
+.cardtop .chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px var(--s-3);
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-pill);
+  background: var(--w-surface);
+  color: var(--w-ink-2);
+  font-size: 12px;
+}
+
+/* подпись фото остаётся разметке, но не глазу: её работу делают полосы */
+.card figcaption.vh {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip-path: inset(50%); overflow: hidden; white-space: nowrap;
+  background: none;
+}
 .card figcaption {
   position: absolute; top: 0; left: 0;
   padding: var(--s-2) var(--s-3);
