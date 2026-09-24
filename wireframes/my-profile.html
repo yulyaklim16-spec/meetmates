@@ -20,7 +20,7 @@
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
   <p class="h">Вайрфреймы</p>
-  <p class="t">Главный поток · мобильный веб · 46 из 46</p>
+  <p class="t">Главный поток · мобильный веб · 50 из 50</p>
   <ul>
     <li class="grp">
       <p class="gt">Вход в продукт</p>
@@ -114,6 +114,13 @@
             <li><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
+        <li class="scr"><a class="s" href="my-events.html"><span class="c">III.6</span> Мои события — сегмент вкладки Events</a>
+          <ul>
+            <li><a href="my-events-empty.html">пусто</a></li>
+            <li><a href="my-events-error.html">ошибка</a></li>
+            <li><a href="my-events-loading.html">загрузка</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="grp">
@@ -183,11 +190,17 @@
     <section aria-labelledby="deep-h">
       <h2 id="deep-h" hidden>Everything else</h2>
       <ul class="rows">
+        <li><a class="item" href="my-events.html"><span class="top"><b>My events</b><span class="when">1 waiting for you</span></span></a></li>
+        <li><a class="item" href="chats.html"><span class="top"><b>My matches</b><span class="when">3 new</span></span></a></li>
         <li><a class="item" href="verify-success.html"><span class="top"><b>Verification</b><span class="when">Verified</span></span></a></li>
         <li class="item"><span class="top"><b>Location</b><span class="when">On &middot; rounded</span></span></li>
         <li class="item"><span class="top"><b>Blocked people</b><span class="when">0</span></span></li>
         <li class="item"><span class="top"><b>Safety center</b></span></li>
+        <li class="item"><span class="top"><b>Settings</b><span class="when">account, notifications</span></span></li>
       </ul>
+      <p class="row">
+        <button type="button" class="quiet">Log out</button>
+      </p>
     </section>
   </div>
   </main>
@@ -195,7 +208,7 @@
   <div class="anns">
     <p class="ann"><b>Зона 1 — что показываем.</b> Свой профиль глазами другого — потому строка так и называется. Экрана настроек нет: редкие действия тут же, в один тап `D-38`</p>
     <p class="ann"><b>Зона 2 — как меня видят.</b> Те же сигналы, что на карточке: верификация, встречи, отзывчивость. Ступеней нет `D-49` — репутация стоит на фактах, а не на уровне</p>
-    <p class="ann"><b>Зона 3 — глубокий слой.</b> Верификация, геолокация, заблокированные, safety center — по одному тапу. Экрана «настройки» между ними нет `D-38`</p>
+    <p class="ann"><b>Зона 3 — всё моё.</b> Свои события и матчи стоят здесь ссылками, но живут во вкладках Events и Chats — там, где с ними работают `D-50`. Ниже верификация, геолокация, блок-лист, safety center, настройки и выход</p>
   </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->

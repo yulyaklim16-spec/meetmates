@@ -602,7 +602,7 @@ a.lk.in .ar { color: var(--accent); }
     <li class="screen">
       <div class="shead"><span class="code">I.5</span><span class="sname">Верификация — селфи по позе</span><span class="jobs"><span class="jp" title="решиться идти">R2</span><span class="jp hyp" title="Доказать, что я — это я">G5</span></span><span class="who pri">P</span></div>
       
-      <ul class="states"><li>захват · обработка · пройдена</li><li>не распознали — причина, пересдать</li><li>на ручной проверке — ОЖИДАНИЕ живого модератора  D-42</li><li>камера недоступна / доступ к камере отклонён</li><li>результат ручной проверки: отказ с причиной, пересдать</li></ul>
+      <ul class="states"><li>захват · обработка · пройдена после гейта · пройдена в онбординге</li><li>не распознали — причина, пересдать</li><li>на ручной проверке — ОЖИДАНИЕ живого модератора  D-42</li><li>камера недоступна / доступ к камере отклонён</li><li>результат ручной проверки: отказ с причиной, пересдать</li></ul>
     </li>
   </ol>
 </div>
@@ -657,9 +657,9 @@ a.lk.in .ar { color: var(--accent); }
       <ul class="states"><li>ПУСТО — никто не откликнулся — смотреть чужие планы</li><li>загрузка · ошибка</li><li>пара: подтвердить обоих или никого  D-36</li></ul>
     </li>
     <li class="screen">
-      <div class="shead"><span class="code">III.6</span><span class="sname">Мои планы</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="увидеться снова, не начиная заново">R4</span></span><span class="who pri">P</span></div>
-      <p class="snote">мои запросы · куда иду · прошедшие · серия — одной строкой</p>
-      <ul class="states"><li>по вкладке пусто</li></ul>
+      <div class="shead"><span class="code">III.6</span><span class="sname">Мои события — срез вкладки Events  D-50</span><span class="jobs"><span class="jp main" title="компания для планов и продолжение">M1</span><span class="jp" title="увидеться снова, не начиная заново">R4</span></span><span class="who pri">P</span></div>
+      <p class="snote">мои события · куда иду · прошедшие · серия — одной строкой · отклики первой строкой: без подтверждения второй контур стоит · вход и из профиля строкой «My events»  D-50</p>
+      <ul class="states"><li>пусто · загрузка · ошибка загрузки</li></ul>
     </li>
   </ol>
 </div>
@@ -820,7 +820,7 @@ a.lk.in .ar { color: var(--accent); }
 <p>Каждый пункт — вход в кластер jobs, и у каждого названо, <strong>какой job за ним стоит</strong>. Было три <code class="dcode">D-33</code>, стало пять <code class="dcode">D-43</code>: добавились Search и Profile.</p>
 <div class="tw"><table><thead><tr><th>Пункт</th><th>Экран за ним</th><th>Job-кластер</th><th>Почему это отдельный вход</th></tr></thead><tbody>
 <tr><td><strong>People</strong></td><td>Колода</td><td><strong>M1</strong> «знакомство по интересам» · G1 «решить быстро»</td><td>Единственный экран, где человек <strong>выбирает людей</strong>. Начало основного пути <code class="dcode">D-10</code>, <code class="dcode">D-37</code></td></tr>
-<tr><td><strong>Events</strong></td><td>Лента запросов · сегмент «Мои»</td><td><strong>M1</strong> · G2 · G3 · R4 (мои планы — продолжить)</td><td><strong>Второй путь и дом объекта.</strong> Основной идёт через чат <code class="dcode">D-37</code>, но он вероятностный — отклик зависит только от человека</td></tr>
+<tr><td><strong>Events</strong></td><td>Лента событий · срез «Мои» <code class="dcode">D-50</code></td><td><strong>M1</strong> · G2 · G3 · R4 (мои планы — продолжить)</td><td><strong>Второй путь и дом объекта.</strong> Основной идёт через чат <code class="dcode">D-37</code>, но он вероятностный — отклик зависит только от человека</td></tr>
 <tr><td><strong>Search</strong></td><td>Поиск людей и планов</td><td><strong>M1</strong> · G3 «компания под конкретное хобби»</td><td>Единственное место, где ищут <strong>конкретное</strong>: человека по имени или интересу, план по занятию. Ни колода, ни лента этого не делают — они показывают, что есть рядом. Стоит после Events: сначала то, что продукт обещает, потом инструмент</td></tr>
 <tr><td><strong>Chats</strong></td><td>Список чатов</td><td><strong>R1 довести разговор до встречи</strong> · R4 «продолжить с теми же»</td><td><strong>Дорога к встрече на основном пути</strong> <code class="dcode">D-37</code>, не просто переписка. И единственное место, где уже найденные люди</td></tr>
 <tr><td><strong>Profile</strong></td><td>Мой профиль</td><td><strong>S1</strong> «выглядеть тем, кому можно доверять» · R2, G5</td><td>Вход к себе там, где его ищут. Действия за ним редкие, и это по-прежнему правда — см. цену ниже</td></tr>

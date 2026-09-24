@@ -3,15 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Список чатов · рабочий вид · MeetMates wireframe</title>
+<title>Мои события · загрузка · MeetMates wireframe</title>
 <!--
-  Экран:  IV.1 Список чатов — 1:1 и чаты запросов вместе — sitemap.md,
-          ветка «Чат — основная дорога к встрече D-37»
-  Job:    R1 · R4
-  Поток:  в потоке M1 не встречается; вход в IV.2 Диалог
-  Состояние: рабочий вид — разговоры есть.
-  Чат запроса и диалог 1:1 в одном списке: §5.4 открывает чат после
-          подтверждения отклика, и отдельного списка для него нет.
+  Экран:  III.6 Мои события — sitemap.md, ветка «Запрос на компанию»
+  Job:    M1 · R4 · R5 / S2
+  Поток:  вход на сегмент Mine
+  Состояние: загрузка. Скелет повторяет строку события: занятие, когда,
+          кто откликнулся — в том же порядке, что в рабочем виде.
 -->
 <link rel="stylesheet" href="_wire.css">
 </head>
@@ -87,7 +85,7 @@
             <li><a href="invite-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr open now"><b class="s" aria-current="page"><span class="c">IV.1</span> Список чатов</b>
+        <li class="scr"><a class="s" href="chats.html"><span class="c">IV.1</span> Список чатов</a>
           <ul>
             <li><a href="chats-empty.html">пусто</a></li>
             <li><a href="chats-error.html">ошибка</a></li>
@@ -114,11 +112,11 @@
             <li><a href="plan-waiting.html">ожидание чужого решения · D-42</a></li>
           </ul>
         </li>
-        <li class="scr"><a class="s" href="my-events.html"><span class="c">III.6</span> Мои события — сегмент вкладки Events</a>
+        <li class="scr open"><a class="s" href="my-events.html"><span class="c">III.6</span> Мои события — сегмент вкладки Events</a>
           <ul>
             <li><a href="my-events-empty.html">пусто</a></li>
             <li><a href="my-events-error.html">ошибка</a></li>
-            <li><a href="my-events-loading.html">загрузка</a></li>
+            <li class="now"><b aria-current="page">загрузка</b></li>
           </ul>
         </li>
       </ul>
@@ -143,13 +141,13 @@
 <!-- nav:end -->
 
 <!-- states:start -->
-<nav class="wfstates" aria-label="Состояния экрана IV.1 Список чатов">
-  <p class="t">IV.1 Список чатов · состояния этого экрана</p>
+<nav class="wfstates" aria-label="Состояния экрана III.6 Мои события — сегмент вкладки Events">
+  <p class="t">III.6 Мои события — сегмент вкладки Events · состояния этого экрана</p>
   <ul>
-    <li class="now"><b aria-current="page">рабочий вид</b></li>
-    <li><a href="chats-empty.html">пусто</a></li>
-    <li><a href="chats-error.html">ошибка</a></li>
-    <li><a href="chats-loading.html">загрузка</a></li>
+    <li><a href="my-events.html">рабочий вид</a></li>
+    <li><a href="my-events-empty.html">пусто</a></li>
+    <li><a href="my-events-error.html">ошибка</a></li>
+    <li class="now"><b aria-current="page">загрузка</b></li>
   </ul>
 </nav>
 <!-- states:end -->
@@ -163,44 +161,41 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <h1 id="ch-h">Your chats</h1>
+  <h1 id="me-h">My events</h1>
+  <button type="button" class="primary"><span class="ico" aria-hidden="true"></span>New</button>
 </header>
   <main class="app">
   <div class="pane">
-    <!-- ЗОНА 2: матчи без переписки. Они живут часами — их нельзя прятать -->
-    <section aria-labelledby="new-h">
-      <h2 id="new-h">New matches</h2>
-      <p class="who">
-        <span class="avatar" aria-hidden="true"></span>
-        <span class="avatar" aria-hidden="true"></span>
-        <span class="avatar" aria-hidden="true"></span>
-        <span>Maryna, Olha and Ihor &mdash; say hi</span>
+    <!-- ЗОНА 2: сегмент вкладки. Лента и «мои» — один объект, два среза -->
+    <section aria-labelledby="seg-h">
+      <h2 id="seg-h" hidden>Which events</h2>
+      <p class="row">
+        <a class="btn quiet" href="feed.html">Nearby</a>
+        <a class="btn primary" href="my-events.html">Mine</a>
       </p>
     </section>
 
-    <!-- ЗОНА 3: список. Непрочитанные, время, последняя реплика -->
-    <section class="scrolly" aria-labelledby="ch-h">
-      <ul class="rows">
-        <li><a class="item" href="dialog-loading.html">
-          <span class="top"><b>Olena</b><span class="when">19:08 &middot; 1 new</span></span>
-          <span class="who"><span class="avatar" aria-hidden="true"></span>Let&rsquo;s go then. Which day works for you?</span>
-        </a></li>
-        <li><a class="item" href="dialog.html">
-          <span class="top"><b>Board games</b><span class="when">Yesterday</span></span>
-          <span class="who">Event chat &middot; 3 people &middot; Andrii: see you at six</span>
-        </a></li>
-        <li><a class="item" href="dialog-empty.html">
-          <span class="top"><b>Maryna</b><span class="when">Mon</span></span>
-          <span class="who"><span class="avatar" aria-hidden="true"></span>You matched &mdash; no messages yet</span>
-        </a></li>
+    <!-- ЗОНА 3: скелет списка -->
+    <section class="scrolly" aria-labelledby="mine-h">
+      <h2 id="mine-h" hidden>My events</h2>
+      <p class="note" role="status">Loading your events</p>
+      <ul class="rows" aria-hidden="true">
+        <li class="item">
+          <span class="skel line w-l"></span>
+          <span class="skel line w-m"></span>
+        </li>
+        <li class="item">
+          <span class="skel line w-m"></span>
+          <span class="skel line w-s"></span>
+        </li>
       </ul>
     </section>
 
-    <!-- ЗОНА 3: выход туда, где берутся новые разговоры -->
+    <!-- ЗОНА 4: выход живой -->
     <section aria-labelledby="ex-h">
-      <h2 id="ex-h" hidden>More people</h2>
-      <a class="exit" href="deck.html">
-        <span>See people nearby</span>
+      <h2 id="ex-h" hidden>Nearby</h2>
+      <a class="exit" href="feed.html">
+        <span>See events nearby</span>
         <span aria-hidden="true">&rarr;</span>
       </a>
     </section>
@@ -208,18 +203,18 @@
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
-    <p class="ann"><b>Зона 1 — что показываем.</b> Диалоги 1:1 и чаты запросов вместе: для человека это одно — разговор с теми, кого уже нашёл</p>
-    <p class="ann"><b>Зона 2 — матчи без переписки.</b> Матч живёт часами: не написал сегодня — разговор не случится. Поэтому они стоят выше списка, а не в профиле `D-50`</p>
-    <p class="ann"><b>Зона 2 — список.</b> Диалоги и чаты запросов вместе. Бейджа присутствия нет нигде `D-06`</p>
-    <p class="ann"><b>Зона 3 — откуда берутся новые.</b> Список чатов конечен: новые разговоры приходят из колоды и из откликов</p>
+    <p class="ann"><b>Зона 1 — шапка.</b> Тот же `+`, что в ленте: создание доступно и отсюда — §2.1, п. 3</p>
+    <p class="ann"><b>Зона 2 — срез вкладки.</b> `Nearby` и `Mine` — не два экрана, а два среза одного объекта: событие (§6). Поэтому это переключатель, а не вкладка</p>
+    <p class="ann"><b>Зона 3 — скелет списка.</b> Строки той же длины и в том же порядке, что в рабочем виде: приход данных ничего не сдвинет</p>
+    <p class="ann"><b>Зона 4 — выход живой.</b> Ждать свои события необязательно: лента открыта</p>
   </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">
     <a href="deck.html"><span class="ico lg" aria-hidden="true"></span>People</a>
-    <a href="feed.html"><span class="ico lg" aria-hidden="true"></span>Events</a>
+    <a href="feed.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>Events</a>
     <a href="search.html"><span class="ico lg" aria-hidden="true"></span>Search</a>
-    <a href="chats.html" aria-current="page"><span class="ico lg" aria-hidden="true"></span>Chats</a>
+    <a href="chats.html"><span class="ico lg" aria-hidden="true"></span>Chats</a>
     <a href="my-profile.html"><span class="ico lg" aria-hidden="true"></span>Profile</a>
   </nav>
 
@@ -235,16 +230,17 @@
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>IV.1 Список чатов · рабочий вид</b> — разговоры есть.</p>
-  <p><b>Job:</b> R1 «довести разговор до встречи» · R4 «продолжить с теми же людьми
-    без усилия первого раза». Единственное место, где живут уже найденные люди.</p>
-  <p><b>В потоке M1 экран не встречается</b> (_screens.md): диалог открывается
-    из совпадения и из подтверждённого отклика. Вкладка ведёт сюда с каждого экрана,
-    поэтому страницы нужны.</p>
-  <p><b>Третья строка — матч без сообщений:</b> у неё свой вход — пустой диалог
-    с ice-breaker. Именно там ломается E2, и список не должен её прятать.</p>
-  <p><b>Архив</b> — состояние сверх четвёрки (§7.4): после блокировки чат уходит туда,
-    и причина не показывается. В таблице состояний его нет, поэтому страницы нет.</p>
+  <p><b>III.6 Мои события · загрузка</b> — грузим свои события.</p>
+  <p><b>Job:</b> M1 (мои события — вторая сторона того же пути) · R4 «продолжить
+    с теми же людьми без усилия первого раза» · R5 / S2 (сторона автора).</p>
+  <p><b>Где живёт:</b> сегмент вкладки Events — `Nearby` и `Mine`. Вход есть и из профиля
+    строкой «My events» `D-50`, но сам список стоит там, где с ним работают: подтверждать
+    отклики надо часто, а профиль открывают редко.</p>
+  <p><b>Три части в одном экране</b> (sitemap.md, III.6): мои события · куда иду ·
+    прошедшие. Серия — одной строкой, а не отдельным объектом (`D-15`).</p>
+  <p><b>Дальше по потоку:</b> пришли — <a href="my-events.html">рабочий вид</a> ·
+    пусто — <a href="my-events-empty.html">пусто</a> ·
+    сбой — <a href="my-events-error.html">ошибка</a>.</p>
   <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
     Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
