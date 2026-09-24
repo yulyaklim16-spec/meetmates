@@ -158,45 +158,50 @@
 <header>
   <a href="dialog.html" aria-label="Back to the chat"><span class="ico" aria-hidden="true"></span></a>
   <h1>Verification</h1>
-  <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: видоискатель. Поза — то, что отличает живое фото от чужого -->
-  <section class="stretch" aria-labelledby="cam-h">
-    <h2 id="cam-h" hidden>Selfie</h2>
-    <p class="ann"><b>Зона 2 — видоискатель.</b> Поза задаётся текстом: подставить готовый снимок не выйдет</p>
-    <article class="card">
-      <figure>
-        <p class="photo" aria-hidden="true"></p>
-        <figcaption>Camera</figcaption>
-      </figure>
-      <section class="body">
-        <p class="common">Turn your head slightly to the left</p>
-        <p class="distance">Face the light, no sunglasses, no filters.</p>
-      </section>
-    </article>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: видоискатель. Поза — то, что отличает живое фото от чужого -->
+    <section class="stretch" aria-labelledby="cam-h">
+      <h2 id="cam-h" hidden>Selfie</h2>
+      <article class="card">
+        <figure>
+          <p class="photo" aria-hidden="true"></p>
+          <figcaption>Camera</figcaption>
+        </figure>
+        <section class="body">
+          <p class="common">Turn your head slightly to the left</p>
+          <p class="distance">Face the light, no sunglasses, no filters.</p>
+        </section>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: снять. Одно действие, и оно главное -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Take the selfie</h2>
-    <p class="ann"><b>Зона 3 — снять.</b> Главное действие: <code>Take selfie</code> → обработка. Одно действие на экран</p>
-    <p class="row">
-      <a class="btn primary" href="verify-loading.html">Take selfie</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: снять. Одно действие, и оно главное -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Take the selfie</h2>
+      <p class="row">
+        <a class="btn primary" href="verify-loading.html">Take selfie</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: пропуск с названной ценой (§7.3) -->
-  <section aria-labelledby="skip-h">
-    <h2 id="skip-h" hidden>Later</h2>
-    <p class="ann"><b>Зона 4 — пропуск с ценой.</b> Смотреть можно, писать — нет. Прятать выход нельзя, врать о цене — тоже</p>
-    <p>You can browse now &mdash; verify to start chatting.</p>
-    <a class="exit" href="deck.html">
-      <span>Do this later</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: пропуск с названной ценой (§7.3) -->
+    <section aria-labelledby="skip-h">
+      <h2 id="skip-h" hidden>Later</h2>
+      <p>You can browse now &mdash; verify to start chatting.</p>
+      <a class="exit" href="deck.html">
+        <span>Do this later</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
+    <p class="ann"><b>Зона 2 — видоискатель.</b> Поза задаётся текстом: подставить готовый снимок не выйдет</p>
+    <p class="ann"><b>Зона 3 — снять.</b> Главное действие: <code>Take selfie</code> → обработка. Одно действие на экран</p>
+    <p class="ann"><b>Зона 4 — пропуск с ценой.</b> Смотреть можно, писать — нет. Прятать выход нельзя, врать о цене — тоже</p>
+  </div>
 
   <!-- ЗОНА 5: таб-бара нет — экран забирает всё, объяснение в служебном блоке -->
 

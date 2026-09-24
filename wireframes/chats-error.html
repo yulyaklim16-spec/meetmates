@@ -154,29 +154,34 @@
 
 <header>
   <h1 id="ch-h">Your chats</h1>
-  <p class="ann"><b>Зона 1 — что показываем.</b> Диалоги 1:1 и чаты запросов вместе: для человека это одно — разговор с теми, кого уже нашёл</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: причина названа -->
-  <section class="stretch" aria-labelledby="ch-h">
-    <p class="ann"><b>Зона 2 — причина.</b> Сказано, что сообщения не пропали: список — не переписка</p>
-    <article class="state" role="alert">
-      <h3>Couldn&rsquo;t load your chats</h3>
-      <p>The connection dropped. Nothing is lost &mdash; your messages are on the server.</p>
-      <p class="row"><a class="btn primary" href="chats-loading.html">Try again</a></p>
-    </article>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: причина названа -->
+    <section class="stretch" aria-labelledby="ch-h">
+      <article class="state" role="alert">
+        <h3>Couldn&rsquo;t load your chats</h3>
+        <p>The connection dropped. Nothing is lost &mdash; your messages are on the server.</p>
+        <p class="row"><a class="btn primary" href="chats-loading.html">Try again</a></p>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: выход -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>Elsewhere</h2>
-    <p class="ann"><b>Зона 3 — выход.</b> Колода не зависит от списка чатов и работает, пока он не пришёл</p>
-    <a class="exit" href="deck.html">
-      <span>See people nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 3: выход -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Elsewhere</h2>
+      <a class="exit" href="deck.html">
+        <span>See people nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — что показываем.</b> Диалоги 1:1 и чаты запросов вместе: для человека это одно — разговор с теми, кого уже нашёл</p>
+    <p class="ann"><b>Зона 2 — причина.</b> Сказано, что сообщения не пропали: список — не переписка</p>
+    <p class="ann"><b>Зона 3 — выход.</b> Колода не зависит от списка чатов и работает, пока он не пришёл</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

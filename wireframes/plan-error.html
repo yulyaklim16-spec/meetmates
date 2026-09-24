@@ -160,41 +160,46 @@
   <a href="feed.html" aria-label="Back to events"><span class="ico" aria-hidden="true"></span></a>
   <h1>Board games</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Report здесь же: на карточке запроса виден автор, значит до жалобы один тап — правило 4, `D-44`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: отказ. Без выдуманной причины и без упрёка -->
-  <section class="stretch" aria-labelledby="err-h">
-    <h2 id="err-h" hidden>Declined</h2>
-    <p class="ann"><b>Зона 2 — отказ.</b> Причину автор не объясняет, и мы её не выдумываем. Текст переводит человека к следующему шагу, а не к разбору</p>
-    <article class="state" role="alert">
-      <h3>Andrii didn&rsquo;t take this one</h3>
-      <p>Board games at Kyiv Games Club is closed for you. It happens &mdash; people pick who they go with, and that&rsquo;s the point of confirming.</p>
-    </article>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: отказ. Без выдуманной причины и без упрёка -->
+    <section class="stretch" aria-labelledby="err-h">
+      <h2 id="err-h" hidden>Declined</h2>
+      <article class="state" role="alert">
+        <h3>Andrii didn&rsquo;t take this one</h3>
+        <p>Board games at Kyiv Games Club is closed for you. It happens &mdash; people pick who they go with, and that&rsquo;s the point of confirming.</p>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: следующий шаг. Ровно то, что делает поток: искать дальше -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>What next</h2>
-    <p class="ann"><b>Зона 3 — следующий шаг.</b> Поток говорит прямо: <code>Rejected → Feed</code>. Главное действие — другой план, а не повтор в тот же</p>
-    <p class="row">
-      <a class="btn primary" href="feed.html">Find another event</a>
-    </p>
-    <p class="row">
-      <a class="btn quiet" href="deck.html">See people nearby</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: следующий шаг. Ровно то, что делает поток: искать дальше -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>What next</h2>
+      <p class="row">
+        <a class="btn primary" href="feed.html">Find another event</a>
+      </p>
+      <p class="row">
+        <a class="btn quiet" href="deck.html">See people nearby</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: свой план — путь, где отказать некому -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>Your own</h2>
-    <p class="ann"><b>Зона 4 — свой план.</b> Единственный путь, где чужого решения нет вовсе: создание в один шаг (§2.1, п. 3)</p>
-    <a class="exit" href="feed-empty.html">
-      <span>Post an event of your own</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: свой план — путь, где отказать некому -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Your own</h2>
+      <a class="exit" href="feed-empty.html">
+        <span>Post an event of your own</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Report здесь же: на карточке запроса виден автор, значит до жалобы один тап — правило 4, `D-44`</p>
+    <p class="ann"><b>Зона 2 — отказ.</b> Причину автор не объясняет, и мы её не выдумываем. Текст переводит человека к следующему шагу, а не к разбору</p>
+    <p class="ann"><b>Зона 3 — следующий шаг.</b> Поток говорит прямо: <code>Rejected → Feed</code>. Главное действие — другой план, а не повтор в тот же</p>
+    <p class="ann"><b>Зона 4 — свой план.</b> Единственный путь, где чужого решения нет вовсе: создание в один шаг (§2.1, п. 3)</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

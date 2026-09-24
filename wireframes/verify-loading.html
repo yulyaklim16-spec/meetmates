@@ -157,46 +157,51 @@
 <header>
   <a href="dialog.html" aria-label="Back to the chat"><span class="ico" aria-hidden="true"></span></a>
   <h1>Verification</h1>
-  <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: обработка. Кадр остаётся на месте: человек видит, что проверяют -->
-  <section class="stretch" aria-labelledby="cam-h">
-    <h2 id="cam-h" hidden>Checking</h2>
-    <p class="note" role="status">Checking your selfie</p>
-    <p class="ann"><b>Зона 2 — обработка.</b> Снятый кадр остаётся на экране: видно, что проверяют именно его</p>
-    <article class="card">
-      <figure>
-        <p class="photo" aria-hidden="true"></p>
-        <figcaption>Your selfie</figcaption>
-      </figure>
-      <section class="body skeleton">
-        <p class="skel line w-m"></p>
-        <p class="skel line w-s"></p>
-      </section>
-    </article>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: обработка. Кадр остаётся на месте: человек видит, что проверяют -->
+    <section class="stretch" aria-labelledby="cam-h">
+      <h2 id="cam-h" hidden>Checking</h2>
+      <p class="note" role="status">Checking your selfie</p>
+      <article class="card">
+        <figure>
+          <p class="photo" aria-hidden="true"></p>
+          <figcaption>Your selfie</figcaption>
+        </figure>
+        <section class="body skeleton">
+          <p class="skel line w-m"></p>
+          <p class="skel line w-s"></p>
+        </section>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: действие выключено, но стоит на месте -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Checking</h2>
-    <p class="ann"><b>Зона 3 — действие на паузе.</b> Кнопка остаётся на месте выключенной: раскладка не должна прыгать под пальцем</p>
-    <p class="row">
-      <button type="button" class="primary" disabled>Checking&hellip;</button>
-    </p>
-  </section>
+    <!-- ЗОНА 3: действие выключено, но стоит на месте -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Checking</h2>
+      <p class="row">
+        <button type="button" class="primary" disabled>Checking&hellip;</button>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: ждать необязательно -->
-  <section aria-labelledby="skip-h">
-    <h2 id="skip-h" hidden>Later</h2>
-    <p class="ann"><b>Зона 4 — ждать необязательно.</b> Проверка идёт и без нас на экране</p>
-    <p>This takes a few seconds. You can keep browsing while we check.</p>
-    <a class="exit" href="deck.html">
-      <span>Keep browsing</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: ждать необязательно -->
+    <section aria-labelledby="skip-h">
+      <h2 id="skip-h" hidden>Later</h2>
+      <p>This takes a few seconds. You can keep browsing while we check.</p>
+      <a class="exit" href="deck.html">
+        <span>Keep browsing</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
+    <p class="ann"><b>Зона 2 — обработка.</b> Снятый кадр остаётся на экране: видно, что проверяют именно его</p>
+    <p class="ann"><b>Зона 3 — действие на паузе.</b> Кнопка остаётся на месте выключенной: раскладка не должна прыгать под пальцем</p>
+    <p class="ann"><b>Зона 4 — ждать необязательно.</b> Проверка идёт и без нас на экране</p>
+  </div>
 
   <!-- ЗОНА 5: таб-бара нет — экран забирает всё, объяснение в служебном блоке -->
 

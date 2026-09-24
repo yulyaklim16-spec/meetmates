@@ -156,13 +156,11 @@
 
 <header>
   <h1 id="ch-h">Your chats</h1>
-  <p class="ann"><b>Зона 1 — что показываем.</b> Диалоги 1:1 и чаты запросов вместе: для человека это одно — разговор с теми, кого уже нашёл</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: список. Непрочитанные, время, последняя реплика -->
-  <section class="scrolly" aria-labelledby="ch-h">
-    <p class="ann"><b>Зона 2 — список.</b> Диалоги и чаты запросов вместе. Бейджа присутствия нет нигде `D-06`</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: список. Непрочитанные, время, последняя реплика -->
+    <section class="scrolly" aria-labelledby="ch-h">
       <ul class="rows">
         <li><a class="item" href="dialog-loading.html">
           <span class="top"><b>Olena</b><span class="when">19:08 &middot; 1 new</span></span>
@@ -174,22 +172,27 @@
         </a></li>
         <li><a class="item" href="dialog-empty.html">
           <span class="top"><b>Maryna</b><span class="when">Mon</span></span>
-          <span class="who">You matched &mdash; no messages yet</span>
+          <span class="who"><span class="avatar" aria-hidden="true"></span>You matched &mdash; no messages yet</span>
         </a></li>
       </ul>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: выход туда, где берутся новые разговоры -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>More people</h2>
-    <p class="ann"><b>Зона 3 — откуда берутся новые.</b> Список чатов конечен: новые разговоры приходят из колоды и из откликов</p>
-    <a class="exit" href="deck.html">
-      <span>See people nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 3: выход туда, где берутся новые разговоры -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>More people</h2>
+      <a class="exit" href="deck.html">
+        <span>See people nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — что показываем.</b> Диалоги 1:1 и чаты запросов вместе: для человека это одно — разговор с теми, кого уже нашёл</p>
+    <p class="ann"><b>Зона 2 — список.</b> Диалоги и чаты запросов вместе. Бейджа присутствия нет нигде `D-06`</p>
+    <p class="ann"><b>Зона 3 — откуда берутся новые.</b> Список чатов конечен: новые разговоры приходят из колоды и из откликов</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

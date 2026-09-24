@@ -160,40 +160,45 @@
   <h1 id="fd-h">Events nearby</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
   <button type="button" class="primary"><span class="ico" aria-hidden="true"></span>New</button>
-  <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Кнопка создания живёт здесь и в каждом пустом состоянии — §2.1, п. 3. Фильтр по дате не прячет бессрочные (§5.4)</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: пусто. На старте это первый реальный экран, а не край -->
-  <section class="stretch" aria-labelledby="fd-h">
-    <p class="ann"><b>Зона 2 — состояние вместо ленты.</b> На старте Даша увидит именно его `D-22`. Текст про планы, а не про то, что вокруг никого — правило 13</p>
-    <article class="state">
-      <h3>No events within 5 km yet</h3>
-      <p>Events here are posted by people like you &mdash; and yours would be the first one nearby.</p>
-    </article>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: пусто. На старте это первый реальный экран, а не край -->
+    <section class="stretch" aria-labelledby="fd-h">
+      <article class="state">
+        <h3>No events within 5 km yet</h3>
+        <p>Events here are posted by people like you &mdash; and yours would be the first one nearby.</p>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: три ответа потока, все кнопками -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>What next</h2>
-    <p class="ann"><b>Зона 3 — что дальше.</b> Главное действие: свой план в один шаг — он не зависит ни от чьей взаимности. Ниже — расширить радиус</p>
-    <p class="row">
-      <button type="button" class="primary">Post an event of your own</button>
-    </p>
-    <p class="row">
-      <a class="btn quiet" href="feed-loading.html">Show events further out</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: три ответа потока, все кнопками -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>What next</h2>
+      <p class="row">
+        <button type="button" class="primary">Post an event of your own</button>
+      </p>
+      <p class="row">
+        <a class="btn quiet" href="feed-loading.html">Show events further out</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: третий ответ — уйти в колоду -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>People</h2>
-    <p class="ann"><b>Зона 4 — третий ответ.</b> Планов нет — люди могут быть. Тупик наступает, только если пусто и здесь, и там (§2.1)</p>
-    <a class="exit" href="deck.html">
-      <span>See people nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: третий ответ — уйти в колоду -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>People</h2>
+      <a class="exit" href="deck.html">
+        <span>See people nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Кнопка создания живёт здесь и в каждом пустом состоянии — §2.1, п. 3. Фильтр по дате не прячет бессрочные (§5.4)</p>
+    <p class="ann"><b>Зона 2 — состояние вместо ленты.</b> На старте Даша увидит именно его `D-22`. Текст про планы, а не про то, что вокруг никого — правило 13</p>
+    <p class="ann"><b>Зона 3 — что дальше.</b> Главное действие: свой план в один шаг — он не зависит ни от чьей взаимности. Ниже — расширить радиус</p>
+    <p class="ann"><b>Зона 4 — третий ответ.</b> Планов нет — люди могут быть. Тупик наступает, только если пусто и здесь, и там (§2.1)</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

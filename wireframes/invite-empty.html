@@ -158,39 +158,44 @@
 <header>
   <a href="dialog.html" aria-label="Back to the chat"><span class="ico" aria-hidden="true"></span></a>
   <h1>Go together</h1>
-  <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же разговор: экран открыт из него, и вернуться должно быть одним тапом `D-36`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: кого зовём — не меняется -->
-  <section aria-labelledby="who-h">
-    <h2 id="who-h" hidden>Who</h2>
-    <p class="ann"><b>Зона 2 — кого зовём.</b> Не меняется: пусто не здесь, а в списке планов</p>
-    <p class="who"><span class="avatar" aria-hidden="true"></span>You and Olena</p>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: кого зовём — не меняется -->
+    <section aria-labelledby="who-h">
+      <h2 id="who-h" hidden>Who</h2>
+      <p class="who"><span class="avatar" aria-hidden="true"></span>You and Olena</p>
+    </section>
 
-  <!-- ЗОНА 3: выбирать не из чего. Причина названа, а не спрятана -->
-  <section class="stretch" aria-labelledby="pl-h">
-    <h2 id="pl-h">Events that fit two</h2>
-    <p class="ann"><b>Зона 3 — причина пустоты.</b> Планы рядом есть, но они на одного — иначе читается как поломка</p>
-    <article class="state">
-      <h3>Nothing nearby fits two right now</h3>
-      <p>Most events around are for one more person. You can pick a day yourselves instead &mdash; that works the same way.</p>
-    </article>
-  </section>
+    <!-- ЗОНА 3: выбирать не из чего. Причина названа, а не спрятана -->
+    <section class="stretch" aria-labelledby="pl-h">
+      <h2 id="pl-h">Events that fit two</h2>
+      <article class="state">
+        <h3>Nothing nearby fits two right now</h3>
+        <p>Most events around are for one more person. You can pick a day yourselves instead &mdash; that works the same way.</p>
+      </article>
+    </section>
 
-  <!-- ЗОНА 4: два выхода, оба ведут к той же встрече -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>What next</h2>
-    <p class="ann"><b>Зона 4 — два выхода.</b> Главное действие: назначить день самим — тот же результат, только без чужого запроса `D-39`</p>
-    <p class="row">
-      <a class="btn primary" href="dialog-waiting.html">Suggest a day instead</a>
-    </p>
-    <a class="exit" href="feed.html">
-      <span>See all events nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: два выхода, оба ведут к той же встрече -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>What next</h2>
+      <p class="row">
+        <a class="btn primary" href="dialog-waiting.html">Suggest a day instead</a>
+      </p>
+      <a class="exit" href="feed.html">
+        <span>See all events nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же разговор: экран открыт из него, и вернуться должно быть одним тапом `D-36`</p>
+    <p class="ann"><b>Зона 2 — кого зовём.</b> Не меняется: пусто не здесь, а в списке планов</p>
+    <p class="ann"><b>Зона 3 — причина пустоты.</b> Планы рядом есть, но они на одного — иначе читается как поломка</p>
+    <p class="ann"><b>Зона 4 — два выхода.</b> Главное действие: назначить день самим — тот же результат, только без чужого запроса `D-39`</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

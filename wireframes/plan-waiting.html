@@ -160,14 +160,12 @@
   <a href="feed.html" aria-label="Back to events"><span class="ico" aria-hidden="true"></span></a>
   <h1>Board games</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Report здесь же: на карточке запроса виден автор, значит до жалобы один тап — правило 4, `D-44`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: кто должен ответить и сколько это живёт -->
-  <section class="scrolly" aria-labelledby="w-h">
-    <h2 id="w-h" hidden>Waiting for the author</h2>
-    <p class="ann"><b>Зона 2 — кто и сколько.</b> «Ждём Андрея», а не «загрузка»: дело не в приложении. Срок равен сроку запроса — §5.4</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: кто должен ответить и сколько это живёт -->
+    <section class="scrolly" aria-labelledby="w-h">
+      <h2 id="w-h" hidden>Waiting for the author</h2>
       <article class="banner">
         <b>Waiting for Andrii</b>
         <p>Your request is with him. It stays open until Saturday &mdash; events without a date keep requests for 14 days.</p>
@@ -181,31 +179,36 @@
       <p class="who"><span class="avatar" aria-hidden="true"></span>Andrii &middot; Verified &middot; 12 meetups attended &middot; Replies quickly</p>
 
       <output class="note">2 going &middot; 1 spot left &middot; your request doesn&rsquo;t take a spot yet</output>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: что можно вместо ожидания — третье требование D-42 -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Meanwhile</h2>
-    <p class="ann"><b>Зона 3 — что вместо ожидания.</b> Отозвать можно в любой момент, и это сказано прямо: иначе отклик ощущается как обязательство</p>
-    <p class="row">
-      <a class="btn primary" href="feed.html">See other events</a>
-    </p>
-    <p class="row">
-      <a class="btn quiet" href="feed.html">Withdraw my request</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: что можно вместо ожидания — третье требование D-42 -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Meanwhile</h2>
+      <p class="row">
+        <a class="btn primary" href="feed.html">See other events</a>
+      </p>
+      <p class="row">
+        <a class="btn quiet" href="feed.html">Withdraw my request</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: второй путь -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>People</h2>
-    <p class="ann"><b>Зона 4 — параллельный путь.</b> Ожидание одного автора не должно останавливать всё остальное: колода открыта</p>
-    <a class="exit" href="deck.html">
-      <span>See people nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: второй путь -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>People</h2>
+      <a class="exit" href="deck.html">
+        <span>See people nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Report здесь же: на карточке запроса виден автор, значит до жалобы один тап — правило 4, `D-44`</p>
+    <p class="ann"><b>Зона 2 — кто и сколько.</b> «Ждём Андрея», а не «загрузка»: дело не в приложении. Срок равен сроку запроса — §5.4</p>
+    <p class="ann"><b>Зона 3 — что вместо ожидания.</b> Отозвать можно в любой момент, и это сказано прямо: иначе отклик ощущается как обязательство</p>
+    <p class="ann"><b>Зона 4 — параллельный путь.</b> Ожидание одного автора не должно останавливать всё остальное: колода открыта</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

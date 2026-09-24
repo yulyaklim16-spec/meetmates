@@ -163,69 +163,75 @@
 <header>
   <h1 id="deck-h">People nearby</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
-  <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Главное действие: Filters → II.2 Фильтры колоды. Заголовок называет, что показываем, фильтры стоят в той же строке</p>
 </header>
 
   <main class="app">
-  <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком (I.1) -->
-  <section class="stretch" aria-labelledby="deck-h">
-    <p class="ann"><b>Зона 2 — карточка человека.</b> Вверху — полосы по числу фотографий, под ними справа округлённое расстояние (§7.1). Тап по всей карточке → профиль I.1</p>
+  <div class="pane">
+    <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком (I.1) -->
+    <section class="stretch" aria-labelledby="deck-h">
 
-    <article class="card">
-      <figure>
-        <p class="photo" aria-hidden="true"></p>
-        <figcaption class="vh">Photo 1 of 4</figcaption>
-        <p class="pager" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></p>
-        <p class="cardtop">
-          <span class="chip"><span class="ico sm" aria-hidden="true"></span>~2 km</span>
-        </p>
-      </figure>
+      <article class="card">
+        <figure>
+          <p class="photo" aria-hidden="true"></p>
+          <figcaption class="vh">Photo 1 of 4</figcaption>
+          <p class="pager" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></p>
+          <p class="cardtop">
+            <span class="chip"><span class="ico sm" aria-hidden="true"></span>~2 km</span>
+          </p>
+        </figure>
 
-      <section class="body" aria-label="Olena, 26">
-        <!-- 1. Общие интересы — первой строкой, D-13 -->
-        <p class="common">3 common interests</p>
-        <ul class="tags">
-          <li>Hiking</li>
-          <li>Board games</li>
-          <li>Coffee</li>
-        </ul>
+        <section class="body" aria-label="Olena, 26">
+          <!-- 1. Общие интересы — первой строкой, D-13 -->
+          <p class="common">3 common interests</p>
+          <ul class="tags">
+            <li>Hiking</li>
+            <li>Board games</li>
+            <li>Coffee</li>
+          </ul>
 
-        <!-- 2. Имя и возраст — идентификация, не решение -->
-        <h3>Olena, 26</h3>
+          <!-- 2. Имя и возраст — идентификация, не решение -->
+          <h3>Olena, 26</h3>
 
-        <!-- 3. Сигналы доверия. Ступень уехала в профиль D-48: на карточке
-             она пересказывала то, что и так видно, — фото, интересы, Verified -->
-        <ul class="signals">
-          <li><span class="ico sm" aria-hidden="true"></span>Verified</li>
-          <li>6 meetups attended</li>
-          <li>Replies quickly</li>
-        </ul>
+          <!-- 3. Сигналы доверия. Ступень уехала в профиль D-48: на карточке
+               она пересказывала то, что и так видно, — фото, интересы, Verified -->
+          <ul class="signals">
+            <li><span class="ico sm" aria-hidden="true"></span>Verified</li>
+            <li>6 meetups attended</li>
+            <li>Replies quickly</li>
+          </ul>
 
-      </section>
-      <a class="cardlink" href="profile.html" aria-label="Olena, 26 — open profile"></a>
-    </article>
-  </section>
+        </section>
+        <a class="cardlink" href="profile.html" aria-label="Olena, 26 — open profile"></a>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: решение по карточке. Главное действие — Like -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Decision</h2>
-    <p class="ann"><b>Зона 3 — решение по карточке.</b> Главное действие: Like. Взаимный лайк → II.3 Совпадение</p>
-    <p class="row">
-      <a class="btn" href="deck.html">Skip</a>
-      <a class="btn primary" href="match.html">Like</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: решение по карточке. Главное действие — Like -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Decision</h2>
+      <p class="row">
+        <a class="btn" href="deck.html">Skip</a>
+        <a class="btn primary" href="match.html">Like</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: выход во второй путь. Обязателен всегда, а не только в пустом виде (§4, D-10) -->
-  <section aria-labelledby="exit-h">
-    <h2 id="exit-h" hidden>Second path</h2>
-    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Главное действие: перейти в ленту запросов → III.1</p>
-    <a class="exit" href="feed.html">
-      <span>See events nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: выход во второй путь. Обязателен всегда, а не только в пустом виде (§4, D-10) -->
+    <section aria-labelledby="exit-h">
+      <h2 id="exit-h" hidden>Second path</h2>
+      <a class="exit" href="feed.html">
+        <span>See events nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
 </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Главное действие: Filters → II.2 Фильтры колоды. Заголовок называет, что показываем, фильтры стоят в той же строке</p>
+    <p class="ann"><b>Зона 2 — карточка человека.</b> Вверху — полосы по числу фотографий, под ними справа округлённое расстояние (§7.1). Тап по всей карточке → профиль I.1</p>
+    <p class="ann"><b>Зона 3 — решение по карточке.</b> Главное действие: Like. Взаимный лайк → II.3 Совпадение</p>
+    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Главное действие: перейти в ленту запросов → III.1</p>
+  </div>
+
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

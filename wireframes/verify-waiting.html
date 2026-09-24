@@ -159,41 +159,46 @@
 <header>
   <a href="dialog.html" aria-label="Back to the chat"><span class="ico" aria-hidden="true"></span></a>
   <h1>Verification</h1>
-  <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: кто ответит и сколько это живёт — два из трёх требований D-42 -->
-  <section class="stretch" aria-labelledby="w-h">
-    <h2 id="w-h" hidden>In manual review</h2>
-    <p class="ann"><b>Зона 2 — кто и сколько.</b> «Ждём модератора», а не «загрузка». Срок назван — требование `D-42`</p>
-    <article class="state">
-      <h3>A person is looking at your selfie</h3>
-      <p>Automatic checks didn&rsquo;t recognise you twice, so someone from the team takes over. Usually minutes, at most 24 hours &mdash; we&rsquo;ll let you know either way.</p>
-    </article>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: кто ответит и сколько это живёт — два из трёх требований D-42 -->
+    <section class="stretch" aria-labelledby="w-h">
+      <h2 id="w-h" hidden>In manual review</h2>
+      <article class="state">
+        <h3>A person is looking at your selfie</h3>
+        <p>Automatic checks didn&rsquo;t recognise you twice, so someone from the team takes over. Usually minutes, at most 24 hours &mdash; we&rsquo;ll let you know either way.</p>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: что можно делать вместо ожидания — третье требование D-42 -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Meanwhile</h2>
-    <p class="ann"><b>Зона 3 — что вместо ожидания.</b> Колода и лента открыты: гейт держит только сообщения и отклик, всё остальное работает</p>
-    <p class="row">
-      <a class="btn primary" href="deck.html">Keep browsing</a>
-    </p>
-    <p class="row">
-      <a class="btn quiet" href="feed.html">Look at events nearby</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: что можно делать вместо ожидания — третье требование D-42 -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Meanwhile</h2>
+      <p class="row">
+        <a class="btn primary" href="deck.html">Keep browsing</a>
+      </p>
+      <p class="row">
+        <a class="btn quiet" href="feed.html">Look at events nearby</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: разговор ждёт — гейт остаётся, но чат не исчезает -->
-  <section aria-labelledby="exit-h">
-    <h2 id="exit-h" hidden>The chat</h2>
-    <p class="ann"><b>Зона 4 — разговор на месте.</b> Матч и чат не пропадают: пока идёт проверка, поле ввода закрыто, но диалог виден</p>
-    <a class="exit" href="dialog.html">
-      <span>Your chat with Olena is waiting</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: разговор ждёт — гейт остаётся, но чат не исчезает -->
+    <section aria-labelledby="exit-h">
+      <h2 id="exit-h" hidden>The chat</h2>
+      <a class="exit" href="dialog.html">
+        <span>Your chat with Olena is waiting</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
+    <p class="ann"><b>Зона 2 — кто и сколько.</b> «Ждём модератора», а не «загрузка». Срок назван — требование `D-42`</p>
+    <p class="ann"><b>Зона 3 — что вместо ожидания.</b> Колода и лента открыты: гейт держит только сообщения и отклик, всё остальное работает</p>
+    <p class="ann"><b>Зона 4 — разговор на месте.</b> Матч и чат не пропадают: пока идёт проверка, поле ввода закрыто, но диалог виден</p>
+  </div>
 
   <!-- ЗОНА 5: таб-бара нет — экран забирает всё, объяснение в служебном блоке -->
 

@@ -153,32 +153,35 @@
 
 <header>
   <h1 id="ch-h">Your chats</h1>
-  <p class="ann"><b>Зона 1 — что показываем.</b> Диалоги 1:1 и чаты запросов вместе: для человека это одно — разговор с теми, кого уже нашёл</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: скелет списка -->
-  <section class="scrolly" aria-labelledby="ch-h">
-    <p class="note" role="status">Loading your chats</p>
-    <p class="ann"><b>Зона 2 — скелет списка.</b> Две строки на чат — как в рабочем виде</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: скелет списка -->
+    <section class="scrolly" aria-labelledby="ch-h">
+      <p class="note" role="status">Loading your chats</p>
       <ul class="rows" aria-hidden="true">
         <li class="item"><span class="skel line w-m"></span><span class="skel line w-l"></span></li>
         <li class="item"><span class="skel line w-l"></span><span class="skel line w-m"></span></li>
         <li class="item"><span class="skel line w-s"></span><span class="skel line w-m"></span></li>
       </ul>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: выход живой -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>Elsewhere</h2>
-    <p class="ann"><b>Зона 3 — выход живой.</b> Ждать список необязательно</p>
-    <a class="exit" href="deck.html">
-      <span>See people nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 3: выход живой -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Elsewhere</h2>
+      <a class="exit" href="deck.html">
+        <span>See people nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — что показываем.</b> Диалоги 1:1 и чаты запросов вместе: для человека это одно — разговор с теми, кого уже нашёл</p>
+    <p class="ann"><b>Зона 2 — скелет списка.</b> Две строки на чат — как в рабочем виде</p>
+    <p class="ann"><b>Зона 3 — выход живой.</b> Ждать список необязательно</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

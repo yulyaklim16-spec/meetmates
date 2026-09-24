@@ -156,15 +156,13 @@
   <a href="deck.html" aria-label="Back to people nearby"><span class="ico" aria-hidden="true"></span></a>
   <h1>Olena, 26</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Report и Block здесь, а не на карточке колоды: до них один тап с экрана, где виден человек — правило 4, `D-44`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: шапка готова, скелет — только у того, что грузится -->
-  <section class="scrolly" aria-labelledby="who-h">
-    <h2 id="who-h" hidden>Olena, 26</h2>
-    <p class="note" role="status">Loading photos and events</p>
-    <p class="ann"><b>Зона 2 — готовое и скелет рядом.</b> Шапка пришла с карточкой колоды, поэтому не мигает: скелет стоит только там, где данных нет</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: шапка готова, скелет — только у того, что грузится -->
+    <section class="scrolly" aria-labelledby="who-h">
+      <h2 id="who-h" hidden>Olena, 26</h2>
+      <p class="note" role="status">Loading photos and events</p>
       <!-- та же карточка, что в колоде: фото во всю площадь, текст подложкой снизу (§8).
            Имя не повторяем — оно в шапке экрана; порядок чтения остальной D-13 -->
       <article class="card">
@@ -198,31 +196,36 @@
         <span class="skel thumb"></span>
         <span class="skel thumb"></span>
       </p>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: планы грузятся — заглушка того же размера, что строка плана -->
-  <section aria-labelledby="pl-h">
-    <h2 id="pl-h">Olena&rsquo;s events</h2>
-    <p class="ann"><b>Зона 3 — скелет плана.</b> Того же размера, что строка с планом: когда данные придут, ничего не прыгнет</p>
-    <ul class="rows" aria-hidden="true">
-      <li class="item">
-        <span class="skel line w-l"></span>
-        <span class="skel line w-m"></span>
-      </li>
-    </ul>
-  </section>
+    <!-- ЗОНА 3: планы грузятся — заглушка того же размера, что строка плана -->
+    <section aria-labelledby="pl-h">
+      <h2 id="pl-h">Olena&rsquo;s events</h2>
+      <ul class="rows" aria-hidden="true">
+        <li class="item">
+          <span class="skel line w-l"></span>
+          <span class="skel line w-m"></span>
+        </li>
+      </ul>
+    </section>
 
-  <!-- ЗОНА 4: решение. Остаётся доступным при любом состоянии дозагрузки -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Decision</h2>
-    <p class="ann"><b>Зона 4 — решение.</b> Работает при любом состоянии: решать «свайпать или нет» можно и с неполным профилем</p>
-    <p class="row">
-      <a class="btn" href="deck.html">Skip</a>
-      <a class="btn primary" href="match.html">Like</a>
-    </p>
-  </section>
+    <!-- ЗОНА 4: решение. Остаётся доступным при любом состоянии дозагрузки -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Decision</h2>
+      <p class="row">
+        <a class="btn" href="deck.html">Skip</a>
+        <a class="btn primary" href="match.html">Like</a>
+      </p>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Report и Block здесь, а не на карточке колоды: до них один тап с экрана, где виден человек — правило 4, `D-44`</p>
+    <p class="ann"><b>Зона 2 — готовое и скелет рядом.</b> Шапка пришла с карточкой колоды, поэтому не мигает: скелет стоит только там, где данных нет</p>
+    <p class="ann"><b>Зона 3 — скелет плана.</b> Того же размера, что строка с планом: когда данные придут, ничего не прыгнет</p>
+    <p class="ann"><b>Зона 4 — решение.</b> Работает при любом состоянии: решать «свайпать или нет» можно и с неполным профилем</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

@@ -161,39 +161,45 @@
 <header>
   <h1 id="deck-h">People nearby</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
-  <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Не меняется: сломалась загрузка, а не экран</p>
 </header>
 
   <main class="app">
-  <!-- ЗОНА 2: вместо карточки — состояние. Причина названа, вины на человеке нет -->
-  <section class="stretch" aria-labelledby="deck-h">
-    <p class="ann"><b>Зона 2 — состояние вместо карточки.</b> Причина названа словами — соединение. Никаких «something went wrong»: то же правило, что у непройденной верификации `D-26`. Вины человека здесь нет, и текст об этом не намекает</p>
+  <div class="pane">
+    <!-- ЗОНА 2: вместо карточки — состояние. Причина названа, вины на человеке нет -->
+    <section class="stretch" aria-labelledby="deck-h">
 
-    <article class="state" role="alert">
-      <h3>Couldn&rsquo;t load people nearby</h3>
-      <p>The connection dropped while we were looking. Your likes and matches are safe.</p>
-    </article>
-  </section>
+      <article class="state" role="alert">
+        <h3>Couldn&rsquo;t load people nearby</h3>
+        <p>The connection dropped while we were looking. Your likes and matches are safe.</p>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: что дальше. Повтор — главное действие; flows.md M1: DeckErr → Deck -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>What next</h2>
-    <p class="ann"><b>Зона 3 — что дальше.</b> Одно действие — повторить. Ведёт в загрузку: попытка должна быть видна</p>
-    <p class="row">
-      <a class="btn primary" href="deck-loading.html">Try again</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: что дальше. Повтор — главное действие; flows.md M1: DeckErr → Deck -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>What next</h2>
+      <p class="row">
+        <a class="btn primary" href="deck-loading.html">Try again</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: выход во второй путь. Обязателен всегда (§4, D-10) -->
-  <section aria-labelledby="exit-h">
-    <h2 id="exit-h" hidden>Second path</h2>
-    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Тот же, что в рабочем виде: ошибка — не повод запереть человека в одном экране. Правило 10 действует и здесь</p>
-    <a class="exit" href="feed.html">
-      <span>See events nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: выход во второй путь. Обязателен всегда (§4, D-10) -->
+    <section aria-labelledby="exit-h">
+      <h2 id="exit-h" hidden>Second path</h2>
+      <a class="exit" href="feed.html">
+        <span>See events nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
 </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Не меняется: сломалась загрузка, а не экран</p>
+    <p class="ann"><b>Зона 2 — состояние вместо карточки.</b> Причина названа словами — соединение. Никаких «something went wrong»: то же правило, что у непройденной верификации `D-26`. Вины человека здесь нет, и текст об этом не намекает</p>
+    <p class="ann"><b>Зона 3 — что дальше.</b> Одно действие — повторить. Ведёт в загрузку: попытка должна быть видна</p>
+    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Тот же, что в рабочем виде: ошибка — не повод запереть человека в одном экране. Правило 10 действует и здесь</p>
+  </div>
+
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

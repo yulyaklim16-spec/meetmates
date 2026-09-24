@@ -161,43 +161,46 @@
   <span class="avatar" aria-hidden="true"></span>
   <h1>Olena</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Имя ведёт в профиль, Report и Block — здесь: правило 4, один тап оттуда, где виден человек</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: разговор. Прокручивается, выходы и ввод закреплены снизу -->
-  <section class="scrolly" aria-labelledby="msg-h">
-    <h2 id="msg-h" hidden>Conversation</h2>
-    <p class="ann"><b>Зона 2 — разговор.</b> Прокручивается; выходы и поле ввода закреплены снизу, чтобы дорога наружу не уезжала вверх вместе с историей</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: разговор. Прокручивается, выходы и ввод закреплены снизу -->
+    <section class="scrolly" aria-labelledby="msg-h">
+      <h2 id="msg-h" hidden>Conversation</h2>
       <div class="msgs">
         <p class="bubble">Hi! Saw you&rsquo;re into board games too<span class="t">Olena &middot; 19:04</span></p>
         <p class="bubble me">Yes &mdash; there&rsquo;s a game caf&eacute; on Podil I keep meaning to try<span class="t">19:06 &middot; Read</span></p>
         <p class="bubble">Let&rsquo;s go then. Which day works for you?<span class="t">Olena &middot; 19:08</span></p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: выходы наружу. Ради них экран и существует: D-37 -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>Ways out of the chat</h2>
-    <p class="ann"><b>Зона 3 — выходы наружу.</b> Главное действие: <code>Suggest a day</code> → запрос `+1` с датой `D-39`. Второй выход — позвать вдвоём в чужой план `D-36`</p>
-    <p class="row">
-      <a class="btn primary" href="dialog-waiting.html">Suggest a day</a>
-      <a class="btn quiet" href="invite.html">Invite together</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: выходы наружу. Ради них экран и существует: D-37 -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Ways out of the chat</h2>
+      <p class="row">
+        <a class="btn primary" href="dialog-waiting.html">Suggest a day</a>
+        <a class="btn quiet" href="invite.html">Invite together</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: поле ввода. Верификация пройдена, гейта нет (§7.3) -->
-  <section aria-labelledby="in-h">
-    <h2 id="in-h" hidden>Message</h2>
-    <p class="ann"><b>Зона 4 — ввод.</b> Гейт снят: иначе здесь стоял бы призыв верифицироваться (§7.3)</p>
-    <label class="field" for="msg">
-      <span class="ico" aria-hidden="true"></span>
-      <span class="vh">Message</span>
-      <input id="msg" type="text" placeholder="Write a message">
-    </label>
-  </section>
+    <!-- ЗОНА 4: поле ввода. Верификация пройдена, гейта нет (§7.3) -->
+    <section aria-labelledby="in-h">
+      <h2 id="in-h" hidden>Message</h2>
+      <label class="field" for="msg">
+        <span class="ico" aria-hidden="true"></span>
+        <span class="vh">Message</span>
+        <input id="msg" type="text" placeholder="Write a message">
+      </label>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Имя ведёт в профиль, Report и Block — здесь: правило 4, один тап оттуда, где виден человек</p>
+    <p class="ann"><b>Зона 2 — разговор.</b> Прокручивается; выходы и поле ввода закреплены снизу, чтобы дорога наружу не уезжала вверх вместе с историей</p>
+    <p class="ann"><b>Зона 3 — выходы наружу.</b> Главное действие: <code>Suggest a day</code> → запрос `+1` с датой `D-39`. Второй выход — позвать вдвоём в чужой план `D-36`</p>
+    <p class="ann"><b>Зона 4 — ввод.</b> Гейт снят: иначе здесь стоял бы призыв верифицироваться (§7.3)</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

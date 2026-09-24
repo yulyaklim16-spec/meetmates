@@ -157,14 +157,12 @@
   <a href="deck.html" aria-label="Back to people nearby"><span class="ico" aria-hidden="true"></span></a>
   <h1>Olena, 26</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Report и Block здесь, а не на карточке колоды: до них один тап с экрана, где виден человек — правило 4, `D-44`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: кто это — без изменений: профиль пришёл, пусто только в планах -->
-  <section class="scrolly" aria-labelledby="who-h">
-    <h2 id="who-h" hidden>Olena, 26</h2>
-    <p class="ann"><b>Зона 2 — кто это.</b> Не меняется: пусто только в планах, сам профиль на месте</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: кто это — без изменений: профиль пришёл, пусто только в планах -->
+    <section class="scrolly" aria-labelledby="who-h">
+      <h2 id="who-h" hidden>Olena, 26</h2>
       <!-- та же карточка, что в колоде: фото во всю площадь, текст подложкой снизу (§8).
            Имя не повторяем — оно в шапке экрана; порядок чтения остальной D-13 -->
       <article class="card">
@@ -192,33 +190,38 @@
       </article>
 
       <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: планов нет. Пусто здесь — частый вид, а не край (§2.1) -->
-  <section aria-labelledby="pl-h">
-    <h2 id="pl-h">Olena&rsquo;s events</h2>
-    <p class="ann"><b>Зона 3 — планов нет.</b> Пустая строка была бы враньём: вместо неё названо, что это значит, и куда идти</p>
-    <article class="state">
-      <h3>No events right now</h3>
-      <p>Olena hasn&rsquo;t posted anything yet. You can still say hi, or look at events nearby.</p>
-    </article>
-    <a class="exit" href="feed.html">
-      <span>See events nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 3: планов нет. Пусто здесь — частый вид, а не край (§2.1) -->
+    <section aria-labelledby="pl-h">
+      <h2 id="pl-h">Olena&rsquo;s events</h2>
+      <article class="state">
+        <h3>No events right now</h3>
+        <p>Olena hasn&rsquo;t posted anything yet. You can still say hi, or look at events nearby.</p>
+      </article>
+      <a class="exit" href="feed.html">
+        <span>See events nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
 
-  <!-- ЗОНА 4: решение. Остаётся доступным при любом состоянии дозагрузки -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Decision</h2>
-    <p class="ann"><b>Зона 4 — решение.</b> Работает при любом состоянии: решать «свайпать или нет» можно и с неполным профилем</p>
-    <p class="row">
-      <a class="btn" href="deck.html">Skip</a>
-      <a class="btn primary" href="match.html">Like</a>
-    </p>
-  </section>
+    <!-- ЗОНА 4: решение. Остаётся доступным при любом состоянии дозагрузки -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Decision</h2>
+      <p class="row">
+        <a class="btn" href="deck.html">Skip</a>
+        <a class="btn primary" href="match.html">Like</a>
+      </p>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Report и Block здесь, а не на карточке колоды: до них один тап с экрана, где виден человек — правило 4, `D-44`</p>
+    <p class="ann"><b>Зона 2 — кто это.</b> Не меняется: пусто только в планах, сам профиль на месте</p>
+    <p class="ann"><b>Зона 3 — планов нет.</b> Пустая строка была бы враньём: вместо неё названо, что это значит, и куда идти</p>
+    <p class="ann"><b>Зона 4 — решение.</b> Работает при любом состоянии: решать «свайпать или нет» можно и с неполным профилем</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

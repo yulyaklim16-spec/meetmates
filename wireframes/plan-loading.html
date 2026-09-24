@@ -159,15 +159,13 @@
   <a href="feed.html" aria-label="Back to events"><span class="ico" aria-hidden="true"></span></a>
   <h1>Board games</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Report здесь же: на карточке запроса виден автор, значит до жалобы один тап — правило 4, `D-44`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: полный скелет: данных нет вовсе, это холодное открытие -->
-  <section class="scrolly" aria-labelledby="pl-h">
-    <h2 id="pl-h" hidden>The event</h2>
-    <p class="note" role="status">Opening the event</p>
-    <p class="ann"><b>Зона 2 — полный скелет.</b> Холодное открытие из пуша или по ссылке: на руках нет ничего, поэтому заглушки стоят и под занятие, и под автора</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: полный скелет: данных нет вовсе, это холодное открытие -->
+    <section class="scrolly" aria-labelledby="pl-h">
+      <h2 id="pl-h" hidden>The event</h2>
+      <p class="note" role="status">Opening the event</p>
       <p class="skel line w-l" aria-hidden="true"></p>
       <p class="skelrow" aria-hidden="true">
         <span class="skel pill w-m"></span>
@@ -179,28 +177,33 @@
         <span class="avatar"></span>
         <span class="skel line w-m"></span>
       </p>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: действие на паузе, место под него занято -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Join</h2>
-    <p class="ann"><b>Зона 3 — действие на паузе.</b> Кнопка на месте выключенной: она главная, и её место не должно появиться рывком</p>
-    <p class="row">
-      <button type="button" class="primary" disabled>Ask to join</button>
-    </p>
-  </section>
+    <!-- ЗОНА 3: действие на паузе, место под него занято -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Join</h2>
+      <p class="row">
+        <button type="button" class="primary" disabled>Ask to join</button>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: выход живой -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>Other events</h2>
-    <p class="ann"><b>Зона 4 — выход живой.</b> Ждать карточку необязательно: лента открыта</p>
-    <a class="exit" href="feed.html">
-      <span>See other events nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: выход живой -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Other events</h2>
+      <a class="exit" href="feed.html">
+        <span>See other events nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Report здесь же: на карточке запроса виден автор, значит до жалобы один тап — правило 4, `D-44`</p>
+    <p class="ann"><b>Зона 2 — полный скелет.</b> Холодное открытие из пуша или по ссылке: на руках нет ничего, поэтому заглушки стоят и под занятие, и под автора</p>
+    <p class="ann"><b>Зона 3 — действие на паузе.</b> Кнопка на месте выключенной: она главная, и её место не должно появиться рывком</p>
+    <p class="ann"><b>Зона 4 — выход живой.</b> Ждать карточку необязательно: лента открыта</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

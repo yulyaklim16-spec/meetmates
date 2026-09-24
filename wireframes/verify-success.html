@@ -157,41 +157,46 @@
 <header>
   <a href="dialog.html" aria-label="Back to the chat"><span class="ico" aria-hidden="true"></span></a>
   <h1>Verification</h1>
-  <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: факт и его последствие -->
-  <section class="stretch" aria-labelledby="ok-h">
-    <h2 id="ok-h" hidden>Verified</h2>
-    <p class="ann"><b>Зона 2 — факт и последствие.</b> Не «пройдено», а что теперь можно: писать, откликаться, подтверждать</p>
-    <article class="state">
-      <h3>You&rsquo;re verified</h3>
-      <p>The badge is on your card now. You can message, join events and confirm people who ask to join yours.</p>
-      <ul class="signals">
-        <li><span class="ico sm" aria-hidden="true"></span>Verified</li>
-      </ul>
-    </article>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: факт и его последствие -->
+    <section class="stretch" aria-labelledby="ok-h">
+      <h2 id="ok-h" hidden>Verified</h2>
+      <article class="state">
+        <h3>You&rsquo;re verified</h3>
+        <p>The badge is on your card now. You can message, join events and confirm people who ask to join yours.</p>
+        <ul class="signals">
+          <li><span class="ico sm" aria-hidden="true"></span>Verified</li>
+        </ul>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: возврат ровно туда, откуда пришёл гейт -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Back to the chat</h2>
-    <p class="ann"><b>Зона 3 — возврат.</b> Главное действие: вернуться в тот самый разговор. Гейт стоял ради него, и человек не должен искать дорогу сам</p>
-    <p class="row">
-      <a class="btn primary" href="dialog-empty.html">Back to Olena</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: возврат ровно туда, откуда пришёл гейт -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Back to the chat</h2>
+      <p class="row">
+        <a class="btn primary" href="dialog-empty.html">Back to Olena</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: второй путь тоже открылся -->
-  <section aria-labelledby="exit-h">
-    <h2 id="exit-h" hidden>Second path</h2>
-    <p class="ann"><b>Зона 4 — что ещё открылось.</b> Отклик на чужой запрос требовал верификации — теперь он открыт</p>
-    <a class="exit" href="feed.html">
-      <span>See events nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: второй путь тоже открылся -->
+    <section aria-labelledby="exit-h">
+      <h2 id="exit-h" hidden>Second path</h2>
+      <a class="exit" href="feed.html">
+        <span>See events nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
+    <p class="ann"><b>Зона 2 — факт и последствие.</b> Не «пройдено», а что теперь можно: писать, откликаться, подтверждать</p>
+    <p class="ann"><b>Зона 3 — возврат.</b> Главное действие: вернуться в тот самый разговор. Гейт стоял ради него, и человек не должен искать дорогу сам</p>
+    <p class="ann"><b>Зона 4 — что ещё открылось.</b> Отклик на чужой запрос требовал верификации — теперь он открыт</p>
+  </div>
 
   <!-- ЗОНА 5: таб-бара нет — экран забирает всё, объяснение в служебном блоке -->
 

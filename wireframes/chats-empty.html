@@ -155,30 +155,35 @@
 
 <header>
   <h1 id="ch-h">Your chats</h1>
-  <p class="ann"><b>Зона 1 — что показываем.</b> Диалоги 1:1 и чаты запросов вместе: для человека это одно — разговор с теми, кого уже нашёл</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: пусто. Названо, откуда здесь берутся разговоры -->
-  <section class="stretch" aria-labelledby="ch-h">
-    <p class="ann"><b>Зона 2 — пусто.</b> Правило контакта объяснено: без этого пустой список читается как поломка</p>
-    <article class="state">
-      <h3>No chats yet</h3>
-      <p>Chats open when you and someone both say yes &mdash; or when the author of an event confirms you.</p>
-    </article>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: пусто. Названо, откуда здесь берутся разговоры -->
+    <section class="stretch" aria-labelledby="ch-h">
+      <article class="state">
+        <h3>No chats yet</h3>
+        <p>Chats open when you and someone both say yes &mdash; or when the author of an event confirms you.</p>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: оба пути к первому разговору -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>What next</h2>
-    <p class="ann"><b>Зона 3 — оба пути.</b> Колода — путь вероятностный, отклик на план — детерминированный. Второй стоит рядом, а не в глубине (§4)</p>
-    <p class="row">
-      <a class="btn primary" href="deck.html">See people nearby</a>
-    </p>
-    <p class="row">
-      <a class="btn quiet" href="feed.html">Join an event</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: оба пути к первому разговору -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>What next</h2>
+      <p class="row">
+        <a class="btn primary" href="deck.html">See people nearby</a>
+      </p>
+      <p class="row">
+        <a class="btn quiet" href="feed.html">Join an event</a>
+      </p>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — что показываем.</b> Диалоги 1:1 и чаты запросов вместе: для человека это одно — разговор с теми, кого уже нашёл</p>
+    <p class="ann"><b>Зона 2 — пусто.</b> Правило контакта объяснено: без этого пустой список читается как поломка</p>
+    <p class="ann"><b>Зона 3 — оба пути.</b> Колода — путь вероятностный, отклик на план — детерминированный. Второй стоит рядом, а не в глубине (§4)</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

@@ -159,47 +159,50 @@
 <header>
   <a href="dialog.html" aria-label="Back to the chat"><span class="ico" aria-hidden="true"></span></a>
   <h1>Go together</h1>
-  <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же разговор: экран открыт из него, и вернуться должно быть одним тапом `D-36`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: на каком шаге стоим. Два ожидания подряд — их надо различать -->
-  <section aria-labelledby="w-h">
-    <h2 id="w-h" hidden>Waiting</h2>
-    <p class="ann"><b>Зона 2 — чьё слово сейчас.</b> Два ожидания подряд: без номера шага непонятно, кого ждём `D-42`</p>
-    <article class="banner">
-      <b>Waiting for Olena</b>
-      <p>Step 1 of 2. She confirms on her side, then Andrii confirms the two of you &mdash; as one request for two spots.</p>
-    </article>
-    <p class="note">The invite stays open while the event does &mdash; until Saturday.</p>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: на каком шаге стоим. Два ожидания подряд — их надо различать -->
+    <section aria-labelledby="w-h">
+      <h2 id="w-h" hidden>Waiting</h2>
+      <article class="banner">
+        <b>Waiting for Olena</b>
+        <p>Step 1 of 2. She confirms on her side, then Andrii confirms the two of you &mdash; as one request for two spots.</p>
+      </article>
+      <p class="note">The invite stays open while the event does &mdash; until Saturday.</p>
+    </section>
 
-  <!-- ЗОНА 3: во что именно зовём — чтобы ожидание не было абстрактным -->
-  <section class="scrolly" aria-labelledby="pl-h">
-    <h2 id="pl-h" hidden>The event</h2>
-    <p class="ann"><b>Зона 3 — во что зовём.</b> План виден целиком: ждать проще, когда понятно, чего именно ждёшь</p>
-    <div class="pane">
+    <!-- ЗОНА 3: во что именно зовём — чтобы ожидание не было абстрактным -->
+    <section class="scrolly" aria-labelledby="pl-h">
+      <h2 id="pl-h" hidden>The event</h2>
       <ul class="rows">
         <li><a class="item" href="plan.html">
           <span class="top"><b>Board games</b><time class="when" datetime="2026-09-26T18:00">Sat 18:00</time></span>
-          <span class="who">2 spots left &middot; ~3 km away &middot; Andrii, Verified &middot; 12 meetups attended</span>
+          <span class="who"><span class="avatar" aria-hidden="true"></span>2 spots left &middot; ~3 km away &middot; Andrii, Verified &middot; 12 meetups attended</span>
         </a></li>
       </ul>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 4: что можно вместо ожидания — третье требование D-42 -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>Meanwhile</h2>
-    <p class="ann"><b>Зона 4 — что вместо ожидания.</b> Отозвать, смотреть другие планы, вернуться в разговор. Ожидание — статус, а не тупик</p>
-    <p class="row">
-      <a class="btn quiet" href="dialog.html">Withdraw the invite</a>
-    </p>
-    <a class="exit" href="feed.html">
-      <span>See other events</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: что можно вместо ожидания — третье требование D-42 -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Meanwhile</h2>
+      <p class="row">
+        <a class="btn quiet" href="dialog.html">Withdraw the invite</a>
+      </p>
+      <a class="exit" href="feed.html">
+        <span>See other events</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же разговор: экран открыт из него, и вернуться должно быть одним тапом `D-36`</p>
+    <p class="ann"><b>Зона 2 — чьё слово сейчас.</b> Два ожидания подряд: без номера шага непонятно, кого ждём `D-42`</p>
+    <p class="ann"><b>Зона 3 — во что зовём.</b> План виден целиком: ждать проще, когда понятно, чего именно ждёшь</p>
+    <p class="ann"><b>Зона 4 — что вместо ожидания.</b> Отозвать, смотреть другие планы, вернуться в разговор. Ожидание — статус, а не тупик</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

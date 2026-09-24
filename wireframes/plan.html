@@ -160,14 +160,12 @@
   <a href="feed.html" aria-label="Back to events"><span class="ico" aria-hidden="true"></span></a>
   <h1>Board games</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Report здесь же: на карточке запроса виден автор, значит до жалобы один тап — правило 4, `D-44`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: что за план. Место публичное: название, район, расстояние -->
-  <section class="scrolly" aria-labelledby="pl-h">
-    <h2 id="pl-h" hidden>The event</h2>
-    <p class="ann"><b>Зона 2 — что за план.</b> Публичная площадка названа, район и расстояние — тоже; точный адрес откроется только подтверждённым (§7.2)</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: что за план. Место публичное: название, район, расстояние -->
+    <section class="scrolly" aria-labelledby="pl-h">
+      <h2 id="pl-h" hidden>The event</h2>
       <ul class="signals">
         <li><time datetime="2026-09-26T18:00">Saturday, 18:00</time></li>
         <li>Free</li>
@@ -177,31 +175,36 @@
       <p class="who"><span class="avatar" aria-hidden="true"></span>Andrii &middot; Verified &middot; 12 meetups attended &middot; Replies quickly</p>
 
       <output class="note">2 going &middot; 1 spot left</output>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: отклик. Требует верификации (§7.3), автор подтверждает (§5.4) -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Join</h2>
-    <p class="ann"><b>Зона 3 — отклик.</b> Главное действие: <code>Ask to join</code>. Место оно не занимает: автор подтверждает, и это его контроль над тем, с кем идёт</p>
-    <p class="row">
-      <a class="btn primary" href="plan-waiting.html">Ask to join</a>
-    </p>
-    <p class="row">
-      <a class="btn quiet" href="invite.html">Invite someone to come with you</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: отклик. Требует верификации (§7.3), автор подтверждает (§5.4) -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Join</h2>
+      <p class="row">
+        <a class="btn primary" href="plan-waiting.html">Ask to join</a>
+      </p>
+      <p class="row">
+        <a class="btn quiet" href="invite.html">Invite someone to come with you</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: другие планы — на случай, если этот не подошёл -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>Other events</h2>
-    <p class="ann"><b>Зона 4 — другие планы.</b> Отказ от этого плана не должен выглядеть как конец: лента в одном тапе</p>
-    <a class="exit" href="feed.html">
-      <span>See other events nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: другие планы — на случай, если этот не подошёл -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Other events</h2>
+      <a class="exit" href="feed.html">
+        <span>See other events nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Report здесь же: на карточке запроса виден автор, значит до жалобы один тап — правило 4, `D-44`</p>
+    <p class="ann"><b>Зона 2 — что за план.</b> Публичная площадка названа, район и расстояние — тоже; точный адрес откроется только подтверждённым (§7.2)</p>
+    <p class="ann"><b>Зона 3 — отклик.</b> Главное действие: <code>Ask to join</code>. Место оно не занимает: автор подтверждает, и это его контроль над тем, с кем идёт</p>
+    <p class="ann"><b>Зона 4 — другие планы.</b> Отказ от этого плана не должен выглядеть как конец: лента в одном тапе</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

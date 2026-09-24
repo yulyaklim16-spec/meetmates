@@ -154,34 +154,39 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
   <main class="app">
-  <!-- Модальный момент целиком: конвенции §2 — <dialog open> -->
-  <dialog open aria-labelledby="m-h">
-  <!-- ЗОНА 1-2: сам факт. Ради него экран и существует -->
-  <section class="stretch" aria-labelledby="m-h">
-    <p class="ann"><b>Зона 1 — факт.</b> Единственная задача экрана: сообщить, что взаимность случилась. Ни настроек, ни списков здесь нет</p>
-    <article class="state">
-      <p class="skelrow" aria-hidden="true">
-        <span class="avatar"></span>
-        <span class="avatar"></span>
-      </p>
-      <h1 id="m-h">You and Olena both said yes</h1>
-      <p>You have 3 interests in common. The chat is open &mdash; she can write to you too.</p>
-    </article>
-  </section>
+  <div class="pane">
+    <!-- Модальный момент целиком: конвенции §2 — <dialog open> -->
+    <dialog open aria-labelledby="m-h">
+    <!-- ЗОНА 1-2: сам факт. Ради него экран и существует -->
+    <section class="stretch" aria-labelledby="m-h">
+      <article class="state">
+        <p class="skelrow" aria-hidden="true">
+          <span class="avatar"></span>
+          <span class="avatar"></span>
+        </p>
+        <h1 id="m-h">You and Olena both said yes</h1>
+        <p>You have 3 interests in common. The chat is open &mdash; she can write to you too.</p>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: дорога дальше. Say hi — главное действие, D-37 -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>What next</h2>
-    <p class="ann"><b>Зона 3 — дорога дальше.</b> Главное действие: <code>Say hi</code> → IV.2 Диалог. Разговор — основная дорога к встрече `D-37`</p>
-    <p class="row">
-      <a class="btn primary" href="dialog-empty.html">Say hi</a>
-    </p>
-    <p class="row">
-      <a class="btn quiet" href="deck.html">Keep swiping</a>
-    </p>
-  </section>
-  </dialog>
+    <!-- ЗОНА 3: дорога дальше. Say hi — главное действие, D-37 -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>What next</h2>
+      <p class="row">
+        <a class="btn primary" href="dialog-empty.html">Say hi</a>
+      </p>
+      <p class="row">
+        <a class="btn quiet" href="deck.html">Keep swiping</a>
+      </p>
+    </section>
+    </dialog>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — факт.</b> Единственная задача экрана: сообщить, что взаимность случилась. Ни настроек, ни списков здесь нет</p>
+    <p class="ann"><b>Зона 3 — дорога дальше.</b> Главное действие: <code>Say hi</code> → IV.2 Диалог. Разговор — основная дорога к встрече `D-37`</p>
+  </div>
 
   <!-- ЗОНА 5: таб-бара нет — экран забирает всё, объяснение в служебном блоке -->
 

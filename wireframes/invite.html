@@ -159,44 +159,47 @@
 <header>
   <a href="dialog.html" aria-label="Back to the chat"><span class="ico" aria-hidden="true"></span></a>
   <h1>Go together</h1>
-  <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же разговор: экран открыт из него, и вернуться должно быть одним тапом `D-36`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: кого зовём. Названо до выбора плана: согласие второго обязательно -->
-  <section aria-labelledby="who-h">
-    <h2 id="who-h" hidden>Who</h2>
-    <p class="ann"><b>Зона 2 — кого зовём.</b> Олена подтверждает участие у себя: втащить человека нельзя `D-36`</p>
-    <p class="who"><span class="avatar" aria-hidden="true"></span>You and Olena &mdash; she confirms it on her side</p>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: кого зовём. Названо до выбора плана: согласие второго обязательно -->
+    <section aria-labelledby="who-h">
+      <h2 id="who-h" hidden>Who</h2>
+      <p class="who"><span class="avatar" aria-hidden="true"></span>You and Olena &mdash; she confirms it on her side</p>
+    </section>
 
-  <!-- ЗОНА 3: во что идём. Только те запросы, где помещаются двое -->
-  <section class="scrolly" aria-labelledby="pl-h">
-    <h2 id="pl-h">Events that fit two</h2>
-    <p class="ann"><b>Зона 3 — во что идём.</b> Только те, где есть два места: `+1` скрыты — двое туда не влезают</p>
-    <div class="pane">
+    <!-- ЗОНА 3: во что идём. Только те запросы, где помещаются двое -->
+    <section class="scrolly" aria-labelledby="pl-h">
+      <h2 id="pl-h">Events that fit two</h2>
       <ul class="rows">
         <li><a class="item" href="invite-waiting.html">
           <span class="top"><b>Board games</b><time class="when" datetime="2026-09-26T18:00">Sat 18:00</time></span>
-          <span class="who">Kyiv Games Club &middot; 2 spots left &middot; ~3 km away &middot; Andrii, Verified</span>
+          <span class="who"><span class="avatar" aria-hidden="true"></span>Kyiv Games Club &middot; 2 spots left &middot; ~3 km away &middot; Andrii, Verified</span>
         </a></li>
         <li><a class="item" href="invite-waiting.html">
           <span class="top"><b>Morning run along the embankment</b><span class="when">No date yet</span></span>
           <span class="who">3 spots left &middot; ~1 km away &middot; Maryna, Verified</span>
         </a></li>
       </ul>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 4: выход, если ничего не подошло -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>Nothing fits</h2>
-    <p class="ann"><b>Зона 4 — если не подошло.</b> Вся лента рядом, включая `+1`: туда можно пойти одной, и это нормальный исход</p>
-    <a class="exit" href="feed.html">
-      <span>See all events nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: выход, если ничего не подошло -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Nothing fits</h2>
+      <a class="exit" href="feed.html">
+        <span>See all events nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же разговор: экран открыт из него, и вернуться должно быть одним тапом `D-36`</p>
+    <p class="ann"><b>Зона 2 — кого зовём.</b> Олена подтверждает участие у себя: втащить человека нельзя `D-36`</p>
+    <p class="ann"><b>Зона 3 — во что идём.</b> Только те, где есть два места: `+1` скрыты — двое туда не влезают</p>
+    <p class="ann"><b>Зона 4 — если не подошло.</b> Вся лента рядом, включая `+1`: туда можно пойти одной, и это нормальный исход</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

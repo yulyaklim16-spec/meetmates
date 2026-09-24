@@ -162,59 +162,65 @@
 <header>
   <h1 id="deck-h">People nearby</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
-  <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Приходит сразу: экран начинается не с пустоты, а с известного</p>
 </header>
 
   <main class="app" aria-busy="true">
-  <!-- ЗОНА 2: скелет карточки. Те же блоки и те же размеры, что в рабочем виде -->
-  <section class="stretch" aria-labelledby="deck-h">
-    <p class="note" role="status">Looking for people near you</p>
-    <p class="ann"><b>Зона 2 — скелет карточки.</b> Блоки стоят там же и того же размера, что в рабочем виде: когда данные придут, ничего не прыгнет. Порядок скелета — порядок чтения `D-13`. Текста нет: он ещё неизвестен</p>
+  <div class="pane">
+    <!-- ЗОНА 2: скелет карточки. Те же блоки и те же размеры, что в рабочем виде -->
+    <section class="stretch" aria-labelledby="deck-h">
+      <p class="note" role="status">Looking for people near you</p>
 
-    <article class="card" aria-hidden="true">
-      <figure>
-        <p class="photo"></p>
-      </figure>
+      <article class="card" aria-hidden="true">
+        <figure>
+          <p class="photo"></p>
+        </figure>
 
-      <section class="body skeleton">
-        <!-- порядок скелета повторяет порядок чтения D-13: интересы → имя →
-             сигналы → расстояние. Иначе при подгрузке блоки поменялись бы местами -->
-        <p class="skel line w-l"></p>
-        <p class="skelrow">
-          <span class="skel pill w-s"></span>
-          <span class="skel pill w-s"></span>
-          <span class="skel pill w-s"></span>
-        </p>
-        <p class="skel line w-m"></p>
-        <p class="skelrow">
-          <span class="skel pill w-m"></span>
-          <span class="skel pill w-m"></span>
-        </p>
-        <p class="skel line w-s"></p>
-      </section>
-    </article>
-  </section>
+        <section class="body skeleton">
+          <!-- порядок скелета повторяет порядок чтения D-13: интересы → имя →
+               сигналы → расстояние. Иначе при подгрузке блоки поменялись бы местами -->
+          <p class="skel line w-l"></p>
+          <p class="skelrow">
+            <span class="skel pill w-s"></span>
+            <span class="skel pill w-s"></span>
+            <span class="skel pill w-s"></span>
+          </p>
+          <p class="skel line w-m"></p>
+          <p class="skelrow">
+            <span class="skel pill w-m"></span>
+            <span class="skel pill w-m"></span>
+          </p>
+          <p class="skel line w-s"></p>
+        </section>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: решение по карточке. Кнопки на месте, но нажимать нечего -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Decision</h2>
-    <p class="ann"><b>Зона 3 — решение по карточке.</b> Кнопки на месте, но выключены: убрать — сдвинуть раскладку дважды</p>
-    <p class="row">
-      <button type="button" disabled>Skip</button>
-      <button type="button" class="primary" disabled>Like</button>
-    </p>
-  </section>
+    <!-- ЗОНА 3: решение по карточке. Кнопки на месте, но нажимать нечего -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Decision</h2>
+      <p class="row">
+        <button type="button" disabled>Skip</button>
+        <button type="button" class="primary" disabled>Like</button>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: выход во второй путь. Живой: ждать загрузку необязательно -->
-  <section aria-labelledby="exit-h">
-    <h2 id="exit-h" hidden>Second path</h2>
-    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Работает во время загрузки: дожидаться колоду человек не обязан</p>
-    <a class="exit" href="feed.html">
-      <span>See events nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: выход во второй путь. Живой: ждать загрузку необязательно -->
+    <section aria-labelledby="exit-h">
+      <h2 id="exit-h" hidden>Second path</h2>
+      <a class="exit" href="feed.html">
+        <span>See events nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
 </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Приходит сразу: экран начинается не с пустоты, а с известного</p>
+    <p class="ann"><b>Зона 2 — скелет карточки.</b> Блоки стоят там же и того же размера, что в рабочем виде: когда данные придут, ничего не прыгнет. Порядок скелета — порядок чтения `D-13`. Текста нет: он ещё неизвестен</p>
+    <p class="ann"><b>Зона 3 — решение по карточке.</b> Кнопки на месте, но выключены: убрать — сдвинуть раскладку дважды</p>
+    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Работает во время загрузки: дожидаться колоду человек не обязан</p>
+  </div>
+
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

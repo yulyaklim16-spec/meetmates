@@ -159,14 +159,12 @@
   <a href="deck.html" aria-label="Back to people nearby"><span class="ico" aria-hidden="true"></span></a>
   <h1>Olena, 26</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Report и Block здесь, а не на карточке колоды: до них один тап с экрана, где виден человек — правило 4, `D-44`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: кто это. Прокручивается, решение остаётся закреплённым -->
-  <section class="scrolly" aria-labelledby="who-h">
-    <h2 id="who-h" hidden>Olena, 26</h2>
-    <p class="ann"><b>Зона 2 — кто это.</b> Порядок чтения тот же, что на карточке `D-13`. Прокручивается: решение внизу не уезжает</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: кто это. Прокручивается, решение остаётся закреплённым -->
+    <section class="scrolly" aria-labelledby="who-h">
+      <h2 id="who-h" hidden>Olena, 26</h2>
       <!-- та же карточка, что в колоде: фото во всю площадь, текст подложкой снизу (§8).
            Имя не повторяем — оно в шапке экрана; порядок чтения остальной D-13 -->
       <article class="card">
@@ -194,31 +192,36 @@
       </article>
 
       <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: ближайшие запросы человека — второй путь прямо отсюда (§5.2) -->
-  <section aria-labelledby="pl-h">
-    <h2 id="pl-h">Olena&rsquo;s events</h2>
-    <p class="ann"><b>Зона 3 — её планы.</b> Отсюда можно откликнуться, не дожидаясь взаимного лайка: второй путь `D-22`</p>
-    <ul class="rows">
-      <li><a class="item" href="plan.html">
-        <span class="top"><b>Board games</b><time class="when" datetime="2026-09-26T18:00">Sat 18:00</time></span>
-        <span class="who">Kyiv Games Club &middot; 1 spot left &middot; ~3 km away</span>
-      </a></li>
-    </ul>
-  </section>
+    <!-- ЗОНА 3: ближайшие запросы человека — второй путь прямо отсюда (§5.2) -->
+    <section aria-labelledby="pl-h">
+      <h2 id="pl-h">Olena&rsquo;s events</h2>
+      <ul class="rows">
+        <li><a class="item" href="plan.html">
+          <span class="top"><b>Board games</b><time class="when" datetime="2026-09-26T18:00">Sat 18:00</time></span>
+          <span class="who"><span class="avatar" aria-hidden="true"></span>Kyiv Games Club &middot; 1 spot left &middot; ~3 km away</span>
+        </a></li>
+      </ul>
+    </section>
 
-  <!-- ЗОНА 4: решение. Остаётся доступным при любом состоянии дозагрузки -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Decision</h2>
-    <p class="ann"><b>Зона 4 — решение.</b> Работает при любом состоянии: решать «свайпать или нет» можно и с неполным профилем</p>
-    <p class="row">
-      <a class="btn" href="deck.html">Skip</a>
-      <a class="btn primary" href="match.html">Like</a>
-    </p>
-  </section>
+    <!-- ЗОНА 4: решение. Остаётся доступным при любом состоянии дозагрузки -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Decision</h2>
+      <p class="row">
+        <a class="btn" href="deck.html">Skip</a>
+        <a class="btn primary" href="match.html">Like</a>
+      </p>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Report и Block здесь, а не на карточке колоды: до них один тап с экрана, где виден человек — правило 4, `D-44`</p>
+    <p class="ann"><b>Зона 2 — кто это.</b> Порядок чтения тот же, что на карточке `D-13`. Прокручивается: решение внизу не уезжает</p>
+    <p class="ann"><b>Зона 3 — её планы.</b> Отсюда можно откликнуться, не дожидаясь взаимного лайка: второй путь `D-22`</p>
+    <p class="ann"><b>Зона 4 — решение.</b> Работает при любом состоянии: решать «свайпать или нет» можно и с неполным профилем</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

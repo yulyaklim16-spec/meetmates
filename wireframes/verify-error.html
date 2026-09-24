@@ -159,39 +159,44 @@
 <header>
   <a href="dialog.html" aria-label="Back to the chat"><span class="ico" aria-hidden="true"></span></a>
   <h1>Verification</h1>
-  <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: причина. Не «something went wrong», а что именно не так -->
-  <section class="stretch" aria-labelledby="err-h">
-    <h2 id="err-h" hidden>Verification failed</h2>
-    <p class="ann"><b>Зона 2 — причина.</b> Причина названа: лицо вне кадра. Неоспоримая автоматика производит однозвёздные отзывы `D-26`</p>
-    <article class="state" role="alert">
-      <h3>We couldn&rsquo;t read your face</h3>
-      <p>Part of your face was out of frame. Hold the phone at eye level and try once more.</p>
-    </article>
-    <p class="note">This was your first try. After two, a person from the team looks at it &mdash; not a robot.</p>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: причина. Не «something went wrong», а что именно не так -->
+    <section class="stretch" aria-labelledby="err-h">
+      <h2 id="err-h" hidden>Verification failed</h2>
+      <article class="state" role="alert">
+        <h3>We couldn&rsquo;t read your face</h3>
+        <p>Part of your face was out of frame. Hold the phone at eye level and try once more.</p>
+      </article>
+      <p class="note">This was your first try. After two, a person from the team looks at it &mdash; not a robot.</p>
+    </section>
 
-  <!-- ЗОНА 3: пересдать. Без таймаутов и без наказания -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>Try again</h2>
-    <p class="ann"><b>Зона 3 — пересдать.</b> Безлимитно и без таймаута. Непройденная проверка — не проступок: за неё не блокируют и не удаляют `D-26`</p>
-    <p class="row">
-      <a class="btn primary" href="verify.html">Try again</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: пересдать. Без таймаутов и без наказания -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Try again</h2>
+      <p class="row">
+        <a class="btn primary" href="verify.html">Try again</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: выход. Колода и просмотр остаются открытыми (§7.3) -->
-  <section aria-labelledby="skip-h">
-    <h2 id="skip-h" hidden>Later</h2>
-    <p class="ann"><b>Зона 4 — выход.</b> Просмотр и свайпы открыты: гейт держит только сообщения</p>
-    <a class="exit" href="deck.html">
-      <span>Keep browsing for now</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: выход. Колода и просмотр остаются открытыми (§7.3) -->
+    <section aria-labelledby="skip-h">
+      <h2 id="skip-h" hidden>Later</h2>
+      <a class="exit" href="deck.html">
+        <span>Keep browsing for now</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
+    <p class="ann"><b>Зона 2 — причина.</b> Причина названа: лицо вне кадра. Неоспоримая автоматика производит однозвёздные отзывы `D-26`</p>
+    <p class="ann"><b>Зона 3 — пересдать.</b> Безлимитно и без таймаута. Непройденная проверка — не проступок: за неё не блокируют и не удаляют `D-26`</p>
+    <p class="ann"><b>Зона 4 — выход.</b> Просмотр и свайпы открыты: гейт держит только сообщения</p>
+  </div>
 
   <!-- ЗОНА 5: таб-бара нет — экран забирает всё, объяснение в служебном блоке -->
 

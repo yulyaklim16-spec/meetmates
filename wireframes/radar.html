@@ -153,43 +153,48 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
   <main class="app">
-  <!-- ЗОНА 1: обещание. Две строки над радаром — то, ради чего экран стоит первым -->
-  <section aria-labelledby="pr-h">
-    <h1 id="pr-h" class="promise">Meet mates<br>Enjoy the events</h1>
-    <p class="ann"><b>Зона 1 — обещание.</b> Две строки вместо шапки: экран не подписывает сам себя, а называет, ради чего человек здесь</p>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 1: обещание. Две строки над радаром — то, ради чего экран стоит первым -->
+    <section aria-labelledby="pr-h">
+      <h1 id="pr-h" class="promise">Meet mates<br>Enjoy the events</h1>
+    </section>
 
-  <!-- ЗОНА 2: как это устроено. Кольца — метафора близости, не карта -->
-  <section class="stretch" aria-labelledby="rd-h">
-    <h2 id="rd-h" hidden>How it works</h2>
-    <p class="ann"><b>Зона 2 — метафора близости.</b> Ближе кольцо — ближе человек или событие. Ни карты, ни направления: `§7.1` запрещает показывать, где человек находится</p>
-    <figure class="radar">
-      <p class="rings" aria-hidden="true"><span class="mid"></span><span class="in"></span></p>
-      <p class="band far">~5 km</p>
-      <p class="band mid">~2 km</p>
-      <p class="band near">Nearby</p>
-      <ul class="pins">
-        <li class="a"><span class="dot" aria-hidden="true"></span>Event</li>
-        <li class="b"><span class="dot sm" aria-hidden="true"></span>Person</li>
-        <li class="c"><span class="dot" aria-hidden="true"></span>Event</li>
-        <li class="d"><span class="dot lg" aria-hidden="true"></span>Person</li>
-        <li class="e"><span class="dot sm" aria-hidden="true"></span>Person</li>
-        <li class="f"><span class="dot" aria-hidden="true"></span>Event</li>
-        <li class="g"><span class="dot sm" aria-hidden="true"></span>Person</li>
-      </ul>
-    </figure>
-  </section>
+    <!-- ЗОНА 2: как это устроено. Кольца — метафора близости, не карта -->
+    <section class="stretch" aria-labelledby="rd-h">
+      <h2 id="rd-h" hidden>How it works</h2>
+      <figure class="radar">
+        <p class="rings" aria-hidden="true"><span class="mid"></span><span class="in"></span></p>
+        <p class="band far">~5 km</p>
+        <p class="band mid">~2 km</p>
+        <p class="band near">Nearby</p>
+        <ul class="pins">
+          <li class="a"><span class="dot" aria-hidden="true"></span>Event</li>
+          <li class="b"><span class="dot sm" aria-hidden="true"></span>Person</li>
+          <li class="c"><span class="dot" aria-hidden="true"></span>Event</li>
+          <li class="d"><span class="dot lg" aria-hidden="true"></span>Person</li>
+          <li class="e"><span class="dot sm" aria-hidden="true"></span>Person</li>
+          <li class="f"><span class="dot" aria-hidden="true"></span>Event</li>
+          <li class="g"><span class="dot sm" aria-hidden="true"></span>Person</li>
+        </ul>
+      </figure>
+    </section>
 
-  <!-- ЗОНА 3: с чего начать. Тот же выбор, что даёт таб-бар, но названный словами -->
-  <section aria-labelledby="go-h">
-    <h2 id="go-h" hidden>Where to start</h2>
-    <p class="ann"><b>Зона 3 — с чего начать.</b> Выбор ведёт на вкладку и больше не повторяется: экран показывается один раз `D-47`</p>
-    <p class="row">
-      <a class="btn primary" href="deck.html">People</a>
-      <a class="btn primary" href="feed.html">Events</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: с чего начать. Тот же выбор, что даёт таб-бар, но названный словами -->
+    <section aria-labelledby="go-h">
+      <h2 id="go-h" hidden>Where to start</h2>
+      <p class="row">
+        <a class="btn primary" href="deck.html">People</a>
+        <a class="btn primary" href="feed.html">Events</a>
+      </p>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — обещание.</b> Две строки вместо шапки: экран не подписывает сам себя, а называет, ради чего человек здесь</p>
+    <p class="ann"><b>Зона 2 — метафора близости.</b> Ближе кольцо — ближе человек или событие. Ни карты, ни направления: `§7.1` запрещает показывать, где человек находится</p>
+    <p class="ann"><b>Зона 3 — с чего начать.</b> Выбор ведёт на вкладку и больше не повторяется: экран показывается один раз `D-47`</p>
+  </div>
 
   <!-- ЗОНА 5: таб-бара нет — экран забирает всё, объяснение в служебном блоке -->
 

@@ -316,7 +316,9 @@ section.stretch { flex: 1; min-height: 0; }
 .ico.lg { width: 24px; height: 24px; }
 .ico.sm { width: 14px; height: 14px; border-radius: 3px; }
 .avatar {
+  display: inline-block;
   flex: none;
+  vertical-align: middle;
   width: 32px; height: 32px;
   border-radius: 50%;
   background: var(--w-zone);
@@ -511,7 +513,7 @@ a { color: var(--w-ink); }
 .item .top { display: flex; align-items: baseline; gap: var(--s-3); }
 .item .top b { font-size: 15px; }
 .item .when { margin-left: auto; flex: none; color: var(--w-ink-2); font-size: 13px; }
-.item .who { display: flex; align-items: center; gap: var(--s-2); color: var(--w-ink-2); font-size: 13px; }
+.who { display: flex; align-items: center; gap: var(--s-2); color: var(--w-ink-2); font-size: 13px; }
 
 /* ── чат: сообщения и поле ввода ──────────────────────────── */
 .msgs { display: flex; flex-direction: column; gap: var(--s-2); }
@@ -630,9 +632,23 @@ a { color: var(--w-ink); }
 /* область с прокруткой: действия закреплены, содержимое едет под ними.
    Прокручивается не сама зона, а вложенная в неё панель: подпись зоны стоит
    абсолютом и была бы обрезана контейнером прокрутки вместе с ней. */
-.scrolly { flex: 1; min-height: 0; }
+.scrolly { flex: none; }   /* прокрутка теперь общая, у панели  */
 .pane {
   flex: 1; min-height: 0;
   overflow-y: auto; overflow-x: hidden;
-  display: flex; flex-direction: column; gap: var(--s-3);
+  /* полосу прокрутки прячем: на телефоне она наложенная, а на десктопе съедала
+     15px ширины — и карточка в профиле оказывалась уже, чем в колоде */
+  scrollbar-width: none;
+  display: flex; flex-direction: column; gap: var(--s-4);
 }
+.pane::-webkit-scrollbar { display: none; }
+
+/* подписи зон стоят колонкой рядом с телефоном, а не внутри зоны:
+   внутри прокручиваемой области их обрезал бы контейнер прокрутки */
+.anns {
+  position: absolute; top: 47px;
+  left: calc(100% + var(--s-4));
+  width: 300px;
+  display: flex; flex-direction: column; gap: var(--s-4);
+}
+.anns .ann { position: static; width: auto; }

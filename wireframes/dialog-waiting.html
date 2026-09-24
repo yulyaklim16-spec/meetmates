@@ -161,14 +161,12 @@
   <span class="avatar" aria-hidden="true"></span>
   <h1>Olena</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Имя ведёт в профиль, Report и Block — здесь: правило 4, один тап оттуда, где виден человек</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: предложение висит в разговоре и ждёт ответа -->
-  <section class="scrolly" aria-labelledby="msg-h">
-    <h2 id="msg-h" hidden>Conversation</h2>
-    <p class="ann"><b>Зона 2 — предложение ждёт.</b> Стоит в самой переписке: это реплика, а не системное окно. Видно, кто должен ответить</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: предложение висит в разговоре и ждёт ответа -->
+    <section class="scrolly" aria-labelledby="msg-h">
+      <h2 id="msg-h" hidden>Conversation</h2>
       <div class="msgs">
         <p class="bubble me">Saturday at six? Kyiv Games Club<span class="t">19:11 &middot; Read</span></p>
       </div>
@@ -177,33 +175,38 @@
         <p>She hasn&rsquo;t answered the day yet. The suggestion stays open until Saturday &mdash; after that it just expires.</p>
         <p class="row"><a class="btn quiet" href="dialog.html">Change the day</a></p>
       </article>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: что можно вместо ожидания — третье требование D-42 -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>Meanwhile</h2>
-    <p class="ann"><b>Зона 3 — что вместо ожидания.</b> Разговор не замирает: писать можно, и второй выход — позвать вдвоём в чужой план — остаётся</p>
-    <p class="row">
-      <a class="btn quiet" href="invite.html">Invite together instead</a>
-    </p>
-    <a class="exit" href="feed.html">
-      <span>See events nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 3: что можно вместо ожидания — третье требование D-42 -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Meanwhile</h2>
+      <p class="row">
+        <a class="btn quiet" href="invite.html">Invite together instead</a>
+      </p>
+      <a class="exit" href="feed.html">
+        <span>See events nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
 
-  <!-- ЗОНА 4: поле ввода. Верификация пройдена, гейта нет (§7.3) -->
-  <section aria-labelledby="in-h">
-    <h2 id="in-h" hidden>Message</h2>
-    <p class="ann"><b>Зона 4 — ввод.</b> Гейт снят: иначе здесь стоял бы призыв верифицироваться (§7.3)</p>
-    <label class="field" for="msg">
-      <span class="ico" aria-hidden="true"></span>
-      <span class="vh">Message</span>
-      <input id="msg" type="text" placeholder="Write a message">
-    </label>
-  </section>
+    <!-- ЗОНА 4: поле ввода. Верификация пройдена, гейта нет (§7.3) -->
+    <section aria-labelledby="in-h">
+      <h2 id="in-h" hidden>Message</h2>
+      <label class="field" for="msg">
+        <span class="ico" aria-hidden="true"></span>
+        <span class="vh">Message</span>
+        <input id="msg" type="text" placeholder="Write a message">
+      </label>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Имя ведёт в профиль, Report и Block — здесь: правило 4, один тап оттуда, где виден человек</p>
+    <p class="ann"><b>Зона 2 — предложение ждёт.</b> Стоит в самой переписке: это реплика, а не системное окно. Видно, кто должен ответить</p>
+    <p class="ann"><b>Зона 3 — что вместо ожидания.</b> Разговор не замирает: писать можно, и второй выход — позвать вдвоём в чужой план — остаётся</p>
+    <p class="ann"><b>Зона 4 — ввод.</b> Гейт снят: иначе здесь стоял бы призыв верифицироваться (§7.3)</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

@@ -157,14 +157,12 @@
   <h1 id="fd-h">Events nearby</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
   <button type="button" class="primary"><span class="ico" aria-hidden="true"></span>New</button>
-  <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Кнопка создания живёт здесь и в каждом пустом состоянии — §2.1, п. 3. Фильтр по дате не прячет бессрочные (§5.4)</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: скелет ленты. Три строки на карточку — как в рабочем виде -->
-  <section class="scrolly" aria-labelledby="fd-h">
-    <p class="note" role="status">Looking for events near you</p>
-    <p class="ann"><b>Зона 2 — скелет ленты.</b> Строки той же длины и в том же порядке, что в карточке плана: приход данных ничего не сдвинет</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: скелет ленты. Три строки на карточку — как в рабочем виде -->
+    <section class="scrolly" aria-labelledby="fd-h">
+      <p class="note" role="status">Looking for events near you</p>
       <ul class="rows" aria-hidden="true">
         <li class="item">
           <span class="skel line w-l"></span>
@@ -182,19 +180,24 @@
           <span class="skel line w-m"></span>
         </li>
       </ul>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: выход живой: ждать ленту необязательно -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>People</h2>
-    <p class="ann"><b>Зона 3 — выход живой.</b> Дожидаться ленту человек не обязан: колода открыта во время загрузки</p>
-    <a class="exit" href="deck.html">
-      <span>See people nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 3: выход живой: ждать ленту необязательно -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>People</h2>
+      <a class="exit" href="deck.html">
+        <span>See people nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Кнопка создания живёт здесь и в каждом пустом состоянии — §2.1, п. 3. Фильтр по дате не прячет бессрочные (§5.4)</p>
+    <p class="ann"><b>Зона 2 — скелет ленты.</b> Строки той же длины и в том же порядке, что в карточке плана: приход данных ничего не сдвинет</p>
+    <p class="ann"><b>Зона 3 — выход живой.</b> Дожидаться ленту человек не обязан: колода открыта во время загрузки</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

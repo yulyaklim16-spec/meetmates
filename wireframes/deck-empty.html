@@ -162,42 +162,48 @@
 <header>
   <h1 id="deck-h">People nearby</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
-  <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Фильтры остаются: колода часто пуста из-за них, и вход в них не убирают</p>
 </header>
 
   <main class="app">
-  <!-- ЗОНА 2: вместо карточки — состояние. Занимает ту же площадь: тот же экран -->
-  <section class="stretch" aria-labelledby="deck-h">
-    <p class="ann"><b>Зона 2 — состояние вместо карточки.</b> Занимает ту же площадь: это тот же экран. Текст называет, что произошло, и не винит человека. Про одиночество не говорим — правило 13: кончился список, а не «ты одна»</p>
+  <div class="pane">
+    <!-- ЗОНА 2: вместо карточки — состояние. Занимает ту же площадь: тот же экран -->
+    <section class="stretch" aria-labelledby="deck-h">
 
-    <article class="state">
-      <h3>You are all caught up</h3>
-      <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
-    </article>
-  </section>
+      <article class="state">
+        <h3>You are all caught up</h3>
+        <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: что дальше. Skip / Like ушли — решать нечего.
-       Оба действия в одной строке: это две стороны одного вопроса — «почему пусто» -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>What next</h2>
-    <p class="ann"><b>Зона 3 — что дальше.</b> Skip и Like ушли: решать нечего. Два действия рядом — расширить поиск (`D-11` трогает только расстояние) или снять фильтры самому</p>
-    <p class="row">
-      <a class="btn primary" href="deck-loading.html">Expand search</a>
-      <a class="btn quiet" href="deck.html">Reset filters</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: что дальше. Skip / Like ушли — решать нечего.
+         Оба действия в одной строке: это две стороны одного вопроса — «почему пусто» -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>What next</h2>
+      <p class="row">
+        <a class="btn primary" href="deck-loading.html">Expand search</a>
+        <a class="btn quiet" href="deck.html">Reset filters</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: выход во второй путь. В пустом виде это уже не запасной выход,
-       а основной: событие не зависит от взаимности (§4, §2.1 п. 1) -->
-  <section aria-labelledby="exit-h">
-    <h2 id="exit-h" hidden>Second path</h2>
-    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Один выход, и он ведёт туда, где создание и живёт: кнопка `+` стоит в шапке Events `D-46`</p>
-    <a class="exit" href="feed.html">
-      <span>See events nearby</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: выход во второй путь. В пустом виде это уже не запасной выход,
+         а основной: событие не зависит от взаимности (§4, §2.1 п. 1) -->
+    <section aria-labelledby="exit-h">
+      <h2 id="exit-h" hidden>Second path</h2>
+      <a class="exit" href="feed.html">
+        <span>See events nearby</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
 </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Фильтры остаются: колода часто пуста из-за них, и вход в них не убирают</p>
+    <p class="ann"><b>Зона 2 — состояние вместо карточки.</b> Занимает ту же площадь: это тот же экран. Текст называет, что произошло, и не винит человека. Про одиночество не говорим — правило 13: кончился список, а не «ты одна»</p>
+    <p class="ann"><b>Зона 3 — что дальше.</b> Skip и Like ушли: решать нечего. Два действия рядом — расширить поиск (`D-11` трогает только расстояние) или снять фильтры самому</p>
+    <p class="ann"><b>Зона 4 — выход во второй путь.</b> Один выход, и он ведёт туда, где создание и живёт: кнопка `+` стоит в шапке Events `D-46`</p>
+  </div>
+
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

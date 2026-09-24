@@ -154,14 +154,12 @@
 <header>
   <h1 id="me-h">How others see you</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Edit</button>
-  <p class="ann"><b>Зона 1 — что показываем.</b> Свой профиль глазами другого — потому строка так и называется. Экрана настроек нет: редкие действия тут же, в один тап `D-38`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: известное — сразу, скелет — у того, что считает сервер -->
-  <section class="scrolly" aria-labelledby="me-h">
-    <p class="note" role="status">Updating your meetup count</p>
-    <p class="ann"><b>Зона 2 — известное и считаемое.</b> Фото и имя на руках, скелет — у счётчика встреч и отзывчивости: их считает сервер</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: известное — сразу, скелет — у того, что считает сервер -->
+    <section class="scrolly" aria-labelledby="me-h">
+      <p class="note" role="status">Updating your meetup count</p>
       <article class="card">
         <figure>
           <p class="photo" aria-hidden="true"></p>
@@ -177,19 +175,24 @@
         <span class="skel pill w-s"></span>
       </p>
       <p class="skel line w-l" aria-hidden="true"></p>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: глубокий слой доступен и во время загрузки -->
-  <section aria-labelledby="deep-h">
-    <h2 id="deep-h" hidden>Everything else</h2>
-    <p class="ann"><b>Зона 3 — глубокий слой.</b> Не ждёт пересчёта ступени: верификация и безопасность открываются сразу</p>
-    <ul class="rows">
-      <li><a class="item" href="verify.html"><span class="top"><b>Verification</b></span></a></li>
-      <li class="item"><span class="top"><b>Safety center</b></span></li>
-    </ul>
-  </section>
+    <!-- ЗОНА 3: глубокий слой доступен и во время загрузки -->
+    <section aria-labelledby="deep-h">
+      <h2 id="deep-h" hidden>Everything else</h2>
+      <ul class="rows">
+        <li><a class="item" href="verify.html"><span class="top"><b>Verification</b></span></a></li>
+        <li class="item"><span class="top"><b>Safety center</b></span></li>
+      </ul>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — что показываем.</b> Свой профиль глазами другого — потому строка так и называется. Экрана настроек нет: редкие действия тут же, в один тап `D-38`</p>
+    <p class="ann"><b>Зона 2 — известное и считаемое.</b> Фото и имя на руках, скелет — у счётчика встреч и отзывчивости: их считает сервер</p>
+    <p class="ann"><b>Зона 3 — глубокий слой.</b> Не ждёт пересчёта ступени: верификация и безопасность открываются сразу</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

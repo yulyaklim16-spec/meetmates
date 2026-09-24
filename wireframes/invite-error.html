@@ -159,41 +159,46 @@
 <header>
   <a href="dialog.html" aria-label="Back to the chat"><span class="ico" aria-hidden="true"></span></a>
   <h1>Go together</h1>
-  <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же разговор: экран открыт из него, и вернуться должно быть одним тапом `D-36`</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: кого зовём и почему пока нельзя -->
-  <section class="stretch" aria-labelledby="who-h">
-    <h2 id="who-h" hidden>Why this can&rsquo;t go through</h2>
-    <p class="ann"><b>Зона 2 — почему нельзя.</b> Причина адресована условию, а не человеку: verified — требование `D-36`</p>
-    <article class="state" role="alert">
-      <h3>Olena isn&rsquo;t verified yet</h3>
-      <p>Both of you need the badge to join an event as a pair. She can do it in a minute &mdash; a selfie, nothing else.</p>
-    </article>
-  </section>
+  <div class="pane">
+    <!-- ЗОНА 2: кого зовём и почему пока нельзя -->
+    <section class="stretch" aria-labelledby="who-h">
+      <h2 id="who-h" hidden>Why this can&rsquo;t go through</h2>
+      <article class="state" role="alert">
+        <h3>Olena isn&rsquo;t verified yet</h3>
+        <p>Both of you need the badge to join an event as a pair. She can do it in a minute &mdash; a selfie, nothing else.</p>
+      </article>
+    </section>
 
-  <!-- ЗОНА 3: что можно сделать сейчас -->
-  <section aria-labelledby="act-h">
-    <h2 id="act-h" hidden>What next</h2>
-    <p class="ann"><b>Зона 3 — что сейчас.</b> Главное действие: назначить день вдвоём — верификация для него тоже нужна, но она уже есть у обоих для чата</p>
-    <p class="row">
-      <a class="btn primary" href="dialog.html">Back to the chat</a>
-    </p>
-    <p class="row">
-      <a class="btn quiet" href="dialog-waiting.html">Suggest a day instead</a>
-    </p>
-  </section>
+    <!-- ЗОНА 3: что можно сделать сейчас -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>What next</h2>
+      <p class="row">
+        <a class="btn primary" href="dialog.html">Back to the chat</a>
+      </p>
+      <p class="row">
+        <a class="btn quiet" href="dialog-waiting.html">Suggest a day instead</a>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: одной пойти можно всегда -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>Alone</h2>
-    <p class="ann"><b>Зона 4 — одной тоже можно.</b> Совместный отклик — не единственный путь: тот же план принимает обычный отклик</p>
-    <a class="exit" href="feed.html">
-      <span>Join an event on your own</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
+    <!-- ЗОНА 4: одной пойти можно всегда -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Alone</h2>
+      <a class="exit" href="feed.html">
+        <span>Join an event on your own</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же разговор: экран открыт из него, и вернуться должно быть одним тапом `D-36`</p>
+    <p class="ann"><b>Зона 2 — почему нельзя.</b> Причина адресована условию, а не человеку: verified — требование `D-36`</p>
+    <p class="ann"><b>Зона 3 — что сейчас.</b> Главное действие: назначить день вдвоём — верификация для него тоже нужна, но она уже есть у обоих для чата</p>
+    <p class="ann"><b>Зона 4 — одной тоже можно.</b> Совместный отклик — не единственный путь: тот же план принимает обычный отклик</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">

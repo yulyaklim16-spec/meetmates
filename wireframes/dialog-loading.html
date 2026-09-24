@@ -160,44 +160,47 @@
   <span class="avatar" aria-hidden="true"></span>
   <h1>Olena</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
-  <p class="ann"><b>Зона 1 — шапка.</b> Имя ведёт в профиль, Report и Block — здесь: правило 4, один тап оттуда, где виден человек</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: скелет истории. Реплики разной длины и с обеих сторон -->
-  <section class="scrolly" aria-labelledby="msg-h">
-    <h2 id="msg-h" hidden>Conversation</h2>
-    <p class="note" role="status">Loading your conversation</p>
-    <p class="ann"><b>Зона 2 — скелет истории.</b> Заглушки стоят с обеих сторон и разной длины: раскладка реплик видна до того, как придёт текст</p>
-    <div class="pane">
+  <div class="pane">
+    <!-- ЗОНА 2: скелет истории. Реплики разной длины и с обеих сторон -->
+    <section class="scrolly" aria-labelledby="msg-h">
+      <h2 id="msg-h" hidden>Conversation</h2>
+      <p class="note" role="status">Loading your conversation</p>
       <div class="msgs" aria-hidden="true">
         <p class="bubble"><span class="skel line w-l"></span></p>
         <p class="bubble me"><span class="skel line w-m"></span></p>
         <p class="bubble"><span class="skel line w-m"></span></p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ЗОНА 3: выходы наружу выключены, пока неизвестно, о чём разговор -->
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h" hidden>Ways out of the chat</h2>
-    <p class="ann"><b>Зона 3 — выходы на паузе.</b> Кнопки на месте выключенными: место под них не должно появиться рывком, когда история придёт</p>
-    <p class="row">
-      <button type="button" class="primary" disabled>Suggest a day</button>
-      <button type="button" class="quiet" disabled>Invite together</button>
-    </p>
-  </section>
+    <!-- ЗОНА 3: выходы наружу выключены, пока неизвестно, о чём разговор -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Ways out of the chat</h2>
+      <p class="row">
+        <button type="button" class="primary" disabled>Suggest a day</button>
+        <button type="button" class="quiet" disabled>Invite together</button>
+      </p>
+    </section>
 
-  <!-- ЗОНА 4: поле ввода. Верификация пройдена, гейта нет (§7.3) -->
-  <section aria-labelledby="in-h">
-    <h2 id="in-h" hidden>Message</h2>
-    <p class="ann"><b>Зона 4 — ввод.</b> Гейт снят: иначе здесь стоял бы призыв верифицироваться (§7.3)</p>
-    <label class="field" for="msg">
-      <span class="ico" aria-hidden="true"></span>
-      <span class="vh">Message</span>
-      <input id="msg" type="text" placeholder="Write a message">
-    </label>
-  </section>
+    <!-- ЗОНА 4: поле ввода. Верификация пройдена, гейта нет (§7.3) -->
+    <section aria-labelledby="in-h">
+      <h2 id="in-h" hidden>Message</h2>
+      <label class="field" for="msg">
+        <span class="ico" aria-hidden="true"></span>
+        <span class="vh">Message</span>
+        <input id="msg" type="text" placeholder="Write a message">
+      </label>
+    </section>
+  </div>
   </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Имя ведёт в профиль, Report и Block — здесь: правило 4, один тап оттуда, где виден человек</p>
+    <p class="ann"><b>Зона 2 — скелет истории.</b> Заглушки стоят с обеих сторон и разной длины: раскладка реплик видна до того, как придёт текст</p>
+    <p class="ann"><b>Зона 3 — выходы на паузе.</b> Кнопки на месте выключенными: место под них не должно появиться рывком, когда история придёт</p>
+    <p class="ann"><b>Зона 4 — ввод.</b> Гейт снят: иначе здесь стоял бы призыв верифицироваться (§7.3)</p>
+  </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
   <nav aria-label="Основная навигация">
