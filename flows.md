@@ -33,23 +33,15 @@
 **Кто:** Даша, primary.
 **Основной путь — через чат** `D-37`: колода → взаимный свайп → диалог → договорились.
 **Второй путь** — лента запросов: он не зависит от взаимности и потому не убран в глубину.
-Считается от **радара** `D-47`: он первый экран сессии и разводит оба пути.
-На старте он будет пустым — это и есть первое, что увидит реальная Даша (`D-22`).
+Считается от **пустой колоды**: на старте она увидит именно её (`D-22`).
+Радар `D-47` в поток не входит: он показывается один раз в онбординге
+и данными продукта не управляет.
 
 **Разметка `flowchart TD`:**
 
 ```
 flowchart TD
-    Start([Открыла приложение после онбординга]) --> Radar[Радар: кто и что рядом]
-    Radar --> RadarLoad["Loading: кружки появляются по мере данных"]
-    RadarLoad --> HasAround{Есть кто-то в радиусе?}
-    HasAround -->|сбой| RadarErr["Error: не смогли посмотреть вокруг"]
-    RadarErr --> Radar
-    HasAround -->|нет| RadarEmpty["Empty: в радиусе тихо — расширить радиус"]
-    RadarEmpty --> Choose
-    HasAround -->|да| Choose{Люди или события?}
-    Choose -->|люди| Deck[Колода]
-    Choose -->|события| Feed
+    Start([Открыла приложение после онбординга]) --> Deck[Колода]
     Deck --> DeckLoad["Loading: грузим людей рядом"]
     DeckLoad --> HasPeople{Есть люди в радиусе?}
 
@@ -117,7 +109,7 @@ flowchart TD
     Again -->|да| Series["Карточка запроса: серия с историей"]
     Series --> WinRepeat(["Job закрыт: повтор с теми же людьми"])
 
-    Feed --> FeedLoad["Loading: грузим планы рядом"]
+    Feed[Лента запросов — ВТОРОЙ ПУТЬ] --> FeedLoad["Loading: грузим планы рядом"]
     FeedLoad --> HasPlans{Есть подходящие запросы?}
     HasPlans -->|сбой| FeedErr["Error: лента не загрузилась"]
     FeedErr --> Feed
@@ -169,16 +161,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    Start([Открыла приложение после онбординга]) --> Radar[Радар: кто и что рядом]
-    Radar --> RadarLoad["Loading: кружки появляются по мере данных"]
-    RadarLoad --> HasAround{Есть кто-то в радиусе?}
-    HasAround -->|сбой| RadarErr["Error: не смогли посмотреть вокруг"]
-    RadarErr --> Radar
-    HasAround -->|нет| RadarEmpty["Empty: в радиусе тихо — расширить радиус"]
-    RadarEmpty --> Choose
-    HasAround -->|да| Choose{Люди или события?}
-    Choose -->|люди| Deck[Колода]
-    Choose -->|события| Feed
+    Start([Открыла приложение после онбординга]) --> Deck[Колода]
     Deck --> DeckLoad["Loading: грузим людей рядом"]
     DeckLoad --> HasPeople{Есть люди в радиусе?}
 
@@ -246,7 +229,7 @@ flowchart TD
     Again -->|да| Series["Карточка запроса: серия с историей"]
     Series --> WinRepeat(["Job закрыт: повтор с теми же людьми"])
 
-    Feed --> FeedLoad["Loading: грузим планы рядом"]
+    Feed[Лента запросов — ВТОРОЙ ПУТЬ] --> FeedLoad["Loading: грузим планы рядом"]
     FeedLoad --> HasPlans{Есть подходящие запросы?}
     HasPlans -->|сбой| FeedErr["Error: лента не загрузилась"]
     FeedErr --> Feed

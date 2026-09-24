@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Радар — кто и что рядом · рабочий вид · MeetMates wireframe</title>
+<title>Радар — как это работает · единственный вид · MeetMates wireframe</title>
 <!--
-  Экран:  X.1 Радар — кто и что рядом — sitemap.md, ветка «Старт»  D-47
-  Job:    M1 (вход в оба пути) · E1 «чувствовать, что это нормально»
-  Поток:  flows.md, M1 — Start → Radar → Choose{Люди или события?}
-          →|люди| Deck · →|события| Feed
-  Состояние: рабочий вид — рядом есть и люди, и события.
-  Кольца показывают полосы округлённого расстояния, не карту: §7.1
-          запрещает направление и точку, а не только адрес.
-  Таб-бара нет: экран стоит до оболочки, его работа — выбор пути.
+  Экран:  VII.8 Радар — как это работает — sitemap.md, ветка «Вход в продукт»  D-47
+  Job:    M1 (объясняет оба пути сразу) · E1 «чувствовать, что это нормально»
+  Поток:  в потоках нет: экран онбординга, а M1 начинается после него.
+          Онбординг потоками не разбирается — то же, что у поиска D-43.
+  Состояние: единственное. Данные иллюстративные: приходить нечему,
+          пустоты и ошибки не бывает, загрузки тоже.
+  Живых людей экран не показывает — и говорит об этом прямо: иначе
+          кружки читались бы как «вот кто рядом», а это §7.1 и обман сразу.
 -->
 <link rel="stylesheet" href="_wire.css">
 </head>
@@ -21,7 +21,7 @@
 <!-- nav:start -->
 <nav class="wfnav" aria-label="Все макеты">
   <p class="h">Вайрфреймы</p>
-  <p class="t">Главный поток · мобильный веб · 48 из 48</p>
+  <p class="t">Главный поток · мобильный веб · 45 из 45</p>
   <ul>
     <li class="grp">
       <p class="gt">Колода и совпадение</p>
@@ -111,15 +111,9 @@
       </ul>
     </li>
     <li class="grp">
-      <p class="gt">Старт</p>
+      <p class="gt">Вход в продукт</p>
       <ul>
-        <li class="scr open now"><b class="s" aria-current="page"><span class="c">X.1</span> Радар — кто и что рядом `D-47`</b>
-          <ul>
-            <li><a href="radar-empty.html">пусто</a></li>
-            <li><a href="radar-error.html">ошибка</a></li>
-            <li><a href="radar-loading.html">загрузка</a></li>
-          </ul>
-        </li>
+        <li class="scr open now"><b class="s" aria-current="page"><span class="c">VII.8</span> Радар — как это работает `D-47`</b></li>
       </ul>
     </li>
     <li class="grp">
@@ -142,13 +136,10 @@
 <!-- nav:end -->
 
 <!-- states:start -->
-<nav class="wfstates" aria-label="Состояния экрана X.1 Радар — кто и что рядом `D-47`">
-  <p class="t">X.1 Радар — кто и что рядом `D-47` · состояния этого экрана</p>
+<nav class="wfstates" aria-label="Состояния экрана VII.8 Радар — как это работает `D-47`">
+  <p class="t">VII.8 Радар — как это работает `D-47` · состояния этого экрана</p>
   <ul>
     <li class="now"><b aria-current="page">рабочий вид</b></li>
-    <li><a href="radar-empty.html">пусто</a></li>
-    <li><a href="radar-error.html">ошибка</a></li>
-    <li><a href="radar-loading.html">загрузка</a></li>
   </ul>
 </nav>
 <!-- states:end -->
@@ -162,36 +153,36 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <h1>Around you</h1>
-  <p class="ann"><b>Зона 1 — обещание экрана.</b> Не «добро пожаловать», а то, что видно прямо сейчас: люди и события рядом</p>
+  <h1>How MeetMates works</h1>
+  <p class="ann"><b>Зона 1 — что объясняем.</b> Не «добро пожаловать», а устройство: рядом есть люди и события, и к ним два пути</p>
 </header>
   <main class="app">
-  <!-- ЗОНА 2: радар. Кольца — полосы расстояния, угол ничего не значит -->
+  <!-- ЗОНА 2: как это устроено. Кольца — метафора близости, не карта -->
   <section class="stretch" aria-labelledby="rd-h">
-    <h2 id="rd-h" hidden>Around you</h2>
-    <p class="ann"><b>Зона 2 — радар.</b> Кольца — полосы округлённого расстояния, а не карта: угол ничего не значит `§7.1`. Кружки — заполнители фото и аватаров</p>
+    <h2 id="rd-h" hidden>How it works</h2>
+    <p class="ann"><b>Зона 2 — метафора близости.</b> Ближе кольцо — ближе человек или событие. Ни карты, ни направления: `§7.1` запрещает показывать, где человек находится</p>
     <figure class="radar">
       <p class="rings" aria-hidden="true"><span class="mid"></span><span class="in"></span></p>
       <p class="band far">~5 km</p>
       <p class="band mid">~2 km</p>
       <p class="band near">Nearby</p>
       <ul class="pins">
-        <li class="a"><span class="dot" aria-hidden="true"></span>Board games</li>
-        <li class="b"><span class="dot sm" aria-hidden="true"></span>Maryna</li>
-        <li class="c"><span class="dot" aria-hidden="true"></span>Morning run</li>
-        <li class="d"><span class="dot lg" aria-hidden="true"></span>Olena</li>
-        <li class="e"><span class="dot sm" aria-hidden="true"></span>Andrii</li>
-        <li class="f"><span class="dot" aria-hidden="true"></span>Coffee walk</li>
-        <li class="g"><span class="dot sm" aria-hidden="true"></span>Kateryna</li>
+        <li class="a"><span class="dot" aria-hidden="true"></span>Event</li>
+        <li class="b"><span class="dot sm" aria-hidden="true"></span>Person</li>
+        <li class="c"><span class="dot" aria-hidden="true"></span>Event</li>
+        <li class="d"><span class="dot lg" aria-hidden="true"></span>Person</li>
+        <li class="e"><span class="dot sm" aria-hidden="true"></span>Person</li>
+        <li class="f"><span class="dot" aria-hidden="true"></span>Event</li>
+        <li class="g"><span class="dot sm" aria-hidden="true"></span>Person</li>
       </ul>
     </figure>
-    <p class="note">12 people and 4 events within 5 km</p>
+    <p class="note">People and events nearby, closest first. This is an example &mdash; not live data.</p>
   </section>
 
-  <!-- ЗОНА 3: выбор пути. Две кнопки — два контура продукта (§4) -->
+  <!-- ЗОНА 3: с чего начать. Тот же выбор, что даёт таб-бар, но названный словами -->
   <section aria-labelledby="go-h">
-    <h2 id="go-h" hidden>Where to go</h2>
-    <p class="ann"><b>Зона 3 — выбор пути.</b> Две кнопки — два контура: колода даёт людей, лента — события. Оба ведут к одной компании, но лента не зависит от взаимности (§4)</p>
+    <h2 id="go-h">Where do you want to start?</h2>
+    <p class="ann"><b>Зона 3 — с чего начать.</b> Выбор ведёт на вкладку и больше не повторяется: экран показывается один раз `D-47`</p>
     <p class="row">
       <a class="btn primary" href="deck.html">People</a>
       <a class="btn primary" href="feed.html">Events</a>
@@ -213,24 +204,25 @@
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>X.1 Радар · рабочий вид</b> — рядом есть и люди, и события.</p>
-  <p><b>Job:</b> M1 — это вход в оба пути сразу · E1 «чувствовать, что это нормально»:
-    радар показывает, что вокруг есть живые люди и события, до того как человек
-    сделает хоть одно действие.</p>
-  <p><b>Место в потоке M1:</b> <code>Start([Открыла приложение]) → Radar →
-    Choose{Люди или события?} →|люди| Deck · →|события| Feed</code>.</p>
-  <p><b>Кольца — не карта</b> (§7.1). Это полосы округлённого расстояния: `Nearby`,
-    `~2 km`, `~5 km`. Угол, на котором стоит кружок, ничего не значит — направление
-    не показывается нигде и никогда, иначе по двум открытиям экрана вычисляется дом.</p>
-  <p><b>Таб-бара нет:</b> это экран до оболочки, и выбор пути — его единственная работа.
-    <b>Цена:</b> каждое открытие приложения начинается с выбора, а до main job
-    прибавился тап — <code>D-47</code>.</p>
-  <p><b>Что экран делает с плотностью.</b> Он показывает её первым делом — и в этом
-    риск: при пустой базе радар пуст, и это видно раньше любого действия (§2.1).
-    Поэтому пустое состояние здесь проектируется вместе с рабочим, как у колоды.</p>
-  <p><b>Выходы:</b> <code>People</code> → II.1 Колода, <code>Events</code> → III.1 Лента
-    (flows.md, M1 — <code>Choose</code>). Третьего выхода нет: экран не показывает
-    ни чатов, ни профиля — за ними человек идёт после выбора.</p>
+  <p><b>VII.8 Радар — как это работает</b> — последний экран онбординга, показывается
+    один раз.</p>
+  <p><b>Job:</b> M1 — объясняет оба пути сразу · E1 «чувствовать, что это нормально»:
+    видно, что продукт про людей <b>и</b> про события, а не про случайные знакомства.</p>
+  <p><b>Данные иллюстративные, и это написано на экране:</b> «This is an example — not
+    live data». Без этой строки кружки читаются как «вот кто сейчас рядом», а это
+    и обман, и нарушение §7.1 разом.</p>
+  <p><b>Почему у экрана нет состояний.</b> Пустоты не бывает — рисунок не зависит
+    от плотности; ошибки не бывает — нечему не прийти; загрузки не бывает — нечего
+    ждать. В таблице состояний <code>_screens.md</code> у него одна страница.</p>
+  <p><b>Что это чинит</b> <code>D-47</code>. Раньше радар стоял стартом каждой сессии
+    и был витриной плотности: при пустой базе он первым делом показывал, что вокруг
+    никого. Теперь он показывает <b>устройство</b> продукта, а не его наполнение,
+    и делает это один раз — когда человек и так решает, оставаться ли.</p>
+  <p><b>Цена осталась одна:</b> экран объясняет то, что человек всё равно увидит
+    через минуту сам, и в онбординге он платный — ещё один шаг до первой колоды.
+    Если по метрике §11 конверсия онбординга просядет, экран убирается первым.</p>
+  <p><b>Выходы:</b> <code>People</code> → II.1 Колода, <code>Events</code> → III.1 Лента.
+    Выбор определяет, какая вкладка откроется первой, и больше не повторяется.</p>
   <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
     Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
