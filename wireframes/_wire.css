@@ -247,7 +247,7 @@ section.stretch, section.stretch .card { flex: 1; min-height: 0; }
    Бейджа присутствия здесь нет и не будет — правило 12, D-06. */
 .cardtop {
   position: absolute; top: 18px; left: var(--s-2); right: var(--s-2);
-  display: flex; align-items: center; justify-content: space-between; gap: var(--s-2);
+  display: flex; align-items: center; justify-content: flex-end; gap: var(--s-2);
   margin: 0;
 }
 .cardtop .chip {
