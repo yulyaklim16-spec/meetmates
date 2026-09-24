@@ -159,16 +159,6 @@
 </header>
   <main class="app">
   <div class="pane">
-    <!-- ЗОНА 2: поле с запросом, который ничего не дал -->
-    <section aria-labelledby="q-h">
-      <h2 id="q-h" hidden>Query</h2>
-      <form class="field" role="search">
-        <span class="ico" aria-hidden="true"></span>
-        <label class="vh" for="q">Search people and events</label>
-        <input id="q" type="search" value="bouldering">
-      </form>
-    </section>
-
     <!-- ЗОНА 3: ничего не нашлось. Причина в плотности, и об этом честно -->
     <section class="stretch" aria-labelledby="res-h">
       <h2 id="res-h" hidden>Nothing found</h2>
@@ -190,6 +180,15 @@
       </a>
     </section>
   </div>
+  <!-- ЗОНА 2: поле с запросом, который ничего не дал -->
+  <section class="pin" aria-labelledby="q-h">
+    <h2 id="q-h" hidden>Query</h2>
+    <form class="field" role="search">
+      <span class="ico" aria-hidden="true"></span>
+      <label class="vh" for="q">Search people and events</label>
+      <input id="q" type="search" value="bouldering">
+    </form>
+  </section>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
