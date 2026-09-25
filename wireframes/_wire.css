@@ -547,13 +547,14 @@ a { color: var(--w-ink); }
 .item .acts { display: flex; gap: var(--s-2); margin-top: var(--s-2); }
 /* превью события: обложка слева, заголовок с датой и описание справа, действие снизу.
    Обложка — фото самого события: минимум одно, обязательное при создании  D-56 */
-.item.ev { display: grid; grid-template-columns: 72px 1fr; column-gap: var(--s-3); row-gap: 0; }
+.item.ev { display: grid; grid-template-columns: 104px 1fr; column-gap: var(--s-3); row-gap: 0; }
 .item.ev .cover {
   /* обложка занимает всю высоту строки: под ней не остаётся пустоты, а карточка
      читается двумя блоками — картинка и текст с действием  D-58 */
-  grid-row: 1 / -1;
+  /* строки неявные: `1 / -1` тянулся бы только до конца явной сетки — нужен span */
+  grid-row: 1 / span 2;
   align-self: stretch;
-  width: 72px; min-height: 72px;
+  width: 104px; min-height: 104px;
   border: 1px solid var(--w-line);
   border-radius: var(--r-sm);
   background: var(--w-zone);
@@ -561,13 +562,24 @@ a { color: var(--w-ink); }
 /* три строки текста стоят плотно: они об одном событии, а не о разных вещах */
 .item.ev .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .item.ev .acts { margin-top: 4px; }
-.item.ev .acts { grid-column: 2; justify-content: flex-end; }
-.item.ev .acts .btn { flex: 0 0 auto; }
+/* действия тянутся во всю ширину правого столбца — до самой обложки.
+   Когда их два, вторичное сокращается до `Invite`: в 196px полное имя не влезает,
+   а на карточке события кнопка называется целиком */
+.item.ev .acts { grid-column: 2; }
+.item.ev .acts .btn { flex: 1; white-space: nowrap; padding-left: var(--s-2); padding-right: var(--s-2); }
+/* главное действие шире второго: подпись длиннее, и переносить её нельзя */
+.item.ev .acts .btn:first-child { flex: 1.6; }
 /* три уровня чтения  D-58: что и когда · где и далеко ли · сколько мест и Verified.
    Дата стоит в строке заголовка и звучит тише: она уточняет, а не спорит с ним.
    От автора в превью остаётся один `Verified` D-57 — в строке про места, он про людей */
 .item.ev .top { align-items: baseline; gap: var(--s-2); }
-.item.ev .top > b { flex: 1; min-width: 0; }
+/* заголовок занимает три строки максимум: длинное занятие важнее ровного ритма,
+   но бесконечно расти ему нельзя — остальное читается на карточке события */
+.item.ev .top > b {
+  flex: 1; min-width: 0;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.item.ev .when { white-space: nowrap; }
 .item.ev .when { font-size: 12px; }
 /* обложка на карточке события: во всю ширину, полос пагинации столько же, сколько фото  D-56 */
 .evcover {
