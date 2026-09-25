@@ -547,7 +547,16 @@ a { color: var(--w-ink); }
 .item .acts { display: flex; gap: var(--s-2); margin-top: var(--s-2); }
 /* превью события: обложка слева, заголовок с датой и описание справа, действие снизу.
    Обложка — фото самого события: минимум одно, обязательное при создании  D-56 */
-.item.ev { display: grid; grid-template-columns: 104px 1fr; column-gap: var(--s-3); row-gap: 0; }
+/* высота превью фиксирована: лента держит ритм, и что помещается в строку —
+   известно заранее. Заголовок — максимум две строки, дальше карточка события */
+.item.ev {
+  display: grid; grid-template-columns: 104px 1fr;
+  /* свободная высота уходит в первую строку, иначе обложка не дотягивается донизу */
+  grid-template-rows: 1fr auto;
+  column-gap: var(--s-3); row-gap: 0;
+  height: 164px; overflow: hidden;
+}
+.item.ev:not(:has(.acts)) { height: 116px; }
 .item.ev .cover {
   /* обложка занимает всю высоту строки: под ней не остаётся пустоты, а карточка
      читается двумя блоками — картинка и текст с действием  D-58 */
@@ -560,7 +569,7 @@ a { color: var(--w-ink); }
   background: var(--w-zone);
 }
 /* три строки текста стоят плотно: они об одном событии, а не о разных вещах */
-.item.ev .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.item.ev .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; align-self: start; }
 .item.ev .acts { margin-top: 4px; }
 /* действия тянутся во всю ширину правого столбца — до самой обложки.
    Когда их два, вторичное сокращается до `Invite`: в 196px полное имя не влезает,
@@ -573,11 +582,11 @@ a { color: var(--w-ink); }
    Дата стоит в строке заголовка и звучит тише: она уточняет, а не спорит с ним.
    От автора в превью остаётся один `Verified` D-57 — в строке про места, он про людей */
 .item.ev .top { align-items: baseline; gap: var(--s-2); }
-/* заголовок занимает три строки максимум: длинное занятие важнее ровного ритма,
-   но бесконечно расти ему нельзя — остальное читается на карточке события */
+/* заголовок занимает две строки максимум: дальше — карточка события.
+   Высота строки фиксирована, и третьей строке в ней места нет */
 .item.ev .top > b {
   flex: 1; min-width: 0;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .item.ev .when { white-space: nowrap; }
 .item.ev .when { font-size: 12px; }
