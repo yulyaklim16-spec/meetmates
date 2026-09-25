@@ -549,7 +549,11 @@ a { color: var(--w-ink); }
    Обложка — фото самого события: минимум одно, обязательное при создании  D-56 */
 .item.ev { display: grid; grid-template-columns: 72px 1fr; column-gap: var(--s-3); row-gap: 0; }
 .item.ev .cover {
-  width: 72px; height: 72px;
+  /* обложка занимает всю высоту строки: под ней не остаётся пустоты, а карточка
+     читается двумя блоками — картинка и текст с действием  D-58 */
+  grid-row: 1 / -1;
+  align-self: stretch;
+  width: 72px; min-height: 72px;
   border: 1px solid var(--w-line);
   border-radius: var(--r-sm);
   background: var(--w-zone);
