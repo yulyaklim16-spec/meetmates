@@ -186,6 +186,11 @@ header {
   border-bottom: 1px solid var(--w-line);
 }
 header h1 { margin-right: auto; }
+/* шапка в две строки: заголовок, под ним поле с фильтрами  D-59 */
+header.stack { flex-direction: column; align-items: stretch; gap: var(--s-2); }
+header.stack .row { margin: 0; }
+header.stack .field { flex: 1; }
+header.stack .row > button { flex: none; }
 /* «назад»: стрелка, а не квадрат-заглушка — направление должно читаться без цвета.
    Тач-цель 44px (§8), отрицательный отступ возвращает стрелку на край строки */
 header .back {

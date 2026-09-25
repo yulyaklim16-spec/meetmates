@@ -160,8 +160,16 @@
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
-<header>
-  <h1>Search people and events</h1>
+<header class="stack">
+  <h1>Search</h1>
+  <div class="row">
+    <form class="field" role="search">
+      <span class="ico" aria-hidden="true"></span>
+      <label class="vh" for="q">Search people and events</label>
+      <input id="q" type="search" value="board games">
+    </form>
+    <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
+  </div>
 </header>
   <main class="app">
   <div class="pane">
@@ -198,20 +206,10 @@
       </ul>
     </section>
   </div>
-  <!-- ЗОНА 2: поле. Одно на оба типа результатов -->
-  <section class="pin" aria-labelledby="q-h">
-    <h2 id="q-h" hidden>Query</h2>
-    <form class="field" role="search">
-      <span class="ico" aria-hidden="true"></span>
-      <label class="vh" for="q">Search people and events</label>
-      <input id="q" type="search" value="board games">
-    </form>
-  </section>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
-    <p class="ann"><b>Зона 1 — что ищем.</b> Людей и планы одним полем `D-43`: разделять вкладками значит заставлять выбирать до того, как человек знает, что найдётся</p>
-    <p class="ann"><b>Зона 2 — поле.</b> Людей и планы ищем одним запросом</p>
+    <p class="ann"><b>Зона 1 — запрос.</b> Поле стоит наверху `D-59`: в поиске человек начинает с него, а не заканчивает. Рядом фильтры — сужать выдачу приходится там же, где её задают. Людей и события ищем одним полем `D-43`</p>
     <p class="ann"><b>Зона 3 — две группы.</b> Планы первыми: запрос про занятие, а не про человека. Люди — второй группой</p>
   </div>
 

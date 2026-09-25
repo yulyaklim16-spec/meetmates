@@ -161,8 +161,16 @@
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
-<header>
-  <h1>Search people and events</h1>
+<header class="stack">
+  <h1>Search</h1>
+  <div class="row">
+    <form class="field" role="search">
+      <span class="ico" aria-hidden="true"></span>
+      <label class="vh" for="q">Search people and events</label>
+      <input id="q" type="search" value="bouldering">
+    </form>
+    <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
+  </div>
 </header>
   <main class="app">
   <div class="pane">
@@ -187,20 +195,10 @@
       </a>
     </section>
   </div>
-  <!-- ЗОНА 2: поле с запросом, который ничего не дал -->
-  <section class="pin" aria-labelledby="q-h">
-    <h2 id="q-h" hidden>Query</h2>
-    <form class="field" role="search">
-      <span class="ico" aria-hidden="true"></span>
-      <label class="vh" for="q">Search people and events</label>
-      <input id="q" type="search" value="bouldering">
-    </form>
-  </section>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
-    <p class="ann"><b>Зона 1 — что ищем.</b> Людей и планы одним полем `D-43`: разделять вкладками значит заставлять выбирать до того, как человек знает, что найдётся</p>
-    <p class="ann"><b>Зона 2 — поле.</b> Запрос остаётся: его правят, а не набирают заново</p>
+    <p class="ann"><b>Зона 1 — запрос.</b> Поле стоит наверху `D-59`: в поиске человек начинает с него, а не заканчивает. Рядом фильтры — сужать выдачу приходится там же, где её задают. Людей и события ищем одним полем `D-43`</p>
     <p class="ann"><b>Зона 3 — ничего не нашлось.</b> Названо, что искали, и предложено дело: свой план по этому же занятию — §2.1, п. 3</p>
     <p class="ann"><b>Зона 4 — что дальше.</b> Главное действие: свой план по этому занятию. Второй выход — вся лента, где занятие может называться иначе</p>
   </div>
