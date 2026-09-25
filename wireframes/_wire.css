@@ -494,6 +494,8 @@ a { color: var(--w-ink); }
 .skel.w-m { width: 44%; }
 .skel.w-s { width: 28%; }
 .skel.pill { height: 22px; border-radius: var(--r-pill); }
+/* значение строки, которое считает сервер: ширина фиксированная, иначе пилюля схлопывается */
+.when .skel.pill { display: inline-block; width: 76px; height: 14px; }
 .skel.thumb { flex: 1; height: 64px; }
 /* фото, дошедшее не целиком: заблюрено, а не заменено серым  D-51.
    Мягкие пятна дают предмет, который блюру есть что размывать; масштаб срезает
