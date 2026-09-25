@@ -547,28 +547,24 @@ a { color: var(--w-ink); }
 .item .acts { display: flex; gap: var(--s-2); margin-top: var(--s-2); }
 /* превью события: обложка слева, заголовок с датой и описание справа, действие снизу.
    Обложка — фото самого события: минимум одно, обязательное при создании  D-56 */
-.item.ev { display: grid; grid-template-columns: 64px 1fr; column-gap: var(--s-3); row-gap: 0; }
+.item.ev { display: grid; grid-template-columns: 72px 1fr; column-gap: var(--s-3); row-gap: 0; }
 .item.ev .cover {
-  width: 64px; height: 64px;
+  width: 72px; height: 72px;
   border: 1px solid var(--w-line);
   border-radius: var(--r-sm);
   background: var(--w-zone);
 }
-.item.ev .body { display: flex; flex-direction: column; gap: var(--s-2); min-width: 0; }
-.item.ev .acts { grid-column: 1 / -1; }
-/* от автора в превью остаётся один признак — `Verified` под датой  D-57:
-   превью про занятие, а не про человека; автор целиком виден на карточке события */
-.item.ev .top { align-items: flex-start; }
+/* три строки текста стоят плотно: они об одном событии, а не о разных вещах */
+.item.ev .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.item.ev .acts { margin-top: 4px; }
+.item.ev .acts { grid-column: 2; justify-content: flex-end; }
+.item.ev .acts .btn { flex: 0 0 auto; }
+/* три уровня чтения  D-58: что и когда · где и далеко ли · сколько мест и Verified.
+   Дата стоит в строке заголовка и звучит тише: она уточняет, а не спорит с ним.
+   От автора в превью остаётся один `Verified` D-57 — в строке про места, он про людей */
+.item.ev .top { align-items: baseline; gap: var(--s-2); }
 .item.ev .top > b { flex: 1; min-width: 0; }
-.item.ev .dateline { flex: none; margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-.item.ev .dateline .when { margin-left: 0; }
-.vbadge {
-  flex: none;
-  white-space: nowrap;
-  padding: 1px var(--s-2);
-  border: 1px solid var(--w-line); border-radius: var(--r-pill);
-  color: var(--w-ink-2); font-size: 12px;
-}
+.item.ev .when { font-size: 12px; }
 /* обложка на карточке события: во всю ширину, полос пагинации столько же, сколько фото  D-56 */
 .evcover {
   position: relative; margin: 0; height: 180px;
