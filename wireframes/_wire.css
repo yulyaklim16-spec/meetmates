@@ -545,8 +545,8 @@ a { color: var(--w-ink); }
    Заголовок остаётся ссылкой на карточку — вложенных кнопок в ссылке быть не может */
 .item a.top { text-decoration: none; color: inherit; }
 .item .acts { display: flex; gap: var(--s-2); margin-top: var(--s-2); }
-/* превью события: фото слева, заголовок с датой и описание справа, действие снизу.
-   Фото — автора: обложки у события нет, такого поля в единице §5.4 не существует */
+/* превью события: обложка слева, заголовок с датой и описание справа, действие снизу.
+   Обложка — фото самого события: минимум одно, обязательное при создании  D-56 */
 .item.ev { display: grid; grid-template-columns: 64px 1fr; column-gap: var(--s-3); row-gap: 0; }
 .item.ev .cover {
   width: 64px; height: 64px;
@@ -556,6 +556,12 @@ a { color: var(--w-ink); }
 }
 .item.ev .body { display: flex; flex-direction: column; gap: var(--s-2); min-width: 0; }
 .item.ev .acts { grid-column: 1 / -1; }
+/* обложка на карточке события: во всю ширину, полос пагинации столько же, сколько фото  D-56 */
+.evcover {
+  position: relative; margin: 0; height: 180px;
+  border: 1px solid var(--w-line); border-radius: var(--r-sm); overflow: hidden;
+}
+.evcover .photo { height: 100%; }
 .item .acts .btn { flex: 1; }
 
 /* ── чат: сообщения и поле ввода ──────────────────────────── */
