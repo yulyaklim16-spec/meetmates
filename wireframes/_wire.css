@@ -186,6 +186,16 @@ header {
   border-bottom: 1px solid var(--w-line);
 }
 header h1 { margin-right: auto; }
+/* «назад»: стрелка, а не квадрат-заглушка — направление должно читаться без цвета.
+   Тач-цель 44px (§8), отрицательный отступ возвращает стрелку на край строки */
+header .back {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: var(--tap-min); min-height: var(--tap-min);
+  margin-left: calc(var(--s-3) * -1);
+  color: var(--w-ink);
+  font-size: 20px; line-height: 1;
+  text-decoration: none;
+}
 
 .screen nav[aria-label] {
   display: flex;
@@ -307,6 +317,7 @@ section.stretch { flex: 1; min-height: 0; }
 /* ── заполнители: место будущего элемента в его настоящем размере ──
    Форму не рисуем: набор и стиль иконок решаются на концепте (_conventions.md §1). */
 .ico {
+  display: inline-block;          /* иначе внутри ссылки схлопывается в чёрточку */
   flex: none;
   width: 20px; height: 20px;
   border: 1px solid var(--w-line);
