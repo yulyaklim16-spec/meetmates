@@ -543,8 +543,19 @@ a { color: var(--w-ink); }
 .who { display: flex; align-items: center; gap: var(--s-2); color: var(--w-ink-2); font-size: 13px; }
 /* действия прямо в превью события  D-54: вступить или позвать, не открывая карточку.
    Заголовок остаётся ссылкой на карточку — вложенных кнопок в ссылке быть не может */
-.item > a.top { text-decoration: none; color: inherit; }
+.item a.top { text-decoration: none; color: inherit; }
 .item .acts { display: flex; gap: var(--s-2); margin-top: var(--s-2); }
+/* превью события: фото слева, заголовок с датой и описание справа, действие снизу.
+   Фото — автора: обложки у события нет, такого поля в единице §5.4 не существует */
+.item.ev { display: grid; grid-template-columns: 64px 1fr; column-gap: var(--s-3); row-gap: 0; }
+.item.ev .cover {
+  width: 64px; height: 64px;
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-sm);
+  background: var(--w-zone);
+}
+.item.ev .body { display: flex; flex-direction: column; gap: var(--s-2); min-width: 0; }
+.item.ev .acts { grid-column: 1 / -1; }
 .item .acts .btn { flex: 1; }
 
 /* ── чат: сообщения и поле ввода ──────────────────────────── */
