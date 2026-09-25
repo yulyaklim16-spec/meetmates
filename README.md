@@ -118,12 +118,14 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 | Этап | Статус | Что в нём |
 |---|---|---|
 | [research/](./research/) | 🟡 разборы готовы, интервью TBD | Конкуренты, бенчмарк доверия, паттерны, люди, jobs |
-| [wireframes/](./wireframes/) | ✅ 49 страниц из 49 | 13 экранов и все состояния из таблицы `_screens.md`, в мокапе телефона, связаны по рёбрам `flows.md` |
+| [wireframes/](./wireframes/) | ✅ 49 страниц из 49, разбор пройден | 13 экранов и все состояния из таблицы [`_screens.md`](./wireframes/_screens.md), в мокапе телефона, связаны по рёбрам `flows.md`. Что проверялось и что починено — [`_critique.md`](./wireframes/_critique.md) |
 | [concept/](./concept/) | ⬜ | Moodboard, четыре ключевых экрана, логотип |
 | [tokens/](./tokens/) | ✅ базовый набор | [tokens.css](./tokens/tokens.css) + [tokens.json](./tokens/tokens.json) |
 | [components/](./components/) | ⬜ | UI-компоненты и все их состояния |
 | [design-system/](./design-system/) | 🟡 инварианты зафиксированы | Правила применения, копирайт-гайд |
 | [handoff/](./handoff/) | ⬜ | Спецификации экранов, ассеты, доступность |
+
+**Макеты проверяются скриптами, а не глазами:** обход ссылок (тупики, битые ссылки, недостижимые страницы), замер каждой карточки и кнопки в мокапе 390 × 844, сверка состояний с таблицей и копирайта с правилами. Последний проход — 25.09.2026, восемь правок, [`wireframes/_critique.md`](./wireframes/_critique.md).
 
 Опубликованные страницы: [раздел 1 — ресерч](https://meetmates.vercel.app/research/research.html) ·
 [раздел 2 — персоны и JTBD](https://meetmates.vercel.app/research/persones.html) ·
