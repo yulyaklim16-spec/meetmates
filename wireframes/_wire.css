@@ -554,9 +554,8 @@ a { color: var(--w-ink); }
   /* свободная высота уходит в первую строку, иначе обложка не дотягивается донизу */
   grid-template-rows: 1fr auto;
   column-gap: var(--s-3); row-gap: 0;
+  /* отступ снизу равен верхнему — его задаёт сам .item; обложка кончается выше кнопки */
   height: 176px; overflow: hidden;
-  /* под кнопкой остаётся воздух, а обложка кончается выше неё */
-  padding-bottom: var(--s-4);
 }
 .item.ev:not(:has(.acts)) { height: 116px; }
 .item.ev .cover {
@@ -565,13 +564,15 @@ a { color: var(--w-ink); }
   /* обложка стоит только над строкой действий: кнопка идёт во всю ширину карточки */
   grid-row: 1;
   align-self: stretch;
-  width: 104px; min-height: 104px;
+  /* min-height у обложки держал бы строку сетки и выдавливал кнопку за отступ */
+  width: 104px; min-height: 0;
   border: 1px solid var(--w-line);
   border-radius: var(--r-sm);
   background: var(--w-zone);
 }
 /* три строки текста стоят плотно: они об одном событии, а не о разных вещах */
-.item.ev .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; align-self: start; }
+/* текст может ужаться: иначе он выдавливает кнопку за нижний отступ */
+.item.ev .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; min-height: 0; overflow: hidden; }
 .item.ev .acts { margin-top: var(--s-3); }
 /* действия тянутся во всю ширину правого столбца — до самой обложки.
    Когда их два, вторичное сокращается до `Invite`: в 196px полное имя не влезает,
