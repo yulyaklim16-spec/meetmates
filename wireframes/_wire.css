@@ -541,6 +541,11 @@ a { color: var(--w-ink); }
 .item .top b { font-size: 15px; }
 .item .when { margin-left: auto; flex: none; color: var(--w-ink-2); font-size: 13px; }
 .who { display: flex; align-items: center; gap: var(--s-2); color: var(--w-ink-2); font-size: 13px; }
+/* действия прямо в превью события  D-54: вступить или позвать, не открывая карточку.
+   Заголовок остаётся ссылкой на карточку — вложенных кнопок в ссылке быть не может */
+.item > a.top { text-decoration: none; color: inherit; }
+.item .acts { display: flex; gap: var(--s-2); margin-top: var(--s-2); }
+.item .acts .btn { flex: 1; }
 
 /* ── чат: сообщения и поле ввода ──────────────────────────── */
 .msgs { display: flex; flex-direction: column; gap: var(--s-2); }
