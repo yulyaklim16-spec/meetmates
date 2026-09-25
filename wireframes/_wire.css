@@ -541,6 +541,18 @@ a { color: var(--w-ink); }
 }
 .bubble.me { align-self: flex-end; background: var(--w-fill); }
 .bubble .t { display: block; margin-top: 2px; color: var(--w-ink-2); font-size: 11px; }
+/* не отправленная реплика: ошибка живёт на ней самой, а не отдельным блоком  D-52.
+   Нажимается весь пузырь, точку нажатия называет иконка повтора в правом углу.
+   В UI сюда добавится красный оттенок (--danger); в сером его заменяют иконка и подпись */
+.bubble.failed {
+  display: block;
+  position: relative;
+  padding-right: calc(var(--s-3) + 22px);
+  color: inherit;
+  text-decoration: none;
+  border-style: dashed;
+}
+.bubble .retry { position: absolute; top: var(--s-2); right: var(--s-2); }
 .field {
   display: flex; align-items: center; gap: var(--s-2);
   min-height: var(--tap-min);

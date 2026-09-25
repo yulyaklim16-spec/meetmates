@@ -175,13 +175,8 @@
       <h2 id="msg-h" hidden>Conversation</h2>
       <div class="msgs">
         <p class="bubble">Let&rsquo;s go then. Which day works for you?<span class="t">Olena &middot; 19:08</span></p>
-        <p class="bubble me">Saturday works &mdash; the caf&eacute; opens at six<span class="t">Not sent &middot; tap to try again</span></p>
+        <a class="bubble me failed" href="dialog.html" role="alert" aria-label="Message not sent. Tap to try again">Saturday works &mdash; the caf&eacute; opens at six<span class="retry ico sm" aria-hidden="true"></span><span class="t">Not sent &middot; tap to try again</span></a>
       </div>
-      <article class="state" role="alert">
-        <h3>Message didn&rsquo;t send</h3>
-        <p>The connection dropped. Your text is saved &mdash; nothing is lost.</p>
-        <p class="row"><a class="btn primary" href="dialog.html">Try again</a></p>
-      </article>
     </section>
 
     <!-- ЗОНА 3: выходы наружу. Ради них экран и существует: D-37 -->
@@ -206,7 +201,7 @@
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
     <p class="ann"><b>Зона 1 — шапка.</b> Имя ведёт в профиль, Report и Block — здесь: правило 4, один тап оттуда, где виден человек</p>
-    <p class="ann"><b>Зона 2 — сломана одна реплика.</b> Помечена именно она, а не весь экран: остальная история на месте и читается</p>
+    <p class="ann"><b>Зона 2 — сбой на самой реплике.</b> Отдельного блока об ошибке нет `D-52`: он отделял сообщение об аварии от того, что сломалось. Пузырь сам стал кнопкой — иконка повтора в правом углу, подпись под текстом, в UI добавится красный оттенок</p>
     <p class="ann"><b>Зона 3 — выходы наружу.</b> Главное действие: <code>Suggest a day</code> → запрос `+1` с датой `D-39`. Второй выход — позвать вдвоём в чужой план `D-36`</p>
     <p class="ann"><b>Зона 4 — ввод.</b> Гейт снят: иначе здесь стоял бы призыв верифицироваться (§7.3)</p>
   </div>
@@ -240,12 +235,17 @@
     и «никак» ведёт в <code>DeadChat</code>, провал R1.</p>
   <p><b>Чат — дорога к встрече</b> <code>D-37</code>, а не место для переписки. Поэтому
     выходы наружу нарисованы в самом разговоре, а не спрятаны в меню.</p>
-  <p><b>Что сломано, названо точно:</b> одна реплика, а не разговор. Текст сохранён,
-    и это сказано — иначе человек переписывает его заново или уходит.</p>
+  <p><b>Что сломано, названо на том, что сломалось</b> <code>D-52</code>. Отдельный блок
+    «Message didn&rsquo;t send» убран: он сообщал об аварии в стороне от реплики, занимал
+    место разговора и повторял то, что и так написано под пузырём. Текст сохранён —
+    подпись говорит это прямо, иначе человек набирает его заново или уходит.</p>
+  <p><b>Где нажимать, видно</b>: иконка повтора стоит в правом верхнем углу пузыря,
+    нажимается весь пузырь. Цвета в вайрфрейме нет, поэтому здесь работают иконка
+    и подпись; в UI к ним добавится красный оттенок (§8, <code>--danger</code>).</p>
   <p><b>Выходы наружу живые.</b> Даже когда сообщение не ушло, <code>Suggest a day</code>
     и <code>Invite together</code> доступны: дорога к встрече не зависит от одной реплики.</p>
-  <p><b>Выходы:</b> <code>Try again</code> — повтор той же реплики; при удаче экран
-    возвращается в рабочий вид.</p>
+  <p><b>Выходы:</b> нажатие на пузырь — повтор той же реплики; при удаче экран
+    возвращается в рабочий вид. Плюс оба выхода наружу и поле ввода.</p>
   <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
     Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
