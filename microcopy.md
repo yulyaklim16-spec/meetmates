@@ -108,8 +108,8 @@
 | рабочий вид | -2: сам факт | `You and Olena both said yes` | заголовок |
 | рабочий вид | Дорога дальше | `Say hi` | кнопка |
 | рабочий вид | Дорога дальше | `Keep swiping` | кнопка |
-| рабочий вид | -2: сам факт | `You have 3 interests in common. The chat is open — she can write to you too.` | сообщение состояния |
-| рабочий вид | -2: сам факт | `You have 3 interests in common. The chat is open — she can write to you too.` | текст экрана |
+| рабочий вид | -2: сам факт | `You have 3 interests in common. The chat is open — Olena can write to you too.` | сообщение состояния |
+| рабочий вид | -2: сам факт | `You have 3 interests in common. The chat is open — Olena can write to you too.` | текст экрана |
 
 ### I.5 Верификация
 
@@ -182,9 +182,9 @@
 | ожидание | Что можно вместо ожидания | `Invite together instead` | кнопка |
 | ожидание | Что можно вместо ожидания | `Look at events →` | кнопка |
 | ожидание | Предложение висит в разговоре и ждёт ответа | `Waiting for Olena` | сообщение состояния |
-| ожидание | Предложение висит в разговоре и ждёт ответа | `She hasn’t answered the day yet. The suggestion stays open until Saturday — after that it just expires.` | сообщение состояния |
+| ожидание | Предложение висит в разговоре и ждёт ответа | `Olena hasn’t answered the day yet. The suggestion stays open until Saturday — after that it just expires.` | сообщение состояния |
 | ожидание | Предложение висит в разговоре и ждёт ответа | `Saturday at six? Kyiv Games Club` | текст пользователя |
-| ожидание | Предложение висит в разговоре и ждёт ответа | `She hasn’t answered the day yet. The suggestion stays open until Saturday — after that it just expires.` | текст экрана |
+| ожидание | Предложение висит в разговоре и ждёт ответа | `Olena hasn’t answered the day yet. The suggestion stays open until Saturday — after that it just expires.` | текст экрана |
 
 ### IV.3 Позвать вдвоём
 
@@ -196,13 +196,13 @@
 | рабочий вид | Во что идём | `Morning run along the embankment` | заголовок объекта |
 | рабочий вид | Кого зовём | `Olena` | кнопка |
 | рабочий вид | Во что идём | `Board games Sat 18:00` | кнопка |
-| рабочий вид | Во что идём | `Ask together` | кнопка |
+| рабочий вид | Во что идём | `Invite Olena` | кнопка |
 | рабочий вид | Выход | `Look at all events →` | кнопка |
 | рабочий вид | Во что идём | `Kyiv Games Club · Podil · ~3 km` | подпись |
 | рабочий вид | Во что идём | `2 spots left · Verified` | подпись |
 | рабочий вид | Во что идём | `Podil · ~1 km` | подпись |
 | рабочий вид | Во что идём | `3 spots left · Verified` | подпись |
-| рабочий вид | Кого зовём | `You’re inviting Olena . She says yes on her side, then you go as a pair` | подпись |
+| рабочий вид | Кого зовём | `You’re inviting Olena . You go as a pair once Olena confirms` | подпись |
 | рабочий вид | Во что идём | `Sat 18:00` | подпись |
 | рабочий вид | Во что идём | `No date yet` | подпись |
 | рабочий вид | Во что идём | `Morning run along the embankment No date yet` | строка списка |
@@ -218,8 +218,8 @@
 | ошибка | Что можно сделать сейчас | `Ask Olena to verify` | кнопка |
 | ошибка | Что можно сделать сейчас | `Suggest a day instead` | кнопка |
 | ошибка | Одной пойти можно всегда | `Look at events on your own →` | кнопка |
-| ошибка | Кого зовём и почему пока нельзя | `Both of you need the badge to join an event as a pair. She can do it in a minute — a selfie, nothing else.` | сообщение состояния |
-| ошибка | Кого зовём и почему пока нельзя | `Both of you need the badge to join an event as a pair. She can do it in a minute — a selfie, nothing else.` | текст экрана |
+| ошибка | Кого зовём и почему пока нельзя | `Both of you need the badge to join an event as a pair. Olena can do it in a minute — a selfie, nothing else.` | сообщение состояния |
+| ошибка | Кого зовём и почему пока нельзя | `Both of you need the badge to join an event as a pair. Olena can do it in a minute — a selfie, nothing else.` | текст экрана |
 | успех | Факт и что он означает для обоих | `You’re both in` | заголовок |
 | успех | Дорога дальше | `Open the chat` | кнопка |
 | успех | Карточка плана | `Board games at Kyiv Games Club · Sat 18:00 →` | кнопка |
@@ -235,9 +235,9 @@
 | ожидание | Во что именно зовём | `2 spots left · Verified` | подпись |
 | ожидание | Во что именно зовём | `Sat 18:00` | подпись |
 | ожидание | На каком шаге стоим | `Waiting for Olena` | сообщение состояния |
-| ожидание | На каком шаге стоим | `Step 1 of 2. She confirms on her side, then Andrii confirms the two of you — as one request for two spots.` | сообщение состояния |
+| ожидание | На каком шаге стоим | `Step 1 of 2. Olena confirms first, then Andrii confirms the two of you — as one request for two spots.` | сообщение состояния |
 | ожидание | На каком шаге стоим | `The invite stays open while the event does — until Saturday.` | сообщение состояния |
-| ожидание | На каком шаге стоим | `Step 1 of 2. She confirms on her side, then Andrii confirms the two of you — as one request for two spots.` | текст экрана |
+| ожидание | На каком шаге стоим | `Step 1 of 2. Olena confirms first, then Andrii confirms the two of you — as one request for two spots.` | текст экрана |
 
 ### III.1 Лента событий
 
@@ -285,7 +285,7 @@
 | **во всех** | Подтверждено | `Andrii · Verified · 12 meetups attended · Replies quickly` | подпись |
 | **во всех** | Подтверждено | `Saturday, 18:00` | подпись |
 | **во всех** | Подтверждено | `Free` | подпись |
-| **во всех** | Подтверждено | `Kyiv Games Club · Podil · ~3 km away` | подпись |
+| **во всех** | Подтверждено | `Kyiv Games Club · Podil · ~3 km` | подпись |
 | **во всех** | Подтверждено | `Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.` | текст экрана |
 | рабочий вид | Отклик | `Ask to join` | кнопка |
 | рабочий вид | Отклик | `Invite together` | кнопка |
@@ -314,9 +314,9 @@
 | ожидание | Что можно вместо ожидания | `Withdraw my request` | кнопка |
 | ожидание | Второй путь | `See people →` | кнопка |
 | ожидание | Кто должен ответить и сколько это живёт | `Waiting for Andrii` | сообщение состояния |
-| ожидание | Кто должен ответить и сколько это живёт | `Your request is with him. It stays open until Saturday — events without a date keep requests for 14 days.` | сообщение состояния |
+| ожидание | Кто должен ответить и сколько это живёт | `Your request is with Andrii. It stays open until Saturday — events without a date keep requests for 14 days.` | сообщение состояния |
 | ожидание | Кто должен ответить и сколько это живёт | `2 going · 1 spot left · your request doesn’t take a spot yet` | сообщение состояния |
-| ожидание | Кто должен ответить и сколько это живёт | `Your request is with him. It stays open until Saturday — events without a date keep requests for 14 days.` | текст экрана |
+| ожидание | Кто должен ответить и сколько это живёт | `Your request is with Andrii. It stays open until Saturday — events without a date keep requests for 14 days.` | текст экрана |
 
 ### III.6 Мои события
 
@@ -334,8 +334,8 @@
 | рабочий вид | Мои события | `Morning run along the embankment` | заголовок объекта |
 | рабочий вид | Мои события | `Coffee and a walk in Podil` | заголовок объекта |
 | рабочий вид | Мои события | `Board games Sat 18:00` | кнопка |
-| рабочий вид | Мои события | `2 responses · tap to confirm · 1 spot left` | подпись |
-| рабочий вид | Мои события | `Maryna · 3 going · ~1 km away` | подпись |
+| рабочий вид | Мои события | `2 requests · tap to confirm · 1 spot left` | подпись |
+| рабочий вид | Мои события | `Maryna · 3 going · ~1 km` | подпись |
 | рабочий вид | Мои события | `Repeats weekly · 2 meetups so far` | подпись |
 | рабочий вид | Мои события | `Sat 18:00` | подпись |
 | рабочий вид | Мои события | `Sun 08:00` | подпись |
@@ -367,11 +367,11 @@
 | рабочий вид | Список | `You matched — no messages yet` | подпись |
 | рабочий вид | Матчи без переписки | `Maryna, Olha and Ihor — say hi` | подпись |
 | рабочий вид | Список | `19:08 · 1 new` | подпись |
-| рабочий вид | Список | `Yesterday` | подпись |
 | рабочий вид | Список | `Mon` | подпись |
+| рабочий вид | Список | `12 Jun` | подпись |
 | рабочий вид | Список | `Olena 19:08 · 1 new Let’s go then. Which day works for you?` | строка списка |
-| рабочий вид | Список | `Board games Yesterday Event chat · 3 people · Andrii: see you at six` | строка списка |
-| рабочий вид | Список | `Maryna Mon You matched — no messages yet` | строка списка |
+| рабочий вид | Список | `Board games Mon Event chat · 3 people · Andrii: see you at six` | строка списка |
+| рабочий вид | Список | `Maryna 12 Jun You matched — no messages yet` | строка списка |
 | пусто | Пусто | `No chats yet` | заголовок |
 | пусто | Оба пути к первому разговору | `See people` | кнопка |
 | пусто | Оба пути к первому разговору | `Look at events` | кнопка |
@@ -484,7 +484,15 @@
 
 ---
 
-## 4. Расхождения — отмечено, не переписано
+## 4. Расхождения — закрыты решением `D-60`
+
+> Перепись снималась, когда расхождения ещё были. **Аудит 29.09** свёл их решением
+> `D-60` (словарь и форматы): отклик — `request` на обеих сторонах · совместный отклик —
+> `Invite together`, в превью `Invite` · момент взаимности — факт, `match` только в списках ·
+> выход — `Look at events` плюс закрытый список уточнителей `other` / `all` / `on your own` ·
+> расстояние `~3 km` без `away` · время `Sat 18:00` в превью и `Saturday, 18:00` на карточке ·
+> нуля нет, заполненное событие — `No spots left` · местоимений по полу нет, стоит имя.
+> Ниже — что было найдено; таблицы оставлены как след разбора.
 
 ### 4.1 Один предмет под разными именами
 

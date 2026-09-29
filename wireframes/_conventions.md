@@ -121,7 +121,7 @@
 |---|---|
 | Карточка в колоде | `3 common interests` · `Hiking, Board games, Coffee` · `Dasha, 27` · `Verified` · `6 meetups attended` · `Replies quickly` · `~2 km away`. Ступеней нет `D-49`; счёт фото — полосами пагинации, а не словами |
 | Профиль другого человека | `About` · `Interests` · `Olena's events` · `Report` · `Block` |
-| Запрос на компанию | `Go for a walk on the embankment?` · `Sat, 14 Jun · 18:00` · `No date yet` · `Podil` · `+1 · 1 spot left` · `2 going · 1 spot left` · `Who can join: women only` · `Ask to join` |
+| Запрос на компанию | `Go for a walk on the embankment?` · `Sat 18:00` · `No date yet` · `Podil` · `+1 · 1 spot left` · `2 going · 1 spot left` · `Who can join: women only` · `Ask to join` |
 | Диалог | `Say hi` · `Suggest a day` · `Invite together` · `Still going?` · `Yes` · `Can't make it` |
 | Верификация | `Verify to start chatting` · `Face partly out of frame — try again` · `Sent to a human reviewer` |
 | Пустые состояния | `You are all caught up` · `No events within 5 km yet` · `No chats yet` · `Reset filters` · `Look at events` |
@@ -178,9 +178,26 @@ chats`, `Couldn't load events nearby`, `Couldn't run your search`. Если не
 вместе с `Filters` `D-59` — с него экран начинается. Фильтры всегда в одной строке
 с тем, что они сужают: `People nearby`, `Events nearby`, `Search`.
 
+**Форматы — одни на весь продукт** `D-60`:
+
+| Что | Где | Как пишем |
+|---|---|---|
+| Дата и время события | превью и строки списка | `Sat 18:00`, без даты — `No date yet` |
+| Дата и время события | карточка события | `Saturday, 18:00` |
+| Время реплики | диалог | `19:08` |
+| Относительное время | **только** список чатов | сегодня — `19:08`, на этой неделе — `Mon`, дальше — `12 Jun` |
+| Расстояние | везде | `~3 km`, без `away`; ближе километра — `Nearby` |
+| Ноль | везде | строки нет вовсе (встречи, отзывчивость); заполненное событие — `No spots left` |
+| Человек в шаблонной строке | везде | имя (`Olena confirms first`) или `they`; местоимений по полу нет `D-25` |
+
+**Словарь предметов** `D-60`: отклик — `request` на обеих сторонах · совместный отклик —
+`Invite together`, в превью `Invite` · момент взаимности — факт («You and Olena both said
+yes»), `match` только в списках · событие — `event`.
+
 **Повторяющееся действие называется одинаково на всех экранах.** Выход в ленту —
-`Look at events` (варианты `Look at other events`, `Look at all events`, `Look at events on
-your own` — когда рядом есть от чего отличать); выход в колоду — `See people`; создание —
+`Look at events`; уточнитель берётся **только из закрытого списка** `D-60` и только когда
+на экране есть от чего отличать: `other` (это событие не подошло) · `all` (список сужен
+фильтром или запросом) · `on your own` (пара не сложилась); выход в колоду — `See people`; создание —
 `Post an event`; чат после подтверждения — `Open the chat`; отложить верификацию —
 `Keep browsing`. Свои вещи человек называет своими: `My events`, `My chats`, `My matches`,
 `My profile`, `Share my events`. Система обращается к нему на `your`: `Loading your chats`.
