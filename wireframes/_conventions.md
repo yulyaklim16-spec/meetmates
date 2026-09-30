@@ -119,7 +119,7 @@
 
 | Объект | Что пишем |
 |---|---|
-| Карточка в колоде | `3 common interests` · `Hiking, Board games, Coffee` · `Dasha, 27` · `Verified` · `6 meetups attended` · `Replies quickly` · `~2 km away`. Ступеней нет `D-49`; счёт фото — полосами пагинации, а не словами |
+| Карточка в колоде | `3 common interests` · `Hiking, Board games, Coffee` · `Dasha, 27` · `Verified` · `6 meetups attended` · `Replies quickly` · `~2 km`. Ступеней нет `D-49`; счёт фото — полосами пагинации, а не словами |
 | Профиль другого человека | `About` · `Interests` · `Olena's events` · `Report` · `Block` |
 | Запрос на компанию | `Go for a walk on the embankment?` · `Sat 18:00` · `No date yet` · `Podil` · `+1 · 1 spot left` · `2 going · 1 spot left` · `Who can join: women only` · `Ask to join` |
 | Диалог | `Say hi` · `Suggest a day` · `Invite together` · `Still going?` · `Yes` · `Can't make it` |

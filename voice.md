@@ -163,7 +163,7 @@ Verify your profile to unlock the full experience!
 
 ```
 Waiting for Andrii
-Your request is with him. It stays open until Saturday — events without a date
+Your request is with Andrii. It stays open until Saturday — events without a date
 keep requests for 14 days.
 [ Look at other events ]
 ```
