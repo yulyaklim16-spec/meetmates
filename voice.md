@@ -75,7 +75,7 @@ I'm 26, sociable, love long walks and good coffee
 
 ```
 Meet mates · Enjoy the events
-You have 3 interests in common. The chat is open — she can write to you too.
+You have 3 interests in common. The chat is open — Olena can write to you too.
 ```
 
 **Антипример**
