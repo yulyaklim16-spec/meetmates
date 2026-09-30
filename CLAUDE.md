@@ -593,7 +593,7 @@ safety center — все в один тап от вкладки. Экрана «
 **Events:** Feed (срез `Nearby`) · My events (срез `Mine`, `D-50`) · Filters · Event detail · Create event (1 шаг) · Responses ·
 **Reminder (Still going?)** · **Post-meet check-in** (с полем «Anything off?»,
 `D-38`) · **Repeat offer** · **Share my events** (§7.2) · Empty feed
-**Chats:** Chat list (+ empty) · Conversation (1:1 и чат запроса — один экран) ·
+**Chats:** Chat list (+ empty) · Chat (1:1 и чат события — один экран; `Conversation` как имя убрано `D-60`) ·
 **Invite together** (`D-36`, вход из диалога и с карточки запроса) · Report sheet · Block confirm
 **За вкладкой Profile (глубокий слой):** My profile — хаб: `My events` и `My matches` ссылками `D-50` · Edit profile (анкета, фото, интересы) ·
 Location (разрешение на онбординге, потом
