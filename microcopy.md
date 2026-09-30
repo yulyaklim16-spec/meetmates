@@ -245,7 +245,7 @@
 |---|---|---|---|
 | **во всех** | шапка | `Events nearby` | заголовок |
 | **во всех** | шапка | `Filters` | кнопка |
-| **во всех** | шапка | `New` | кнопка |
+| **во всех** | шапка | `Post` | кнопка |
 | **во всех** | Срез вкладки | `Nearby` | кнопка |
 | **во всех** | Срез вкладки | `Mine` | кнопка |
 | **во всех** | Третий ответ | `See people →` | кнопка |
@@ -273,8 +273,8 @@
 | пусто | Пусто | `Events here are posted by people like you — and yours would be the first one nearby.` | текст экрана |
 | ошибка | Причина названа | `Couldn’t load events nearby` | заголовок |
 | ошибка | Одно действие | `Try again` | кнопка |
-| ошибка | Причина названа | `The connection dropped while we were looking. Your own events and requests are safe.` | сообщение состояния |
-| ошибка | Причина названа | `The connection dropped while we were looking. Your own events and requests are safe.` | текст экрана |
+| ошибка | Причина названа | `The connection dropped. Your own events and requests are safe.` | сообщение состояния |
+| ошибка | Причина названа | `The connection dropped. Your own events and requests are safe.` | текст экрана |
 | загрузка | Скелет ленты | `Looking for events near you` | сообщение состояния |
 
 ### III.3 Карточка события
@@ -551,7 +551,34 @@ Kyiv Games Club, Podil, `2 going · 1 spot left`, `6 meetups attended`, `~3 km`.
 
 ---
 
-## 6. Что дальше
+## 6. Переписанные страницы — было и стало
+
+Правка по [`voice.md`](./voice.md) идёт экранами. Ниже — что изменилось на уже
+переписанных; строки, которые проверены и оставлены, перечислены после таблицы.
+
+### Лента событий: `feed` · `feed-empty` · `feed-error` · `feed-loading` — 30.09
+
+| Экран | Тип | Было | Стало | Почему |
+|---|---|---|---|---|
+| все четыре | кнопка, шапка | `New` | `Post` (+ `aria-label="Post an event"`) | Кнопка — глагол, из которого виден результат («Микрокопи»). Полное имя словаря не помещается рядом с `Filters`, поэтому оно в aria — тот же приём, что `Invite` в превью `D-60` |
+| `feed` | скрытый заголовок | `First path` | `People` | Скринридер читал внутренний термин брифа («первый путь», §4). Заголовок называет место, а не нашу схему |
+| `feed-error` | сообщение состояния | `The connection dropped while we were looking. Your own events and requests are safe.` | `The connection dropped. Your own events and requests are safe.` | «Мы» о себе не говорим — кроме живой проверки селфи (Словарь, «Обращение») |
+
+**Проверено и оставлено как есть:** `Events nearby` (заголовок называет место словом
+словаря) · `Filters` (кнопка, открывающая место, — названное исключение) · `Nearby` / `Mine`
+(срез вкладки, не действие) · `Ask to join`, `Invite`, `Show events further out`,
+`Post an event`, `Try again`, `See people` (словарь, «Действия») · `No events within 5 km yet`
+и текст под ним (пустое ведёт к действию) · `Couldn't load events nearby` (ошибка называет
+предмет) · `Looking for events near you` (загрузка называет, что грузится) · все мета-строки
+превью (форматы `D-60`).
+
+**Не тронуто — это пишет человек:** `Board games` · `Morning run along the embankment` ·
+`Coffee and a walk in Podil` (§5 этого файла).
+
+**Найдено по ходу, но за пределами этих страниц:** та же формулировка
+«while we were looking» стоит в `deck-error` — поправим, когда дойдём до колоды.
+
+## 7. Что дальше
 
 1. По каждому расхождению из §4.1 и §4.2 принять решение: одно имя или осознанно разные.
 2. Решения записать сюда же — таблица станет **источником правды**, с которой сверяется
