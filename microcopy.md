@@ -20,6 +20,8 @@
 ошибок, загрузок и ожиданий, мета-строки карточек (расстояние, счётчик мест, сигналы
 доверия), свободный текст экрана.
 
+**И то, чего глазом не видно:** **скрытые заголовки секций** и **`aria-label`** — их слышит скринридер, значит это такой же копирайт (`wireframes/_conventions.md`). До 30.09 их в переписи не было, и расхождения в них приходилось находить глазами: 85 скрытых заголовков и 34 `aria-label` жили на экранах мимо таблицы.
+
 **Не вошло — это леса, а не продукт:** панель страниц слева, полоса состояний над
 мокапом, подписи зон справа, служебный блок под макетом, системная строка телефона
 и метка «сгиб — ниже не наше».
@@ -27,7 +29,7 @@
 **Как читать колонки.** `Состояние` — базовый вид или одно из состояний экрана;
 **во всех** значит, что строка одинакова во всех состояниях этого экрана.
 `Зона` — из комментария в разметке: шапка, содержимое, действия, выход.
-`Тип` — заголовок · кнопка · подпись поля · сообщение состояния · подпись ·
+`Тип` — заголовок · скрытый заголовок · aria-label · кнопка · подпись поля · сообщение состояния · подпись ·
 текст экрана · строка списка · текст пользователя.
 
 ## 2. Общее для всех экранов
@@ -45,6 +47,8 @@
 | Состояние | Зона | Строка | Тип |
 |---|---|---|---|
 | рабочий вид | Обещание | `Meet mates Enjoy the events` | заголовок |
+| рабочий вид | Как это устроено | `How it works` | скрытый заголовок |
+| рабочий вид | С чего начать | `Where to start` | скрытый заголовок |
 
 ### II.1 Колода
 
@@ -53,8 +57,8 @@
 | **во всех** | Шапка | `People nearby` | заголовок |
 | **во всех** | Шапка | `Filters` | кнопка |
 | **во всех** | Выход во второй путь | `Look at events →` | кнопка |
+| рабочий вид | Карточка человека | `Olena, 26 — open profile` | aria-label |
 | рабочий вид | Карточка человека | `Olena, 26` | заголовок |
-| рабочий вид | Карточка человека | `Olena, 26 — open profile` | кнопка · только aria-label |
 | рабочий вид | Решение по карточке | `Skip` | кнопка |
 | рабочий вид | Решение по карточке | `Like` | кнопка |
 | рабочий вид | Карточка человека | `Hiking` | подпись |
@@ -62,23 +66,33 @@
 | рабочий вид | Карточка человека | `Coffee` | подпись |
 | рабочий вид | Карточка человека | `6 meetups attended` | подпись |
 | рабочий вид | Карточка человека | `Replies quickly` | подпись |
+| рабочий вид | Решение по карточке | `Decision` | скрытый заголовок |
+| рабочий вид | Выход во второй путь | `Events` | скрытый заголовок |
+| пусто | Что дальше | `Show people further out` | aria-label |
 | пусто | Вместо карточки | `You are all caught up` | заголовок |
 | пусто | Что дальше | `Expand search` | кнопка |
 | пусто | Что дальше | `Reset filters` | кнопка |
+| пусто | Что дальше | `What next` | скрытый заголовок |
+| пусто | Выход во второй путь | `Events` | скрытый заголовок |
 | пусто | Вместо карточки | `That’s everyone within 5 km who matches your filters.` | сообщение состояния |
 | пусто | Вместо карточки | `That’s everyone within 5 km who matches your filters.` | текст экрана |
 | ошибка | Вместо карточки | `Couldn’t load people nearby` | заголовок |
 | ошибка | Что дальше | `Try again` | кнопка |
+| ошибка | Что дальше | `What next` | скрытый заголовок |
+| ошибка | Выход во второй путь | `Events` | скрытый заголовок |
 | ошибка | Вместо карточки | `The connection dropped. Your likes and matches are safe.` | сообщение состояния |
 | ошибка | Вместо карточки | `The connection dropped. Your likes and matches are safe.` | текст экрана |
 | загрузка | Решение по карточке | `Skip` | кнопка |
 | загрузка | Решение по карточке | `Like` | кнопка |
+| загрузка | Решение по карточке | `Decision` | скрытый заголовок |
+| загрузка | Выход во второй путь | `Events` | скрытый заголовок |
 | загрузка | Скелет карточки | `Looking for people near you` | сообщение состояния |
 
 ### I.1 Профиль человека
 
 | Состояние | Зона | Строка | Тип |
 |---|---|---|---|
+| **во всех** | шапка | `Back to people nearby` | aria-label |
 | **во всех** | шапка | `Olena, 26` | заголовок |
 | **во всех** | Планов нет | `Olena’s events` | заголовок |
 | **во всех** | Решение | `Skip` | кнопка |
@@ -88,6 +102,8 @@
 | **во всех** | Кто это | `Coffee` | подпись |
 | **во всех** | Кто это | `6 meetups attended` | подпись |
 | **во всех** | Кто это | `Replies quickly` | подпись |
+| **во всех** | Кто это | `Who` | скрытый заголовок |
+| **во всех** | Решение | `Decision` | скрытый заголовок |
 | **во всех** | Планов нет | `Moved to Kyiv in spring. Weekends are for long walks and board games.` | текст экрана |
 | рабочий вид | Ближайшие запросы человека | `Board games` | заголовок объекта |
 | рабочий вид | Ближайшие запросы человека | `Board games Sat 18:00` | кнопка |
@@ -106,8 +122,10 @@
 | Состояние | Зона | Строка | Тип |
 |---|---|---|---|
 | рабочий вид | -2: сам факт | `You and Olena both said yes` | заголовок |
+| рабочий вид | -2: сам факт | `Olena` | кнопка |
 | рабочий вид | Дорога дальше | `Say hi` | кнопка |
 | рабочий вид | Дорога дальше | `See people` | кнопка |
+| рабочий вид | Дорога дальше | `What next` | скрытый заголовок |
 | рабочий вид | -2: сам факт | `You have 3 interests in common. The chat is open — Olena can write to you too.` | сообщение состояния |
 | рабочий вид | -2: сам факт | `You have 3 interests in common. The chat is open — Olena can write to you too.` | текст экрана |
 
@@ -115,44 +133,64 @@
 
 | Состояние | Зона | Строка | Тип |
 |---|---|---|---|
+| **во всех** | шапка | `Back to the chat` | aria-label |
 | **во всех** | шапка | `Verification` | заголовок |
 | **во всех** | Выход | `Keep browsing →` | кнопка |
+| **во всех** | Выход | `Later` | скрытый заголовок |
 | рабочий вид | Снять | `Take selfie` | кнопка |
 | рабочий вид | Видоискатель | `Face the light, no sunglasses, no filters.` | подпись |
+| рабочий вид | Видоискатель | `Selfie` | скрытый заголовок |
+| рабочий вид | Снять | `Decision` | скрытый заголовок |
 | рабочий вид | Пропуск с названной ценой (§7 | `You can browse now — verify to start chatting.` | текст экрана |
 | ошибка | Причина | `Couldn’t read your face` | заголовок |
 | ошибка | Пересдать | `Try again` | кнопка |
+| ошибка | Причина | `Verification failed` | скрытый заголовок |
+| ошибка | Пересдать | `What next` | скрытый заголовок |
 | ошибка | Причина | `Part of your face was out of frame. Hold the phone at eye level and try once more.` | сообщение состояния |
 | ошибка | Причина | `This was your first try. There’s no limit on tries — after two, someone from the team looks at your selfie.` | сообщение состояния |
 | ошибка | Причина | `Part of your face was out of frame. Hold the phone at eye level and try once more.` | текст экрана |
 | загрузка | Действие выключено | `Take selfie` | кнопка |
+| загрузка | Обработка | `Checking` | скрытый заголовок |
+| загрузка | Действие выключено | `Decision` | скрытый заголовок |
 | загрузка | Обработка | `Checking your selfie` | сообщение состояния |
 | загрузка | Ждать необязательно | `This takes a few seconds. You can keep browsing while the check runs.` | текст экрана |
 | успех | Факт и его последствие | `You’re verified` | заголовок |
 | успех | Возврат ровно туда | `Open the chat` | кнопка |
 | успех | Второй путь тоже открылся | `Look at events →` | кнопка |
+| успех | Факт и его последствие | `Verified` | скрытый заголовок |
+| успех | Возврат ровно туда | `Back to the chat` | скрытый заголовок |
+| успех | Второй путь тоже открылся | `Events` | скрытый заголовок |
 | успех | Факт и его последствие | `The badge is on your card now. You can message, join events and confirm people who ask to join yours.` | сообщение состояния |
 | успех | Факт и его последствие | `The badge is on your card now. You can message, join events and confirm people who ask to join yours.` | текст экрана |
 | успех в онбординге | Факт и что он даёт с самого начала | `You’re verified` | заголовок |
 | успех в онбординге | Дальше | `See people` | кнопка |
+| успех в онбординге | Факт и что он даёт с самого начала | `Verified` | скрытый заголовок |
+| успех в онбординге | Дальше | `What next` | скрытый заголовок |
 | успех в онбординге | Факт и что он даёт с самого начала | `The badge is on your card from the start. You can message anyone you both said yes to and join events right away.` | сообщение состояния |
 | успех в онбординге | Факт и что он даёт с самого начала | `The badge is on your card from the start. You can message anyone you both said yes to and join events right away.` | текст экрана |
 | ожидание | Кто ответит и сколько это живёт | `Someone from the team is checking your selfie` | заголовок |
 | ожидание | Что можно делать вместо ожидания | `Keep browsing` | кнопка |
 | ожидание | Что можно делать вместо ожидания | `Look at events` | кнопка |
 | ожидание | Разговор ждёт | `Open the chat →` | кнопка |
-| ожидание | Кто ответит и сколько это живёт | `The automatic check couldn’t read your face twice. Usually minutes, at most 24 hours — we’ll let you know either way.` | сообщение состояния |
-| ожидание | Кто ответит и сколько это живёт | `The automatic check couldn’t read your face twice. Usually minutes, at most 24 hours — we’ll let you know either way.` | текст экрана |
+| ожидание | Кто ответит и сколько это живёт | `In manual review` | скрытый заголовок |
+| ожидание | Что можно делать вместо ожидания | `Meanwhile` | скрытый заголовок |
+| ожидание | Разговор ждёт | `The chat` | скрытый заголовок |
+| ожидание | Кто ответит и сколько это живёт | `The automatic check couldn’t read your face twice. Usually minutes, at most 24 hours. You’ll hear back either way.` | сообщение состояния |
+| ожидание | Кто ответит и сколько это живёт | `The automatic check couldn’t read your face twice. Usually minutes, at most 24 hours. You’ll hear back either way.` | текст экрана |
 
 ### IV.2 Диалог
 
 | Состояние | Зона | Строка | Тип |
 |---|---|---|---|
+| **во всех** | шапка | `Back to chats` | aria-label |
 | **во всех** | шапка | `Olena` | заголовок |
 | **во всех** | Выходы наружу | `Suggest a day` | кнопка |
 | **во всех** | Выходы наружу | `Invite together` | кнопка |
 | **во всех** | Поле ввода | `Write a message` | подпись поля |
 | **во всех** | Поле ввода | `Message` | подпись поля |
+| **во всех** | Пусто | `Chat with Olena` | скрытый заголовок |
+| **во всех** | Выходы наружу | `Ways out of the chat` | скрытый заголовок |
+| **во всех** | Поле ввода | `Message` | скрытый заголовок |
 | рабочий вид | Разговор | `Hi! Saw you’re into board games too` | текст пользователя |
 | рабочий вид | Разговор | `Yes — there’s a game café on Podil I keep meaning to try` | текст пользователя |
 | рабочий вид | Разговор | `Let’s go then. Which day works for you?` | текст пользователя |
@@ -162,6 +200,7 @@
 | пусто | Пусто | `Free this weekend?` | кнопка |
 | пусто | Пусто | `You and Olena both said yes 2 minutes ago. You both like hiking, board games and coffee — start with that, and Olena can write first too.` | сообщение состояния |
 | пусто | Пусто | `You and Olena both said yes 2 minutes ago. You both like hiking, board games and coffee — start with that, and Olena can write first too.` | текст экрана |
+| ошибка | Разговор цел | `Message not sent. Tap to try again` | aria-label |
 | ошибка | Разговор цел | `Saturday works — the café opens at six Not sent · tap to try again` | строка списка |
 | ошибка | Разговор цел | `Let’s go then. Which day works for you?` | текст пользователя |
 | ошибка | Разговор цел | `Saturday works — the café opens at six` | текст пользователя |
@@ -169,6 +208,7 @@
 | успех | Разговор и то | `It’s an event` | заголовок объекта |
 | успех | Разговор и то | `Open the event` | кнопка |
 | успех | Что дальше | `It’s in My events →` | кнопка |
+| успех | Что дальше | `What next` | скрытый заголовок |
 | успех | Разговор и то | `It’s an event` | сообщение состояния |
 | успех | Разговор и то | `Board games at Kyiv Games Club · Saturday, 18:00 · the two of you.` | сообщение состояния |
 | успех | Разговор и то | `Saturday at six then? Kyiv Games Club` | текст пользователя |
@@ -178,6 +218,7 @@
 | ожидание | Предложение висит в разговоре и ждёт ответа | `Waiting for Olena` | заголовок объекта |
 | ожидание | Предложение висит в разговоре и ждёт ответа | `Change the day` | кнопка |
 | ожидание | Что можно вместо ожидания | `Look at events →` | кнопка |
+| ожидание | Что можно вместо ожидания | `Meanwhile` | скрытый заголовок |
 | ожидание | Предложение висит в разговоре и ждёт ответа | `Waiting for Olena` | сообщение состояния |
 | ожидание | Предложение висит в разговоре и ждёт ответа | `Olena hasn’t answered yet. The suggestion stays open until Saturday — after that it expires.` | сообщение состояния |
 | ожидание | Предложение висит в разговоре и ждёт ответа | `Saturday at six? Kyiv Games Club` | текст пользователя |
@@ -187,7 +228,9 @@
 
 | Состояние | Зона | Строка | Тип |
 |---|---|---|---|
+| **во всех** | шапка | `Back to the chat` | aria-label |
 | **во всех** | шапка | `Go together` | заголовок |
+| **во всех** | Два выхода | `What next` | скрытый заголовок |
 | рабочий вид | Во что идём | `Events that fit two` | заголовок |
 | рабочий вид | Во что идём | `Board games` | заголовок объекта |
 | рабочий вид | Во что идём | `Morning run along the embankment` | заголовок объекта |
@@ -202,6 +245,8 @@
 | рабочий вид | Кого зовём | `You’re inviting Olena . You go as a pair once Olena confirms` | подпись |
 | рабочий вид | Во что идём | `Sat 18:00` | подпись |
 | рабочий вид | Во что идём | `No date yet` | подпись |
+| рабочий вид | Кого зовём | `Who` | скрытый заголовок |
+| рабочий вид | Выход | `All events` | скрытый заголовок |
 | рабочий вид | Во что идём | `Morning run along the embankment No date yet` | строка списка |
 | пусто | Выбирать не из чего | `Events that fit two` | заголовок |
 | пусто | Выбирать не из чего | `No events that fit two yet` | заголовок |
@@ -209,20 +254,25 @@
 | пусто | Два выхода | `Suggest a day` | кнопка |
 | пусто | Два выхода | `Look at all events →` | кнопка |
 | пусто | Кого зовём | `You’re inviting Olena` | подпись |
+| пусто | Кого зовём | `Who` | скрытый заголовок |
 | пусто | Выбирать не из чего | `Most events around are for one more person. You can suggest a day in the chat instead — that makes an event for the two of you.` | сообщение состояния |
 | пусто | Выбирать не из чего | `Most events around are for one more person. You can suggest a day in the chat instead — that makes an event for the two of you.` | текст экрана |
 | ошибка | Кого зовём и почему пока нельзя | `Olena isn’t verified yet` | заголовок |
 | ошибка | Что можно сделать сейчас | `Ask Olena to verify` | кнопка |
 | ошибка | Что можно сделать сейчас | `Suggest a day` | кнопка |
 | ошибка | Одной пойти можно всегда | `Look at events on your own →` | кнопка |
+| ошибка | Кого зовём и почему пока нельзя | `Why this can’t go through` | скрытый заголовок |
+| ошибка | Одной пойти можно всегда | `Events on your own` | скрытый заголовок |
 | ошибка | Кого зовём и почему пока нельзя | `Both of you need the badge to join an event as a pair. Olena only needs to take a selfie.` | сообщение состояния |
 | ошибка | Кого зовём и почему пока нельзя | `Both of you need the badge to join an event as a pair. Olena only needs to take a selfie.` | текст экрана |
 | успех | Факт и что он означает для обоих | `You’re both confirmed` | заголовок |
 | успех | Дорога дальше | `Open the chat` | кнопка |
 | успех | Карточка плана | `Board games at Kyiv Games Club · Sat 18:00 →` | кнопка |
+| успех | Факт и что он означает для обоих | `Confirmed` | скрытый заголовок |
+| успех | Карточка плана | `The event` | скрытый заголовок |
 | успех | Факт и что он означает для обоих | `Andrii confirmed the two of you for board games at Kyiv Games Club, Saturday, 18:00. The event chat is open.` | сообщение состояния |
 | успех | Факт и что он означает для обоих | `Andrii confirmed the two of you for board games at Kyiv Games Club, Saturday, 18:00. The event chat is open.` | текст экрана |
-| успех | Дорога дальше | `We’ll ask you the day before: still going?` | текст экрана |
+| успех | Дорога дальше | `A reminder comes the day before: Still going?` | текст экрана |
 | ожидание | На каком шаге стоим | `Waiting for Olena` | заголовок объекта |
 | ожидание | Во что именно зовём | `Board games` | заголовок объекта |
 | ожидание | Во что именно зовём | `Board games Sat 18:00` | кнопка |
@@ -231,6 +281,9 @@
 | ожидание | Во что именно зовём | `Kyiv Games Club · Podil · ~3 km` | подпись |
 | ожидание | Во что именно зовём | `2 spots left · Verified` | подпись |
 | ожидание | Во что именно зовём | `Sat 18:00` | подпись |
+| ожидание | На каком шаге стоим | `Waiting` | скрытый заголовок |
+| ожидание | Во что именно зовём | `The event` | скрытый заголовок |
+| ожидание | Что можно вместо ожидания | `Meanwhile` | скрытый заголовок |
 | ожидание | На каком шаге стоим | `Waiting for Olena` | сообщение состояния |
 | ожидание | На каком шаге стоим | `Step 1 of 2. Olena confirms first, then Andrii confirms the two of you — as one request for two spots.` | сообщение состояния |
 | ожидание | На каком шаге стоим | `The invite stays open while the event does — until Saturday. Withdrawing it cancels the invite for Olena.` | сообщение состояния |
@@ -240,12 +293,14 @@
 
 | Состояние | Зона | Строка | Тип |
 |---|---|---|---|
+| **во всех** | шапка | `Post an event` | aria-label |
 | **во всех** | шапка | `Events nearby` | заголовок |
 | **во всех** | шапка | `Filters` | кнопка |
 | **во всех** | шапка | `Post` | кнопка |
 | **во всех** | Срез вкладки | `Nearby` | кнопка |
 | **во всех** | Срез вкладки | `Mine` | кнопка |
 | **во всех** | Третий ответ | `See people →` | кнопка |
+| **во всех** | Срез вкладки | `Which events` | скрытый заголовок |
 | рабочий вид | Лента | `Board games` | заголовок объекта |
 | рабочий вид | Лента | `Morning run along the embankment` | заголовок объекта |
 | рабочий вид | Лента | `Coffee and a walk in Podil` | заголовок объекта |
@@ -261,23 +316,30 @@
 | рабочий вид | Лента | `Sat 18:00` | подпись |
 | рабочий вид | Лента | `No date yet` | подпись |
 | рабочий вид | Лента | `Sun 11:00` | подпись |
+| рабочий вид | Выход в первый путь | `People` | скрытый заголовок |
 | рабочий вид | Лента | `Morning run along the embankment No date yet` | строка списка |
 | рабочий вид | Лента | `Coffee and a walk in Podil Sun 11:00` | строка списка |
 | пусто | Пусто | `No events within 5 km yet` | заголовок |
 | пусто | Три ответа потока | `Post an event` | кнопка |
 | пусто | Три ответа потока | `Show events further out` | кнопка |
+| пусто | Три ответа потока | `What next` | скрытый заголовок |
+| пусто | Третий ответ | `People` | скрытый заголовок |
 | пусто | Пусто | `Events here are posted by people like you — and yours would be the first one nearby.` | сообщение состояния |
 | пусто | Пусто | `Events here are posted by people like you — and yours would be the first one nearby.` | текст экрана |
 | ошибка | Причина названа | `Couldn’t load events nearby` | заголовок |
 | ошибка | Одно действие | `Try again` | кнопка |
+| ошибка | Одно действие | `What next` | скрытый заголовок |
+| ошибка | Выход в первый путь | `People` | скрытый заголовок |
 | ошибка | Причина названа | `The connection dropped. Your own events and requests are safe.` | сообщение состояния |
 | ошибка | Причина названа | `The connection dropped. Your own events and requests are safe.` | текст экрана |
+| загрузка | Выход живой: ждать ленту необязательно | `People` | скрытый заголовок |
 | загрузка | Скелет ленты | `Looking for events near you` | сообщение состояния |
 
 ### III.3 Карточка события
 
 | Состояние | Зона | Строка | Тип |
 |---|---|---|---|
+| **во всех** | шапка | `Back to events` | aria-label |
 | **во всех** | шапка | `Board games` | заголовок |
 | **во всех** | Подтверждено | `Andrii · Verified · 12 meetups attended · Replies quickly` | подпись |
 | **во всех** | Подтверждено | `Saturday, 18:00` | подпись |
@@ -286,20 +348,32 @@
 | **во всех** | Подтверждено | `Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.` | текст экрана |
 | рабочий вид | Отклик | `Ask to join` | кнопка |
 | рабочий вид | Другие планы | `Look at other events →` | кнопка |
+| рабочий вид | Что за план | `The event` | скрытый заголовок |
+| рабочий вид | Отклик | `Decision` | скрытый заголовок |
+| рабочий вид | Другие планы | `Other events` | скрытый заголовок |
 | рабочий вид | Что за план | `2 going · 1 spot left` | сообщение состояния |
 | ошибка | Отказ | `Andrii didn’t take this one` | заголовок |
 | ошибка | Следующий шаг | `Look at other events` | кнопка |
 | ошибка | Следующий шаг | `See people` | кнопка |
 | ошибка | Свой план | `Post an event →` | кнопка |
+| ошибка | Отказ | `Declined` | скрытый заголовок |
+| ошибка | Следующий шаг | `What next` | скрытый заголовок |
+| ошибка | Свой план | `Your own` | скрытый заголовок |
 | ошибка | Отказ | `Board games at Kyiv Games Club is closed for you. It happens — people pick who they go with, and that’s the point of confirming.` | сообщение состояния |
 | ошибка | Отказ | `Board games at Kyiv Games Club is closed for you. It happens — people pick who they go with, and that’s the point of confirming.` | текст экрана |
 | загрузка | Действие на паузе | `Ask to join` | кнопка |
 | загрузка | Выход живой | `Look at other events →` | кнопка |
+| загрузка | Полный скелет: данных нет вовсе | `The event` | скрытый заголовок |
+| загрузка | Действие на паузе | `Decision` | скрытый заголовок |
+| загрузка | Выход живой | `Other events` | скрытый заголовок |
 | загрузка | Полный скелет: данных нет вовсе | `Opening the event` | сообщение состояния |
 | успех | Подтверждено | `You’re going` | заголовок объекта |
 | успех | Дорога дальше | `Open the chat` | кнопка |
 | успех | Дорога дальше | `Share my events` | кнопка |
 | успех | Мои события | `It’s in My events →` | кнопка |
+| успех | Подтверждено | `Confirmed` | скрытый заголовок |
+| успех | Дорога дальше | `What next` | скрытый заголовок |
+| успех | Мои события | `My events` | скрытый заголовок |
 | успех | Подтверждено | `You’re going` | сообщение состояния |
 | успех | Подтверждено | `Andrii confirmed you. The chat is open and the exact address is now visible.` | сообщение состояния |
 | успех | Подтверждено | `2 going · 1 spot left · Still going? comes the day before` | сообщение состояния |
@@ -308,6 +382,9 @@
 | ожидание | Что можно вместо ожидания | `Look at other events` | кнопка |
 | ожидание | Что можно вместо ожидания | `Withdraw my request` | кнопка |
 | ожидание | Второй путь | `See people →` | кнопка |
+| ожидание | Кто должен ответить и сколько это живёт | `Waiting` | скрытый заголовок |
+| ожидание | Что можно вместо ожидания | `Meanwhile` | скрытый заголовок |
+| ожидание | Второй путь | `People` | скрытый заголовок |
 | ожидание | Кто должен ответить и сколько это живёт | `Waiting for Andrii` | сообщение состояния |
 | ожидание | Кто должен ответить и сколько это живёт | `Your request is with Andrii. It stays open until Saturday — events without a date keep requests for 14 days.` | сообщение состояния |
 | ожидание | Кто должен ответить и сколько это живёт | `2 going · 1 spot left · your request doesn’t take a spot yet` | сообщение состояния |
@@ -317,12 +394,16 @@
 
 | Состояние | Зона | Строка | Тип |
 |---|---|---|---|
+| **во всех** | шапка | `Post an event` | aria-label |
 | **во всех** | шапка | `My events` | заголовок |
 | **во всех** | шапка | `Post` | кнопка |
 | **во всех** | Сегмент вкладки | `Nearby` | кнопка |
 | **во всех** | Сегмент вкладки | `Mine` | кнопка |
 | **во всех** | Чужие события рядом | `Look at events →` | кнопка |
-| рабочий вид | Мои события | `Waiting for you` | заголовок |
+| **во всех** | Сегмент вкладки | `Which events` | скрытый заголовок |
+| **во всех** | Пусто | `My events` | скрытый заголовок |
+| **во всех** | Чужие события рядом | `Nearby` | скрытый заголовок |
+| рабочий вид | Мои события | `Requests to confirm` | заголовок |
 | рабочий вид | Мои события | `Going` | заголовок |
 | рабочий вид | Мои события | `Past` | заголовок |
 | рабочий вид | Мои события | `Board games` | заголовок объекта |
@@ -332,10 +413,11 @@
 | рабочий вид | Мои события | `Coffee and a walk in Podil 20 Sep` | кнопка |
 | рабочий вид | Мои события | `2 requests · tap to confirm · 1 spot left` | подпись |
 | рабочий вид | Мои события | `Maryna · 3 going · ~1 km` | подпись |
-| рабочий вид | Мои события | `Repeats weekly · 2 meetups so far` | подпись |
+| рабочий вид | Мои события | `Repeats weekly · 2 meetups attended` | подпись |
 | рабочий вид | Мои события | `Sat 18:00` | подпись |
 | рабочий вид | Мои события | `Sun 08:00` | подпись |
 | рабочий вид | Мои события | `20 Sep` | подпись |
+| рабочий вид | Мои события | `All my events` | скрытый заголовок |
 | рабочий вид | Мои события | `Morning run along the embankment Sun 08:00` | строка списка |
 | пусто | Пусто | `No events yet` | заголовок |
 | пусто | Пусто | `Post an event` | кнопка |
@@ -364,18 +446,22 @@
 | рабочий вид | Список | `19:08 · 1 new` | подпись |
 | рабочий вид | Список | `Mon` | подпись |
 | рабочий вид | Список | `12 Jun` | подпись |
+| рабочий вид | Выход туда | `People` | скрытый заголовок |
 | рабочий вид | Список | `Olena 19:08 · 1 new Let’s go then. Which day works for you?` | строка списка |
 | рабочий вид | Список | `Board games Mon Event chat · 3 people · Andrii: see you at six` | строка списка |
 | рабочий вид | Список | `Maryna 12 Jun You both said yes — no messages yet` | строка списка |
 | пусто | Пусто | `No chats yet` | заголовок |
 | пусто | Оба пути к первому разговору | `See people` | кнопка |
 | пусто | Оба пути к первому разговору | `Look at events` | кнопка |
-| пусто | Пусто | `Chats open when you and someone both say yes — or when the author of an event confirms you.` | сообщение состояния |
-| пусто | Пусто | `Chats open when you and someone both say yes — or when the author of an event confirms you.` | текст экрана |
+| пусто | Оба пути к первому разговору | `What next` | скрытый заголовок |
+| пусто | Пусто | `Chats open when you and someone both say yes — or when you ask to join an event and the person confirms you.` | сообщение состояния |
+| пусто | Пусто | `Chats open when you and someone both say yes — or when you ask to join an event and the person confirms you.` | текст экрана |
 | ошибка | Причина названа | `Couldn’t load your chats` | заголовок |
 | ошибка | Причина названа | `Try again` | кнопка |
+| ошибка | Выход | `People` | скрытый заголовок |
 | ошибка | Причина названа | `The connection dropped. Nothing is lost — your messages are on the server.` | сообщение состояния |
 | ошибка | Причина названа | `The connection dropped. Nothing is lost — your messages are on the server.` | текст экрана |
+| загрузка | Выход живой | `People` | скрытый заголовок |
 | загрузка | Скелет списка | `Loading your chats` | сообщение состояния |
 
 ### IX.1 Поиск
@@ -384,6 +470,7 @@
 |---|---|---|---|
 | **во всех** | шапка | `Filters` | кнопка |
 | **во всех** | шапка | `Search people and events` | подпись поля |
+| **во всех** | Ничего не нашлось | `Results` | скрытый заголовок |
 | **во всех** | шапка | `board games` | текст пользователя |
 | рабочий вид | шапка | `Search` | заголовок |
 | рабочий вид | Результаты двумя группами | `Events` | заголовок |
@@ -409,6 +496,7 @@
 | пусто | Два выхода | `Post an event` | кнопка |
 | пусто | Два выхода | `Look at all events →` | кнопка |
 | пусто | Два выхода | `See people →` | кнопка |
+| пусто | Два выхода | `What next` | скрытый заголовок |
 | пусто | Ничего не нашлось | `Events here are posted by people like you — yours would be the first one with this interest.` | сообщение состояния |
 | пусто | шапка | `bouldering` | текст пользователя |
 | пусто | Ничего не нашлось | `Events here are posted by people like you — yours would be the first one with this interest.` | текст экрана |
@@ -416,18 +504,21 @@
 | ошибка | Причина названа | `Couldn’t run your search` | заголовок |
 | ошибка | Причина названа | `Try again` | кнопка |
 | ошибка | Выход | `Look at events →` | кнопка |
+| ошибка | Выход | `Events` | скрытый заголовок |
 | ошибка | Причина названа | `The connection dropped. Your search is still here.` | сообщение состояния |
 | ошибка | Причина названа | `The connection dropped. Your search is still here.` | текст экрана |
 | загрузка | шапка | `Search` | заголовок |
 | загрузка | Скелет обеих групп | `Events` | заголовок |
 | загрузка | Скелет обеих групп | `People` | заголовок |
 | загрузка | Выход живой | `Look at events →` | кнопка |
+| загрузка | Выход живой | `Events` | скрытый заголовок |
 | загрузка | Скелет обеих групп | `Searching events and people` | сообщение состояния |
 
 ### I.2 Мой профиль
 
 | Состояние | Зона | Строка | Тип |
 |---|---|---|---|
+| рабочий вид | шапка | `Edit profile` | aria-label |
 | рабочий вид | шапка | `My profile` | заголовок |
 | рабочий вид | Как меня видят | `How others see you` | заголовок |
 | рабочий вид | Как меня видят | `Dasha, 27` | заголовок |
@@ -455,7 +546,9 @@
 | рабочий вид | Глубокий слой | `My matches 3 new` | подпись |
 | рабочий вид | Глубокий слой | `Verification Verified` | подпись |
 | рабочий вид | Как меня видят | `Kyiv · distance is always rounded for others` | подпись |
+| рабочий вид | Глубокий слой | `Everything else` | скрытый заголовок |
 | рабочий вид | Глубокий слой | `You’ll need to sign in again to get back to your chats and events.` | сообщение состояния |
+| загрузка | шапка | `Edit profile` | aria-label |
 | загрузка | шапка | `My profile` | заголовок |
 | загрузка | Известное | `How others see you` | заголовок |
 | загрузка | Известное | `Dasha, 27` | заголовок |
@@ -476,6 +569,7 @@
 | загрузка | Глубокий слой доступен и во время загрузки | `My events` | подпись |
 | загрузка | Глубокий слой доступен и во время загрузки | `My matches` | подпись |
 | загрузка | Глубокий слой доступен и во время загрузки | `Verification` | подпись |
+| загрузка | Глубокий слой доступен и во время загрузки | `Everything else` | скрытый заголовок |
 | загрузка | Известное | `Updating your meetup count` | сообщение состояния |
 | загрузка | Глубокий слой доступен и во время загрузки | `You’ll need to sign in again to get back to your chats and events.` | сообщение состояния |
 
@@ -601,7 +695,7 @@ Kyiv Games Club, Podil, `2 going · 1 spot left`, `6 meetups attended`, `~3 km`.
 | `verify-error` | заголовок | `**We** couldn’t read your face` | `Couldn’t read your face` | «Мы» о себе; эталон ошибки — `Couldn’t load your chats` |
 | `verify-error` | подпись | `…a person from the team looks at it — **not a robot**.` | `There’s no limit on tries — after two, someone from the team looks at your selfie.` | Шутка в ошибке; два имени одного человека; безлимитная пересдача названа заранее (`D-26`) |
 | `verify-loading` | подпись | `…while **we** check.` | `…while the check runs.` | «Мы» здесь про автоматику |
-| `verify-loading` | скрытый заголовок | `Checking` (дважды подряд) | `Take the selfie` | Две секции с одним именем |
+| `verify-loading` | скрытый заголовок | `Checking` (дважды подряд) | `Take the selfie` → **`Decision`** 30.09 | Две секции с одним именем; новое имя повторяло кнопку — исправлено проходом по голосу ниже |
 | `verify-success` | кнопка | `Back to Olena` | `Open the chat` | Кнопка — глагол; одно имя возврата в чат |
 | `verify-success-signup` | сообщение | `people you **match** with` | `anyone you both said yes to` | `match` как событие — язык дейтинга |
 | `verify-waiting` | заголовок | `A person is looking at your selfie` | `Someone from the team is checking your selfie` | Одно имя человека за экраном |
@@ -686,6 +780,66 @@ Kyiv Games Club, Podil, `2 going · 1 spot left`, `6 meetups attended`, `~3 km`.
 **Осталось намеренно разным:** `Invite` против `Invite together` (тесная строка, `D-60`),
 `People` / `Events` на радаре против `See people` / `Look at events` (экран учит соответствию
 с таб-баром — исключение записано в `voice.md`), `Filters` как имя места, а не действия.
+
+### Проход по голосу: придирчивая сверка со словарём — 30.09
+
+Третий проход, уже не по экранам, а по **словарю и запретному**: 1065 строк со всех
+49 страниц, 256 уникальных. Клише, эмодзи, восклицаний, «успешно», мотивации, звёзд
+и жаргона не нашлось ни одного; нашлось **15 дефектов четырёх классов**.
+
+#### Словарь и тон
+
+| Страница | Тип | Было | Стало | Почему |
+|---|---|---|---|---|
+| `invite-success` | текст | `**We'll** ask you the day before: **still going?**` | `A reminder comes the day before: Still going?` | Два нарушения в одной строке: «мы» о себе (словарь разрешает только на живой проверке селфи) и имя напоминания строчными — `Still going?` это **имя** `D-16` |
+| `verify-waiting` | текст | `…at most 24 hours — **we'll** let you know either way.` | `…at most 24 hours. You'll hear back either way.` | «Мы» о себе; обращение — второе лицо |
+| `chats-empty` | сообщение | `…or when the **author** of an event confirms you.` | `…or when you ask to join an event and the person confirms you.` | `author` — внутренний термин. Та же дыра, что «Waiting for the author» на `plan-waiting` |
+| `my-events` | подпись | `Repeats weekly · 2 meetups **so far**` | `Repeats weekly · 2 meetups attended` | Словарь: подтверждённые встречи — `meetups attended`; `so far` — уточнитель вне закрытого списка `D-60` |
+
+#### Скрытый заголовок повторял то, что рядом
+
+Скринридер слышал имя дважды подряд — тот же дефект, что `Checking` / `Checking…`
+на верификации. Правило записано в [`wireframes/_conventions.md`](./wireframes/_conventions.md):
+**скрытый заголовок называет зону, а не повторяет кнопку или баннер внутри неё.**
+
+| Страница | Было | Стало | По образцу |
+|---|---|---|---|
+| `plan`, `plan-loading` | `Ask to join` над кнопкой `Ask to join` | `Decision` | `deck`, `profile` |
+| `plan-success` | `You're going` над баннером `You're going` | `Confirmed` | `invite-success` |
+| `plan-waiting` | `Waiting for Andrii` над баннером `Waiting for Andrii` | `Waiting` | `invite-waiting` |
+| `verify-error` | `Try again` над кнопкой `Try again` | `What next` | все состояния-экраны |
+| `verify`, `verify-loading` | `Take the selfie` над кнопкой `Take selfie` | `Decision` | `deck`, `profile` |
+| `profile` ×3 | `Olena, 26` под `h1 Olena, 26` | `Who` | `invite` |
+
+#### Зона выхода называет место, куда ведёт
+
+| Страница | Было | Стало | Куда ведёт |
+|---|---|---|---|
+| `chats` | `More people` | `People` | `See people →` |
+| `chats-error`, `chats-loading` | `Elsewhere` | `People` | `See people →` |
+| `search-error`, `search-loading` | `Elsewhere` | `Events` | `Look at events →` |
+
+`Elsewhere` не называл ничего, а на `deck` и `feed` та же зона давно названа местом
+(`Events`, `People`).
+
+#### Раздел не называл предмет
+
+| Страница | Было | Стало | Почему |
+|---|---|---|---|
+| `my-events` | `h3 Waiting for you` | `Requests to confirm` | Рядом стоят `Going` и `Past` — они называют предмет. И `Waiting for …` в четырёх других местах значит «**мы** ждём чужого ответа» (`D-42`): здесь смысл обратный |
+
+#### Перепись стала полной
+
+**85 скрытых заголовков и 34 `aria-label`** жили на экранах мимо таблицы, хотя
+`_conventions.md` считает их копирайтом — и именно их мы переписывали (`Chat with Olena`,
+`Results`, `Take the selfie`). Извлечение дополнено двумя типами: **скрытый заголовок**
+и **aria-label**. Инвентарь вырос с 374 строк до 466.
+
+**Что не дефект, хотя похоже:** `Expand search` (колода) против `Show events further out`
+(лента) — решение по ширине, полное имя в `aria-label`; `Change the day` рядом
+с `Suggest a day` — другое действие; `Meanwhile` / `What next` / `Ways out of the chat` —
+имена по типу состояния, а не три имени одной зоны; `Open the event` рядом
+с `Open the chat` — разные объекты.
 
 ## 7. Что дальше
 
