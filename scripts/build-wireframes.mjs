@@ -320,6 +320,8 @@ const extraCss = `
 .wf ul li:first-child { border-top: 0; }
 .wf ul li span { margin-left: auto; color: var(--ink-600); font-size: var(--t-micro); }
 
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
 /* ── Что показывать в разделе: подпункты 04 в самом дереве ───
    Выбор раздела и выбор того, что внутри раздела, стоят в одном месте */
 .subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
@@ -458,6 +460,7 @@ const page = `${head}${extraCss}</style>
 ${wfAside}
 
   <main id="content">
+    <div class="tabpanel" id="info">
     <div class="masthead">
       <h1>Прототипирование и вайрфрейминг</h1>
       <p class="lede">Низкодетализированные экраны в сером: структура, иерархия и зоны — до того как в них вложат визуал. Каждый макет стоит в мокапе телефона, потому что продукт владеет не всем экраном, и каждое состояние — отдельная страница. Правила — <a href="../wireframes/_conventions.md">_conventions.md</a>, что рисуем — <a href="../wireframes/_screens.md">_screens.md</a>.</p>
@@ -469,7 +472,6 @@ ${wfAside}
       <!--PUBLIC-NOTE-->
     </div>
 
-    <div class="tabpanel" id="info">
       <section id="page">
         <h2>Как устроена страница макета</h2>
         <p class="intro">Макет открывается отдельной страницей, во всю ширину окна. Слева — номера разделов проекта и рядом с ними дерево всех макетов; над мокапом — состояния этого экрана, справа от него — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет: мокап показывает, что из 844px экрана продукту принадлежит 713, остальное забирают системная строка, панель браузера Safari и индикатор жеста.</p>
@@ -492,6 +494,7 @@ ${wfAside}
     </div>
 
     <div class="tabpanel" id="wireframes">
+      <h1 class="vh">Прототипирование и вайрфрейминг: макеты</h1>
       <section id="nav">
         <h2>Макеты</h2>
         <p class="intro">Восемь экранов главного потока и три за вкладками — со всеми состояниями из таблицы. Состояния, которого в таблице нет, нет и в наборе: страницу под него не придумывают. Список собирается сборкой из <a href="../wireframes/_screens.md">_screens.md</a>, готовность считается по файлам — отмечать руками не нужно.</p>
