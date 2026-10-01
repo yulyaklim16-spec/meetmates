@@ -84,9 +84,7 @@ body {
   color: var(--w-ink);
   text-decoration: none;
 }
-.wfnav .s .c { color: var(--w-ink-2); font-weight: 400; font-variant-numeric: tabular-nums; }
 .wfnav .scr.stub > .s { color: #8a8a8a; }
-.wfnav .scr.stub > .s .c { color: #a5a5a5; }
 
 /* уровень 3 — состояния экрана, вдоль вертикальной линии */
 .wfnav .scr > ul {

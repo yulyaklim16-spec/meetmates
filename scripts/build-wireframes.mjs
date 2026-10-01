@@ -134,7 +134,7 @@ ${g.screens.map((s) => {
     const here = s.pages.some((p) => p.file === activeFile);
     const baseCur = base.file === activeFile;
     const cls = ['scr', here ? 'open' : '', baseCur ? 'now' : '', base.stub ? 'stub' : ''].filter(Boolean).join(' ');
-    const label = `<span class="c">${esc(s.code)}</span> ${esc(s.name)}`;
+    const label = esc(s.name);
     const head = baseCur
       ? `<b class="s" aria-current="page">${label}</b>`
       : `<a class="s" href="${base.file}">${label}</a>`;
@@ -170,8 +170,8 @@ function strip(s, activeFile) {
     return `    <li${cls ? ` class="${cls}"` : ''}>` +
       (cur ? `<b aria-current="page">${label}</b>` : `<a href="${p.file}">${label}</a>`) + `</li>`;
   }).join('\n');
-  return `<nav class="wfstates" aria-label="Состояния экрана ${esc(s.code)} ${esc(s.name)}">
-  <p class="t">${esc(s.code)} ${esc(s.name)} · состояния этого экрана</p>
+  return `<nav class="wfstates" aria-label="Состояния экрана ${esc(s.name)}">
+  <p class="t">${esc(s.name)} · состояния этого экрана</p>
   <ul>
 ${items}
   </ul>
@@ -192,7 +192,7 @@ function sideTree() {
             <ul>
 ${g.screens.map((s) => {
     const [base, ...states] = s.pages;
-    const head = `<a class="s${base.stub ? ' todo' : ''}" href="../wireframes/${base.file}"><span class="c">${esc(s.code)}</span> ${esc(s.name)}</a>`;
+    const head = `<a class="s${base.stub ? ' todo' : ''}" href="../wireframes/${base.file}">${esc(s.name)}</a>`;
     if (!states.length) return `              <li class="scr">${head}</li>`;
     return `              <li class="scr">${head}
                 <ul>
@@ -245,7 +245,7 @@ function stubPage(s, p) {
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
   <main class="app empty">
-    <p class="stub-t">${esc(s.code)} ${esc(s.name)}</p>
+    <p class="stub-t">${esc(s.name)}</p>
     <p class="stub-s">${esc(p.title)}</p>
     <p class="stub-n">Макет не нарисован</p>
   </main>
@@ -258,7 +258,7 @@ function stubPage(s, p) {
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>${esc(s.code)} ${esc(s.name)} · ${esc(p.title)}</b> — заглушка, макет не нарисован.</p>
+  <p><b>${esc(s.name)} · ${esc(p.title)}</b> — заглушка, макет не нарисован.</p>
   <p><b>Job:</b> ${esc(s.meta.job)}</p>
   <p><b>Место в потоке:</b> ${esc(s.meta.flow)}</p>
   <p>Правила — _conventions.md · что рисуем — _screens.md · экраны и состояния — sitemap.md.</p>
@@ -284,7 +284,6 @@ const aside = asideSrc
 
     <nav class="anchors" aria-label="На этой странице">
       <a href="#nav">Макеты</a>
-      <a href="#view">Текущий макет</a>
       <a href="#rules">Правила</a>
     </nav>`);
 
@@ -293,7 +292,6 @@ const extraCss = `
 .wf { list-style: none; padding: 0; display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); align-items: start; margin: 0 0 var(--s-6); }
 .wf > li { border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); padding: var(--s-3) var(--s-4); }
 .wf .sh { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-3); margin-bottom: var(--s-2); }
-.wf .sh .code { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.06em; color: var(--ink-600); }
 .wf .sh b { font-size: var(--t-body-sm); }
 .wf .sh .n { margin-left: auto; font-size: var(--t-micro); color: var(--ink-600); }
 .wf ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 1px; max-width: none; }
@@ -336,16 +334,10 @@ const extraCss = `
 .wftree a:hover, .wftree a:focus-visible { color: var(--ink-900); background: var(--surface-2); }
 /* уровень 2 — экран */
 .wftree .s { color: var(--ink-900); font-size: var(--t-caption); font-weight: var(--fw-medium); }
-.wftree .s .c { color: var(--ink-400); font-weight: var(--fw-regular); }
 /* уровень 3 — состояния, вдоль вертикальной линии */
 .wftree .scr > ul { margin: 1px 0 var(--s-2) var(--s-3); padding-left: var(--s-2); border-left: 1px solid var(--line); }
 .wftree .todo > a, .wftree a.todo { color: var(--ink-400); }
 
-/* фрейм должен быть шире 760px: у самого макета там брейкпоинт, ниже которого
-   служебные подписи возвращаются в поток и ломают колонку 390 */
-.viewer { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface-2); padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-4); margin: 0 0 var(--s-5); }
-.viewer iframe { width: 100%; height: 1320px; border: 0; background: var(--surface); border-radius: var(--r-md); }
-.viewer .cap { font-size: var(--t-caption); color: var(--ink-600); max-width: 70ch; }
 `;
 
 // ── 1–2. заглушки и панель в каждой странице ──────────────────────────
@@ -389,7 +381,7 @@ const navHtml = navGroups.map((g) => `      <li class="branch"><h3>${esc(g.title
 ` + g.screens.map((s) => {
   const ready = s.pages.filter((p) => !p.stub).length;
   return `      <li>
-        <p class="sh"><span class="code">${esc(s.code)}</span><b>${esc(s.name)}</b><span class="n">${ready} из ${s.pages.length}</span></p>
+        <p class="sh"><b>${esc(s.name)}</b><span class="n">${ready} из ${s.pages.length}</span></p>
         <ul>
 ${s.pages.map((p) => p.stub
     ? `          <li class="todo"><a href="../wireframes/${p.file}">${p.file}</a><span>${esc(p.title)} — заглушка</span></li>`
@@ -423,18 +415,10 @@ const page = `${head}${extraCss}</style>
     <section id="nav">
       <h2>Макеты</h2>
       <p class="intro">Восемь экранов главного потока и три за вкладками — со всеми состояниями из таблицы. Состояния, которого в таблице нет, нет и в наборе: страницу под него не придумывают. Список собирается сборкой из <a href="../wireframes/_screens.md">_screens.md</a>, готовность считается по файлам — отмечать руками не нужно.</p>
+      <p class="intro">Макет открывается отдельной страницей, во всю ширину окна. Внутри неё: слева — дерево всех страниц, сверху — состояния этого экрана, справа от мокапа — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет: мокап показывает, что из 844px экрана продукту принадлежит 713, остальное забирают системная строка, панель браузера Safari и индикатор жеста.</p>
       <ol class="wf">
 ${navHtml}
       </ol>
-    </section>
-
-    <section id="view">
-      <h2>Текущий макет</h2>
-      <p class="intro"><b>${esc(currentScreen.code)} ${esc(currentScreen.name)}</b> — ${esc(current.title)}. Первый экран, который видит человек: радар онбординга объясняет устройство продукта — рядом есть люди и события, и к ним два пути <code class="dcode">D-47</code>. Дальше по списку выше открывается любой другой макет. Слева внутри макета — дерево всех страниц, сверху — состояния этого экрана, справа от мокапа — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет.</p>
-      <div class="viewer">
-        <iframe src="../wireframes/${current.file}" title="Вайрфрейм: ${esc(currentScreen.name)}" loading="lazy"></iframe>
-        <p class="cap">Мокап показывает, что из 844px экрана продукту принадлежит 713: остальное забирают системная строка, панель браузера Safari и индикатор жеста. <a href="../wireframes/${current.file}">Открыть страницу отдельно</a></p>
-      </div>
     </section>
 
     <section id="rules">
@@ -446,7 +430,7 @@ ${navHtml}
           <tr><td><b>Мокап телефона обязателен</b></td><td>Продукту принадлежит 713px из 844; системные зоны нарисованы и подписаны. Не поместилось — находка, а не повод растянуть рамку</td></tr>
           <tr><td><b>Серый ничего не кодирует</b></td><td>Состояние объясняется текстом. Непонятно в сером — непонятно и в цвете, просто выяснится позже и дороже</td></tr>
           <tr><td><b>Одно состояние — одна страница</b></td><td>Структура одинаковая, содержимое разное: видно, что это тот же экран. Пятое состояние — ожидание чужого решения <code class="dcode">D-42</code></td></tr>
-          <tr><td><b>Текст настоящий</b></td><td><code>3 common interests</code>, <code>6 meetups attended</code>, <code>~2 km away</code> — и те же запреты копирайта, что в продукте</td></tr>
+          <tr><td><b>Текст настоящий</b></td><td><code>3 common interests</code>, <code>6 meetups attended</code>, <code>~2 km</code> — и те же запреты копирайта, что в продукте</td></tr>
           <tr><td><b>Семантическая разметка</b></td><td><code>header</code>, <code>main</code>, <code>nav</code>, <code>article</code>, <code>button</code>; <code>div</code> — только корпус и экран телефона</td></tr>
         </tbody>
       </table></div>

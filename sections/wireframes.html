@@ -309,7 +309,6 @@ footer p { max-width: 72ch; }
 .wf { list-style: none; padding: 0; display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); align-items: start; margin: 0 0 var(--s-6); }
 .wf > li { border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); padding: var(--s-3) var(--s-4); }
 .wf .sh { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-3); margin-bottom: var(--s-2); }
-.wf .sh .code { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.06em; color: var(--ink-600); }
 .wf .sh b { font-size: var(--t-body-sm); }
 .wf .sh .n { margin-left: auto; font-size: var(--t-micro); color: var(--ink-600); }
 .wf ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 1px; max-width: none; }
@@ -352,16 +351,10 @@ footer p { max-width: 72ch; }
 .wftree a:hover, .wftree a:focus-visible { color: var(--ink-900); background: var(--surface-2); }
 /* уровень 2 — экран */
 .wftree .s { color: var(--ink-900); font-size: var(--t-caption); font-weight: var(--fw-medium); }
-.wftree .s .c { color: var(--ink-400); font-weight: var(--fw-regular); }
 /* уровень 3 — состояния, вдоль вертикальной линии */
 .wftree .scr > ul { margin: 1px 0 var(--s-2) var(--s-3); padding-left: var(--s-2); border-left: 1px solid var(--line); }
 .wftree .todo > a, .wftree a.todo { color: var(--ink-400); }
 
-/* фрейм должен быть шире 760px: у самого макета там брейкпоинт, ниже которого
-   служебные подписи возвращаются в поток и ломают колонку 390 */
-.viewer { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface-2); padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-4); margin: 0 0 var(--s-5); }
-.viewer iframe { width: 100%; height: 1320px; border: 0; background: var(--surface); border-radius: var(--r-md); }
-.viewer .cap { font-size: var(--t-caption); color: var(--ink-600); max-width: 70ch; }
 </style>
 </head>
 <body>
@@ -388,32 +381,32 @@ footer p { max-width: 72ch; }
           <li class="grp">
             <p class="gt">Вход в продукт</p>
             <ul>
-              <li class="scr"><a class="s" href="../wireframes/radar.html"><span class="c">VII.8</span> Радар — как это работает</a></li>
+              <li class="scr"><a class="s" href="../wireframes/radar.html">Радар — как это работает</a></li>
             </ul>
           </li>
           <li class="grp">
             <p class="gt">Колода и совпадение</p>
             <ul>
-              <li class="scr"><a class="s" href="../wireframes/deck.html"><span class="c">II.1</span> Колода</a>
+              <li class="scr"><a class="s" href="../wireframes/deck.html">Колода</a>
                 <ul>
                   <li><a href="../wireframes/deck-empty.html">пусто</a></li>
                   <li><a href="../wireframes/deck-error.html">ошибка</a></li>
                   <li><a href="../wireframes/deck-loading.html">загрузка</a></li>
                 </ul>
               </li>
-              <li class="scr"><a class="s" href="../wireframes/match.html"><span class="c">II.3</span> Совпадение</a></li>
+              <li class="scr"><a class="s" href="../wireframes/match.html">Совпадение</a></li>
             </ul>
           </li>
           <li class="grp">
             <p class="gt">Человек</p>
             <ul>
-              <li class="scr"><a class="s" href="../wireframes/profile.html"><span class="c">I.1</span> Профиль другого человека</a>
+              <li class="scr"><a class="s" href="../wireframes/profile.html">Профиль другого человека</a>
                 <ul>
                   <li><a href="../wireframes/profile-empty.html">пусто</a></li>
                   <li><a href="../wireframes/profile-loading.html">загрузка</a></li>
                 </ul>
               </li>
-              <li class="scr"><a class="s" href="../wireframes/verify.html"><span class="c">I.5</span> Верификация</a>
+              <li class="scr"><a class="s" href="../wireframes/verify.html">Верификация</a>
                 <ul>
                   <li><a href="../wireframes/verify-error.html">ошибка</a></li>
                   <li><a href="../wireframes/verify-loading.html">загрузка</a></li>
@@ -422,7 +415,7 @@ footer p { max-width: 72ch; }
                   <li><a href="../wireframes/verify-success-signup.html">успех в онбординге: до первого свайпа, возвращать в чат некуда</a></li>
                 </ul>
               </li>
-              <li class="scr"><a class="s" href="../wireframes/my-profile.html"><span class="c">I.2</span> Мой профиль — как меня видят</a>
+              <li class="scr"><a class="s" href="../wireframes/my-profile.html">Мой профиль — как меня видят</a>
                 <ul>
                   <li><a href="../wireframes/my-profile-loading.html">загрузка</a></li>
                 </ul>
@@ -432,7 +425,7 @@ footer p { max-width: 72ch; }
           <li class="grp">
             <p class="gt">Чат</p>
             <ul>
-              <li class="scr"><a class="s" href="../wireframes/dialog.html"><span class="c">IV.2</span> Диалог</a>
+              <li class="scr"><a class="s" href="../wireframes/dialog.html">Диалог</a>
                 <ul>
                   <li><a href="../wireframes/dialog-empty.html">пусто</a></li>
                   <li><a href="../wireframes/dialog-error.html">ошибка</a></li>
@@ -441,7 +434,7 @@ footer p { max-width: 72ch; }
                   <li><a href="../wireframes/dialog-waiting.html">ожидание чужого решения · D-42</a></li>
                 </ul>
               </li>
-              <li class="scr"><a class="s" href="../wireframes/invite.html"><span class="c">IV.3</span> Позвать вдвоём в запрос</a>
+              <li class="scr"><a class="s" href="../wireframes/invite.html">Позвать вдвоём в запрос</a>
                 <ul>
                   <li><a href="../wireframes/invite-empty.html">пусто</a></li>
                   <li><a href="../wireframes/invite-error.html">ошибка</a></li>
@@ -449,7 +442,7 @@ footer p { max-width: 72ch; }
                   <li><a href="../wireframes/invite-waiting.html">ожидание чужого решения · D-42</a></li>
                 </ul>
               </li>
-              <li class="scr"><a class="s" href="../wireframes/chats.html"><span class="c">IV.1</span> Список чатов</a>
+              <li class="scr"><a class="s" href="../wireframes/chats.html">Список чатов</a>
                 <ul>
                   <li><a href="../wireframes/chats-empty.html">пусто</a></li>
                   <li><a href="../wireframes/chats-error.html">ошибка</a></li>
@@ -461,14 +454,14 @@ footer p { max-width: 72ch; }
           <li class="grp">
             <p class="gt">Запрос на компанию</p>
             <ul>
-              <li class="scr"><a class="s" href="../wireframes/feed.html"><span class="c">III.1</span> Лента запросов</a>
+              <li class="scr"><a class="s" href="../wireframes/feed.html">Лента запросов</a>
                 <ul>
                   <li><a href="../wireframes/feed-empty.html">пусто</a></li>
                   <li><a href="../wireframes/feed-error.html">ошибка</a></li>
                   <li><a href="../wireframes/feed-loading.html">загрузка</a></li>
                 </ul>
               </li>
-              <li class="scr"><a class="s" href="../wireframes/plan.html"><span class="c">III.3</span> Карточка запроса</a>
+              <li class="scr"><a class="s" href="../wireframes/plan.html">Карточка запроса</a>
                 <ul>
                   <li><a href="../wireframes/plan-error.html">ошибка</a></li>
                   <li><a href="../wireframes/plan-loading.html">загрузка</a></li>
@@ -476,7 +469,7 @@ footer p { max-width: 72ch; }
                   <li><a href="../wireframes/plan-waiting.html">ожидание чужого решения · D-42</a></li>
                 </ul>
               </li>
-              <li class="scr"><a class="s" href="../wireframes/my-events.html"><span class="c">III.6</span> Мои события — сегмент вкладки Events</a>
+              <li class="scr"><a class="s" href="../wireframes/my-events.html">Мои события — сегмент вкладки Events</a>
                 <ul>
                   <li><a href="../wireframes/my-events-empty.html">пусто</a></li>
                   <li><a href="../wireframes/my-events-error.html">ошибка</a></li>
@@ -488,7 +481,7 @@ footer p { max-width: 72ch; }
           <li class="grp">
             <p class="gt">Поиск</p>
             <ul>
-              <li class="scr"><a class="s" href="../wireframes/search.html"><span class="c">IX.1</span> Поиск людей и планов</a>
+              <li class="scr"><a class="s" href="../wireframes/search.html">Поиск людей и планов</a>
                 <ul>
                   <li><a href="../wireframes/search-empty.html">пусто</a></li>
                   <li><a href="../wireframes/search-error.html">ошибка</a></li>
@@ -512,7 +505,6 @@ footer p { max-width: 72ch; }
 
     <nav class="anchors" aria-label="На этой странице">
       <a href="#nav">Макеты</a>
-      <a href="#view">Текущий макет</a>
       <a href="#rules">Правила</a>
     </nav>
 
@@ -533,17 +525,18 @@ footer p { max-width: 72ch; }
     <section id="nav">
       <h2>Макеты</h2>
       <p class="intro">Восемь экранов главного потока и три за вкладками — со всеми состояниями из таблицы. Состояния, которого в таблице нет, нет и в наборе: страницу под него не придумывают. Список собирается сборкой из <a href="../wireframes/_screens.md">_screens.md</a>, готовность считается по файлам — отмечать руками не нужно.</p>
+      <p class="intro">Макет открывается отдельной страницей, во всю ширину окна. Внутри неё: слева — дерево всех страниц, сверху — состояния этого экрана, справа от мокапа — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет: мокап показывает, что из 844px экрана продукту принадлежит 713, остальное забирают системная строка, панель браузера Safari и индикатор жеста.</p>
       <ol class="wf">
       <li class="branch"><h3>Вход в продукт</h3></li>
       <li>
-        <p class="sh"><span class="code">VII.8</span><b>Радар — как это работает</b><span class="n">1 из 1</span></p>
+        <p class="sh"><b>Радар — как это работает</b><span class="n">1 из 1</span></p>
         <ul>
           <li><a href="../wireframes/radar.html">radar.html</a><span>рабочий вид</span></li>
         </ul>
       </li>
       <li class="branch"><h3>Колода и совпадение</h3></li>
       <li>
-        <p class="sh"><span class="code">II.1</span><b>Колода</b><span class="n">4 из 4</span></p>
+        <p class="sh"><b>Колода</b><span class="n">4 из 4</span></p>
         <ul>
           <li><a href="../wireframes/deck.html">deck.html</a><span>рабочий вид</span></li>
           <li><a href="../wireframes/deck-empty.html">deck-empty.html</a><span>пусто</span></li>
@@ -552,14 +545,14 @@ footer p { max-width: 72ch; }
         </ul>
       </li>
       <li>
-        <p class="sh"><span class="code">II.3</span><b>Совпадение</b><span class="n">1 из 1</span></p>
+        <p class="sh"><b>Совпадение</b><span class="n">1 из 1</span></p>
         <ul>
           <li><a href="../wireframes/match.html">match.html</a><span>успех — он же рабочий вид</span></li>
         </ul>
       </li>
       <li class="branch"><h3>Человек</h3></li>
       <li>
-        <p class="sh"><span class="code">I.1</span><b>Профиль другого человека</b><span class="n">3 из 3</span></p>
+        <p class="sh"><b>Профиль другого человека</b><span class="n">3 из 3</span></p>
         <ul>
           <li><a href="../wireframes/profile.html">profile.html</a><span>рабочий вид</span></li>
           <li><a href="../wireframes/profile-empty.html">profile-empty.html</a><span>пусто</span></li>
@@ -567,7 +560,7 @@ footer p { max-width: 72ch; }
         </ul>
       </li>
       <li>
-        <p class="sh"><span class="code">I.5</span><b>Верификация</b><span class="n">6 из 6</span></p>
+        <p class="sh"><b>Верификация</b><span class="n">6 из 6</span></p>
         <ul>
           <li><a href="../wireframes/verify.html">verify.html</a><span>рабочий вид</span></li>
           <li><a href="../wireframes/verify-error.html">verify-error.html</a><span>ошибка</span></li>
@@ -578,7 +571,7 @@ footer p { max-width: 72ch; }
         </ul>
       </li>
       <li>
-        <p class="sh"><span class="code">I.2</span><b>Мой профиль — как меня видят</b><span class="n">2 из 2</span></p>
+        <p class="sh"><b>Мой профиль — как меня видят</b><span class="n">2 из 2</span></p>
         <ul>
           <li><a href="../wireframes/my-profile.html">my-profile.html</a><span>рабочий вид</span></li>
           <li><a href="../wireframes/my-profile-loading.html">my-profile-loading.html</a><span>загрузка</span></li>
@@ -586,7 +579,7 @@ footer p { max-width: 72ch; }
       </li>
       <li class="branch"><h3>Чат</h3></li>
       <li>
-        <p class="sh"><span class="code">IV.2</span><b>Диалог</b><span class="n">6 из 6</span></p>
+        <p class="sh"><b>Диалог</b><span class="n">6 из 6</span></p>
         <ul>
           <li><a href="../wireframes/dialog.html">dialog.html</a><span>рабочий вид</span></li>
           <li><a href="../wireframes/dialog-empty.html">dialog-empty.html</a><span>пусто</span></li>
@@ -597,7 +590,7 @@ footer p { max-width: 72ch; }
         </ul>
       </li>
       <li>
-        <p class="sh"><span class="code">IV.3</span><b>Позвать вдвоём в запрос</b><span class="n">5 из 5</span></p>
+        <p class="sh"><b>Позвать вдвоём в запрос</b><span class="n">5 из 5</span></p>
         <ul>
           <li><a href="../wireframes/invite.html">invite.html</a><span>рабочий вид</span></li>
           <li><a href="../wireframes/invite-empty.html">invite-empty.html</a><span>пусто</span></li>
@@ -607,7 +600,7 @@ footer p { max-width: 72ch; }
         </ul>
       </li>
       <li>
-        <p class="sh"><span class="code">IV.1</span><b>Список чатов</b><span class="n">4 из 4</span></p>
+        <p class="sh"><b>Список чатов</b><span class="n">4 из 4</span></p>
         <ul>
           <li><a href="../wireframes/chats.html">chats.html</a><span>рабочий вид</span></li>
           <li><a href="../wireframes/chats-empty.html">chats-empty.html</a><span>пусто</span></li>
@@ -617,7 +610,7 @@ footer p { max-width: 72ch; }
       </li>
       <li class="branch"><h3>Запрос на компанию</h3></li>
       <li>
-        <p class="sh"><span class="code">III.1</span><b>Лента запросов</b><span class="n">4 из 4</span></p>
+        <p class="sh"><b>Лента запросов</b><span class="n">4 из 4</span></p>
         <ul>
           <li><a href="../wireframes/feed.html">feed.html</a><span>рабочий вид</span></li>
           <li><a href="../wireframes/feed-empty.html">feed-empty.html</a><span>пусто</span></li>
@@ -626,7 +619,7 @@ footer p { max-width: 72ch; }
         </ul>
       </li>
       <li>
-        <p class="sh"><span class="code">III.3</span><b>Карточка запроса</b><span class="n">5 из 5</span></p>
+        <p class="sh"><b>Карточка запроса</b><span class="n">5 из 5</span></p>
         <ul>
           <li><a href="../wireframes/plan.html">plan.html</a><span>рабочий вид</span></li>
           <li><a href="../wireframes/plan-error.html">plan-error.html</a><span>ошибка</span></li>
@@ -636,7 +629,7 @@ footer p { max-width: 72ch; }
         </ul>
       </li>
       <li>
-        <p class="sh"><span class="code">III.6</span><b>Мои события — сегмент вкладки Events</b><span class="n">4 из 4</span></p>
+        <p class="sh"><b>Мои события — сегмент вкладки Events</b><span class="n">4 из 4</span></p>
         <ul>
           <li><a href="../wireframes/my-events.html">my-events.html</a><span>рабочий вид</span></li>
           <li><a href="../wireframes/my-events-empty.html">my-events-empty.html</a><span>пусто</span></li>
@@ -646,7 +639,7 @@ footer p { max-width: 72ch; }
       </li>
       <li class="branch"><h3>Поиск</h3></li>
       <li>
-        <p class="sh"><span class="code">IX.1</span><b>Поиск людей и планов</b><span class="n">4 из 4</span></p>
+        <p class="sh"><b>Поиск людей и планов</b><span class="n">4 из 4</span></p>
         <ul>
           <li><a href="../wireframes/search.html">search.html</a><span>рабочий вид</span></li>
           <li><a href="../wireframes/search-empty.html">search-empty.html</a><span>пусто</span></li>
@@ -655,15 +648,6 @@ footer p { max-width: 72ch; }
         </ul>
       </li>
       </ol>
-    </section>
-
-    <section id="view">
-      <h2>Текущий макет</h2>
-      <p class="intro"><b>VII.8 Радар — как это работает</b> — рабочий вид. Первый экран, который видит человек: радар онбординга объясняет устройство продукта — рядом есть люди и события, и к ним два пути <code class="dcode">D-47</code>. Дальше по списку выше открывается любой другой макет. Слева внутри макета — дерево всех страниц, сверху — состояния этого экрана, справа от мокапа — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет.</p>
-      <div class="viewer">
-        <iframe src="../wireframes/radar.html" title="Вайрфрейм: Радар — как это работает" loading="lazy"></iframe>
-        <p class="cap">Мокап показывает, что из 844px экрана продукту принадлежит 713: остальное забирают системная строка, панель браузера Safari и индикатор жеста. <a href="../wireframes/radar.html">Открыть страницу отдельно</a></p>
-      </div>
     </section>
 
     <section id="rules">
@@ -675,7 +659,7 @@ footer p { max-width: 72ch; }
           <tr><td><b>Мокап телефона обязателен</b></td><td>Продукту принадлежит 713px из 844; системные зоны нарисованы и подписаны. Не поместилось — находка, а не повод растянуть рамку</td></tr>
           <tr><td><b>Серый ничего не кодирует</b></td><td>Состояние объясняется текстом. Непонятно в сером — непонятно и в цвете, просто выяснится позже и дороже</td></tr>
           <tr><td><b>Одно состояние — одна страница</b></td><td>Структура одинаковая, содержимое разное: видно, что это тот же экран. Пятое состояние — ожидание чужого решения <code class="dcode">D-42</code></td></tr>
-          <tr><td><b>Текст настоящий</b></td><td><code>3 common interests</code>, <code>6 meetups attended</code>, <code>~2 km away</code> — и те же запреты копирайта, что в продукте</td></tr>
+          <tr><td><b>Текст настоящий</b></td><td><code>3 common interests</code>, <code>6 meetups attended</code>, <code>~2 km</code> — и те же запреты копирайта, что в продукте</td></tr>
           <tr><td><b>Семантическая разметка</b></td><td><code>header</code>, <code>main</code>, <code>nav</code>, <code>article</code>, <code>button</code>; <code>div</code> — только корпус и экран телефона</td></tr>
         </tbody>
       </table></div>
