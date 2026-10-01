@@ -159,6 +159,24 @@ ${rows}
 </nav>`;
 }
 
+// ── полоса разделов проекта на странице макета ─────────────────────────
+// Та же навигация, что на сайте, но сжатая до номеров: рядом стоит дерево
+// макетов, и два полных дерева подряд человек уже не читает.
+function rail() {
+  const items = [
+    ['01', '../research/research.html', 'Ресерч и бенчмарк'],
+    ['02', '../research/persones.html', 'Персоны и JTBD'],
+    ['03', '../sections/ia.html', 'Информационная архитектура'],
+    ['04', '../sections/wireframes.html#wireframes', 'Прототипирование и вайрфрейминг'],
+  ];
+  const last = items.length - 1;
+  return `<nav class="wfrail" aria-label="Разделы проекта">
+  <a class="home" href="../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
+${items.map(([n, href, title], i) =>
+    `  <a${i === last ? ' class="now" aria-current="page"' : ''} href="${href}" aria-label="Раздел ${n} — ${title}" title="${title}">${n}</a>`).join('\n')}
+</nav>`;
+}
+
 // ── полоса состояний экрана: над мокапом ───────────────────────────────
 // Панель слева ведёт по всем макетам, полоса — по состояниям одного экрана.
 // Состояния сравнивают друг с другом, и открыть соседнее должно быть дёшево.
@@ -278,14 +296,12 @@ const asideSrc = shell.slice(shell.indexOf('<aside class="side">'), shell.indexO
 // пункт 04 становится текущим, и сразу под ним раскрывается дерево макетов
 const cur = /<a class="mat"([^>]*)href="wireframes\.html">([\s\S]*?)<i>[^<]*<\/i><\/span><\/a>/;
 if (!cur.test(asideSrc)) throw new Error('в sections/index.html не найден пункт 04 — боковая колонка изменилась');
+// Разделы остаются списком разделов: дерево макетов — своя колонка рядом,
+// и показывается оно только на вкладке «Вайрфреймы».
 const aside = asideSrc
-  .replace(cur, (m, attrs, head) => `<a class="mat current"${attrs}href="wireframes.html" aria-current="page">${head}<i>текущий раздел</i></span></a>${sideTree()}`)
-  .replace('</nav>', `</nav>
-
-    <nav class="anchors" aria-label="На этой странице">
-      <a href="#nav">Макеты</a>
-      <a href="#rules">Правила</a>
-    </nav>`);
+  .replace(cur, (m, attrs, head) => `<a class="mat current"${attrs}href="wireframes.html" aria-current="page">${head}<i>текущий раздел</i></span></a>`);
+const wfAside = `  <aside class="wfside" aria-label="Все макеты">${sideTree()}
+  </aside>`;
 
 const extraCss = `
 /* ── Раздел 04: навигация по макетам и просмотр ────────────── */
@@ -298,6 +314,33 @@ const extraCss = `
 .wf ul li { margin: 0; border-top: 1px solid var(--line); padding: 5px 0; font-size: var(--t-caption); display: flex; gap: var(--s-3); align-items: baseline; }
 .wf ul li:first-child { border-top: 0; }
 .wf ul li span { margin-left: auto; color: var(--ink-600); font-size: var(--t-micro); }
+
+/* ── Две вкладки: описание и сами макеты ───────────────────── */
+.tabs { display: flex; gap: var(--s-2); margin: 0 0 var(--s-6); border-bottom: 1px solid var(--line); }
+.tabs button { appearance: none; border: 0; background: none; font: inherit; color: var(--ink-600); padding: var(--s-3) var(--s-4); margin-bottom: -1px; border-bottom: 2px solid transparent; border-radius: var(--r-sm) var(--r-sm) 0 0; cursor: pointer; transition: color var(--dur-fast) var(--ease-out); }
+.tabs button:hover { color: var(--ink-900); background: var(--surface-2); }
+.tabs button:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.tabs button[aria-selected="true"] { color: var(--ink-900); font-weight: var(--fw-medium); border-bottom-color: var(--brand-a); }
+
+/* Дерево макетов — вторая колонка слева, рядом с разделами проекта.
+   Пока вкладка не открыта, его нет: список макетов в содержимом даёт то же самое */
+.wfside { display: none; position: sticky; top: 0; max-height: 100vh; overflow-y: auto; padding: var(--s-6) var(--s-4) var(--s-6) 0; border-right: 1px solid var(--line); }
+.wfside .wftree { margin: 0; padding: 0; border-top: 0; }
+.shell[data-tab="wf"] { grid-template-columns: 56px 228px minmax(0, 1fr); gap: var(--s-5); }
+.shell[data-tab="wf"] .wfside { display: block; }
+/* разделы сжимаются до номеров: два дерева подряд не читаются */
+.shell[data-tab="wf"] .side .stage,
+.shell[data-tab="wf"] .side .lbl,
+.shell[data-tab="wf"] .side .brand b,
+.shell[data-tab="wf"] .side .mat .t { display: none; }
+.shell[data-tab="wf"] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
+.shell[data-tab="wf"] .side .mat { justify-content: center; padding: var(--s-3) 0; }
+.shell[data-tab="wf"] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
+.shell[data-tab="wf"] .side .mat.current .n { color: var(--ink-900); font-weight: var(--fw-medium); }
+@media (max-width: 900px) {
+  .shell[data-tab="wf"] { grid-template-columns: minmax(0, 1fr); }
+  .wfside { display: none !important; }
+}
 .wf a { text-decoration: none; }
 .wf a:hover, .wf a:focus-visible { text-decoration: underline; }
 .wf .todo { color: var(--ink-400); }
@@ -358,7 +401,7 @@ for (const s of list) {
     const a = html.indexOf('<!-- nav:start -->');
     const b = html.indexOf('<!-- nav:end -->');
     if (a === -1 || b === -1) throw new Error(`в ${p.file} нет меток <!-- nav:start --> / <!-- nav:end -->`);
-    let next = html.slice(0, a) + '<!-- nav:start -->\n' + panel(p.file) + '\n' + html.slice(b);
+    let next = html.slice(0, a) + '<!-- nav:start -->\n' + rail() + '\n' + panel(p.file) + '\n' + html.slice(b);
     // метки полосы состояний дописываются сами: страницу, нарисованную руками,
     // не должно заботить, какие служебные блоки в неё вставляются
     if (!next.includes('<!-- states:start -->')) {
@@ -400,6 +443,8 @@ const page = `${head}${extraCss}</style>
 
   ${aside}
 
+${wfAside}
+
   <main id="content">
     <div class="masthead">
       <h1>Прототипирование и вайрфрейминг</h1>
@@ -412,29 +457,42 @@ const page = `${head}${extraCss}</style>
       <!--PUBLIC-NOTE-->
     </div>
 
-    <section id="nav">
-      <h2>Макеты</h2>
-      <p class="intro">Восемь экранов главного потока и три за вкладками — со всеми состояниями из таблицы. Состояния, которого в таблице нет, нет и в наборе: страницу под него не придумывают. Список собирается сборкой из <a href="../wireframes/_screens.md">_screens.md</a>, готовность считается по файлам — отмечать руками не нужно.</p>
-      <p class="intro">Макет открывается отдельной страницей, во всю ширину окна. Внутри неё: слева — дерево всех страниц, сверху — состояния этого экрана, справа от мокапа — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет: мокап показывает, что из 844px экрана продукту принадлежит 713, остальное забирают системная строка, панель браузера Safari и индикатор жеста.</p>
-      <ol class="wf">
-${navHtml}
-      </ol>
-    </section>
+    <div class="tabs" role="tablist" aria-label="Что показывать" hidden>
+      <button type="button" role="tab" id="tab-info" data-tab="info" aria-selected="true" aria-controls="panel-info">Информация</button>
+      <button type="button" role="tab" id="tab-wf" data-tab="wf" aria-selected="false" aria-controls="panel-wf">Вайрфреймы</button>
+    </div>
 
-    <section id="rules">
-      <h2>Правила, по которым это нарисовано</h2>
-      <p class="intro">Полностью — <a href="../wireframes/_conventions.md">_conventions.md</a>. Здесь то, что видно на макете.</p>
-      <div class="tw"><table>
-        <thead><tr><th>Правило</th><th>Как это видно</th></tr></thead>
-        <tbody>
-          <tr><td><b>Мокап телефона обязателен</b></td><td>Продукту принадлежит 713px из 844; системные зоны нарисованы и подписаны. Не поместилось — находка, а не повод растянуть рамку</td></tr>
-          <tr><td><b>Серый ничего не кодирует</b></td><td>Состояние объясняется текстом. Непонятно в сером — непонятно и в цвете, просто выяснится позже и дороже</td></tr>
-          <tr><td><b>Одно состояние — одна страница</b></td><td>Структура одинаковая, содержимое разное: видно, что это тот же экран. Пятое состояние — ожидание чужого решения <code class="dcode">D-42</code></td></tr>
-          <tr><td><b>Текст настоящий</b></td><td><code>3 common interests</code>, <code>6 meetups attended</code>, <code>~2 km</code> — и те же запреты копирайта, что в продукте</td></tr>
-          <tr><td><b>Семантическая разметка</b></td><td><code>header</code>, <code>main</code>, <code>nav</code>, <code>article</code>, <code>button</code>; <code>div</code> — только корпус и экран телефона</td></tr>
-        </tbody>
-      </table></div>
-    </section>
+    <div class="tabpanel" id="panel-info" role="tabpanel" aria-labelledby="tab-info">
+      <section id="page">
+        <h2>Как устроена страница макета</h2>
+        <p class="intro">Макет открывается отдельной страницей, во всю ширину окна. Слева — номера разделов проекта и рядом с ними дерево всех макетов; над мокапом — состояния этого экрана, справа от него — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет: мокап показывает, что из 844px экрана продукту принадлежит 713, остальное забирают системная строка, панель браузера Safari и индикатор жеста.</p>
+      </section>
+
+      <section id="rules">
+        <h2>Правила, по которым это нарисовано</h2>
+        <p class="intro">Полностью — <a href="../wireframes/_conventions.md">_conventions.md</a>. Здесь то, что видно на макете.</p>
+        <div class="tw"><table>
+          <thead><tr><th>Правило</th><th>Как это видно</th></tr></thead>
+          <tbody>
+            <tr><td><b>Мокап телефона обязателен</b></td><td>Продукту принадлежит 713px из 844; системные зоны нарисованы и подписаны. Не поместилось — находка, а не повод растянуть рамку</td></tr>
+            <tr><td><b>Серый ничего не кодирует</b></td><td>Состояние объясняется текстом. Непонятно в сером — непонятно и в цвете, просто выяснится позже и дороже</td></tr>
+            <tr><td><b>Одно состояние — одна страница</b></td><td>Структура одинаковая, содержимое разное: видно, что это тот же экран. Пятое состояние — ожидание чужого решения <code class="dcode">D-42</code></td></tr>
+            <tr><td><b>Текст настоящий</b></td><td><code>3 common interests</code>, <code>6 meetups attended</code>, <code>~2 km</code> — и те же запреты копирайта, что в продукте</td></tr>
+            <tr><td><b>Семантическая разметка</b></td><td><code>header</code>, <code>main</code>, <code>nav</code>, <code>article</code>, <code>button</code>; <code>div</code> — только корпус и экран телефона</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+    </div>
+
+    <div class="tabpanel" id="panel-wf" role="tabpanel" aria-labelledby="tab-wf">
+      <section id="nav">
+        <h2>Макеты</h2>
+        <p class="intro">Восемь экранов главного потока и три за вкладками — со всеми состояниями из таблицы. Состояния, которого в таблице нет, нет и в наборе: страницу под него не придумывают. Список собирается сборкой из <a href="../wireframes/_screens.md">_screens.md</a>, готовность считается по файлам — отмечать руками не нужно.</p>
+        <ol class="wf">
+${navHtml}
+        </ol>
+      </section>
+    </div>
 
     <footer>
       <p>Раздел 4 из 12 · Прототипирование и вайрфрейминг. Источники — <a href="../wireframes/_screens.md">_screens.md</a>, <a href="../wireframes/_conventions.md">_conventions.md</a>; экраны и состояния — <a href="../sitemap.md">sitemap.md</a>.</p>
@@ -442,6 +500,34 @@ ${navHtml}
     </footer>
   </main>
 </div>
+
+<script>
+// Вкладки раздела. Без скрипта видны оба блока и дерева макетов слева нет —
+// список в содержимом ведёт на те же страницы, ничего не теряется.
+(function () {
+  var shell = document.querySelector('.shell');
+  var tabs = document.querySelector('.tabs');
+  if (!shell || !tabs) return;
+  var panels = { info: document.getElementById('panel-info'), wf: document.getElementById('panel-wf') };
+  var buttons = tabs.querySelectorAll('button[data-tab]');
+
+  function show(name, push) {
+    shell.setAttribute('data-tab', name);
+    for (var k in panels) panels[k].hidden = (k !== name);
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].setAttribute('aria-selected', String(buttons[i].getAttribute('data-tab') === name));
+    }
+    if (push) history.replaceState(null, '', name === 'wf' ? '#wireframes' : '#info');
+  }
+
+  tabs.hidden = false;
+  tabs.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-tab]');
+    if (b) show(b.getAttribute('data-tab'), true);
+  });
+  show(location.hash === '#wireframes' ? 'wf' : 'info', false);
+})();
+</script>
 
 </body>
 </html>

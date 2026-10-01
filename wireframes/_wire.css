@@ -25,9 +25,13 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 15px;
   line-height: 1.45;
-  /* слева — панель со всеми макетами, справа — телефон и место для подписей зон */
+  /* слева — номера разделов проекта и дерево всех макетов, справа — телефон
+     и место для подписей зон */
   display: grid;
-  grid-template-columns: 236px minmax(0, 780px);
+  grid-template-columns: 52px 236px minmax(0, 780px);
+  /* свободную высоту забирает последняя строка: иначе длинное дерево слева
+     растягивает строки и мокап отъезжает вниз от полосы состояний */
+  grid-template-rows: auto auto 1fr;
   gap: var(--s-6);
   justify-content: center;
   align-items: start;
@@ -35,8 +39,30 @@ body {
 @media (max-width: 900px) {
   body { grid-template-columns: minmax(0, 1fr); }
   .wfnav { position: static !important; border-right: 0; }
+  .wfrail { position: static !important; flex-direction: row !important; border-right: 0; padding-right: 0; }
   .wfstates, .device, .meta { grid-column: 1; }
 }
+
+/* ── полоса разделов проекта: та же навигация, что на сайте, сжатая до
+   номеров. Рядом стоит дерево макетов, и два полных дерева подряд
+   человек уже не читает — имя раздела остаётся в title и aria-label */
+.wfrail {
+  grid-row: 1 / span 3;
+  position: sticky; top: var(--s-6);
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  border-right: 1px solid var(--w-line);
+  padding-right: var(--s-3);
+  font-size: 12px;
+}
+.wfrail a {
+  display: block; min-width: 32px; padding: 6px 8px;
+  border-radius: var(--r-sm);
+  color: var(--w-ink-2); text-decoration: none; text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.wfrail a:hover, .wfrail a:focus-visible { background: var(--w-fill); color: var(--w-ink); }
+.wfrail .home { margin-bottom: var(--s-4); font-weight: 700; letter-spacing: 0.04em; color: var(--w-ink); }
+.wfrail .now { background: var(--w-fill); color: var(--w-ink); font-weight: 700; }
 
 /* ── панель навигации по всем макетам (служебная, на прототип не едет) ──
    Дерево в три уровня: раздел → экран → его состояния. Вложенность видна
@@ -118,7 +144,7 @@ body {
    Корпус и экран — единственные два `div` в наборе: семантики
    у них нет, это устройство, а не содержимое (_conventions.md §5). */
 .device {
-  grid-column: 2;
+  grid-column: 3;
   width: calc(var(--screen-max) + 24px);
   padding: 12px;
   border: 1px solid var(--w-line);
@@ -433,7 +459,7 @@ a { color: var(--w-ink); }
 }
 
 .meta {
-  grid-column: 2;
+  grid-column: 3;
   width: calc(var(--screen-max) + 24px);
   margin-top: var(--s-5);
   padding: var(--s-4) 0 0;
@@ -450,7 +476,7 @@ a { color: var(--w-ink); }
    их сравнивают друг с другом, а не с чужими, и держать их рядом должно
    быть дёшево (_conventions.md §4). Собирается тем же скриптом. */
 .wfstates {
-  grid-column: 2;
+  grid-column: 3;
   width: calc(var(--screen-max) + 24px);
   margin-bottom: var(--s-4);
   padding-bottom: var(--s-3);

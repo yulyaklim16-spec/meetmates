@@ -315,6 +315,33 @@ footer p { max-width: 72ch; }
 .wf ul li { margin: 0; border-top: 1px solid var(--line); padding: 5px 0; font-size: var(--t-caption); display: flex; gap: var(--s-3); align-items: baseline; }
 .wf ul li:first-child { border-top: 0; }
 .wf ul li span { margin-left: auto; color: var(--ink-600); font-size: var(--t-micro); }
+
+/* ── Две вкладки: описание и сами макеты ───────────────────── */
+.tabs { display: flex; gap: var(--s-2); margin: 0 0 var(--s-6); border-bottom: 1px solid var(--line); }
+.tabs button { appearance: none; border: 0; background: none; font: inherit; color: var(--ink-600); padding: var(--s-3) var(--s-4); margin-bottom: -1px; border-bottom: 2px solid transparent; border-radius: var(--r-sm) var(--r-sm) 0 0; cursor: pointer; transition: color var(--dur-fast) var(--ease-out); }
+.tabs button:hover { color: var(--ink-900); background: var(--surface-2); }
+.tabs button:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.tabs button[aria-selected="true"] { color: var(--ink-900); font-weight: var(--fw-medium); border-bottom-color: var(--brand-a); }
+
+/* Дерево макетов — вторая колонка слева, рядом с разделами проекта.
+   Пока вкладка не открыта, его нет: список макетов в содержимом даёт то же самое */
+.wfside { display: none; position: sticky; top: 0; max-height: 100vh; overflow-y: auto; padding: var(--s-6) var(--s-4) var(--s-6) 0; border-right: 1px solid var(--line); }
+.wfside .wftree { margin: 0; padding: 0; border-top: 0; }
+.shell[data-tab="wf"] { grid-template-columns: 56px 228px minmax(0, 1fr); gap: var(--s-5); }
+.shell[data-tab="wf"] .wfside { display: block; }
+/* разделы сжимаются до номеров: два дерева подряд не читаются */
+.shell[data-tab="wf"] .side .stage,
+.shell[data-tab="wf"] .side .lbl,
+.shell[data-tab="wf"] .side .brand b,
+.shell[data-tab="wf"] .side .mat .t { display: none; }
+.shell[data-tab="wf"] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
+.shell[data-tab="wf"] .side .mat { justify-content: center; padding: var(--s-3) 0; }
+.shell[data-tab="wf"] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
+.shell[data-tab="wf"] .side .mat.current .n { color: var(--ink-900); font-weight: var(--fw-medium); }
+@media (max-width: 900px) {
+  .shell[data-tab="wf"] { grid-template-columns: minmax(0, 1fr); }
+  .wfside { display: none !important; }
+}
 .wf a { text-decoration: none; }
 .wf a:hover, .wf a:focus-visible { text-decoration: underline; }
 .wf .todo { color: var(--ink-400); }
@@ -374,6 +401,20 @@ footer p { max-width: 72ch; }
         <a class="mat" href="../research/persones.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>готово</i></span></a>
         <a class="mat" href="ia.html"><span class="n">03</span><span class="t">Информационная архитектура<i>готово</i></span></a>
         <a class="mat current" href="wireframes.html" aria-current="page"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>текущий раздел</i></span></a>
+        <a class="mat soon" href="?section=5"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=6"><span class="n">06</span><span class="t">Концепт<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=7"><span class="n">07</span><span class="t">Сборка UI<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
+      </div>
+    </nav>
+
+  </aside>
+
+  <aside class="wfside" aria-label="Все макеты">
       <div class="wftree">
         <p class="h">Вайрфреймы</p>
         <p class="sub">Главный поток · мобильный веб · 49 из 49</p>
@@ -492,22 +533,6 @@ footer p { max-width: 72ch; }
           </li>
         </ul>
       </div>
-        <a class="mat soon" href="?section=5"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>скоро</i></span></a>
-        <a class="mat soon" href="?section=6"><span class="n">06</span><span class="t">Концепт<i>скоро</i></span></a>
-        <a class="mat soon" href="?section=7"><span class="n">07</span><span class="t">Сборка UI<i>скоро</i></span></a>
-        <a class="mat soon" href="?section=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
-        <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
-        <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
-        <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
-        <a class="mat soon" href="?section=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
-      </div>
-    </nav>
-
-    <nav class="anchors" aria-label="На этой странице">
-      <a href="#nav">Макеты</a>
-      <a href="#rules">Правила</a>
-    </nav>
-
   </aside>
 
   <main id="content">
@@ -522,11 +547,38 @@ footer p { max-width: 72ch; }
       <!--PUBLIC-NOTE-->
     </div>
 
-    <section id="nav">
-      <h2>Макеты</h2>
-      <p class="intro">Восемь экранов главного потока и три за вкладками — со всеми состояниями из таблицы. Состояния, которого в таблице нет, нет и в наборе: страницу под него не придумывают. Список собирается сборкой из <a href="../wireframes/_screens.md">_screens.md</a>, готовность считается по файлам — отмечать руками не нужно.</p>
-      <p class="intro">Макет открывается отдельной страницей, во всю ширину окна. Внутри неё: слева — дерево всех страниц, сверху — состояния этого экрана, справа от мокапа — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет: мокап показывает, что из 844px экрана продукту принадлежит 713, остальное забирают системная строка, панель браузера Safari и индикатор жеста.</p>
-      <ol class="wf">
+    <div class="tabs" role="tablist" aria-label="Что показывать" hidden>
+      <button type="button" role="tab" id="tab-info" data-tab="info" aria-selected="true" aria-controls="panel-info">Информация</button>
+      <button type="button" role="tab" id="tab-wf" data-tab="wf" aria-selected="false" aria-controls="panel-wf">Вайрфреймы</button>
+    </div>
+
+    <div class="tabpanel" id="panel-info" role="tabpanel" aria-labelledby="tab-info">
+      <section id="page">
+        <h2>Как устроена страница макета</h2>
+        <p class="intro">Макет открывается отдельной страницей, во всю ширину окна. Слева — номера разделов проекта и рядом с ними дерево всех макетов; над мокапом — состояния этого экрана, справа от него — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет: мокап показывает, что из 844px экрана продукту принадлежит 713, остальное забирают системная строка, панель браузера Safari и индикатор жеста.</p>
+      </section>
+
+      <section id="rules">
+        <h2>Правила, по которым это нарисовано</h2>
+        <p class="intro">Полностью — <a href="../wireframes/_conventions.md">_conventions.md</a>. Здесь то, что видно на макете.</p>
+        <div class="tw"><table>
+          <thead><tr><th>Правило</th><th>Как это видно</th></tr></thead>
+          <tbody>
+            <tr><td><b>Мокап телефона обязателен</b></td><td>Продукту принадлежит 713px из 844; системные зоны нарисованы и подписаны. Не поместилось — находка, а не повод растянуть рамку</td></tr>
+            <tr><td><b>Серый ничего не кодирует</b></td><td>Состояние объясняется текстом. Непонятно в сером — непонятно и в цвете, просто выяснится позже и дороже</td></tr>
+            <tr><td><b>Одно состояние — одна страница</b></td><td>Структура одинаковая, содержимое разное: видно, что это тот же экран. Пятое состояние — ожидание чужого решения <code class="dcode">D-42</code></td></tr>
+            <tr><td><b>Текст настоящий</b></td><td><code>3 common interests</code>, <code>6 meetups attended</code>, <code>~2 km</code> — и те же запреты копирайта, что в продукте</td></tr>
+            <tr><td><b>Семантическая разметка</b></td><td><code>header</code>, <code>main</code>, <code>nav</code>, <code>article</code>, <code>button</code>; <code>div</code> — только корпус и экран телефона</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+    </div>
+
+    <div class="tabpanel" id="panel-wf" role="tabpanel" aria-labelledby="tab-wf">
+      <section id="nav">
+        <h2>Макеты</h2>
+        <p class="intro">Восемь экранов главного потока и три за вкладками — со всеми состояниями из таблицы. Состояния, которого в таблице нет, нет и в наборе: страницу под него не придумывают. Список собирается сборкой из <a href="../wireframes/_screens.md">_screens.md</a>, готовность считается по файлам — отмечать руками не нужно.</p>
+        <ol class="wf">
       <li class="branch"><h3>Вход в продукт</h3></li>
       <li>
         <p class="sh"><b>Радар — как это работает</b><span class="n">1 из 1</span></p>
@@ -647,23 +699,9 @@ footer p { max-width: 72ch; }
           <li><a href="../wireframes/search-loading.html">search-loading.html</a><span>загрузка</span></li>
         </ul>
       </li>
-      </ol>
-    </section>
-
-    <section id="rules">
-      <h2>Правила, по которым это нарисовано</h2>
-      <p class="intro">Полностью — <a href="../wireframes/_conventions.md">_conventions.md</a>. Здесь то, что видно на макете.</p>
-      <div class="tw"><table>
-        <thead><tr><th>Правило</th><th>Как это видно</th></tr></thead>
-        <tbody>
-          <tr><td><b>Мокап телефона обязателен</b></td><td>Продукту принадлежит 713px из 844; системные зоны нарисованы и подписаны. Не поместилось — находка, а не повод растянуть рамку</td></tr>
-          <tr><td><b>Серый ничего не кодирует</b></td><td>Состояние объясняется текстом. Непонятно в сером — непонятно и в цвете, просто выяснится позже и дороже</td></tr>
-          <tr><td><b>Одно состояние — одна страница</b></td><td>Структура одинаковая, содержимое разное: видно, что это тот же экран. Пятое состояние — ожидание чужого решения <code class="dcode">D-42</code></td></tr>
-          <tr><td><b>Текст настоящий</b></td><td><code>3 common interests</code>, <code>6 meetups attended</code>, <code>~2 km</code> — и те же запреты копирайта, что в продукте</td></tr>
-          <tr><td><b>Семантическая разметка</b></td><td><code>header</code>, <code>main</code>, <code>nav</code>, <code>article</code>, <code>button</code>; <code>div</code> — только корпус и экран телефона</td></tr>
-        </tbody>
-      </table></div>
-    </section>
+        </ol>
+      </section>
+    </div>
 
     <footer>
       <p>Раздел 4 из 12 · Прототипирование и вайрфрейминг. Источники — <a href="../wireframes/_screens.md">_screens.md</a>, <a href="../wireframes/_conventions.md">_conventions.md</a>; экраны и состояния — <a href="../sitemap.md">sitemap.md</a>.</p>
@@ -671,6 +709,34 @@ footer p { max-width: 72ch; }
     </footer>
   </main>
 </div>
+
+<script>
+// Вкладки раздела. Без скрипта видны оба блока и дерева макетов слева нет —
+// список в содержимом ведёт на те же страницы, ничего не теряется.
+(function () {
+  var shell = document.querySelector('.shell');
+  var tabs = document.querySelector('.tabs');
+  if (!shell || !tabs) return;
+  var panels = { info: document.getElementById('panel-info'), wf: document.getElementById('panel-wf') };
+  var buttons = tabs.querySelectorAll('button[data-tab]');
+
+  function show(name, push) {
+    shell.setAttribute('data-tab', name);
+    for (var k in panels) panels[k].hidden = (k !== name);
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].setAttribute('aria-selected', String(buttons[i].getAttribute('data-tab') === name));
+    }
+    if (push) history.replaceState(null, '', name === 'wf' ? '#wireframes' : '#info');
+  }
+
+  tabs.hidden = false;
+  tabs.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-tab]');
+    if (b) show(b.getAttribute('data-tab'), true);
+  });
+  show(location.hash === '#wireframes' ? 'wf' : 'info', false);
+})();
+</script>
 
 </body>
 </html>
