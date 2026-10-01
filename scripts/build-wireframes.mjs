@@ -298,8 +298,13 @@ const cur = /<a class="mat"([^>]*)href="wireframes\.html">([\s\S]*?)<i>[^<]*<\/i
 if (!cur.test(asideSrc)) throw new Error('в sections/index.html не найден пункт 04 — боковая колонка изменилась');
 // Разделы остаются списком разделов: дерево макетов — своя колонка рядом,
 // и показывается оно только на вкладке «Вайрфреймы».
+const subtabs = `
+        <nav class="subtabs" aria-label="Что показывать в разделе">
+          <a href="#info" data-tab="info" aria-current="true">Информация</a>
+          <a href="#wireframes" data-tab="wf">Вайрфреймы</a>
+        </nav>`;
 const aside = asideSrc
-  .replace(cur, (m, attrs, head) => `<a class="mat current"${attrs}href="wireframes.html" aria-current="page">${head}<i>текущий раздел</i></span></a>`);
+  .replace(cur, (m, attrs, head) => `<a class="mat current"${attrs}href="wireframes.html" aria-current="page">${head}<i>текущий раздел</i></span></a>${subtabs}`);
 const wfAside = `  <aside class="wfside" aria-label="Все макеты">${sideTree()}
   </aside>`;
 
@@ -315,12 +320,13 @@ const extraCss = `
 .wf ul li:first-child { border-top: 0; }
 .wf ul li span { margin-left: auto; color: var(--ink-600); font-size: var(--t-micro); }
 
-/* ── Две вкладки: описание и сами макеты ───────────────────── */
-.tabs { display: flex; gap: var(--s-2); margin: 0 0 var(--s-6); border-bottom: 1px solid var(--line); }
-.tabs button { appearance: none; border: 0; background: none; font: inherit; color: var(--ink-600); padding: var(--s-3) var(--s-4); margin-bottom: -1px; border-bottom: 2px solid transparent; border-radius: var(--r-sm) var(--r-sm) 0 0; cursor: pointer; transition: color var(--dur-fast) var(--ease-out); }
-.tabs button:hover { color: var(--ink-900); background: var(--surface-2); }
-.tabs button:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
-.tabs button[aria-selected="true"] { color: var(--ink-900); font-weight: var(--fw-medium); border-bottom-color: var(--brand-a); }
+/* ── Что показывать в разделе: подпункты 04 в самом дереве ───
+   Выбор раздела и выбор того, что внутри раздела, стоят в одном месте */
+.subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
+.subtabs a { padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
+.subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
+.subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.subtabs a[aria-current="true"] { background: var(--surface-2); color: var(--ink-900); font-weight: var(--fw-medium); }
 
 /* Дерево макетов — вторая колонка слева, рядом с разделами проекта.
    Пока вкладка не открыта, его нет: список макетов в содержимом даёт то же самое */
@@ -332,7 +338,8 @@ const extraCss = `
 .shell[data-tab="wf"] .side .stage,
 .shell[data-tab="wf"] .side .lbl,
 .shell[data-tab="wf"] .side .brand b,
-.shell[data-tab="wf"] .side .mat .t { display: none; }
+.shell[data-tab="wf"] .side .mat .t,
+.shell[data-tab="wf"] .side .subtabs { display: none; }
 .shell[data-tab="wf"] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
 .shell[data-tab="wf"] .side .mat { justify-content: center; padding: var(--s-3) 0; }
 .shell[data-tab="wf"] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
@@ -457,12 +464,7 @@ ${wfAside}
       <!--PUBLIC-NOTE-->
     </div>
 
-    <div class="tabs" role="tablist" aria-label="Что показывать" hidden>
-      <button type="button" role="tab" id="tab-info" data-tab="info" aria-selected="true" aria-controls="panel-info">Информация</button>
-      <button type="button" role="tab" id="tab-wf" data-tab="wf" aria-selected="false" aria-controls="panel-wf">Вайрфреймы</button>
-    </div>
-
-    <div class="tabpanel" id="panel-info" role="tabpanel" aria-labelledby="tab-info">
+    <div class="tabpanel" id="info">
       <section id="page">
         <h2>Как устроена страница макета</h2>
         <p class="intro">Макет открывается отдельной страницей, во всю ширину окна. Слева — номера разделов проекта и рядом с ними дерево всех макетов; над мокапом — состояния этого экрана, справа от него — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет: мокап показывает, что из 844px экрана продукту принадлежит 713, остальное забирают системная строка, панель браузера Safari и индикатор жеста.</p>
@@ -484,7 +486,7 @@ ${wfAside}
       </section>
     </div>
 
-    <div class="tabpanel" id="panel-wf" role="tabpanel" aria-labelledby="tab-wf">
+    <div class="tabpanel" id="wireframes">
       <section id="nav">
         <h2>Макеты</h2>
         <p class="intro">Восемь экранов главного потока и три за вкладками — со всеми состояниями из таблицы. Состояния, которого в таблице нет, нет и в наборе: страницу под него не придумывают. Список собирается сборкой из <a href="../wireframes/_screens.md">_screens.md</a>, готовность считается по файлам — отмечать руками не нужно.</p>
@@ -502,29 +504,38 @@ ${navHtml}
 </div>
 
 <script>
-// Вкладки раздела. Без скрипта видны оба блока и дерева макетов слева нет —
-// список в содержимом ведёт на те же страницы, ничего не теряется.
+// Что показывать в разделе — два подпункта 04 в дереве. Без скрипта это
+// обычные якоря: видны оба блока, ссылки ведут к своим заголовкам.
 (function () {
   var shell = document.querySelector('.shell');
-  var tabs = document.querySelector('.tabs');
-  if (!shell || !tabs) return;
-  var panels = { info: document.getElementById('panel-info'), wf: document.getElementById('panel-wf') };
-  var buttons = tabs.querySelectorAll('button[data-tab]');
+  var subtabs = document.querySelector('.subtabs');
+  if (!shell || !subtabs) return;
+  var panels = { info: document.getElementById('info'), wf: document.getElementById('wireframes') };
+  var links = subtabs.querySelectorAll('a[data-tab]');
 
   function show(name, push) {
     shell.setAttribute('data-tab', name);
     for (var k in panels) panels[k].hidden = (k !== name);
-    for (var i = 0; i < buttons.length; i++) {
-      buttons[i].setAttribute('aria-selected', String(buttons[i].getAttribute('data-tab') === name));
+    for (var i = 0; i < links.length; i++) {
+      if (links[i].getAttribute('data-tab') === name) links[i].setAttribute('aria-current', 'true');
+      else links[i].removeAttribute('aria-current');
     }
     if (push) history.replaceState(null, '', name === 'wf' ? '#wireframes' : '#info');
   }
 
-  tabs.hidden = false;
-  tabs.addEventListener('click', function (e) {
-    var b = e.target.closest('button[data-tab]');
-    if (b) show(b.getAttribute('data-tab'), true);
+  subtabs.addEventListener('click', function (e) {
+    var a = e.target.closest('a[data-tab]');
+    if (!a) return;
+    e.preventDefault();
+    show(a.getAttribute('data-tab'), true);
   });
+
+  // в сжатом виде подпунктов не видно: назад ведёт сам номер раздела
+  var cur = document.querySelector('.side .mat.current');
+  if (cur) cur.addEventListener('click', function (e) {
+    if (shell.getAttribute('data-tab') === 'wf') { e.preventDefault(); show('info', true); }
+  });
+
   show(location.hash === '#wireframes' ? 'wf' : 'info', false);
 })();
 </script>
