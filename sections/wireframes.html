@@ -328,20 +328,25 @@ footer p { max-width: 72ch; }
    Пока вкладка не открыта, его нет: список макетов в содержимом даёт то же самое */
 .wfside { display: none; position: sticky; top: 0; max-height: 100vh; overflow-y: auto; padding: var(--s-6) var(--s-4) var(--s-6) 0; border-right: 1px solid var(--line); }
 .wfside .wftree { margin: 0; padding: 0; border-top: 0; }
-.shell[data-tab="wf"] { grid-template-columns: 56px 228px minmax(0, 1fr); gap: var(--s-5); }
-.shell[data-tab="wf"] .wfside { display: block; }
-/* разделы сжимаются до номеров: два дерева подряд не читаются */
-.shell[data-tab="wf"] .side .stage,
-.shell[data-tab="wf"] .side .lbl,
-.shell[data-tab="wf"] .side .brand b,
-.shell[data-tab="wf"] .side .mat .t,
-.shell[data-tab="wf"] .side .subtabs { display: none; }
-.shell[data-tab="wf"] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
-.shell[data-tab="wf"] .side .mat { justify-content: center; padding: var(--s-3) 0; }
-.shell[data-tab="wf"] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
-.shell[data-tab="wf"] .side .mat.current .n { color: var(--ink-900); font-weight: var(--fw-medium); }
+/* Нажат любой из двух подпунктов — разделы сжимаются до номеров.
+   Сами подпункты остаются: иначе, нажав «Информацию», человек в ней запрётся */
+.shell[data-collapsed] { grid-template-columns: 124px minmax(0, 1fr); gap: var(--s-5); }
+.shell[data-collapsed][data-tab="wf"] { grid-template-columns: 124px 228px minmax(0, 1fr); }
+/* дерево макетов стоит рядом только со сжатой полосой: развёрнутое дерево
+   разделов и дерево макетов разом — те же два дерева подряд */
+.shell[data-collapsed][data-tab="wf"] .wfside { display: block; }
+.shell[data-collapsed] .side .stage,
+.shell[data-collapsed] .side .lbl,
+.shell[data-collapsed] .side .brand b,
+.shell[data-collapsed] .side .mat .t { display: none; }
+.shell[data-collapsed] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
+.shell[data-collapsed] .side .mat { justify-content: center; padding: var(--s-3) 0; }
+.shell[data-collapsed] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
+.shell[data-collapsed] .side .mat.current .n { color: var(--ink-900); font-weight: var(--fw-medium); }
+.shell[data-collapsed] .side .subtabs { margin-left: 0; padding-left: var(--s-2); border-left-color: var(--line); }
+.shell[data-collapsed] .side .subtabs a { font-size: var(--t-micro); padding: var(--s-2); }
 @media (max-width: 900px) {
-  .shell[data-tab="wf"] { grid-template-columns: minmax(0, 1fr); }
+  .shell[data-collapsed], .shell[data-collapsed][data-tab="wf"] { grid-template-columns: minmax(0, 1fr); }
   .wfside { display: none !important; }
 }
 .wf a { text-decoration: none; }
@@ -712,8 +717,9 @@ footer p { max-width: 72ch; }
 </div>
 
 <script>
-// Что показывать в разделе — два подпункта 04 в дереве. Без скрипта это
-// обычные якоря: видны оба блока, ссылки ведут к своим заголовкам.
+// Что показывать в разделе — два подпункта 04 в дереве. Нажат любой из них,
+// и разделы сжимаются до номеров: читать два дерева подряд не нужно, а вернуть
+// их целиком можно нажатием на сам номер 04. Без скрипта это обычные якоря.
 (function () {
   var shell = document.querySelector('.shell');
   var subtabs = document.querySelector('.subtabs');
@@ -721,8 +727,10 @@ footer p { max-width: 72ch; }
   var panels = { info: document.getElementById('info'), wf: document.getElementById('wireframes') };
   var links = subtabs.querySelectorAll('a[data-tab]');
 
-  function show(name, push) {
+  function show(name, collapsed, push) {
     shell.setAttribute('data-tab', name);
+    if (collapsed) shell.setAttribute('data-collapsed', '');
+    else shell.removeAttribute('data-collapsed');
     for (var k in panels) panels[k].hidden = (k !== name);
     for (var i = 0; i < links.length; i++) {
       if (links[i].getAttribute('data-tab') === name) links[i].setAttribute('aria-current', 'true');
@@ -735,16 +743,20 @@ footer p { max-width: 72ch; }
     var a = e.target.closest('a[data-tab]');
     if (!a) return;
     e.preventDefault();
-    show(a.getAttribute('data-tab'), true);
+    show(a.getAttribute('data-tab'), true, true);
   });
 
-  // в сжатом виде подпунктов не видно: назад ведёт сам номер раздела
+  // номер раздела возвращает дерево целиком, не трогая показанное
   var cur = document.querySelector('.side .mat.current');
   if (cur) cur.addEventListener('click', function (e) {
-    if (shell.getAttribute('data-tab') === 'wf') { e.preventDefault(); show('info', true); }
+    if (shell.hasAttribute('data-collapsed')) {
+      e.preventDefault();
+      show(shell.getAttribute('data-tab'), false, false);
+    }
   });
 
-  show(location.hash === '#wireframes' ? 'wf' : 'info', false);
+  var h = location.hash;
+  show(h === '#wireframes' ? 'wf' : 'info', h === '#wireframes' || h === '#info', false);
 })();
 </script>
 
