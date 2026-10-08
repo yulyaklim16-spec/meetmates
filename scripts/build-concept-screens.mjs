@@ -26,7 +26,7 @@ const OUT = join(ROOT, 'concept/screens');
 const ICONS = join(ROOT, 'concept/icons/solar-bold');
 
 // какие экраны собираем; ссылки между ними остаются внутри концепта
-const SCREENS = ['feed', 'feed-empty', 'feed-error', 'feed-loading'];
+const SCREENS = ['feed', 'feed-empty', 'feed-error', 'feed-loading', 'my-profile', 'my-profile-loading'];
 
 // фото события — по началу названия; проверены, список в concept/references.md
 const unsplash = (id) => `https://images.unsplash.com/photo-${id}?w=320&h=360&fit=crop&q=75&auto=format`;
@@ -36,8 +36,12 @@ const PHOTOS = [
   ['Coffee and a walk', unsplash('1758525223193-1bd8fca96ef3')],    // две девушки с кофе на прогулке
 ];
 
+// портрет в профиле — «B, профиль» из concept/references.md; кадрируется по лицу
+const PORTRAIT = 'https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=720&h=560&fit=crop&crop=faces&q=75&auto=format';
+
 // иконка — по подписи, которая стоит сразу после пустой .ico
 const ICON_BY_LABEL = {
+  Edit: 'pen-new-square',
   Filters: 'tuning-2',
   Post: 'add',
   People: 'users-group-rounded',
@@ -45,6 +49,7 @@ const ICON_BY_LABEL = {
   Search: 'magnifer',
   Chats: 'chat-round-dots',
   Profile: 'user-rounded',
+  Verified: 'verified-check',
 };
 
 const svg = (name) =>
@@ -54,30 +59,37 @@ const svg = (name) =>
 
 // ── дерево экранов концепта: та же служебная навигация, что у вайрфреймов ──
 // Рядом с полосой разделов: из экрана видно весь набор и то, где ты в нём.
-const TITLES = {
-  'feed': 'рабочий вид',
-  'feed-empty': 'пусто',
-  'feed-error': 'ошибка',
-  'feed-loading': 'загрузка',
-};
+const GROUPS = [
+  { title: 'Лента событий', items: [
+    { file: 'feed', title: 'рабочий вид' },
+    { file: 'feed-empty', title: 'пусто' },
+    { file: 'feed-error', title: 'ошибка' },
+    { file: 'feed-loading', title: 'загрузка' },
+  ] },
+  { title: 'Мой профиль', items: [
+    { file: 'my-profile', title: 'рабочий вид' },
+    { file: 'my-profile-loading', title: 'загрузка' },
+  ] },
+];
+
 const tree = (current) => `<nav class="wfnav" aria-label="Экраны концепта">
   <p class="h">Концепт</p>
   <p class="t">Направление D «Стекло» · ${SCREENS.length} из ${SCREENS.length}</p>
   <ul>
-    <li class="grp">
-      <p class="gt"><span class="gn">1</span>Лента событий</p>
+${GROUPS.map((g, gi) => `    <li class="grp">
+      <p class="gt"><span class="gn">${gi + 1}</span>${g.title}</p>
       <ul>
-        <li class="scr${current === SCREENS[0] ? ' now' : ''}">${current === SCREENS[0]
-          ? `<b class="s" aria-current="page">Лента событий</b>`
-          : `<a class="s" href="${SCREENS[0]}.html">Лента событий</a>`}
+        <li class="scr${g.items.some((it) => it.file === current) ? ' now' : ''}">${g.items[0].file === current
+          ? `<b class="s" aria-current="page">${g.title}</b>`
+          : `<a class="s" href="${g.items[0].file}.html">${g.title}</a>`}
           <ul>
-${SCREENS.slice(1).map((n) => `            <li>${n === current
-    ? `<b aria-current="page">${TITLES[n]}</b>`
-    : `<a href="${n}.html">${TITLES[n]}</a>`}</li>`).join('\n')}
+${g.items.slice(1).map((it) => `            <li>${it.file === current
+    ? `<b aria-current="page">${it.title}</b>`
+    : `<a href="${it.file}.html">${it.title}</a>`}</li>`).join('\n')}
           </ul>
         </li>
       </ul>
-    </li>
+    </li>`).join('\n')}
   </ul>
   <p class="n">Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
     текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
@@ -106,12 +118,16 @@ for (const name of SCREENS) {
   if (/<span class="cover"[^>]*><\/span>/.test(body)) throw new Error(`${name}: осталась пустая обложка`);
 
   // 4. иконки по подписи
-  body = body.replace(/<span class="ico( lg)?" aria-hidden="true"><\/span>([A-Za-z]+)/g, (m, lg, label) => {
+  body = body.replace(/<span class="ico( lg| sm)?" aria-hidden="true"><\/span>([A-Za-z]+)/g, (m, size, label) => {
     const icon = ICON_BY_LABEL[label];
     if (!icon) throw new Error(`${name}: нет иконки для «${label}»`);
-    return `<span class="ico${lg || ''}" aria-hidden="true">${svg(icon)}</span>${label}`;
+    return `<span class="ico${size || ''}" aria-hidden="true">${svg(icon)}</span>${label}`;
   });
   if (/<span class="ico[^"]*" aria-hidden="true"><\/span>/.test(body)) throw new Error(`${name}: осталась пустая иконка`);
+
+  // 3б. портрет в карточке профиля — на месте серой плашки .photo
+  body = body.replace(/<p class="photo" aria-hidden="true"><\/p>/g,
+    `<p class="photo"><img src="${PORTRAIT}" alt="" loading="lazy"></p>`);
 
   // 4б. кнопки шапки — только иконка: подпись остаётся в разметке, но скрыта для глаз
   body = body.replace(/<header>[\s\S]*?<\/header>/, (h) =>

@@ -160,7 +160,10 @@
 
 [`screens/feed.html`](./screens/feed.html) и состояния [`-empty`](./screens/feed-empty.html),
 [`-error`](./screens/feed-error.html), [`-loading`](./screens/feed-loading.html) — лента событий
-в стиле D. **Руками не правятся:** `node scripts/build-concept-screens.mjs` берёт разметку
+в стиле D. [`screens/my-profile.html`](./screens/my-profile.html) и [`-loading`](./screens/my-profile-loading.html) —
+мой профиль (2026-10-08): та же карточка, что у события, портрет во всю её ширину, полосы
+пагинации под фото — стекло живёт только в меню. Высота карточки человека вынесена
+в токен `--card-h: 400px`: в вайрфреймах она уже стояла, а в продукте её не было. **Руками не правятся:** `node scripts/build-concept-screens.mjs` берёт разметку
 из `wireframes/feed*.html` как есть (текст и структура те же — сверено скриптом), ставит фото
 в обложки, иконки Solar Bold и отметку Verified, подключает [`screens/screens.css`](./screens/screens.css).
 Вайрфреймы остаются серыми — это их этап. Поправили вайрфрейм — пересобрали экран.

@@ -104,6 +104,7 @@ Unsplash, бесплатная лицензия, проверено 2026-10-07: 
 
 | Где | Тема | Страница фото | Картинка | Что на фото |
 |---|---|---|---|---|
+| Мой профиль, портрет | Портрет | [unsplash.com/photos/…r1sVDjf_Hxg](https://unsplash.com/photos/a-woman-with-glasses-smiles-in-front-of-a-building-r1sVDjf_Hxg) | `photo-1758599543111-36ce5c34fceb` | Женщина в очках, крупный план лица — тот же портрет, что у направления B |
 | Лента, «Coffee and a walk in Podil» | Кофе и прогулка | [unsplash.com/photos/…XyG5lOIF74Q](https://unsplash.com/photos/two-women-walking-with-coffee-cups-XyG5lOIF74Q) | `photo-1758525223193-1bd8fca96ef3` | Две девушки идут по улице со стаканами кофе |
 
 Проверено: `200 image/jpeg`, просмотрено. Отбраковано: две женщины на тротуаре (`hf-kxslw7ok`) — без кофе, занятие не читается.

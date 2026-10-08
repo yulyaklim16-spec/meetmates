@@ -104,34 +104,44 @@ ${g.items.map((it) => `          <li><a href="../${it.file}"><b>${esc(it.title)}
 // ── экраны: сами макеты в стиле D, по мокапу на состояние ─────────────
 // Открываются в голом виде (`#bare`): без полосы состояний и служебного блока —
 // в превью они не читаются. Клик открывает страницу целиком.
-const SCREENS = {
-  title: 'Лента событий',
-  note: 'Руками не правятся: разметку берёт из вайрфреймов <code>build-concept-screens.mjs</code> — поправили вайрфрейм, пересобрали экран. Текст и структура те же, что в сером наборе; добавлены фото, цвет, шрифт и иконки.',
-  items: [
-    { file: 'concept/screens/feed.html', state: 'рабочий вид' },
-    { file: 'concept/screens/feed-empty.html', state: 'пусто' },
-    { file: 'concept/screens/feed-error.html', state: 'ошибка' },
-    { file: 'concept/screens/feed-loading.html', state: 'загрузка' },
-  ],
-};
-for (const it of SCREENS.items) {
-  if (!existsSync(join(ROOT, it.file))) throw new Error(`в концепте нет экрана ${it.file} — галерея раздела отстала`);
+const SCREENS = [
+  {
+    title: 'Лента событий',
+    items: [
+      { file: 'concept/screens/feed.html', state: 'рабочий вид' },
+      { file: 'concept/screens/feed-empty.html', state: 'пусто' },
+      { file: 'concept/screens/feed-error.html', state: 'ошибка' },
+      { file: 'concept/screens/feed-loading.html', state: 'загрузка' },
+    ],
+  },
+  {
+    title: 'Мой профиль',
+    items: [
+      { file: 'concept/screens/my-profile.html', state: 'рабочий вид' },
+      { file: 'concept/screens/my-profile-loading.html', state: 'загрузка' },
+    ],
+  },
+];
+const SCREENS_NOTE = 'Руками не правятся: разметку берёт из вайрфреймов <code>build-concept-screens.mjs</code> — поправили вайрфрейм, пересобрали экран. Текст и структура те же, что в сером наборе; добавлены фото, цвет, шрифт и иконки.';
+for (const g of SCREENS) {
+  for (const it of g.items) {
+    if (!existsSync(join(ROOT, it.file))) throw new Error(`в концепте нет экрана ${it.file} — галерея раздела отстала`);
+  }
 }
 
-const pagesCount = GROUPS.reduce((n, g) => n + g.items.length, 0) + SCREENS.items.length;
+const pagesCount = GROUPS.reduce((n, g) => n + g.items.length, 0) + SCREENS.reduce((n, g) => n + g.items.length, 0);
 
-const galleryHtml = `      <section class="gbranch">
-        <h3>${esc(SCREENS.title)}</h3>
-        <p class="intro">${SCREENS.note}</p>
+const galleryHtml = SCREENS.map((g, gi) => `      <section class="gbranch">
+        <h3><span class="gn">${gi + 1}</span>${esc(g.title)}</h3>
         <ul class="gal">
-${SCREENS.items.map((it) => `          <li>
-            <a href="../${it.file}" title="${esc(SCREENS.title)} — ${esc(it.state)}">
-              <span class="shot"><iframe src="../${it.file}#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="${esc(SCREENS.title)} — ${esc(it.state)}"></iframe></span>
+${g.items.map((it) => `          <li>
+            <a href="../${it.file}" title="${esc(g.title)} — ${esc(it.state)}">
+              <span class="shot"><iframe src="../${it.file}#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="${esc(g.title)} — ${esc(it.state)}"></iframe></span>
               <span class="cap">${esc(it.state)}</span>
             </a>
           </li>`).join('\n')}
         </ul>
-      </section>`;
+      </section>`).join('\n');
 
 // ── разбор документа на разделы `## ` ─────────────────────────────────
 function blocks(text) {
@@ -199,6 +209,7 @@ ${TABS_CSS}
    Ширина превью фиксирована — масштаб это число, из резиновой колонки его не вывести */
 .gbranch { margin: 0 0 var(--s-6); }
 .gbranch h3 { margin: 0 0 var(--s-3); }
+.gn { display: inline-block; min-width: 1.4em; color: var(--ink-400); font-variant-numeric: tabular-nums; font-weight: var(--fw-regular); }
 .gal { list-style: none; margin: var(--s-4) 0; padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, 176px); max-width: none; }
 .gal a { display: block; text-decoration: none; color: var(--ink-600); }
 .gal .shot {
@@ -297,7 +308,7 @@ ${cardsHtml}
       <h1 class="vh">Концепт: страницы</h1>
       <section id="gallery">
         <h2>Экраны</h2>
-        <p class="intro">Лента событий в стиле D, во всех состояниях. Превью показывает сам экран — клик открывает страницу целиком, с полосой состояний и разбором под мокапом.</p>
+        <p class="intro">Экраны продукта в стиле D, со всеми состояниями. Превью показывает сам экран — клик открывает страницу целиком, с полосой состояний и разбором под мокапом. ${SCREENS_NOTE}</p>
 
 ${galleryHtml}
       </section>

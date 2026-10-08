@@ -13,7 +13,8 @@
  */
 
 /* ── подпись, которую не видно, но слышно ─────────────────── */
-.mm-ui .label { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* скрыто для глаз, но не для скринридера — то же правило, что в вайрфреймах */
+.mm-ui .vh, .mm-ui .label { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .mm-ui .row { display: flex; gap: var(--s-3); }
 .mm-ui .row > * { flex: 1; }
 
@@ -149,6 +150,59 @@
 .mm-ui nav[aria-label="Main navigation"] a .ico svg { width: var(--icon-md); height: var(--icon-md); color: var(--ink-400); }
 .mm-ui nav[aria-label="Main navigation"] a[aria-current="page"] { background: var(--glass-strong); box-shadow: var(--glass-rim), var(--shadow-sm); color: var(--ink-900); }
 .mm-ui nav[aria-label="Main navigation"] a[aria-current="page"] .ico svg { color: var(--ink-900); }
+
+
+/* ── Профиль: как меня видят ───────────────────────────────────────────
+   Карточка — та же, что у события: белая, радиус карточки, мягкая тень.
+   Портрет занимает её целиком; полосы пагинации под фото, а не поверх —
+   стекло в направлении D живёт только в меню (D-61). */
+.mm-ui .card {
+  flex: none; height: var(--card-h); display: flex; flex-direction: column;
+  background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden;
+}
+.mm-ui .card figure { flex: 1; min-height: 0; display: flex; flex-direction: column; margin: 0; }
+.mm-ui .card .photo { flex: 1; min-height: 0; margin: 0; background: var(--surface-2); }
+.mm-ui .card .photo img { width: 100%; height: 100%; object-fit: cover; }
+.mm-ui .card .pager { flex: none; display: flex; gap: 4px; margin: 0; padding: var(--s-2) var(--s-3); }
+.mm-ui .card .pager span { height: 3px; flex: 1; border-radius: var(--r-pill); background: var(--line); }
+.mm-ui .card .pager span.on { background: var(--ink-900); }
+
+/* Профиль листается целиком: у вайрфрейма прокрутка тоже общая, у панели,
+   а не у секции — иначе глубокий слой съедает всю высоту */
+.mm-ui .pane:has(.card) { overflow-y: auto; scrollbar-width: none; }
+.mm-ui .pane:has(.card)::-webkit-scrollbar { display: none; }
+.mm-ui .pane:has(.card) > .scrolly { flex: none; min-height: auto; overflow: visible; }
+
+/* Заголовок секции внутри экрана: шкала продукта, иначе браузер ставит 24px
+   и выталкивает сигналы доверия за сгиб */
+.mm-ui .pane h2:not([hidden]) { margin: 0; font: var(--fw-semibold) var(--t-h3)/var(--lh-heading) var(--font); letter-spacing: var(--tr-heading); }
+
+/* Интересы, имя, сигналы и расстояние — тот же порядок чтения, что на карточке
+   колоды (D-13): сначала общее, потом кто, потом чем подтверждается */
+.mm-ui .common { margin: var(--s-4) 0 0; font-size: var(--t-caption); color: var(--ink-600); }
+.mm-ui .pane h3 { margin: 2px 0 0; font: var(--fw-semibold) var(--t-h2)/var(--lh-heading) var(--font); letter-spacing: var(--tr-heading); }
+.mm-ui .signals {
+  display: flex; flex-wrap: wrap; align-items: center; column-gap: 4px; row-gap: 2px;
+  margin: var(--s-2) 0 0; padding: 0; list-style: none;
+  font-size: var(--t-caption); color: var(--ink-600);
+}
+.mm-ui .signals li { display: inline-flex; align-items: center; gap: 3px; }
+.mm-ui .signals li + li::before { content: "·"; margin-right: 4px; color: var(--ink-400); }
+.mm-ui .signals li:first-child { color: var(--verified); font-weight: var(--fw-semibold); }
+.mm-ui .signals .ico { display: inline-flex; }
+.mm-ui .signals .ico svg { width: var(--icon-sm); height: var(--icon-sm); }
+.mm-ui .distance { margin: var(--s-2) 0 0; font-size: var(--t-micro); color: var(--ink-600); }
+
+/* Скелет в профиле: те же плашки, что в ленте */
+.mm-ui .skelrow { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-3) 0 0; }
+.mm-ui .skel.pill { height: 20px; border-radius: var(--r-pill); }
+.mm-ui .pane > section > .skel.line { margin-top: var(--s-3); }
+
+/* Глубокий слой: строки — те же карточки-строки, что в ленте */
+.mm-ui .rows .item .top { display: flex; align-items: baseline; gap: var(--s-3); width: 100%; text-decoration: none; color: inherit; }
+.mm-ui .rows .item .top b { font-size: var(--t-body-sm); font-weight: var(--fw-medium); }
+.mm-ui .rows .item .when { margin-left: auto; }
+.mm-ui a.item:hover { box-shadow: var(--shadow-md); }
 
 /* ── профиль: на экранах ещё нет, первым появится my-profile ── */
 .mm-ui .person-hero { text-align: center; padding: var(--s-2) 0 var(--s-4); }

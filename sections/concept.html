@@ -351,6 +351,7 @@ footer p { max-width: 72ch; }
    Ширина превью фиксирована — масштаб это число, из резиновой колонки его не вывести */
 .gbranch { margin: 0 0 var(--s-6); }
 .gbranch h3 { margin: 0 0 var(--s-3); }
+.gn { display: inline-block; min-width: 1.4em; color: var(--ink-400); font-variant-numeric: tabular-nums; font-weight: var(--fw-regular); }
 .gal { list-style: none; margin: var(--s-4) 0; padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, 176px); max-width: none; }
 .gal a { display: block; text-decoration: none; color: var(--ink-600); }
 .gal .shot {
@@ -433,7 +434,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
       <div class="chips">
         <span><b>6</b> направлений в двух раундах</span>
         <span><b>1</b> выбрано — D</span>
-        <span><b>8</b> страниц концепта</span>
+        <span><b>10</b> страниц концепта</span>
         <span><b>19</b> пар цвета проверены</span>
       </div>
       <!--PUBLIC-NOTE-->
@@ -615,7 +616,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
 <p><strong>Открытые риски:</strong> лицо направления держится на оранжевом и стекле меню — без них оно превращается в шаблон.</p>
 <p><strong>Компоненты — один источник</strong> (2026-10-08): <code>components.css</code> подключают и стенд, и экраны; правка компонента вносится там. Раньше стенд и экраны описывали компоненты отдельно и разошлись (кнопки шапки, меню, Verified).</p>
 <h3 id="экраны-в-стиле-d">Экраны в стиле D</h3>
-<p><a href="../concept/screens/feed.html"><code>screens/feed.html</code></a> и состояния <a href="../concept/screens/feed-empty.html"><code>-empty</code></a>, <a href="../concept/screens/feed-error.html"><code>-error</code></a>, <a href="../concept/screens/feed-loading.html"><code>-loading</code></a> — лента событий в стиле D. <strong>Руками не правятся:</strong> <code>node scripts/build-concept-screens.mjs</code> берёт разметку из <code>wireframes/feed*.html</code> как есть (текст и структура те же — сверено скриптом), ставит фото в обложки, иконки Solar Bold и отметку Verified, подключает <a href="../concept/screens/screens.css"><code>screens/screens.css</code></a>. Вайрфреймы остаются серыми — это их этап. Поправили вайрфрейм — пересобрали экран.</p>
+<p><a href="../concept/screens/feed.html"><code>screens/feed.html</code></a> и состояния <a href="../concept/screens/feed-empty.html"><code>-empty</code></a>, <a href="../concept/screens/feed-error.html"><code>-error</code></a>, <a href="../concept/screens/feed-loading.html"><code>-loading</code></a> — лента событий в стиле D. <a href="../concept/screens/my-profile.html"><code>screens/my-profile.html</code></a> и <a href="../concept/screens/my-profile-loading.html"><code>-loading</code></a> — мой профиль (2026-10-08): та же карточка, что у события, портрет во всю её ширину, полосы пагинации под фото — стекло живёт только в меню. Высота карточки человека вынесена в токен <code>--card-h: 400px</code>: в вайрфреймах она уже стояла, а в продукте её не было. <strong>Руками не правятся:</strong> <code>node scripts/build-concept-screens.mjs</code> берёт разметку из <code>wireframes/feed*.html</code> как есть (текст и структура те же — сверено скриптом), ставит фото в обложки, иконки Solar Bold и отметку Verified, подключает <a href="../concept/screens/screens.css"><code>screens/screens.css</code></a>. Вайрфреймы остаются серыми — это их этап. Поправили вайрфрейм — пересобрали экран.</p>
 <p>Правила стилей: значения только из <code>tokens.css</code>; одинаковые элементы описаны по роли — каждая главная кнопка в содержимом оранжевая, в шапке — тёмная, срез Nearby / Mine — сегменты, каждая карточка события и каждая отметка Verified одинаковы. Кнопки шапки — только иконка в круге 44px (Filters — белая, Post — тёмная с плюсом); подписи остаются в разметке для скринридера, у Post — <code>aria-label=&quot;Post an event&quot;</code> (<code class="dcode">D-60</code>). Нижнее меню — во всю ширину контента, вкладки делят её поровну (решение дизайнера 2026-10-08). Новые сочетания цвета добавлены в <code>scripts/contrast.mjs</code>: всего 19 пар, все проходят (2026-10-08: две пары «текст на стекле поверх фото» ушли вместе с меткой).</p>
 <h3 id="не-выбраны-к-ним-можно-вернуться">Не выбраны — к ним можно вернуться</h3>
 <p><strong>Раунд 2</strong> (<a href="../concept/directions-2.html"><code>directions-2.html</code></a>) — ближе к вкусу «Instagram / Apple», тот же каркас карточки:</p>
@@ -661,11 +662,10 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
       <h1 class="vh">Концепт: страницы</h1>
       <section id="gallery">
         <h2>Экраны</h2>
-        <p class="intro">Лента событий в стиле D, во всех состояниях. Превью показывает сам экран — клик открывает страницу целиком, с полосой состояний и разбором под мокапом.</p>
+        <p class="intro">Экраны продукта в стиле D, со всеми состояниями. Превью показывает сам экран — клик открывает страницу целиком, с полосой состояний и разбором под мокапом. Руками не правятся: разметку берёт из вайрфреймов <code>build-concept-screens.mjs</code> — поправили вайрфрейм, пересобрали экран. Текст и структура те же, что в сером наборе; добавлены фото, цвет, шрифт и иконки.</p>
 
       <section class="gbranch">
-        <h3>Лента событий</h3>
-        <p class="intro">Руками не правятся: разметку берёт из вайрфреймов <code>build-concept-screens.mjs</code> — поправили вайрфрейм, пересобрали экран. Текст и структура те же, что в сером наборе; добавлены фото, цвет, шрифт и иконки.</p>
+        <h3><span class="gn">1</span>Лента событий</h3>
         <ul class="gal">
           <li>
             <a href="../concept/screens/feed.html" title="Лента событий — рабочий вид">
@@ -688,6 +688,23 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
           <li>
             <a href="../concept/screens/feed-loading.html" title="Лента событий — загрузка">
               <span class="shot"><iframe src="../concept/screens/feed-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента событий — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="gbranch">
+        <h3><span class="gn">2</span>Мой профиль</h3>
+        <ul class="gal">
+          <li>
+            <a href="../concept/screens/my-profile.html" title="Мой профиль — рабочий вид">
+              <span class="shot"><iframe src="../concept/screens/my-profile.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мой профиль — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/my-profile-loading.html" title="Мой профиль — загрузка">
+              <span class="shot"><iframe src="../concept/screens/my-profile-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мой профиль — загрузка"></iframe></span>
               <span class="cap">загрузка</span>
             </a>
           </li>
