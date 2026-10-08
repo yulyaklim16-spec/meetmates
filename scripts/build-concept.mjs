@@ -19,7 +19,49 @@ const ROOT = process.cwd();
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
 
 const concept = read('concept/concept.md');
+const contrast = read('concept/contrast.md');
+const tokensCss = read('tokens/tokens.css');
 const shell = read('sections/index.html');
+
+// ── палитра и шкала — из самих токенов ────────────────────────────────
+// Значения не переписываются в страницу руками: поменяли tokens.css —
+// пересобрали раздел, и образцы поменялись вместе с продуктом.
+const TOKENS = new Map();
+for (const m of tokensCss.matchAll(/^\s*(--[\w-]+):\s*([^;]+);(?:\s*\/\*\s*(.*?)\s*\*\/)?/gm)) {
+  TOKENS.set(m[1], { value: m[2].trim(), note: (m[3] || '').trim() });
+}
+const tok = (name) => {
+  const t = TOKENS.get(name);
+  if (!t) throw new Error(`в tokens/tokens.css нет ${name} — палитра раздела отстала`);
+  return t;
+};
+
+const PALETTE = [
+  { title: 'Действие — один цвет на экран', names: ['--action', '--ink-on-action'] },
+  { title: 'Статусы', names: ['--verified', '--success', '--warn', '--danger'] },
+  { title: 'Текст', names: ['--ink-900', '--ink-600', '--ink-400'] },
+  { title: 'Поверхности', names: ['--bg', '--surface', '--surface-2', '--line'] },
+];
+
+const paletteHtml = PALETTE.map((g) => `        <div class="pal">
+          <h3>${esc(g.title)}</h3>
+          <ul class="sw">
+${g.names.map((n) => {
+    const t = tok(n);
+    return `            <li><i style="background:${t.value}"></i><b>${esc(n)}</b><code>${esc(t.value)}</code><span>${esc(t.note)}</span></li>`;
+  }).join('\n')}
+          </ul>
+        </div>`).join('\n');
+
+const SCALE = ['--t-display', '--t-h1', '--t-h2', '--t-h3', '--t-body', '--t-body-sm', '--t-caption', '--t-micro'];
+const scaleHtml = SCALE.map((n) => {
+  const t = tok(n);
+  const heading = /display|h1|h2/.test(n);
+  return `          <li>
+            <span class="sample" style="font-size:${t.value};font-weight:${heading ? 700 : 500};letter-spacing:${heading ? tok('--tr-display').value : 'normal'};line-height:1.2">Meet mates</span>
+            <b>${esc(n)}</b><code>${esc(t.value)}</code><span>${esc(t.note)}</span>
+          </li>`;
+}).join('\n');
 
 // ── страницы концепта ─────────────────────────────────────────────────
 // Группы — по тому, зачем человек открывает страницу, а не по папкам.
@@ -108,7 +150,10 @@ const aside = asideSrc.replace(cur, (m, attrs, head) =>
 // ── страница ──────────────────────────────────────────────────────────
 const head = shell.slice(0, shell.indexOf('</style>'))
   .replace(/<title>[^<]*<\/title>/, '<title>Концепт · MeetMates</title>')
-  .replace(/<meta name="description" content="[^"]*">/, '<meta name="description" content="Визуальное направление D «Стекло»: вкус, атрибуты, выбор и цена. Стенд стиля, экраны ленты и направления, которые не выбраны.">');
+  .replace(/<meta name="description" content="[^"]*">/, '<meta name="description" content="Визуальное направление D «Стекло»: вкус, атрибуты, выбор и цена. Стенд стиля, экраны ленты и направления, которые не выбраны.">')
+  // образцы шкалы набраны шрифтом продукта, а не сайта: иначе шкала показывала бы чужой Inter
+  .replace('<link rel="stylesheet" href="../tokens/site.css">',
+    '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap">\n<link rel="stylesheet" href="../tokens/site.css">');
 
 const extraCss = `
 /* ── Раздел 06: концепт ─────────────────────────────────────── */
@@ -128,6 +173,27 @@ ${TABS_CSS}
 .cards span { font-size: var(--t-caption); color: var(--ink-600); }
 
 #info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+
+/* Палитра и шкала: образцы набраны значениями продукта, подписи — шрифтом сайта */
+.pal { margin: 0 0 var(--s-5); }
+.pal h3 { margin: 0 0 var(--s-3); }
+.sw, .scale { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-2); max-width: none; }
+.sw { grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); }
+.sw li, .scale li {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-2) var(--s-3);
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
+  padding: var(--s-3); font-size: var(--t-caption);
+}
+/* имя токена и значение не переносятся: --ink-on-action в две строки не читается */
+.sw b, .sw code, .scale b, .scale code { white-space: nowrap; }
+.sw i { width: 28px; height: 28px; flex: none; border-radius: var(--r-sm); border: 1px solid var(--line); }
+.sw b, .scale b { font-size: var(--t-micro); font-weight: var(--fw-medium); }
+.sw code, .scale code { font-size: var(--t-micro); color: var(--ink-600); }
+.sw span, .scale span { flex: 1 1 100%; color: var(--ink-600); font-size: var(--t-micro); }
+.scale li { flex-wrap: wrap; }
+.scale .sample { font-family: "Geist", var(--font); color: var(--ink-900); flex: none; min-width: 7.5em; }
+details.src { margin: 0 0 var(--s-5); }
+details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(--ink-600); }
 `;
 
 const page = `${head}${extraCss}</style>
@@ -153,6 +219,26 @@ const page = `${head}${extraCss}</style>
       </div>
       <!--PUBLIC-NOTE-->
     </div>
+
+      <section id="palette">
+        <h2>Палитра и шрифт</h2>
+        <p class="intro">Значения читаются из <a href="../tokens/tokens.css">tokens/tokens.css</a> при сборке страницы — здесь нет ни одного цвета, вписанного руками. Поменяли токен — образец поменялся вместе с продуктом. Как это выглядит в деле — <a href="../concept/concept.html">стенд стиля</a>.</p>
+
+${paletteHtml}
+
+        <div class="pal">
+          <h3>Шрифт и шкала — ${esc(tok('--font').value.split(',')[0].replace(/"/g, ''))}</h3>
+          <p class="intro">Заголовки 600–700 с трекингом ${esc(tok('--tr-display').value)}, текст 400–500. Образцы набраны тем же шрифтом, что продукт.</p>
+          <ul class="scale">
+${scaleHtml}
+          </ul>
+        </div>
+
+        <details class="src">
+          <summary>Контраст — ${(contrast.match(/^\|/gm) || []).length - 2} пар, порог 4.5:1 для текста и 3:1 для иконок</summary>
+${md(contrast.replace(/^#[^\n]*\n/, ''))}
+        </details>
+      </section>
 
 ${infoHtml}
     </div>

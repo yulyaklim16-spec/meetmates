@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <!-- Единственный источник правды по цвету, радиусам, шкалам и движению -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="../tokens/site.css">
 <style>
 /* ─────────────────────────────────────────────────────────────
@@ -347,6 +348,27 @@ footer p { max-width: 72ch; }
 .cards span { font-size: var(--t-caption); color: var(--ink-600); }
 
 #info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+
+/* Палитра и шкала: образцы набраны значениями продукта, подписи — шрифтом сайта */
+.pal { margin: 0 0 var(--s-5); }
+.pal h3 { margin: 0 0 var(--s-3); }
+.sw, .scale { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-2); max-width: none; }
+.sw { grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); }
+.sw li, .scale li {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-2) var(--s-3);
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
+  padding: var(--s-3); font-size: var(--t-caption);
+}
+/* имя токена и значение не переносятся: --ink-on-action в две строки не читается */
+.sw b, .sw code, .scale b, .scale code { white-space: nowrap; }
+.sw i { width: 28px; height: 28px; flex: none; border-radius: var(--r-sm); border: 1px solid var(--line); }
+.sw b, .scale b { font-size: var(--t-micro); font-weight: var(--fw-medium); }
+.sw code, .scale code { font-size: var(--t-micro); color: var(--ink-600); }
+.sw span, .scale span { flex: 1 1 100%; color: var(--ink-600); font-size: var(--t-micro); }
+.scale li { flex-wrap: wrap; }
+.scale .sample { font-family: "Geist", var(--font); color: var(--ink-900); flex: none; min-width: 7.5em; }
+details.src { margin: 0 0 var(--s-5); }
+details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(--ink-600); }
 </style>
 </head>
 <body>
@@ -396,6 +418,110 @@ footer p { max-width: 72ch; }
       </div>
       <!--PUBLIC-NOTE-->
     </div>
+
+      <section id="palette">
+        <h2>Палитра и шрифт</h2>
+        <p class="intro">Значения читаются из <a href="../tokens/tokens.css">tokens/tokens.css</a> при сборке страницы — здесь нет ни одного цвета, вписанного руками. Поменяли токен — образец поменялся вместе с продуктом. Как это выглядит в деле — <a href="../concept/concept.html">стенд стиля</a>.</p>
+
+        <div class="pal">
+          <h3>Действие — один цвет на экран</h3>
+          <ul class="sw">
+            <li><i style="background:#FF5F1F"></i><b>--action</b><code>#FF5F1F</code><span>единственный цветной акцент: главная кнопка</span></li>
+            <li><i style="background:#1D1D1F"></i><b>--ink-on-action</b><code>#1D1D1F</code><span>текст на кнопке — тёмный: 5.5:1. Белый даёт 3.0:1 — запрещён</span></li>
+          </ul>
+        </div>
+        <div class="pal">
+          <h3>Статусы</h3>
+          <ul class="sw">
+            <li><i style="background:#1D1D1F"></i><b>--verified</b><code>#1D1D1F</code><span>галочка Verified — цвета текста, не отдельный цвет</span></li>
+            <li><i style="background:#1E7A46"></i><b>--success</b><code>#1E7A46</code><span>успех: Joined, confirmed, поле прошло проверку; 4.9:1 на --bg</span></li>
+            <li><i style="background:#A35500"></i><b>--warn</b><code>#A35500</code><span>производный: текст предупреждения, 5.0:1 на --bg</span></li>
+            <li><i style="background:#C42D2D"></i><b>--danger</b><code>#C42D2D</code><span>Report / Block: 5.1:1 на --bg</span></li>
+          </ul>
+        </div>
+        <div class="pal">
+          <h3>Текст</h3>
+          <ul class="sw">
+            <li><i style="background:#1D1D1F"></i><b>--ink-900</b><code>#1D1D1F</code><span>заголовки, основной текст</span></li>
+            <li><i style="background:#6E6E73"></i><b>--ink-600</b><code>#6E6E73</code><span>вторичный текст: 4.7:1 на --bg, 5.1:1 на --surface</span></li>
+            <li><i style="background:#86868B"></i><b>--ink-400</b><code>#86868B</code><span>только иконки и неактивные вкладки — не текст (3.3:1 на --bg, порог иконок 3:1)</span></li>
+          </ul>
+        </div>
+        <div class="pal">
+          <h3>Поверхности</h3>
+          <ul class="sw">
+            <li><i style="background:#F5F5F7"></i><b>--bg</b><code>#F5F5F7</code><span></span></li>
+            <li><i style="background:#FFFFFF"></i><b>--surface</b><code>#FFFFFF</code><span></span></li>
+            <li><i style="background:#F2F2F5"></i><b>--surface-2</b><code>#F2F2F5</code><span>производный: поля ввода, чипы фильтров; --ink-600 на нём 4.5:1</span></li>
+            <li><i style="background:#E3E3E8"></i><b>--line</b><code>#E3E3E8</code><span>---------- Glass — только нижнее меню, и не поверх фото ----------</span></li>
+          </ul>
+        </div>
+
+        <div class="pal">
+          <h3>Шрифт и шкала — Geist</h3>
+          <p class="intro">Заголовки 600–700 с трекингом -0.035em, текст 400–500. Образцы набраны тем же шрифтом, что продукт.</p>
+          <ul class="scale">
+          <li>
+            <span class="sample" style="font-size:34px;font-weight:700;letter-spacing:-0.035em;line-height:1.2">Meet mates</span>
+            <b>--t-display</b><code>34px</code><span>главные заголовки экранов</span>
+          </li>
+          <li>
+            <span class="sample" style="font-size:28px;font-weight:700;letter-spacing:-0.035em;line-height:1.2">Meet mates</span>
+            <b>--t-h1</b><code>28px</code><span></span>
+          </li>
+          <li>
+            <span class="sample" style="font-size:22px;font-weight:700;letter-spacing:-0.035em;line-height:1.2">Meet mates</span>
+            <b>--t-h2</b><code>22px</code><span></span>
+          </li>
+          <li>
+            <span class="sample" style="font-size:17px;font-weight:500;letter-spacing:normal;line-height:1.2">Meet mates</span>
+            <b>--t-h3</b><code>17px</code><span></span>
+          </li>
+          <li>
+            <span class="sample" style="font-size:16px;font-weight:500;letter-spacing:normal;line-height:1.2">Meet mates</span>
+            <b>--t-body</b><code>16px</code><span></span>
+          </li>
+          <li>
+            <span class="sample" style="font-size:15px;font-weight:500;letter-spacing:normal;line-height:1.2">Meet mates</span>
+            <b>--t-body-sm</b><code>15px</code><span></span>
+          </li>
+          <li>
+            <span class="sample" style="font-size:13px;font-weight:500;letter-spacing:normal;line-height:1.2">Meet mates</span>
+            <b>--t-caption</b><code>13px</code><span></span>
+          </li>
+          <li>
+            <span class="sample" style="font-size:12px;font-weight:500;letter-spacing:normal;line-height:1.2">Meet mates</span>
+            <b>--t-micro</b><code>12px</code><span>бейджи, счётчики — не меньше 12px</span>
+          </li>
+          </ul>
+        </div>
+
+        <details class="src">
+          <summary>Контраст — 19 пар, порог 4.5:1 для текста и 3:1 для иконок</summary>
+<blockquote><p>Сгенерировано <code>node scripts/contrast.mjs</code> из <code>tokens/tokens.css</code>. Руками не править. Порог: текст 4.5:1, иконки 3:1. Стекло — только меню: слой <code>--glass</code> поверх <code>--bg</code>.</p></blockquote>
+<div class="tw"><table><thead><tr><th>Где</th><th>Текст</th><th>Фон</th><th>Коэффициент</th><th>Порог</th><th>Проходит</th></tr></thead><tbody>
+<tr><td>Основной текст на фоне экрана</td><td><code>--ink-900</code> #1D1D1F</td><td><code>--bg</code> #F5F5F7</td><td><strong>15.46:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Основной текст на карточке</td><td><code>--ink-900</code> #1D1D1F</td><td><code>--surface</code> #FFFFFF</td><td><strong>16.83:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Вторичный текст на фоне экрана</td><td><code>--ink-600</code> #6E6E73</td><td><code>--bg</code> #F5F5F7</td><td><strong>4.66:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Вторичный текст на карточке</td><td><code>--ink-600</code> #6E6E73</td><td><code>--surface</code> #FFFFFF</td><td><strong>5.07:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Вторичный текст в поле / чипе</td><td><code>--ink-600</code> #6E6E73</td><td><code>--surface-2</code> #F2F2F5</td><td><strong>4.54:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Текст на кнопке действия</td><td><code>--ink-on-action</code> #1D1D1F</td><td><code>--action</code> #FF5F1F</td><td><strong>5.54:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Галочка Verified на карточке</td><td><code>--verified</code> #1D1D1F</td><td><code>--surface</code> #FFFFFF</td><td><strong>16.83:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Ошибка, Report на фоне экрана</td><td><code>--danger</code> #C42D2D</td><td><code>--bg</code> #F5F5F7</td><td><strong>5.13:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Ошибка под полем на карточке</td><td><code>--danger</code> #C42D2D</td><td><code>--surface</code> #FFFFFF</td><td><strong>5.58:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Успех на фоне экрана</td><td><code>--success</code> #1E7A46</td><td><code>--bg</code> #F5F5F7</td><td><strong>4.91:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Успех под полем на карточке</td><td><code>--success</code> #1E7A46</td><td><code>--surface</code> #FFFFFF</td><td><strong>5.35:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Предупреждение на фоне экрана</td><td><code>--warn</code> #A35500</td><td><code>--bg</code> #F5F5F7</td><td><strong>5:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Текст на тёмной кнопке шапки, выбранный чип</td><td><code>--surface</code> #FFFFFF</td><td><code>--ink-900</code> #1D1D1F</td><td><strong>16.83:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Сегмент Mine на дорожке переключателя</td><td><code>--ink-900</code> #1D1D1F</td><td><code>--line</code> #E3E3E8</td><td><strong>13.16:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Подпись вкладки на стекле меню</td><td><code>--ink-600</code> #6E6E73</td><td><code>стекло (расчёт)</code> #FBFBFC</td><td><strong>4.9:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Подпись выбранной вкладки</td><td><code>--ink-900</code> #1D1D1F</td><td><code>стекло (расчёт)</code> #FDFDFD</td><td><strong>16.48:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Системные панели: адрес, сгиб</td><td><code>--ink-600</code> #6E6E73</td><td><code>--surface-2</code> #F2F2F5</td><td><strong>4.54:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Иконка, неактивная вкладка (не текст)</td><td><code>--ink-400</code> #86868B</td><td><code>--bg</code> #F5F5F7</td><td><strong>3.33:1</strong></td><td>3:1</td><td>да</td></tr>
+<tr><td>Иконка на карточке (не текст)</td><td><code>--ink-400</code> #86868B</td><td><code>--surface</code> #FFFFFF</td><td><strong>3.62:1</strong></td><td>3:1</td><td>да</td></tr>
+</tbody></table></div>
+        </details>
+      </section>
 
 <blockquote><p>Этап между вайрфреймами и дизайн-системой. Тон, палитра и форма заданы брифом (<a href="../../CLAUDE.md"><code>../CLAUDE.md</code></a> §8) и здесь не пересматриваются; этот файл решает, <strong>каким продукт выглядит</strong> внутри этих рамок. Референсы — <a href="../concept/references.md"><code>references.md</code></a>.</p></blockquote>
 
