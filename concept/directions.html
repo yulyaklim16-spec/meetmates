@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MeetMates — три направления стиля</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Azeret+Mono:wght@400;500;600&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Страница-доска: нейтральная оболочка, внутри каждой колонки — свой мир */
+:root{
+  --page:#F3F4F6; --page-ink:#16181D; --page-mute:#5A606C; --page-rule:#D9DCE2;
+  --page-font:"Onest",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--page-ink);font:400 15px/1.55 var(--page-font)}
+::selection{background:#16181D;color:#F3F4F6}
+img{display:block;max-width:100%}
+svg{display:block}
+a{color:inherit;text-underline-offset:3px}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+
+.board{max-width:1360px;margin:0 auto;padding:48px 24px 72px}
+.board-head{max-width:760px;margin-bottom:40px}
+.board-head h1{font:700 clamp(28px,3.4vw,40px)/1.1 var(--page-font);letter-spacing:-.02em;margin:0 0 14px;text-wrap:balance}
+.board-head p{margin:0 0 8px;color:var(--page-mute);max-width:68ch}
+
+.dirs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}
+@media (max-width:1100px){.dirs{grid-template-columns:1fr;max-width:560px;margin:0 auto}}
+
+.dir{border-radius:6px}
+.dir-head{padding:22px 22px 18px;background:#fff;border:1px solid var(--page-rule);border-bottom:0;border-radius:6px 6px 0 0}
+.dir-name{font:700 22px/1.2 var(--page-font);margin:0 0 6px;letter-spacing:-.01em}
+.dir-thesis{margin:0 0 12px;color:var(--page-ink)}
+.facts{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px;color:var(--page-mute)}
+.facts dt{font-weight:600;color:var(--page-ink)}
+.facts dd{margin:0}
+
+.world{padding:22px}
+.world h3{margin:0 0 10px;font:600 12.5px/1.3 var(--page-font);letter-spacing:.02em;text-transform:none}
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px}
+.sw{display:flex;flex-direction:column;gap:6px;font-size:12px;line-height:1.25}
+.sw i{display:block;height:44px;border-radius:var(--sw-r,3px);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.sw b{font-weight:600}
+.sw code{font:500 11.5px/1 ui-monospace,Menlo,Consolas,monospace;opacity:.8}
+
+.type-pair{margin-bottom:22px}
+.type-pair .disp{margin:0 0 4px}
+.type-pair .body{margin:0;font-size:14px}
+.type-pair small{display:block;margin-top:6px;font-size:12px;opacity:.75}
+
+.phone{width:100%;max-width:380px;margin:0 auto 22px;padding:14px;border-radius:var(--phone-r,18px);background:var(--phone-bg)}
+
+.icons-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.icons-row svg{width:26px;height:26px}
+.icons-cap{font-size:12px;opacity:.75;margin:0 0 20px}
+
+.verdicts{border-top:1px solid var(--world-rule);padding-top:14px;font-size:13px;line-height:1.5}
+.verdicts p{margin:0 0 8px}
+.verdicts b{font-weight:700}
+
+/* ───────────── A. Смальта ───────────── */
+.a{--grout:#E9ECF0;--tile:#FFFFFF;--ink:#14161B;--ink-2:#4A4F5A;--ultra:#2338B8;--turq:#0A7F7C;--mustard:#E3A82B;--coral:#D63A2F;--world-rule:#CDD2DA;
+  --phone-bg:var(--grout);--phone-r:10px}
+.a .world{background:var(--grout);color:var(--ink);font-family:"Manrope",sans-serif}
+.a .disp{font:600 26px/1.1 "Unbounded",sans-serif;letter-spacing:-.01em}
+.a .sw i{--sw-r:2px}
+.a-screen-title{font:600 21px/1.15 "Unbounded",sans-serif;margin:4px 2px 12px;letter-spacing:-.01em}
+.a-card{background:var(--tile);border-radius:6px;overflow:hidden;box-shadow:0 1px 2px rgba(20,22,27,.06),0 6px 16px -8px rgba(35,56,184,.22)}
+.a-row{display:grid;grid-template-columns:104px 1fr;gap:0}
+.a-cover{position:relative}
+.a-cover img{width:104px;height:100%;min-height:148px;object-fit:cover}
+.a-strip{display:grid;grid-template-columns:repeat(13,1fr);gap:2px;padding:2px;background:var(--grout)}
+.a-strip span{height:7px;border-radius:1px}
+.a-body{padding:12px 12px 10px 14px;display:flex;flex-direction:column;gap:6px}
+.a-title{font:700 15.5px/1.25 "Manrope",sans-serif;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.a-meta{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-2);margin:0}
+.a-meta svg{width:17px;height:17px;color:var(--ultra);flex:none}
+.a-tiles{display:flex;gap:3px;align-items:center;margin-top:2px}
+.a-tiles i{width:18px;height:18px;border-radius:2px;display:grid;place-items:center;font:700 9px/1 "Manrope";color:#fff;font-style:normal}
+.a-tiles .on{background:var(--ultra)}
+.a-tiles .on.t2{background:var(--turq)}
+.a-tiles .off{box-shadow:inset 0 0 0 1.5px var(--ink-2);opacity:.55}
+.a-tiles em{font-style:normal;font-size:12.5px;color:var(--ink-2);margin-left:6px}
+.a-verified{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:var(--turq)}
+.a-verified svg{width:16px;height:16px}
+.a-btn{display:flex;width:100%;justify-content:center;align-items:center;gap:8px;min-height:46px;border:0;border-radius:4px;background:var(--ultra);color:#fff;font:700 15px/1 "Manrope";cursor:pointer;margin:0;transition:background .2s ease-out}
+.a-btn:hover{background:#1A2B96}
+.a-actions{padding:0 10px 10px}
+.a-profile{margin-top:12px;background:var(--tile);border-radius:6px;padding:12px;display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center}
+.a-ava{position:relative;width:64px;height:64px}
+.a-ava img{width:64px;height:64px;border-radius:4px;object-fit:cover}
+.a-ava .badge{position:absolute;right:-5px;bottom:-5px;width:24px;height:24px;border-radius:3px;background:var(--turq);color:#fff;display:grid;place-items:center;box-shadow:0 0 0 2px var(--tile)}
+.a-ava .badge svg{width:16px;height:16px}
+.a-name{font:600 15px/1.2 "Unbounded";margin:0 0 4px}
+.a-fact{display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--ink-2);margin:2px 0 0}
+.a-fact svg{width:15px;height:15px;color:var(--ultra)}
+.a .icons-row svg{color:var(--ultra)}
+.a-report{display:flex;justify-content:flex-end;margin:22px 2px 0}
+.a-report button{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;border:1.5px solid var(--coral);border-radius:4px;background:transparent;color:var(--coral);font:700 13.5px/1 "Manrope";cursor:pointer}
+.a-report svg{width:17px;height:17px}
+.a .verdicts{color:var(--ink)}
+
+/* ───────────── B. Корешок ───────────── */
+.b{--desk:#E6EAF0;--coupon:#FFFFFF;--navy:#13203A;--navy-2:#4C5A73;--rule:#C3CCDA;--carbon:#4A3A8C;--void:#C8102E;--world-rule:#C3CCDA;
+  --phone-bg:var(--desk);--phone-r:4px}
+.b .world{background:var(--desk);color:var(--navy);font-family:"Schibsted Grotesk",sans-serif}
+.b .disp{font:800 25px/1.05 "Schibsted Grotesk",sans-serif;text-transform:uppercase;letter-spacing:.01em}
+.b .mono{font-family:"Azeret Mono",monospace}
+.b .sw i{--sw-r:0}
+.b-screen-title{display:flex;justify-content:space-between;align-items:baseline;margin:4px 2px 12px;font:800 18px/1 "Schibsted Grotesk";text-transform:uppercase;letter-spacing:.02em}
+.b-screen-title span{font:500 12px/1 "Azeret Mono";letter-spacing:0;text-transform:none;color:var(--navy-2)}
+.b-ticket{position:relative;background:var(--coupon);display:grid;grid-template-columns:104px 1fr;box-shadow:0 1px 0 rgba(19,32,58,.08),0 8px 18px -10px rgba(19,32,58,.35)}
+.b-ticket::before,.b-ticket::after{content:"";position:absolute;left:96px;width:16px;height:16px;border-radius:50%;background:var(--desk)}
+.b-ticket::before{top:-8px}.b-ticket::after{bottom:-8px}
+.b-stub img{width:104px;height:100%;min-height:170px;object-fit:cover;filter:saturate(.9)}
+.b-body{border-left:2px dashed var(--rule);padding:10px 12px 12px}
+.b-title{margin:0 0 8px;font:700 15.5px/1.22 "Schibsted Grotesk";display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.b-fields{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--rule)}
+.b-f{padding:6px 0 6px;border-bottom:1px solid var(--rule)}
+.b-f.l{padding-right:8px;border-right:1px solid var(--rule)}
+.b-f.r{padding-left:8px}
+.b-f small{display:flex;align-items:center;gap:4px;font:600 11px/1 "Schibsted Grotesk";letter-spacing:.08em;text-transform:uppercase;color:var(--navy-2);margin-bottom:4px}
+.b-f small svg{width:12px;height:12px}
+.b-f span{font:500 12px/1.25 "Azeret Mono";letter-spacing:-.02em;color:var(--carbon)}
+.b-f.wide{grid-column:1/-1;padding-right:0;border-right:0}
+.b-foot{display:flex;justify-content:space-between;align-items:center;margin-top:9px}
+.b-stamp{display:inline-flex;align-items:center;gap:4px;padding:3px 6px;border:1.5px solid var(--carbon);color:var(--carbon);font:700 11.5px/1 "Schibsted Grotesk";letter-spacing:.1em;text-transform:uppercase;transform:rotate(-3deg)}
+.b-stamp svg{width:13px;height:13px}
+.b-no{font:500 12px/1 "Azeret Mono";color:var(--navy-2)}
+.b-btn{display:flex;width:100%;justify-content:space-between;align-items:center;min-height:46px;padding:0 14px;border:0;border-radius:0;background:var(--navy);color:#fff;font:700 14px/1 "Schibsted Grotesk";letter-spacing:.06em;text-transform:uppercase;cursor:pointer;margin-top:10px;transition:background .2s ease-out}
+.b-btn:hover{background:#0A1426}
+.b-btn svg{width:18px;height:18px}
+.b-pass{margin-top:14px;background:var(--coupon);display:grid;grid-template-columns:68px 1fr;gap:12px;padding:12px;align-items:center;box-shadow:0 1px 0 rgba(19,32,58,.08)}
+.b-pass img{width:68px;height:68px;object-fit:cover;filter:grayscale(.15)}
+.b-pass-name{display:flex;align-items:center;gap:8px;font:800 15px/1 "Schibsted Grotesk";text-transform:uppercase;letter-spacing:.03em;margin:0 0 8px}
+.b-pass-grid{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12px}
+.b-pass-grid dt{font:600 11px/1.4 "Schibsted Grotesk";letter-spacing:.08em;text-transform:uppercase;color:var(--navy-2)}
+.b-pass-grid dd{margin:0;font:500 12px/1.3 "Azeret Mono";color:var(--carbon)}
+.b .icons-row svg{color:var(--navy)}
+
+/* ───────────── C. Линия ───────────── */
+.c{--board:#0E1520;--panel:#172131;--hair:#2A3547;--text:#F2F5F8;--mute:#A3AEBF;--red:#E5463F;--blue:#3D8EF0;--green:#2FB36B;--world-rule:#2A3547;
+  --phone-bg:#0A1019;--phone-r:28px}
+.c .world{background:var(--board);color:var(--text);font-family:"Barlow",sans-serif}
+.c .disp{font:700 30px/1 "Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.02em}
+.c .sw i{--sw-r:999px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.c-screen-title{display:flex;align-items:center;gap:10px;margin:6px 4px 14px;font:700 24px/1 "Barlow Condensed";text-transform:uppercase;letter-spacing:.03em}
+.c-screen-title i{display:flex;gap:4px}
+.c-screen-title i b{width:10px;height:10px;border-radius:50%}
+.c-card{background:var(--panel);border-radius:16px;overflow:hidden}
+.c-row{display:grid;grid-template-columns:104px 20px 1fr}
+.c-row img{width:104px;height:100%;min-height:150px;object-fit:cover}
+.c-line{position:relative;display:flex;justify-content:center}
+.c-line::before{content:"";width:4px;background:var(--green);height:100%}
+.c-line i{position:absolute;top:14px;width:14px;height:14px;border-radius:50%;background:var(--panel);box-shadow:inset 0 0 0 4px var(--green)}
+.c-body{padding:12px 12px 10px 4px;display:flex;flex-direction:column;gap:6px}
+.c-title{margin:0;font:600 16px/1.22 "Barlow";display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.c-meta{display:flex;align-items:center;gap:6px;margin:0;font-size:13.5px;color:var(--mute)}
+.c-meta svg{width:17px;height:17px;color:var(--mute)}
+.c-pills{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:2px}
+.c-pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:999px;font:600 12.5px/1 "Barlow";background:var(--hair);color:var(--text)}
+.c-pill.v{background:rgba(47,179,107,.16);color:#7FE0A8}
+.c-pill svg{width:15px;height:15px}
+.c-actions{padding:0 12px 12px}
+.c-btn{display:flex;width:100%;justify-content:center;align-items:center;gap:8px;min-height:48px;border:0;border-radius:999px;background:var(--text);color:var(--board);font:700 17px/1 "Barlow Condensed";letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:transform .2s ease-out,background .2s ease-out}
+.c-btn:hover{background:#fff;transform:translateY(-1px)}
+.c-btn svg{width:18px;height:18px}
+.c-profile{margin-top:12px;background:var(--panel);border-radius:16px;padding:14px;display:grid;grid-template-columns:66px 1fr;gap:14px;align-items:center}
+.c-ava{position:relative;width:66px;height:66px}
+.c-ava img{width:66px;height:66px;border-radius:50%;object-fit:cover;padding:3px;background:var(--panel);border:3px solid var(--green)}
+.c-ava .badge{position:absolute;right:-6px;bottom:-4px;width:24px;height:24px;border-radius:50%;background:var(--green);color:var(--board);display:grid;place-items:center;box-shadow:0 0 0 3px var(--panel)}
+.c-ava .badge svg{width:15px;height:15px}
+.c-name{margin:0 0 6px;font:700 19px/1 "Barlow Condensed";text-transform:uppercase;letter-spacing:.04em}
+.c-fact{display:flex;align-items:center;gap:6px;margin:3px 0 0;font-size:13px;color:var(--mute)}
+.c-fact svg{width:15px;height:15px}
+.c .icons-row svg{color:var(--text)}
+.c .verdicts{color:var(--text)}
+.c a{color:#BFD6FF}
+
+/* ───────────── нижние ряды ───────────── */
+.below{margin-top:44px;display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:start}
+@media (max-width:1100px){.below{grid-template-columns:1fr;max-width:560px;margin-left:auto;margin-right:auto}}
+.panel{background:#fff;border:1px solid var(--page-rule);border-radius:6px;padding:20px 22px}
+.panel h2{margin:0 0 12px;font:700 18px/1.25 var(--page-font)}
+.declined{list-style:none;margin:0;padding:0;font-size:13.5px}
+.declined li{padding:10px 0;border-top:1px solid var(--page-rule);display:grid;grid-template-columns:150px 1fr;gap:12px}
+.declined li:first-child{border-top:0;padding-top:0}
+.declined b{font-weight:600}
+.declined span{color:var(--page-mute)}
+.canon-chip{display:flex;gap:6px;margin:6px 0 12px}
+.canon-chip i{width:36px;height:24px;border-radius:999px}
+.panel p{margin:0 0 8px;font-size:14px}
+.panel .mute{color:var(--page-mute)}
+.foot{margin-top:28px;font-size:12.5px;color:var(--page-mute);max-width:90ch}
+
+@media (max-width:420px){
+  .board{padding:28px 16px 56px}
+  .world{padding:16px}
+  .swatches{grid-template-columns:repeat(2,1fr)}
+  .phone{padding:10px}
+  .declined li{grid-template-columns:1fr;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="board">
+  <header class="board-head">
+    <h1>MeetMates: три направления стиля</h1>
+    <p>Три разных мира, а не оттенки одного. Каждый показан на одних и тех же вещах: палитра, пара шрифтов, карточка события из ленты с реальным фото, кнопка, отметка проверки и иконки Solar. Внизу — варианты, которые отсеяны, и почему.</p>
+    <p>Фото — Unsplash, демонстрационные; имена и события придуманы для макета. Интерфейс по-английски, как в брифе.</p>
+  </header>
+
+  <section class="dirs">
+
+    <!-- ═════════ A ═════════ -->
+    <article class="dir a" aria-labelledby="a-h">
+      <div class="dir-head">
+        <h2 class="dir-name" id="a-h">A. Смальта</h2>
+        <p class="dir-thesis">Компания складывается из людей, как киевская мозаика из смальты: каждый участник — плитка, свободное место — пустая клетка.</p>
+        <dl class="facts">
+          <dt>Мир</dt><dd>модернистские мозаики Киева 1960–80-х: остановки, школы, торцы домов</dd>
+          <dt>Сцена</dt><dd>суббота днём, решает в метро или в кафе — светлый</dd>
+          <dt>Цвет</dt><dd>полная палитра: четыре цвета смальты на холодном шве</dd>
+          <dt>Форма</dt><dd>квадратная плитка, радиус 2–6px</dd>
+        </dl>
+      </div>
+      <div class="world">
+        <h3>Палитра</h3>
+        <div class="swatches">
+          <div class="sw"><i style="background:#E9ECF0"></i><b>Шов</b><code>#E9ECF0</code></div>
+          <div class="sw"><i style="background:#FFFFFF"></i><b>Плитка</b><code>#FFFFFF</code></div>
+          <div class="sw"><i style="background:#14161B"></i><b>Текст</b><code>#14161B</code></div>
+          <div class="sw"><i style="background:#2338B8"></i><b>Ультрамарин</b><code>#2338B8</code></div>
+          <div class="sw"><i style="background:#0A7F7C"></i><b>Бирюза · Verified</b><code>#0A7F7C</code></div>
+          <div class="sw"><i style="background:#E3A82B"></i><b>Горчица</b><code>#E3A82B</code></div>
+          <div class="sw"><i style="background:#D63A2F"></i><b>Коралл · Report</b><code>#D63A2F</code></div>
+          <div class="sw"><i style="background:#4A4F5A"></i><b>Текст 2</b><code>#4A4F5A</code></div>
+        </div>
+
+        <h3>Шрифты</h3>
+        <div class="type-pair">
+          <p class="disp">Board games?</p>
+          <p class="body">Manrope для текста: «2 going · 2 spots left», расстояние, время.</p>
+          <small>Unbounded 600 — заголовки · Manrope 400–700 — интерфейс</small>
+        </div>
+
+        <h3>Лента и профиль</h3>
+        <div class="phone">
+          <p class="a-screen-title">Events nearby</p>
+          <div class="a-card">
+            <div class="a-row">
+              <div class="a-cover">
+                <img src="https://images.unsplash.com/photo-1715860738421-b30b98f8614f?w=320&h=480&fit=crop&q=75&auto=format" alt="Компания за настольной игрой во дворе кафе" width="104" height="148" loading="lazy">
+              </div>
+              <div class="a-body">
+                <p class="a-title">Board games in a Podil courtyard?</p>
+                <p class="a-meta"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M7 16C7.55228 16 8 16.4477 8 17C8 17.5523 7.55228 18 7 18C6.44772 18 6 17.5523 6 17C6 16.4477 6.44772 16 7 16Z"/><path d="M12 16C12.5523 16 13 16.4477 13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16Z"/><path d="M17 16C17.5523 16 18 16.4477 18 17C18 17.5523 17.5523 18 17 18C16.4477 18 16 17.5523 16 17C16 16.4477 16.4477 16 17 16Z"/><path d="M7 12C7.55228 12 8 12.4477 8 13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13C6 12.4477 6.44772 12 7 12Z"/><path d="M12 12C12.5523 12 13 12.4477 13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12Z"/><path d="M17 12C17.5523 12 18 12.4477 18 13C18 13.5523 17.5523 14 17 14C16.4477 14 16 13.5523 16 13C16 12.4477 16.4477 12 17 12Z"/><path d="M16.9805 2C17.3961 2.00025 17.7334 2.32483 17.7334 2.72461V4.24902C19.1781 4.36032 20.1264 4.63361 20.8232 5.30371C21.5201 5.97389 21.8042 6.88597 21.9199 8.27539L22 9H2V8.27539C2.11574 6.88599 2.39984 5.97389 3.09668 5.30371C3.79363 4.63345 4.74245 4.3603 6.1875 4.24902V2.72461C6.1875 2.32468 6.52457 2 6.94043 2C7.35622 2.00008 7.69336 2.32473 7.69336 2.72461V4.18457C8.36123 4.17212 9.10985 4.17285 9.95215 4.17285H13.9678C14.8099 4.17285 15.5588 4.17212 16.2266 4.18457V2.72461C16.2266 2.32468 16.5646 2 16.9805 2Z"/><path d="M21.9995 14.0001V12.0001C21.9995 11.161 21.9963 9.66527 21.9834 9H2.00917C1.99626 9.66527 1.99953 11.161 1.99953 12.0001V14.0001C1.99953 17.7713 1.99953 19.6569 3.1711 20.8285C4.34267 22.0001 6.22829 22.0001 9.99953 22.0001H13.9995C17.7708 22.0001 19.6564 22.0001 20.828 20.8285C21.9995 19.6569 21.9995 17.7713 21.9995 14.0001Z" opacity=".5"/></g></svg>Sat 12 Oct · 16:00</p>
+                <p class="a-meta"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2Z" opacity=".5"/><path d="M12 12.5C13.3807 12.5 14.5 11.3807 14.5 10C14.5 8.61929 13.3807 7.5 12 7.5C10.6193 7.5 9.5 8.61929 9.5 10C9.5 11.3807 10.6193 12.5 12 12.5Z"/></g></svg>Podil · ~2 km · Free</p>
+                <div class="a-tiles" aria-label="2 going, 2 spots left">
+                  <i class="on">O</i><i class="on t2">M</i><i class="off"></i><i class="off"></i><em>2 spots left</em>
+                </div>
+                <span class="a-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.59236 3.20031C9.34886 3.40782 9.2271 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522L7.48007 4.07523C6.67869 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.67869 4.07523 7.48007L4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.2271 3.40781 9.34887 3.20028 9.59239L3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076L3.20031 14.4076C3.4078 14.6511 3.51159 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199L4.07523 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.27799 19.8288 6.67867 19.8608 7.48 19.9248L7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248L16.52 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.52L19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008L19.9248 7.48C19.8608 6.67867 19.8288 6.27799 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07523L16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027L9.59236 3.20031Z" opacity=".5"/><path d="M16.3736 9.86298C16.6914 9.54515 16.6914 9.02984 16.3736 8.71201C16.0557 8.39417 15.5404 8.39417 15.2226 8.71201L10.3723 13.5623L8.77753 11.9674C8.4597 11.6496 7.94439 11.6496 7.62656 11.9674C7.30873 12.2853 7.30873 12.8006 7.62656 13.1184L9.79685 15.2887C10.1147 15.6065 10.63 15.6065 10.9478 15.2887L16.3736 9.86298Z"/></g></svg>Verified</span>
+              </div>
+            </div>
+            <div class="a-strip" aria-hidden="true">
+              <span style="background:#2338B8"></span><span style="background:#2338B8"></span><span style="background:#0A7F7C"></span><span style="background:#E3A82B"></span><span style="background:#2338B8"></span><span style="background:#D63A2F"></span><span style="background:#0A7F7C"></span><span style="background:#2338B8"></span><span style="background:#E3A82B"></span><span style="background:#0A7F7C"></span><span style="background:#2338B8"></span><span style="background:#D63A2F"></span><span style="background:#2338B8"></span>
+            </div>
+            <div class="a-actions" style="padding-top:10px">
+              <button class="a-btn" type="button">Ask to join</button>
+            </div>
+          </div>
+          <div class="a-profile">
+            <div class="a-ava">
+              <img src="https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?w=240&h=240&fit=crop&crop=faces&q=75&auto=format" alt="Портрет: улыбающаяся женщина с кудрявыми волосами" width="64" height="64" loading="lazy">
+              <span class="badge" title="Verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg></span>
+            </div>
+            <div>
+              <p class="a-name">Olena, 26</p>
+              <p class="a-fact"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><g opacity=".5"><path d="M16 14C18.7614 14 21 15.3431 21 17C21 18.6569 18.7614 20 16 20C13.2386 20 11 18.6569 11 17C11 15.3431 13.2386 14 16 14Z"/><path d="M15 3C16.6569 3 18 4.34315 18 6C18 7.65685 16.6569 9 15 9C13.3431 9 12 7.65685 12 6C12 4.34315 13.3431 3 15 3Z"/></g><path d="M9.00098 13.001C12.867 13.001 16.001 14.7918 16.001 17.001C16.001 19.2101 12.867 21.001 9.00098 21.001C5.13498 21.001 2.00098 19.2101 2.00098 17.001C2.00098 14.7918 5.13498 13.001 9.00098 13.001Z"/><path d="M9.00098 2C11.2101 2 13.001 3.79086 13.001 6C13.001 8.20914 11.2101 10 9.00098 10C6.79184 10 5.00098 8.20914 5.00098 6C5.00098 3.79086 6.79184 2 9.00098 2Z"/></g></svg>6 meetups attended</p>
+              <p class="a-fact"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 13.7596 1.41318 15.4228 2.14781 16.8977C2.34303 17.2897 2.40801 17.7377 2.29483 18.1607L1.63966 20.6093C1.35525 21.6723 2.32772 22.6447 3.39068 22.3603L5.83932 21.7052C6.26233 21.592 6.71033 21.657 7.10228 21.8522C8.5772 22.5868 10.2404 23 12 23Z" opacity=".5"/><path d="M10.9 12.0004C10.9 12.6079 11.3925 13.1004 12 13.1004C12.6075 13.1004 13.1 12.6079 13.1 12.0004C13.1 11.3929 12.6075 10.9004 12 10.9004C11.3925 10.9004 10.9 11.3929 10.9 12.0004Z"/><path d="M6.5 12.0004C6.5 12.6079 6.99249 13.1004 7.6 13.1004C8.20751 13.1004 8.7 12.6079 8.7 12.0004C8.7 11.3929 8.20751 10.9004 7.6 10.9004C6.99249 10.9004 6.5 11.3929 6.5 12.0004Z"/><path d="M15.3 12.0004C15.3 12.6079 15.7925 13.1004 16.4 13.1004C17.0075 13.1004 17.5 12.6079 17.5 12.0004C17.5 11.3929 17.0075 10.9004 16.4 10.9004C15.7925 10.9004 15.3 11.3929 15.3 12.0004Z"/></g></svg>Replies quickly</p>
+            </div>
+          </div>
+          <div class="a-report"><button type="button"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path fill-rule="evenodd" d="M6.5 1.75C6.5 1.33579 6.16421 1 5.75 1C5.33579 1 5 1.33579 5 1.75V21.75C5 22.1642 5.33579 22.5 5.75 22.5C6.16421 22.5 6.5 22.1642 6.5 21.75V13.6V3.6V1.75Z" clip-rule="evenodd" opacity=".5"/><path d="M13.3486 3.78947L13.1449 3.70801C11.5821 3.08288 9.8712 2.9258 8.22067 3.25591L6.5 3.60004V13.6L8.22067 13.2559C9.8712 12.9258 11.5821 13.0829 13.1449 13.708C14.8385 14.3854 16.7024 14.5119 18.472 14.0695L18.6864 14.0159C19.3115 13.8597 19.75 13.298 19.75 12.6538V5.28673C19.75 4.50617 19.0165 3.93343 18.2592 4.12274C16.628 4.53055 14.9097 4.41393 13.3486 3.78947Z"/></g></svg>Report or block</button></div>
+        </div>
+
+        <h3>Иконки — Solar Bold Duotone</h3>
+        <div class="icons-row"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z" opacity=".5"/><path d="M11.25 18C11.25 18.4142 11.5858 18.75 12 18.75C12.4142 18.75 12.75 18.4142 12.75 18V15C12.75 14.5858 12.4142 14.25 12 14.25C11.5858 14.25 11.25 14.5858 11.25 15V18Z"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20.313 11.157a9.157 9.157 0 1 1-18.313 0a9.157 9.157 0 0 1 18.313 0" opacity=".5"/><path fill="currentColor" d="m17.1 18.122l3.666 3.666a.723.723 0 0 0 1.023-1.022L18.122 17.1a9 9 0 0 1-1.022 1.022"/></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path fill-rule="evenodd" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8591 19.8541C13.7124 20 13.4767 20 13.0054 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8L15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14V16C14.4625 16 14.0137 16.4477 14.0137 17Z" clip-rule="evenodd"/><path d="M15.0166 15.9998C15.5703 15.9998 16.0191 16.4475 16.0191 16.9998V18.9763C16.0191 19.4578 16.0191 19.6986 16.1735 19.8462C16.3279 19.9939 16.5641 19.9839 17.0366 19.9639C18.8995 19.885 20.0441 19.633 20.8508 18.8282C21.6595 18.0216 21.9114 16.8764 21.9898 15.0104C22.0054 14.6403 22.0132 14.4552 21.9441 14.3318C21.875 14.2083 21.5991 14.0543 21.0473 13.7462C20.4346 13.404 20.0203 12.7501 20.0203 11.9998C20.0203 11.2495 20.4346 10.5957 21.0473 10.2535C21.5991 9.94536 21.875 9.7913 21.9441 9.66785C22.0132 9.5444 22.0054 9.35936 21.9898 8.98929C21.9114 7.12321 21.6595 5.97805 20.8508 5.17139C19.9731 4.29586 18.6956 4.07463 16.5282 4.01872C16.2486 4.01151 16.0191 4.237 16.0191 4.516V6.99982C16.0191 7.55211 15.5703 7.99982 15.0166 7.99982L15.0166 9.99982C15.5703 9.99982 16.0191 10.4475 16.0191 10.9998V12.9998C16.0191 13.5521 15.5703 13.9998 15.0166 13.9998V15.9998Z" opacity=".5"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 13.7596 1.41318 15.4228 2.14781 16.8977C2.34303 17.2897 2.40801 17.7377 2.29483 18.1607L1.63966 20.6093C1.35525 21.6723 2.32772 22.6447 3.39068 22.3603L5.83932 21.7052C6.26233 21.592 6.71033 21.657 7.10228 21.8522C8.5772 22.5868 10.2404 23 12 23Z" opacity=".5"/><path d="M10.9 12.0004C10.9 12.6079 11.3925 13.1004 12 13.1004C12.6075 13.1004 13.1 12.6079 13.1 12.0004C13.1 11.3929 12.6075 10.9004 12 10.9004C11.3925 10.9004 10.9 11.3929 10.9 12.0004Z"/><path d="M6.5 12.0004C6.5 12.6079 6.99249 13.1004 7.6 13.1004C8.20751 13.1004 8.7 12.6079 8.7 12.0004C8.7 11.3929 8.20751 10.9004 7.6 10.9004C6.99249 10.9004 6.5 11.3929 6.5 12.0004Z"/><path d="M15.3 12.0004C15.3 12.6079 15.7925 13.1004 16.4 13.1004C17.0075 13.1004 17.5 12.6079 17.5 12.0004C17.5 11.3929 17.0075 10.9004 16.4 10.9004C15.7925 10.9004 15.3 11.3929 15.3 12.0004Z"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" opacity=".5" rx="7" ry="4"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2Z" opacity=".5"/><path d="M12 12.5C13.3807 12.5 14.5 11.3807 14.5 10C14.5 8.61929 13.3807 7.5 12 7.5C10.6193 7.5 9.5 8.61929 9.5 10C9.5 11.3807 10.6193 12.5 12 12.5Z"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path fill-rule="evenodd" d="M6.5 1.75C6.5 1.33579 6.16421 1 5.75 1C5.33579 1 5 1.33579 5 1.75V21.75C5 22.1642 5.33579 22.5 5.75 22.5C6.16421 22.5 6.5 22.1642 6.5 21.75V13.6V3.6V1.75Z" clip-rule="evenodd" opacity=".5"/><path d="M13.3486 3.78947L13.1449 3.70801C11.5821 3.08288 9.8712 2.9258 8.22067 3.25591L6.5 3.60004V13.6L8.22067 13.2559C9.8712 12.9258 11.5821 13.0829 13.1449 13.708C14.8385 14.3854 16.7024 14.5119 18.472 14.0695L18.6864 14.0159C19.3115 13.8597 19.75 13.298 19.75 12.6538V5.28673C19.75 4.50617 19.0165 3.93343 18.2592 4.12274C16.628 4.53055 14.9097 4.41393 13.3486 3.78947Z"/></g></svg></div>
+        <p class="icons-cap">Двухтонные — как плитка с тенью шва.</p>
+
+        <div class="verdicts">
+          <p><b>Угадывается по теме?</b> Нет. Тема «найти компанию» подсказывает фиолетово-розовый градиент и фото на всю карточку. Здесь — холодный шов и четыре цвета смальты.</p>
+          <p><b>Риск:</b> четыре цвета легко превращаются в пестроту. Держится правилом: ультрамарин — только действие, бирюза — только проверка, горчица и коралл — только в полосе плиток и Report.</p>
+          <p><b>Поднято из отсеянных:</b> у «Тёмной консоли» взято правило изоляции — Report и Block стоят отдельно, с пустым местом вокруг. У «Расписания» — одна непрозрачная плашка на экран: залита только кнопка.</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- ═════════ B ═════════ -->
+    <article class="dir b" aria-labelledby="b-h">
+      <div class="dir-head">
+        <h2 class="dir-name" id="b-h">B. Корешок</h2>
+        <p class="dir-thesis">Событие — это билет: места отрываются, статус штампуется, ничего не исчезает молча. <code>going</code> → <code>confirmed</code> читается как отметка на купоне.</p>
+        <dl class="facts">
+          <dt>Мир</dt><dd>бумажный билет: корешок, перфорация, поля в линейку, копирка</dd>
+          <dt>Сцена</dt><dd>вечер дома, «идти ли» решает заранее и спокойно — светлый</dd>
+          <dt>Цвет</dt><dd>сдержанный: тёмно-синий и чернила копирки, красный — только отмена</dd>
+          <dt>Форма</dt><dd>прямые углы, вырезы и пунктир перфорации</dd>
+        </dl>
+      </div>
+      <div class="world">
+        <h3>Палитра</h3>
+        <div class="swatches">
+          <div class="sw"><i style="background:#E6EAF0"></i><b>Стол</b><code>#E6EAF0</code></div>
+          <div class="sw"><i style="background:#FFFFFF"></i><b>Купон</b><code>#FFFFFF</code></div>
+          <div class="sw"><i style="background:#13203A"></i><b>Тёмно-синий</b><code>#13203A</code></div>
+          <div class="sw"><i style="background:#4C5A73"></i><b>Подписи</b><code>#4C5A73</code></div>
+          <div class="sw"><i style="background:#4A3A8C"></i><b>Копирка · Verified</b><code>#4A3A8C</code></div>
+          <div class="sw"><i style="background:#C3CCDA"></i><b>Линейка</b><code>#C3CCDA</code></div>
+          <div class="sw"><i style="background:#C8102E"></i><b>Отмена · Report</b><code>#C8102E</code></div>
+          <div class="sw" aria-hidden="true"></div>
+        </div>
+
+        <h3>Шрифты</h3>
+        <div class="type-pair">
+          <p class="disp">Evening run</p>
+          <p class="body">Schibsted Grotesk для текста, <span class="mono">Azeret Mono</span> — только для цифр: дата, время, километры, места.</p>
+          <small>Schibsted Grotesk 400–800 · Azeret Mono 500 для данных</small>
+        </div>
+
+        <h3>Лента и профиль</h3>
+        <div class="phone">
+          <p class="b-screen-title">Events nearby <span>12 open</span></p>
+          <div class="b-ticket">
+            <div class="b-stub"><img src="https://images.unsplash.com/photo-1739368732843-800f36a9b7d0?w=320&h=480&fit=crop&q=75&auto=format" alt="Группа бегунов на набережной вдоль реки на закате" width="104" height="170" loading="lazy"></div>
+            <div class="b-body">
+              <p class="b-title">Evening run along the embankment?</p>
+              <div class="b-fields">
+                <div class="b-f wide"><small><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"/><path d="M7 4V2.5"/><path d="M17 4V2.5"/><path d="M2.5 9H21.5"/><path stroke-linejoin="round" d="M17 13H17.0001"/><path stroke-linejoin="round" d="M12 13H12.0001"/><path stroke-linejoin="round" d="M7 13H7.0001"/><path stroke-linejoin="round" d="M17 17.0234H17.0001"/><path stroke-linejoin="round" d="M12 17.0234H12.0001"/><path stroke-linejoin="round" d="M7 17.0234H7.0001"/></g></svg>When</small><span>Thu 10 Oct · 19:30</span></div>
+                <div class="b-f l"><small><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C6.55332 19.8124 4 14.6055 4 10.1433Z"/><circle cx="12" cy="10" r="3"/></g></svg>Where</small><span>Obolon ~3 km</span></div>
+                <div class="b-f r"><small><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg>Price</small><span>Free</span></div>
+                <div class="b-f wide"><small><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="9" cy="6" r="4"/><path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"/><ellipse cx="9" cy="17" rx="7" ry="4"/><path d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"/></g></svg>Spots</small><span>1 going · 1 spot left</span></div>
+              </div>
+              <div class="b-foot">
+                <span class="b-stamp"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M9.78133 3.89027C10.3452 3.40974 10.6271 3.16948 10.9219 3.02859C11.6037 2.70271 12.3963 2.70271 13.0781 3.02859C13.3729 3.16948 13.6548 3.40974 14.2187 3.89027C14.4431 4.08152 14.5553 4.17715 14.6752 4.25747C14.9499 4.4416 15.2584 4.56939 15.5828 4.63344C15.7244 4.66139 15.8713 4.67312 16.1653 4.69657C16.9038 4.7555 17.273 4.78497 17.5811 4.89378C18.2936 5.14546 18.8541 5.70591 19.1058 6.41844C19.2146 6.72651 19.244 7.09576 19.303 7.83426C19.3264 8.12819 19.3381 8.27515 19.3661 8.41669C19.4301 8.74114 19.5579 9.04965 19.7421 9.32437C19.8224 9.44421 19.918 9.55642 20.1093 9.78084C20.5898 10.3447 20.8301 10.6267 20.971 10.9214C21.2968 11.6032 21.2968 12.3958 20.971 13.0776C20.8301 13.3724 20.5898 13.6543 20.1093 14.2182C19.918 14.4426 19.8224 14.5548 19.7421 14.6747C19.5579 14.9494 19.4301 15.2579 19.3661 15.5824C19.3381 15.7239 19.3264 15.8709 19.303 16.1648C19.244 16.9033 19.2146 17.2725 19.1058 17.5806C18.8541 18.2931 18.2936 18.8536 17.5811 19.1053C17.273 19.2141 16.9038 19.2435 16.1653 19.3025C15.8713 19.3259 15.7244 19.3377 15.5828 19.3656C15.2584 19.4297 14.9499 19.5574 14.6752 19.7416C14.5553 19.8219 14.4431 19.9175 14.2187 20.1088C13.6548 20.5893 13.3729 20.8296 13.0781 20.9705C12.3963 21.2963 11.6037 21.2963 10.9219 20.9705C10.6271 20.8296 10.3452 20.5893 9.78133 20.1088C9.55691 19.9175 9.44469 19.8219 9.32485 19.7416C9.05014 19.5574 8.74163 19.4297 8.41718 19.3656C8.27564 19.3377 8.12868 19.3259 7.83475 19.3025C7.09625 19.2435 6.72699 19.2141 6.41893 19.1053C5.7064 18.8536 5.14594 18.2931 4.89427 17.5806C4.78546 17.2725 4.75599 16.9033 4.69706 16.1648C4.6736 15.8709 4.66188 15.7239 4.63393 15.5824C4.56988 15.2579 4.44209 14.9494 4.25796 14.6747C4.17764 14.5548 4.08201 14.4426 3.89076 14.2182C3.41023 13.6543 3.16997 13.3724 3.02907 13.0776C2.7032 12.3958 2.7032 11.6032 3.02907 10.9214C3.16997 10.6266 3.41023 10.3447 3.89076 9.78084C4.08201 9.55642 4.17764 9.44421 4.25796 9.32437C4.44209 9.04965 4.56988 8.74114 4.63393 8.41669C4.66188 8.27515 4.6736 8.12819 4.69706 7.83426C4.75599 7.09576 4.78546 6.72651 4.89427 6.41844C5.14594 5.70591 5.7064 5.14546 6.41893 4.89378C6.72699 4.78497 7.09625 4.7555 7.83475 4.69657C8.12868 4.67312 8.27564 4.66139 8.41718 4.63344C8.74163 4.56939 9.05014 4.4416 9.32485 4.25747C9.4447 4.17715 9.55691 4.08152 9.78133 3.89027Z"/><path stroke-linejoin="round" d="M8.5 12.5L10.5 14.5L15.5 9.5"/></g></svg>Verified</span>
+                <span class="b-no">+1</span>
+              </div>
+            </div>
+          </div>
+          <button class="b-btn" type="button">Ask to join <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12H20M14 18L20 12L14 6"/></svg></button>
+          <div class="b-pass">
+            <img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=240&h=240&fit=crop&crop=faces&q=75&auto=format" alt="Портрет: женщина в очках на фоне здания" width="68" height="68" loading="lazy">
+            <div>
+              <p class="b-pass-name">Iryna, 29 <span class="b-stamp"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M9.78133 3.89027C10.3452 3.40974 10.6271 3.16948 10.9219 3.02859C11.6037 2.70271 12.3963 2.70271 13.0781 3.02859C13.3729 3.16948 13.6548 3.40974 14.2187 3.89027C14.4431 4.08152 14.5553 4.17715 14.6752 4.25747C14.9499 4.4416 15.2584 4.56939 15.5828 4.63344C15.7244 4.66139 15.8713 4.67312 16.1653 4.69657C16.9038 4.7555 17.273 4.78497 17.5811 4.89378C18.2936 5.14546 18.8541 5.70591 19.1058 6.41844C19.2146 6.72651 19.244 7.09576 19.303 7.83426C19.3264 8.12819 19.3381 8.27515 19.3661 8.41669C19.4301 8.74114 19.5579 9.04965 19.7421 9.32437C19.8224 9.44421 19.918 9.55642 20.1093 9.78084C20.5898 10.3447 20.8301 10.6267 20.971 10.9214C21.2968 11.6032 21.2968 12.3958 20.971 13.0776C20.8301 13.3724 20.5898 13.6543 20.1093 14.2182C19.918 14.4426 19.8224 14.5548 19.7421 14.6747C19.5579 14.9494 19.4301 15.2579 19.3661 15.5824C19.3381 15.7239 19.3264 15.8709 19.303 16.1648C19.244 16.9033 19.2146 17.2725 19.1058 17.5806C18.8541 18.2931 18.2936 18.8536 17.5811 19.1053C17.273 19.2141 16.9038 19.2435 16.1653 19.3025C15.8713 19.3259 15.7244 19.3377 15.5828 19.3656C15.2584 19.4297 14.9499 19.5574 14.6752 19.7416C14.5553 19.8219 14.4431 19.9175 14.2187 20.1088C13.6548 20.5893 13.3729 20.8296 13.0781 20.9705C12.3963 21.2963 11.6037 21.2963 10.9219 20.9705C10.6271 20.8296 10.3452 20.5893 9.78133 20.1088C9.55691 19.9175 9.44469 19.8219 9.32485 19.7416C9.05014 19.5574 8.74163 19.4297 8.41718 19.3656C8.27564 19.3377 8.12868 19.3259 7.83475 19.3025C7.09625 19.2435 6.72699 19.2141 6.41893 19.1053C5.7064 18.8536 5.14594 18.2931 4.89427 17.5806C4.78546 17.2725 4.75599 16.9033 4.69706 16.1648C4.6736 15.8709 4.66188 15.7239 4.63393 15.5824C4.56988 15.2579 4.44209 14.9494 4.25796 14.6747C4.17764 14.5548 4.08201 14.4426 3.89076 14.2182C3.41023 13.6543 3.16997 13.3724 3.02907 13.0776C2.7032 12.3958 2.7032 11.6032 3.02907 10.9214C3.16997 10.6266 3.41023 10.3447 3.89076 9.78084C4.08201 9.55642 4.17764 9.44421 4.25796 9.32437C4.44209 9.04965 4.56988 8.74114 4.63393 8.41669C4.66188 8.27515 4.6736 8.12819 4.69706 7.83426C4.75599 7.09576 4.78546 6.72651 4.89427 6.41844C5.14594 5.70591 5.7064 5.14546 6.41893 4.89378C6.72699 4.78497 7.09625 4.7555 7.83475 4.69657C8.12868 4.67312 8.27564 4.66139 8.41718 4.63344C8.74163 4.56939 9.05014 4.4416 9.32485 4.25747C9.4447 4.17715 9.55691 4.08152 9.78133 3.89027Z"/><path stroke-linejoin="round" d="M8.5 12.5L10.5 14.5L15.5 9.5"/></g></svg>Verified</span></p>
+              <dl class="b-pass-grid">
+                <dt>Meetups</dt><dd>3 attended</dd>
+                <dt>Replies</dt><dd>within a day</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <h3>Иконки — Solar Linear</h3>
+        <div class="icons-row"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z"/><path d="M12 15L12 18"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C6.55332 19.8124 4 14.6055 4 10.1433Z"/><circle cx="12" cy="10" r="3"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M5 22V14M5 14V4M5 14L7.47067 13.5059C9.1212 13.1758 10.8321 13.3328 12.3949 13.958C14.0885 14.6354 15.9524 14.7619 17.722 14.3195L17.9364 14.2659C18.5615 14.1096 19 13.548 19 12.9037V5.53669C19 4.75613 18.2665 4.18339 17.5092 4.3727C15.878 4.78051 14.1597 4.66389 12.5986 4.03943L12.3949 3.95797C10.8321 3.33284 9.1212 3.17576 7.47067 3.50587L5 4M5 4V2"/></svg></div>
+        <p class="icons-cap">Тонкая линия — как типографская линейка на купоне.</p>
+
+        <div class="verdicts">
+          <p><b>Угадывается по теме?</b> Нет. Билет не про «знакомства»; тёмно-синий с копиркой — палитра документа, а не приложения для общения.</p>
+          <p><b>Риск:</b> может читаться как продажа билетов, а в v1 ни намёка на деньги. Поле Price показывает только <code>Free</code> — место под цену бриф и так резервирует (§9).</p>
+          <p><b>Откуда:</b> вызов из каталога impeccable («билетный бумажник»), соединённый с моим вторым кандидатом — билетом на концерт. По прозрачности механики сильнее A, по узнаваемости для киевлян — слабее.</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- ═════════ C ═════════ -->
+    <article class="dir c" aria-labelledby="c-h">
+      <div class="dir-head">
+        <h2 class="dir-name" id="c-h">C. Линия</h2>
+        <p class="dir-thesis">Город как схема метро: у каждого занятия своя линия, событие — станция на ней. Отметка проверки — цветное кольцо, как пересадка.</p>
+        <dl class="facts">
+          <dt>Мир</dt><dd>навигация киевского метро: табло станций, цвета трёх линий</dd>
+          <dt>Сцена</dt><dd>поздно вечером, в постели или в вагоне, свет приглушён — тёмный</dd>
+          <dt>Цвет</dt><dd>тёмное табло, цвет только кодом линии — по одному на карточку</dd>
+          <dt>Форма</dt><dd>пилюли и круги, линия 4px, карточка 16px</dd>
+        </dl>
+      </div>
+      <div class="world">
+        <h3>Палитра</h3>
+        <div class="swatches">
+          <div class="sw"><i style="background:#0E1520"></i><b>Табло</b><code>#0E1520</code></div>
+          <div class="sw"><i style="background:#172131"></i><b>Панель</b><code>#172131</code></div>
+          <div class="sw"><i style="background:#F2F5F8"></i><b>Текст</b><code>#F2F5F8</code></div>
+          <div class="sw"><i style="background:#A3AEBF"></i><b>Подписи</b><code>#A3AEBF</code></div>
+          <div class="sw"><i style="background:#E5463F"></i><b>Красная линия</b><code>#E5463F</code></div>
+          <div class="sw"><i style="background:#3D8EF0"></i><b>Синяя линия</b><code>#3D8EF0</code></div>
+          <div class="sw"><i style="background:#2FB36B"></i><b>Зелёная · Verified</b><code>#2FB36B</code></div>
+          <div class="sw"><i style="background:#2A3547"></i><b>Волос</b><code>#2A3547</code></div>
+        </div>
+
+        <h3>Шрифты</h3>
+        <div class="type-pair">
+          <p class="disp">Picnic at sunset</p>
+          <p class="body">Barlow для текста: узкий, читается на ходу, как указатель.</p>
+          <small>Barlow Condensed 600–700 капсом — заголовки и кнопки · Barlow 400–600 — текст</small>
+        </div>
+
+        <h3>Лента и профиль</h3>
+        <div class="phone">
+          <p class="c-screen-title"><i aria-hidden="true"><b style="background:#E5463F"></b><b style="background:#3D8EF0"></b><b style="background:#2FB36B"></b></i>Events nearby</p>
+          <div class="c-card">
+            <div class="c-row">
+              <img src="https://images.unsplash.com/photo-1758892591932-64a3d2203a3a?w=320&h=480&fit=crop&q=75&auto=format" alt="Пикник на траве у реки на закате, вдали город" width="104" height="150" loading="lazy">
+              <div class="c-line" aria-hidden="true"><i></i></div>
+              <div class="c-body">
+                <p class="c-title">Picnic on Trukhaniv Island at sunset?</p>
+                <p class="c-meta"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M7.75 2.5C7.75 2.08579 7.41421 1.75 7 1.75C6.58579 1.75 6.25 2.08579 6.25 2.5V4.07926C4.81067 4.19451 3.86577 4.47737 3.17157 5.17157C2.47737 5.86577 2.19451 6.81067 2.07926 8.25H21.9207C21.8055 6.81067 21.5226 5.86577 20.8284 5.17157C20.1342 4.47737 19.1893 4.19451 17.75 4.07926V2.5C17.75 2.08579 17.4142 1.75 17 1.75C16.5858 1.75 16.25 2.08579 16.25 2.5V4.0129C15.5847 4 14.839 4 14 4H10C9.16097 4 8.41527 4 7.75 4.0129V2.5Z"/><path fill-rule="evenodd" d="M2 12C2 11.161 2 10.4153 2.0129 9.75H21.9871C22 10.4153 22 11.161 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12ZM17 14C17.5523 14 18 13.5523 18 13C18 12.4477 17.5523 12 17 12C16.4477 12 16 12.4477 16 13C16 13.5523 16.4477 14 17 14ZM17 18C17.5523 18 18 17.5523 18 17C18 16.4477 17.5523 16 17 16C16.4477 16 16 16.4477 16 17C16 17.5523 16.4477 18 17 18ZM13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13ZM13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17ZM7 14C7.55228 14 8 13.5523 8 13C8 12.4477 7.55228 12 7 12C6.44772 12 6 12.4477 6 13C6 13.5523 6.44772 14 7 14ZM7 18C7.55228 18 8 17.5523 8 17C8 16.4477 7.55228 16 7 16C6.44772 16 6 16.4477 6 17C6 17.5523 6.44772 18 7 18Z" clip-rule="evenodd"/></g></svg>Sun 13 Oct · 17:30</p>
+                <p class="c-meta"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg>Trukhaniv Island · ~4 km · Free</p>
+                <div class="c-pills">
+                  <span class="c-pill">3 going · 2 spots left</span>
+                  <span class="c-pill v"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span>
+                </div>
+              </div>
+            </div>
+            <div class="c-actions"><button class="c-btn" type="button">Ask to join <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4 11.25C3.58579 11.25 3.25 11.5858 3.25 12C3.25 12.4142 3.58579 12.75 4 12.75H13.25V18C13.25 18.3034 13.4327 18.5768 13.713 18.6929C13.9932 18.809 14.3158 18.7449 14.5303 18.5304L20.5303 12.5304C20.671 12.3897 20.75 12.1989 20.75 12C20.75 11.8011 20.671 11.6103 20.5303 11.4697L14.5303 5.46969C14.3158 5.25519 13.9932 5.19103 13.713 5.30711C13.4327 5.4232 13.25 5.69668 13.25 6.00002V11.25H4Z"/></svg></button></div>
+          </div>
+          <div class="c-profile">
+            <div class="c-ava">
+              <img src="https://images.unsplash.com/photo-1525457136159-8878648a7ad0?w=240&h=240&fit=crop&crop=faces&q=75&auto=format" alt="Портрет: улыбающийся мужчина в коричневой куртке" width="66" height="66" loading="lazy">
+              <span class="badge" title="Verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg></span>
+            </div>
+            <div>
+              <p class="c-name">Taras, 31</p>
+              <p class="c-fact"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.00098 13.001C12.867 13.001 16.001 14.7918 16.001 17.001C16.001 19.2101 12.867 21.001 9.00098 21.001C5.13498 21.001 2.00098 19.2101 2.00098 17.001C2.00098 14.7918 5.13498 13.001 9.00098 13.001Z"/><path d="M16.4766 14.001C18.9615 14.0011 20.9996 15.3434 21 17C21 18.6569 18.9638 20 16.4785 20C17.2107 19.1997 17.7148 18.1955 17.7148 17.002C17.7148 15.8071 17.2099 14.8017 16.4766 14.001Z"/><path d="M9.00098 2C11.2101 2 13.001 3.79086 13.001 6C13.001 8.20914 11.2101 10 9.00098 10C6.79184 10 5.00098 8.20914 5.00098 6C5.00098 3.79086 6.79184 2 9.00098 2Z"/><path d="M15 3.00098C16.6567 3.00118 18 4.34425 18 6.00098C17.9999 7.6576 16.6566 9.00078 15 9.00098C14.6388 9.00098 14.2924 8.93633 13.9717 8.81934C14.4445 7.98748 14.7148 7.02523 14.7148 6C14.7148 4.97534 14.4449 4.0132 13.9727 3.18164C14.2931 3.06489 14.6392 3.00098 15 3.00098Z"/></g></svg>11 meetups attended</p>
+              <p class="c-fact"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.4003 22 8.88867 21.6239 7.54785 20.9561C7.19153 20.7786 6.78396 20.7204 6.39941 20.8232L4.17383 21.4189C3.20749 21.6775 2.3225 20.7925 2.58105 19.8262L3.17676 17.6006C3.27965 17.216 3.22142 16.8085 3.04395 16.4521C2.37612 15.1113 2 13.5997 2 12C2 6.47715 6.47715 2 12 2ZM7.99121 11C7.43893 11 6.99121 11.4477 6.99121 12C6.99121 12.5523 7.43893 13 7.99121 13C8.54327 12.9997 8.99121 12.5521 8.99121 12C8.99121 11.4479 8.54327 11.0003 7.99121 11ZM12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11ZM16.0088 11C15.4565 11 15.0088 11.4477 15.0088 12C15.0088 12.5523 15.4565 13 16.0088 13C16.5611 13 17.0088 12.5523 17.0088 12C17.0088 11.4477 16.5611 11 16.0088 11Z" clip-rule="evenodd"/></svg>Replies quickly</p>
+            </div>
+          </div>
+        </div>
+
+        <h3>Иконки — Solar Bold</h3>
+        <div class="icons-row"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M2.5192 7.82274C2 8.77128 2 9.91549 2 12.2039V13.725C2 17.6258 2 19.5763 3.17157 20.7881C4.34315 22 6.22876 22 10 22H14C17.7712 22 19.6569 22 20.8284 20.7881C22 19.5763 22 17.6258 22 13.725V12.2039C22 9.91549 22 8.77128 21.4808 7.82274C20.9616 6.87421 20.0131 6.28551 18.116 5.10812L16.116 3.86687C14.1106 2.62229 13.1079 2 12 2C10.8921 2 9.88939 2.62229 7.88403 3.86687L5.88403 5.10813C3.98695 6.28551 3.0384 6.87421 2.5192 7.82274ZM11.25 18C11.25 18.4142 11.5858 18.75 12 18.75C12.4142 18.75 12.75 18.4142 12.75 18V15C12.75 14.5858 12.4142 14.25 12 14.25C11.5858 14.25 11.25 14.5858 11.25 15V18Z" clip-rule="evenodd"/></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11.5 2C16.7467 2 21 6.25329 21 11.5C21 13.8541 20.1417 16.0064 18.7236 17.666C18.7315 17.6732 18.7404 17.6799 18.748 17.6875L22.5303 21.4697C22.8228 21.7626 22.8228 22.2384 22.5303 22.5312C22.2375 22.8236 21.7625 22.8237 21.4697 22.5312L17.6875 18.748C17.6797 18.7403 17.6724 18.7317 17.665 18.7236C16.0055 20.1414 13.8538 21 11.5 21C6.25329 21 2 16.7467 2 11.5C2 6.25329 6.25329 2 11.5 2Z"/></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.4003 22 8.88867 21.6239 7.54785 20.9561C7.19153 20.7786 6.78396 20.7204 6.39941 20.8232L4.17383 21.4189C3.20749 21.6775 2.3225 20.7925 2.58105 19.8262L3.17676 17.6006C3.27965 17.216 3.22142 16.8085 3.04395 16.4521C2.37612 15.1113 2 13.5997 2 12C2 6.47715 6.47715 2 12 2ZM7.99121 11C7.43893 11 6.99121 11.4477 6.99121 12C6.99121 12.5523 7.43893 13 7.99121 13C8.54327 12.9997 8.99121 12.5521 8.99121 12C8.99121 11.4479 8.54327 11.0003 7.99121 11ZM12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11ZM16.0088 11C15.4565 11 15.0088 11.4477 15.0088 12C15.0088 12.5523 15.4565 13 16.0088 13C16.5611 13 17.0088 12.5523 17.0088 12C17.0088 11.4477 16.5611 11 16.0088 11Z" clip-rule="evenodd"/></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 13C15.866 13 19 14.7909 19 17C19 19.2091 15.866 21 12 21C8.13401 21 5 19.2091 5 17C5 14.7909 8.13401 13 12 13Z"/><path d="M12 2C14.2091 2 16 3.79086 16 6C16 8.20914 14.2091 10 12 10C9.79086 10 8 8.20914 8 6C8 3.79086 9.79086 2 12 2Z"/></g></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></div>
+        <p class="icons-cap">Залитые — как пиктограммы на табло: читаются в полутьме.</p>
+
+        <div class="verdicts">
+          <p><b>Угадывается по теме?</b> Нет. Знакомства не подсказывают метро; красный, синий и зелёный здесь — коды линий, а не «яркость ради яркости».</p>
+          <p><b>Риск:</b> тёмная тема в брифе — post-MVP (§10), этот вариант делает её основной. И три цвета линий не должны стать категориями, которые надо выучить: цвет подсказывает, подпись решает.</p>
+          <p><b>Откуда:</b> мой третий кандидат по силе — его поставила сюда, чтобы на доске был тёмный вариант. Выбор между A, B и C — ваш.</p>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="below">
+    <div class="panel">
+      <h2>Отсеяны: что в них было и что из этого осталось</h2>
+      <ul class="declined">
+        <li><b>Тёмная консоль</b><span>Графит, панели на волосяных линиях. Язык инструмента разработчика, а не Киева 18–35. Осталось: опасные действия изолированы пустым местом (в A).</span></li>
+        <li><b>Расписание на световом столе</b><span>Один кегль, наклонные слайды. Ломает читаемость карточки. Осталось: только один элемент на экране залит (в A).</span></li>
+        <li><b>Каталог пластинок</b><span>Чёрный конверт, названия заменены цветовым кодом. Человек не прочитает событие. Осталось: цвет как код, а не украшение (в C — цвета линий).</span></li>
+        <li><b>Ботанический атлас</b><span>Кремовые листы и курсив — ровно то, чего вы не хотите. Ничего не взято.</span></li>
+        <li><b>Шрифтовой образец</b><span>Гигантская буква и ползунки. Про шрифт, а не про людей. Осталось: иерархия масштабом, а не цветом (во всех трёх).</span></li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2>Стандарт категории — бриф §8</h2>
+      <div class="canon-chip" aria-hidden="true"><i style="background:linear-gradient(90deg,#7B2FF7,#FF3D8B)"></i><i style="background:#00D9A3"></i><i style="background:#FDFCFF;box-shadow:inset 0 0 0 1px #ddd"></i></div>
+      <p>Фиолетово-розовый градиент, мятный акцент, светлый фон, Inter, радиус 24.</p>
+      <p class="mute">Проверку не проходит: палитру угадывают по теме — тот же ход у Partiful и Wizz из референсов. Оставлен как запасной выход: если ни A, ни B, ни C не подойдут, можно вернуться к нему и сделать его на полную.</p>
+    </div>
+  </section>
+
+  <p class="foot">Фото: Unsplash, бесплатная лицензия; страницы фото, авторы и проверка — в <code>concept/references.md</code>. Иконки: Solar, через Iconify.</p>
+</main>
+</body>
+</html>

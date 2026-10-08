@@ -23,3 +23,7 @@ dist/
 
 # Vercel
 .vercel/
+
+# Impeccable: скриншоты проверки и кэш хука — рабочие файлы
+.impeccable/review/
+.impeccable/hook.cache.json
