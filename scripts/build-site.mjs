@@ -90,7 +90,7 @@ if (!copyAsset('tokens/site.css')) {
 }
 
 // ── 2б. стили концепта: свои токены продукта, не site.css ──────
-for (const rel of ['tokens/tokens.css', 'concept/tokens.css', 'concept/screens/screens.css']) {
+for (const rel of ['tokens/tokens.css', 'concept/tokens.css', 'concept/components.css', 'concept/screens/screens.css']) {
   if (!copyAsset(rel)) {
     console.error(`Нет ${rel} — страницы концепта останутся без стилей`);
     process.exit(1);

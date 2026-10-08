@@ -14,7 +14,8 @@
 // Если чего-то не хватает (фото, иконки) — падает, а не оставляет серую заглушку.
 //
 // Запуск: node scripts/build-concept-screens.mjs — после правки вайрфрейма или стилей.
-// Стили — concept/screens/screens.css, значения — только из concept/tokens.css.
+// Стили — concept/screens/screens.css (устройство) + concept/components.css (компоненты,
+// общие со стендом); значения — только из concept/tokens.css.
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -108,7 +109,7 @@ ${docComment}
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="screens.css">
 </head>
-<body>
+<body class="mm-ui">
 ${body.trim()}
 </body>
 </html>
