@@ -356,6 +356,31 @@ footer p { max-width: 72ch; }
   .shell[data-collapsed][data-tab="wireframes"] { grid-template-columns: minmax(0, 1fr); }
   .wfside { display: none !important; }
 }
+/* Номер ветки дерева: это номер раздела, а не код экрана — коды сняты */
+.gn { display: inline-block; min-width: 1.4em; color: var(--ink-400); font-variant-numeric: tabular-nums; font-weight: var(--fw-regular); }
+
+/* Галерея: мокап 390x844 ужат до превью; клик идёт по ссылке, не по фрейму */
+.gbranch { margin: 0 0 var(--s-6); }
+.gbranch h3 { margin: 0 0 var(--s-3); }
+.gname { margin: var(--s-4) 0 var(--s-2); font-size: var(--t-caption); font-weight: var(--fw-medium); }
+/* Превью фиксированной ширины: масштаб мокапа — число, его нельзя вывести
+   из резиновой колонки, а растянутый на всю ширину макет перестаёт быть превью */
+.gal { list-style: none; margin: 0 0 var(--s-4); padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, 176px); max-width: none; }
+.gal a { display: block; text-decoration: none; color: var(--ink-600); }
+.gal .shot {
+  display: block; position: relative; overflow: hidden;
+  width: 176px; height: 381px;
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
+}
+.gal iframe {
+  position: absolute; top: 0; left: 0;
+  width: 390px; height: 844px; border: 0;
+  transform: scale(0.4513); transform-origin: 0 0; pointer-events: none;
+}
+.gal .cap { display: block; margin-top: var(--s-2); font-size: var(--t-micro); }
+.gal a:hover .shot, .gal a:focus-visible .shot { border-color: var(--ink-400); }
+.gal a:hover .cap { color: var(--ink-900); }
+
 .wf a { text-decoration: none; }
 .wf a:hover, .wf a:focus-visible { text-decoration: underline; }
 .wf .todo { color: var(--ink-400); }
@@ -438,13 +463,13 @@ footer p { max-width: 72ch; }
         <p class="sub">Главный поток · мобильный веб · 49 из 49</p>
         <ul>
           <li class="grp">
-            <p class="gt">Вход в продукт</p>
+            <p class="gt"><span class="gn">1</span>Вход в продукт</p>
             <ul>
               <li class="scr"><a class="s" href="../wireframes/radar.html">Радар — как это работает</a></li>
             </ul>
           </li>
           <li class="grp">
-            <p class="gt">Колода и совпадение</p>
+            <p class="gt"><span class="gn">2</span>Колода и совпадение</p>
             <ul>
               <li class="scr"><a class="s" href="../wireframes/deck.html">Колода</a>
                 <ul>
@@ -457,7 +482,7 @@ footer p { max-width: 72ch; }
             </ul>
           </li>
           <li class="grp">
-            <p class="gt">Человек</p>
+            <p class="gt"><span class="gn">3</span>Человек</p>
             <ul>
               <li class="scr"><a class="s" href="../wireframes/profile.html">Профиль другого человека</a>
                 <ul>
@@ -482,7 +507,7 @@ footer p { max-width: 72ch; }
             </ul>
           </li>
           <li class="grp">
-            <p class="gt">Чат</p>
+            <p class="gt"><span class="gn">4</span>Чат</p>
             <ul>
               <li class="scr"><a class="s" href="../wireframes/dialog.html">Диалог</a>
                 <ul>
@@ -511,7 +536,7 @@ footer p { max-width: 72ch; }
             </ul>
           </li>
           <li class="grp">
-            <p class="gt">Запрос на компанию</p>
+            <p class="gt"><span class="gn">5</span>Запрос на компанию</p>
             <ul>
               <li class="scr"><a class="s" href="../wireframes/feed.html">Лента запросов</a>
                 <ul>
@@ -538,7 +563,7 @@ footer p { max-width: 72ch; }
             </ul>
           </li>
           <li class="grp">
-            <p class="gt">Поиск</p>
+            <p class="gt"><span class="gn">6</span>Поиск</p>
             <ul>
               <li class="scr"><a class="s" href="../wireframes/search.html">Поиск людей и планов</a>
                 <ul>
@@ -571,36 +596,18 @@ footer p { max-width: 72ch; }
         <p class="intro">Макет открывается отдельной страницей, во всю ширину окна. Слева — номера разделов проекта и рядом с ними дерево всех макетов; над мокапом — состояния этого экрана, справа от него — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет: мокап показывает, что из 844px экрана продукту принадлежит 713, остальное забирают системная строка, панель браузера Safari и индикатор жеста.</p>
       </section>
 
-      <section id="rules">
-        <h2>Правила, по которым это нарисовано</h2>
-        <p class="intro">Полностью — <a href="../wireframes/_conventions.md">_conventions.md</a>. Здесь то, что видно на макете.</p>
-        <div class="tw"><table>
-          <thead><tr><th>Правило</th><th>Как это видно</th></tr></thead>
-          <tbody>
-            <tr><td><b>Мокап телефона обязателен</b></td><td>Продукту принадлежит 713px из 844; системные зоны нарисованы и подписаны. Не поместилось — находка, а не повод растянуть рамку</td></tr>
-            <tr><td><b>Серый ничего не кодирует</b></td><td>Состояние объясняется текстом. Непонятно в сером — непонятно и в цвете, просто выяснится позже и дороже</td></tr>
-            <tr><td><b>Одно состояние — одна страница</b></td><td>Структура одинаковая, содержимое разное: видно, что это тот же экран. Пятое состояние — ожидание чужого решения <code class="dcode">D-42</code></td></tr>
-            <tr><td><b>Текст настоящий</b></td><td><code>3 common interests</code>, <code>6 meetups attended</code>, <code>~2 km</code> — и те же запреты копирайта, что в продукте</td></tr>
-            <tr><td><b>Семантическая разметка</b></td><td><code>header</code>, <code>main</code>, <code>nav</code>, <code>article</code>, <code>button</code>; <code>div</code> — только корпус и экран телефона</td></tr>
-          </tbody>
-        </table></div>
-      </section>
-    </div>
-
-    <div class="tabpanel" id="wireframes">
-      <h1 class="vh">Прототипирование и вайрфрейминг: макеты</h1>
       <section id="nav">
-        <h2>Макеты</h2>
+        <h2>Все макеты списком</h2>
         <p class="intro">Восемь экранов главного потока и три за вкладками — со всеми состояниями из таблицы. Состояния, которого в таблице нет, нет и в наборе: страницу под него не придумывают. Список собирается сборкой из <a href="../wireframes/_screens.md">_screens.md</a>, готовность считается по файлам — отмечать руками не нужно.</p>
         <ol class="wf">
-      <li class="branch"><h3>Вход в продукт</h3></li>
+      <li class="branch"><h3><span class="gn">1</span>Вход в продукт</h3></li>
       <li>
         <p class="sh"><b>Радар — как это работает</b><span class="n">1 из 1</span></p>
         <ul>
           <li><a href="../wireframes/radar.html">radar.html</a><span>рабочий вид</span></li>
         </ul>
       </li>
-      <li class="branch"><h3>Колода и совпадение</h3></li>
+      <li class="branch"><h3><span class="gn">2</span>Колода и совпадение</h3></li>
       <li>
         <p class="sh"><b>Колода</b><span class="n">4 из 4</span></p>
         <ul>
@@ -616,7 +623,7 @@ footer p { max-width: 72ch; }
           <li><a href="../wireframes/match.html">match.html</a><span>успех — он же рабочий вид</span></li>
         </ul>
       </li>
-      <li class="branch"><h3>Человек</h3></li>
+      <li class="branch"><h3><span class="gn">3</span>Человек</h3></li>
       <li>
         <p class="sh"><b>Профиль другого человека</b><span class="n">3 из 3</span></p>
         <ul>
@@ -643,7 +650,7 @@ footer p { max-width: 72ch; }
           <li><a href="../wireframes/my-profile-loading.html">my-profile-loading.html</a><span>загрузка</span></li>
         </ul>
       </li>
-      <li class="branch"><h3>Чат</h3></li>
+      <li class="branch"><h3><span class="gn">4</span>Чат</h3></li>
       <li>
         <p class="sh"><b>Диалог</b><span class="n">6 из 6</span></p>
         <ul>
@@ -674,7 +681,7 @@ footer p { max-width: 72ch; }
           <li><a href="../wireframes/chats-loading.html">chats-loading.html</a><span>загрузка</span></li>
         </ul>
       </li>
-      <li class="branch"><h3>Запрос на компанию</h3></li>
+      <li class="branch"><h3><span class="gn">5</span>Запрос на компанию</h3></li>
       <li>
         <p class="sh"><b>Лента запросов</b><span class="n">4 из 4</span></p>
         <ul>
@@ -703,7 +710,7 @@ footer p { max-width: 72ch; }
           <li><a href="../wireframes/my-events-loading.html">my-events-loading.html</a><span>загрузка</span></li>
         </ul>
       </li>
-      <li class="branch"><h3>Поиск</h3></li>
+      <li class="branch"><h3><span class="gn">6</span>Поиск</h3></li>
       <li>
         <p class="sh"><b>Поиск людей и планов</b><span class="n">4 из 4</span></p>
         <ul>
@@ -714,6 +721,381 @@ footer p { max-width: 72ch; }
         </ul>
       </li>
         </ol>
+      </section>
+
+      <section id="rules">
+        <h2>Правила, по которым это нарисовано</h2>
+        <p class="intro">Полностью — <a href="../wireframes/_conventions.md">_conventions.md</a>. Здесь то, что видно на макете.</p>
+        <div class="tw"><table>
+          <thead><tr><th>Правило</th><th>Как это видно</th></tr></thead>
+          <tbody>
+            <tr><td><b>Мокап телефона обязателен</b></td><td>Продукту принадлежит 713px из 844; системные зоны нарисованы и подписаны. Не поместилось — находка, а не повод растянуть рамку</td></tr>
+            <tr><td><b>Серый ничего не кодирует</b></td><td>Состояние объясняется текстом. Непонятно в сером — непонятно и в цвете, просто выяснится позже и дороже</td></tr>
+            <tr><td><b>Одно состояние — одна страница</b></td><td>Структура одинаковая, содержимое разное: видно, что это тот же экран. Пятое состояние — ожидание чужого решения <code class="dcode">D-42</code></td></tr>
+            <tr><td><b>Текст настоящий</b></td><td><code>3 common interests</code>, <code>6 meetups attended</code>, <code>~2 km</code> — и те же запреты копирайта, что в продукте</td></tr>
+            <tr><td><b>Семантическая разметка</b></td><td><code>header</code>, <code>main</code>, <code>nav</code>, <code>article</code>, <code>button</code>; <code>div</code> — только корпус и экран телефона</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+    </div>
+
+    <div class="tabpanel" id="wireframes">
+      <h1 class="vh">Прототипирование и вайрфрейминг: макеты</h1>
+      <section id="gallery">
+        <h2>Макеты</h2>
+        <p class="intro">49 страниц: по мокапу на состояние, в том же порядке, что в дереве слева. Превью показывает сам макет без служебных панелей — клик открывает страницу целиком, с деревом, состояниями этого экрана и подписями зон.</p>
+
+      <section class="gbranch">
+        <h3><span class="gn">1</span>Вход в продукт</h3>
+        <p class="gname">Радар — как это работает</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/radar.html" title="Радар — как это работает — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/radar.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Радар — как это работает — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="gbranch">
+        <h3><span class="gn">2</span>Колода и совпадение</h3>
+        <p class="gname">Колода</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/deck.html" title="Колода — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/deck.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/deck-empty.html" title="Колода — пусто">
+              <span class="shot"><iframe src="../wireframes/deck-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/deck-error.html" title="Колода — ошибка">
+              <span class="shot"><iframe src="../wireframes/deck-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/deck-loading.html" title="Колода — загрузка">
+              <span class="shot"><iframe src="../wireframes/deck-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+        </ul>
+        <p class="gname">Совпадение</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/match.html" title="Совпадение — успех — он же рабочий вид">
+              <span class="shot"><iframe src="../wireframes/match.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Совпадение — успех — он же рабочий вид"></iframe></span>
+              <span class="cap">успех — он же рабочий вид</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="gbranch">
+        <h3><span class="gn">3</span>Человек</h3>
+        <p class="gname">Профиль другого человека</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/profile.html" title="Профиль другого человека — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/profile.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Профиль другого человека — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/profile-empty.html" title="Профиль другого человека — пусто">
+              <span class="shot"><iframe src="../wireframes/profile-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Профиль другого человека — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/profile-loading.html" title="Профиль другого человека — загрузка">
+              <span class="shot"><iframe src="../wireframes/profile-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Профиль другого человека — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+        </ul>
+        <p class="gname">Верификация</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/verify.html" title="Верификация — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/verify.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/verify-error.html" title="Верификация — ошибка">
+              <span class="shot"><iframe src="../wireframes/verify-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/verify-loading.html" title="Верификация — загрузка">
+              <span class="shot"><iframe src="../wireframes/verify-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/verify-success.html" title="Верификация — успех">
+              <span class="shot"><iframe src="../wireframes/verify-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — успех"></iframe></span>
+              <span class="cap">успех</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/verify-waiting.html" title="Верификация — ожидание чужого решения · D-42">
+              <span class="shot"><iframe src="../wireframes/verify-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — ожидание чужого решения · D-42"></iframe></span>
+              <span class="cap">ожидание чужого решения · D-42</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/verify-success-signup.html" title="Верификация — успех в онбординге: до первого свайпа, возвращать в чат некуда">
+              <span class="shot"><iframe src="../wireframes/verify-success-signup.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — успех в онбординге: до первого свайпа, возвращать в чат некуда"></iframe></span>
+              <span class="cap">успех в онбординге: до первого свайпа, возвращать в чат некуда</span>
+            </a>
+          </li>
+        </ul>
+        <p class="gname">Мой профиль — как меня видят</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/my-profile.html" title="Мой профиль — как меня видят — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/my-profile.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мой профиль — как меня видят — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/my-profile-loading.html" title="Мой профиль — как меня видят — загрузка">
+              <span class="shot"><iframe src="../wireframes/my-profile-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мой профиль — как меня видят — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="gbranch">
+        <h3><span class="gn">4</span>Чат</h3>
+        <p class="gname">Диалог</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/dialog.html" title="Диалог — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/dialog.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/dialog-empty.html" title="Диалог — пусто">
+              <span class="shot"><iframe src="../wireframes/dialog-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/dialog-error.html" title="Диалог — ошибка">
+              <span class="shot"><iframe src="../wireframes/dialog-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/dialog-loading.html" title="Диалог — загрузка">
+              <span class="shot"><iframe src="../wireframes/dialog-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/dialog-success.html" title="Диалог — успех">
+              <span class="shot"><iframe src="../wireframes/dialog-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — успех"></iframe></span>
+              <span class="cap">успех</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/dialog-waiting.html" title="Диалог — ожидание чужого решения · D-42">
+              <span class="shot"><iframe src="../wireframes/dialog-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — ожидание чужого решения · D-42"></iframe></span>
+              <span class="cap">ожидание чужого решения · D-42</span>
+            </a>
+          </li>
+        </ul>
+        <p class="gname">Позвать вдвоём в запрос</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/invite.html" title="Позвать вдвоём в запрос — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/invite.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Позвать вдвоём в запрос — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/invite-empty.html" title="Позвать вдвоём в запрос — пусто">
+              <span class="shot"><iframe src="../wireframes/invite-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Позвать вдвоём в запрос — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/invite-error.html" title="Позвать вдвоём в запрос — ошибка">
+              <span class="shot"><iframe src="../wireframes/invite-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Позвать вдвоём в запрос — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/invite-success.html" title="Позвать вдвоём в запрос — успех">
+              <span class="shot"><iframe src="../wireframes/invite-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Позвать вдвоём в запрос — успех"></iframe></span>
+              <span class="cap">успех</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/invite-waiting.html" title="Позвать вдвоём в запрос — ожидание чужого решения · D-42">
+              <span class="shot"><iframe src="../wireframes/invite-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Позвать вдвоём в запрос — ожидание чужого решения · D-42"></iframe></span>
+              <span class="cap">ожидание чужого решения · D-42</span>
+            </a>
+          </li>
+        </ul>
+        <p class="gname">Список чатов</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/chats.html" title="Список чатов — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/chats.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Список чатов — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/chats-empty.html" title="Список чатов — пусто">
+              <span class="shot"><iframe src="../wireframes/chats-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Список чатов — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/chats-error.html" title="Список чатов — ошибка">
+              <span class="shot"><iframe src="../wireframes/chats-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Список чатов — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/chats-loading.html" title="Список чатов — загрузка">
+              <span class="shot"><iframe src="../wireframes/chats-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Список чатов — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="gbranch">
+        <h3><span class="gn">5</span>Запрос на компанию</h3>
+        <p class="gname">Лента запросов</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/feed.html" title="Лента запросов — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/feed.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента запросов — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/feed-empty.html" title="Лента запросов — пусто">
+              <span class="shot"><iframe src="../wireframes/feed-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента запросов — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/feed-error.html" title="Лента запросов — ошибка">
+              <span class="shot"><iframe src="../wireframes/feed-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента запросов — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/feed-loading.html" title="Лента запросов — загрузка">
+              <span class="shot"><iframe src="../wireframes/feed-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента запросов — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+        </ul>
+        <p class="gname">Карточка запроса</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/plan.html" title="Карточка запроса — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/plan.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Карточка запроса — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/plan-error.html" title="Карточка запроса — ошибка">
+              <span class="shot"><iframe src="../wireframes/plan-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Карточка запроса — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/plan-loading.html" title="Карточка запроса — загрузка">
+              <span class="shot"><iframe src="../wireframes/plan-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Карточка запроса — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/plan-success.html" title="Карточка запроса — успех">
+              <span class="shot"><iframe src="../wireframes/plan-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Карточка запроса — успех"></iframe></span>
+              <span class="cap">успех</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/plan-waiting.html" title="Карточка запроса — ожидание чужого решения · D-42">
+              <span class="shot"><iframe src="../wireframes/plan-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Карточка запроса — ожидание чужого решения · D-42"></iframe></span>
+              <span class="cap">ожидание чужого решения · D-42</span>
+            </a>
+          </li>
+        </ul>
+        <p class="gname">Мои события — сегмент вкладки Events</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/my-events.html" title="Мои события — сегмент вкладки Events — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/my-events.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мои события — сегмент вкладки Events — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/my-events-empty.html" title="Мои события — сегмент вкладки Events — пусто">
+              <span class="shot"><iframe src="../wireframes/my-events-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мои события — сегмент вкладки Events — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/my-events-error.html" title="Мои события — сегмент вкладки Events — ошибка">
+              <span class="shot"><iframe src="../wireframes/my-events-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мои события — сегмент вкладки Events — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/my-events-loading.html" title="Мои события — сегмент вкладки Events — загрузка">
+              <span class="shot"><iframe src="../wireframes/my-events-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мои события — сегмент вкладки Events — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="gbranch">
+        <h3><span class="gn">6</span>Поиск</h3>
+        <p class="gname">Поиск людей и планов</p>
+        <ul class="gal">
+          <li>
+            <a href="../wireframes/search.html" title="Поиск людей и планов — рабочий вид">
+              <span class="shot"><iframe src="../wireframes/search.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Поиск людей и планов — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/search-empty.html" title="Поиск людей и планов — пусто">
+              <span class="shot"><iframe src="../wireframes/search-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Поиск людей и планов — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/search-error.html" title="Поиск людей и планов — ошибка">
+              <span class="shot"><iframe src="../wireframes/search-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Поиск людей и планов — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../wireframes/search-loading.html" title="Поиск людей и планов — загрузка">
+              <span class="shot"><iframe src="../wireframes/search-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Поиск людей и планов — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+        </ul>
+      </section>
       </section>
     </div>
 

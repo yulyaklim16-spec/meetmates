@@ -127,8 +127,8 @@ function panel(activeFile) {
     return `<li${cls ? ` class="${cls}"` : ''}>` +
       (active ? `<b aria-current="page">${label}</b>` : `<a href="${p.file}">${label}</a>`) + `</li>`;
   };
-  const rows = groups.map((g) => `    <li class="grp">
-      <p class="gt">${esc(g.title)}</p>
+  const rows = groups.map((g, gi) => `    <li class="grp">
+      <p class="gt"><span class="gn">${gi + 1}</span>${esc(g.title)}</p>
       <ul>
 ${g.screens.map((s) => {
     const [base, ...states] = s.pages;                    // рабочий вид — сам экран
@@ -171,7 +171,8 @@ function rail() {
     ['04', '../sections/wireframes.html#wireframes', 'Прототипирование и вайрфрейминг'],
   ];
   const last = items.length - 1;
-  return `<nav class="wfrail" aria-label="Разделы проекта">
+  return `<i id="bare" hidden></i>
+<nav class="wfrail" aria-label="Разделы проекта">
   <a class="home" href="../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
 ${items.map(([n, href, title], i) =>
     `  <a${i === last ? ' class="now" aria-current="page"' : ''} href="${href}" aria-label="Раздел ${n} — ${title}" title="${title}">${n}</a>`).join('\n')}
@@ -206,8 +207,8 @@ function sideTree() {
     const g = groups.find((x) => x.title === s.branch) || (groups.push({ title: s.branch, screens: [] }), groups.at(-1));
     g.screens.push(s);
   }
-  const rows = groups.map((g) => `          <li class="grp">
-            <p class="gt">${esc(g.title)}</p>
+  const rows = groups.map((g, gi) => `          <li class="grp">
+            <p class="gt"><span class="gn">${gi + 1}</span>${esc(g.title)}</p>
             <ul>
 ${g.screens.map((s) => {
     const [base, ...states] = s.pages;
@@ -335,6 +336,31 @@ ${TABS_CSS}
   .shell[data-collapsed][data-tab="wireframes"] { grid-template-columns: minmax(0, 1fr); }
   .wfside { display: none !important; }
 }
+/* Номер ветки дерева: это номер раздела, а не код экрана — коды сняты */
+.gn { display: inline-block; min-width: 1.4em; color: var(--ink-400); font-variant-numeric: tabular-nums; font-weight: var(--fw-regular); }
+
+/* Галерея: мокап 390x844 ужат до превью; клик идёт по ссылке, не по фрейму */
+.gbranch { margin: 0 0 var(--s-6); }
+.gbranch h3 { margin: 0 0 var(--s-3); }
+.gname { margin: var(--s-4) 0 var(--s-2); font-size: var(--t-caption); font-weight: var(--fw-medium); }
+/* Превью фиксированной ширины: масштаб мокапа — число, его нельзя вывести
+   из резиновой колонки, а растянутый на всю ширину макет перестаёт быть превью */
+.gal { list-style: none; margin: 0 0 var(--s-4); padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, 176px); max-width: none; }
+.gal a { display: block; text-decoration: none; color: var(--ink-600); }
+.gal .shot {
+  display: block; position: relative; overflow: hidden;
+  width: 176px; height: 381px;
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
+}
+.gal iframe {
+  position: absolute; top: 0; left: 0;
+  width: 390px; height: 844px; border: 0;
+  transform: scale(0.4513); transform-origin: 0 0; pointer-events: none;
+}
+.gal .cap { display: block; margin-top: var(--s-2); font-size: var(--t-micro); }
+.gal a:hover .shot, .gal a:focus-visible .shot { border-color: var(--ink-400); }
+.gal a:hover .cap { color: var(--ink-900); }
+
 .wf a { text-decoration: none; }
 .wf a:hover, .wf a:focus-visible { text-decoration: underline; }
 .wf .todo { color: var(--ink-400); }
@@ -414,7 +440,7 @@ for (const s of list) {
   const g = navGroups.find((x) => x.title === s.branch) || (navGroups.push({ title: s.branch, screens: [] }), navGroups.at(-1));
   g.screens.push(s);
 }
-const navHtml = navGroups.map((g) => `      <li class="branch"><h3>${esc(g.title)}</h3></li>
+const navHtml = navGroups.map((g, gi) => `      <li class="branch"><h3><span class="gn">${gi + 1}</span>${esc(g.title)}</h3></li>
 ` + g.screens.map((s) => {
   const ready = s.pages.filter((p) => !p.stub).length;
   return `      <li>
@@ -426,6 +452,24 @@ ${s.pages.map((p) => p.stub
         </ul>
       </li>`;
 }).join('\n')).join('\n');
+
+
+// ── галерея: сами макеты, по мокапу на состояние ──────────────────────
+// Страница макета открывается в голом виде (`#bare`): без панелей, полосы
+// состояний и подписей зон — в превью они не читаются и только мешают.
+// Клик по превью открывает страницу целиком, с деревом и подписями.
+const galleryHtml = navGroups.map((g, gi) => `      <section class="gbranch">
+        <h3><span class="gn">${gi + 1}</span>${esc(g.title)}</h3>
+${g.screens.map((sc) => `        <p class="gname">${esc(sc.name)}</p>
+        <ul class="gal">
+${sc.pages.map((p) => `          <li>
+            <a href="../wireframes/${p.file}" title="${esc(sc.name)} — ${esc(p.title)}">
+              <span class="shot"><iframe src="../wireframes/${p.file}#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="${esc(sc.name)} — ${esc(p.title)}"></iframe></span>
+              <span class="cap">${esc(p.title)}</span>
+            </a>
+          </li>`).join('\n')}
+        </ul>`).join('\n')}
+      </section>`).join('\n');
 
 const page = `${head}${extraCss}</style>
 </head>
@@ -457,6 +501,14 @@ ${wfAside}
         <p class="intro">Макет открывается отдельной страницей, во всю ширину окна. Слева — номера разделов проекта и рядом с ними дерево всех макетов; над мокапом — состояния этого экрана, справа от него — подписи зон и их главные действия, под ним — служебный блок с источниками. Ничего из этого в прототип не едет: мокап показывает, что из 844px экрана продукту принадлежит 713, остальное забирают системная строка, панель браузера Safari и индикатор жеста.</p>
       </section>
 
+      <section id="nav">
+        <h2>Все макеты списком</h2>
+        <p class="intro">Восемь экранов главного потока и три за вкладками — со всеми состояниями из таблицы. Состояния, которого в таблице нет, нет и в наборе: страницу под него не придумывают. Список собирается сборкой из <a href="../wireframes/_screens.md">_screens.md</a>, готовность считается по файлам — отмечать руками не нужно.</p>
+        <ol class="wf">
+${navHtml}
+        </ol>
+      </section>
+
       <section id="rules">
         <h2>Правила, по которым это нарисовано</h2>
         <p class="intro">Полностью — <a href="../wireframes/_conventions.md">_conventions.md</a>. Здесь то, что видно на макете.</p>
@@ -475,12 +527,11 @@ ${wfAside}
 
     <div class="tabpanel" id="wireframes">
       <h1 class="vh">Прототипирование и вайрфрейминг: макеты</h1>
-      <section id="nav">
+      <section id="gallery">
         <h2>Макеты</h2>
-        <p class="intro">Восемь экранов главного потока и три за вкладками — со всеми состояниями из таблицы. Состояния, которого в таблице нет, нет и в наборе: страницу под него не придумывают. Список собирается сборкой из <a href="../wireframes/_screens.md">_screens.md</a>, готовность считается по файлам — отмечать руками не нужно.</p>
-        <ol class="wf">
-${navHtml}
-        </ol>
+        <p class="intro">${drawn.length} страниц: по мокапу на состояние, в том же порядке, что в дереве слева. Превью показывает сам макет без служебных панелей — клик открывает страницу целиком, с деревом, состояниями этого экрана и подписями зон.</p>
+
+${galleryHtml}
       </section>
     </div>
 

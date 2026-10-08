@@ -43,6 +43,29 @@ body {
   .wfstates, .device, .meta { grid-column: 1; }
 }
 
+
+/* ── Голый вид: адрес с #bare ──────────────────────────────────────────
+   Один мокап без панелей, полосы состояний, подписей зон и служебного блока.
+   Нужен галерее раздела 04: там макеты показываются сами, а не списком имён
+   файлов. Скрипта на странице нет — переключает `:target`. */
+body:has(#bare:target) {
+  grid-template-columns: minmax(0, 1fr);
+  padding: 0;
+  justify-content: stretch;
+  background: var(--w-surface);
+}
+body:has(#bare:target) .wfrail,
+body:has(#bare:target) .wfnav,
+body:has(#bare:target) .wfstates,
+body:has(#bare:target) .meta,
+body:has(#bare:target) .anns { display: none; }
+body:has(#bare:target) .device {
+  grid-column: 1;
+  margin: 0 auto;
+  border: 0;
+  padding: 0;
+}
+
 /* ── полоса разделов проекта: та же навигация, что на сайте, сжатая до
    номеров. Рядом стоит дерево макетов, и два полных дерева подряд
    человек уже не читает — имя раздела остаётся в title и aria-label */
