@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MeetMates — направления стиля, раунд 3</title>
+<meta name="description" content="Три направления после D «Стекло»: афиша в духе Netflix, полоса во весь экран и плотное табло. Лента и профиль на одном содержимом.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Manrope:wght@400;500;600;800&family=Onest:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--page:#F3F4F6;--page-ink:#16181D;--page-mute:#5A606C;--page-rule:#D9DCE2;--page-font:"Onest",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--page-ink);font:400 15px/1.55 var(--page-font)}
+::selection{background:#16181D;color:#F3F4F6}
+img{display:block;max-width:100%}
+svg{display:block}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.ic{width:22px;height:22px;fill:currentColor}
+
+.board{max-width:1360px;margin:0 auto;padding:48px 24px 72px}
+.board-head{max-width:820px;margin-bottom:36px}
+.board-head h1{font:700 38px/1.08 var(--page-font);letter-spacing:-.02em;margin:0 0 14px;text-wrap:balance}
+@media (max-width:700px){.board-head h1{font-size:28px}}
+.board-head p{margin:0 0 10px;color:var(--page-mute);max-width:72ch}
+.board-head b{color:var(--page-ink)}
+.why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:26px 0 44px;max-width:1060px}
+@media (max-width:860px){.why{grid-template-columns:minmax(0,1fr)}}
+.why div{background:#fff;border:1px solid var(--page-rule);border-radius:8px;padding:16px 18px}
+.why h2{margin:0 0 6px;font:600 14px/1.3 var(--page-font)}
+.why p{margin:0;font-size:13.5px;color:var(--page-mute)}
+
+.dirs{display:grid;gap:22px}
+.dir{min-width:0;border:1px solid var(--page-rule);border-radius:10px;overflow:hidden;background:#fff;display:grid;grid-template-columns:minmax(300px,380px) 1fr}
+@media (max-width:1040px){.dir{grid-template-columns:minmax(0,1fr)}}
+.dir-head{padding:22px}
+.dir-name{font:700 22px/1.2 var(--page-font);margin:0 0 6px;letter-spacing:-.01em}
+.dir-thesis{margin:0 0 14px}
+.facts{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13.5px;color:var(--page-mute)}
+.facts dt{font-weight:600;color:var(--page-ink)}
+.facts dd{margin:0}
+.world{padding:22px;border-left:1px solid var(--page-rule)}
+@media (max-width:1040px){.world{border-left:0;border-top:1px solid var(--page-rule)}}
+.world h3{margin:0 0 10px;font:600 12.5px/1.3 var(--page-font);letter-spacing:.04em;text-transform:uppercase;opacity:.7}
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.sw{display:flex;flex-direction:column;gap:6px;font-size:12px;line-height:1.25}
+.sw i{display:block;height:40px;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.sw b{font-weight:600}
+.sw code{font:500 11px/1.2 ui-monospace,Menlo,Consolas,monospace;opacity:.75}
+.type-pair{margin-bottom:20px}
+.type-pair .disp{margin:0 0 4px}
+.type-pair .body{margin:0;font-size:14px}
+.type-pair small{display:block;margin-top:6px;font-size:12px;opacity:.7}
+.screens{display:flex;flex-wrap:wrap;gap:18px}
+.screens > div{flex:0 0 390px;max-width:100%}
+.shot{width:100%;border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.05),0 12px 30px -18px rgba(0,0,0,.4)}
+.shot-cap{margin:8px 0 0;font-size:12px;color:var(--page-mute)}
+.g .shot-cap,.h .shot-cap{color:#A9A9B2}
+
+/* общий каркас мокапа: 320 ширина, высота как у телефона */
+.g-screen,.h-screen,.i-screen{width:100%;aspect-ratio:390/780;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.g-bar,.i-bar{flex:none;display:flex;justify-content:space-between;align-items:center;height:31.5px;padding:0 17px;font-size:12px;font-weight:600}
+
+/* ───────── G. Афиша ───────── */
+.g{--ink:#F7F7F8;--mute:#A9A9B2;--bg:#0B0B0D;--surf:#17171C;--act:#E03127}
+.g .world{background:#0B0B0D;color:#F7F7F8;font-family:"Archivo",sans-serif}
+.g .sw i{box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+.g .disp{font:700 31.5px/1.05 "Archivo";letter-spacing:-.02em}
+.g .body{font-family:"Archivo"}
+.g-screen{background:#0B0B0D;color:#F7F7F8;font-family:"Archivo",sans-serif}
+.g-head{flex:none;display:flex;align-items:center;justify-content:space-between;padding:2.5px 17px 10px}
+.g-head b{font:700 16px/1 "Archivo";letter-spacing:.16em;color:#F2473C}
+.g-ava{width:27px;height:27px;border-radius:5px;overflow:hidden;display:block}
+.g-ava img{width:100%;height:100%;object-fit:cover}
+.g-bill{flex:none;position:relative;margin:0 0 14.5px}
+.g-bill>img{width:100%;aspect-ratio:16/11;object-fit:cover}
+.g-bill::after{content:"";position:absolute;inset:auto 0 0;height:72%;background:linear-gradient(to top,#0B0B0D 14%,rgba(11,11,13,.0))}
+.g-bill-txt{position:absolute;inset:auto 17px 12px;z-index:1}
+.g-bill-txt h3{margin:0 0 3.5px;font:700 24.5px/1.05 "Archivo";letter-spacing:-.02em}
+.g-bill-txt p{margin:0 0 3.5px;font-size:12px;color:#C9C9D1}
+.g-meta{display:flex;align-items:center;gap:5px}
+.g-ver{display:inline-flex;align-items:center;gap:3.5px;color:#F7F7F8;font-weight:600}
+.g-ver .ic{width:13.5px;height:13.5px}
+.g-acts{display:flex;gap:7.5px;margin-top:10px}
+.g-primary,.g-ghost{flex:1;height:34px;border:0;border-radius:5px;font:600 13.5px/1 "Archivo";cursor:pointer}
+.g-primary{background:#F7F7F8;color:#0B0B0D}
+.g-ghost{background:rgba(247,247,248,.18);color:#F7F7F8}
+.g-row{flex:none;padding:0 0 14.5px 17px}
+.g-row h4{margin:0 0 7.5px;font:600 13.5px/1 "Archivo";letter-spacing:.01em}
+.g-row ul{display:flex;gap:8.5px;margin:0;padding:0;list-style:none;overflow:hidden}
+.g-row li{flex:0 0 31%;min-width:0}
+.g-row img{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:3.5px;margin-bottom:5px}
+.g-row b{display:block;font:600 12px/1.2 "Archivo";white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g-row span{display:block;font-size:12px;color:#A9A9B2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g-hero{flex:none;position:relative}
+.g-hero>img{width:100%;aspect-ratio:4/4.4;object-fit:cover}
+.g-hero::after{content:"";position:absolute;inset:auto 0 0;height:60%;background:linear-gradient(to top,#0B0B0D 12%,rgba(11,11,13,0))}
+.g-hero-txt{position:absolute;inset:auto 17px 14.5px;z-index:1}
+.g-hero-txt h3{margin:0 0 5px;font:700 27px/1 "Archivo";letter-spacing:-.02em}
+.g-hero-txt p{margin:0 0 3.5px;font-size:12px;color:#C9C9D1}
+.g-rows{flex:1;margin:14.5px 0 0;padding:0 17px;list-style:none;display:flex;flex-direction:column;gap:1px}
+.g-rows li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #1E1E24;font-size:13.5px}
+.g-rows b{font-weight:600}
+.g-rows span{color:#A9A9B2;font-size:12px}
+.g-tabs{flex:none;margin-top:auto;display:flex;justify-content:space-between;padding:8.5px 17px 12px;background:#101014;border-top:1px solid #1E1E24}
+.g-tabs span{display:flex;flex-direction:column;align-items:center;gap:2.5px;color:#9FA0AA;font-size:12px}
+.g-tabs .ic{width:20.5px;height:20.5px}
+.g-tabs .on{color:#F7F7F8}
+
+/* ───────── H. Полоса ───────── */
+.h{--ink:#FFFFFF;--mute:#B5B5BC;--bg:#09090B;--act:#FF6B35}
+.h .world{background:#09090B;color:#fff;font-family:"Manrope",sans-serif}
+.h .sw i{box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+.h .disp{font:800 31.5px/1.04 "Manrope";letter-spacing:-.03em}
+.h .body{font-family:"Manrope"}
+.h-screen{background:#09090B;color:#fff;font-family:"Manrope",sans-serif}
+.h-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.h-screen::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(9,9,11,.94) 16%,rgba(9,9,11,.12) 52%,rgba(9,9,11,.55))}
+.h-top{position:relative;z-index:1;display:flex;justify-content:space-between;gap:10px;padding:14.5px 17px}
+.h-chip{display:inline-flex;align-items:center;height:27px;padding:0 11px;border-radius:1217.5px;background:rgba(255,255,255,.16);backdrop-filter:blur(10px);font:600 12px/1 "Manrope"}
+.h-count{background:rgba(9,9,11,.5)}
+.h-txt{position:relative;z-index:1;margin-top:auto;padding:0 17px 10px}
+.h-txt h3{margin:0 0 6px;font:800 31.5px/1.02 "Manrope";letter-spacing:-.03em;max-width:9ch}
+.h-txt p{margin:0 0 3.5px;font-size:13px;color:#D6D6DB}
+.h-ver{display:flex;align-items:center;gap:5px;font-weight:600;color:#fff !important}
+.h-ver .ic{width:14.5px;height:14.5px}
+.h-acts{display:flex;gap:8.5px;margin-top:13.5px}
+.h-primary,.h-ghost{flex:1;height:41.5px;border:0;border-radius:1217.5px;font:700 14px/1 "Manrope";cursor:pointer}
+.h-primary{background:#FF6B35;color:#1A0A03}
+.h-ghost{background:rgba(255,255,255,.18);color:#fff;backdrop-filter:blur(7.5px)}
+.h-next{position:relative;z-index:1;display:flex;align-items:center;gap:10px;margin:0 17px 7.5px;padding:8.5px;border-radius:14.5px;background:rgba(255,255,255,.1);backdrop-filter:blur(12px)}
+.h-next img{width:41.5px;height:31.5px;object-fit:cover;border-radius:7.5px}
+.h-next span{font-size:12px;color:#D6D6DB;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.h-sheet{position:relative;z-index:1;display:flex;flex-direction:column;margin:0 17px 7.5px;border-radius:17px;background:rgba(255,255,255,.1);backdrop-filter:blur(12px);overflow:hidden}
+.h-sheet span{display:flex;justify-content:space-between;padding:11px 14.5px;font-size:13px;font-weight:600;border-bottom:1px solid rgba(255,255,255,.1)}
+.h-sheet span:last-child{border-bottom:0}
+.h-sheet i{font-style:normal;font-weight:400;color:#B5B5BC}
+.h-tabs{position:relative;z-index:1;display:flex;justify-content:space-between;margin:0 17px 14.5px;padding:8.5px 14.5px;border-radius:1217.5px;background:rgba(255,255,255,.14);backdrop-filter:blur(17px)}
+.h-tabs span{display:flex;flex-direction:column;align-items:center;gap:2.5px;color:rgba(255,255,255,.62);font-size:12px}
+.h-tabs .ic{width:19.5px;height:19.5px}
+.h-tabs .on{color:#fff}
+
+/* ───────── I. Табло ───────── */
+.i{--ink:#101114;--mute:#5D6069;--bg:#FFFFFF;--act:#D8232A}
+.i .world{background:#fff;color:#101114;font-family:"Zen Kaku Gothic New",sans-serif}
+.i .disp{font:700 29px/1.1 "Zen Kaku Gothic New";letter-spacing:-.01em}
+.i .body{font-family:"Zen Kaku Gothic New"}
+.i-screen{background:#fff;color:#101114;font-family:"Zen Kaku Gothic New",sans-serif}
+.i-bar{color:#101114;border-bottom:1px solid #E6E7EA;padding-bottom:3px}
+.i-head{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14.5px;border-bottom:1px solid #E6E7EA}
+.i-head h3{margin:0;font:700 17px/1 "Zen Kaku Gothic New"}
+.i-post{height:27px;padding:0 11px;border:0;border-radius:2.5px;background:#D8232A;color:#fff;font:700 12px/1 "Zen Kaku Gothic New";cursor:pointer}
+.i-filters{flex:none;display:flex;gap:5px;padding:7.5px 14.5px;border-bottom:1px solid #E6E7EA;overflow:hidden}
+.i-filters span{flex:none;padding:3.5px 8.5px;border:1px solid #E6E7EA;border-radius:2.5px;font-size:12px;color:#5D6069;background:#FAFAFB}
+.i-filters .on{background:#101114;border-color:#101114;color:#fff;font-weight:700}
+.i-list{flex:1;margin:0;padding:0;list-style:none;overflow:hidden}
+.i-item{display:grid;grid-template-columns:53.5px 1fr auto;gap:10px;align-items:center;padding:8.5px 14.5px;border-bottom:1px solid #E6E7EA}
+.i-item img{width:53.5px;height:53.5px;object-fit:cover;border-radius:2.5px}
+.i-item>div{min-width:0}
+.i-top{display:flex;align-items:baseline;gap:7.5px;margin:0 0 1px}
+.i-top b{font:700 13px/1.25 "Zen Kaku Gothic New";white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.i-top time{flex:none;margin-left:auto;font-size:12px;color:#D8232A;font-weight:700}
+.i-sub{margin:0;font-size:12px;line-height:1.35;color:#5D6069;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.i-ver{display:inline-flex;align-items:center;gap:2.5px;color:#101114;font-weight:700}
+.i-ver .ic{width:11px;height:11px}
+.i-go{flex:none;height:29px;padding:0 10px;border:1px solid #D8232A;border-radius:2.5px;background:#fff;color:#D8232A;font:700 12px/1 "Zen Kaku Gothic New";cursor:pointer}
+.i-me{flex:none;display:grid;grid-template-columns:78px 1fr;gap:12px;padding:12px 14.5px;border-bottom:1px solid #E6E7EA}
+.i-me img{width:78px;height:97.5px;object-fit:cover;border-radius:2.5px}
+.i-table{flex:none;width:100%;border-collapse:collapse;font-size:12px}
+.i-table th,.i-table td{text-align:left;padding:8.5px 14.5px;border-bottom:1px solid #E6E7EA;font-weight:400}
+.i-table th{font-weight:700;width:46%}
+.i-table td{color:#5D6069}
+.i-tabs{flex:none;margin-top:auto;display:flex;justify-content:space-between;padding:7.5px 14.5px 10px;border-top:1px solid #E6E7EA;background:#FAFAFB}
+.i-tabs span{display:flex;flex-direction:column;align-items:center;gap:1px;color:#5D6069;font-size:12px}
+.i-tabs .ic{width:19.5px;height:19.5px}
+.i-tabs .on{color:#D8232A}
+
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--page-rule);font-size:13px;color:var(--page-mute);max-width:72ch}
+.foot a{color:inherit}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="i-users-group-rounded" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.00098 13.001C12.867 13.001 16.001 14.7918 16.001 17.001C16.001 19.2101 12.867 21.001 9.00098 21.001C5.13498 21.001 2.00098 19.2101 2.00098 17.001C2.00098 14.7918 5.13498 13.001 9.00098 13.001Z"/><path d="M16.4766 14.001C18.9615 14.0011 20.9996 15.3434 21 17C21 18.6569 18.9638 20 16.4785 20C17.2107 19.1997 17.7148 18.1955 17.7148 17.002C17.7148 15.8071 17.2099 14.8017 16.4766 14.001Z"/><path d="M9.00098 2C11.2101 2 13.001 3.79086 13.001 6C13.001 8.20914 11.2101 10 9.00098 10C6.79184 10 5.00098 8.20914 5.00098 6C5.00098 3.79086 6.79184 2 9.00098 2Z"/><path d="M15 3.00098C16.6567 3.00118 18 4.34425 18 6.00098C17.9999 7.6576 16.6566 9.00078 15 9.00098C14.6388 9.00098 14.2924 8.93633 13.9717 8.81934C14.4445 7.98748 14.7148 7.02523 14.7148 6C14.7148 4.97534 14.4449 4.0132 13.9727 3.18164C14.2931 3.06489 14.6392 3.00098 15 3.00098Z"/></g></symbol><symbol id="i-ticket" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></symbol><symbol id="i-magnifer" viewBox="0 0 24 24"><path fill="currentColor" d="M11.5 2C16.7467 2 21 6.25329 21 11.5C21 13.8541 20.1417 16.0064 18.7236 17.666C18.7315 17.6732 18.7404 17.6799 18.748 17.6875L22.5303 21.4697C22.8228 21.7626 22.8228 22.2384 22.5303 22.5312C22.2375 22.8236 21.7625 22.8237 21.4697 22.5312L17.6875 18.748C17.6797 18.7403 17.6724 18.7317 17.665 18.7236C16.0055 20.1414 13.8538 21 11.5 21C6.25329 21 2 16.7467 2 11.5C2 6.25329 6.25329 2 11.5 2Z"/></symbol><symbol id="i-chat-round-dots" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.4003 22 8.88867 21.6239 7.54785 20.9561C7.19153 20.7786 6.78396 20.7204 6.39941 20.8232L4.17383 21.4189C3.20749 21.6775 2.3225 20.7925 2.58105 19.8262L3.17676 17.6006C3.27965 17.216 3.22142 16.8085 3.04395 16.4521C2.37612 15.1113 2 13.5997 2 12C2 6.47715 6.47715 2 12 2ZM7.99121 11C7.43893 11 6.99121 11.4477 6.99121 12C6.99121 12.5523 7.43893 13 7.99121 13C8.54327 12.9997 8.99121 12.5521 8.99121 12C8.99121 11.4479 8.54327 11.0003 7.99121 11ZM12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11ZM16.0088 11C15.4565 11 15.0088 11.4477 15.0088 12C15.0088 12.5523 15.4565 13 16.0088 13C16.5611 13 17.0088 12.5523 17.0088 12C17.0088 11.4477 16.5611 11 16.0088 11Z" clip-rule="evenodd"/></symbol><symbol id="i-user-rounded" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 13C15.866 13 19 14.7909 19 17C19 19.2091 15.866 21 12 21C8.13401 21 5 19.2091 5 17C5 14.7909 8.13401 13 12 13Z"/><path d="M12 2C14.2091 2 16 3.79086 16 6C16 8.20914 14.2091 10 12 10C9.79086 10 8 8.20914 8 6C8 3.79086 9.79086 2 12 2Z"/></g></symbol><symbol id="i-verified-check" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></symbol><symbol id="i-map-point" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><g fill="currentColor"><path d="M7.75 2.5C7.75 2.08579 7.41421 1.75 7 1.75C6.58579 1.75 6.25 2.08579 6.25 2.5V4.07926C4.81067 4.19451 3.86577 4.47737 3.17157 5.17157C2.47737 5.86577 2.19451 6.81067 2.07926 8.25H21.9207C21.8055 6.81067 21.5226 5.86577 20.8284 5.17157C20.1342 4.47737 19.1893 4.19451 17.75 4.07926V2.5C17.75 2.08579 17.4142 1.75 17 1.75C16.5858 1.75 16.25 2.08579 16.25 2.5V4.0129C15.5847 4 14.839 4 14 4H10C9.16097 4 8.41527 4 7.75 4.0129V2.5Z"/><path fill-rule="evenodd" d="M2 12C2 11.161 2 10.4153 2.0129 9.75H21.9871C22 10.4153 22 11.161 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12ZM17 14C17.5523 14 18 13.5523 18 13C18 12.4477 17.5523 12 17 12C16.4477 12 16 12.4477 16 13C16 13.5523 16.4477 14 17 14ZM17 18C17.5523 18 18 17.5523 18 17C18 16.4477 17.5523 16 17 16C16.4477 16 16 16.4477 16 17C16 17.5523 16.4477 18 17 18ZM13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13ZM13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17ZM7 14C7.55228 14 8 13.5523 8 13C8 12.4477 7.55228 12 7 12C6.44772 12 6 12.4477 6 13C6 13.5523 6.44772 14 7 14ZM7 18C7.55228 18 8 17.5523 8 17C8 16.4477 7.55228 16 7 16C6.44772 16 6 16.4477 6 17C6 17.5523 6.44772 18 7 18Z" clip-rule="evenodd"/></g></symbol></svg>
+<main class="board">
+  <div class="board-head">
+    <h1>Раунд 3: три направления после D «Стекло»</h1>
+    <p>D выбрано 7 октября и уже собрано: лента и профиль живут в светло-сером, одно оранжевое действие, фото — в превью 104px. На нём же записана цена: <b>продукт выглядит спокойнее и менее «социально»</b>, чем требовал прежний тон. Эти три направления проверяют, что именно из этого мешает.</p>
+    <p>Содержимое у всех одно и то же — те же события, тот же профиль, те же фотографии. Отличается только то, сколько места отдано содержимому, насколько темно и насколько плотно.</p>
+  </div>
+
+  <div class="why">
+    <div><h2>Если мешает, что фото мелкие</h2><p>→ <b>G. Афиша.</b> Событие становится постером, экран — залом. Так устроен Netflix: витрина — это обложки, интерфейс почти не виден.</p></div>
+    <div><h2>Если мешает, что экран пустоват</h2><p>→ <b>I. Табло.</b> Светлый, но плотный: пять-шесть событий со всеми фактами сразу, тонкие линейки, мелкий шрифт, красный — только служебный.</p></div>
+    <div><h2>Если мешает, что всё одинаково тихо</h2><p>→ <b>H. Полоса.</b> Одно событие во весь экран, фото во всю площадь, решение — одна кнопка. Листаешь, как сторис.</p></div>
+  </div>
+
+  <div class="dirs">
+
+    <article class="dir g" aria-labelledby="g-h">
+      <div class="dir-head">
+        <h2 class="dir-name" id="g-h">G. Афиша</h2>
+        <p class="dir-thesis">Тёмный зал, событие — постер. Сверху одна афиша во всю ширину с решением, ниже ряды обложек: «сегодня вечером», «повторяют каждую неделю». Главная кнопка белая, красный — только знак продукта.</p>
+        <dl class="facts">
+          <dt>Как у</dt><dd>Netflix: витрина из обложек, ряды по смыслу, белая кнопка действия</dd>
+          <dt>Свет</dt><dd>тёмный — выбирают вечером, фото светятся сами</dd>
+          <dt>Цвет</dt><dd>почти нет: чёрный, белый текст, красный только в знаке и у «мест осталось»</dd>
+          <dt>Форма</dt><dd>мелкие скругления 3–4px, постер 2:3 — обложка важнее рамки</dd>
+          <dt>Чем платим</dt><dd>тёмная тема в §10 стоит как post-MVP: выбрать G — пересмотреть это решение. И событию нужна хорошая вертикальная обложка, иначе ряд рассыпается</dd>
+        </dl>
+      </div>
+      <div class="world">
+        <h3>Палитра</h3>
+        <div class="swatches">
+          <div class="sw"><i style="background:#0B0B0D"></i><b>Зал</b><code>#0B0B0D</code></div>
+          <div class="sw"><i style="background:#17171C"></i><b>Плашка</b><code>#17171C</code></div>
+          <div class="sw"><i style="background:#F7F7F8"></i><b>Действие</b><code>#F7F7F8</code></div>
+          <div class="sw"><i style="background:#E03127"></i><b>Знак</b><code>#E03127</code></div>
+        </div>
+        <h3>Шрифт</h3>
+        <div class="type-pair">
+          <p class="disp">Board games</p>
+          <p class="body">Sat 18:00 · Kyiv Games Club · Podil · ~3 km</p>
+          <small>Archivo 700/400 — плотный гротеск, как на афише</small>
+        </div>
+        <h3>Экраны</h3>
+        <div class="screens">
+          <div><div class="shot">
+<div class="g-screen">
+  <div class="g-bar"><span>09:41</span><span>Wi-Fi · 100%</span></div>
+  <header class="g-head"><b>MEETMATES</b><span class="g-ava"><img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=180&h=180&fit=crop&q=75&auto=format" alt=""></span></header>
+  <section class="g-bill">
+    <img src="https://images.unsplash.com/photo-1715860738421-b30b98f8614f?w=780&h=600&fit=crop&q=75&auto=format" alt="">
+    <div class="g-bill-txt">
+      <h3>Board games</h3>
+      <p>Sat 18:00 · Kyiv Games Club · Podil · ~3 km</p>
+      <p class="g-meta">2 going · 1 spot left · <span class="g-ver"><svg class="ic"><use href="#i-verified-check"></use></svg>Verified</span></p>
+      <div class="g-acts"><button class="g-primary">Ask to join</button><button class="g-ghost">Invite</button></div>
+    </div>
+  </section>
+  <section class="g-row">
+    <h4>Tonight</h4>
+    <ul>
+      <li><img src="https://images.unsplash.com/photo-1739368732843-800f36a9b7d0?w=420&h=630&fit=crop&q=75&auto=format" alt=""><b>Morning run</b><span>No date yet · ~1 km</span></li>
+      <li><img src="https://images.unsplash.com/photo-1758525223193-1bd8fca96ef3?w=420&h=630&fit=crop&q=75&auto=format" alt=""><b>Coffee and a walk</b><span>Sun 11:00 · ~2 km</span></li>
+      <li><img src="https://images.unsplash.com/photo-1758892591932-64a3d2203a3a?w=420&h=630&fit=crop&q=75&auto=format" alt=""><b>Picnic by the river</b><span>Sat 17:30 · ~4 km</span></li>
+    </ul>
+  </section>
+  <nav class="g-tabs"><span class=""><svg class="ic"><use href="#i-users-group-rounded"></use></svg><i>People</i></span><span class="on"><svg class="ic"><use href="#i-ticket"></use></svg><i>Events</i></span><span class=""><svg class="ic"><use href="#i-magnifer"></use></svg><i>Search</i></span><span class=""><svg class="ic"><use href="#i-chat-round-dots"></use></svg><i>Chats</i></span><span class=""><svg class="ic"><use href="#i-user-rounded"></use></svg><i>Profile</i></span></nav>
+</div></div><p class="shot-cap">лента</p></div>
+          <div><div class="shot">
+<div class="g-screen">
+  <div class="g-bar"><span>09:41</span><span>Wi-Fi · 100%</span></div>
+  <section class="g-hero">
+    <img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=600&h=750&fit=crop&crop=faces&q=75&auto=format" alt="">
+    <div class="g-hero-txt">
+      <h3>Dasha, 27</h3>
+      <p class="g-meta"><span class="g-ver"><svg class="ic"><use href="#i-verified-check"></use></svg>Verified</span> · 4 meetups attended · Replies quickly</p>
+      <p>Hiking · Board games · Coffee · Running</p>
+    </div>
+  </section>
+  <ul class="g-rows">
+    <li><b>My events</b><span>1 request</span></li>
+    <li><b>My matches</b><span>3 new</span></li>
+    <li><b>Verification</b><span>Verified</span></li>
+    <li><b>Location</b><span>On · rounded</span></li>
+    <li><b>Safety center</b><span></span></li>
+  </ul>
+  <nav class="g-tabs"><span class=""><svg class="ic"><use href="#i-users-group-rounded"></use></svg><i>People</i></span><span class=""><svg class="ic"><use href="#i-ticket"></use></svg><i>Events</i></span><span class=""><svg class="ic"><use href="#i-magnifer"></use></svg><i>Search</i></span><span class=""><svg class="ic"><use href="#i-chat-round-dots"></use></svg><i>Chats</i></span><span class="on"><svg class="ic"><use href="#i-user-rounded"></use></svg><i>Profile</i></span></nav>
+</div></div><p class="shot-cap">профиль</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="dir h" aria-labelledby="h-h">
+      <div class="dir-head">
+        <h2 class="dir-name" id="h-h">H. Полоса</h2>
+        <p class="dir-thesis">Одно событие во весь экран: фото во всю площадь, название крупно внизу, одно решение. Следующее уже выглядывает снизу — листаешь, как сторис, а не читаешь список.</p>
+        <dl class="facts">
+          <dt>Как у</dt><dd>Instagram и TikTok: кадр во весь экран, подпись внизу, переход — одним движением</dd>
+          <dt>Свет</dt><dd>тёмный, но его почти не видно: фон — само фото</dd>
+          <dt>Цвет</dt><dd>один тёплый оранжевый на кнопке, остальное — белый поверх снимка</dd>
+          <dt>Форма</dt><dd>пилюли и стекло поверх фото: то, что осталось от D</dd>
+          <dt>Чем платим</dt><dd>сравнивать события трудно: на экране всегда одно. Для «куда пойти в выходные» это шаг назад, а §5.4 требует видеть дату, место и места сразу</dd>
+        </dl>
+      </div>
+      <div class="world">
+        <h3>Палитра</h3>
+        <div class="swatches">
+          <div class="sw"><i style="background:#09090B"></i><b>Фон</b><code>#09090B</code></div>
+          <div class="sw"><i style="background:#FFFFFF"></i><b>Текст</b><code>#FFFFFF</code></div>
+          <div class="sw"><i style="background:#FF6B35"></i><b>Действие</b><code>#FF6B35</code></div>
+          <div class="sw"><i style="background:rgba(255,255,255,.16);backdrop-filter:blur(4px)"></i><b>Стекло</b><code>white 16%</code></div>
+        </div>
+        <h3>Шрифт</h3>
+        <div class="type-pair">
+          <p class="disp">Board games</p>
+          <p class="body">Kyiv Games Club · Podil · ~3 km · Sat 18:00</p>
+          <small>Manrope 800/400 — крупно и округло, как подпись под кадром</small>
+        </div>
+        <h3>Экраны</h3>
+        <div class="screens">
+          <div><div class="shot">
+<div class="h-screen">
+  <img class="h-bg" src="https://images.unsplash.com/photo-1715860738421-b30b98f8614f?w=780&h=1380&fit=crop&q=75&auto=format" alt="">
+  <div class="h-top">
+    <span class="h-chip">Events nearby</span>
+    <span class="h-chip h-count">2 going · 1 spot left</span>
+  </div>
+  <div class="h-txt">
+    <h3>Board games</h3>
+    <p>Kyiv Games Club · Podil · ~3 km · Sat 18:00</p>
+    <p class="h-ver"><svg class="ic"><use href="#i-verified-check"></use></svg>Verified · Free</p>
+    <div class="h-acts"><button class="h-primary">Ask to join</button><button class="h-ghost">Invite</button></div>
+  </div>
+  <div class="h-next"><img src="https://images.unsplash.com/photo-1739368732843-800f36a9b7d0?w=780&h=600&fit=crop&q=75&auto=format" alt=""><span>Morning run along the embankment</span></div>
+  <nav class="h-tabs"><span class=""><svg class="ic"><use href="#i-users-group-rounded"></use></svg><i>People</i></span><span class="on"><svg class="ic"><use href="#i-ticket"></use></svg><i>Events</i></span><span class=""><svg class="ic"><use href="#i-magnifer"></use></svg><i>Search</i></span><span class=""><svg class="ic"><use href="#i-chat-round-dots"></use></svg><i>Chats</i></span><span class=""><svg class="ic"><use href="#i-user-rounded"></use></svg><i>Profile</i></span></nav>
+</div></div><p class="shot-cap">лента</p></div>
+          <div><div class="shot">
+<div class="h-screen">
+  <img class="h-bg" src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=600&h=750&fit=crop&crop=faces&q=75&auto=format" alt="">
+  <div class="h-top"><span class="h-chip">My profile</span></div>
+  <div class="h-txt">
+    <h3>Dasha, 27</h3>
+    <p>Hiking · Board games · Coffee · Running</p>
+    <p class="h-ver"><svg class="ic"><use href="#i-verified-check"></use></svg>Verified · 4 meetups attended · Replies quickly</p>
+  </div>
+  <div class="h-sheet">
+    <span>My events<i>1 request</i></span>
+    <span>My matches<i>3 new</i></span>
+    <span>Verification<i>Verified</i></span>
+  </div>
+  <nav class="h-tabs"><span class=""><svg class="ic"><use href="#i-users-group-rounded"></use></svg><i>People</i></span><span class=""><svg class="ic"><use href="#i-ticket"></use></svg><i>Events</i></span><span class=""><svg class="ic"><use href="#i-magnifer"></use></svg><i>Search</i></span><span class=""><svg class="ic"><use href="#i-chat-round-dots"></use></svg><i>Chats</i></span><span class="on"><svg class="ic"><use href="#i-user-rounded"></use></svg><i>Profile</i></span></nav>
+</div></div><p class="shot-cap">профиль</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="dir i" aria-labelledby="i-h">
+      <div class="dir-head">
+        <h2 class="dir-name" id="i-h">I. Табло</h2>
+        <p class="dir-thesis">Светлый, но плотный: пять-шесть событий на экран, у каждого дата, место, расстояние, места и кнопка. Тонкие линейки вместо карточек, мелкий шрифт, красный — служебный: дата и действие.</p>
+        <dl class="facts">
+          <dt>Как у</dt><dd>японских сайтов и расписаний: модули в линейках, ничего не пропадает зря</dd>
+          <dt>Свет</dt><dd>светлый — смотрят и днём, и на ходу</dd>
+          <dt>Цвет</dt><dd>белый и графит, один красный на дате и действии</dd>
+          <dt>Форма</dt><dd>почти без скруглений, 2px — рамка не должна спорить с содержимым</dd>
+          <dt>Чем платим</dt><dd>мелкий шрифт на грани: 8–10px в макете, в продукте это 12px и ни пикселя меньше. И «спокойный, а не тревожный» (атрибут 1) держится здесь только за счёт воздуха между строками</dd>
+        </dl>
+      </div>
+      <div class="world">
+        <h3>Палитра</h3>
+        <div class="swatches">
+          <div class="sw"><i style="background:#FFFFFF"></i><b>Лист</b><code>#FFFFFF</code></div>
+          <div class="sw"><i style="background:#101114"></i><b>Текст</b><code>#101114</code></div>
+          <div class="sw"><i style="background:#E6E7EA"></i><b>Линейка</b><code>#E6E7EA</code></div>
+          <div class="sw"><i style="background:#D8232A"></i><b>Служебный</b><code>#D8232A</code></div>
+        </div>
+        <h3>Шрифт</h3>
+        <div class="type-pair">
+          <p class="disp">Board games</p>
+          <p class="body">Kyiv Games Club · Podil · ~3 km · Free</p>
+          <small>Zen Kaku Gothic New 700/400 — компактный гротеск, читается мелким</small>
+        </div>
+        <h3>Экраны</h3>
+        <div class="screens">
+          <div><div class="shot">
+<div class="i-screen">
+  <div class="i-bar"><span>09:41</span><span>Wi-Fi · 100%</span></div>
+  <header class="i-head"><h3>Events nearby</h3><button class="i-post">Post an event</button></header>
+  <div class="i-filters"><span class="on">Nearby</span><span>Mine</span><span>Today</span><span>Weekend</span><span>No date</span><span>≤2 km</span><span>Free</span></div>
+  <ul class="i-list">
+      <li class="i-item">
+        <img src="https://images.unsplash.com/photo-1715860738421-b30b98f8614f?w=180&h=180&fit=crop&q=75&auto=format" alt="">
+        <div>
+          <p class="i-top"><b>Board games</b><time>Sat 18:00</time></p>
+          <p class="i-sub">Kyiv Games Club · Podil · ~3 km · Free</p>
+          <p class="i-sub">2 going · 1 spot left · <span class="i-ver"><svg class="ic"><use href="#i-verified-check"></use></svg>Verified</span></p>
+        </div>
+        <button class="i-go">Ask to join</button>
+      </li>
+      <li class="i-item">
+        <img src="https://images.unsplash.com/photo-1739368732843-800f36a9b7d0?w=180&h=180&fit=crop&q=75&auto=format" alt="">
+        <div>
+          <p class="i-top"><b>Morning run along the embankment</b><time>No date</time></p>
+          <p class="i-sub">Podil · ~1 km · Free</p>
+          <p class="i-sub">1 going · 2 spots left · <span class="i-ver"><svg class="ic"><use href="#i-verified-check"></use></svg>Verified</span></p>
+        </div>
+        <button class="i-go">Ask to join</button>
+      </li>
+      <li class="i-item">
+        <img src="https://images.unsplash.com/photo-1758525223193-1bd8fca96ef3?w=180&h=180&fit=crop&q=75&auto=format" alt="">
+        <div>
+          <p class="i-top"><b>Coffee and a walk in Podil</b><time>Sun 11:00</time></p>
+          <p class="i-sub">Podil · ~2 km · Free</p>
+          <p class="i-sub">1 spot left · <span class="i-ver"><svg class="ic"><use href="#i-verified-check"></use></svg>Verified</span></p>
+        </div>
+        <button class="i-go">Ask to join</button>
+      </li>
+      <li class="i-item">
+        <img src="https://images.unsplash.com/photo-1758892591932-64a3d2203a3a?w=180&h=180&fit=crop&q=75&auto=format" alt="">
+        <div>
+          <p class="i-top"><b>Picnic by the river</b><time>Sat 17:30</time></p>
+          <p class="i-sub">Trukhaniv Island · ~4 km · Free</p>
+          <p class="i-sub">2 going · 2 spots left · <span class="i-ver"><svg class="ic"><use href="#i-verified-check"></use></svg>Verified</span></p>
+        </div>
+        <button class="i-go">Ask to join</button>
+      </li>
+      <li class="i-item">
+        <img src="https://images.unsplash.com/photo-1715860738421-b30b98f8614f?w=180&h=180&fit=crop&q=75&auto=format" alt="">
+        <div>
+          <p class="i-top"><b>Board games evening at home</b><time>No date</time></p>
+          <p class="i-sub">Podil · private · ~4 km · Free</p>
+          <p class="i-sub">3 spots left</p>
+        </div>
+        <button class="i-go">Ask to join</button>
+      </li>
+  </ul>
+  <nav class="i-tabs"><span class=""><svg class="ic"><use href="#i-users-group-rounded"></use></svg><i>People</i></span><span class="on"><svg class="ic"><use href="#i-ticket"></use></svg><i>Events</i></span><span class=""><svg class="ic"><use href="#i-magnifer"></use></svg><i>Search</i></span><span class=""><svg class="ic"><use href="#i-chat-round-dots"></use></svg><i>Chats</i></span><span class=""><svg class="ic"><use href="#i-user-rounded"></use></svg><i>Profile</i></span></nav>
+</div></div><p class="shot-cap">лента</p></div>
+          <div><div class="shot">
+<div class="i-screen">
+  <div class="i-bar"><span>09:41</span><span>Wi-Fi · 100%</span></div>
+  <header class="i-head"><h3>My profile</h3><button class="i-post">Edit</button></header>
+  <div class="i-me">
+    <img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=600&h=750&fit=crop&crop=faces&q=75&auto=format" alt="">
+    <div>
+      <p class="i-top"><b>Dasha, 27</b></p>
+      <p class="i-sub">Hiking · Board games · Coffee · Running</p>
+      <p class="i-sub"><span class="i-ver"><svg class="ic"><use href="#i-verified-check"></use></svg>Verified</span> · 4 meetups attended · Replies quickly</p>
+      <p class="i-sub">Kyiv · distance is always rounded for others</p>
+    </div>
+  </div>
+  <table class="i-table">
+    <tr><th>My events</th><td>1 request</td></tr>
+    <tr><th>My matches</th><td>3 new</td></tr>
+    <tr><th>Verification</th><td>Verified</td></tr>
+    <tr><th>Location</th><td>On · rounded</td></tr>
+    <tr><th>Blocked people</th><td>None</td></tr>
+    <tr><th>Safety center</th><td></td></tr>
+    <tr><th>Settings</th><td>Account and notifications</td></tr>
+  </table>
+  <nav class="i-tabs"><span class=""><svg class="ic"><use href="#i-users-group-rounded"></use></svg><i>People</i></span><span class=""><svg class="ic"><use href="#i-ticket"></use></svg><i>Events</i></span><span class=""><svg class="ic"><use href="#i-magnifer"></use></svg><i>Search</i></span><span class=""><svg class="ic"><use href="#i-chat-round-dots"></use></svg><i>Chats</i></span><span class="on"><svg class="ic"><use href="#i-user-rounded"></use></svg><i>Profile</i></span></nav>
+</div></div><p class="shot-cap">профиль</p></div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <p class="foot">Содержимое и фотографии — те же, что в <a href="./screens/feed.html">экранах направления D</a>; фото из <a href="./references.md">references.md</a>. Это эскизы для выбора, а не готовые экраны: контраст, тач-таргеты и размеры шрифта доводятся после того, как направление выбрано. Предыдущие раунды — <a href="./directions.html">первый</a> и <a href="./directions-2.html">второй</a>.</p>
+</main>
+</body>
+</html>

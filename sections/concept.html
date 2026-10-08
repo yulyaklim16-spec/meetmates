@@ -434,7 +434,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
       <div class="chips">
         <span><b>6</b> направлений в двух раундах</span>
         <span><b>1</b> выбрано — D</span>
-        <span><b>10</b> страниц концепта</span>
+        <span><b>11</b> страниц концепта</span>
         <span><b>19</b> пар цвета проверены</span>
       </div>
       <!--PUBLIC-NOTE-->
@@ -619,6 +619,14 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
 <p><a href="../concept/screens/feed.html"><code>screens/feed.html</code></a> и состояния <a href="../concept/screens/feed-empty.html"><code>-empty</code></a>, <a href="../concept/screens/feed-error.html"><code>-error</code></a>, <a href="../concept/screens/feed-loading.html"><code>-loading</code></a> — лента событий в стиле D. <a href="../concept/screens/my-profile.html"><code>screens/my-profile.html</code></a> и <a href="../concept/screens/my-profile-loading.html"><code>-loading</code></a> — мой профиль (2026-10-08): та же карточка, что у события, портрет во всю её ширину, полосы пагинации под фото — стекло живёт только в меню. Высота карточки человека вынесена в токен <code>--card-h: 400px</code>: в вайрфреймах она уже стояла, а в продукте её не было. <strong>Руками не правятся:</strong> <code>node scripts/build-concept-screens.mjs</code> берёт разметку из <code>wireframes/feed*.html</code> как есть (текст и структура те же — сверено скриптом), ставит фото в обложки, иконки Solar Bold и отметку Verified, подключает <a href="../concept/screens/screens.css"><code>screens/screens.css</code></a>. Вайрфреймы остаются серыми — это их этап. Поправили вайрфрейм — пересобрали экран.</p>
 <p><strong>Полоса прокрутки видна</strong> (2026-10-08) — это подсказка, что ниже есть ещё содержимое; место под неё резервируется всегда, поэтому карточки одной ширины и там, где прокрутки нет. Решение перенесено из вайрфреймов, где оно записано у <code>.pane</code>; на экранах концепта полосу сначала спрятали, и подсказка пропала.</p>
 <p>Правила стилей: значения только из <code>tokens.css</code>; одинаковые элементы описаны по роли — каждая главная кнопка в содержимом оранжевая, в шапке — тёмная, срез Nearby / Mine — сегменты, каждая карточка события и каждая отметка Verified одинаковы. Кнопки шапки — только иконка в круге 44px (Filters — белая, Post — тёмная с плюсом); подписи остаются в разметке для скринридера, у Post — <code>aria-label=&quot;Post an event&quot;</code> (<code class="dcode">D-60</code>). Нижнее меню — во всю ширину контента, вкладки делят её поровну (решение дизайнера 2026-10-08). Новые сочетания цвета добавлены в <code>scripts/contrast.mjs</code>: всего 19 пар, все проходят (2026-10-08: две пары «текст на стекле поверх фото» ушли вместе с меткой).</p>
+<h3 id="раунд-3-открыт-2026-10-08">Раунд 3 — открыт 2026-10-08</h3>
+<p><a href="../concept/directions-3.html"><code>directions-3.html</code></a>. D собрано и работает, но дизайнеру «что-то не нравится», и назвать что — не получается. Раунд проверяет три отдельные догадки, каждая на тех же событиях и том же профиле:</p>
+<div class="tw"><table><thead><tr><th></th><th>Догадка</th><th>Направление</th></tr></thead><tbody>
+<tr><td><strong>G. Афиша</strong></td><td>мешает, что фото мелкие</td><td>тёмный зал, событие — постер, ряды обложек, белая кнопка действия (Netflix)</td></tr>
+<tr><td><strong>H. Полоса</strong></td><td>мешает, что всё одинаково тихо</td><td>одно событие во весь экран, фото во всю площадь, одно решение (Instagram, TikTok)</td></tr>
+<tr><td><strong>I. Табло</strong></td><td>мешает, что экран пустоват</td><td>светлый и плотный: пять-шесть событий со всеми фактами, линейки, красный служебный (японские сайты)</td></tr>
+</tbody></table></div>
+<p>Выбор не сделан. <strong>Цена G и H:</strong> тёмная тема в §10 стоит как post-MVP — выбрать любое из них значит пересмотреть это решение. <strong>Цена H отдельно:</strong> §5.4 требует видеть дату, место и число мест сразу, а на экране всегда одно событие.</p>
 <h3 id="не-выбраны-к-ним-можно-вернуться">Не выбраны — к ним можно вернуться</h3>
 <p><strong>Раунд 2</strong> (<a href="../concept/directions-2.html"><code>directions-2.html</code></a>) — ближе к вкусу «Instagram / Apple», тот же каркас карточки:</p>
 <div class="tw"><table><thead><tr><th></th><th>Суть</th><th>Цвет · шрифт · форма</th><th>Почему не выбран</th><th>Когда вернуться</th></tr></thead><tbody>
@@ -652,6 +660,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
         <h3>Направления, которые не выбраны</h3>
         <p class="intro">Лежат целиком — к ним возвращаются по условию, записанному в концепте, а не рисуют заново.</p>
         <ul class="cards">
+          <li><a href="../concept/directions-3.html"><b>Раунд 3: G «Афиша», H «Полоса», I «Табло»</b><span>после D: что именно мешает — мелкие фото, пустой экран или ровный тон</span></a></li>
           <li><a href="../concept/directions-2.html"><b>Раунд 2: E «Ночная лента» и F «Кобальт»</b><span>ближе к вкусу «Instagram / Apple», тот же каркас карточки</span></a></li>
           <li><a href="../concept/directions.html"><b>Раунд 1: A «Смальта», B «Корешок», C «Линия»</b><span>отклонён целиком — «выглядит не современно»</span></a></li>
         </ul>
