@@ -15,6 +15,7 @@
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { subtabsHtml, TABS_CSS, tabsJs } from './lib/tabs.mjs';
+import { rail } from './lib/chrome.mjs';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
@@ -157,25 +158,6 @@ ${rows}
   <p class="n">Дерево: раздел → экран → его состояния. Экран ведёт на рабочий вид,
     серым — заглушка: страница есть, макет не нарисован. Панель собирается
     из _screens.md и sitemap.md скриптом build-wireframes.mjs.</p>
-</nav>`;
-}
-
-// ── полоса разделов проекта на странице макета ─────────────────────────
-// Та же навигация, что на сайте, но сжатая до номеров: рядом стоит дерево
-// макетов, и два полных дерева подряд человек уже не читает.
-function rail() {
-  const items = [
-    ['01', '../research/research.html', 'Ресерч и бенчмарк'],
-    ['02', '../research/persones.html', 'Персоны и JTBD'],
-    ['03', '../sections/ia.html', 'Информационная архитектура'],
-    ['04', '../sections/wireframes.html#wireframes', 'Прототипирование и вайрфрейминг'],
-  ];
-  const last = items.length - 1;
-  return `<i id="bare" hidden></i>
-<nav class="wfrail" aria-label="Разделы проекта">
-  <a class="home" href="../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
-${items.map(([n, href, title], i) =>
-    `  <a${i === last ? ' class="now" aria-current="page"' : ''} href="${href}" aria-label="Раздел ${n} — ${title}" title="${title}">${n}</a>`).join('\n')}
 </nav>`;
 }
 
@@ -421,7 +403,7 @@ for (const s of list) {
     const a = html.indexOf('<!-- nav:start -->');
     const b = html.indexOf('<!-- nav:end -->');
     if (a === -1 || b === -1) throw new Error(`в ${p.file} нет меток <!-- nav:start --> / <!-- nav:end -->`);
-    let next = html.slice(0, a) + '<!-- nav:start -->\n' + rail() + '\n' + panel(p.file) + '\n' + html.slice(b);
+    let next = html.slice(0, a) + '<!-- nav:start -->\n' + '<i id="bare" hidden></i>\n' + rail({ prefix: '../', current: '04' }) + '\n' + panel(p.file) + '\n' + html.slice(b);
     // метки полосы состояний дописываются сами: страницу, нарисованную руками,
     // не должно заботить, какие служебные блоки в неё вставляются
     if (!next.includes('<!-- states:start -->')) {

@@ -18,6 +18,7 @@
 // общие со стендом); значения — только из concept/tokens.css.
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { rail } from './lib/chrome.mjs';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
@@ -49,6 +50,38 @@ const ICON_BY_LABEL = {
 const svg = (name) =>
   readFileSync(join(ICONS, `${name}.svg`), 'utf8').trim()
     .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+
+
+// ── дерево экранов концепта: та же служебная навигация, что у вайрфреймов ──
+// Рядом с полосой разделов: из экрана видно весь набор и то, где ты в нём.
+const TITLES = {
+  'feed': 'рабочий вид',
+  'feed-empty': 'пусто',
+  'feed-error': 'ошибка',
+  'feed-loading': 'загрузка',
+};
+const tree = (current) => `<nav class="wfnav" aria-label="Экраны концепта">
+  <p class="h">Концепт</p>
+  <p class="t">Направление D «Стекло» · ${SCREENS.length} из ${SCREENS.length}</p>
+  <ul>
+    <li class="grp">
+      <p class="gt"><span class="gn">1</span>Лента событий</p>
+      <ul>
+        <li class="scr${current === SCREENS[0] ? ' now' : ''}">${current === SCREENS[0]
+          ? `<b class="s" aria-current="page">Лента событий</b>`
+          : `<a class="s" href="${SCREENS[0]}.html">Лента событий</a>`}
+          <ul>
+${SCREENS.slice(1).map((n) => `            <li>${n === current
+    ? `<b aria-current="page">${TITLES[n]}</b>`
+    : `<a href="${n}.html">${TITLES[n]}</a>`}</li>`).join('\n')}
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <p class="n">Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
+    текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
+</nav>`;
 
 mkdirSync(OUT, { recursive: true });
 
@@ -111,6 +144,8 @@ ${docComment}
 </head>
 <body class="mm-ui">
 <i id="bare" hidden></i>
+${rail({ prefix: '../../', current: '06' })}
+${tree(name)}
 ${body.trim()}
 </body>
 </html>

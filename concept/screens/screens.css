@@ -40,13 +40,61 @@ svg { flex: none; }
 
 /* ── состояния экрана: переключатель над телефоном ─────────── */
 
+
+/* ── Служебная навигация: полоса разделов и дерево экранов ─────────────
+   Та же, что у вайрфреймов, и по той же причине: из экрана должно быть
+   видно весь набор и соседние разделы. На прототип не едет. */
+body {
+  grid-template-columns: 52px 236px minmax(0, 780px);
+  grid-template-rows: auto auto 1fr;
+  justify-content: center;
+  justify-items: stretch;
+  column-gap: var(--s-6);
+}
+.wfstates, .device, .meta { grid-column: 3; justify-self: center; }
+.wfrail, .wfnav { grid-row: 1 / span 3; position: sticky; top: var(--s-6); align-self: start; font-size: 12px; line-height: 1.4; }
+.wfrail {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  border-right: 1px solid var(--line); padding-right: var(--s-3);
+}
+.wfrail a {
+  display: block; min-width: 32px; padding: 6px 8px; border-radius: var(--r-sm);
+  color: var(--ink-600); text-decoration: none; text-align: center; font-variant-numeric: tabular-nums;
+}
+.wfrail a:hover, .wfrail a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
+.wfrail .home { margin-bottom: var(--s-4); font-weight: 700; letter-spacing: 0.04em; color: var(--ink-900); }
+.wfrail .now { background: var(--surface-2); color: var(--ink-900); font-weight: 700; }
+
+.wfnav { color: var(--ink-600); border-right: 1px solid var(--line); padding-right: var(--s-4); }
+.wfnav .h { font-size: var(--t-body-sm); font-weight: 700; color: var(--ink-900); margin-bottom: 2px; }
+.wfnav .t { font-size: 11px; margin-bottom: var(--s-5); }
+.wfnav .n { margin-top: var(--s-5); font-size: 11px; }
+.wfnav .gt { padding: 0 var(--s-3); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-900); font-weight: 700; margin-bottom: var(--s-3); }
+.wfnav .gn { display: inline-block; min-width: 1.4em; color: var(--ink-400); font-weight: 400; }
+.wfnav .s { display: block; padding: 5px var(--s-3); border-radius: var(--r-sm); font-size: 12px; font-weight: 600; color: var(--ink-900); text-decoration: none; }
+.wfnav .scr > ul { margin: 1px 0 var(--s-3) var(--s-3); padding-left: var(--s-3); border-left: 1px solid var(--line); }
+.wfnav .scr > ul a, .wfnav .scr > ul b { display: block; padding: 3px var(--s-3); border-radius: var(--r-sm); font-weight: 400; color: var(--ink-600); text-decoration: none; }
+.wfnav .now > .s, .wfnav .scr > ul b { background: var(--surface-2); color: var(--ink-900); }
+.wfnav a:hover, .wfnav a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
+
+@media (max-width: 1000px) {
+  body { grid-template-columns: minmax(0, 1fr); }
+  .wfrail, .wfnav { position: static; grid-row: auto; border-right: 0; padding-right: 0; }
+  .wfrail { flex-direction: row; flex-wrap: wrap; }
+  .wfstates, .device, .meta { grid-column: 1; }
+}
+
 /* ── Голый вид: адрес с #bare ──────────────────────────────────────────
    Один мокап без полосы состояний и служебного блока — для превью
    в галерее раздела 06. Переключает `:target`, скрипта на экране нет. */
 body:has(#bare:target) { padding: 0; gap: 0; justify-content: flex-start; }
+body:has(#bare:target) { grid-template-columns: minmax(0, 1fr); }
+body:has(#bare:target) .wfrail,
+body:has(#bare:target) .wfnav,
 body:has(#bare:target) .wfstates,
 body:has(#bare:target) .meta,
 body:has(#bare:target) footer { display: none; }
+body:has(#bare:target) .device { grid-column: 1; }
 body:has(#bare:target) .device { margin: 0 auto; }
 
 .wfstates { width: 100%; max-width: 760px; display: grid; justify-items: center; gap: var(--s-2); }

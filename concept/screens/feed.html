@@ -22,6 +22,35 @@
 </head>
 <body class="mm-ui">
 <i id="bare" hidden></i>
+<nav class="wfrail" aria-label="Разделы проекта">
+  <a class="home" href="../../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
+  <a href="../../research/research.html" aria-label="Раздел 01 — Ресерч и бенчмарк" title="Ресерч и бенчмарк">01</a>
+  <a href="../../research/persones.html" aria-label="Раздел 02 — Персоны и JTBD" title="Персоны и JTBD">02</a>
+  <a href="../../sections/ia.html" aria-label="Раздел 03 — Информационная архитектура" title="Информационная архитектура">03</a>
+  <a href="../../sections/wireframes.html#wireframes" aria-label="Раздел 04 — Прототипирование и вайрфрейминг" title="Прототипирование и вайрфрейминг">04</a>
+  <a href="../../sections/voice.html" aria-label="Раздел 05 — Tone of voice и микрокопи" title="Tone of voice и микрокопи">05</a>
+  <a class="now" aria-current="page" href="../../sections/concept.html#screens" aria-label="Раздел 06 — Концепт" title="Концепт">06</a>
+</nav>
+<nav class="wfnav" aria-label="Экраны концепта">
+  <p class="h">Концепт</p>
+  <p class="t">Направление D «Стекло» · 4 из 4</p>
+  <ul>
+    <li class="grp">
+      <p class="gt"><span class="gn">1</span>Лента событий</p>
+      <ul>
+        <li class="scr now"><b class="s" aria-current="page">Лента событий</b>
+          <ul>
+            <li><a href="feed-empty.html">пусто</a></li>
+            <li><a href="feed-error.html">ошибка</a></li>
+            <li><a href="feed-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <p class="n">Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
+    текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
+</nav>
 <!-- states:start -->
 <nav class="wfstates" aria-label="Состояния экрана Лента запросов">
   <p class="t">Лента запросов · состояния этого экрана</p>
