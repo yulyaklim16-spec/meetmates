@@ -149,8 +149,14 @@ main { flex: 1; min-height: 0; padding: var(--s-3) var(--s-4) var(--s-2); displa
 section { display: flex; flex-direction: column; gap: var(--s-3); }
 section.stretch { flex: 1; min-height: 0; }
 /* ── лента: прокрутка внутри экрана ──────────────────────── */
-.scrolly { flex: 1; min-height: 0; overflow: auto; scrollbar-width: none; margin: 0 calc(var(--s-4) * -1); padding: 0 var(--s-4) var(--s-2); }
-.scrolly::-webkit-scrollbar { display: none; }
+/* Полоса прокрутки видна — это подсказка, что ниже ещё есть содержимое;
+   место под неё резервируется всегда, поэтому карточки одной ширины и там,
+   где прокрутки нет. То же решение, что в вайрфреймах (_wire.css, .pane) */
+.scrolly { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; margin: 0 calc(var(--s-4) * -1); padding: 0 var(--s-4) var(--s-2); }
+.scrolly, .pane { scrollbar-width: thin; scrollbar-color: var(--ink-400) transparent; scrollbar-gutter: stable; }
+.scrolly::-webkit-scrollbar, .pane::-webkit-scrollbar { width: 6px; }
+.scrolly::-webkit-scrollbar-thumb, .pane::-webkit-scrollbar-thumb { background: var(--ink-400); border-radius: var(--r-pill); }
+.scrolly::-webkit-scrollbar-track, .pane::-webkit-scrollbar-track { background: transparent; }
 /* ── служебное: подписи зон и описание — рядом с телефоном, не в нём ── */
 .anns {
   position: absolute; top: 0; left: calc(100% + var(--s-6));

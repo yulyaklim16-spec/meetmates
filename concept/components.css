@@ -169,8 +169,7 @@
 
 /* Профиль листается целиком: у вайрфрейма прокрутка тоже общая, у панели,
    а не у секции — иначе глубокий слой съедает всю высоту */
-.mm-ui .pane:has(.card) { overflow-y: auto; scrollbar-width: none; }
-.mm-ui .pane:has(.card)::-webkit-scrollbar { display: none; }
+.mm-ui .pane:has(.card) { overflow-y: auto; overflow-x: hidden; }
 .mm-ui .pane:has(.card) > .scrolly { flex: none; min-height: auto; overflow: visible; }
 
 /* Заголовок секции внутри экрана: шкала продукта, иначе браузер ставит 24px
