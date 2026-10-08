@@ -1,6 +1,6 @@
 // Сборка публичного сайта.
 //
-// В deploy уходит: редирект в корне, страницы разделов, токены, которыми они
+// В deploy уходит: редирект в корне, страницы разделов и концепта, токены, которыми они
 // отрисовываются, и только те скриншоты, на которые страницы действительно ссылаются.
 //
 // Чего в deploy нет: внутренних .md — бриф, разборы, планы. Иначе Vercel
@@ -17,6 +17,13 @@ const OUT = join(ROOT, 'dist');
 
 // страницы сайта относительно корня репозитория
 const PAGES = ['research/research.html', 'research/persones.html', 'sections/index.html', 'sections/ia.html', 'sections/wireframes.html'];
+// концепт: стенд, направления и экраны — тоже страницы сайта (§8, D-61)
+import { readdirSync as ls } from 'node:fs';
+const CONCEPT = [
+  ...ls(join(ROOT, 'concept')).filter((f) => f.endsWith('.html')).map((f) => `concept/${f}`),
+  ...ls(join(ROOT, 'concept/screens')).filter((f) => f.endsWith('.html')).map((f) => `concept/screens/${f}`),
+].sort();
+PAGES.push(...CONCEPT);
 
 // ── база для ссылок на исходники ───────────────────────────────
 // читаем из git, чтобы адрес репозитория не был зашит в скрипт
@@ -80,6 +87,14 @@ if (missing.length) {
 if (!copyAsset('tokens/site.css')) {
   console.error('Нет tokens/site.css — страницы останутся без стилей');
   process.exit(1);
+}
+
+// ── 2б. стили концепта: свои токены продукта, не site.css ──────
+for (const rel of ['tokens/tokens.css', 'concept/tokens.css', 'concept/screens/screens.css']) {
+  if (!copyAsset(rel)) {
+    console.error(`Нет ${rel} — страницы концепта останутся без стилей`);
+    process.exit(1);
+  }
 }
 
 // ── 2a. вайрфреймы: раздел 4 показывает их во фрейме, значит они едут на сайт.
@@ -150,7 +165,7 @@ if (leaked.length) {
 }
 
 console.log(
-  `dist готов: index.html (редирект) + ${PAGES.join(', ')} + site.css + ${shots.size} скриншотов + ${wire.length} файлов вайрфреймов\n` +
+  `dist готов: index.html (редирект) + ${PAGES.length} страниц (из них концепт: ${CONCEPT.length}) + site.css, tokens.css + ${shots.size} скриншотов + ${wire.length} файлов вайрфреймов\n` +
   (BLOB
     ? `ссылок уведено на ${BLOB}: ${rewritten.length}`
     : `ссылок снято (репозиторий не определён): ${dropped.length}`)
