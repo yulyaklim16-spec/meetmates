@@ -1,38 +1,54 @@
-/* MeetMates — design tokens
- * Источник значений цвета: CLAUDE.md §8. Значения-производные (границы, шкалы, тени, движение)
- * выведены из него и помечены комментарием.
- * Единственный источник правды по цвету. Хардкод цвета в компонентах — ошибка.
+/* MeetMates — design tokens продукта
+ * Направление D «Стекло» (D-61). Источник значений: CLAUDE.md §8 и concept/concept.md,
+ * «Выбранное направление». Значения-производные помечены комментарием.
+ * Единственный источник правды по цвету продукта. Хардкод цвета в компонентах — ошибка.
+ * Оформление сайта-документации живёт отдельно — tokens/site.css.
  */
 
 :root {
-  /* ---------- Brand ---------- */
-  --brand-a: #7B2FF7;              /* electric violet */
-  --brand-b: #FF3D8B;              /* hot pink */
-  --brand-gradient: linear-gradient(135deg, var(--brand-a) 0%, var(--brand-b) 100%);
+  /* ---------- Action — один цвет на экран ---------- */
+  --action: #FF5F1F;               /* единственный цветной акцент: главная кнопка */
+  --action-hover: #FF7139;         /* производный */
+  --ink-on-action: #1D1D1F;        /* текст на кнопке — тёмный: 5.5:1. Белый даёт 3.0:1 — запрещён */
 
   /* ---------- Semantic ---------- */
-  --accent: #00D9A3;               /* success: Joined, Verified, online */
-  --warn: #FFB020;
-  --danger: #FF4757;               /* Report / Block */
+  --verified: #1D1D1F;             /* галочка Verified — цвета текста, не отдельный цвет */
+  --warn: #A35500;                 /* производный: текст предупреждения, 5.0:1 на --bg */
+  --danger: #C42D2D;               /* Report / Block: 5.1:1 на --bg */
 
   /* ---------- Ink ---------- */
-  --ink-900: #14121F;              /* заголовки, основной текст */
-  --ink-600: #55506B;              /* вторичный текст */
-  --ink-400: #8E88A6;              /* подписи, плейсхолдеры */
-  --ink-on-brand: #FFFFFF;         /* производный: текст на градиенте */
+  --ink-900: #1D1D1F;              /* заголовки, основной текст */
+  --ink-600: #6E6E73;              /* вторичный текст: 4.7:1 на --bg, 5.1:1 на --surface */
+  --ink-400: #8E8E93;              /* только иконки и неактивные вкладки — не текст (3.0:1 на --bg) */
 
   /* ---------- Surface ---------- */
-  --bg: #FDFCFF;
+  --bg: #F5F5F7;
   --surface: #FFFFFF;
-  --surface-2: #F4F1FB;
-  --line: #E9E4F5;                 /* производный: границы и разделители */
+  --surface-2: #F2F2F5;            /* производный: поля ввода, чипы фильтров; --ink-600 на нём 4.5:1 */
+  --line: #E3E3E8;
+
+  /* ---------- Glass — только поверх контента: таб-бар, метка на фото ---------- */
+  --glass: rgba(255, 255, 255, 0.6);
+  --glass-strong: rgba(255, 255, 255, 0.75);   /* производный: подложка активной вкладки */
+  --glass-blur: blur(18px) saturate(1.5);
+  --glass-blur-sm: blur(14px) saturate(1.6);   /* метка на фото */
+  --glass-rim: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+
+  /* ---------- Icons — Solar Bold Duotone, задний слой стеклянный ---------- */
+  --icon-glass-from: #FFFFFF;                  /* градиент заднего слоя: блик */
+  --icon-glass-mid: rgba(230, 230, 238, 0.75);
+  --icon-glass-to: rgba(154, 154, 170, 0.55);  /* дымка */
+  --icon-shadow: drop-shadow(0 1.5px 2px rgba(20, 18, 31, 0.28));
+  --icon-sm: 16px;
+  --icon-md: 24px;
+  --icon-lg: 32px;
 
   /* ---------- Radius ---------- */
   --r-sm: 12px;
   --r-md: 16px;
-  --r-lg: 20px;                    /* карточки */
-  --r-xl: 24px;                    /* крупные карточки, bottom sheet */
-  --r-pill: 999px;                 /* теги, кнопки */
+  --r-lg: 22px;                    /* карточки */
+  --r-xl: 28px;                    /* bottom sheet, крупные блоки */
+  --r-pill: 999px;                 /* кнопки, чипы, таб-бар */
 
   /* ---------- Spacing (4px база) ---------- */
   --s-1: 4px;
@@ -44,31 +60,34 @@
   --s-7: 48px;
 
   /* ---------- Type ---------- */
-  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   --t-display: 34px;               /* главные заголовки экранов */
   --t-h1: 28px;
   --t-h2: 22px;
-  --t-h3: 18px;
+  --t-h3: 17px;
   --t-body: 16px;
   --t-body-sm: 15px;
   --t-caption: 13px;
-  --t-micro: 11px;                 /* бейджи, счётчики */
+  --t-micro: 12px;                 /* бейджи, счётчики — не меньше 12px */
 
-  --lh-tight: 1.1;                 /* display / h1 */
+  --lh-tight: 1.05;                /* display / h1 */
   --lh-heading: 1.25;
   --lh-body: 1.5;
 
+  --tr-display: -0.035em;          /* трекинг заголовков от h2 и выше */
+  --tr-heading: -0.015em;
+
   --fw-regular: 400;
   --fw-medium: 500;
+  --fw-semibold: 600;
   --fw-bold: 700;
-  --fw-black: 800;                 /* display */
 
-  /* ---------- Shadow — тонируется brand-цветом, не чёрным ---------- */
-  --shadow-sm: 0 2px 8px rgba(123, 47, 247, 0.08);
-  --shadow-md: 0 8px 24px rgba(123, 47, 247, 0.12);
-  --shadow-lg: 0 16px 40px rgba(123, 47, 247, 0.18);
-  --shadow-card: 0 12px 32px rgba(20, 18, 31, 0.14);   /* swipe-карточка поверх колоды */
+  /* ---------- Shadow — нейтральная, мягкая, со смещением ---------- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 24px -14px rgba(0, 0, 0, 0.18);
+  --shadow-lg: 0 8px 24px -12px rgba(0, 0, 0, 0.25);  /* плавающий таб-бар */
+  --shadow-card: 0 12px 32px rgba(20, 18, 31, 0.14);   /* свайп-карточка поверх колоды */
 
   /* ---------- Motion ---------- */
   --dur-fast: 200ms;

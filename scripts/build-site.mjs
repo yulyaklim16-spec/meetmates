@@ -77,8 +77,8 @@ if (missing.length) {
 }
 
 // ── 2. токены: страницы отрисовываются ими ─────────────────────
-if (!copyAsset('tokens/tokens.css')) {
-  console.error('Нет tokens/tokens.css — страницы останутся без стилей');
+if (!copyAsset('tokens/site.css')) {
+  console.error('Нет tokens/site.css — страницы останутся без стилей');
   process.exit(1);
 }
 
@@ -150,7 +150,7 @@ if (leaked.length) {
 }
 
 console.log(
-  `dist готов: index.html (редирект) + ${PAGES.join(', ')} + tokens.css + ${shots.size} скриншотов + ${wire.length} файлов вайрфреймов\n` +
+  `dist готов: index.html (редирект) + ${PAGES.join(', ')} + site.css + ${shots.size} скриншотов + ${wire.length} файлов вайрфреймов\n` +
   (BLOB
     ? `ссылок уведено на ${BLOB}: ${rewritten.length}`
     : `ссылок снято (репозиторий не определён): ${dropped.length}`)
