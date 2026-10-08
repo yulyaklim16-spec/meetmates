@@ -39,6 +39,16 @@ a { color: inherit; }
 svg { flex: none; }
 
 /* ── состояния экрана: переключатель над телефоном ─────────── */
+
+/* ── Голый вид: адрес с #bare ──────────────────────────────────────────
+   Один мокап без полосы состояний и служебного блока — для превью
+   в галерее раздела 06. Переключает `:target`, скрипта на экране нет. */
+body:has(#bare:target) { padding: 0; gap: 0; justify-content: flex-start; }
+body:has(#bare:target) .wfstates,
+body:has(#bare:target) .meta,
+body:has(#bare:target) footer { display: none; }
+body:has(#bare:target) .device { margin: 0 auto; }
+
 .wfstates { width: 100%; max-width: 760px; display: grid; justify-items: center; gap: var(--s-2); }
 .wfstates .t { font-size: var(--t-caption); color: var(--ink-600); }
 .wfstates ul { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-2); }

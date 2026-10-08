@@ -75,16 +75,6 @@ const GROUPS = [
     ],
   },
   {
-    title: 'Экраны в стиле D',
-    note: 'Лента событий во всех состояниях. Руками не правятся: разметку берёт из вайрфреймов <code>build-concept-screens.mjs</code> — поправили вайрфрейм, пересобрали экран.',
-    items: [
-      { file: 'concept/screens/feed.html', title: 'Лента событий', note: 'рабочий вид' },
-      { file: 'concept/screens/feed-empty.html', title: 'Лента событий', note: 'пусто' },
-      { file: 'concept/screens/feed-error.html', title: 'Лента событий', note: 'ошибка' },
-      { file: 'concept/screens/feed-loading.html', title: 'Лента событий', note: 'загрузка' },
-    ],
-  },
-  {
     title: 'Направления, которые не выбраны',
     note: 'Лежат целиком — к ним возвращаются по условию, записанному в концепте, а не рисуют заново.',
     items: [
@@ -100,7 +90,7 @@ for (const g of GROUPS) {
   }
 }
 
-const pagesCount = GROUPS.reduce((n, g) => n + g.items.length, 0);
+// счёт в шапке — все страницы концепта: и доски, и экраны
 
 const cardsHtml = GROUPS.map((g) => `      <section class="grp">
         <h3>${esc(g.title)}</h3>
@@ -109,6 +99,39 @@ const cardsHtml = GROUPS.map((g) => `      <section class="grp">
 ${g.items.map((it) => `          <li><a href="../${it.file}"><b>${esc(it.title)}</b><span>${esc(it.note)}</span></a></li>`).join('\n')}
         </ul>
       </section>`).join('\n\n');
+
+
+// ── экраны: сами макеты в стиле D, по мокапу на состояние ─────────────
+// Открываются в голом виде (`#bare`): без полосы состояний и служебного блока —
+// в превью они не читаются. Клик открывает страницу целиком.
+const SCREENS = {
+  title: 'Лента событий',
+  note: 'Руками не правятся: разметку берёт из вайрфреймов <code>build-concept-screens.mjs</code> — поправили вайрфрейм, пересобрали экран. Текст и структура те же, что в сером наборе; добавлены фото, цвет, шрифт и иконки.',
+  items: [
+    { file: 'concept/screens/feed.html', state: 'рабочий вид' },
+    { file: 'concept/screens/feed-empty.html', state: 'пусто' },
+    { file: 'concept/screens/feed-error.html', state: 'ошибка' },
+    { file: 'concept/screens/feed-loading.html', state: 'загрузка' },
+  ],
+};
+for (const it of SCREENS.items) {
+  if (!existsSync(join(ROOT, it.file))) throw new Error(`в концепте нет экрана ${it.file} — галерея раздела отстала`);
+}
+
+const pagesCount = GROUPS.reduce((n, g) => n + g.items.length, 0) + SCREENS.items.length;
+
+const galleryHtml = `      <section class="gbranch">
+        <h3>${esc(SCREENS.title)}</h3>
+        <p class="intro">${SCREENS.note}</p>
+        <ul class="gal">
+${SCREENS.items.map((it) => `          <li>
+            <a href="../${it.file}" title="${esc(SCREENS.title)} — ${esc(it.state)}">
+              <span class="shot"><iframe src="../${it.file}#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="${esc(SCREENS.title)} — ${esc(it.state)}"></iframe></span>
+              <span class="cap">${esc(it.state)}</span>
+            </a>
+          </li>`).join('\n')}
+        </ul>
+      </section>`;
 
 // ── разбор документа на разделы `## ` ─────────────────────────────────
 function blocks(text) {
@@ -171,6 +194,26 @@ ${TABS_CSS}
 .cards a:hover, .cards a:focus-visible { border-color: var(--ink-400); background: var(--surface-2); }
 .cards b { display: block; font-size: var(--t-body-sm); margin-bottom: 2px; }
 .cards span { font-size: var(--t-caption); color: var(--ink-600); }
+
+/* Галерея: мокап 390x844 ужат до превью; клик идёт по ссылке, не по фрейму.
+   Ширина превью фиксирована — масштаб это число, из резиновой колонки его не вывести */
+.gbranch { margin: 0 0 var(--s-6); }
+.gbranch h3 { margin: 0 0 var(--s-3); }
+.gal { list-style: none; margin: var(--s-4) 0; padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, 176px); max-width: none; }
+.gal a { display: block; text-decoration: none; color: var(--ink-600); }
+.gal .shot {
+  display: block; position: relative; overflow: hidden;
+  width: 176px; height: 381px;
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
+}
+.gal iframe {
+  position: absolute; top: 0; left: 0;
+  width: 390px; height: 844px; border: 0;
+  transform: scale(0.4513); transform-origin: 0 0; pointer-events: none;
+}
+.gal .cap { display: block; margin-top: var(--s-2); font-size: var(--t-micro); }
+.gal a:hover .shot, .gal a:focus-visible .shot { border-color: var(--ink-400); }
+.gal a:hover .cap { color: var(--ink-900); }
 
 #info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 
@@ -241,15 +284,22 @@ ${md(contrast.replace(/^#[^\n]*\n/, ''))}
       </section>
 
 ${infoHtml}
+
+      <section id="pages">
+        <h2>Страницы концепта списком</h2>
+        <p class="intro">Стенд, сравнение и оба раунда направлений. Открываются своими страницами, во всю ширину окна: они нарисованы токенами продукта, а не этого сайта.</p>
+
+${cardsHtml}
+      </section>
     </div>
 
     <div class="tabpanel" id="screens">
       <h1 class="vh">Концепт: страницы</h1>
-      <section id="pages">
-        <h2>Страницы концепта</h2>
-        <p class="intro">Открываются своими страницами, во всю ширину окна: они нарисованы токенами продукта, а не этого сайта, и фрейм внутри раздела заставлял бы скроллить дважды.</p>
+      <section id="gallery">
+        <h2>Экраны</h2>
+        <p class="intro">Лента событий в стиле D, во всех состояниях. Превью показывает сам экран — клик открывает страницу целиком, с полосой состояний и разбором под мокапом.</p>
 
-${cardsHtml}
+${galleryHtml}
       </section>
     </div>
 

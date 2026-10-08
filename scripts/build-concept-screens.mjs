@@ -110,6 +110,7 @@ ${docComment}
 <link rel="stylesheet" href="screens.css">
 </head>
 <body class="mm-ui">
+<i id="bare" hidden></i>
 ${body.trim()}
 </body>
 </html>

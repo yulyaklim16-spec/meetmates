@@ -347,6 +347,26 @@ footer p { max-width: 72ch; }
 .cards b { display: block; font-size: var(--t-body-sm); margin-bottom: 2px; }
 .cards span { font-size: var(--t-caption); color: var(--ink-600); }
 
+/* Галерея: мокап 390x844 ужат до превью; клик идёт по ссылке, не по фрейму.
+   Ширина превью фиксирована — масштаб это число, из резиновой колонки его не вывести */
+.gbranch { margin: 0 0 var(--s-6); }
+.gbranch h3 { margin: 0 0 var(--s-3); }
+.gal { list-style: none; margin: var(--s-4) 0; padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, 176px); max-width: none; }
+.gal a { display: block; text-decoration: none; color: var(--ink-600); }
+.gal .shot {
+  display: block; position: relative; overflow: hidden;
+  width: 176px; height: 381px;
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
+}
+.gal iframe {
+  position: absolute; top: 0; left: 0;
+  width: 390px; height: 844px; border: 0;
+  transform: scale(0.4513); transform-origin: 0 0; pointer-events: none;
+}
+.gal .cap { display: block; margin-top: var(--s-2); font-size: var(--t-micro); }
+.gal a:hover .shot, .gal a:focus-visible .shot { border-color: var(--ink-400); }
+.gal a:hover .cap { color: var(--ink-900); }
+
 #info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 
 /* Палитра и шкала: образцы набраны значениями продукта, подписи — шрифтом сайта */
@@ -612,13 +632,10 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
 <p>Из раунда 1 в D перешли два правила: Report и Block стоят отдельно с пустым местом вокруг (A), залита только одна кнопка на экране (A, от отсеянного «Расписания»).</p>
 <p><strong>Палитра брифа §8</strong> (фиолетово-розовый градиент, мятный, Inter) — сравнена с D в <a href="../concept/d-compare.html"><code>d-compare.html</code></a> и снята (<code class="dcode">D-61</code>): угадывается по теме, три токена ниже контраста.</p>
       </section>
-    </div>
 
-    <div class="tabpanel" id="screens">
-      <h1 class="vh">Концепт: страницы</h1>
       <section id="pages">
-        <h2>Страницы концепта</h2>
-        <p class="intro">Открываются своими страницами, во всю ширину окна: они нарисованы токенами продукта, а не этого сайта, и фрейм внутри раздела заставлял бы скроллить дважды.</p>
+        <h2>Страницы концепта списком</h2>
+        <p class="intro">Стенд, сравнение и оба раунда направлений. Открываются своими страницами, во всю ширину окна: они нарисованы токенами продукта, а не этого сайта.</p>
 
       <section class="grp">
         <h3>Стиль</h3>
@@ -630,22 +647,50 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
       </section>
 
       <section class="grp">
-        <h3>Экраны в стиле D</h3>
-        <p class="intro">Лента событий во всех состояниях. Руками не правятся: разметку берёт из вайрфреймов <code>build-concept-screens.mjs</code> — поправили вайрфрейм, пересобрали экран.</p>
-        <ul class="cards">
-          <li><a href="../concept/screens/feed.html"><b>Лента событий</b><span>рабочий вид</span></a></li>
-          <li><a href="../concept/screens/feed-empty.html"><b>Лента событий</b><span>пусто</span></a></li>
-          <li><a href="../concept/screens/feed-error.html"><b>Лента событий</b><span>ошибка</span></a></li>
-          <li><a href="../concept/screens/feed-loading.html"><b>Лента событий</b><span>загрузка</span></a></li>
-        </ul>
-      </section>
-
-      <section class="grp">
         <h3>Направления, которые не выбраны</h3>
         <p class="intro">Лежат целиком — к ним возвращаются по условию, записанному в концепте, а не рисуют заново.</p>
         <ul class="cards">
           <li><a href="../concept/directions-2.html"><b>Раунд 2: E «Ночная лента» и F «Кобальт»</b><span>ближе к вкусу «Instagram / Apple», тот же каркас карточки</span></a></li>
           <li><a href="../concept/directions.html"><b>Раунд 1: A «Смальта», B «Корешок», C «Линия»</b><span>отклонён целиком — «выглядит не современно»</span></a></li>
+        </ul>
+      </section>
+      </section>
+    </div>
+
+    <div class="tabpanel" id="screens">
+      <h1 class="vh">Концепт: страницы</h1>
+      <section id="gallery">
+        <h2>Экраны</h2>
+        <p class="intro">Лента событий в стиле D, во всех состояниях. Превью показывает сам экран — клик открывает страницу целиком, с полосой состояний и разбором под мокапом.</p>
+
+      <section class="gbranch">
+        <h3>Лента событий</h3>
+        <p class="intro">Руками не правятся: разметку берёт из вайрфреймов <code>build-concept-screens.mjs</code> — поправили вайрфрейм, пересобрали экран. Текст и структура те же, что в сером наборе; добавлены фото, цвет, шрифт и иконки.</p>
+        <ul class="gal">
+          <li>
+            <a href="../concept/screens/feed.html" title="Лента событий — рабочий вид">
+              <span class="shot"><iframe src="../concept/screens/feed.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента событий — рабочий вид"></iframe></span>
+              <span class="cap">рабочий вид</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/feed-empty.html" title="Лента событий — пусто">
+              <span class="shot"><iframe src="../concept/screens/feed-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента событий — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/feed-error.html" title="Лента событий — ошибка">
+              <span class="shot"><iframe src="../concept/screens/feed-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента событий — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/feed-loading.html" title="Лента событий — загрузка">
+              <span class="shot"><iframe src="../concept/screens/feed-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента событий — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
         </ul>
       </section>
       </section>
