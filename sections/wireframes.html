@@ -316,27 +316,19 @@ footer p { max-width: 72ch; }
 .wf ul li:first-child { border-top: 0; }
 .wf ul li span { margin-left: auto; color: var(--ink-600); font-size: var(--t-micro); }
 
+
 .vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* ── Что показывать в разделе: подпункты 04 в самом дереве ───
-   Выбор раздела и выбор того, что внутри раздела, стоят в одном месте */
+/* ── Что показывать в разделе: подпункты в самом дереве ───── */
 .subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
 .subtabs a { padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
 .subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
 .subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
 .subtabs a[aria-current="true"] { background: var(--surface-2); color: var(--ink-900); font-weight: var(--fw-medium); }
 
-/* Дерево макетов — вторая колонка слева, рядом с разделами проекта.
-   Пока вкладка не открыта, его нет: список макетов в содержимом даёт то же самое */
-.wfside { display: none; position: sticky; top: 0; max-height: 100vh; overflow-y: auto; padding: var(--s-6) var(--s-4) var(--s-6) 0; border-right: 1px solid var(--line); }
-.wfside .wftree { margin: 0; padding: 0; border-top: 0; }
-/* Нажат любой из двух подпунктов — разделы сжимаются до номеров.
-   Сами подпункты остаются: иначе, нажав «Информацию», человек в ней запрётся */
+/* Нажат любой подпункт — разделы сжимаются до номеров.
+   Сами подпункты остаются: иначе, нажав первый, человек в нём запрётся */
 .shell[data-collapsed] { grid-template-columns: 124px minmax(0, 1fr); gap: var(--s-5); }
-.shell[data-collapsed][data-tab="wf"] { grid-template-columns: 124px 228px minmax(0, 1fr); }
-/* дерево макетов стоит рядом только со сжатой полосой: развёрнутое дерево
-   разделов и дерево макетов разом — те же два дерева подряд */
-.shell[data-collapsed][data-tab="wf"] .wfside { display: block; }
 .shell[data-collapsed] .side .stage,
 .shell[data-collapsed] .side .lbl,
 .shell[data-collapsed] .side .brand b,
@@ -348,7 +340,20 @@ footer p { max-width: 72ch; }
 .shell[data-collapsed] .side .subtabs { margin-left: 0; padding-left: var(--s-2); border-left-color: var(--line); }
 .shell[data-collapsed] .side .subtabs a { font-size: var(--t-micro); padding: var(--s-2); }
 @media (max-width: 900px) {
-  .shell[data-collapsed], .shell[data-collapsed][data-tab="wf"] { grid-template-columns: minmax(0, 1fr); }
+  .shell[data-collapsed] { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Дерево макетов — вторая колонка слева, рядом с разделами проекта.
+   Пока вкладка не открыта, его нет: список макетов в содержимом даёт то же самое */
+.wfside { display: none; position: sticky; top: 0; max-height: 100vh; overflow-y: auto; padding: var(--s-6) var(--s-4) var(--s-6) 0; border-right: 1px solid var(--line); }
+.wfside .wftree { margin: 0; padding: 0; border-top: 0; }
+/* у этого раздела в сжатом виде рядом встаёт второе дерево — отсюда третья колонка */
+.shell[data-collapsed][data-tab="wireframes"] { grid-template-columns: 124px 228px minmax(0, 1fr); }
+/* дерево макетов стоит рядом только со сжатой полосой: развёрнутое дерево
+   разделов и дерево макетов разом — те же два дерева подряд */
+.shell[data-collapsed][data-tab="wireframes"] .wfside { display: block; }
+@media (max-width: 900px) {
+  .shell[data-collapsed][data-tab="wireframes"] { grid-template-columns: minmax(0, 1fr); }
   .wfside { display: none !important; }
 }
 .wf a { text-decoration: none; }
@@ -412,9 +417,9 @@ footer p { max-width: 72ch; }
         <a class="mat current" href="wireframes.html" aria-current="page"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>текущий раздел</i></span></a>
         <nav class="subtabs" aria-label="Что показывать в разделе">
           <a href="#info" data-tab="info" aria-current="true">Информация</a>
-          <a href="#wireframes" data-tab="wf">Вайрфреймы</a>
+          <a href="#wireframes" data-tab="wireframes">Вайрфреймы</a>
         </nav>
-        <a class="mat soon" href="?section=5"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>скоро</i></span></a>
+        <a class="mat" href="voice.html"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>готово</i></span></a>
         <a class="mat soon" href="?section=6"><span class="n">06</span><span class="t">Концепт<i>скоро</i></span></a>
         <a class="mat soon" href="?section=7"><span class="n">07</span><span class="t">Сборка UI<i>скоро</i></span></a>
         <a class="mat soon" href="?section=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
@@ -720,26 +725,27 @@ footer p { max-width: 72ch; }
 </div>
 
 <script>
-// Что показывать в разделе — два подпункта 04 в дереве. Нажат любой из них,
-// и разделы сжимаются до номеров: читать два дерева подряд не нужно, а вернуть
-// их целиком можно нажатием на сам номер 04. Без скрипта это обычные якоря.
+// Подпункты текущего раздела в дереве. Нажат любой — дерево сжимается до номеров,
+// вернуть его целиком можно нажатием на сам номер раздела. Без скрипта — якоря.
 (function () {
+  var ids = ["info","wireframes"];
   var shell = document.querySelector('.shell');
   var subtabs = document.querySelector('.subtabs');
   if (!shell || !subtabs) return;
-  var panels = { info: document.getElementById('info'), wf: document.getElementById('wireframes') };
+  var panels = {};
+  for (var i = 0; i < ids.length; i++) panels[ids[i]] = document.getElementById(ids[i]);
   var links = subtabs.querySelectorAll('a[data-tab]');
 
   function show(name, collapsed, push) {
     shell.setAttribute('data-tab', name);
     if (collapsed) shell.setAttribute('data-collapsed', '');
     else shell.removeAttribute('data-collapsed');
-    for (var k in panels) panels[k].hidden = (k !== name);
-    for (var i = 0; i < links.length; i++) {
-      if (links[i].getAttribute('data-tab') === name) links[i].setAttribute('aria-current', 'true');
-      else links[i].removeAttribute('aria-current');
+    for (var k in panels) if (panels[k]) panels[k].hidden = (k !== name);
+    for (var j = 0; j < links.length; j++) {
+      if (links[j].getAttribute('data-tab') === name) links[j].setAttribute('aria-current', 'true');
+      else links[j].removeAttribute('aria-current');
     }
-    if (push) history.replaceState(null, '', name === 'wf' ? '#wireframes' : '#info');
+    if (push) history.replaceState(null, '', '#' + name);
   }
 
   subtabs.addEventListener('click', function (e) {
@@ -758,8 +764,16 @@ footer p { max-width: 72ch; }
     }
   });
 
-  var h = location.hash;
-  show(h === '#wireframes' ? 'wf' : 'info', h === '#wireframes' || h === '#info', false);
+  // переход по якорю внутри той же страницы (и кнопки «назад»/«вперёд»)
+  // не перезагружает её — вкладку переключаем сами
+  window.addEventListener('hashchange', function () {
+    var n = location.hash.slice(1);
+    if (ids.indexOf(n) > -1) show(n, true, false);
+  });
+
+  var h = location.hash.slice(1);
+  var known = ids.indexOf(h) > -1;
+  show(known ? h : ids[0], known, false);
 })();
 </script>
 

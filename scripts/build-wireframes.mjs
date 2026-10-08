@@ -14,6 +14,7 @@
 // Оболочка раздела (стили, боковая колонка) берётся из sections/index.html, как у раздела 3.
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { subtabsHtml, TABS_CSS, tabsJs } from './lib/tabs.mjs';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
@@ -298,11 +299,10 @@ const cur = /<a class="mat"([^>]*)href="wireframes\.html">([\s\S]*?)<i>[^<]*<\/i
 if (!cur.test(asideSrc)) throw new Error('в sections/index.html не найден пункт 04 — боковая колонка изменилась');
 // Разделы остаются списком разделов: дерево макетов — своя колонка рядом,
 // и показывается оно только на вкладке «Вайрфреймы».
-const subtabs = `
-        <nav class="subtabs" aria-label="Что показывать в разделе">
-          <a href="#info" data-tab="info" aria-current="true">Информация</a>
-          <a href="#wireframes" data-tab="wf">Вайрфреймы</a>
-        </nav>`;
+const subtabs = subtabsHtml([
+  { id: 'info', title: 'Информация' },
+  { id: 'wireframes', title: 'Вайрфреймы' },
+]);
 const aside = asideSrc
   .replace(cur, (m, attrs, head) => `<a class="mat current"${attrs}href="wireframes.html" aria-current="page">${head}<i>текущий раздел</i></span></a>${subtabs}`);
 const wfAside = `  <aside class="wfside" aria-label="Все макеты">${sideTree()}
@@ -320,39 +320,19 @@ const extraCss = `
 .wf ul li:first-child { border-top: 0; }
 .wf ul li span { margin-left: auto; color: var(--ink-600); font-size: var(--t-micro); }
 
-.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-/* ── Что показывать в разделе: подпункты 04 в самом дереве ───
-   Выбор раздела и выбор того, что внутри раздела, стоят в одном месте */
-.subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
-.subtabs a { padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
-.subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
-.subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
-.subtabs a[aria-current="true"] { background: var(--surface-2); color: var(--ink-900); font-weight: var(--fw-medium); }
+${TABS_CSS}
 
 /* Дерево макетов — вторая колонка слева, рядом с разделами проекта.
    Пока вкладка не открыта, его нет: список макетов в содержимом даёт то же самое */
 .wfside { display: none; position: sticky; top: 0; max-height: 100vh; overflow-y: auto; padding: var(--s-6) var(--s-4) var(--s-6) 0; border-right: 1px solid var(--line); }
 .wfside .wftree { margin: 0; padding: 0; border-top: 0; }
-/* Нажат любой из двух подпунктов — разделы сжимаются до номеров.
-   Сами подпункты остаются: иначе, нажав «Информацию», человек в ней запрётся */
-.shell[data-collapsed] { grid-template-columns: 124px minmax(0, 1fr); gap: var(--s-5); }
-.shell[data-collapsed][data-tab="wf"] { grid-template-columns: 124px 228px minmax(0, 1fr); }
+/* у этого раздела в сжатом виде рядом встаёт второе дерево — отсюда третья колонка */
+.shell[data-collapsed][data-tab="wireframes"] { grid-template-columns: 124px 228px minmax(0, 1fr); }
 /* дерево макетов стоит рядом только со сжатой полосой: развёрнутое дерево
    разделов и дерево макетов разом — те же два дерева подряд */
-.shell[data-collapsed][data-tab="wf"] .wfside { display: block; }
-.shell[data-collapsed] .side .stage,
-.shell[data-collapsed] .side .lbl,
-.shell[data-collapsed] .side .brand b,
-.shell[data-collapsed] .side .mat .t { display: none; }
-.shell[data-collapsed] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
-.shell[data-collapsed] .side .mat { justify-content: center; padding: var(--s-3) 0; }
-.shell[data-collapsed] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
-.shell[data-collapsed] .side .mat.current .n { color: var(--ink-900); font-weight: var(--fw-medium); }
-.shell[data-collapsed] .side .subtabs { margin-left: 0; padding-left: var(--s-2); border-left-color: var(--line); }
-.shell[data-collapsed] .side .subtabs a { font-size: var(--t-micro); padding: var(--s-2); }
+.shell[data-collapsed][data-tab="wireframes"] .wfside { display: block; }
 @media (max-width: 900px) {
-  .shell[data-collapsed], .shell[data-collapsed][data-tab="wf"] { grid-template-columns: minmax(0, 1fr); }
+  .shell[data-collapsed][data-tab="wireframes"] { grid-template-columns: minmax(0, 1fr); }
   .wfside { display: none !important; }
 }
 .wf a { text-decoration: none; }
@@ -510,50 +490,7 @@ ${navHtml}
     </footer>
   </main>
 </div>
-
-<script>
-// Что показывать в разделе — два подпункта 04 в дереве. Нажат любой из них,
-// и разделы сжимаются до номеров: читать два дерева подряд не нужно, а вернуть
-// их целиком можно нажатием на сам номер 04. Без скрипта это обычные якоря.
-(function () {
-  var shell = document.querySelector('.shell');
-  var subtabs = document.querySelector('.subtabs');
-  if (!shell || !subtabs) return;
-  var panels = { info: document.getElementById('info'), wf: document.getElementById('wireframes') };
-  var links = subtabs.querySelectorAll('a[data-tab]');
-
-  function show(name, collapsed, push) {
-    shell.setAttribute('data-tab', name);
-    if (collapsed) shell.setAttribute('data-collapsed', '');
-    else shell.removeAttribute('data-collapsed');
-    for (var k in panels) panels[k].hidden = (k !== name);
-    for (var i = 0; i < links.length; i++) {
-      if (links[i].getAttribute('data-tab') === name) links[i].setAttribute('aria-current', 'true');
-      else links[i].removeAttribute('aria-current');
-    }
-    if (push) history.replaceState(null, '', name === 'wf' ? '#wireframes' : '#info');
-  }
-
-  subtabs.addEventListener('click', function (e) {
-    var a = e.target.closest('a[data-tab]');
-    if (!a) return;
-    e.preventDefault();
-    show(a.getAttribute('data-tab'), true, true);
-  });
-
-  // номер раздела возвращает дерево целиком, не трогая показанное
-  var cur = document.querySelector('.side .mat.current');
-  if (cur) cur.addEventListener('click', function (e) {
-    if (shell.hasAttribute('data-collapsed')) {
-      e.preventDefault();
-      show(shell.getAttribute('data-tab'), false, false);
-    }
-  });
-
-  var h = location.hash;
-  show(h === '#wireframes' ? 'wf' : 'info', h === '#wireframes' || h === '#info', false);
-})();
-</script>
+${tabsJs(['info', 'wireframes'])}
 
 </body>
 </html>

@@ -1,0 +1,1522 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tone of voice и микрокопи · MeetMates</title>
+<meta name="description" content="Голос продукта: пять принципов с доказательствами, словарь, запретное и микрокопи по типам элементов. Плюс перепись всего текста интерфейса.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<!-- Единственный источник правды по цвету, радиусам, шкалам и движению -->
+<link rel="stylesheet" href="../tokens/site.css">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Итоги исследования. Все значения — из tokens/site.css:
+   собственных цветов и радиусов здесь нет (Рабочие соглашения, п. 2).
+   Тёмная тема вне объёма v1 (§10), страница осознанно светлая.
+   Градиент — только на акцентах (§8).
+   ───────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-family: var(--font);
+  font-size: var(--t-body-sm);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip {
+  position: absolute; left: -9999px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface); border-radius: var(--r-sm);
+  font-weight: var(--fw-medium);
+}
+.skip:focus { left: var(--s-4); top: var(--s-4); z-index: 50; outline: 2px solid var(--brand-a); }
+
+.shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  gap: var(--s-7);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  align-items: start;
+}
+
+/* ── Боковая колонка ───────────────────────────────────────── */
+.side {
+  position: sticky; top: 0;
+  max-height: 100vh; overflow-y: auto;
+  padding: var(--s-6) 0 var(--s-6);
+}
+.side .brand {
+  display: flex; align-items: center; gap: var(--s-3);
+  margin-bottom: var(--s-2);
+}
+.side .dot {
+  width: 26px; height: 26px; border-radius: var(--r-pill);
+  background: var(--brand-gradient); flex: none; box-shadow: var(--shadow-sm);
+}
+.side .brand b { font-size: var(--t-body); letter-spacing: -0.01em; }
+.side .stage { font-size: var(--t-caption); color: var(--ink-600); margin: 0 0 var(--s-5); }
+
+.side .lbl {
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-600); margin: 0 0 var(--s-3);
+}
+
+.matlist { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--s-6); }
+.mat {
+  display: flex; gap: var(--s-3); align-items: baseline;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  text-decoration: none; color: var(--ink-900);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.mat:hover, .mat:focus-visible { background: var(--surface-2); }
+.mat:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.mat .n {
+  font-size: var(--t-micro); color: var(--ink-600);
+  font-variant-numeric: tabular-nums; flex: none; min-width: 2ch;
+}
+.mat .t { font-size: var(--t-caption); line-height: 1.45; }
+.mat .t i { display: block; font-style: normal; color: var(--ink-600); font-size: var(--t-micro); }
+.mat.current { background: var(--surface-2); }
+.mat.current .t { font-weight: var(--fw-medium); }
+.mat.soon .t { color: var(--ink-600); }
+.mat.soon .n { color: var(--line); }
+
+.anchors {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: var(--s-4); border-top: 1px solid var(--line);
+}
+.anchors a {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--t-caption);
+  text-decoration: none; color: var(--ink-600);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.anchors a:hover, .anchors a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
+.anchors a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+
+/* ── Основная колонка ──────────────────────────────────────── */
+main { padding: var(--s-7) 0 var(--s-7); min-width: 0; }
+
+.masthead { padding-bottom: var(--s-6); }
+h1 {
+  font-size: var(--t-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+  margin: 0 0 var(--s-4);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.lede { font-size: var(--t-body); color: var(--ink-600); max-width: 60ch; margin: 0 0 var(--s-5); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+.chips span { font-size: var(--t-caption); color: var(--ink-600); }
+.chips b { font-weight: var(--fw-bold); color: var(--ink-900); font-variant-numeric: tabular-nums; }
+.chips a { color: var(--brand-a); }
+
+/* ── Секции ────────────────────────────────────────────────── */
+section { padding-top: var(--s-7); scroll-margin-top: var(--s-4); }
+section > h2 {
+  font-size: var(--t-h1); font-weight: var(--fw-black);
+  letter-spacing: -0.02em; margin: 0 0 var(--s-3);
+  padding-bottom: var(--s-3); border-bottom: 1px solid var(--line);
+}
+section > .intro { font-size: var(--t-body-sm); color: var(--ink-600); max-width: 66ch; margin: 0 0 var(--s-5); }
+
+h3 {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.01em; margin: var(--s-6) 0 var(--s-3);
+}
+h4 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(--s-5) 0 var(--s-2); }
+p { margin: 0 0 var(--s-3); max-width: 72ch; }
+a { color: var(--brand-a); text-underline-offset: 3px; }
+strong { font-weight: var(--fw-bold); }
+
+ul { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+li { margin-bottom: var(--s-2); }
+ol { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+
+/* ── Пара колонок «что видели / что решили» ────────────────── */
+.duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+.duo > div { border-top: 2px solid var(--ink-900); padding-top: var(--s-4); }
+.duo h3 { margin: 0 0 var(--s-3); font-size: var(--t-body); }
+.duo ul { margin: 0; }
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+
+/* ── Таблицы ───────────────────────────────────────────────── */
+.tw {
+  overflow-x: auto; margin: 0 0 var(--s-4);
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+}
+table { border-collapse: collapse; width: 100%; font-size: var(--t-caption); }
+caption {
+  caption-side: bottom; text-align: left;
+  padding: var(--s-3) var(--s-4) 0;
+  font-size: var(--t-micro); color: var(--ink-600); line-height: 1.6;
+}
+th, td {
+  text-align: left; vertical-align: top;
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+thead th {
+  background: var(--surface-2);
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600);
+  white-space: nowrap;
+}
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+tbody th { font-weight: var(--fw-bold); font-size: var(--t-caption); white-space: nowrap; }
+td .lbl-cell { display: none; }
+.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+/* ── Чипы источников ───────────────────────────────────────── */
+.src {
+  display: inline-block;
+  font-size: var(--t-micro); line-height: 1.6;
+  padding: 1px var(--s-2); border-radius: var(--r-sm);
+  background: var(--surface-2); color: var(--ink-600);
+  white-space: nowrap;
+}
+.src.own { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.src.none { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+
+/* ── Выноски ───────────────────────────────────────────────── */
+.note {
+  border-left: 3px solid var(--brand-a);
+  padding: var(--s-2) 0 var(--s-2) var(--s-4);
+  margin: 0 0 var(--s-4); max-width: 72ch;
+  color: var(--ink-600);
+}
+.note.warn { border-left-color: var(--warn); }
+.note p:last-child, .note ul:last-child { margin-bottom: 0; }
+
+.panel {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5);
+  margin: 0 0 var(--s-4); max-width: 80ch;
+}
+.panel h4 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child, .panel ol:last-child { margin-bottom: 0; }
+
+.scores { display: grid; gap: var(--s-1); margin: 0 0 var(--s-4); max-width: 620px; }
+.srow { display: grid; grid-template-columns: 108px 1fr 34px; align-items: center; gap: var(--s-3); }
+.srow .nm { font-size: var(--t-caption); color: var(--ink-600); }
+.srow .bar { height: 16px; border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--brand-a); }
+.srow .v { font-size: var(--t-caption); font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-600); }
+.srow.us .nm, .srow.us .v { color: var(--ink-900); font-weight: var(--fw-bold); }
+.srow.us .bar { background: var(--brand-gradient); }
+.srow.bg .nm, .srow.bg .v { color: var(--ink-600); }
+.srow.bg .bar { background: var(--surface-2); border: 1px solid var(--line); }
+
+/* ── Скриншоты ─────────────────────────────────────────────── */
+.gallery {
+  display: grid; gap: var(--s-5);
+  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+}
+figure { margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+figure a {
+  display: block; border: 1px solid var(--line); border-radius: var(--r-md);
+  overflow: hidden; background: var(--surface-2); line-height: 0;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+figure a:hover, figure a:focus-visible { border-color: var(--brand-a); box-shadow: var(--shadow-md); }
+figure a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 3px; }
+figure img { width: 100%; height: 268px; object-fit: cover; object-position: top center; display: block; }
+figcaption { font-size: var(--t-caption); color: var(--ink-600); line-height: 1.5; }
+figcaption b { display: block; color: var(--ink-900); font-weight: var(--fw-bold); margin-bottom: 2px; }
+figcaption .fn { display: block; margin-top: var(--s-2); font-size: var(--t-micro); color: var(--ink-600); word-break: break-all; }
+
+.wide-shot { grid-column: 1 / -1; }
+.wide-shot .frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2); line-height: 0; }
+.wide-shot img { height: 260px; width: auto; max-width: none; object-fit: fill; }
+
+.section-nav {
+  display: flex; justify-content: space-between; gap: var(--s-4);
+  margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--line);
+  font-weight: var(--fw-medium);
+}
+.section-nav a { text-decoration: none; }
+footer {
+  margin-top: var(--s-6); padding: var(--s-5) 0 var(--s-7);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-caption); color: var(--ink-600);
+}
+footer a { color: var(--brand-a); }
+footer p { max-width: 72ch; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; gap: 0; }
+  .side { position: static; max-height: none; padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
+  .matlist { display: none; }
+  .side .stage { margin-bottom: var(--s-3); }
+  .anchors { flex-direction: row; flex-wrap: wrap; border-top: none; padding-top: 0; }
+}
+
+/* ── Персоны ───────────────────────────────────────────────── */
+.persona {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5); margin: 0 0 var(--s-5);
+}
+.persona.primary { border-color: var(--brand-a); box-shadow: var(--shadow-sm); }
+.persona.supply { border-style: dashed; }
+.phead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s-4); }
+.phead h3 { margin: 0 0 var(--s-1); }
+.pscene { margin: 0; color: var(--ink-600); font-size: var(--t-caption); max-width: 60ch; }
+.pneed { margin: var(--s-4) 0; padding: var(--s-3) var(--s-4); background: var(--surface-2); border-radius: var(--r-sm); font-size: var(--t-caption); max-width: none; }
+.pgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4) var(--s-5); }
+.pgrid h4 { margin: 0 0 var(--s-2); font-size: var(--t-micro); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-600); }
+.pgrid ul { margin: 0; padding-left: var(--s-4); font-size: var(--t-caption); }
+.pgrid li { margin-bottom: var(--s-1); }
+.pquote {
+  margin: var(--s-5) 0 0; padding: var(--s-4) var(--s-5);
+  border-left: 3px solid var(--brand-a); background: var(--surface-2); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-body-sm); line-height: 1.5;
+}
+.pquote cite { display: block; margin-top: var(--s-2); font-style: normal; font-size: var(--t-micro); color: var(--ink-600); }
+.pnote { margin: var(--s-4) 0 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+@media (max-width: 760px) { .pgrid { grid-template-columns: 1fr; } .phead { flex-direction: column; } }
+
+/* ── Пилюли статуса (как на хабе) ─────────────────────────── */
+.pill { flex: none; font-size: var(--t-micro); font-weight: var(--fw-medium); padding: 3px 10px; border-radius: var(--r-pill); letter-spacing: 0.02em; white-space: nowrap; }
+.pill.ready { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.pill.rules { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+.pill.empty { background: var(--surface-2); color: var(--ink-600); }
+
+/* ── Jobs ──────────────────────────────────────────────────── */
+.job { margin: 0 0 var(--s-4); padding: var(--s-4) var(--s-5); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.job.main { border-color: var(--brand-a); }
+.jcode { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-a); margin-bottom: var(--s-2); }
+.job blockquote { margin: 0 0 var(--s-2); font-size: var(--t-body-sm); font-weight: var(--fw-medium); line-height: 1.5; }
+.job.main blockquote { font-size: var(--t-body); }
+.jmeta { margin: 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+.jlist li { margin-bottom: var(--s-2); }
+.section-nav .soon { color: var(--ink-600); }
+
+/* ── Раздел 05: голос и перепись ───────────────────────────── */
+
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ── Что показывать в разделе: подпункты в самом дереве ───── */
+.subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
+.subtabs a { padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
+.subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
+.subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.subtabs a[aria-current="true"] { background: var(--surface-2); color: var(--ink-900); font-weight: var(--fw-medium); }
+
+/* Нажат любой подпункт — разделы сжимаются до номеров.
+   Сами подпункты остаются: иначе, нажав первый, человек в нём запрётся */
+.shell[data-collapsed] { grid-template-columns: 124px minmax(0, 1fr); gap: var(--s-5); }
+.shell[data-collapsed] .side .stage,
+.shell[data-collapsed] .side .lbl,
+.shell[data-collapsed] .side .brand b,
+.shell[data-collapsed] .side .mat .t { display: none; }
+.shell[data-collapsed] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
+.shell[data-collapsed] .side .mat { justify-content: center; padding: var(--s-3) 0; }
+.shell[data-collapsed] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
+.shell[data-collapsed] .side .mat.current .n { color: var(--ink-900); font-weight: var(--fw-medium); }
+.shell[data-collapsed] .side .subtabs { margin-left: 0; padding-left: var(--s-2); border-left-color: var(--line); }
+.shell[data-collapsed] .side .subtabs a { font-size: var(--t-micro); padding: var(--s-2); }
+@media (max-width: 900px) {
+  .shell[data-collapsed] { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Перепись: экран — свёрток. Закрыт по умолчанию, потому что нужен точечно */
+.invlist { display: flex; flex-direction: column; gap: var(--s-2); margin: var(--s-4) 0 var(--s-6); }
+details.inv { border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+details.inv > summary {
+  cursor: pointer; list-style: none;
+  display: flex; align-items: baseline; gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  font-size: var(--t-body-sm); font-weight: var(--fw-medium);
+}
+details.inv > summary::-webkit-details-marker { display: none; }
+details.inv > summary::before { content: "›"; color: var(--ink-400); transition: transform var(--dur-fast) var(--ease-out); }
+details.inv[open] > summary::before { transform: rotate(90deg); }
+details.inv > summary span { margin-left: auto; font-weight: var(--fw-regular); font-size: var(--t-micro); color: var(--ink-600); font-variant-numeric: tabular-nums; }
+details.inv > summary:hover { background: var(--surface-2); border-radius: var(--r-md); }
+details.inv > :not(summary) { margin-left: var(--s-4); margin-right: var(--s-4); }
+details.inv > :last-child { margin-bottom: var(--s-4); }
+details.inv h3 { font-size: var(--t-body-sm); margin: var(--s-4) 0 var(--s-2); }
+
+/* Голос: примеры и антипримеры идут блоками кода — их много, они должны быть тихими */
+#voice pre.ascii { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--s-3) var(--s-4); font-size: var(--t-caption); line-height: 1.5; overflow-x: auto; }
+#voice blockquote, #microcopy blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#content">Перейти к материалу</a>
+
+<div class="shell">
+
+  <aside class="side">
+    <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
+    <p class="stage">Разделы проекта</p>
+
+    <nav aria-label="Разделы">
+      <p class="lbl">Разделы</p>
+      <div class="matlist">
+        <a class="mat" href="../research/research.html"><span class="n">01</span><span class="t">Ресерч и бенчмарк<i>готово</i></span></a>
+        <a class="mat" href="../research/persones.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>готово</i></span></a>
+        <a class="mat" href="ia.html"><span class="n">03</span><span class="t">Информационная архитектура<i>готово</i></span></a>
+        <a class="mat" href="wireframes.html"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>готово</i></span></a>
+        <a class="mat current" href="voice.html" aria-current="page"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>текущий раздел</i></span></a>
+        <nav class="subtabs" aria-label="Что показывать в разделе">
+          <a href="#voice" data-tab="voice" aria-current="true">Голос</a>
+          <a href="#microcopy" data-tab="microcopy">Перепись</a>
+        </nav>
+        <a class="mat soon" href="?section=6"><span class="n">06</span><span class="t">Концепт<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=7"><span class="n">07</span><span class="t">Сборка UI<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
+      </div>
+    </nav>
+
+  </aside>
+
+  <main id="content">
+    <div class="tabpanel" id="voice">
+    <div class="masthead">
+      <h1>Tone of voice и микрокопи</h1>
+      <p class="lede">Как продукт говорит — и что у него написано прямо сейчас. Пять принципов, у каждого строка из исследования, из которой он выведен; словарь, где одно понятие — одно слово; запретное; тон для экранов, которых ещё нет. Собрано из <a href="../voice.md">voice.md</a> и <a href="../microcopy.md">microcopy.md</a>; страница пересобирается скриптом, руками не правится.</p>
+      <div class="chips">
+        <span><b>5</b> принципов</span>
+        <span><b>21</b> слово в словаре</span>
+        <span><b>466</b> строк интерфейса</span>
+        <span><b>80</b> правок текста</span>
+      </div>
+      <!--PUBLIC-NOTE-->
+    </div>
+
+<blockquote><p><strong>Как продукт говорит.</strong> Пять принципов, и у каждого — строка из исследования, из которой он выведен. Принципа без такой строки здесь нет: лучше три честных, чем пять красивых.</p>
+<p>Что это не: не тон-оф-войс «дружелюбный, но профессиональный», не список синонимов. Каждый принцип проверяем — по нему можно принять или отклонить конкретную строку интерфейса.</p>
+<p><strong>Из чего состоит файл:</strong> принципы (о чём говорим) · словарь (какими словами) · запретное (чего не пишем) · экраны, которых ещё нет (тон для того, что впереди) · микрокопи (как это выглядит в кнопке, заголовке, поле, пустом состоянии, ошибке, загрузке, успехе и опасном действии).</p>
+<p>Перепись всего текста, который сейчас стоит на макетах, — <a href="../microcopy.md"><code>microcopy.md</code></a>. Решения по отдельным строкам — <a href="../wireframes/_conventions.md"><code>wireframes/_conventions.md</code></a>.</p></blockquote>
+<p><strong>Контекст, который задаёт планку.</strong> Жилья и денег у нас нет — v1 бесплатен (§9), и это снимает половину рисков. Остаётся третье и главное: <strong>незнакомые люди и встреча офлайн</strong>. 57 % женщин 18–34 считают приложения для знакомств небезопасным способом знакомиться, 19 % получали угрозы физической расправы (Pew, <code>research/people.md</code> §3.1, <strong>A</strong>). В такой рамке доверие важнее остроумия: шутка экономит секунду, а недоверие стоит человека целиком.</p>
+<p><strong>Откуда взят язык конкурентов.</strong> Отдельно ходить за объявлениями не пришлось — они уже разобраны: <strong>142 поста</strong> из публичного канала <code>@kyiv_meet</code> («Знайомства — Київ»), два замера (42 поста за день и корпус из 100), дословно (<code>research/research.md</code>, «Доисследование после персон», п. 1; <code>research/jtbd.md</code>, В-6). Это и есть наша OLX-полка: место, где сегодня решают ту же задачу без всякого приложения.</p>
+
+      <section id="принципы">
+        <h2>Принципы</h2>
+<h3 id="1-говорим-о-деле-а-не-о-себе">1. Говорим о деле, а не о себе</h3>
+<p><strong>Правило.</strong> Продукт называет <strong>занятие, день и сколько человек нужно</strong> — и просит человека сделать то же самое; самоописание остаётся в профиле и никогда не подменяет план. Это правило действует и на строку, которую пишет человек: название события проходит тест <code class="dcode">D-23</code> при создании — единственное место, где мы вмешиваемся в чужой текст.</p>
+<p><strong>Пример</strong></p>
+<pre class="ascii">[обложка]  Go for a walk on the embankment?   Sat 18:00
+           Podil · ~1 km
+           1 going · 1 spot left · Verified
+           [        Ask to join        ]</pre>
+<p><strong>Антипример</strong></p>
+<pre class="ascii">Tell us about yourself — and we'll find your people
+I'm 26, sociable, love long walks and good coffee</pre>
+<p><strong>Откуда.</strong> В корпусе из 100 объявлений <code>@kyiv_meet</code> <strong>69 адресованы полу, и у 18 из них романтического слова нет вообще: просят кофе, прогулку, разговор</strong>. При этом человек <strong>«публикует самоописание и ждёт, пока напишут ему»</strong> — вывод записан прямо: «конкурент — <strong>не отказ от плана, а анкета</strong>» (<code>research/jtbd.md</code>, В-6, доказательство Д1). Там все пишут анкету — значит наше отличие слышно ровно в тот момент, когда мы просим назвать дело. Это же правило стоит в брифе как граница единицы (<code class="dcode">D-23</code>, §5.4: <code>Go for a walk on the embankment?</code> — да, <code>I like walking</code> — нет).</p>
+<h3 id="2-обещаем-то-что-продукт-делает-и-ни-слова-сверх">2. Обещаем то, что продукт делает, и ни слова сверх</h3>
+<p><strong>Правило.</strong> Мы отвечаем за компанию плану и за то, чтобы её можно было повторить — дружбу, «своих людей» и чувства не обещаем ни в одной строке.</p>
+<p><strong>Пример</strong></p>
+<pre class="ascii">Meet mates · Enjoy the events
+You have 3 interests in common. The chat is open — Olena can write to you too.</pre>
+<p><strong>Антипример</strong></p>
+<pre class="ascii">Find your people
+There are friends for every era
+Your new best friend is one swipe away</pre>
+<p><strong>Откуда.</strong> Два довода, оба из данных. Первый — конкуренты: BFF обещает <strong>«There are friends for every era. Even your messy ones.»</strong>, Peanut — <strong>«A safe space for women to connect»</strong>, Tinder — <strong>«It starts with a swipe.™»</strong> (<code>research/screens/INDEX.md</code>, строки 57, 63, 76). Обещание чувства занято и ничем не подкреплено; обещание <strong>плана</strong> свободно (<code>CLAUDE.md</code> §1, отличие 1). Второй — счёт: об одиночестве сообщают <strong>17 % внутри страны против 54 % среди уехавших</strong> (UNDP, <code>research/people.md</code> §1.2, <strong>A</strong>), поэтому фраза про одиночество попадает в меньшинство, а большинству звучит ярлыком — отсюда правило 13 брифа (<code class="dcode">D-20</code>) и §1 «Чего продукт не делает».</p>
+<h3 id="3-показываем-проверяемые-факты-а-не-оценки-человека">3. Показываем проверяемые факты, а не оценки человека</h3>
+<p><strong>Правило.</strong> В интерфейсе стоят числа и статусы, которые можно проверить — <code>Verified</code>, <code>6 meetups attended</code>, <code>2 going · 1 spot left</code>; человека продукт не оценивает, не ранжирует и не хвалит.</p>
+<p><strong>Пример</strong></p>
+<pre class="ascii">Verified · 6 meetups attended · Replies quickly
+2 going · 1 spot left</pre>
+<p><strong>Антипример</strong></p>
+<pre class="ascii">Top mate · 4.8 ★ · 96 % friendliness
+Popular this week — everyone wants to meet Olena!</pre>
+<p><strong>Откуда.</strong> У Meetup балл стоит <strong>на группе</strong> («4.4 ★ · 3 reviews»), а у человека — только бейдж роли «Super Organizer» (<code>research/competitor-analysis.md</code>, §5, п. 449); у Tinder в профиле <strong>нет ни одного репутационного сигнала</strong> (там же, строка 70). Ниша «репутация из проверяемых фактов» на рынке свободна — на ней стоит отличие 2 (<code>CLAUDE.md</code> §1) и правило 11. Как только в строке появляется оценка, она перестаёт быть проверяемой: звёздный рейтинг человека отвергнут навсегда (§10), а ступени профиля пришлось убрать именно потому, что слово <code>Regular</code> требовало легенды и ничего не доказывало (<code class="dcode">D-49</code>).</p>
+<h3 id="4-называем-цену-и-причину-до-того-как-человек-упёрся">4. Называем цену и причину до того, как человек упёрся</h3>
+<p><strong>Правило.</strong> Продукт заранее говорит, чем обернётся отказ и что именно пошло не так, словами про дело — а не «что-то пошло не так» и не «разблокируй все возможности».</p>
+<p><strong>Пример</strong></p>
+<pre class="ascii">You can browse now — verify to start chatting
+Part of your face was out of frame. Hold the phone at eye level and try once more.</pre>
+<p><strong>Антипример</strong></p>
+<pre class="ascii">Oops! Something went wrong 🙈
+Verify your profile to unlock the full experience!</pre>
+<p><strong>Откуда.</strong> Приём подсмотрен у Tinder и признан честным: перед системным запросом геолокации там стоит экран <strong>«Иначе ты не сможешь создавать пары»</strong> — цена отказа названа прямо (<code>research/screens/INDEX.md</code>, строка 89); мы применяем это к гейту верификации (§7.3). Причина отказа вместо «something went wrong» — требование <code class="dcode">D-26</code>, и оно выведено из того, что <strong>автоматика, которую нельзя оспорить, производит однозвёздные отзывы</strong>. Работает это на job <strong>R2 «решиться идти»</strong> — единственный job, где риск человек оценивает до выхода из дома (<code>research/jtbd.md</code>, R2).</p>
+<h3 id="5-в-ожидании-называем-кто-должен-ответить-и-сколько-это-живёт">5. В ожидании называем, кто должен ответить и сколько это живёт</h3>
+<p><strong>Правило.</strong> Когда ждём не данные, а другого человека, продукт говорит <strong>кто</strong>, <strong>до какого срока</strong> и <strong>что можно сделать вместо</strong> — и никогда не выдаёт чужое молчание за загрузку.</p>
+<p><strong>Пример</strong></p>
+<pre class="ascii">Waiting for Andrii
+Your request is with Andrii. It stays open until Saturday — events without a date
+keep requests for 14 days.
+[ Look at other events ]</pre>
+<p><strong>Антипример</strong></p>
+<pre class="ascii">Loading…
+Hang tight! We're working on it 🎉</pre>
+<p><strong>Откуда.</strong> Пять мест продукта заставляют ждать чужого решения — отклик до ответа автора, предложение вдвоём, селфи на ручной проверке, <code>going</code> до <code>confirmed</code> (<code>CLAUDE.md</code> §6, <code class="dcode">D-42</code>). Спиннер там врёт: ждать можно днями. Правило прямо требует называть три вещи, а сроки, которых не было, назначены копирайтом на макетах и записаны как решение вайрфрейма (<code>wireframes/_screens.md</code>, «Пятое состояние»). Для человека это продолжение принципа 4: неизвестность — тот же риск, только растянутый во времени.</p>
+      </section>
+
+      <section id="чего-в-голосе-нет-коротко">
+        <h2>Чего в голосе нет — коротко</h2>
+<blockquote><p>Развёрнуто, с парами «как было бы / как надо», — в разделе «Запретное» ниже.</p></blockquote>
+<div class="tw"><table><thead><tr><th>Не пишем</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>Oops</code>, <code>Something went wrong</code>, <code>Whoops</code></td><td>Ошибка обязана называть причину — <code class="dcode">D-26</code>. Проверено: в макетах таких строк нет (<code>microcopy.md</code> §4.3)</td></tr>
+<tr><td><code>Congratulations!</code>, <code>Great!</code>, <code>Awesome</code>, эмодзи в интерфейсе</td><td>Бодрость не создаёт доверия у того, кто идёт на встречу с незнакомым человеком (Pew, §3.1)</td></tr>
+<tr><td><code>lonely</code>, <code>alone</code>, <code>no friends</code>, <code>stuck at home</code></td><td>Правило 13 брифа <code class="dcode">D-20</code>: 17 % против 54 % (UNDP) — обращение к одиночеству бьёт мимо большинства</td></tr>
+<tr><td><code>date</code>, <code>singles</code>, <code>hookup</code>, <code>Show me women</code></td><td>Правило 6: романтического контура нет, и копирайт его не возвращает <code class="dcode">D-05</code>, <code class="dcode">D-25</code></td></tr>
+<tr><td>Оценки человека: звёзды, баллы, «проценты хорошести», ступени</td><td>§10 и правило 11; ступени убраны <code class="dcode">D-49</code></td></tr>
+<tr><td>Восклицательные знаки в строках продукта</td><td>Единственный в наборе стоит в <strong>реплике пользователя</strong> — там он уместен, в интерфейсе нет</td></tr>
+</tbody></table></div>
+      </section>
+
+      <section id="словарь">
+        <h2>Словарь</h2>
+<p>Одно понятие — одно слово. Все решения приняты <code class="dcode">D-60</code> по расхождениям, которые собрала перепись (<a href="../microcopy.md"><code>microcopy.md</code></a> §4); новых терминов здесь не появляется. Колонка «почему» — на языке тех, для кого продукт, а не на канцелярском.</p>
+<h3 id="предметы">Предметы</h3>
+<div class="tw"><table><thead><tr><th>Понятие</th><th>Слово в интерфейсе</th><th>Не пишем</th><th>Почему именно так</th></tr></thead><tbody>
+<tr><td>Единица второго контура</td><td><strong><code>event</code></strong></td><td><code>plan</code>, <code>listing</code>, <code>meetup</code>, <code>activity</code></td><td>Человек в киевском канале пишет «Хочу піти в зоопарк», «Шукаю друзів для не професійної гри в волейбол» — он называет <strong>дело</strong>, а не «план». <code>Event</code> — то же дело, но словом, которое в английском интерфейсе не читается как черновик <code class="dcode">D-45</code></td></tr>
+<tr><td>Просьба взять с собой</td><td><strong><code>request</code></strong> — у обеих сторон</td><td><code>response</code>, <code>application</code>, <code>ask</code> как существительное</td><td>Человек просится в чужое дело. У автора это те же просьбы, а не «отклики»: «2 requests · tap to confirm». Одно слово на обеих сторонах, иначе один предмет зовётся тремя именами</td></tr>
+<tr><td>Позвать второго с собой</td><td><strong><code>Invite together</code></strong>, в тесной строке <strong><code>Invite</code></strong></td><td><code>Ask together</code>, <code>Bring a friend</code>, <code>+1 request</code></td><td>Путь именуется по первому шагу: сначала зовёшь своего, и только потом вы вдвоём просите автора <code class="dcode">D-36</code>. «Хочу піти… візьму за компанію людину» — человек сначала ищет спутника</td></tr>
+<tr><td>Момент взаимности</td><td><strong>факт</strong>: «You and Olena both said yes»</td><td><code>It's a match!</code>, <code>Congrats, you matched!</code></td><td>Слово <code>match</code> в момент взаимности — язык дейтинга, а продукт обещает обратное <code class="dcode">D-05</code>. Факт «оба сказали да» не оставляет двусмысленности</td></tr>
+<tr><td>Список совпавших</td><td><strong><code>matches</code></strong> — <code>My matches</code>, <code>New matches</code></td><td><code>connections</code>, <code>friends</code></td><td>В списке это уже вещи, а не событие; <code>friends</code> мы не обещаем нигде (§1)</td></tr>
+<tr><td>Участие в событии</td><td><strong><code>going</code></strong> → <strong><code>confirmed</code></strong></td><td><code>attending</code>, <code>registered</code>, <code>RSVP</code></td><td>Двухфазный счётчик говорит ровно то, что известно: сначала «идут», после напоминания «подтвердили» <code class="dcode">D-16</code></td></tr>
+<tr><td>Свободные места</td><td><strong><code>spots</code></strong> — <code>1 spot left</code>, <code>No spots left</code></td><td><code>seats</code>, <code>places</code>, <code>0 spots left</code></td><td>Это не билеты и не зал: место рядом, а не в ряду. Нуля цифрой не пишем <code class="dcode">D-60</code></td></tr>
+<tr><td>Подтверждённые встречи</td><td><strong><code>meetups attended</code></strong></td><td><code>events visited</code>, <code>rating</code>, <code>score</code></td><td>Факт, который можно проверить, а не оценка человека (правило 11)</td></tr>
+<tr><td>Проверка фото</td><td><strong><code>Verified</code></strong></td><td><code>Trusted</code>, <code>Confirmed</code>, <code>ID-checked</code></td><td>Верификация подтверждает живое фото — и ничего больше (§7.3). Любое другое слово обещает лишнее</td></tr>
+<tr><td>Расстояние</td><td><strong><code>~3 km</code></strong>, ближе километра — <strong><code>Nearby</code></strong></td><td><code>~3 km away</code>, <code>3.2 km</code>, точка на карте</td><td>Округление — часть безопасности, а не стиль (§7.1, правило 5)</td></tr>
+</tbody></table></div>
+<h3 id="действия">Действия</h3>
+<div class="tw"><table><thead><tr><th>Действие</th><th>Кнопка</th><th>Не пишем</th><th>Почему</th></tr></thead><tbody>
+<tr><td>Попроситься в событие</td><td><strong><code>Ask to join</code></strong></td><td><code>Join</code>, <code>Request to join</code>, <code>Apply</code></td><td><code>Join</code> обещает, что ты уже внутри, а место даёт автор (§5.4)</td></tr>
+<tr><td>Выйти в ленту событий</td><td><strong><code>Look at events</code></strong></td><td><code>Browse events</code>, <code>See events</code>, <code>Explore</code></td><td>Одно имя на весь продукт; уточнитель — только из закрытого списка <code>other</code> · <code>all</code> · <code>on your own</code> <code class="dcode">D-60</code></td></tr>
+<tr><td>Выйти в колоду</td><td><strong><code>See people</code></strong></td><td><code>Browse people</code>, <code>Find friends</code>, <code>Keep swiping</code></td><td>«Найти друзей» — обещание, которого продукт не даёт (§1); <code>swipe</code> — механика конкурентов</td></tr>
+<tr><td>Отложить верификацию</td><td><strong><code>Keep browsing</code></strong></td><td><code>Do this later</code>, <code>Skip for now</code></td><td>Это <strong>не</strong> выход к людям: человек остаётся там же, просто без бейджа. Отдельное действие — отдельное имя (§7.3)</td></tr>
+<tr><td>Вернуться в чат</td><td><strong><code>Open the chat</code></strong></td><td><code>Back to Olena</code>, <code>Your chat is waiting</code></td><td>Кнопка — глагол; «назад» не говорит, куда именно</td></tr>
+<tr><td>Создать событие</td><td><strong><code>Post an event</code></strong></td><td><code>Create</code>, <code>New event</code>, <code>Publish</code></td><td>«Опубликовать» — то, что делает человек в канале сегодня: пишет пост и ждёт</td></tr>
+<tr><td>Предложить день</td><td><strong><code>Suggest a day</code></strong></td><td><code>Schedule</code>, <code>Set a date</code>, <code>Plan it</code></td><td><code>Date</code> в дейтинг-продукте читается вторым смыслом — правило 6</td></tr>
+<tr><td>Повторить отправку</td><td><strong><code>Try again</code></strong></td><td><code>Retry</code>, <code>Refresh</code>, <code>Reload</code></td><td>Человеческое действие, а не команда системе</td></tr>
+</tbody></table></div>
+<h3 id="обращение">Обращение</h3>
+<ul><li><strong>Второе лицо, <code>you</code>, на всех экранах без исключений.</strong> «You can browse now — verify to start chatting», «Your request is with Andrii». Никаких «the user», «members» и безличных «It is required to…».</li>
+<li><strong>Кнопка — глагол в повелительном наклонении</strong>, с заглавной только первое слово: <code>Ask to join</code>, <code>Look at events</code>, <code>Post an event</code>. Не <code>Asking to join</code>, не <code>ASK TO JOIN</code>.</li>
+<li><strong>О другом человеке — по имени или <code>they</code></strong> <code class="dcode">D-60</code>: «Olena confirms first». Местоимений по полу нет: поле пола опционально (<code class="dcode">D-25</code>), и подставить <code>she</code> бывает не из чего.</li>
+<li><strong>Мы о себе не говорим.</strong> Ни <code>we</code>, ни «наша команда» — кроме одного места, где это обязательно: живая проверка селфи («someone from the team takes over»), потому что там за экраном действительно человек.</li></ul>
+<h3 id="заимствования-что-можно-что-нет">Заимствования: что можно, что нет</h3>
+<div class="tw"><table><thead><tr><th>Можно</th><th>Почему</th><th>Нельзя</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>event</code>, <code>request</code>, <code>spot</code>, <code>verified</code>, <code>going</code>, <code>confirmed</code></td><td>Это словарь продукта: короткие, ежедневные, без второго смысла</td><td><code>match</code> как <strong>событие</strong> («It's a match!»)</td><td>Язык дейтинга; в списках <code>matches</code> оставлен осознанно</td></tr>
+<tr><td><code>chat</code>, <code>profile</code>, <code>filters</code></td><td>Общеупотребимые: человек понимает их без объяснения</td><td><code>swipe</code>, <code>RSVP</code>, <code>boost</code>, <code>super like</code></td><td>Это механика конкурентов и их платные штуки (§9, правило 7)</td></tr>
+<tr><td><code>Nearby</code> как метка «ближе километра»</td><td>Уже стоит в §7.1</td><td><code>hangout</code>, <code>vibe</code>, <code>squad</code>, <code>bestie</code></td><td>Молодёжный жаргон стареет быстрее продукта и звучит навязчиво в теме, где решают, рисковать ли встречей</td></tr>
+</tbody></table></div>
+<p><strong>Во внутренней документации термины тоже одни:</strong> событие · отклик · пара · автор · повтор · встреча. Это те же предметы по-русски, и в брифе они не должны разъезжаться с интерфейсом (<code class="dcode">D-45</code>, <code class="dcode">D-60</code>).</p>
+      </section>
+
+      <section id="запретное">
+        <h2>Запретное</h2>
+<p>Чего продукт не пишет никогда. К каждому пункту — как было бы и как надо. Проверено по переписи: <strong>ни одного такого случая в макетах сейчас нет</strong> — раздел существует, чтобы они не появились.</p>
+<h3 id="1-ai-клише-в-ошибках">1. AI-клише в ошибках</h3>
+<div class="tw"><table><thead><tr><th>Как было бы</th><th>Как надо</th></tr></thead><tbody>
+<tr><td><code>Oops! Something went wrong 🙈</code></td><td><code>The connection dropped. Your messages are on the server.</code></td></tr>
+<tr><td><code>Error 500. Please try again later.</code></td><td><code>Couldn't load your chats</code> + <code>Try again</code></td></tr>
+<tr><td><code>We couldn't process your request at this time</code></td><td><code>Part of your face was out of frame. Hold the phone at eye level and try once more.</code></td></tr>
+</tbody></table></div>
+<p>Ошибка называет <strong>причину и что с ней делать</strong> — это требование <code class="dcode">D-26</code>, выведенное из того, что автоматика без объяснения производит однозвёздные отзывы.</p>
+<h3 id="2-приветствия-и-поздравления">2. Приветствия и поздравления</h3>
+<div class="tw"><table><thead><tr><th>Как было бы</th><th>Как надо</th></tr></thead><tbody>
+<tr><td><code>Welcome to MeetMates! 🎉</code></td><td><code>Meet mates · Enjoy the events</code></td></tr>
+<tr><td><code>Congratulations! You have a new match!</code></td><td><code>You and Olena both said yes</code></td></tr>
+<tr><td><code>Great job! Your event is live!</code></td><td><code>It's in My events →</code></td></tr>
+</tbody></table></div>
+<p>Поздравлять не с чем: взаимность — ещё не встреча, опубликованное событие — ещё не компания. Продукт сообщает факт, а радость оставляет человеку.</p>
+<h3 id="3-мотивационный-тон">3. Мотивационный тон</h3>
+<div class="tw"><table><thead><tr><th>Как было бы</th><th>Как надо</th></tr></thead><tbody>
+<tr><td><code>Start your journey to new friendships!</code></td><td><code>Look at events</code></td></tr>
+<tr><td><code>Your new best friend is one swipe away</code></td><td><code>3 common interests</code></td></tr>
+<tr><td><code>Don't miss out — join now!</code></td><td><code>1 spot left</code></td></tr>
+</tbody></table></div>
+<p>Дружбу продукт не обещает (§1, правило 13), а срочность здесь — манипуляция: человек решает, идти ли к незнакомому, и подгонять его нельзя.</p>
+<h3 id="4-слово-успешно-восклицания-и-эмодзи-в-системных-строках">4. Слово «успешно», восклицания и эмодзи в системных строках</h3>
+<div class="tw"><table><thead><tr><th>Как было бы</th><th>Как надо</th></tr></thead><tbody>
+<tr><td><code>Successfully sent!</code></td><td><code>Sent</code></td></tr>
+<tr><td><code>Your profile was successfully updated!</code></td><td><code>Saved</code></td></tr>
+<tr><td><code>You're verified! ✅🎉</code></td><td><code>You're verified</code></td></tr>
+</tbody></table></div>
+<p>«Успешно» ничего не добавляет: если строка появилась, действие прошло. Эмодзи и восклицательные знаки — тон, который в теме доверия читается как чужая бодрость; единственный восклицательный знак в наборе стоит в <strong>реплике человека</strong>, и там он уместен, потому что пишет его человек.</p>
+<h3 id="5-ярлыки-на-человеке">5. Ярлыки на человеке</h3>
+<div class="tw"><table><thead><tr><th>Как было бы</th><th>Как надо</th></tr></thead><tbody>
+<tr><td><code>Popular this week</code> · <code>Top mate · 4.8 ★</code></td><td><code>6 meetups attended</code></td></tr>
+<tr><td><code>New here — be gentle</code> · <code>Newcomer</code></td><td>ничего: строки нет, пока нет данных <code class="dcode">D-60</code></td></tr>
+<tr><td><code>Lonely in a new city?</code></td><td><code>Just moved here</code> (интент-чип — обстоятельство, не диагноз)</td></tr>
+</tbody></table></div>
+<p>Оценок человека нет и не будет (§10, правило 11); одиночество не продаём <code class="dcode">D-20</code>.</p>
+      </section>
+
+      <section id="экраны-которых-ещё-нет">
+        <h2>Экраны, которых ещё нет</h2>
+<p>В макетах 13 экранов из 31. Ниже — тон для тех, что впереди. Правила написаны <strong>до</strong> рисования сознательно: у половины этих поверхностей текст и есть весь экран, и если он появится вместе с раскладкой, тон будет задан вёрсткой, а не решением.</p>
+<h3 id="пуш-уведомления">Пуш-уведомления</h3>
+<p>Пуш — единственное место, где продукт говорит первым, и человек читает его на заблокированном экране, часто при других людях. Отсюда три правила.</p>
+<p><strong>Поводов ровно четыре, и все привязаны к плану, а не к продукту:</strong> напоминание за сутки (<code class="dcode">D-16</code>), автор подтвердил отклик (§5.4), check-in после встречи (§5.5.1), предложение повторить (<code class="dcode">D-34</code>). Разрешение спрашивается при первом подтверждённом плане <code class="dcode">D-40</code> — значит пуш обещан как часть плана, и пуш «мы соскучились» это обещание нарушает.</p>
+<div class="tw"><table><thead><tr><th>Как надо</th><th>Как не надо</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>Board games tomorrow at 18:00 — still going?</code></td><td><code>Don't forget! You have an event 🎉</code></td><td>Предмет и срок в первых словах: на экране блокировки видно строку, а не абзац. На iOS пуш вообще приходит только установленному на «Домой» веб-приложению (<code>research/research.md</code>, В-9) — тем дороже каждый</td></tr>
+<tr><td><code>Andrii confirmed you for board games</code></td><td><code>Great news! Your request was approved!</code></td><td>Факт вместо поздравления (принцип 2)</td></tr>
+<tr><td><code>Coffee and a walk was yesterday. Who made it?</code></td><td><code>Rate your meetup and earn a badge</code></td><td>Оценок человека нет и не будет (правило 11)</td></tr>
+<tr><td><code>Board games again with Andrii and Maryna?</code></td><td><code>Your friends miss you — come back!</code></td><td>Дружбу не обещаем, вовлечение не выпрашиваем (§1, правило 13)</td></tr>
+</tbody></table></div>
+<p><strong>Чего в пуше нет никогда:</strong> текста чужого сообщения, точного адреса встречи (§7.2 — адрес только подтверждённым участникам), имени человека рядом со словами о поле или намерении, цифр вовлечения («12 people are waiting»).</p>
+<p><strong>Ответ — из самого пуша</strong>, где это возможно: <code>Yes</code> · <code>Can't make it</code>. Пуш, который только зовёт открыть приложение, — это работа, переложенная на человека.</p>
+<h3 id="напоминание-still-going">Напоминание <code>Still going?</code></h3>
+<div class="tw"><table><thead><tr><th>Как надо</th><th>Как не надо</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>Still going?</code> · <code>Yes</code> · <code>Can't make it</code></td><td><code>Confirm now or lose your spot</code></td><td>Молчание местом не наказывается <code class="dcode">D-16</code>: угроза в тексте противоречит механике</td></tr>
+<tr><td><code>No answer is fine — we'll just show you as going</code></td><td><code>Please respond to keep your reputation</code></td><td>Неответ не проступок (§5.4); репутация стоит на встречах, а не на дисциплине</td></tr>
+</tbody></table></div>
+<h3 id="check-in-who-made-it">Check-in «Who made it?»</h3>
+<p>Самый деликатный текст в продукте: человек отвечает <strong>про другого человека</strong>, и от ответа зависит чужой счётчик встреч (§5.5.1). Заполняемость — метрика с порогом 40 % <code class="dcode">D-18</code>, но добирать её давлением нельзя: испуганный ответ хуже пропуска.</p>
+<div class="tw"><table><thead><tr><th>Как надо</th><th>Как не надо</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>Who did you meet?</code> · <code>Mark everyone you saw in person</code></td><td><code>How was it? Rate your mates</code></td><td>Спрашиваем факт присутствия, а не впечатление (§5.5.1)</td></tr>
+<tr><td><code>Nobody sees who you marked</code></td><td>ничего не сказать</td><td>Double-blind надо назвать вслух: на паре видно, кто отметил, и страх мести реален — это записанная цена §5.4</td></tr>
+<tr><td><code>Skip</code></td><td><code>Skip for now 😔</code> · <code>Are you sure?</code></td><td>Пропуск — нормальный ответ, окно 14 дней (§5.5.1); уговаривать нельзя</td></tr>
+<tr><td><code>Anything off? Only our team sees this.</code></td><td><code>Report bad behaviour</code></td><td>Поле §7.5 — заметка для команды, а не жалоба; обвиняющая формулировка закрывает тех, кому было просто неуютно</td></tr>
+</tbody></table></div>
+<h3 id="предложение-повторить">Предложение повторить</h3>
+<div class="tw"><table><thead><tr><th>Как надо</th><th>Как не надо</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>Board games again with Andrii and Maryna?</code></td><td><code>You're a great host! Do it again!</code></td><td>Ролей нет <code class="dcode">D-29</code>, лесть здесь — неправда</td></tr>
+<tr><td><code>Offer expires in 14 days</code></td><td><code>Last chance!</code></td><td>Срок назван спокойно <code class="dcode">D-34</code>; в продукте, где решают о встрече с незнакомым, срочность читается как давление</td></tr>
+<tr><td>Предложить может <strong>любой участник</strong></td><td>«Только автор может повторить»</td><td><code class="dcode">D-34</code>: повтор не даёт прав над составом</td></tr>
+</tbody></table></div>
+<h3 id="создание-события">Создание события</h3>
+<div class="tw"><table><thead><tr><th>Как надо</th><th>Как не надо</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>What are you doing?</code> · <code>Go for a walk on the embankment?</code></td><td><code>Tell us about yourself</code></td><td>Тест «запрос или анкета» <code class="dcode">D-23</code> — на этой границе стоит отличие продукта №1</td></tr>
+<tr><td><code>Add a photo of what you'll be doing</code></td><td><code>Upload a nice picture ✨</code></td><td>Обложка обязательна <code class="dcode">D-56</code>, и цена названа до нажатия (принцип 4)</td></tr>
+<tr><td><code>Just you and one more</code> — подпись к <code>+1</code></td><td><code>Invite a crowd!</code> · <code>Set your group size</code></td><td>Интерфейс не подталкивает вверх <code class="dcode">D-24</code>; встреча вдвоём — нормальный исход</td></tr>
+<tr><td><code>Who can join: anyone</code></td><td><code>Who are you looking for?</code></td><td>Описываем компанию, а не искомого человека (правило 6, <code class="dcode">D-25</code>)</td></tr>
+</tbody></table></div>
+<h3 id="отклики-автору">Отклики автору</h3>
+<div class="tw"><table><thead><tr><th>Как надо</th><th>Как не надо</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>Confirm</code> · <code>Not this time</code></td><td><code>Accept</code> · <code>Reject</code></td><td>Подтверждение даёт автору контроль, а не право судить (§5.4): «people pick who they go with» уже стоит на экране отказа</td></tr>
+<tr><td><code>2 requests · 1 spot left</code></td><td><code>2 people are begging to join</code></td><td>Счётчик — факт, а не эмоция (<code class="dcode">D-60</code>, принцип 3)</td></tr>
+<tr><td><code>Confirming opens the chat and shows the exact address</code></td><td>ничего не сказать</td><td>Человек должен знать, что меняет его нажатие (§7.2)</td></tr>
+</tbody></table></div>
+<h3 id="жалоба-и-блокировка">Жалоба и блокировка</h3>
+<div class="tw"><table><thead><tr><th>Как надо</th><th>Как не надо</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>Blocked. You won't see each other anywhere, and the chat moves to archive.</code></td><td><code>Are you sure? This can't be undone!!</code></td><td>Block мгновенный и взаимный (§7.4) — говорим, что произошло, а не пугаем</td></tr>
+<tr><td><code>Why are you reporting this?</code> + список причин</td><td><code>Tell us what happened in your own words</code> первым шагом</td><td>Причины из §7.4 — быстрее и не заставляют заново описывать неприятное</td></tr>
+<tr><td><code>We look at every report. You won't hear from this person again.</code></td><td><code>Thanks for making MeetMates better! 🙏</code></td><td>57 % женщин 18–34 считают такие приложения небезопасными (Pew, <code>research/people.md</code> §3.1) — здесь не место благодарностям продукту</td></tr>
+</tbody></table></div>
+<h3 id="онбординг">Онбординг</h3>
+<div class="tw"><table><thead><tr><th>Как надо</th><th>Как не надо</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>Meet mates · Enjoy the events</code></td><td><code>Welcome to MeetMates! 🎉</code></td><td>Обещание продукта — в §1; приветствие не сообщает ничего</td></tr>
+<tr><td><code>You can browse now — verify to start chatting</code></td><td><code>Verify to unlock all features</code></td><td>Цена отказа названа прямо (принцип 4, <code class="dcode">D-03</code>)</td></tr>
+<tr><td><code>Just moved here</code> · <code>New to the city</code></td><td><code>Feeling lonely?</code></td><td>Называем обстоятельство, а не диагноз — правило 13, <code class="dcode">D-20</code></td></tr>
+<tr><td><code>Add at least one photo</code></td><td><code>Show your best self!</code></td><td>Фотография обязательна (§5.1) — говорим требование, а не комплимент</td></tr>
+</tbody></table></div>
+      </section>
+
+      <section id="микрокопи">
+        <h2>Микрокопи</h2>
+<p>Правила по типам элементов. Каждый пример — <strong>строка, которая сейчас стоит в наборе</strong> (<code>wireframes/*.html</code>), а не сочинённая для иллюстрации; у каждого правила указано, с каким принципом и каким словом словаря оно сверяется.</p>
+<h3 id="кнопка">Кнопка</h3>
+<p><strong>Правило.</strong> Глагол действия, из которого виден результат; никаких <code>OK</code>, <code>Next</code>, <code>Continue</code>, <code>Submit</code>.</p>
+<div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><strong>Так</strong></td><td><code>Ask to join</code> — карточка события, лента, поиск, профиль человека</td></tr>
+<tr><td><strong>Не так</strong></td><td><code>OK</code> · <code>Next</code> · <code>Join</code> (обещает, что ты уже внутри, а место даёт автор)</td></tr>
+<tr><td><strong>Сверка</strong></td><td>Словарь, «Действия»: одно действие — одно имя. Принцип 1: кнопка называет <strong>дело</strong>, а не шаг мастера</td></tr>
+</tbody></table></div>
+<p>Вторая половина правила — <strong>что будет после нажатия, видно до нажатия</strong>: <code>Suggest a day</code> ведёт к предложению дня, <code>Post an event</code> публикует, <code>Look at events</code> уводит в ленту. Если из подписи не читается результат, переписывается подпись, а не добавляется пояснение.</p>
+<p><strong>Исключение одно: кнопка, которая открывает место, называется этим местом</strong> — <code>Filters</code>, <code>Report</code>. Она ничего не меняет, а ведёт туда, где человек решит сам; глагол здесь обещал бы действие, которого нажатие не делает.</p>
+<p><strong>Два записанных исключения из «одного имени».</strong> На <strong>радаре</strong> кнопки называются <code>People</code> и <code>Events</code> — этот экран учит соответствию с таб-баром, где подписи ровно такие; в любом другом месте выход зовётся <code>See people</code> и <code>Look at events</code>. И <strong><code>Filters</code></strong> — имя места, а не действия (см. выше).</p>
+<p><strong>Когда полное имя не помещается</strong>, в кнопке стоит короткое, а полное уходит в <code>aria-label</code>: в шапке ленты видно <code>Post</code>, скринридер слышит <code>Post an event</code> (тот же приём, что <code>Invite</code> в превью, <code class="dcode">D-60</code>).</p>
+<h3 id="заголовок-экрана">Заголовок экрана</h3>
+<p><strong>Правило.</strong> Называет <strong>место, где человек находится</strong>, словом из словаря — не обещание и не приветствие.</p>
+<div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><strong>Так</strong></td><td><code>Events nearby</code> · <code>My events</code> · <code>My chats</code> · <code>Go together</code> · <code>My profile</code></td></tr>
+<tr><td><strong>Не так</strong></td><td><code>How others see you</code> как заголовок экрана (обещание вместо места — уже исправлено <code class="dcode">D-58</code>) · <code>Discover</code> · <code>Welcome</code></td></tr>
+<tr><td><strong>Сверка</strong></td><td>Словарь, «Предметы»: <code>event</code>, <code>matches</code>, <code>profile</code>. Принцип 2: обещание в заголовке — обещание, которого продукт не давал</td></tr>
+</tbody></table></div>
+<p>Обещание живёт в <strong>секции</strong>, а не в шапке: <code>How others see you</code> стоит над карточкой в своём профиле — там оно объясняет именно карточку.</p>
+<h3 id="поле-формы">Поле формы</h3>
+<p><strong>Правило из трёх частей.</strong> Подпись говорит, <strong>что</strong> вводить; подсказка — <strong>как</strong>; ошибка проверки — <strong>что исправить</strong>, конкретно.</p>
+<div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><strong>Так — подпись</strong></td><td><code>Search people and events</code> (поиск: скрытая подпись для скринридера, видимая — плейсхолдер)</td></tr>
+<tr><td><strong>Так — подсказка</strong></td><td><code>Write a message</code> — поле ввода в диалоге</td></tr>
+<tr><td><strong>Так — ошибка проверки</strong></td><td><code>Part of your face was out of frame. Hold the phone at eye level and try once more.</code> — верификация</td></tr>
+<tr><td><strong>Не так</strong></td><td><code>Required field</code> · <code>Invalid input</code> · <code>Something's wrong with this field</code></td></tr>
+<tr><td><strong>Сверка</strong></td><td>Принцип 4: называем причину и что делать. Правило <code class="dcode">D-26</code>: причина названа словами, а не «something went wrong»</td></tr>
+</tbody></table></div>
+<p>Ошибка проверки <strong>не ругает</strong>: «Add at least one photo to post» — это требование (§5.1, <code class="dcode">D-56</code>), а не упрёк.</p>
+<h3 id="пустое-состояние">Пустое состояние</h3>
+<p><strong>Правило.</strong> Первой строкой — <strong>чего нет</strong>, по имени; второй — <strong>почему так бывает</strong>; дальше — <strong>что сделать</strong>, минимум один выход (правило 10).</p>
+<div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><strong>Так</strong></td><td><code>No events within 5 km yet</code> · «Events here are posted by people like you — and yours would be the first one nearby.» · <code>Post an event</code> · <code>Show events further out</code></td></tr>
+<tr><td><strong>Не так</strong></td><td><code>Nothing here yet</code> (не называет предмет) · <code>Oh no, it's empty!</code> · пустой экран без выхода</td></tr>
+<tr><td><strong>Сверка</strong></td><td>Словарь: <code>event</code>, <code>spots</code>. Принцип 1: говорим о деле. §2.1: на старте это <strong>первый реальный экран</strong>, а не край</td></tr>
+</tbody></table></div>
+<p>Исключение одно и записано: <code>You are all caught up</code> в колоде — там не пусто, там всё просмотрено (§5.2).</p>
+<h3 id="ошибка">Ошибка</h3>
+<p><strong>Правило.</strong> Что произошло и что делать. Без извинений, без шуток, без эмодзи.</p>
+<div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><strong>Так</strong></td><td><code>Couldn't load your chats</code> · «The connection dropped. Nothing is lost — your messages are on the server.» · <code>Try again</code></td></tr>
+<tr><td><strong>Не так</strong></td><td><code>Oops! Something went wrong 🙈</code> · <code>We're sorry for the inconvenience</code> · <code>Error 500</code></td></tr>
+<tr><td><strong>Сверка</strong></td><td>Принцип 4 и «Запретное», п. 1. Словарь, «Действия»: повтор называется <code>Try again</code></td></tr>
+</tbody></table></div>
+<p><strong>Отказ — не ошибка.</strong> Когда автор не взял или второй не верифицирован, повторять нечего: там нужен другой путь, а не <code>Try again</code> (<code>plan-error</code>, <code>invite-error</code>).</p>
+<h3 id="загрузка">Загрузка</h3>
+<p><strong>Правило.</strong> Либо молчит, либо говорит, <strong>что именно</strong> грузится. Никогда не говорит «пожалуйста, подождите» и никогда не притворяется ожиданием чужого решения.</p>
+<div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><strong>Так — говорит</strong></td><td><code>Looking for people near you</code> (колода) · <code>Opening the event</code> (карточка)</td></tr>
+<tr><td><strong>Так — молчит</strong></td><td>скелет строк в ленте: видно, что грузится, — слов не нужно</td></tr>
+<tr><td><strong>Не так</strong></td><td><code>Please wait…</code> · <code>Loading…</code> без предмета · спиннер там, где ждут человека</td></tr>
+<tr><td><strong>Сверка</strong></td><td>Принцип 5: ожидание чужого решения — не загрузка (<code class="dcode">D-42</code>). Словарь: грузим <code>events</code>, <code>chats</code>, <code>people</code> — теми же словами</td></tr>
+</tbody></table></div>
+<h3 id="успех">Успех</h3>
+<p><strong>Правило.</strong> Назвать факт и следующий шаг. Не праздновать.</p>
+<div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><strong>Так</strong></td><td><code>You're verified</code> · «The badge is on your card now. You can message, join events and confirm people who ask to join yours.»</td></tr>
+<tr><td><strong>Так</strong></td><td><code>You and Olena both said yes</code> · <code>Say hi</code></td></tr>
+<tr><td><strong>Не так</strong></td><td><code>Congratulations! 🎉</code> · <code>Successfully verified!</code> · <code>Awesome, you're all set!</code></td></tr>
+<tr><td><strong>Сверка</strong></td><td>«Запретное», пп. 2 и 4. Принцип 2: поздравлять не с чем — взаимность ещё не встреча</td></tr>
+</tbody></table></div>
+<h3 id="опасное-действие">Опасное действие</h3>
+<p><strong>Правило.</strong> До нажатия сказать, <strong>что произойдёт</strong> и <strong>чего нельзя будет вернуть</strong>; после — сказать, что уже случилось. Подтверждение спрашиваем один раз и по делу.</p>
+<div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><strong>Так — до</strong></td><td><code>Withdraw my request</code> рядом со строкой «Your request is with Andrii. It stays open until Saturday» — видно, что именно отзываешь</td></tr>
+<tr><td><strong>Так — после</strong></td><td><code>Blocked. You won't see each other anywhere, and the chat moves to archive.</code> (правило для экрана блокировки — раздел «Экраны, которых ещё нет»)</td></tr>
+<tr><td><strong>Не так</strong></td><td><code>Are you sure? This can't be undone!!</code> · двойное подтверждение · <code>Delete</code> без объяснения последствий</td></tr>
+<tr><td><strong>Сверка</strong></td><td>Принцип 4: цена названа заранее. §7.4: Block мгновенный и взаимный — это и есть то, что нужно сказать</td></tr>
+</tbody></table></div>
+<p><strong>Что считается опасным у нас:</strong> блокировка · отмена своего события (<code class="dcode">D-41</code>: на <code>+1</code> это «встреча отменена» для второго) · выход из аккаунта · отзыв отклика или приглашения. Свайп <code>Skip</code> опасным не считается — он обратим через undo (§5.2).</p>
+<p><strong>На этом <code>voice.md</code> полон.</strong> Дальше весь новый текст пишется по нему: принципы задают, о чём говорим; словарь — какими словами; «Запретное» — чего не пишем; «Экраны, которых ещё нет» — тон для того, что впереди; «Микрокопи» — как это выглядит в конкретном элементе.</p>
+      </section>
+
+      <section id="как-этим-пользоваться">
+        <h2>Как этим пользоваться</h2>
+<ol><li>Новая строка проверяется по пяти принципам подряд; не прошла хотя бы один — переписываем.</li>
+<li>Имена действий и предметов берём из раздела <strong>«Словарь»</strong> выше: одно понятие — одно слово. Он же записан коротко в правиле 6 брифа и в <a href="../wireframes/_conventions.md"><code>wireframes/_conventions.md</code></a> вместе с форматами даты, расстояния и нуля (<code class="dcode">D-60</code>). Что где написано сейчас — <a href="../microcopy.md"><code>microcopy.md</code></a>.</li>
+<li>Текст, который пишет человек (название события, био, реплики в чате), <strong>под правила тона не попадает</strong> — мы его не редактируем и не приводим к общему голосу (<code>microcopy.md</code> §5). <strong>Одно исключение, и оно продуктовое:</strong> название события проходит тест «запрос или анкета» при создании — <code>Go for a walk on the embankment?</code> да, <code>I like walking</code> нет (<code class="dcode">D-23</code>, §5.4). Это не вопрос стиля: на этой границе стоит отличие продукта №1, поэтому проверка остаётся, даже когда строку пишет человек.</li>
+<li>Экраны из раздела <strong>«Экраны, которых ещё нет»</strong> рисуются по готовым правилам: сперва строка, потом раскладка. Когда экран нарисован, его строки попадают в <a href="../microcopy.md"><code>microcopy.md</code></a> обычной пересборкой.</li>
+<li>Принцип без строки из исследования в этот файл не добавляется. Если строка нашлась — принцип можно дописать, указав файл и место.</li></ol>
+      </section>
+    </div>
+
+    <div class="tabpanel" id="microcopy">
+      <h1 class="vh">Tone of voice и микрокопи: перепись</h1>
+<blockquote><p><strong>Инвентарь, а не свод правил.</strong> Здесь собран весь текст, который сейчас стоит на макетах <code>wireframes/*.html</code>: заголовки, кнопки, подписи полей, сообщения состояний. Ничего не переписано — задача переписи в том, чтобы стало видно то, чего не видно по одному экрану: одна и та же вещь названа в разных местах по-разному.</p>
+<p>Снято 30.09.2026 — после переписывания текста по <code>voice.md</code> — с набора <strong>49 страниц, 13 экранов</strong>. Пересобирается скриптом из самих макетов, руками не правится.</p>
+<p>Голос продукта и <strong>словарь терминов</strong> — <a href="../voice.md"><code>voice.md</code></a>. Что уже решено про отдельные строки — <a href="../wireframes/_conventions.md"><code>wireframes/_conventions.md</code></a>.</p></blockquote>
+
+      <section id="1-что-вошло-в-перепись-и-что-нет">
+        <h2>1. Что вошло в перепись и что нет</h2>
+<p><strong>Вошло:</strong> всё, что человек читает в продукте — заголовки экранов и секций, подписи кнопок и ссылок-выходов, плейсхолдеры и подписи полей, сообщения пустых состояний, ошибок, загрузок и ожиданий, мета-строки карточек (расстояние, счётчик мест, сигналы доверия), свободный текст экрана.</p>
+<p><strong>И то, чего глазом не видно:</strong> <strong>скрытые заголовки секций</strong> и <strong><code>aria-label</code></strong> — их слышит скринридер, значит это такой же копирайт (<code>wireframes/_conventions.md</code>). До 30.09 их в переписи не было, и расхождения в них приходилось находить глазами: 85 скрытых заголовков и 34 <code>aria-label</code> жили на экранах мимо таблицы.</p>
+<p><strong>Не вошло — это леса, а не продукт:</strong> панель страниц слева, полоса состояний над мокапом, подписи зон справа, служебный блок под макетом, системная строка телефона и метка «сгиб — ниже не наше».</p>
+<p><strong>Как читать колонки.</strong> <code>Состояние</code> — базовый вид или одно из состояний экрана; <strong>во всех</strong> значит, что строка одинакова во всех состояниях этого экрана. <code>Зона</code> — из комментария в разметке: шапка, содержимое, действия, выход. <code>Тип</code> — заголовок · скрытый заголовок · aria-label · кнопка · подпись поля · сообщение состояния · подпись · текст экрана · строка списка · текст пользователя.</p>
+      </section>
+
+      <section id="2-общее-для-всех-экранов">
+        <h2>2. Общее для всех экранов</h2>
+<div class="tw"><table><thead><tr><th>Строка</th><th>Тип</th><th>Где</th></tr></thead><tbody>
+<tr><td><code>People</code> · <code>Events</code> · <code>Search</code> · <code>Chats</code> · <code>Profile</code></td><td>кнопка</td><td>Таб-бар, все 49 страниц</td></tr>
+<tr><td><code>←</code></td><td>кнопка, только aria-label</td><td>Шапка 24 страниц: <code>Back to chats</code>, <code>Back to the chat</code>, <code>Back to events</code>, <code>Back to people nearby</code></td></tr>
+<tr><td><code>Report</code></td><td>кнопка</td><td>Шапка там, где виден человек: диалог, профиль, карточка события (правило 4)</td></tr>
+</tbody></table></div>
+      </section>
+
+      <section id="3-инвентарь-по-экранам">
+        <h2>3. Инвентарь по экранам</h2>
+
+<div class="invlist">
+      <details class="inv" id="vii-8-радар">
+        <summary>VII.8 Радар<span>3 строки</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td>рабочий вид</td><td>Обещание</td><td><code>Meet mates Enjoy the events</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Как это устроено</td><td><code>How it works</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>С чего начать</td><td><code>Where to start</code></td><td>скрытый заголовок</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="ii-1-колода">
+        <summary>II.1 Колода<span>33 строки</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td><strong>во всех</strong></td><td>Шапка</td><td><code>People nearby</code></td><td>заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Шапка</td><td><code>Filters</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Выход во второй путь</td><td><code>Look at events →</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>Olena, 26 — open profile</code></td><td>aria-label</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>Olena, 26</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Решение по карточке</td><td><code>Skip</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Решение по карточке</td><td><code>Like</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>Hiking</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>Board games</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>Coffee</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>6 meetups attended</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>Replies quickly</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Решение по карточке</td><td><code>Decision</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Выход во второй путь</td><td><code>Events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>пусто</td><td>Что дальше</td><td><code>Show people further out</code></td><td>aria-label</td></tr>
+<tr><td>пусто</td><td>Вместо карточки</td><td><code>You are all caught up</code></td><td>заголовок</td></tr>
+<tr><td>пусто</td><td>Что дальше</td><td><code>Expand search</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Что дальше</td><td><code>Reset filters</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Что дальше</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>пусто</td><td>Выход во второй путь</td><td><code>Events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>пусто</td><td>Вместо карточки</td><td><code>That’s everyone within 5 km who matches your filters.</code></td><td>сообщение состояния</td></tr>
+<tr><td>пусто</td><td>Вместо карточки</td><td><code>That’s everyone within 5 km who matches your filters.</code></td><td>текст экрана</td></tr>
+<tr><td>ошибка</td><td>Вместо карточки</td><td><code>Couldn’t load people nearby</code></td><td>заголовок</td></tr>
+<tr><td>ошибка</td><td>Что дальше</td><td><code>Try again</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Что дальше</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Выход во второй путь</td><td><code>Events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Вместо карточки</td><td><code>The connection dropped. Your likes and matches are safe.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ошибка</td><td>Вместо карточки</td><td><code>The connection dropped. Your likes and matches are safe.</code></td><td>текст экрана</td></tr>
+<tr><td>загрузка</td><td>Решение по карточке</td><td><code>Skip</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Решение по карточке</td><td><code>Like</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Решение по карточке</td><td><code>Decision</code></td><td>скрытый заголовок</td></tr>
+<tr><td>загрузка</td><td>Выход во второй путь</td><td><code>Events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>загрузка</td><td>Скелет карточки</td><td><code>Looking for people near you</code></td><td>сообщение состояния</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="i-1-профиль-человека">
+        <summary>I.1 Профиль человека<span>24 строки</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Back to people nearby</code></td><td>aria-label</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Olena, 26</code></td><td>заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Планов нет</td><td><code>Olena’s events</code></td><td>заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Решение</td><td><code>Skip</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Решение</td><td><code>Like</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>Hiking</code></td><td>подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>Board games</code></td><td>подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>Coffee</code></td><td>подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>6 meetups attended</code></td><td>подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>Replies quickly</code></td><td>подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>Who</code></td><td>скрытый заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Решение</td><td><code>Decision</code></td><td>скрытый заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Планов нет</td><td><code>Moved to Kyiv in spring. Weekends are for long walks and board games.</code></td><td>текст экрана</td></tr>
+<tr><td>рабочий вид</td><td>Ближайшие запросы человека</td><td><code>Board games</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Ближайшие запросы человека</td><td><code>Board games Sat 18:00</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Ближайшие запросы человека</td><td><code>Ask to join</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Ближайшие запросы человека</td><td><code>Kyiv Games Club · Podil · ~3 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Ближайшие запросы человека</td><td><code>1 spot left · Verified</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Ближайшие запросы человека</td><td><code>Sat 18:00</code></td><td>подпись</td></tr>
+<tr><td>пусто</td><td>Планов нет</td><td><code>No events from Olena yet</code></td><td>заголовок</td></tr>
+<tr><td>пусто</td><td>Планов нет</td><td><code>Look at events →</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Планов нет</td><td><code>Events here are posted by people themselves — Olena hasn’t posted one yet.</code></td><td>сообщение состояния</td></tr>
+<tr><td>пусто</td><td>Планов нет</td><td><code>Events here are posted by people themselves — Olena hasn’t posted one yet.</code></td><td>текст экрана</td></tr>
+<tr><td>загрузка</td><td>Шапка готова</td><td><code>Loading photos and events</code></td><td>сообщение состояния</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="ii-3-совпадение">
+        <summary>II.3 Совпадение<span>7 строк</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td>рабочий вид</td><td>-2: сам факт</td><td><code>You and Olena both said yes</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>-2: сам факт</td><td><code>Olena</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Дорога дальше</td><td><code>Say hi</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Дорога дальше</td><td><code>See people</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Дорога дальше</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>-2: сам факт</td><td><code>You have 3 interests in common. The chat is open — Olena can write to you too.</code></td><td>сообщение состояния</td></tr>
+<tr><td>рабочий вид</td><td>-2: сам факт</td><td><code>You have 3 interests in common. The chat is open — Olena can write to you too.</code></td><td>текст экрана</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="i-5-верификация">
+        <summary>I.5 Верификация<span>44 строки</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Back to the chat</code></td><td>aria-label</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Verification</code></td><td>заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Выход</td><td><code>Keep browsing →</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Выход</td><td><code>Later</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Снять</td><td><code>Take selfie</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Видоискатель</td><td><code>Face the light, no sunglasses, no filters.</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Видоискатель</td><td><code>Selfie</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Снять</td><td><code>Decision</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Пропуск с названной ценой (§7</td><td><code>You can browse now — verify to start chatting.</code></td><td>текст экрана</td></tr>
+<tr><td>ошибка</td><td>Причина</td><td><code>Couldn’t read your face</code></td><td>заголовок</td></tr>
+<tr><td>ошибка</td><td>Пересдать</td><td><code>Try again</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Причина</td><td><code>Verification failed</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Пересдать</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Причина</td><td><code>Part of your face was out of frame. Hold the phone at eye level and try once more.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ошибка</td><td>Причина</td><td><code>This was your first try. There’s no limit on tries — after two, someone from the team looks at your selfie.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ошибка</td><td>Причина</td><td><code>Part of your face was out of frame. Hold the phone at eye level and try once more.</code></td><td>текст экрана</td></tr>
+<tr><td>загрузка</td><td>Действие выключено</td><td><code>Take selfie</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Обработка</td><td><code>Checking</code></td><td>скрытый заголовок</td></tr>
+<tr><td>загрузка</td><td>Действие выключено</td><td><code>Decision</code></td><td>скрытый заголовок</td></tr>
+<tr><td>загрузка</td><td>Обработка</td><td><code>Checking your selfie</code></td><td>сообщение состояния</td></tr>
+<tr><td>загрузка</td><td>Ждать необязательно</td><td><code>This takes a few seconds. You can keep browsing while the check runs.</code></td><td>текст экрана</td></tr>
+<tr><td>успех</td><td>Факт и его последствие</td><td><code>You’re verified</code></td><td>заголовок</td></tr>
+<tr><td>успех</td><td>Возврат ровно туда</td><td><code>Open the chat</code></td><td>кнопка</td></tr>
+<tr><td>успех</td><td>Второй путь тоже открылся</td><td><code>Look at events →</code></td><td>кнопка</td></tr>
+<tr><td>успех</td><td>Факт и его последствие</td><td><code>Verified</code></td><td>скрытый заголовок</td></tr>
+<tr><td>успех</td><td>Возврат ровно туда</td><td><code>Back to the chat</code></td><td>скрытый заголовок</td></tr>
+<tr><td>успех</td><td>Второй путь тоже открылся</td><td><code>Events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>успех</td><td>Факт и его последствие</td><td><code>The badge is on your card now. You can message, join events and confirm people who ask to join yours.</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех</td><td>Факт и его последствие</td><td><code>The badge is on your card now. You can message, join events and confirm people who ask to join yours.</code></td><td>текст экрана</td></tr>
+<tr><td>успех в онбординге</td><td>Факт и что он даёт с самого начала</td><td><code>You’re verified</code></td><td>заголовок</td></tr>
+<tr><td>успех в онбординге</td><td>Дальше</td><td><code>See people</code></td><td>кнопка</td></tr>
+<tr><td>успех в онбординге</td><td>Факт и что он даёт с самого начала</td><td><code>Verified</code></td><td>скрытый заголовок</td></tr>
+<tr><td>успех в онбординге</td><td>Дальше</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>успех в онбординге</td><td>Факт и что он даёт с самого начала</td><td><code>The badge is on your card from the start. You can message anyone you both said yes to and join events right away.</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех в онбординге</td><td>Факт и что он даёт с самого начала</td><td><code>The badge is on your card from the start. You can message anyone you both said yes to and join events right away.</code></td><td>текст экрана</td></tr>
+<tr><td>ожидание</td><td>Кто ответит и сколько это живёт</td><td><code>Someone from the team is checking your selfie</code></td><td>заголовок</td></tr>
+<tr><td>ожидание</td><td>Что можно делать вместо ожидания</td><td><code>Keep browsing</code></td><td>кнопка</td></tr>
+<tr><td>ожидание</td><td>Что можно делать вместо ожидания</td><td><code>Look at events</code></td><td>кнопка</td></tr>
+<tr><td>ожидание</td><td>Разговор ждёт</td><td><code>Open the chat →</code></td><td>кнопка</td></tr>
+<tr><td>ожидание</td><td>Кто ответит и сколько это живёт</td><td><code>In manual review</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ожидание</td><td>Что можно делать вместо ожидания</td><td><code>Meanwhile</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ожидание</td><td>Разговор ждёт</td><td><code>The chat</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ожидание</td><td>Кто ответит и сколько это живёт</td><td><code>The automatic check couldn’t read your face twice. Usually minutes, at most 24 hours. You’ll hear back either way.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ожидание</td><td>Кто ответит и сколько это живёт</td><td><code>The automatic check couldn’t read your face twice. Usually minutes, at most 24 hours. You’ll hear back either way.</code></td><td>текст экрана</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="iv-2-диалог">
+        <summary>IV.2 Диалог<span>41 строка</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Back to chats</code></td><td>aria-label</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Olena</code></td><td>заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Выходы наружу</td><td><code>Suggest a day</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Выходы наружу</td><td><code>Invite together</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Поле ввода</td><td><code>Write a message</code></td><td>подпись поля</td></tr>
+<tr><td><strong>во всех</strong></td><td>Поле ввода</td><td><code>Message</code></td><td>подпись поля</td></tr>
+<tr><td><strong>во всех</strong></td><td>Пусто</td><td><code>Chat with Olena</code></td><td>скрытый заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Выходы наружу</td><td><code>Ways out of the chat</code></td><td>скрытый заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Поле ввода</td><td><code>Message</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Разговор</td><td><code>Hi! Saw you’re into board games too</code></td><td>текст пользователя</td></tr>
+<tr><td>рабочий вид</td><td>Разговор</td><td><code>Yes — there’s a game café on Podil I keep meaning to try</code></td><td>текст пользователя</td></tr>
+<tr><td>рабочий вид</td><td>Разговор</td><td><code>Let’s go then. Which day works for you?</code></td><td>текст пользователя</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>No messages yet</code></td><td>заголовок</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>What got you into board games?</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>Know a good spot on Podil?</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>Free this weekend?</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>You and Olena both said yes 2 minutes ago. You both like hiking, board games and coffee — start with that, and Olena can write first too.</code></td><td>сообщение состояния</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>You and Olena both said yes 2 minutes ago. You both like hiking, board games and coffee — start with that, and Olena can write first too.</code></td><td>текст экрана</td></tr>
+<tr><td>ошибка</td><td>Разговор цел</td><td><code>Message not sent. Tap to try again</code></td><td>aria-label</td></tr>
+<tr><td>ошибка</td><td>Разговор цел</td><td><code>Saturday works — the café opens at six Not sent · tap to try again</code></td><td>строка списка</td></tr>
+<tr><td>ошибка</td><td>Разговор цел</td><td><code>Let’s go then. Which day works for you?</code></td><td>текст пользователя</td></tr>
+<tr><td>ошибка</td><td>Разговор цел</td><td><code>Saturday works — the café opens at six</code></td><td>текст пользователя</td></tr>
+<tr><td>загрузка</td><td>Скелет истории</td><td><code>Loading your chat with Olena</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех</td><td>Разговор и то</td><td><code>It’s an event</code></td><td>заголовок объекта</td></tr>
+<tr><td>успех</td><td>Разговор и то</td><td><code>Open the event</code></td><td>кнопка</td></tr>
+<tr><td>успех</td><td>Что дальше</td><td><code>It’s in My events →</code></td><td>кнопка</td></tr>
+<tr><td>успех</td><td>Что дальше</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>успех</td><td>Разговор и то</td><td><code>It’s an event</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех</td><td>Разговор и то</td><td><code>Board games at Kyiv Games Club · Saturday, 18:00 · the two of you.</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех</td><td>Разговор и то</td><td><code>Saturday at six then? Kyiv Games Club</code></td><td>текст пользователя</td></tr>
+<tr><td>успех</td><td>Разговор и то</td><td><code>Yes, I’m in</code></td><td>текст пользователя</td></tr>
+<tr><td>успех</td><td>Разговор и то</td><td><code>Board games at Kyiv Games Club · Saturday, 18:00 · the two of you.</code></td><td>текст экрана</td></tr>
+<tr><td>успех</td><td>Что дальше</td><td><code>A reminder comes the day before: Still going?</code></td><td>текст экрана</td></tr>
+<tr><td>ожидание</td><td>Предложение висит в разговоре и ждёт ответа</td><td><code>Waiting for Olena</code></td><td>заголовок объекта</td></tr>
+<tr><td>ожидание</td><td>Предложение висит в разговоре и ждёт ответа</td><td><code>Change the day</code></td><td>кнопка</td></tr>
+<tr><td>ожидание</td><td>Что можно вместо ожидания</td><td><code>Look at events →</code></td><td>кнопка</td></tr>
+<tr><td>ожидание</td><td>Что можно вместо ожидания</td><td><code>Meanwhile</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ожидание</td><td>Предложение висит в разговоре и ждёт ответа</td><td><code>Waiting for Olena</code></td><td>сообщение состояния</td></tr>
+<tr><td>ожидание</td><td>Предложение висит в разговоре и ждёт ответа</td><td><code>Olena hasn’t answered yet. The suggestion stays open until Saturday — after that it expires.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ожидание</td><td>Предложение висит в разговоре и ждёт ответа</td><td><code>Saturday at six? Kyiv Games Club</code></td><td>текст пользователя</td></tr>
+<tr><td>ожидание</td><td>Предложение висит в разговоре и ждёт ответа</td><td><code>Olena hasn’t answered yet. The suggestion stays open until Saturday — after that it expires.</code></td><td>текст экрана</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="iv-3-позвать-вдвоём">
+        <summary>IV.3 Позвать вдвоём<span>60 строк</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Back to the chat</code></td><td>aria-label</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Go together</code></td><td>заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Два выхода</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>Events that fit two</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>Board games</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>Morning run along the embankment</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Кого зовём</td><td><code>Olena</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>Board games Sat 18:00</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>Invite Olena</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Выход</td><td><code>Look at all events →</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>Kyiv Games Club · Podil · ~3 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>2 spots left · Verified</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>Podil · ~1 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>3 spots left · Verified</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Кого зовём</td><td><code>You’re inviting Olena . You go as a pair once Olena confirms</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>Sat 18:00</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>No date yet</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Кого зовём</td><td><code>Who</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Выход</td><td><code>All events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Во что идём</td><td><code>Morning run along the embankment No date yet</code></td><td>строка списка</td></tr>
+<tr><td>пусто</td><td>Выбирать не из чего</td><td><code>Events that fit two</code></td><td>заголовок</td></tr>
+<tr><td>пусто</td><td>Выбирать не из чего</td><td><code>No events that fit two yet</code></td><td>заголовок</td></tr>
+<tr><td>пусто</td><td>Кого зовём</td><td><code>Olena</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Два выхода</td><td><code>Suggest a day</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Два выхода</td><td><code>Look at all events →</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Кого зовём</td><td><code>You’re inviting Olena</code></td><td>подпись</td></tr>
+<tr><td>пусто</td><td>Кого зовём</td><td><code>Who</code></td><td>скрытый заголовок</td></tr>
+<tr><td>пусто</td><td>Выбирать не из чего</td><td><code>Most events around are for one more person. You can suggest a day in the chat instead — that makes an event for the two of you.</code></td><td>сообщение состояния</td></tr>
+<tr><td>пусто</td><td>Выбирать не из чего</td><td><code>Most events around are for one more person. You can suggest a day in the chat instead — that makes an event for the two of you.</code></td><td>текст экрана</td></tr>
+<tr><td>ошибка</td><td>Кого зовём и почему пока нельзя</td><td><code>Olena isn’t verified yet</code></td><td>заголовок</td></tr>
+<tr><td>ошибка</td><td>Что можно сделать сейчас</td><td><code>Ask Olena to verify</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Что можно сделать сейчас</td><td><code>Suggest a day</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Одной пойти можно всегда</td><td><code>Look at events on your own →</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Кого зовём и почему пока нельзя</td><td><code>Why this can’t go through</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Одной пойти можно всегда</td><td><code>Events on your own</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Кого зовём и почему пока нельзя</td><td><code>Both of you need the badge to join an event as a pair. Olena only needs to take a selfie.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ошибка</td><td>Кого зовём и почему пока нельзя</td><td><code>Both of you need the badge to join an event as a pair. Olena only needs to take a selfie.</code></td><td>текст экрана</td></tr>
+<tr><td>успех</td><td>Факт и что он означает для обоих</td><td><code>You’re both confirmed</code></td><td>заголовок</td></tr>
+<tr><td>успех</td><td>Дорога дальше</td><td><code>Open the chat</code></td><td>кнопка</td></tr>
+<tr><td>успех</td><td>Карточка плана</td><td><code>Board games at Kyiv Games Club · Sat 18:00 →</code></td><td>кнопка</td></tr>
+<tr><td>успех</td><td>Факт и что он означает для обоих</td><td><code>Confirmed</code></td><td>скрытый заголовок</td></tr>
+<tr><td>успех</td><td>Карточка плана</td><td><code>The event</code></td><td>скрытый заголовок</td></tr>
+<tr><td>успех</td><td>Факт и что он означает для обоих</td><td><code>Andrii confirmed the two of you for board games at Kyiv Games Club, Saturday, 18:00. The event chat is open.</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех</td><td>Факт и что он означает для обоих</td><td><code>Andrii confirmed the two of you for board games at Kyiv Games Club, Saturday, 18:00. The event chat is open.</code></td><td>текст экрана</td></tr>
+<tr><td>успех</td><td>Дорога дальше</td><td><code>A reminder comes the day before: Still going?</code></td><td>текст экрана</td></tr>
+<tr><td>ожидание</td><td>На каком шаге стоим</td><td><code>Waiting for Olena</code></td><td>заголовок объекта</td></tr>
+<tr><td>ожидание</td><td>Во что именно зовём</td><td><code>Board games</code></td><td>заголовок объекта</td></tr>
+<tr><td>ожидание</td><td>Во что именно зовём</td><td><code>Board games Sat 18:00</code></td><td>кнопка</td></tr>
+<tr><td>ожидание</td><td>Что можно вместо ожидания</td><td><code>Look at other events</code></td><td>кнопка</td></tr>
+<tr><td>ожидание</td><td>Что можно вместо ожидания</td><td><code>Withdraw my invite</code></td><td>кнопка</td></tr>
+<tr><td>ожидание</td><td>Во что именно зовём</td><td><code>Kyiv Games Club · Podil · ~3 km</code></td><td>подпись</td></tr>
+<tr><td>ожидание</td><td>Во что именно зовём</td><td><code>2 spots left · Verified</code></td><td>подпись</td></tr>
+<tr><td>ожидание</td><td>Во что именно зовём</td><td><code>Sat 18:00</code></td><td>подпись</td></tr>
+<tr><td>ожидание</td><td>На каком шаге стоим</td><td><code>Waiting</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ожидание</td><td>Во что именно зовём</td><td><code>The event</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ожидание</td><td>Что можно вместо ожидания</td><td><code>Meanwhile</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ожидание</td><td>На каком шаге стоим</td><td><code>Waiting for Olena</code></td><td>сообщение состояния</td></tr>
+<tr><td>ожидание</td><td>На каком шаге стоим</td><td><code>Step 1 of 2. Olena confirms first, then Andrii confirms the two of you — as one request for two spots.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ожидание</td><td>На каком шаге стоим</td><td><code>The invite stays open while the event does — until Saturday. Withdrawing it cancels the invite for Olena.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ожидание</td><td>На каком шаге стоим</td><td><code>Step 1 of 2. Olena confirms first, then Andrii confirms the two of you — as one request for two spots.</code></td><td>текст экрана</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="iii-1-лента-событий">
+        <summary>III.1 Лента событий<span>41 строка</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Post an event</code></td><td>aria-label</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Events nearby</code></td><td>заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Filters</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Post</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Срез вкладки</td><td><code>Nearby</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Срез вкладки</td><td><code>Mine</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Третий ответ</td><td><code>See people →</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Срез вкладки</td><td><code>Which events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Board games</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Morning run along the embankment</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Coffee and a walk in Podil</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Board games Sat 18:00</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Ask to join</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Invite</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Kyiv Games Club · Podil · ~3 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>2 going · 1 spot left · Verified</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Podil · ~1 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>1 going · 2 spots left · Verified</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Podil · ~2 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>1 spot left · Women only · Verified</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Sat 18:00</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>No date yet</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Sun 11:00</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Выход в первый путь</td><td><code>People</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Morning run along the embankment No date yet</code></td><td>строка списка</td></tr>
+<tr><td>рабочий вид</td><td>Лента</td><td><code>Coffee and a walk in Podil Sun 11:00</code></td><td>строка списка</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>No events within 5 km yet</code></td><td>заголовок</td></tr>
+<tr><td>пусто</td><td>Три ответа потока</td><td><code>Post an event</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Три ответа потока</td><td><code>Show events further out</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Три ответа потока</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>пусто</td><td>Третий ответ</td><td><code>People</code></td><td>скрытый заголовок</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>Events here are posted by people like you — and yours would be the first one nearby.</code></td><td>сообщение состояния</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>Events here are posted by people like you — and yours would be the first one nearby.</code></td><td>текст экрана</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>Couldn’t load events nearby</code></td><td>заголовок</td></tr>
+<tr><td>ошибка</td><td>Одно действие</td><td><code>Try again</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Одно действие</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Выход в первый путь</td><td><code>People</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>The connection dropped. Your own events and requests are safe.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>The connection dropped. Your own events and requests are safe.</code></td><td>текст экрана</td></tr>
+<tr><td>загрузка</td><td>Выход живой: ждать ленту необязательно</td><td><code>People</code></td><td>скрытый заголовок</td></tr>
+<tr><td>загрузка</td><td>Скелет ленты</td><td><code>Looking for events near you</code></td><td>сообщение состояния</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="iii-3-карточка-события">
+        <summary>III.3 Карточка события<span>50 строк</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Back to events</code></td><td>aria-label</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Board games</code></td><td>заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Подтверждено</td><td><code>Andrii · Verified · 12 meetups attended · Replies quickly</code></td><td>подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Подтверждено</td><td><code>Saturday, 18:00</code></td><td>подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Подтверждено</td><td><code>Free</code></td><td>подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Подтверждено</td><td><code>Kyiv Games Club · Podil · ~3 km</code></td><td>подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Подтверждено</td><td><code>Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.</code></td><td>текст экрана</td></tr>
+<tr><td>рабочий вид</td><td>Отклик</td><td><code>Ask to join</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Другие планы</td><td><code>Look at other events →</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Что за план</td><td><code>The event</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Отклик</td><td><code>Decision</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Другие планы</td><td><code>Other events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Что за план</td><td><code>2 going · 1 spot left</code></td><td>сообщение состояния</td></tr>
+<tr><td>ошибка</td><td>Отказ</td><td><code>Andrii didn’t take this one</code></td><td>заголовок</td></tr>
+<tr><td>ошибка</td><td>Следующий шаг</td><td><code>Look at other events</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Следующий шаг</td><td><code>See people</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Свой план</td><td><code>Post an event →</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Отказ</td><td><code>Declined</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Следующий шаг</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Свой план</td><td><code>Your own</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Отказ</td><td><code>Board games at Kyiv Games Club is closed for you. It happens — people pick who they go with, and that’s the point of confirming.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ошибка</td><td>Отказ</td><td><code>Board games at Kyiv Games Club is closed for you. It happens — people pick who they go with, and that’s the point of confirming.</code></td><td>текст экрана</td></tr>
+<tr><td>загрузка</td><td>Действие на паузе</td><td><code>Ask to join</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Выход живой</td><td><code>Look at other events →</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Полный скелет: данных нет вовсе</td><td><code>The event</code></td><td>скрытый заголовок</td></tr>
+<tr><td>загрузка</td><td>Действие на паузе</td><td><code>Decision</code></td><td>скрытый заголовок</td></tr>
+<tr><td>загрузка</td><td>Выход живой</td><td><code>Other events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>загрузка</td><td>Полный скелет: данных нет вовсе</td><td><code>Opening the event</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех</td><td>Подтверждено</td><td><code>You’re going</code></td><td>заголовок объекта</td></tr>
+<tr><td>успех</td><td>Дорога дальше</td><td><code>Open the chat</code></td><td>кнопка</td></tr>
+<tr><td>успех</td><td>Дорога дальше</td><td><code>Share my events</code></td><td>кнопка</td></tr>
+<tr><td>успех</td><td>Мои события</td><td><code>It’s in My events →</code></td><td>кнопка</td></tr>
+<tr><td>успех</td><td>Подтверждено</td><td><code>Confirmed</code></td><td>скрытый заголовок</td></tr>
+<tr><td>успех</td><td>Дорога дальше</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>успех</td><td>Мои события</td><td><code>My events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>успех</td><td>Подтверждено</td><td><code>You’re going</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех</td><td>Подтверждено</td><td><code>Andrii confirmed you. The chat is open and the exact address is now visible.</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех</td><td>Подтверждено</td><td><code>2 going · 1 spot left · Still going? comes the day before</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех</td><td>Подтверждено</td><td><code>Andrii confirmed you. The chat is open and the exact address is now visible.</code></td><td>текст экрана</td></tr>
+<tr><td>ожидание</td><td>Кто должен ответить и сколько это живёт</td><td><code>Waiting for Andrii</code></td><td>заголовок объекта</td></tr>
+<tr><td>ожидание</td><td>Что можно вместо ожидания</td><td><code>Look at other events</code></td><td>кнопка</td></tr>
+<tr><td>ожидание</td><td>Что можно вместо ожидания</td><td><code>Withdraw my request</code></td><td>кнопка</td></tr>
+<tr><td>ожидание</td><td>Второй путь</td><td><code>See people →</code></td><td>кнопка</td></tr>
+<tr><td>ожидание</td><td>Кто должен ответить и сколько это живёт</td><td><code>Waiting</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ожидание</td><td>Что можно вместо ожидания</td><td><code>Meanwhile</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ожидание</td><td>Второй путь</td><td><code>People</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ожидание</td><td>Кто должен ответить и сколько это живёт</td><td><code>Waiting for Andrii</code></td><td>сообщение состояния</td></tr>
+<tr><td>ожидание</td><td>Кто должен ответить и сколько это живёт</td><td><code>Your request is with Andrii. It stays open until Saturday — events without a date keep requests for 14 days.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ожидание</td><td>Кто должен ответить и сколько это живёт</td><td><code>2 going · 1 spot left · your request doesn’t take a spot yet</code></td><td>сообщение состояния</td></tr>
+<tr><td>ожидание</td><td>Кто должен ответить и сколько это живёт</td><td><code>Your request is with Andrii. It stays open until Saturday — events without a date keep requests for 14 days.</code></td><td>текст экрана</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="iii-6-мои-события">
+        <summary>III.6 Мои события<span>34 строки</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Post an event</code></td><td>aria-label</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>My events</code></td><td>заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Post</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Сегмент вкладки</td><td><code>Nearby</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Сегмент вкладки</td><td><code>Mine</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Чужие события рядом</td><td><code>Look at events →</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>Сегмент вкладки</td><td><code>Which events</code></td><td>скрытый заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Пусто</td><td><code>My events</code></td><td>скрытый заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Чужие события рядом</td><td><code>Nearby</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Requests to confirm</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Going</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Past</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Board games</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Morning run along the embankment</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Coffee and a walk in Podil</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Board games Sat 18:00</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Coffee and a walk in Podil 20 Sep</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>2 requests · tap to confirm · 1 spot left</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Maryna · 3 going · ~1 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Repeats weekly · 2 meetups attended</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Sat 18:00</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Sun 08:00</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>20 Sep</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>All my events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>Morning run along the embankment Sun 08:00</code></td><td>строка списка</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>No events yet</code></td><td>заголовок</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>Post an event</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>Events you post and events you join will show up here — along with the ones that already happened.</code></td><td>сообщение состояния</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>Events you post and events you join will show up here — along with the ones that already happened.</code></td><td>текст экрана</td></tr>
+<tr><td>ошибка</td><td>Причина и то</td><td><code>Couldn’t load your events</code></td><td>заголовок</td></tr>
+<tr><td>ошибка</td><td>Причина и то</td><td><code>Try again</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Причина и то</td><td><code>The connection dropped. Nothing is lost — your events and the people who joined them are safe.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ошибка</td><td>Причина и то</td><td><code>The connection dropped. Nothing is lost — your events and the people who joined them are safe.</code></td><td>текст экрана</td></tr>
+<tr><td>загрузка</td><td>Скелет списка</td><td><code>Loading your events</code></td><td>сообщение состояния</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="iv-1-список-чатов">
+        <summary>IV.1 Список чатов<span>30 строк</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>My chats</code></td><td>заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Выход</td><td><code>See people →</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Матчи без переписки</td><td><code>New matches</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>Olena</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>Board games</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>Maryna</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>Let’s go then. Which day works for you?</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>Event chat · 3 people · Andrii: see you at six</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>You both said yes — no messages yet</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Матчи без переписки</td><td><code>Maryna, Olha and Ihor — say hi</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>19:08 · 1 new</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>Mon</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>12 Jun</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Выход туда</td><td><code>People</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>Olena 19:08 · 1 new Let’s go then. Which day works for you?</code></td><td>строка списка</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>Board games Mon Event chat · 3 people · Andrii: see you at six</code></td><td>строка списка</td></tr>
+<tr><td>рабочий вид</td><td>Список</td><td><code>Maryna 12 Jun You both said yes — no messages yet</code></td><td>строка списка</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>No chats yet</code></td><td>заголовок</td></tr>
+<tr><td>пусто</td><td>Оба пути к первому разговору</td><td><code>See people</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Оба пути к первому разговору</td><td><code>Look at events</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Оба пути к первому разговору</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>Chats open when you and someone both say yes — or when you ask to join an event and the person confirms you.</code></td><td>сообщение состояния</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>Chats open when you and someone both say yes — or when you ask to join an event and the person confirms you.</code></td><td>текст экрана</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>Couldn’t load your chats</code></td><td>заголовок</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>Try again</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Выход</td><td><code>People</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>The connection dropped. Nothing is lost — your messages are on the server.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>The connection dropped. Nothing is lost — your messages are on the server.</code></td><td>текст экрана</td></tr>
+<tr><td>загрузка</td><td>Выход живой</td><td><code>People</code></td><td>скрытый заголовок</td></tr>
+<tr><td>загрузка</td><td>Скелет списка</td><td><code>Loading your chats</code></td><td>сообщение состояния</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="ix-1-поиск">
+        <summary>IX.1 Поиск<span>45 строк</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Filters</code></td><td>кнопка</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Search people and events</code></td><td>подпись поля</td></tr>
+<tr><td><strong>во всех</strong></td><td>Ничего не нашлось</td><td><code>Results</code></td><td>скрытый заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>шапка</td><td><code>board games</code></td><td>текст пользователя</td></tr>
+<tr><td>рабочий вид</td><td>шапка</td><td><code>Search</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Events</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>People</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Board games</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Board games evening at home</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Olena, 26</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Board games Sat 18:00</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Ask to join</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Invite</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Kyiv Games Club · Podil · ~3 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>1 spot left · Verified</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Podil · ~4 km · private address</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>2 spots left · Verified</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>3 common interests · Verified · 6 meetups attended</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Sat 18:00</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>No date yet</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>~2 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Board games evening at home No date yet</code></td><td>строка списка</td></tr>
+<tr><td>рабочий вид</td><td>Результаты двумя группами</td><td><code>Olena, 26 ~2 km 3 common interests · Verified · 6 meetups attended</code></td><td>строка списка</td></tr>
+<tr><td>пусто</td><td>шапка</td><td><code>Search</code></td><td>заголовок</td></tr>
+<tr><td>пусто</td><td>Ничего не нашлось</td><td><code>No events or people for “bouldering” yet</code></td><td>заголовок</td></tr>
+<tr><td>пусто</td><td>Два выхода</td><td><code>Post an event</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Два выхода</td><td><code>Look at all events →</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Два выхода</td><td><code>See people →</code></td><td>кнопка</td></tr>
+<tr><td>пусто</td><td>Два выхода</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
+<tr><td>пусто</td><td>Ничего не нашлось</td><td><code>Events here are posted by people like you — yours would be the first one with this interest.</code></td><td>сообщение состояния</td></tr>
+<tr><td>пусто</td><td>шапка</td><td><code>bouldering</code></td><td>текст пользователя</td></tr>
+<tr><td>пусто</td><td>Ничего не нашлось</td><td><code>Events here are posted by people like you — yours would be the first one with this interest.</code></td><td>текст экрана</td></tr>
+<tr><td>ошибка</td><td>шапка</td><td><code>Search</code></td><td>заголовок</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>Couldn’t run your search</code></td><td>заголовок</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>Try again</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Выход</td><td><code>Look at events →</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Выход</td><td><code>Events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>The connection dropped. Your search is still here.</code></td><td>сообщение состояния</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>The connection dropped. Your search is still here.</code></td><td>текст экрана</td></tr>
+<tr><td>загрузка</td><td>шапка</td><td><code>Search</code></td><td>заголовок</td></tr>
+<tr><td>загрузка</td><td>Скелет обеих групп</td><td><code>Events</code></td><td>заголовок</td></tr>
+<tr><td>загрузка</td><td>Скелет обеих групп</td><td><code>People</code></td><td>заголовок</td></tr>
+<tr><td>загрузка</td><td>Выход живой</td><td><code>Look at events →</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Выход живой</td><td><code>Events</code></td><td>скрытый заголовок</td></tr>
+<tr><td>загрузка</td><td>Скелет обеих групп</td><td><code>Searching events and people</code></td><td>сообщение состояния</td></tr>
+</tbody></table></div>
+      </details>
+      <details class="inv" id="i-2-мой-профиль">
+        <summary>I.2 Мой профиль<span>54 строки</span></summary>
+        <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td>рабочий вид</td><td>шапка</td><td><code>Edit profile</code></td><td>aria-label</td></tr>
+<tr><td>рабочий вид</td><td>шапка</td><td><code>My profile</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Как меня видят</td><td><code>How others see you</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Как меня видят</td><td><code>Dasha, 27</code></td><td>заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>My events</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>My matches</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>Verification</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>Location</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>Blocked people</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>Safety center</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>Settings</code></td><td>заголовок объекта</td></tr>
+<tr><td>рабочий вид</td><td>шапка</td><td><code>Edit</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>My events 1 request</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>My matches 3 new</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>Verification Verified</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>Log out</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>1 request</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>3 new</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>Verified</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>On · rounded</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>None</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>Account and notifications</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Как меня видят</td><td><code>4 meetups attended</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Как меня видят</td><td><code>Replies quickly</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>My events 1 request</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>My matches 3 new</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>Verification Verified</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Как меня видят</td><td><code>Kyiv · distance is always rounded for others</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>Everything else</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Глубокий слой</td><td><code>You’ll need to sign in again to get back to your chats and events.</code></td><td>сообщение состояния</td></tr>
+<tr><td>загрузка</td><td>шапка</td><td><code>Edit profile</code></td><td>aria-label</td></tr>
+<tr><td>загрузка</td><td>шапка</td><td><code>My profile</code></td><td>заголовок</td></tr>
+<tr><td>загрузка</td><td>Известное</td><td><code>How others see you</code></td><td>заголовок</td></tr>
+<tr><td>загрузка</td><td>Известное</td><td><code>Dasha, 27</code></td><td>заголовок</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>My events</code></td><td>заголовок объекта</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>My matches</code></td><td>заголовок объекта</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>Verification</code></td><td>заголовок объекта</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>Location</code></td><td>заголовок объекта</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>Blocked people</code></td><td>заголовок объекта</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>Safety center</code></td><td>заголовок объекта</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>Settings</code></td><td>заголовок объекта</td></tr>
+<tr><td>загрузка</td><td>шапка</td><td><code>Edit</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>My events</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>My matches</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>Verification</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>Log out</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>On · rounded</code></td><td>подпись</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>Account and notifications</code></td><td>подпись</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>My events</code></td><td>подпись</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>My matches</code></td><td>подпись</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>Verification</code></td><td>подпись</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>Everything else</code></td><td>скрытый заголовок</td></tr>
+<tr><td>загрузка</td><td>Известное</td><td><code>Updating your meetup count</code></td><td>сообщение состояния</td></tr>
+<tr><td>загрузка</td><td>Глубокий слой доступен и во время загрузки</td><td><code>You’ll need to sign in again to get back to your chats and events.</code></td><td>сообщение состояния</td></tr>
+</tbody></table></div>
+      </details>
+</div>
+      </section>
+
+      <section id="4-расхождения-закрыты-решением-d-60">
+        <h2>4. Расхождения — закрыты решением <code class="dcode">D-60</code></h2>
+<blockquote><p>Перепись снималась, когда расхождения ещё были. <strong>Аудит 29.09</strong> свёл их решением <code class="dcode">D-60</code> (словарь и форматы): отклик — <code>request</code> на обеих сторонах · совместный отклик — <code>Invite together</code>, в превью <code>Invite</code> · момент взаимности — факт, <code>match</code> только в списках · выход — <code>Look at events</code> плюс закрытый список уточнителей <code>other</code> / <code>all</code> / <code>on your own</code> · расстояние <code>~3 km</code> без <code>away</code> · время <code>Sat 18:00</code> в превью и <code>Saturday, 18:00</code> на карточке · нуля нет, заполненное событие — <code>No spots left</code> · местоимений по полу нет, стоит имя. <strong>Остаток закрыт переписыванием 30.09</strong> — имена кнопок из §4.2 сведены в таблице «Сквозная сверка» в §6, там же сказано, что осталось разным намеренно.</p>
+<p>Ниже — что было найдено; таблицы оставлены как след разбора — <strong>действующих имён в них искать не нужно</strong>.</p></blockquote>
+<h3 id="4-1-один-предмет-под-разными-именами">4.1 Один предмет под разными именами</h3>
+<div class="tw"><table><thead><tr><th>Предмет</th><th>Как называется сейчас</th><th>Где</th><th>Почему это важно</th></tr></thead><tbody>
+<tr><td><strong>Отклик на событие</strong></td><td><code>Ask to join</code> (действие) · <code>request</code> — «Your request is with him», «your request doesn’t take a spot yet», <code>Withdraw my request</code> · <code>responses</code> — «2 responses · tap to confirm»</td><td>лента, карточка события, ожидание, мои события</td><td>Три слова об одном: человек нажимает <code>ask</code>, статус зовёт это <code>request</code>, автор видит <code>responses</code></td></tr>
+<tr><td><strong>Совместный отклик</strong></td><td><code>Invite together</code> (диалог, лента) · <code>Invite</code> (превью, сокращено по ширине <code class="dcode">D-58</code>) · <code>Ask together</code> (экран «Go together») · <code>Withdraw the invite</code></td><td>диалог, лента, «Позвать вдвоём»</td><td>Кнопка зовёт <code>invite</code>, а на самом экране действие называется <code>ask together</code> — на одном пути два глагола</td></tr>
+<tr><td><strong>Совпадение</strong></td><td><code>My matches</code> · <code>New matches</code> · «You matched — no messages yet» · «You matched 2 minutes ago» · <strong>«You and Olena both said yes»</strong></td><td>профиль-хаб, список чатов, пустой диалог, экран совпадения</td><td>Везде <code>match</code>, и только на самом экране совпадения — «both said yes»</td></tr>
+<tr><td><strong>Чат события</strong></td><td><code>Event chat · 3 people</code> · <code>Open the chat</code> · <code>Open the event</code></td><td>список чатов, успех события, успех диалога</td><td>Один объект и два разных «открыть»; <code>Open the event</code> ведёт не в чат, а на карточку</td></tr>
+<tr><td><strong>Расстояние</strong></td><td><code>~2 km</code> (чип на карточке человека) · <code>~3 km</code> (превью события) · <code>~3 km away</code> (карточка события, профиль)</td><td>колода, лента, карточка, профиль</td><td>Одна величина в двух написаниях: с <code>away</code> и без</td></tr>
+<tr><td><strong>Событие без даты</strong></td><td><code>No date yet</code> (ярлык) · «events without a date keep requests for 14 days» (объяснение)</td><td>лента, поиск, ожидание</td><td>Ярлык и объяснение согласованы, но срок живёт только в объяснении</td></tr>
+</tbody></table></div>
+<h3 id="4-2-одно-действие-разные-подписи-кнопок">4.2 Одно действие — разные подписи кнопок</h3>
+<div class="tw"><table><thead><tr><th>Действие</th><th>Подписи сейчас</th><th>Где</th></tr></thead><tbody>
+<tr><td><strong>Вернуться в колоду</strong></td><td><code>Keep browsing</code> · <code>Keep swiping</code> · <code>See people</code></td><td>верификация · совпадение · пустые чаты, отказ на событии, успех в онбординге</td></tr>
+<tr><td><strong>Отложить верификацию</strong></td><td><code>Do this later →</code> · <code>Keep browsing →</code></td><td>экран съёмки · загрузка и ошибка</td></tr>
+<tr><td><strong>Вернуться в разговор</strong></td><td><code>←</code> (aria <code>Back to the chat</code>) · <code>Back to Olena</code> · <code>Your chat with Olena is waiting →</code> · <code>Open the chat</code></td><td>состояния диалога · успех верификации · ожидание верификации · успех события</td></tr>
+<tr><td><strong>Создать событие</strong></td><td><code>New</code> · <code>Post an event</code> · <code>Post an event →</code> · <code>Post a bouldering event</code></td><td>шапка ленты · пустые состояния · отказ на событии · пустой поиск (подставляет запрос)</td></tr>
+<tr><td><strong>Уйти в ленту</strong></td><td><code>Look at events</code> · <code>Look at all events</code> · <code>Look at other events</code> · <code>Look at events on your own</code></td><td>колода и чаты · «Позвать вдвоём» и поиск · карточка и ожидания · ошибка «Позвать вдвоём»</td></tr>
+<tr><td><strong>Предложить день</strong></td><td><code>Suggest a day</code> · <code>Suggest a day instead</code> · <code>Change the day</code></td><td>диалог · пустое и ошибочное «Позвать вдвоём» · ожидание в диалоге</td></tr>
+<tr><td><strong>Повторить попытку</strong></td><td><code>Try again</code> (кнопка) · <code>tap to try again</code> (подпись на неотправленной реплике <code class="dcode">D-52</code>)</td><td>ошибки загрузки · ошибка отправки в диалоге</td></tr>
+</tbody></table></div>
+<h3 id="4-3-тон-клише-не-найдено-три-строки-на-проверку">4.3 Тон: клише не найдено, три строки на проверку</h3>
+<div class="tw"><table><thead><tr><th>Что искали</th><th>Результат</th></tr></thead><tbody>
+<tr><td><code>Oops</code>, <code>Something went wrong</code>, <code>Whoops</code></td><td><strong>Не найдено.</strong> Ошибки называют причину: «The connection dropped…», «Part of your face was out of frame…»</td></tr>
+<tr><td><code>Congratulations</code>, <code>Great!</code>, <code>Awesome</code>, <code>Yay</code></td><td><strong>Не найдено</strong></td></tr>
+<tr><td>Эмодзи, восклицательные знаки</td><td>Восклицательный знак один — в <strong>реплике пользователя</strong> <code>Hi! Saw you’re into board games too</code>. Эмодзи нет</td></tr>
+<tr><td>Бодрый тон продукта</td><td>Три строки на проверку: <code>You are all caught up</code> · <code>You’re both in</code> · <code>You and Olena both said yes</code></td></tr>
+<tr><td>Многоточие в кнопке</td><td><code>Checking…</code> — единственная кнопка-состояние с многоточием</td></tr>
+</tbody></table></div>
+<h3 id="4-4-тексты-заглушки">4.4 Тексты-заглушки</h3>
+<p><strong>Не найдено.</strong> Ни <code>lorem ipsum</code>, ни «Заголовок 1», ни <code>TODO</code>. Весь текст доменный: Kyiv Games Club, Podil, <code>2 going · 1 spot left</code>, <code>6 meetups attended</code>, <code>~3 km</code>.</p>
+      </section>
+
+      <section id="5-текст-который-пишет-пользователь-не-переписываем">
+        <h2>5. Текст, который пишет пользователь — не переписываем</h2>
+<div class="tw"><table><thead><tr><th>Что</th><th>Примеры</th><th>Где</th></tr></thead><tbody>
+<tr><td>Реплики в чате</td><td><code>Hi! Saw you’re into board games too</code> · <code>Let’s go then. Which day works for you?</code> · <code>Yes — there’s a game café on Podil I keep meaning to try</code> · <code>Saturday at six then? Kyiv Games Club</code> · <code>Yes, I’m in</code></td><td>диалог и его состояния</td></tr>
+<tr><td>Название события</td><td><code>Board games</code> · <code>Morning run along the embankment</code> · <code>Coffee and a walk in Podil</code> · <code>Board games evening at home</code></td><td>лента, поиск, карточка, мои события</td></tr>
+<tr><td>Описание события</td><td><code>Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.</code></td><td>карточка события</td></tr>
+<tr><td>Био</td><td><code>Moved to Kyiv in spring. Weekends are for long walks and board games.</code></td><td>профиль человека</td></tr>
+<tr><td>Запрос в поиске</td><td><code>board games</code> · <code>bouldering</code></td><td>поиск и его состояния</td></tr>
+<tr><td>Имена и площадки</td><td>Olena, Andrii, Maryna, Kateryna, Dasha · Kyiv Games Club · Podil</td><td>везде</td></tr>
+</tbody></table></div>
+<p><strong>Отдельно — наш текст, который человек отправляет от своего имени.</strong> Ice-breakers в пустом чате: <code>What got you into board games?</code> · <code>Know a good spot on Podil?</code> · <code>Free this weekend?</code>. Пишем их мы, звучат они как реплика человека.</p>
+      </section>
+
+      <section id="6-переписанные-страницы-было-и-стало">
+        <h2>6. Переписанные страницы — было и стало</h2>
+<p>Правка по <a href="../voice.md"><code>voice.md</code></a> идёт экранами. Ниже — что изменилось на уже переписанных; строки, которые проверены и оставлены, перечислены после таблицы.</p>
+<h3 id="лента-событий-feed-feed-empty-feed-error-feed-loading-30-09">Лента событий: <code>feed</code> · <code>feed-empty</code> · <code>feed-error</code> · <code>feed-loading</code> — 30.09</h3>
+<div class="tw"><table><thead><tr><th>Экран</th><th>Тип</th><th>Было</th><th>Стало</th><th>Почему</th></tr></thead><tbody>
+<tr><td>все четыре</td><td>кнопка, шапка</td><td><code>New</code></td><td><code>Post</code> (+ <code>aria-label=&quot;Post an event&quot;</code>)</td><td>Кнопка — глагол, из которого виден результат («Микрокопи»). Полное имя словаря не помещается рядом с <code>Filters</code>, поэтому оно в aria — тот же приём, что <code>Invite</code> в превью <code class="dcode">D-60</code></td></tr>
+<tr><td><code>feed</code></td><td>скрытый заголовок</td><td><code>First path</code></td><td><code>People</code></td><td>Скринридер читал внутренний термин брифа («первый путь», §4). Заголовок называет место, а не нашу схему</td></tr>
+<tr><td><code>feed-error</code></td><td>сообщение состояния</td><td><code>The connection dropped while we were looking. Your own events and requests are safe.</code></td><td><code>The connection dropped. Your own events and requests are safe.</code></td><td>«Мы» о себе не говорим — кроме живой проверки селфи (Словарь, «Обращение»)</td></tr>
+</tbody></table></div>
+<p><strong>Проверено и оставлено как есть:</strong> <code>Events nearby</code> (заголовок называет место словом словаря) · <code>Filters</code> (кнопка, открывающая место, — названное исключение) · <code>Nearby</code> / <code>Mine</code> (срез вкладки, не действие) · <code>Ask to join</code>, <code>Invite</code>, <code>Show events further out</code>, <code>Post an event</code>, <code>Try again</code>, <code>See people</code> (словарь, «Действия») · <code>No events within 5 km yet</code> и текст под ним (пустое ведёт к действию) · <code>Couldn't load events nearby</code> (ошибка называет предмет) · <code>Looking for events near you</code> (загрузка называет, что грузится) · все мета-строки превью (форматы <code class="dcode">D-60</code>).</p>
+<p><strong>Не тронуто — это пишет человек:</strong> <code>Board games</code> · <code>Morning run along the embankment</code> · <code>Coffee and a walk in Podil</code> (§5 этого файла).</p>
+<p><strong>Найдено по ходу, но за пределами этих страниц:</strong> та же формулировка «while we were looking» стоит в <code>deck-error</code> — поправим, когда дойдём до колоды.</p>
+<h3 id="остальные-двенадцать-экранов-30-09">Остальные двенадцать экранов — 30.09</h3>
+<p>Разбирали шесть субагентов, по одному на семейство экранов; решения по спорным местам приняты ведущим и отмечены отдельно. Всего <strong>47 правок</strong>.</p>
+<h4 id="колода-профиль-человека-совпадение">Колода · профиль человека · совпадение</h4>
+<div class="tw"><table><thead><tr><th>Страница</th><th>Тип</th><th>Было</th><th>Стало</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>deck</code> ×4</td><td>скрытый заголовок</td><td><code>Second path</code></td><td><code>Events</code></td><td>Скринридер читал внутренний термин брифа</td></tr>
+<tr><td><code>deck-empty</code></td><td>кнопка</td><td><code>Expand search</code></td><td><code>Expand search</code> + <code>aria-label=&quot;Show people further out&quot;</code></td><td>Полное имя не помещается рядом с <code>Reset filters</code>; парная кнопка в ленте — <code>Show events further out</code></td></tr>
+<tr><td><code>deck-error</code></td><td>сообщение</td><td><code>The connection dropped **while we were looking**…</code></td><td><code>The connection dropped…</code></td><td>«Мы» о себе — только на живой проверке селфи</td></tr>
+<tr><td><code>profile-empty</code></td><td>сообщение</td><td><code>Olena hasn’t posted anything yet. You can still **say hi**, or look at events nearby.</code></td><td><code>Events here are posted by people themselves — Olena hasn’t posted one yet.</code></td><td><code>say hi</code> обещал контакт, которого там нет: писать можно только после взаимности. Плюс уточнитель <code>nearby</code> вне закрытого списка</td></tr>
+<tr><td><code>match</code></td><td>кнопка</td><td><code>Keep swiping</code></td><td><code>See people</code></td><td><code>swipe</code> — язык конкурентов, в словаре запрещён</td></tr>
+</tbody></table></div>
+<h4 id="верификация-радар">Верификация · радар</h4>
+<div class="tw"><table><thead><tr><th>Страница</th><th>Тип</th><th>Было</th><th>Стало</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>verify</code></td><td>кнопка</td><td><code>Do this later</code></td><td><code>Keep browsing</code></td><td>Одно действие — одно имя; так же названо на загрузке и ошибке</td></tr>
+<tr><td><code>verify-error</code></td><td>заголовок</td><td><code>**We** couldn’t read your face</code></td><td><code>Couldn’t read your face</code></td><td>«Мы» о себе; эталон ошибки — <code>Couldn’t load your chats</code></td></tr>
+<tr><td><code>verify-error</code></td><td>подпись</td><td><code>…a person from the team looks at it — **not a robot**.</code></td><td><code>There’s no limit on tries — after two, someone from the team looks at your selfie.</code></td><td>Шутка в ошибке; два имени одного человека; безлимитная пересдача названа заранее (<code class="dcode">D-26</code>)</td></tr>
+<tr><td><code>verify-loading</code></td><td>подпись</td><td><code>…while **we** check.</code></td><td><code>…while the check runs.</code></td><td>«Мы» здесь про автоматику</td></tr>
+<tr><td><code>verify-loading</code></td><td>скрытый заголовок</td><td><code>Checking</code> (дважды подряд)</td><td><code>Take the selfie</code> → <strong><code>Decision</code></strong> 30.09</td><td>Две секции с одним именем; новое имя повторяло кнопку — исправлено проходом по голосу ниже</td></tr>
+<tr><td><code>verify-success</code></td><td>кнопка</td><td><code>Back to Olena</code></td><td><code>Open the chat</code></td><td>Кнопка — глагол; одно имя возврата в чат</td></tr>
+<tr><td><code>verify-success-signup</code></td><td>сообщение</td><td><code>people you **match** with</code></td><td><code>anyone you both said yes to</code></td><td><code>match</code> как событие — язык дейтинга</td></tr>
+<tr><td><code>verify-waiting</code></td><td>заголовок</td><td><code>A person is looking at your selfie</code></td><td><code>Someone from the team is checking your selfie</code></td><td>Одно имя человека за экраном</td></tr>
+<tr><td><code>verify-waiting</code></td><td>сообщение</td><td><code>Automatic checks didn’t **recognise you** twice…</code></td><td><code>The automatic check couldn’t read your face twice…</code></td><td>Верификация подтверждает живое фото, не личность (§7.3)</td></tr>
+<tr><td><code>verify-waiting</code></td><td>выход</td><td><code>Your chat with Olena is waiting →</code></td><td><code>Open the chat →</code></td><td>Фраза вместо действия; одно имя</td></tr>
+<tr><td><code>verify-success</code></td><td>скрытый заголовок</td><td><code>Second path</code></td><td><code>Events</code></td><td>Тот же внутренний термин</td></tr>
+</tbody></table></div>
+<h4 id="диалог">Диалог</h4>
+<div class="tw"><table><thead><tr><th>Страница</th><th>Тип</th><th>Было</th><th>Стало</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>dialog-empty</code></td><td>заголовок</td><td><code>You **matched** 2 minutes ago</code></td><td><code>No messages yet</code></td><td>Пустое называет, чего нет; <code>match</code> как событие запрещён</td></tr>
+<tr><td><code>dialog-empty</code></td><td>сообщение</td><td><code>You both like hiking…</code></td><td><code>You and Olena both said yes 2 minutes ago. You both like hiking… </code></td><td>Факт взаимности переехал во вторую строку — это «почему так бывает»</td></tr>
+<tr><td><code>dialog-success</code></td><td>текст</td><td><code>**We’ll** ask both of you the day before: still going?</code></td><td><code>A reminder comes the day before: Still going?</code></td><td>«Мы» о себе; напоминание названо своим именем (<code class="dcode">D-16</code>)</td></tr>
+<tr><td><code>dialog-waiting</code></td><td>кнопка</td><td><code>Invite together **instead**</code></td><td><code>Invite together</code></td><td>Уточнитель вне закрытого списка <code class="dcode">D-60</code></td></tr>
+<tr><td><code>dialog-waiting</code></td><td>сообщение</td><td><code>…hasn’t answered **the day** yet… **just** expires</code></td><td><code>…hasn’t answered yet… expires</code></td><td>Смягчитель и калька</td></tr>
+<tr><td><code>dialog-loading</code></td><td>сообщение</td><td><code>Loading your **conversation**</code></td><td><code>Loading your chat with Olena</code></td><td>Объект зовётся <code>chat</code></td></tr>
+<tr><td><code>dialog</code> ×6</td><td>скрытый заголовок</td><td><code>Conversation</code></td><td><code>Chat with Olena</code></td><td>То же: один объект — одно имя</td></tr>
+</tbody></table></div>
+<h4 id="позвать-вдвоём">Позвать вдвоём</h4>
+<div class="tw"><table><thead><tr><th>Страница</th><th>Тип</th><th>Было</th><th>Стало</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>invite</code></td><td>скрытый заголовок</td><td><code>Nothing fits</code></td><td><code>All events</code></td><td>Заголовок называет место, а не вывод о выборе</td></tr>
+<tr><td><code>invite-empty</code></td><td>сообщение</td><td><code>You can **pick a day** yourselves instead — that works the same way.</code></td><td><code>You can suggest a day in the chat instead — that makes an event for the two of you.</code></td><td>Действие названо словарным именем; виден результат (<code class="dcode">D-39</code>)</td></tr>
+<tr><td><code>invite-empty</code></td><td>кнопка</td><td><code>Suggest a day **instead**</code></td><td><code>Suggest a day</code></td><td>Уточнитель вне закрытого списка</td></tr>
+<tr><td><code>invite-error</code></td><td>скрытый заголовок</td><td><code>Alone</code></td><td><code>Events on your own</code></td><td><strong><code>alone</code> стоит прямо в списке запретных слов</strong> (правило 13, <code class="dcode">D-20</code>)</td></tr>
+<tr><td><code>invite-error</code></td><td>сообщение</td><td><code>Olena can do it **in a minute** — a selfie, nothing else.</code></td><td><code>Olena only needs to take a selfie.</code></td><td>Продукт не контролирует срок: на ручной проверке до 24 часов</td></tr>
+<tr><td><code>invite-success</code></td><td>заголовок</td><td><code>You’re both **in**</code></td><td><code>You’re both confirmed</code></td><td>Участие называется <code>going</code> → <code>confirmed</code></td></tr>
+<tr><td><code>invite-success</code></td><td>сообщение</td><td><code>Saturday 18:00</code></td><td><code>Saturday, 18:00</code></td><td>Формат карточки <code class="dcode">D-60</code></td></tr>
+<tr><td><code>invite-success</code></td><td>текст</td><td><code>**We’ll** ask you the day before</code></td><td><code>A reminder comes the day before</code></td><td>«Мы» о себе</td></tr>
+<tr><td><code>invite-waiting</code></td><td>кнопка</td><td><code>Withdraw **the** invite</code></td><td><code>Withdraw **my** invite</code></td><td>Параллель с <code>Withdraw my request</code></td></tr>
+<tr><td><code>invite-waiting</code></td><td>подпись</td><td><code>…until Saturday.</code></td><td><code>…until Saturday. Withdrawing it cancels the invite for Olena.</code></td><td>Опасное действие обязано сказать, что произойдёт</td></tr>
+</tbody></table></div>
+<h4 id="карточка-события-мои-события">Карточка события · мои события</h4>
+<div class="tw"><table><thead><tr><th>Страница</th><th>Тип</th><th>Было</th><th>Стало</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>plan</code>, <code>plan-loading</code></td><td>скрытый заголовок</td><td><code>Join</code></td><td><code>Ask to join</code></td><td>Словарь запрещает <code>Join</code>: место даёт автор</td></tr>
+<tr><td><code>plan-waiting</code></td><td>скрытый заголовок</td><td><code>Waiting for the author</code></td><td><code>Waiting for Andrii</code></td><td>«Автор» — внутренний термин; о человеке по имени</td></tr>
+<tr><td><code>plan-success</code></td><td>скрытый заголовок</td><td><code>You are in</code></td><td><code>You’re going</code></td><td>Участие — <code>going</code></td></tr>
+<tr><td><code>plan-success</code></td><td>сообщение</td><td><code>· **we’ll ask** the day before</code></td><td><code>· Still going? comes the day before</code></td><td>«Мы» о себе; имя напоминания</td></tr>
+<tr><td><code>plan-success</code></td><td>выход</td><td>вёл на <code>feed.html</code></td><td>ведёт на <code>my-events.html</code></td><td>Подпись обещает «Мои события», а вела в ленту</td></tr>
+<tr><td><code>plan</code>, <code>plan-loading</code></td><td>кнопка</td><td><code>Invite together</code> на событии с <strong>одним</strong> местом</td><td>кнопка убрана</td><td><code class="dcode">D-36</code>: пара в <code>+1</code> не помещается; в ленте у той же строки её справедливо нет</td></tr>
+<tr><td><code>my-events</code> ×4</td><td>кнопка</td><td><code>New</code></td><td><code>Post</code> + <code>aria-label=&quot;Post an event&quot;</code></td><td>Два среза одной вкладки звали создание разными именами</td></tr>
+<tr><td><code>my-events</code></td><td>подпись</td><td><code>Last Sunday</code></td><td><code>20 Sep</code></td><td>Относительное время — только в списке чатов</td></tr>
+</tbody></table></div>
+<h4 id="чаты-поиск-мой-профиль">Чаты · поиск · мой профиль</h4>
+<div class="tw"><table><thead><tr><th>Страница</th><th>Тип</th><th>Было</th><th>Стало</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>chats</code></td><td>подпись</td><td><code>You **matched** — no messages yet</code></td><td><code>You both said yes — no messages yet</code></td><td><code>match</code> как событие</td></tr>
+<tr><td><code>search-empty</code></td><td>заголовок</td><td><code>Nothing for “bouldering” yet</code></td><td><code>No events or people for “bouldering” yet</code></td><td>Пустое называет предмет</td></tr>
+<tr><td><code>search-empty</code></td><td>сообщение</td><td><code>No events and no people with this interest nearby…</code></td><td><code>Events here are posted by people like you — yours would be the first one with this interest.</code></td><td>Вторая строка объясняет, почему так бывает</td></tr>
+<tr><td><code>search-empty</code></td><td>кнопка</td><td><code>Post a **bouldering** event</code></td><td><code>Post an event</code></td><td>Одно действие — одно имя</td></tr>
+<tr><td><code>search-empty</code>, <code>search-error</code></td><td>скрытый заголовок</td><td><code>Nothing found</code> · <code>Search failed</code></td><td><code>Results</code></td><td>В рабочем виде та же секция уже <code>Results</code></td></tr>
+<tr><td><code>search-error</code></td><td>сообщение</td><td><code>Your **query** is still here — try it again.</code></td><td><code>Your search is still here.</code></td><td>Канцелярское слово; «что делать» уже в кнопке</td></tr>
+<tr><td><code>my-profile</code> ×2</td><td>кнопка</td><td><code>Edit</code></td><td><code>Edit</code> + <code>aria-label=&quot;Edit profile&quot;</code></td><td>Короткое в кнопке, полное в aria</td></tr>
+<tr><td><code>my-profile</code></td><td>подпись</td><td><code>1 waiting for you</code></td><td><code>1 request</code></td><td>Отклик — <code>request</code> на обеих сторонах</td></tr>
+<tr><td><code>my-profile</code></td><td>подпись</td><td><code>0</code></td><td><code>None</code></td><td>Нуля в продукте не бывает <code class="dcode">D-60</code></td></tr>
+<tr><td><code>my-profile</code> ×2</td><td>подпись</td><td><code>account, notifications</code></td><td><code>Account and notifications</code></td><td>Единообразие значений в списке</td></tr>
+<tr><td><code>my-profile</code> ×2</td><td>добавлена строка</td><td>—</td><td><code>You’ll need to sign in again to get back to your chats and events.</code></td><td>Опасное действие: до нажатия сказать, что произойдёт</td></tr>
+</tbody></table></div>
+<h3 id="сквозная-сверка-одно-действие-одно-имя">Сквозная сверка: одно действие — одно имя</h3>
+<p>После правок прогнан скрипт по всем 49 страницам. Расхождения, которые он нашёл, и что с ними:</p>
+<div class="tw"><table><thead><tr><th>Действие или предмет</th><th>Как звалось на разных экранах</th><th>Решение</th></tr></thead><tbody>
+<tr><td>Вернуться в колоду</td><td><code>See people</code> · <code>Keep swiping</code> (совпадение)</td><td><strong><code>See people</code></strong> везде; <code>swipe</code> запрещён словарём</td></tr>
+<tr><td>Отложить верификацию</td><td><code>Do this later</code> · <code>Keep browsing</code></td><td><strong><code>Keep browsing</code></strong> — это <strong>другое</strong> действие, чем «уйти к людям», и оно записано в словарь отдельной строкой</td></tr>
+<tr><td>Вернуться в чат</td><td><code>Back to Olena</code> · <code>Your chat with Olena is waiting →</code> · <code>Open the chat</code></td><td><strong><code>Open the chat</code></strong> везде</td></tr>
+<tr><td>Создать событие</td><td><code>New</code> (лента, мои события) · <code>Post an event</code> · <code>Post a bouldering event</code></td><td><strong><code>Post</code></strong> в тесной шапке (полное имя в aria), <strong><code>Post an event</code></strong> там, где помещается</td></tr>
+<tr><td>Отозвать</td><td><code>Withdraw my request</code> · <code>Withdraw the invite</code></td><td><strong><code>Withdraw my …</code></strong> — одна форма для обоих</td></tr>
+<tr><td>Предложить день</td><td><code>Suggest a day</code> · <code>Suggest a day instead</code></td><td><strong><code>Suggest a day</code></strong>: <code>instead</code> вне закрытого списка</td></tr>
+<tr><td>Позвать вдвоём</td><td><code>Invite together</code> · <code>Invite</code> · <code>Invite together instead</code></td><td><strong><code>Invite together</code></strong>, <code>Invite</code> — только где не помещается (<code class="dcode">D-60</code>)</td></tr>
+<tr><td>Момент взаимности</td><td><code>You matched …</code> ×2 · <code>You and Olena both said yes</code></td><td><strong>факт</strong>: «both said yes»; <code>match</code> — только в списках</td></tr>
+<tr><td>Чат как объект</td><td><code>Conversation</code> ×6 · <code>chat</code></td><td><strong><code>chat</code></strong> везде, включая скрытые заголовки</td></tr>
+<tr><td>Участие</td><td><code>You are in</code> · <code>You’re both in</code> · <code>going</code> / <code>confirmed</code></td><td><strong><code>going</code> → <code>confirmed</code></strong></td></tr>
+<tr><td>Отклик у автора</td><td><code>1 waiting for you</code> · <code>2 requests</code></td><td><strong><code>request</code></strong> на обеих сторонах</td></tr>
+</tbody></table></div>
+<p><strong>Осталось намеренно разным:</strong> <code>Invite</code> против <code>Invite together</code> (тесная строка, <code class="dcode">D-60</code>), <code>People</code> / <code>Events</code> на радаре против <code>See people</code> / <code>Look at events</code> (экран учит соответствию с таб-баром — исключение записано в <code>voice.md</code>), <code>Filters</code> как имя места, а не действия.</p>
+<h3 id="проход-по-голосу-придирчивая-сверка-со-словарём-30-09">Проход по голосу: придирчивая сверка со словарём — 30.09</h3>
+<p>Третий проход, уже не по экранам, а по <strong>словарю и запретному</strong>: 1065 строк со всех 49 страниц, 256 уникальных. Клише, эмодзи, восклицаний, «успешно», мотивации, звёзд и жаргона не нашлось ни одного; нашлось <strong>15 дефектов четырёх классов</strong>.</p>
+<h4 id="словарь-и-тон">Словарь и тон</h4>
+<div class="tw"><table><thead><tr><th>Страница</th><th>Тип</th><th>Было</th><th>Стало</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>invite-success</code></td><td>текст</td><td><code>**We'll** ask you the day before: **still going?**</code></td><td><code>A reminder comes the day before: Still going?</code></td><td>Два нарушения в одной строке: «мы» о себе (словарь разрешает только на живой проверке селфи) и имя напоминания строчными — <code>Still going?</code> это <strong>имя</strong> <code class="dcode">D-16</code></td></tr>
+<tr><td><code>verify-waiting</code></td><td>текст</td><td><code>…at most 24 hours — **we'll** let you know either way.</code></td><td><code>…at most 24 hours. You'll hear back either way.</code></td><td>«Мы» о себе; обращение — второе лицо</td></tr>
+<tr><td><code>chats-empty</code></td><td>сообщение</td><td><code>…or when the **author** of an event confirms you.</code></td><td><code>…or when you ask to join an event and the person confirms you.</code></td><td><code>author</code> — внутренний термин. Та же дыра, что «Waiting for the author» на <code>plan-waiting</code></td></tr>
+<tr><td><code>my-events</code></td><td>подпись</td><td><code>Repeats weekly · 2 meetups **so far**</code></td><td><code>Repeats weekly · 2 meetups attended</code></td><td>Словарь: подтверждённые встречи — <code>meetups attended</code>; <code>so far</code> — уточнитель вне закрытого списка <code class="dcode">D-60</code></td></tr>
+</tbody></table></div>
+<h4 id="скрытый-заголовок-повторял-то-что-рядом">Скрытый заголовок повторял то, что рядом</h4>
+<p>Скринридер слышал имя дважды подряд — тот же дефект, что <code>Checking</code> / <code>Checking…</code> на верификации. Правило записано в <a href="../wireframes/_conventions.md"><code>wireframes/_conventions.md</code></a>: <strong>скрытый заголовок называет зону, а не повторяет кнопку или баннер внутри неё.</strong></p>
+<div class="tw"><table><thead><tr><th>Страница</th><th>Было</th><th>Стало</th><th>По образцу</th></tr></thead><tbody>
+<tr><td><code>plan</code>, <code>plan-loading</code></td><td><code>Ask to join</code> над кнопкой <code>Ask to join</code></td><td><code>Decision</code></td><td><code>deck</code>, <code>profile</code></td></tr>
+<tr><td><code>plan-success</code></td><td><code>You're going</code> над баннером <code>You're going</code></td><td><code>Confirmed</code></td><td><code>invite-success</code></td></tr>
+<tr><td><code>plan-waiting</code></td><td><code>Waiting for Andrii</code> над баннером <code>Waiting for Andrii</code></td><td><code>Waiting</code></td><td><code>invite-waiting</code></td></tr>
+<tr><td><code>verify-error</code></td><td><code>Try again</code> над кнопкой <code>Try again</code></td><td><code>What next</code></td><td>все состояния-экраны</td></tr>
+<tr><td><code>verify</code>, <code>verify-loading</code></td><td><code>Take the selfie</code> над кнопкой <code>Take selfie</code></td><td><code>Decision</code></td><td><code>deck</code>, <code>profile</code></td></tr>
+<tr><td><code>profile</code> ×3</td><td><code>Olena, 26</code> под <code>h1 Olena, 26</code></td><td><code>Who</code></td><td><code>invite</code></td></tr>
+</tbody></table></div>
+<h4 id="зона-выхода-называет-место-куда-ведёт">Зона выхода называет место, куда ведёт</h4>
+<div class="tw"><table><thead><tr><th>Страница</th><th>Было</th><th>Стало</th><th>Куда ведёт</th></tr></thead><tbody>
+<tr><td><code>chats</code></td><td><code>More people</code></td><td><code>People</code></td><td><code>See people →</code></td></tr>
+<tr><td><code>chats-error</code>, <code>chats-loading</code></td><td><code>Elsewhere</code></td><td><code>People</code></td><td><code>See people →</code></td></tr>
+<tr><td><code>search-error</code>, <code>search-loading</code></td><td><code>Elsewhere</code></td><td><code>Events</code></td><td><code>Look at events →</code></td></tr>
+</tbody></table></div>
+<p><code>Elsewhere</code> не называл ничего, а на <code>deck</code> и <code>feed</code> та же зона давно названа местом (<code>Events</code>, <code>People</code>).</p>
+<h4 id="раздел-не-называл-предмет">Раздел не называл предмет</h4>
+<div class="tw"><table><thead><tr><th>Страница</th><th>Было</th><th>Стало</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>my-events</code></td><td><code>h3 Waiting for you</code></td><td><code>Requests to confirm</code></td><td>Рядом стоят <code>Going</code> и <code>Past</code> — они называют предмет. И <code>Waiting for …</code> в четырёх других местах значит «<strong>мы</strong> ждём чужого ответа» (<code class="dcode">D-42</code>): здесь смысл обратный</td></tr>
+</tbody></table></div>
+<h4 id="перепись-стала-полной">Перепись стала полной</h4>
+<p><strong>85 скрытых заголовков и 34 <code>aria-label</code></strong> жили на экранах мимо таблицы, хотя <code>_conventions.md</code> считает их копирайтом — и именно их мы переписывали (<code>Chat with Olena</code>, <code>Results</code>, <code>Take the selfie</code>). Извлечение дополнено двумя типами: <strong>скрытый заголовок</strong> и <strong>aria-label</strong>. Инвентарь вырос с 374 строк до 466.</p>
+<p><strong>Что не дефект, хотя похоже:</strong> <code>Expand search</code> (колода) против <code>Show events further out</code> (лента) — решение по ширине, полное имя в <code>aria-label</code>; <code>Change the day</code> рядом с <code>Suggest a day</code> — другое действие; <code>Meanwhile</code> / <code>What next</code> / <code>Ways out of the chat</code> — имена по типу состояния, а не три имени одной зоны; <code>Open the event</code> рядом с <code>Open the chat</code> — разные объекты.</p>
+      </section>
+
+      <section id="7-что-дальше">
+        <h2>7. Что дальше</h2>
+<ol><li>По каждому расхождению из §4.1 и §4.2 принять решение: одно имя или осознанно разные.</li>
+<li>Решения записать сюда же — таблица станет <strong>источником правды</strong>, с которой сверяется каждая строка продукта.</li>
+<li>Голос, которым всё это написано, — <a href="../voice.md"><code>voice.md</code></a>.</li></ol>
+      </section>
+    </div>
+
+    <footer>
+      <p>Раздел 5 из 12 · Tone of voice и микрокопи. Источники — <a href="../voice.md">voice.md</a>, <a href="../microcopy.md">microcopy.md</a>; решения — <a href="../DECISIONS.md">DECISIONS.md</a>.</p>
+      <nav class="section-nav"><a href="wireframes.html">← Раздел 4 · Прототипирование и вайрфрейминг</a></nav>
+    </footer>
+  </main>
+</div>
+
+<script>
+// Подпункты текущего раздела в дереве. Нажат любой — дерево сжимается до номеров,
+// вернуть его целиком можно нажатием на сам номер раздела. Без скрипта — якоря.
+(function () {
+  var ids = ["voice","microcopy"];
+  var shell = document.querySelector('.shell');
+  var subtabs = document.querySelector('.subtabs');
+  if (!shell || !subtabs) return;
+  var panels = {};
+  for (var i = 0; i < ids.length; i++) panels[ids[i]] = document.getElementById(ids[i]);
+  var links = subtabs.querySelectorAll('a[data-tab]');
+
+  function show(name, collapsed, push) {
+    shell.setAttribute('data-tab', name);
+    if (collapsed) shell.setAttribute('data-collapsed', '');
+    else shell.removeAttribute('data-collapsed');
+    for (var k in panels) if (panels[k]) panels[k].hidden = (k !== name);
+    for (var j = 0; j < links.length; j++) {
+      if (links[j].getAttribute('data-tab') === name) links[j].setAttribute('aria-current', 'true');
+      else links[j].removeAttribute('aria-current');
+    }
+    if (push) history.replaceState(null, '', '#' + name);
+  }
+
+  subtabs.addEventListener('click', function (e) {
+    var a = e.target.closest('a[data-tab]');
+    if (!a) return;
+    e.preventDefault();
+    show(a.getAttribute('data-tab'), true, true);
+  });
+
+  // номер раздела возвращает дерево целиком, не трогая показанное
+  var cur = document.querySelector('.side .mat.current');
+  if (cur) cur.addEventListener('click', function (e) {
+    if (shell.hasAttribute('data-collapsed')) {
+      e.preventDefault();
+      show(shell.getAttribute('data-tab'), false, false);
+    }
+  });
+
+  // переход по якорю внутри той же страницы (и кнопки «назад»/«вперёд»)
+  // не перезагружает её — вкладку переключаем сами
+  window.addEventListener('hashchange', function () {
+    var n = location.hash.slice(1);
+    if (ids.indexOf(n) > -1) show(n, true, false);
+  });
+
+  var h = location.hash.slice(1);
+  var known = ids.indexOf(h) > -1;
+  show(known ? h : ids[0], known, false);
+})();
+</script>
+
+</body>
+</html>
