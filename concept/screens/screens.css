@@ -1,0 +1,248 @@
+/* MeetMates — экраны концепта, направление D «Стекло».
+ *
+ * Разметку экранов не пишем руками: scripts/build-concept-screens.mjs берёт её
+ * из wireframes/*.html как есть — текст и структура те же, — подставляет фото,
+ * иконки Solar Bold и подключает этот файл.
+ *
+ * Правило: только var(--…) из ../tokens.css (→ tokens/tokens.css). Ни одного цвета,
+ * размера шрифта, радиуса или тени, вписанного числом. Исключения — геометрия
+ * устройства (390 × 844, системные зоны 47 / 50 / 34), она из вайрфреймов,
+ * а не из стиля.
+ *
+ * Одинаковое выглядит одинаково: правила пишутся по роли элемента, а не
+ * по номеру — каждая кнопка, карточка и отметка Verified берут одно и то же.
+ */
+
+@import url("../tokens.css");
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font: var(--fw-regular) var(--t-body)/var(--lh-body) var(--font);
+  display: grid;
+  justify-items: center;
+  gap: var(--s-5);
+  padding: var(--s-6) var(--s-4) var(--s-7);
+}
+::selection { background: var(--ink-900); color: var(--surface); }
+img, svg { display: block; }
+h1, h2, h3, p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+a { color: inherit; }
+:where(a, button):focus-visible { outline: 2px solid var(--ink-900); outline-offset: 2px; }
+svg { flex: none; }
+
+/* ── состояния экрана: переключатель над телефоном ─────────── */
+.wfstates { width: 100%; max-width: 760px; display: grid; justify-items: center; gap: var(--s-2); }
+.wfstates .t { font-size: var(--t-caption); color: var(--ink-600); }
+.wfstates ul { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-2); }
+.wfstates li a, .wfstates li b {
+  display: inline-flex; align-items: center; min-height: var(--tap-min); padding: 0 var(--s-4);
+  border-radius: var(--r-pill); font-size: var(--t-caption); text-decoration: none;
+}
+.wfstates li a { background: var(--surface); color: var(--ink-600); box-shadow: var(--shadow-sm); }
+.wfstates li a:hover { color: var(--ink-900); }
+.wfstates li b { background: var(--ink-900); color: var(--surface); font-weight: var(--fw-semibold); }
+
+/* ── устройство: корпус и экран ───────────────────────────── */
+.device {
+  position: relative;
+  width: calc(var(--screen-max) + 24px);
+  padding: 12px;
+  border-radius: 46px;
+  background: var(--ink-900);
+  box-shadow: var(--shadow-lg);
+}
+.screen {
+  position: relative;
+  width: var(--screen-max);
+  height: 844px;
+  border-radius: 34px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* системные зоны: чужие, продукт их не рисует — только тихо обозначает */
+.statusbar, .browserbar { flex: none; display: flex; align-items: center; font-size: var(--t-micro); }
+.statusbar { height: 47px; padding: 0 var(--s-6); justify-content: space-between; font-weight: var(--fw-semibold); color: var(--ink-900); }
+.browserbar { height: 50px; justify-content: center; background: var(--surface-2); color: var(--ink-600); }
+.homebar { flex: none; height: 34px; display: flex; align-items: center; justify-content: center; background: var(--surface-2); }
+.homebar::after { content: ""; width: 134px; height: 5px; border-radius: var(--r-pill); background: var(--ink-900); }
+
+/* сгиб: граница того, чем владеет продукт */
+.fold { position: absolute; left: 0; right: 0; bottom: 84px; height: 0; text-align: right; }
+.fold span {
+  display: inline-block; transform: translateY(2px); margin-right: var(--s-3); padding: 0 var(--s-2);
+  font-size: var(--t-micro); color: var(--ink-600); background: var(--surface-2); border-radius: var(--r-pill);
+}
+
+/* ── шапка ────────────────────────────────────────────────── */
+header { flex: none; display: flex; align-items: center; gap: var(--s-1); padding: var(--s-2) var(--s-4) var(--s-1); }
+header h1 {
+  margin-right: auto; white-space: nowrap;
+  font-size: var(--t-h1); line-height: var(--lh-tight); letter-spacing: var(--tr-display); font-weight: var(--fw-bold);
+}
+/* кнопки шапки — только иконка: круг 44px. Подпись остаётся в разметке для скринридера.
+   Тихая — белая; главная шапки — тёмная, оранжевый остаётся содержимому */
+header button {
+  display: inline-grid; place-items: center; width: var(--tap-min); height: var(--tap-min); padding: 0;
+  border: 0; border-radius: var(--r-pill); background: var(--surface); color: var(--ink-900);
+  box-shadow: var(--shadow-sm); cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+header button:hover { background: var(--surface-2); }
+header button.primary { background: var(--ink-900); color: var(--surface); box-shadow: none; }
+/* порядок на экране: Post, затем Filters. Разметка — из вайрфрейма, поэтому меняем
+   только визуальный порядок; кнопки соседние, фокус по Tab идёт Filters → Post */
+header h1 { order: 0; }
+header button.primary { order: 1; }
+header button:not(.primary) { order: 2; }
+header button.primary:hover { background: var(--ink-900); opacity: .9; }
+header .ico svg { width: var(--icon-md); height: var(--icon-md); }
+/* подпись, которую не видно, но слышно */
+.label { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ── содержимое ───────────────────────────────────────────── */
+.app { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+main { flex: 1; min-height: 0; padding: var(--s-3) var(--s-4) var(--s-2); display: flex; flex-direction: column; gap: var(--s-4); overflow: hidden; }
+.pane { display: flex; flex-direction: column; gap: var(--s-4); flex: 1; min-height: 0; }
+section { display: flex; flex-direction: column; gap: var(--s-3); }
+section.stretch { flex: 1; min-height: 0; }
+.row { display: flex; gap: var(--s-3); }
+.row > * { flex: 1; }
+
+/* кнопки содержимого: главная — action, тихая — surface-2. Одинаково везде */
+.pane .btn, .pane button {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
+  min-height: var(--tap-min); padding: 0 var(--s-4);
+  border: 0; border-radius: var(--r-pill);
+  font: var(--fw-semibold) var(--t-body-sm)/1 var(--font); letter-spacing: -.01em;
+  text-decoration: none; white-space: nowrap; cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.pane .btn.primary, .pane button.primary { background: var(--action); color: var(--ink-on-action); }
+.pane .btn.primary:hover, .pane button.primary:hover { background: var(--action-hover); }
+.pane .btn.primary:active, .pane button.primary:active { transform: scale(.98); }
+.pane .btn.quiet, .pane button.quiet { background: var(--surface-2); color: var(--ink-900); }
+.pane .btn.quiet:hover { background: var(--line); }
+
+/* срез вкладки Nearby / Mine — сегменты, а не две главные кнопки */
+section[aria-labelledby="seg-h"] .row { gap: 2px; padding: 3px; border-radius: var(--r-pill); background: var(--line); }
+section[aria-labelledby="seg-h"] .btn { min-height: var(--tap-min); }
+section[aria-labelledby="seg-h"] .btn.primary { background: var(--surface); color: var(--ink-900); box-shadow: var(--shadow-sm); }
+section[aria-labelledby="seg-h"] .btn.primary:hover { background: var(--surface); }
+section[aria-labelledby="seg-h"] .btn.quiet { background: transparent; color: var(--ink-900); font-weight: var(--fw-medium); }
+section[aria-labelledby="seg-h"] .btn.quiet:hover { color: var(--ink-900); background: transparent; }
+
+/* ── лента: карточка события ──────────────────────────────── */
+.scrolly { flex: 1; min-height: 0; overflow: auto; scrollbar-width: none; margin: 0 calc(var(--s-4) * -1); padding: 0 var(--s-4) var(--s-2); }
+.scrolly::-webkit-scrollbar { display: none; }
+.rows { display: flex; flex-direction: column; gap: var(--s-3); }
+.item {
+  display: flex; flex-direction: column; gap: var(--s-2);
+  padding: var(--s-4); border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow-md);
+}
+.item.ev { display: grid; grid-template-columns: 104px 1fr; grid-template-rows: auto auto; gap: 0; padding: 0; overflow: hidden; }
+.item.ev .cover { grid-row: 1; position: relative; min-height: 112px; }
+.item.ev .cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.item.ev .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: var(--s-3) var(--s-3) var(--s-2); }
+.item.ev .top { display: flex; align-items: baseline; gap: var(--s-2); text-decoration: none; }
+.item.ev .top > b {
+  flex: 1; min-width: 0; font-weight: var(--fw-semibold); font-size: var(--t-body); line-height: var(--lh-heading); letter-spacing: var(--tr-heading);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.item.ev .top:hover > b { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--ink-400); }
+.item .when { flex: none; white-space: nowrap; font-size: var(--t-micro); color: var(--ink-600); }
+.who { display: flex; flex-wrap: wrap; align-items: center; column-gap: 4px; font-size: var(--t-caption); color: var(--ink-600); }
+.item.ev .acts { grid-column: 1 / -1; display: flex; gap: var(--s-2); padding: var(--s-2) var(--s-3) var(--s-3); }
+.item.ev .acts .btn { flex: 1; padding: 0 var(--s-2); }
+.item.ev .acts .btn:first-child { flex: 1.6; }
+
+/* отметка Verified — одна и та же в каждой строке */
+.verified { display: inline-flex; align-items: center; gap: 3px; color: var(--verified); font-weight: var(--fw-semibold); }
+.verified svg { width: var(--icon-sm); height: var(--icon-sm); }
+
+/* ── выход в соседний контур ──────────────────────────────── */
+.exit {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
+  min-height: var(--tap-min); padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow-sm);
+  font-weight: var(--fw-semibold); font-size: var(--t-body-sm); text-decoration: none;
+}
+.exit:hover { box-shadow: var(--shadow-md); }
+
+/* ── пусто и ошибка ───────────────────────────────────────── */
+.state {
+  flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s-3);
+  padding: var(--s-6) var(--s-5); text-align: center;
+  border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow-sm);
+}
+.state h3 { font-size: var(--t-h2); line-height: var(--lh-heading); letter-spacing: var(--tr-heading); font-weight: var(--fw-semibold); text-wrap: balance; }
+.state p { max-width: 30ch; color: var(--ink-600); font-size: var(--t-body-sm); }
+.state .state-ico { display: grid; place-items: center; width: calc(var(--icon-lg) * 2); height: calc(var(--icon-lg) * 2); border-radius: var(--r-pill); background: var(--surface-2); color: var(--ink-900); }
+.state .state-ico svg { width: var(--icon-lg); height: var(--icon-lg); }
+.state[role="alert"] .state-ico { color: var(--danger); }
+
+/* ── загрузка ─────────────────────────────────────────────── */
+.note { font-size: var(--t-body-sm); color: var(--ink-600); }
+.skel {
+  display: block; border-radius: var(--r-sm);
+  background: linear-gradient(90deg, var(--surface-2) 0%, var(--line) 50%, var(--surface-2) 100%);
+  background-size: 200% 100%;
+  animation: skel 1.4s var(--ease-out) infinite;
+}
+.skel.line { height: 13px; }
+.skel.w-l { width: 62%; }
+.skel.w-m { width: 44%; }
+.skel.w-s { width: 28%; }
+@keyframes skel { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+
+/* ── нижнее меню: стеклянная пилюля ───────────────────────── */
+.screen nav[aria-label] {
+  flex: none; display: flex; gap: 2px;
+  margin: var(--s-2) var(--s-4); padding: 6px;
+  border-radius: var(--r-pill);
+  background: var(--glass); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-lg), var(--glass-rim);
+}
+/* меню во всю ширину контента: вкладки делят её поровну */
+.screen nav a {
+  flex: 1; min-width: 0; display: grid; justify-items: center; gap: 3px; padding: 6px 0;
+  border-radius: var(--r-pill); text-decoration: none;
+  font: var(--fw-medium) var(--t-micro)/1 var(--font); color: var(--ink-600);
+}
+.screen nav a .ico svg { width: var(--icon-md); height: var(--icon-md); color: var(--ink-400); }
+.screen nav a[aria-current="page"] { background: var(--glass-strong); box-shadow: var(--glass-rim), var(--shadow-sm); color: var(--ink-900); }
+.screen nav a[aria-current="page"] .ico svg { color: var(--ink-900); }
+
+/* ── служебное: подписи зон и описание — рядом с телефоном, не в нём ── */
+.anns {
+  position: absolute; top: 0; left: calc(100% + var(--s-6));
+  width: 300px; display: grid; gap: var(--s-3);
+}
+.ann { font-size: var(--t-caption); line-height: 1.45; color: var(--ink-600); padding-left: var(--s-3); border-left: 2px solid var(--line); }
+.ann b { color: var(--ink-900); font-weight: var(--fw-semibold); }
+/* подписи живут вне экрана: телефон их не обрезает */
+.screen:has(.anns) { overflow: visible; }
+.screen:has(.anns) > :is(.statusbar) { border-radius: 34px 34px 0 0; }
+.screen:has(.anns) > .homebar { border-radius: 0 0 34px 34px; }
+@media (max-width: 1100px) {
+  /* на узком экране подписи не помещаются сбоку; полное описание — в блоке под телефоном */
+  .anns { display: none; }
+}
+
+.meta { width: 100%; max-width: 640px; display: grid; gap: var(--s-2); font-size: var(--t-caption); color: var(--ink-600); }
+.meta b { color: var(--ink-900); font-weight: var(--fw-semibold); }
+
+@media (max-width: 440px) {
+  body { padding: var(--s-4) 0 var(--s-6); }
+  .device { width: 100%; max-width: calc(var(--screen-max) + 24px); padding: 0; background: none; box-shadow: none; }
+  .screen { width: 100%; max-width: var(--screen-max); margin: 0 auto; }
+  .meta, .wfstates { padding: 0 var(--s-4); }
+}
+@media (prefers-reduced-motion: reduce) { .skel { animation: none; } }

@@ -59,6 +59,9 @@ const hex = ([r, g, b]) => '#' + [r, g, b].map((v) => Math.round(v).toString(16)
 
 const glassOverBlack = over(tok('glass'), '#000000');
 const glassOverWhite = over(tok('glass'), '#FFFFFF');
+// меню лежит в потоке над фоном экрана: стекло поверх --bg
+const glassOverBg = over(tok('glass'), tok('bg'));
+const glassStrongOverBg = over(tok('glass-strong'), tok('bg'));
 
 // [что, токен текста, фон (токен или готовый цвет), порог]
 const PAIRS = [
@@ -76,6 +79,12 @@ const PAIRS = [
   ['Предупреждение на фоне экрана', 'warn', 'bg', 4.5],
   ['Текст на стекле поверх чёрного фото', 'ink-900', glassOverBlack, 4.5],
   ['Текст на стекле поверх белого фото', 'ink-900', glassOverWhite, 4.5],
+  // экраны концепта (concept/screens): новые сочетания
+  ['Текст на тёмной кнопке шапки, выбранный чип', 'surface', 'ink-900', 4.5],
+  ['Сегмент Mine на дорожке переключателя', 'ink-900', 'line', 4.5],
+  ['Подпись вкладки на стекле меню', 'ink-600', glassOverBg, 4.5],
+  ['Подпись выбранной вкладки', 'ink-900', glassStrongOverBg, 4.5],
+  ['Системные панели: адрес, сгиб', 'ink-600', 'surface-2', 4.5],
   ['Иконка, неактивная вкладка (не текст)', 'ink-400', 'bg', 3],
   ['Иконка на карточке (не текст)', 'ink-400', 'surface', 3],
 ];
