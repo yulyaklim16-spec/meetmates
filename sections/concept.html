@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Концепт · MeetMates</title>
+<meta name="description" content="Визуальное направление D «Стекло»: вкус, атрибуты, выбор и цена. Стенд стиля, экраны ленты и направления, которые не выбраны.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<!-- Единственный источник правды по цвету, радиусам, шкалам и движению -->
+<link rel="stylesheet" href="../tokens/site.css">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Итоги исследования. Все значения — из tokens/site.css:
+   собственных цветов и радиусов здесь нет (Рабочие соглашения, п. 2).
+   Тёмная тема вне объёма v1 (§10), страница осознанно светлая.
+   Градиент — только на акцентах (§8).
+   ───────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-family: var(--font);
+  font-size: var(--t-body-sm);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip {
+  position: absolute; left: -9999px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface); border-radius: var(--r-sm);
+  font-weight: var(--fw-medium);
+}
+.skip:focus { left: var(--s-4); top: var(--s-4); z-index: 50; outline: 2px solid var(--brand-a); }
+
+.shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  gap: var(--s-7);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  align-items: start;
+}
+
+/* ── Боковая колонка ───────────────────────────────────────── */
+.side {
+  position: sticky; top: 0;
+  max-height: 100vh; overflow-y: auto;
+  padding: var(--s-6) 0 var(--s-6);
+}
+.side .brand {
+  display: flex; align-items: center; gap: var(--s-3);
+  margin-bottom: var(--s-2);
+}
+.side .dot {
+  width: 26px; height: 26px; border-radius: var(--r-pill);
+  background: var(--brand-gradient); flex: none; box-shadow: var(--shadow-sm);
+}
+.side .brand b { font-size: var(--t-body); letter-spacing: -0.01em; }
+.side .stage { font-size: var(--t-caption); color: var(--ink-600); margin: 0 0 var(--s-5); }
+
+.side .lbl {
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-600); margin: 0 0 var(--s-3);
+}
+
+.matlist { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--s-6); }
+.mat {
+  display: flex; gap: var(--s-3); align-items: baseline;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  text-decoration: none; color: var(--ink-900);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.mat:hover, .mat:focus-visible { background: var(--surface-2); }
+.mat:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.mat .n {
+  font-size: var(--t-micro); color: var(--ink-600);
+  font-variant-numeric: tabular-nums; flex: none; min-width: 2ch;
+}
+.mat .t { font-size: var(--t-caption); line-height: 1.45; }
+.mat .t i { display: block; font-style: normal; color: var(--ink-600); font-size: var(--t-micro); }
+.mat.current { background: var(--surface-2); }
+.mat.current .t { font-weight: var(--fw-medium); }
+.mat.soon .t { color: var(--ink-600); }
+.mat.soon .n { color: var(--line); }
+
+.anchors {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: var(--s-4); border-top: 1px solid var(--line);
+}
+.anchors a {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--t-caption);
+  text-decoration: none; color: var(--ink-600);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.anchors a:hover, .anchors a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
+.anchors a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+
+/* ── Основная колонка ──────────────────────────────────────── */
+main { padding: var(--s-7) 0 var(--s-7); min-width: 0; }
+
+.masthead { padding-bottom: var(--s-6); }
+h1 {
+  font-size: var(--t-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+  margin: 0 0 var(--s-4);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.lede { font-size: var(--t-body); color: var(--ink-600); max-width: 60ch; margin: 0 0 var(--s-5); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+.chips span { font-size: var(--t-caption); color: var(--ink-600); }
+.chips b { font-weight: var(--fw-bold); color: var(--ink-900); font-variant-numeric: tabular-nums; }
+.chips a { color: var(--brand-a); }
+
+/* ── Секции ────────────────────────────────────────────────── */
+section { padding-top: var(--s-7); scroll-margin-top: var(--s-4); }
+section > h2 {
+  font-size: var(--t-h1); font-weight: var(--fw-black);
+  letter-spacing: -0.02em; margin: 0 0 var(--s-3);
+  padding-bottom: var(--s-3); border-bottom: 1px solid var(--line);
+}
+section > .intro { font-size: var(--t-body-sm); color: var(--ink-600); max-width: 66ch; margin: 0 0 var(--s-5); }
+
+h3 {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.01em; margin: var(--s-6) 0 var(--s-3);
+}
+h4 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(--s-5) 0 var(--s-2); }
+p { margin: 0 0 var(--s-3); max-width: 72ch; }
+a { color: var(--brand-a); text-underline-offset: 3px; }
+strong { font-weight: var(--fw-bold); }
+
+ul { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+li { margin-bottom: var(--s-2); }
+ol { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+
+/* ── Пара колонок «что видели / что решили» ────────────────── */
+.duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+.duo > div { border-top: 2px solid var(--ink-900); padding-top: var(--s-4); }
+.duo h3 { margin: 0 0 var(--s-3); font-size: var(--t-body); }
+.duo ul { margin: 0; }
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+
+/* ── Таблицы ───────────────────────────────────────────────── */
+.tw {
+  overflow-x: auto; margin: 0 0 var(--s-4);
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+}
+table { border-collapse: collapse; width: 100%; font-size: var(--t-caption); }
+caption {
+  caption-side: bottom; text-align: left;
+  padding: var(--s-3) var(--s-4) 0;
+  font-size: var(--t-micro); color: var(--ink-600); line-height: 1.6;
+}
+th, td {
+  text-align: left; vertical-align: top;
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+thead th {
+  background: var(--surface-2);
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600);
+  white-space: nowrap;
+}
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+tbody th { font-weight: var(--fw-bold); font-size: var(--t-caption); white-space: nowrap; }
+td .lbl-cell { display: none; }
+.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+/* ── Чипы источников ───────────────────────────────────────── */
+.src {
+  display: inline-block;
+  font-size: var(--t-micro); line-height: 1.6;
+  padding: 1px var(--s-2); border-radius: var(--r-sm);
+  background: var(--surface-2); color: var(--ink-600);
+  white-space: nowrap;
+}
+.src.own { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.src.none { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+
+/* ── Выноски ───────────────────────────────────────────────── */
+.note {
+  border-left: 3px solid var(--brand-a);
+  padding: var(--s-2) 0 var(--s-2) var(--s-4);
+  margin: 0 0 var(--s-4); max-width: 72ch;
+  color: var(--ink-600);
+}
+.note.warn { border-left-color: var(--warn); }
+.note p:last-child, .note ul:last-child { margin-bottom: 0; }
+
+.panel {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5);
+  margin: 0 0 var(--s-4); max-width: 80ch;
+}
+.panel h4 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child, .panel ol:last-child { margin-bottom: 0; }
+
+.scores { display: grid; gap: var(--s-1); margin: 0 0 var(--s-4); max-width: 620px; }
+.srow { display: grid; grid-template-columns: 108px 1fr 34px; align-items: center; gap: var(--s-3); }
+.srow .nm { font-size: var(--t-caption); color: var(--ink-600); }
+.srow .bar { height: 16px; border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--brand-a); }
+.srow .v { font-size: var(--t-caption); font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-600); }
+.srow.us .nm, .srow.us .v { color: var(--ink-900); font-weight: var(--fw-bold); }
+.srow.us .bar { background: var(--brand-gradient); }
+.srow.bg .nm, .srow.bg .v { color: var(--ink-600); }
+.srow.bg .bar { background: var(--surface-2); border: 1px solid var(--line); }
+
+/* ── Скриншоты ─────────────────────────────────────────────── */
+.gallery {
+  display: grid; gap: var(--s-5);
+  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+}
+figure { margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+figure a {
+  display: block; border: 1px solid var(--line); border-radius: var(--r-md);
+  overflow: hidden; background: var(--surface-2); line-height: 0;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+figure a:hover, figure a:focus-visible { border-color: var(--brand-a); box-shadow: var(--shadow-md); }
+figure a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 3px; }
+figure img { width: 100%; height: 268px; object-fit: cover; object-position: top center; display: block; }
+figcaption { font-size: var(--t-caption); color: var(--ink-600); line-height: 1.5; }
+figcaption b { display: block; color: var(--ink-900); font-weight: var(--fw-bold); margin-bottom: 2px; }
+figcaption .fn { display: block; margin-top: var(--s-2); font-size: var(--t-micro); color: var(--ink-600); word-break: break-all; }
+
+.wide-shot { grid-column: 1 / -1; }
+.wide-shot .frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2); line-height: 0; }
+.wide-shot img { height: 260px; width: auto; max-width: none; object-fit: fill; }
+
+.section-nav {
+  display: flex; justify-content: space-between; gap: var(--s-4);
+  margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--line);
+  font-weight: var(--fw-medium);
+}
+.section-nav a { text-decoration: none; }
+footer {
+  margin-top: var(--s-6); padding: var(--s-5) 0 var(--s-7);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-caption); color: var(--ink-600);
+}
+footer a { color: var(--brand-a); }
+footer p { max-width: 72ch; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; gap: 0; }
+  .side { position: static; max-height: none; padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
+  .matlist { display: none; }
+  .side .stage { margin-bottom: var(--s-3); }
+  .anchors { flex-direction: row; flex-wrap: wrap; border-top: none; padding-top: 0; }
+}
+
+/* ── Персоны ───────────────────────────────────────────────── */
+.persona {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5); margin: 0 0 var(--s-5);
+}
+.persona.primary { border-color: var(--brand-a); box-shadow: var(--shadow-sm); }
+.persona.supply { border-style: dashed; }
+.phead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s-4); }
+.phead h3 { margin: 0 0 var(--s-1); }
+.pscene { margin: 0; color: var(--ink-600); font-size: var(--t-caption); max-width: 60ch; }
+.pneed { margin: var(--s-4) 0; padding: var(--s-3) var(--s-4); background: var(--surface-2); border-radius: var(--r-sm); font-size: var(--t-caption); max-width: none; }
+.pgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4) var(--s-5); }
+.pgrid h4 { margin: 0 0 var(--s-2); font-size: var(--t-micro); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-600); }
+.pgrid ul { margin: 0; padding-left: var(--s-4); font-size: var(--t-caption); }
+.pgrid li { margin-bottom: var(--s-1); }
+.pquote {
+  margin: var(--s-5) 0 0; padding: var(--s-4) var(--s-5);
+  border-left: 3px solid var(--brand-a); background: var(--surface-2); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-body-sm); line-height: 1.5;
+}
+.pquote cite { display: block; margin-top: var(--s-2); font-style: normal; font-size: var(--t-micro); color: var(--ink-600); }
+.pnote { margin: var(--s-4) 0 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+@media (max-width: 760px) { .pgrid { grid-template-columns: 1fr; } .phead { flex-direction: column; } }
+
+/* ── Пилюли статуса (как на хабе) ─────────────────────────── */
+.pill { flex: none; font-size: var(--t-micro); font-weight: var(--fw-medium); padding: 3px 10px; border-radius: var(--r-pill); letter-spacing: 0.02em; white-space: nowrap; }
+.pill.ready { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.pill.rules { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+.pill.empty { background: var(--surface-2); color: var(--ink-600); }
+
+/* ── Jobs ──────────────────────────────────────────────────── */
+.job { margin: 0 0 var(--s-4); padding: var(--s-4) var(--s-5); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.job.main { border-color: var(--brand-a); }
+.jcode { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-a); margin-bottom: var(--s-2); }
+.job blockquote { margin: 0 0 var(--s-2); font-size: var(--t-body-sm); font-weight: var(--fw-medium); line-height: 1.5; }
+.job.main blockquote { font-size: var(--t-body); }
+.jmeta { margin: 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+.jlist li { margin-bottom: var(--s-2); }
+.section-nav .soon { color: var(--ink-600); }
+
+/* ── Раздел 06: концепт ─────────────────────────────────────── */
+
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ── Что показывать в разделе: подпункты в самом дереве ───── */
+.subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
+.subtabs a { padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
+.subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
+.subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.subtabs a[aria-current="true"] { background: var(--surface-2); color: var(--ink-900); font-weight: var(--fw-medium); }
+
+/* Нажат любой подпункт — разделы сжимаются до номеров.
+   Сами подпункты остаются: иначе, нажав первый, человек в нём запрётся */
+.shell[data-collapsed] { grid-template-columns: 124px minmax(0, 1fr); gap: var(--s-5); }
+.shell[data-collapsed] .side .stage,
+.shell[data-collapsed] .side .lbl,
+.shell[data-collapsed] .side .brand b,
+.shell[data-collapsed] .side .mat .t { display: none; }
+.shell[data-collapsed] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
+.shell[data-collapsed] .side .mat { justify-content: center; padding: var(--s-3) 0; }
+.shell[data-collapsed] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
+.shell[data-collapsed] .side .mat.current .n { color: var(--ink-900); font-weight: var(--fw-medium); }
+.shell[data-collapsed] .side .subtabs { margin-left: 0; padding-left: var(--s-2); border-left-color: var(--line); }
+.shell[data-collapsed] .side .subtabs a { font-size: var(--t-micro); padding: var(--s-2); }
+@media (max-width: 900px) {
+  .shell[data-collapsed] { grid-template-columns: minmax(0, 1fr); }
+}
+
+.grp { margin: 0 0 var(--s-6); }
+.grp h3 { margin: 0 0 var(--s-2); }
+.cards { list-style: none; margin: var(--s-3) 0 0; padding: 0; display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); }
+.cards a {
+  display: block; height: 100%;
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
+  padding: var(--s-3) var(--s-4); text-decoration: none; color: var(--ink-900);
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.cards a:hover, .cards a:focus-visible { border-color: var(--ink-400); background: var(--surface-2); }
+.cards b { display: block; font-size: var(--t-body-sm); margin-bottom: 2px; }
+.cards span { font-size: var(--t-caption); color: var(--ink-600); }
+
+#info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#content">Перейти к материалу</a>
+
+<div class="shell">
+
+  <aside class="side">
+    <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
+    <p class="stage">Разделы проекта</p>
+
+    <nav aria-label="Разделы">
+      <p class="lbl">Разделы</p>
+      <div class="matlist">
+        <a class="mat" href="../research/research.html"><span class="n">01</span><span class="t">Ресерч и бенчмарк<i>готово</i></span></a>
+        <a class="mat" href="../research/persones.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>готово</i></span></a>
+        <a class="mat" href="ia.html"><span class="n">03</span><span class="t">Информационная архитектура<i>готово</i></span></a>
+        <a class="mat" href="wireframes.html"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>готово</i></span></a>
+        <a class="mat" href="voice.html"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>готово</i></span></a>
+        <a class="mat current" href="concept.html" aria-current="page"><span class="n">06</span><span class="t">Концепт<i>текущий раздел</i></span></a>
+        <nav class="subtabs" aria-label="Что показывать в разделе">
+          <a href="#info" data-tab="info" aria-current="true">Информация</a>
+          <a href="#screens" data-tab="screens">Экраны</a>
+        </nav>
+        <a class="mat soon" href="?section=7"><span class="n">07</span><span class="t">Сборка UI<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
+      </div>
+    </nav>
+
+  </aside>
+
+  <main id="content">
+    <div class="tabpanel" id="info">
+    <div class="masthead">
+      <h1>Концепт</h1>
+      <p class="lede">Как продукт выглядит и ощущается — этап между структурой и дизайн-системой. Направление выбрано: <b>D «Стекло»</b> (<code class="dcode">D-61</code>) — светло-серый фон, белые карточки, одно оранжевое действие на экран, стекло только под меню, живые фото. Собрано из <a href="../concept/concept.md">concept.md</a>; страница пересобирается скриптом, руками не правится.</p>
+      <div class="chips">
+        <span><b>6</b> направлений в двух раундах</span>
+        <span><b>1</b> выбрано — D</span>
+        <span><b>8</b> страниц концепта</span>
+        <span><b>19</b> пар цвета проверены</span>
+      </div>
+      <!--PUBLIC-NOTE-->
+    </div>
+
+<blockquote><p>Этап между вайрфреймами и дизайн-системой. Тон, палитра и форма заданы брифом (<a href="../../CLAUDE.md"><code>../CLAUDE.md</code></a> §8) и здесь не пересматриваются; этот файл решает, <strong>каким продукт выглядит</strong> внутри этих рамок. Референсы — <a href="../concept/references.md"><code>references.md</code></a>.</p></blockquote>
+
+      <section id="вкус-дизайнера">
+        <h2>Вкус дизайнера</h2>
+<h3 id="нравится">Нравится</h3>
+<ul><li><strong>Instagram</strong> — стильный, современный и не напряжный.</li>
+<li><strong>apple.com</strong> — стильный, эффект стекла.</li></ul>
+<h3 id="не-хочу">Не хочу</h3>
+<ul><li><strong>Кремовый фон с терракотой</strong> — первое, что выдаёт AI на слово «уютный».</li>
+<li><strong>Серые плашки вместо фото.</strong></li>
+<li><strong>Экраны без иконок.</strong></li></ul>
+      </section>
+
+      <section id="атрибуты">
+        <h2>Атрибуты</h2>
+<p>Пары противоположностей: какой продукт на вид — и какой нет. У каждой пары указано, из какой строки данных она выведена, на какой приём из <code>references.md</code> опирается и на чём держится: <strong>данные</strong> (ресерч уровня A/B/C, бриф) или <strong>догадка</strong> (строка с <code>[?]</code> в <code>persones.md</code> или <code>jtbd.md</code>). Ни одна пара не противоречит вкусу выше; где данные и вкус расходятся — это вынесено отдельно в конец раздела.</p>
+<h3 id="1-спокойный-а-не-тревожный">1. Спокойный, а не тревожный</h3>
+<ul><li><strong>Откуда:</strong> <code>persones.md</code>, Даша, job 3 «Сделать это безопасно» — 57% женщин 18–34 считают такие приложения небезопасными (Pew, <strong>A</strong>). <code>jtbd.md</code>, R2 — «понимать, чем рискую, до того как соглашусь на место и время, чтобы решать дома и на трезвую голову».</li>
+<li><strong>Приём:</strong> одна мягкая тень на карточке, без наслоений, радиус 24 — <strong>Bumble</strong>; аккуратная карточка профиля с фактами строками — <strong>Care.com</strong>.</li>
+<li><strong>Вкус:</strong> совпадает — Instagram «не напряжный».</li>
+<li><strong>Держится на:</strong> данных (Pew, A; R2 в ядре матрицы).</li></ul>
+<h3 id="2-проверка-заметна-а-не-спрятана">2. Проверка заметна, а не спрятана</h3>
+<ul><li><strong>Откуда:</strong> <code>jtbd.md</code>, R2 — «всё, что я о нём знаю, он рассказал о себе сам»; <code>persones.md</code>, Даша, «Что убеждает» — Verified, видно на карточке до первого сообщения. Бриф, правило 12: сигналы доверия — до первого сообщения, а не только в развёрнутом профиле.</li>
+<li><strong>Приём:</strong> значок проверки в углу аватара <strong>плюс</strong> строка «Identity verified» словами — <strong>Airbnb</strong>; одна и та же галочка на всех карточках, без подписи — <strong>Peerlist</strong>.</li>
+<li><strong>Вкус:</strong> совпадает — метка проверки это иконка, «экраны без иконок» не про нас.</li>
+<li><strong>Держится на:</strong> данных (R2, Pew A; бриф §7.3, правило 12).</li></ul>
+<h3 id="3-афиша-планов-а-не-анкета-знакомств">3. Афиша планов, а не анкета знакомств</h3>
+<ul><li><strong>Откуда:</strong> <code>persones.md</code>, Даша, «Боли» — в <code>@kyiv_meet</code> 8 из 42 постов ищут не пару, а компанию: «Шукаю друзів для спілкування, не хлопця» (измерено 2026-09-14). <code>persones.md</code>, Даша, «Что отпугивает» — <strong>любой намёк на дейтинг в первые секунды, фрейм считывается до чтения копирайта — <code>[?]</code>, H3</strong>.</li>
+<li><strong>Приём:</strong> белый фон, цвет живёт в обложках событий, а не в заливке — <strong>Partiful</strong> (основа); строка-факт «что ищу» с иконкой вместо самоописания — <strong>Care.com</strong> («Currently seeking»).</li>
+<li><strong>Вкус:</strong> совпадает — у Instagram фото главные, и «серые плашки вместо фото» исключены.</li>
+<li><strong>Держится на:</strong> <strong>смешанно.</strong> Что людей с нашим запросом выдавливает в дейтинг — данные (42 поста). Что дейтинг считывается <strong>по виду</strong> раньше текста — догадка <code>[?]</code>, H3. Пара проектирует под догадку; проверяется показом экрана человеку вне проекта (критерий 1 в <code>README.md</code>).</li></ul>
+<h3 id="4-факты-а-не-оценки">4. Факты, а не оценки</h3>
+<ul><li><strong>Откуда:</strong> <code>voice.md</code>, принцип 3 «Показываем проверяемые факты, а не оценки человека». <code>jtbd.md</code>, S1 — 88% доверяют участнику с полным онлайн-профилем (BlaBlaCar / NYU Stern, <strong>A</strong>). Бриф, правило 11 и §10 — звёзд и ступеней нет.</li>
+<li><strong>Приём:</strong> факты профиля строками с иконкой — <strong>Care.com</strong>; мелкие подписи с положительным трекингом +0.01em (<code>6 meetups attended</code>, <code>Replies quickly</code>) — <strong>Bumble</strong>.</li>
+<li><strong>Вкус:</strong> совпадает — факты с иконками, а не голым текстом.</li>
+<li><strong>Держится на:</strong> данных (BlaBlaCar, A; бриф).</li></ul>
+<h3 id="5-одно-ясное-действие-а-не-выбор-из-ярких-кнопок">5. Одно ясное действие, а не выбор из ярких кнопок</h3>
+<ul><li><strong>Откуда:</strong> <code>jtbd.md</code>, E2 «Не чувствовать себя навязчивой» — барьер «feeling needy or annoying by reaching out» (TIME, <strong>C</strong>); <strong>«Что не подтверждено: всё, кроме одного источника уровня C» — <code>[?]</code></strong>.</li>
+<li><strong>Приём:</strong> одна цветная кнопка на экран, акцент не размазывается — <strong>Wizz</strong>. У нас это кнопка на градиенте (<code>Ask to join</code>, <code>Say hi</code>), остальные нейтральные.</li>
+<li><strong>Вкус:</strong> совпадает — один акцент на экране и есть «не напряжный».</li>
+<li><strong>Держится на:</strong> <strong>догадке</strong> (<code>[?]</code>, один источник уровня C). Пара всё равно оставлена: её можно проверить на прототипе, а обратное — несколько ярких кнопок — бриф и так не требует (§8: градиент только на акцентах).</li></ul>
+<h3 id="где-данные-и-вкус-расходятся-решаете-вы">Где данные и вкус расходятся — решаете вы</h3>
+<p><strong>А. Бриф «энергичный и громкий» против «не напряжный» и пары 1.</strong> Бриф §8: «Молодёжно, громко, живо». Вкус (Instagram) и данные о безопасности (пара 1) тянут к спокойному. Это не противоречие пары вкусу — это бриф против них обоих. <em>Предложение:</em> громкость — только в фото и одном градиентном акценте на экран (пары 3 и 5), структура и поверхности — спокойные (пара 1). Если хотите громче — скажите, где именно.</p>
+<p><strong>Б. «Эффект стекла» (apple.com) — ни одна строка данных его не требует.</strong> Стекло — это полупрозрачная поверхность с размытием того, что под ней. Где оно у нас возможно: таб-бар и шапка поверх ленты, подложка текста на фото в колоде. <em>Риск:</em> бриф §8 требует контраст текста ≥ 4.5:1, а на размытом фото контраст меняется от кадра к кадру — проверять скриптом на светлых и тёмных фото, а не на глаз. <em>Конфликт с брифом:</em> на карточке колоды бриф ставит под текст <strong>градиентную подложку</strong>; стекло там — замена, а не дополнение. Решить: стекло только в навигации, или и на карточке тоже.</p>
+<p><strong>В. «Серые плашки вместо фото» против брифа §12.</strong> Бриф: мок-данные прототипа — «фото-плейсхолдеры». Вкус их исключает, и бриф §8 сам говорит, что фото — главный носитель энергии. <em>Предложение:</em> в концепте — реальные фото (интерьеры площадок, портреты), плейсхолдеры остаются только в вайрфреймах. Поменять формулировку §12 — ваше решение.</p>
+<p><strong>Не конфликт, но проверено:</strong> фон брифа <code>--bg: #FDFCFF</code> — холодный, почти белый, <code>--surface-2: #F4F1FB</code> — сиреневый оттенок. Кремового и терракоты в палитре нет.</p>
+      </section>
+
+      <section id="направления">
+        <h2>Направления</h2>
+<p>Два раунда, шесть направлений. Выбрано одно; остальные описаны ниже, к ним можно вернуться — страницы с ними не удалены.</p>
+<h3 id="выбрано-d-стекло">Выбрано — D «Стекло»</h3>
+<p><strong>Стенд — <a href="../concept/concept.html"><code>concept.html</code></a>:</strong> стиль в деле (лента и профиль), цвета с атрибутами, шрифт и шкала, форма, фото, иконки, три компонента и таблица контраста. Значения — только из <a href="../concept/tokens.css"><code>tokens.css</code></a> → <code>tokens/tokens.css</code>; контраст считает <code>node scripts/contrast.mjs</code> (таблица — <a href="../concept/contrast.md"><code>contrast.md</code></a>).</p>
+<p><strong>D. Стекло</strong> из <a href="../concept/directions-2.html"><code>directions-2.html</code></a>, выбрано 2026-10-07, с одной правкой дизайнера: иконки залитые вместо контурных Linear — сначала Bold Duotone со стеклом, с 2026-10-08 <strong>Solar Bold</strong> без стекла. Решение — <code class="dcode">D-61</code>.</p>
+<div class="tw"><table><thead><tr><th>Что</th><th>Решение</th></tr></thead><tbody>
+<tr><td>Фон / карточка</td><td><code>#F5F5F7</code> / <code>#FFFFFF</code>, скругления карточек 22px</td></tr>
+<tr><td>Успех</td><td><code>#1E7A46</code> — Joined, confirmed, поле прошло проверку (добавлен 2026-10-08 для стенда)</td></tr>
+<tr><td>Текст / подписи</td><td><code>#1D1D1F</code> / <code>#6E6E73</code></td></tr>
+<tr><td>Действие</td><td><code>#FF5F1F</code>, тёмный текст на кнопке (контраст 5.5:1 — белый не проходит)</td></tr>
+<tr><td>Verified</td><td>слово с галочкой цвета текста <code>#1D1D1F</code> в строке «места · Verified» (<code class="dcode">D-57</code>); стеклянная метка на фото снята 2026-10-08 — на стенде и экране было по-разному</td></tr>
+<tr><td>Report</td><td><code>#C42D2D</code> (был <code>#D63A3A</code> — 4.26:1 на фоне <code>#F5F5F7</code>, ниже нормы)</td></tr>
+<tr><td>Стекло</td><td>только нижнее меню, и не поверх фото (подписи вкладок над тёмным снимком — 1.8:1). Белый 60 % + blur 14–18px</td></tr>
+<tr><td>Шрифт</td><td>Geist: 600–700 в заголовках с трекингом −0.035em, 400–500 в тексте</td></tr>
+<tr><td>Форма</td><td>карточки 22px, кнопки и чипы — пилюли</td></tr>
+<tr><td>Иконки</td><td>Solar <strong>Bold</strong> — залитые, один цвет (2026-10-08: стеклянный слой снят — дизайнеру не понравился). Выбранная вкладка — <code>#1D1D1F</code> на стеклянном круге меню, остальные — <code>#86868B</code></td></tr>
+</tbody></table></div>
+<p><strong>Как это сходится с атрибутами:</strong> спокойный, а не тревожный — почти нет цвета, много воздуха (пара 1); одно ясное действие — оранжевый только на кнопке (пара 5); проверка заметна — галочка у имени и метка на фото (пара 2).</p>
+<p><strong>Палитра брифа §8 сравнена и отклонена</strong> 2026-10-07 (<a href="../concept/d-compare.html"><code>d-compare.html</code></a>): оставлен оранжевый. Причины — палитра §8 угадывается по теме (Partiful, Wizz) и три её токена не проходят контраст: белый на <code>#FF3D8B</code> 3.3:1, мятный <code>#00D9A3</code> на белом 1.8:1, <code>#FF4757</code> текстом 3.4:1.</p>
+<p><strong>Расходится с брифом §8</strong> — палитра, шрифт (Inter → Geist), градиент не используется. По решению 2026-10-07 §8 был открыт для пересмотра; <code>CLAUDE.md</code> §8 и <code>tokens/</code> обновлены под D, решение — <code class="dcode">D-61</code>. Оформление сайта с ресерчем вынесено в <code>tokens/site.css</code>.</p>
+<p><strong>Открытые риски:</strong> лицо направления держится на оранжевом и стекле меню — без них оно превращается в шаблон.</p>
+<p><strong>Компоненты — один источник</strong> (2026-10-08): <code>components.css</code> подключают и стенд, и экраны; правка компонента вносится там. Раньше стенд и экраны описывали компоненты отдельно и разошлись (кнопки шапки, меню, Verified).</p>
+<h3 id="экраны-в-стиле-d">Экраны в стиле D</h3>
+<p><a href="../concept/screens/feed.html"><code>screens/feed.html</code></a> и состояния <a href="../concept/screens/feed-empty.html"><code>-empty</code></a>, <a href="../concept/screens/feed-error.html"><code>-error</code></a>, <a href="../concept/screens/feed-loading.html"><code>-loading</code></a> — лента событий в стиле D. <strong>Руками не правятся:</strong> <code>node scripts/build-concept-screens.mjs</code> берёт разметку из <code>wireframes/feed*.html</code> как есть (текст и структура те же — сверено скриптом), ставит фото в обложки, иконки Solar Bold и отметку Verified, подключает <a href="../concept/screens/screens.css"><code>screens/screens.css</code></a>. Вайрфреймы остаются серыми — это их этап. Поправили вайрфрейм — пересобрали экран.</p>
+<p>Правила стилей: значения только из <code>tokens.css</code>; одинаковые элементы описаны по роли — каждая главная кнопка в содержимом оранжевая, в шапке — тёмная, срез Nearby / Mine — сегменты, каждая карточка события и каждая отметка Verified одинаковы. Кнопки шапки — только иконка в круге 44px (Filters — белая, Post — тёмная с плюсом); подписи остаются в разметке для скринридера, у Post — <code>aria-label=&quot;Post an event&quot;</code> (<code class="dcode">D-60</code>). Нижнее меню — во всю ширину контента, вкладки делят её поровну (решение дизайнера 2026-10-08). Новые сочетания цвета добавлены в <code>scripts/contrast.mjs</code>: всего 19 пар, все проходят (2026-10-08: две пары «текст на стекле поверх фото» ушли вместе с меткой).</p>
+<h3 id="не-выбраны-к-ним-можно-вернуться">Не выбраны — к ним можно вернуться</h3>
+<p><strong>Раунд 2</strong> (<a href="../concept/directions-2.html"><code>directions-2.html</code></a>) — ближе к вкусу «Instagram / Apple», тот же каркас карточки:</p>
+<div class="tw"><table><thead><tr><th></th><th>Суть</th><th>Цвет · шрифт · форма</th><th>Почему не выбран</th><th>Когда вернуться</th></tr></thead><tbody>
+<tr><td><strong>E. Ночная лента</strong></td><td>Тёмная лента как Instagram ночью: фото светятся сами, интерфейс почти невидим</td><td><code>#000</code> / <code>#121212</code>, жёлтое действие <code>#FFD23F</code>, голубая галочка <code>#4CB3FF</code> · Figtree · скругления 10–14px, чипы-фильтры</td><td>Тёмная тема в брифе — post-MVP (§10); «как Instagram» значит похож на Instagram — своё лицо только в жёлтом</td><td>Если тесты покажут, что продуктом пользуются вечером, или понадобится тёмная тема — E готов как её основа</td></tr>
+<tr><td><strong>F. Кобальт</strong></td><td>Один насыщенный синий держит шапку, белые карточки лежат поверх</td><td>кобальт <code>#2B3FE0</code> на трети экрана, Verified <code>#0B6E48</code> · Bricolage Grotesque + Rubik · карточки 28px, фото 20px</td><td>Синий — самый частый цвет приложений; лицо держится только на шрифте и мягкой форме</td><td>Если D окажется слишком тихим — F ближе всех к прежнему тону «энергичный и яркий»</td></tr>
+</tbody></table></div>
+<p><strong>Раунд 1</strong> (<a href="../concept/directions.html"><code>directions.html</code></a>) — отклонён целиком: «выглядит не современно».</p>
+<div class="tw"><table><thead><tr><th></th><th>Суть</th><th>Почему не выбран</th></tr></thead><tbody>
+<tr><td><strong>A. Смальта</strong></td><td>Киевская мозаика: участники — плитки, свободные места — пустые клетки; 4 цвета смальты, Unbounded</td><td>Метафора важнее интерфейса; пестрота</td></tr>
+<tr><td><strong>B. Корешок</strong></td><td>Событие как билет: перфорация, штамп <code>going → confirmed</code>; тёмно-синий и копирка, Azeret Mono для цифр</td><td>Читается как продажа билетов; не современно</td></tr>
+<tr><td><strong>C. Линия</strong></td><td>Схема метро: занятие — линия, событие — станция; тёмное табло, Barlow Condensed</td><td>Тёмная тема post-MVP; метафора требует объяснения</td></tr>
+</tbody></table></div>
+<p>Из раунда 1 в D перешли два правила: Report и Block стоят отдельно с пустым местом вокруг (A), залита только одна кнопка на экране (A, от отсеянного «Расписания»).</p>
+<p><strong>Палитра брифа §8</strong> (фиолетово-розовый градиент, мятный, Inter) — сравнена с D в <a href="../concept/d-compare.html"><code>d-compare.html</code></a> и снята (<code class="dcode">D-61</code>): угадывается по теме, три токена ниже контраста.</p>
+      </section>
+    </div>
+
+    <div class="tabpanel" id="screens">
+      <h1 class="vh">Концепт: страницы</h1>
+      <section id="pages">
+        <h2>Страницы концепта</h2>
+        <p class="intro">Открываются своими страницами, во всю ширину окна: они нарисованы токенами продукта, а не этого сайта, и фрейм внутри раздела заставлял бы скроллить дважды.</p>
+
+      <section class="grp">
+        <h3>Стиль</h3>
+        <p class="intro">Направление в собранном виде: на стенде видно каждое решение разом, в сравнении — почему ушла прежняя палитра брифа.</p>
+        <ul class="cards">
+          <li><a href="../concept/concept.html"><b>Стенд стиля D «Стекло»</b><span>Палитра, типографика, компоненты, иконки, проверка контраста — 19 пар</span></a></li>
+          <li><a href="../concept/d-compare.html"><b>D против палитры брифа</b><span>Прежний градиент рядом с D: три токена ниже контраста, тема угадывается</span></a></li>
+        </ul>
+      </section>
+
+      <section class="grp">
+        <h3>Экраны в стиле D</h3>
+        <p class="intro">Лента событий во всех состояниях. Руками не правятся: разметку берёт из вайрфреймов <code>build-concept-screens.mjs</code> — поправили вайрфрейм, пересобрали экран.</p>
+        <ul class="cards">
+          <li><a href="../concept/screens/feed.html"><b>Лента событий</b><span>рабочий вид</span></a></li>
+          <li><a href="../concept/screens/feed-empty.html"><b>Лента событий</b><span>пусто</span></a></li>
+          <li><a href="../concept/screens/feed-error.html"><b>Лента событий</b><span>ошибка</span></a></li>
+          <li><a href="../concept/screens/feed-loading.html"><b>Лента событий</b><span>загрузка</span></a></li>
+        </ul>
+      </section>
+
+      <section class="grp">
+        <h3>Направления, которые не выбраны</h3>
+        <p class="intro">Лежат целиком — к ним возвращаются по условию, записанному в концепте, а не рисуют заново.</p>
+        <ul class="cards">
+          <li><a href="../concept/directions-2.html"><b>Раунд 2: E «Ночная лента» и F «Кобальт»</b><span>ближе к вкусу «Instagram / Apple», тот же каркас карточки</span></a></li>
+          <li><a href="../concept/directions.html"><b>Раунд 1: A «Смальта», B «Корешок», C «Линия»</b><span>отклонён целиком — «выглядит не современно»</span></a></li>
+        </ul>
+      </section>
+      </section>
+    </div>
+
+    <footer>
+      <p>Раздел 6 из 12 · Концепт. Источник — <a href="../concept/concept.md">concept.md</a>; направление и палитра — <a href="../CLAUDE.md">CLAUDE.md</a> §8, решение — <a href="../DECISIONS.md">DECISIONS.md</a> <code class="dcode">D-61</code>.</p>
+      <nav class="section-nav"><a href="voice.html">← Раздел 5 · Tone of voice и микрокопи</a></nav>
+    </footer>
+  </main>
+</div>
+
+<script>
+// Подпункты текущего раздела в дереве. Нажат любой — дерево сжимается до номеров,
+// вернуть его целиком можно нажатием на сам номер раздела. Без скрипта — якоря.
+(function () {
+  var ids = ["info","screens"];
+  var shell = document.querySelector('.shell');
+  var subtabs = document.querySelector('.subtabs');
+  if (!shell || !subtabs) return;
+  var panels = {};
+  for (var i = 0; i < ids.length; i++) panels[ids[i]] = document.getElementById(ids[i]);
+  var links = subtabs.querySelectorAll('a[data-tab]');
+
+  function show(name, collapsed, push) {
+    shell.setAttribute('data-tab', name);
+    if (collapsed) shell.setAttribute('data-collapsed', '');
+    else shell.removeAttribute('data-collapsed');
+    for (var k in panels) if (panels[k]) panels[k].hidden = (k !== name);
+    for (var j = 0; j < links.length; j++) {
+      if (links[j].getAttribute('data-tab') === name) links[j].setAttribute('aria-current', 'true');
+      else links[j].removeAttribute('aria-current');
+    }
+    if (push) history.replaceState(null, '', '#' + name);
+  }
+
+  subtabs.addEventListener('click', function (e) {
+    var a = e.target.closest('a[data-tab]');
+    if (!a) return;
+    e.preventDefault();
+    show(a.getAttribute('data-tab'), true, true);
+  });
+
+  // номер раздела возвращает дерево целиком, не трогая показанное
+  var cur = document.querySelector('.side .mat.current');
+  if (cur) cur.addEventListener('click', function (e) {
+    if (shell.hasAttribute('data-collapsed')) {
+      e.preventDefault();
+      show(shell.getAttribute('data-tab'), false, false);
+    }
+  });
+
+  // переход по якорю внутри той же страницы (и кнопки «назад»/«вперёд»)
+  // не перезагружает её — вкладку переключаем сами
+  window.addEventListener('hashchange', function () {
+    var n = location.hash.slice(1);
+    if (ids.indexOf(n) > -1) show(n, true, false);
+  });
+
+  var h = location.hash.slice(1);
+  var known = ids.indexOf(h) > -1;
+  show(known ? h : ids[0], known, false);
+})();
+</script>
+
+</body>
+</html>

@@ -16,7 +16,7 @@ const ROOT = process.cwd();
 const OUT = join(ROOT, 'dist');
 
 // страницы сайта относительно корня репозитория
-const PAGES = ['research/research.html', 'research/persones.html', 'sections/index.html', 'sections/ia.html', 'sections/wireframes.html', 'sections/voice.html'];
+const PAGES = ['research/research.html', 'research/persones.html', 'sections/index.html', 'sections/ia.html', 'sections/wireframes.html', 'sections/voice.html', 'sections/concept.html'];
 // концепт: стенд, направления и экраны — тоже страницы сайта (§8, D-61)
 import { readdirSync as ls } from 'node:fs';
 const CONCEPT = [
