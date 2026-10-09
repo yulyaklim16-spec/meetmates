@@ -151,7 +151,6 @@ ${states.map((p) => `            ${node(p, p.file === activeFile)}`).join('\n')}
     </li>`).join('\n');
   return `<nav class="wfnav" aria-label="Все макеты">
   <p class="h">Вайрфреймы</p>
-  <p class="t">Главный поток · мобильный веб · ${drawn.length} из ${total}</p>
   <ul>
 ${rows}
   </ul>

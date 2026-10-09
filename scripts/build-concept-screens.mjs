@@ -123,7 +123,6 @@ const link = (file, title, current, cls = '') => (file === current
 
 const tree = (current) => `<nav class="wfnav" aria-label="Экраны концепта">
   <p class="h">Концепт</p>
-  <p class="t">Направление R «Сирень» · ${SCREENS.length} страниц</p>
   <ul>
 ${BRANCHES.map((b, bi) => `    <li class="grp">
       <p class="gt"><span class="gn">${bi + 1}</span>${b.title}</p>
