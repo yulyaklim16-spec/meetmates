@@ -290,7 +290,9 @@
 .mm-ui .skelrow .avatar { width: 56px; height: 56px; vertical-align: 0; }
 
 /* ── обложка события на его карточке: во всю ширину, полосы по числу фото ── */
-.mm-ui .evcover { position: relative; margin: 0; border-radius: var(--r-lg); overflow: hidden;
+/* flex: none обязателен: секция — колонка, и обложку без него сжимало до полоски,
+   а overflow: hidden это прятал — фото оставалось 200px внутри фигуры в 16px */
+.mm-ui .evcover { flex: none; position: relative; margin: 0; border-radius: var(--r-lg); overflow: hidden;
   background: var(--surface-2); box-shadow: var(--shadow-sm); }
 .mm-ui .evcover .photo { margin: 0; aspect-ratio: 16 / 9; }
 .mm-ui .evcover .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
