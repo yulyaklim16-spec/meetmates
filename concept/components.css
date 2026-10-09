@@ -48,7 +48,7 @@
   background: none; box-shadow: none; color: var(--danger);
   font: var(--fw-semibold) var(--t-micro)/1 var(--font);
 }
-.mm-ui header button.report:hover { background: var(--danger-soft); }
+.mm-ui header button.report:hover { background: var(--surface-2); }
 .mm-ui header button.report .ico svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--danger); }
 .mm-ui header button.report .label { position: static; width: auto; height: auto; margin: 0; clip-path: none; white-space: nowrap; }
 
@@ -311,16 +311,17 @@
    Подчёркивания нет, хотя это ссылка: подчёркнутый текст читается как ошибка вёрстки,
    а не как «нажми, чтобы повторить» — это говорит подпись под репликой (D-52). */
 .mm-ui .bubble.failed, .mm-ui .bubble.me.failed {
-  background: var(--danger-soft); color: var(--ink-900); text-decoration: none;
-  box-shadow: 0 0 0 1px var(--danger);
+  background: var(--danger-soft); color: var(--ink-900); text-decoration: none; box-shadow: none;
 }
+/* подпись и иконка — чернилами: красное несёт подложка, и красным по красному
+   подпись давала бы 2,9:1. Один признак на одну роль */
 .mm-ui .bubble.failed .t, .mm-ui .bubble.me.failed .t {
-  display: flex; align-items: center; gap: 4px; color: var(--danger); opacity: 1;
+  display: flex; align-items: center; gap: 4px; color: var(--ink-900); opacity: 1;
 }
 /* иконка повтора в правом углу — так её описывает сам макет: пузырь стал кнопкой */
 .mm-ui .bubble.failed { position: relative; padding-right: calc(var(--s-3) + var(--icon-sm) + 4px); }
 .mm-ui .bubble.failed .retry { position: absolute; top: var(--s-2); right: var(--s-2);
-  display: inline-flex; color: var(--danger); }
+  display: inline-flex; color: var(--ink-900); }
 .mm-ui .bubble.failed .retry svg { width: var(--icon-sm); height: var(--icon-sm); }
 
 /* фото дошло не целиком — показываем размытым и доводим по мере прихода (D-51) */
