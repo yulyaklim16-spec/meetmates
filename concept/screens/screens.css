@@ -20,9 +20,11 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+/* страница вокруг мокапа — документация, а не продукт: свой тон */
+:root { --page: #EFEFF2; }
 body {
   margin: 0;
-  background: var(--bg);
+  background: var(--page);
   color: var(--ink-900);
   font: var(--fw-regular) var(--t-body)/var(--lh-body) var(--font);
   display: grid;
@@ -122,7 +124,10 @@ body:has(#bare:target) .device { margin: 0 auto; }
   width: var(--screen-max);
   height: 844px;
   border-radius: 34px;
-  background: var(--bg);
+  /* цвет под размытием нужен не для вида, а чтобы фон экрана был непрозрачным:
+     градиент — это картинка, и без него под текстом оказывалась бы рамка телефона */
+  background-color: var(--bg);
+  background-image: var(--bg-wash);
   display: flex;
   flex-direction: column;
   overflow: hidden;

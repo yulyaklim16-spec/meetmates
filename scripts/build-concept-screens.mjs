@@ -24,6 +24,7 @@ import { join } from 'node:path';
 const ROOT = process.cwd();
 const OUT = join(ROOT, 'concept/screens');
 const ICONS = join(ROOT, 'concept/icons/solar-bold');
+const ICONS_LINEAR = join(ROOT, 'concept/icons/solar-linear');
 
 // какие экраны собираем; ссылки между ними остаются внутри концепта
 const SCREENS = ['feed', 'feed-empty', 'feed-error', 'feed-loading', 'my-profile', 'my-profile-loading'];
@@ -52,8 +53,9 @@ const ICON_BY_LABEL = {
   Verified: 'verified-check',
 };
 
-const svg = (name) =>
-  readFileSync(join(ICONS, `${name}.svg`), 'utf8').trim()
+const svg = (name, dir = ICONS) =>
+  readFileSync(join(dir, `${name}.svg`), 'utf8').trim()
+    .replace('width="1em" height="1em" ', '')
     .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
 
 
@@ -74,7 +76,7 @@ const GROUPS = [
 
 const tree = (current) => `<nav class="wfnav" aria-label="Экраны концепта">
   <p class="h">Концепт</p>
-  <p class="t">Направление D «Стекло» · ${SCREENS.length} из ${SCREENS.length}</p>
+  <p class="t">Направление R «Сирень» · ${SCREENS.length} из ${SCREENS.length}</p>
   <ul>
 ${GROUPS.map((g, gi) => `    <li class="grp">
       <p class="gt"><span class="gn">${gi + 1}</span>${g.title}</p>
@@ -100,7 +102,7 @@ mkdirSync(OUT, { recursive: true });
 for (const name of SCREENS) {
   const src = readFileSync(join(ROOT, 'wireframes', `${name}.html`), 'utf8');
 
-  const title = src.match(/<title>([^<]*)<\/title>/)[1].replace('MeetMates wireframe', 'MeetMates · концепт D');
+  const title = src.match(/<title>([^<]*)<\/title>/)[1].replace('MeetMates wireframe', 'MeetMates · концепт R');
   const docComment = (src.match(/<!--[\s\S]*?-->/) || [''])[0];
   const from = src.indexOf('<!-- states:start -->');
   const to = src.lastIndexOf('</body>');
@@ -124,6 +126,16 @@ for (const name of SCREENS) {
     return `<span class="ico${size || ''}" aria-hidden="true">${svg(icon)}</span>${label}`;
   });
   if (/<span class="ico[^"]*" aria-hidden="true"><\/span>/.test(body)) throw new Error(`${name}: осталась пустая иконка`);
+
+  // 4а. нижнее меню: активной вкладке — залитая иконка, остальным контурная (D-62)
+  body = body.replace(/<nav aria-label="Main navigation">[\s\S]*?<\/nav>/, (nav) =>
+    nav.replace(/<a\b[^>]*>[\s\S]*?<\/a>/g, (a) => {
+      if (a.includes('aria-current="page"')) return a;
+      const label = (a.match(/<\/span>([A-Za-z]+)<\/a>/) || [])[1];
+      const icon = ICON_BY_LABEL[label];
+      if (!icon) throw new Error(`${name}: нет контурной иконки для вкладки «${label}»`);
+      return a.replace(/<svg\b[\s\S]*?<\/svg>/, svg(icon, ICONS_LINEAR));
+    }));
 
   // 3б. портрет в карточке профиля — на месте серой плашки .photo
   body = body.replace(/<p class="photo" aria-hidden="true"><\/p>/g,

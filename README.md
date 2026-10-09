@@ -119,7 +119,7 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 |---|---|---|
 | [research/](./research/) | 🟡 разборы готовы, интервью TBD | Конкуренты, бенчмарк доверия, паттерны, люди, jobs |
 | [wireframes/](./wireframes/) | ✅ 49 страниц из 49, разбор пройден | 13 экранов и все состояния из таблицы [`_screens.md`](./wireframes/_screens.md), в мокапе телефона, связаны по рёбрам `flows.md`. Что проверялось и что починено — [`_critique.md`](./wireframes/_critique.md) |
-| [concept/](./concept/) | 🟡 направление выбрано | D «Стекло» `D-61`: стенд стиля, лента событий во всех состояниях, шесть направлений двух раундов. Текст — [concept.md](./concept/concept.md), раздел 6 сайта собирается из него |
+| [concept/](./concept/) | 🟡 направление выбрано | R «Сирень» `D-62`: стенд стиля, лента событий и профиль во всех состояниях, одиннадцать направлений четырёх раундов. Прежнее D «Стекло» `D-61` снято 2026-10-09 и сохранено значениями на доске [skins.html](./concept/skins.html). Текст — [concept.md](./concept/concept.md), раздел 6 сайта собирается из него |
 | [tokens/](./tokens/) | ✅ базовый набор | [tokens.css](./tokens/tokens.css) + [tokens.json](./tokens/tokens.json) |
 | [components/](./components/) | ⬜ | UI-компоненты и все их состояния |
 | [design-system/](./design-system/) | 🟡 инварианты зафиксированы | Правила применения, копирайт-гайд |

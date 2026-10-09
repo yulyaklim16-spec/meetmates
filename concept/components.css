@@ -94,8 +94,10 @@
 .mm-ui .item.ev .acts .btn { flex: 1; padding: 0 var(--s-2); }
 .mm-ui .item.ev .acts .btn:first-child { flex: 1.6; }
 
-/* отметка Verified — одна и та же везде: слово с галочкой в строке фактов (D-57) */
-.mm-ui .verified { display: inline-flex; align-items: center; gap: 3px; color: var(--verified); font-weight: var(--fw-semibold); }
+/* отметка Verified — одна и та же везде: слово с галочкой в строке фактов (D-57).
+   В направлении R это лаймовая лейба (D-62); токен --label пустой — лейба не рисуется. */
+.mm-ui .verified { display: inline-flex; align-items: center; gap: 3px; font-weight: var(--fw-semibold);
+  padding: var(--label-pad); border-radius: var(--r-pill); background: var(--label); color: var(--ink-on-label); }
 .mm-ui .verified svg { width: var(--icon-sm); height: var(--icon-sm); }
 
 /* ── выход в соседний контур ──────────────────────────────── */
@@ -187,7 +189,8 @@
 }
 .mm-ui .signals li { display: inline-flex; align-items: center; gap: 3px; }
 .mm-ui .signals li + li::before { content: "·"; margin-right: 4px; color: var(--ink-400); }
-.mm-ui .signals li:first-child { color: var(--verified); font-weight: var(--fw-semibold); }
+.mm-ui .signals li:first-child { font-weight: var(--fw-semibold);
+  padding: var(--label-pad); border-radius: var(--r-pill); background: var(--label); color: var(--ink-on-label); }
 .mm-ui .signals .ico { display: inline-flex; }
 .mm-ui .signals .ico svg { width: var(--icon-sm); height: var(--icon-sm); }
 .mm-ui .distance { margin: var(--s-2) 0 0; font-size: var(--t-micro); color: var(--ink-600); }
