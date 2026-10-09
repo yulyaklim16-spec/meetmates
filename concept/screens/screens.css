@@ -71,12 +71,19 @@ body {
 .wfnav .h { font-size: var(--t-body-sm); font-weight: 700; color: var(--ink-900); margin-bottom: 2px; }
 .wfnav .t { font-size: 11px; margin-bottom: var(--s-5); }
 .wfnav .n { margin-top: var(--s-5); font-size: 11px; }
-.wfnav .gt { padding: 0 var(--s-3); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-900); font-weight: 700; margin-bottom: var(--s-3); }
-.wfnav .gn { display: inline-block; min-width: 1.4em; color: var(--ink-400); font-weight: 400; }
-.wfnav .s { display: block; padding: 5px var(--s-3); border-radius: var(--r-sm); font-size: 12px; font-weight: 600; color: var(--ink-900); text-decoration: none; }
-.wfnav .scr > ul { margin: 1px 0 var(--s-3) var(--s-3); padding-left: var(--s-3); border-left: 1px solid var(--line); }
+.wfnav .gt { padding: 0 var(--s-3) 0 0; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-900); font-weight: 700; margin-bottom: var(--s-3); }
+.wfnav .gn { display: inline-block; min-width: 1.4em; color: var(--ink-900); font-weight: 700; }
+/* уровень 2 — экран: сдвинут вправо от названия раздела */
+.wfnav .s { display: block; margin-left: 0; padding: 5px var(--s-3); border-radius: var(--r-sm);
+  font-size: 12px; font-weight: 600; color: var(--ink-900); text-decoration: none; }
+/* уровень 3 — состояния: ещё правее, вдоль линии своего экрана */
+.wfnav .scr > ul { margin: 1px 0 var(--s-3) var(--s-3); padding-left: 0; border-left: 1px solid var(--line); }
+.wfnav .scr.now > ul { border-left-color: var(--ink-900); }
 .wfnav .scr > ul a, .wfnav .scr > ul b { display: block; padding: 3px var(--s-3); border-radius: var(--r-sm); font-weight: 400; color: var(--ink-600); text-decoration: none; }
-.wfnav .now > .s, .wfnav .scr > ul b { background: var(--surface-2); color: var(--ink-900); }
+/* где мы сейчас: заливка и полоса слева — один признак на одну страницу.
+   Экран, внутри которого мы находимся, помечен только линией состояний выше */
+.wfnav [aria-current="page"] { background: var(--surface-2); color: var(--ink-900); font-weight: 700;
+  box-shadow: inset 2px 0 0 var(--action); }
 .wfnav a:hover, .wfnav a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
 
 @media (max-width: 1000px) {
@@ -157,7 +164,18 @@ section.stretch { flex: 1; min-height: 0; }
 /* Полоса прокрутки видна — это подсказка, что ниже ещё есть содержимое;
    место под неё резервируется всегда, поэтому карточки одной ширины и там,
    где прокрутки нет. То же решение, что в вайрфреймах (_wire.css, .pane) */
-.scrolly { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; margin: 0 calc(var(--s-4) * -1); padding: 0 var(--s-4) var(--s-2); }
+/* Жёлоб под полосу прокрутки вычитается из правого отступа, иначе содержимое
+   прокручиваемой секции стоит на 10px левее, чем в соседней непрокручиваемой:
+   полоса съедала ширину контента. Теперь полоса живёт в поле экрана, а блоки
+   везде на одинаковом расстоянии от края. Значение равно ширине тонкой полосы. */
+:root { --scroll-gutter: 10px; }
+.scrolly { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; margin: 0 calc(var(--s-4) * -1);
+  padding: 0 calc(var(--s-4) - var(--scroll-gutter)) var(--s-2) var(--s-4); }
+/* то же для экранов, где прокручивается сама панель (колода, профиль, селфи) */
+.pane:has(.card) { margin: 0 calc(var(--s-4) * -1);
+  padding: 0 calc(var(--s-4) - var(--scroll-gutter)) 0 var(--s-4); }
+/* внутри такой панели секция уже не прокручивается — поля отдаёт панель */
+.pane:has(.card) > .scrolly { margin: 0; padding-left: 0; padding-right: 0; }
 .scrolly, .pane { scrollbar-width: thin; scrollbar-color: var(--ink-400) transparent; scrollbar-gutter: stable; }
 .scrolly::-webkit-scrollbar, .pane::-webkit-scrollbar { width: 6px; }
 .scrolly::-webkit-scrollbar-thumb, .pane::-webkit-scrollbar-thumb { background: var(--ink-400); border-radius: var(--r-pill); }

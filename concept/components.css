@@ -316,7 +316,9 @@
 .mm-ui :is(label, form).field:focus-within { box-shadow: 0 0 0 2px var(--action); }
 
 /* ── закреплённая полоса внизу экрана: ввод в диалоге, решение в профиле ── */
-.mm-ui .pin { flex: none; padding: var(--s-2) var(--s-4) 0; }
+/* поля экрана уже заданы у .app — своих горизонтальных здесь быть не должно,
+   иначе закреплённая полоса стоит на 32px от края, а не на 16px */
+.mm-ui .pin { flex: none; padding: var(--s-2) 0 0; }
 .mm-ui .pin > h2:not([hidden]) { margin: 0 0 var(--s-2); }
 .mm-ui .pin .row { margin: 0; }
 
