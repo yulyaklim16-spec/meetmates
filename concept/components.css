@@ -290,7 +290,7 @@
 /* своя реплика — не действие, поэтому и не цвет действия: тот же светлый тон,
    что у полей и тихих кнопок. Отличают её сторона и отсутствие обводки */
 .mm-ui .bubble.me { align-self: flex-end; border-radius: var(--r-md) var(--r-md) var(--r-sm) var(--r-md);
-  background: var(--surface-2); color: var(--ink-900); box-shadow: none; }
+  background: var(--mine); color: var(--ink-900); box-shadow: none; }
 .mm-ui .bubble .t { display: block; margin-top: 2px; font-size: var(--t-micro); color: var(--ink-600); }
 .mm-ui .bubble.me .t { color: var(--ink-600); }
 /* не ушло — пузырь перестаёт выглядеть отправленным: светлый, с красной обводкой.
