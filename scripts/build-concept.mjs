@@ -235,6 +235,11 @@ for (const g of SCREENS) {
   }
 }
 
+// пар контраста — считаем по таблице, которую пишет scripts/contrast.mjs:
+// руками это число уже дважды отставало от правды
+const contrastPairs = (readFileSync(join(ROOT, 'concept/contrast.md'), 'utf8')
+  .match(/^\| .*\|$/gm) || []).length - 1;  // минус строка заголовка
+
 const pagesCount = GROUPS.reduce((n, g) => n + g.items.length, 0) + SCREENS.reduce((n, g) => n + g.items.length, 0);
 
 const galleryHtml = SCREENS.map((g, gi) => `      <section class="gbranch">
@@ -372,10 +377,10 @@ const page = `${head}${extraCss}</style>
       <h1>Концепт</h1>
       <p class="lede">Как продукт выглядит и ощущается — этап между структурой и дизайн-системой. Направление выбрано: <b>R «Сирень»</b> (<code class="dcode">D-62</code>) — цветное размытие вверху экрана, сходящее в белый, белые карточки с обводкой в 1px, тёмно-фиолетовое действие, лаймовая лейба, живые фото. Прежнее D «Стекло» (<code class="dcode">D-61</code>) снято 2026-10-09 и сохранено значениями. Собрано из <a href="../concept/concept.md">concept.md</a>; страница пересобирается скриптом, руками не правится.</p>
       <div class="chips">
-        <span><b>6</b> направлений в двух раундах</span>
-        <span><b>1</b> выбрано — D</span>
+        <span><b>11</b> направлений в четырёх раундах</span>
+        <span><b>1</b> выбрано — R «Сирень»</span>
         <span><b>${pagesCount}</b> страниц концепта</span>
-        <span><b>19</b> пар цвета проверены</span>
+        <span><b>${contrastPairs}</b> пар цвета проверены</span>
       </div>
       <!--PUBLIC-NOTE-->
     </div>
