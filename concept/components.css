@@ -160,7 +160,7 @@
    стекло в направлении D живёт только в меню (D-61). */
 .mm-ui .card {
   flex: none; height: var(--card-h); display: flex; flex-direction: column;
-  background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden;
+  background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-md); overflow: hidden;
 }
 .mm-ui .card figure { flex: 1; min-height: 0; display: flex; flex-direction: column; margin: 0; }
 .mm-ui .card .photo { flex: 1; min-height: 0; margin: 0; background: var(--surface-2); }
