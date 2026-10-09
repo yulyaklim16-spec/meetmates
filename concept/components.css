@@ -287,10 +287,12 @@
 .mm-ui .bubble { max-width: 80%; margin: 0; align-self: flex-start; padding: var(--s-2) var(--s-3);
   border-radius: var(--r-md) var(--r-md) var(--r-md) var(--r-sm);
   background: var(--surface); box-shadow: var(--shadow-sm); font-size: var(--t-body-sm); }
+/* своя реплика — не действие, поэтому и не цвет действия: тот же светлый тон,
+   что у полей и тихих кнопок. Отличают её сторона и отсутствие обводки */
 .mm-ui .bubble.me { align-self: flex-end; border-radius: var(--r-md) var(--r-md) var(--r-sm) var(--r-md);
-  background: var(--action); color: var(--ink-on-action); box-shadow: none; }
+  background: var(--surface-2); color: var(--ink-900); box-shadow: none; }
 .mm-ui .bubble .t { display: block; margin-top: 2px; font-size: var(--t-micro); color: var(--ink-600); }
-.mm-ui .bubble.me .t { color: var(--ink-on-action); opacity: .7; }
+.mm-ui .bubble.me .t { color: var(--ink-600); }
 /* не ушло — пузырь перестаёт выглядеть отправленным: светлый, с красной обводкой.
    Красный на тёмном давал 3,4:1, а на белом даёт 5,9:1 — и смысл тот же (D-52) */
 .mm-ui .bubble.failed, .mm-ui .bubble.me.failed {
