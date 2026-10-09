@@ -173,8 +173,10 @@ section.stretch { flex: 1; min-height: 0; }
 .scrolly { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; margin: 0 calc(var(--s-4) * -1);
   padding: 0 calc(var(--s-4) - var(--scroll-gutter)) var(--s-2) var(--s-4); }
 /* то же для экранов, где прокручивается сама панель (колода, профиль, селфи) */
+/* нижний отступ такой же, как у .scrolly: без него последний блок упирается
+   в границу панели и его обводку срезает overflow */
 .pane:has(.card) { margin: 0 calc(var(--s-4) * -1);
-  padding: 0 calc(var(--s-4) - var(--scroll-gutter)) 0 var(--s-4); }
+  padding: 0 calc(var(--s-4) - var(--scroll-gutter)) var(--s-2) var(--s-4); }
 /* внутри такой панели секция уже не прокручивается — поля отдаёт панель */
 .pane:has(.card) > .scrolly { margin: 0; padding-left: 0; padding-right: 0; }
 .scrolly, .pane { scrollbar-width: thin; scrollbar-color: var(--ink-400) transparent; scrollbar-gutter: stable; }
