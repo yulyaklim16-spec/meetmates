@@ -19,7 +19,12 @@
 .mm-ui .row > * { flex: 1; }
 
 /* ── шапка экрана ─────────────────────────────────────────── */
-.mm-ui header { flex: none; display: flex; align-items: center; gap: var(--s-1); padding: var(--s-2) var(--s-4) var(--s-1); }
+/* 8px, а не 4: на поиске между заголовком, полем и фильтрами они стоят вплотную,
+   потому что поле занимает середину строки, а не прижимается к краю */
+.mm-ui header { flex: none; display: flex; align-items: center; gap: var(--s-2); padding: var(--s-2) var(--s-4) var(--s-1); }
+/* там, где в шапке стоит поле, просвета нужно больше: заголовок, поле и фильтры
+   занимают строку целиком и иначе смыкаются */
+.mm-ui header:has(.field) { gap: var(--s-3); }
 .mm-ui header h1 {
   order: 0; margin: 0 auto 0 0; white-space: nowrap;
   font-size: var(--t-h1); line-height: var(--lh-tight); letter-spacing: var(--tr-display); font-weight: var(--fw-bold);
