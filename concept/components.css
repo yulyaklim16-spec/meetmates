@@ -22,9 +22,13 @@
 /* 8px, а не 4: на поиске между заголовком, полем и фильтрами они стоят вплотную,
    потому что поле занимает середину строки, а не прижимается к краю */
 .mm-ui header { flex: none; display: flex; align-items: center; gap: var(--s-2); padding: var(--s-2) var(--s-4) var(--s-1); }
-/* там, где в шапке стоит поле, просвета нужно больше: заголовок, поле и фильтры
-   занимают строку целиком и иначе смыкаются */
-.mm-ui header:has(.field) { gap: var(--s-3); }
+/* Шапка поиска двухуровневая — так она размечена в макете: заголовок строкой,
+   под ним поле и фильтры. В концепте этого правила не было, заголовок и строка
+   стояли в ряд, и кнопка фильтров уезжала за экран. */
+.mm-ui header.stack { flex-direction: column; align-items: stretch; gap: var(--s-2); }
+.mm-ui header.stack .row { margin: 0; gap: var(--s-2); }
+.mm-ui header.stack .field { flex: 1; }
+.mm-ui header.stack .row > button { flex: none; }
 .mm-ui header h1 {
   order: 0; margin: 0 auto 0 0; white-space: nowrap;
   font-size: var(--t-h1); line-height: var(--lh-tight); letter-spacing: var(--tr-display); font-weight: var(--fw-bold);
@@ -33,7 +37,7 @@
    Тихая — белая; главная шапки — тёмная, оранжевый остаётся содержимому.
    Порядок на экране: «+» (Post), затем Filters; в разметке вайрфрейма наоборот */
 .mm-ui header button {
-  order: 2; display: inline-grid; place-items: center; width: var(--tap-min); height: var(--tap-min); padding: 0;
+  order: 2; flex: none; display: inline-grid; place-items: center; width: var(--tap-min); height: var(--tap-min); padding: 0;
   border: 0; border-radius: var(--r-pill); background: var(--surface); color: var(--ink-900);
   box-shadow: var(--shadow-sm); cursor: pointer;
   transition: background var(--dur-fast) var(--ease-out);
@@ -349,7 +353,8 @@
 .mm-ui a.item:hover .top > b { text-decoration: underline; text-underline-offset: 3px; }
 
 /* поле с иконкой одной строкой: поиск в шапке и ввод реплики в диалоге */
-.mm-ui :is(label, form).field { display: flex; align-items: center; gap: var(--s-2);
+/* поле занимает остаток строки и ужимается само — кнопки рядом не двигает */
+.mm-ui :is(label, form).field { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--s-2);
   height: var(--tap-min); padding: 0 var(--s-3); border-radius: var(--r-pill);
   background: var(--surface); box-shadow: var(--shadow-sm); }
 .mm-ui :is(label, form).field > .ico svg { width: var(--icon-md); height: var(--icon-md); color: var(--ink-400); }
