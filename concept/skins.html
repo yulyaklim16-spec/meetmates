@@ -53,6 +53,10 @@ body{margin:0;display:block;padding:0;background:#F3F4F6;color:#16181D;
 #r .mm-ui header button.primary{background:var(--action);color:var(--ink-on-action)}
 #r .mm-ui header button .ico svg{color:var(--action)}
 #r .mm-ui header button.primary .ico svg{color:var(--ink-on-action)}
+/* лейба — лаймовая пилюля, как на карточке референса: на карточке события
+   она стоит в конце строки фактов, там же, где у референса стоит ярлык */
+#r .mm-ui .verified,
+#r .mm-ui .signals li:first-child{padding:1px 7px;border-radius:var(--r-pill);background:var(--label);color:var(--ink-on-label)}
 #r .mm-ui nav[aria-label="Main navigation"] a[aria-current="page"],
 #r .mm-ui nav[aria-label="Main navigation"] a[aria-current="page"] .ico svg{color:var(--action)}
 .foot{margin-top:36px;padding-top:18px;border-top:1px solid #D9DCE2;font-size:13px;color:#5A606C;max-width:64ch}
@@ -767,22 +771,24 @@ body{margin:0;display:block;padding:0;background:#F3F4F6;color:#16181D;
     <article class="skin" id="r" aria-labelledby="r-h">
       <div class="skin-head">
         <h2 class="skin-name" id="r-h">R. Сирень</h2>
-        <p class="skin-thesis">Размытый цветной верх — розовое справа, синее по центру, сиреневое по краю — к 58% высоты сходит в чистый белый; белые карточки лежат поверх. Фон снят с референса пипеткой, по точкам. Чёрного на кнопках и иконках нет — вместо него тёмно-фиолетовый #0B051D, снятый с кнопки. Нижнее меню белое, без стекла: активная вкладка подсвечена светло-серой пилюлей и залитой иконкой, остальные — контурные.</p>
-        <dl class="facts"><dt>Светлота</dt><dd>светлый: размытый верх, чистый белый с 58% высоты</dd><dt>Акцент</dt><dd>тёмно-фиолетовый #0B051D на кнопках и иконках, белый текст — 19:1</dd><dt>Форма</dt><dd>крупные скругления 26px, пилюли, тень с фиолетовым подтоном</dd><dt>Меню</dt><dd>белое, активная вкладка — серая пилюля и залитая иконка</dd><dt>Шрифт</dt><dd>Figtree, округлый и плотный</dd></dl>
-        <div class="swatches"><div class="sw"><i style="background:размытый верх → белый"></i><b>Фон</b><code>размытый верх → белый</code></div><div class="sw"><i style="background:#FFFFFF"></i><b>Карточка</b><code>#FFFFFF</code></div><div class="sw"><i style="background:#1A1026"></i><b>Текст</b><code>#1A1026</code></div><div class="sw"><i style="background:#0B051D"></i><b>Действие</b><code>#0B051D</code></div></div>
+        <p class="skin-thesis">Размытый цветной верх — розовое справа, синее по центру, сиреневое по краю — к 58% высоты сходит в чистый белый; белые карточки лежат поверх. Фон снят с референса пипеткой, по точкам. Чёрного на кнопках и иконках нет — вместо него тёмно-фиолетовый #0B051D, снятый с кнопки. Карточка держится обводкой в 1px и почти незаметной тенью, а не мягким облаком. Лейба — лаймовая пилюля в конце строки фактов. Нижнее меню белое, без стекла: активная вкладка подсвечена светло-серой пилюлей и залитой иконкой, остальные — контурные.</p>
+        <dl class="facts"><dt>Светлота</dt><dd>светлый: размытый верх, чистый белый с 58% высоты</dd><dt>Акцент</dt><dd>тёмно-фиолетовый #0B051D на кнопках и иконках, белый текст — 19:1</dd><dt>Форма</dt><dd>скругления 26px; карточка — обводка #ECECEC и почти незаметная тень</dd><dt>Лейба</dt><dd>лаймовая пилюля #D9F56F, тёмный текст — 15:1</dd><dt>Меню</dt><dd>белое, активная вкладка — серая пилюля и залитая иконка</dd><dt>Шрифт</dt><dd>Figtree, округлый и плотный</dd></dl>
+        <div class="swatches"><div class="sw"><i style="background:размытый верх → белый"></i><b>Фон</b><code>размытый верх → белый</code></div><div class="sw"><i style="background:#ECECEC"></i><b>Обводка</b><code>#ECECEC</code></div><div class="sw"><i style="background:#0B051D"></i><b>Действие</b><code>#0B051D</code></div><div class="sw"><i style="background:#D9F56F"></i><b>Лейба</b><code>#D9F56F</code></div></div>
       </div>
       <div class="skin-screens mm-ui" style="--bg:radial-gradient(70% 40% at 100% 0%,rgba(178,146,171,.82) 0%,rgba(188,150,176,.56) 38%,rgba(205,160,185,0) 80%),
 radial-gradient(88% 26% at 46% -6%,rgba(141,160,200,.9) 0%,rgba(141,160,200,0) 60%),
 linear-gradient(180deg,#BEADC9 0%,#CFAFCA 9%,#D8B2C8 15%,#DAB9CB 20%,#DDBED0 27%,#E1CBD7 32%,#E7D6E0 37%,#E9E1E8 42%,#F0EAEE 48%,#F6F5F7 53%,#FFFFFF 57%,#FFFFFF 100%);
---surface:#FFFFFF;--surface-2:#F2EDF6;--line:#E6E1EE;
---ink-900:#1A1026;--ink-600:#6A5B7B;--ink-400:#9A8CA8;
+--surface:#FFFFFF;--surface-2:#F2EDF6;--line:#ECECEC;
+--ink-900:#1A1026;--ink-600:#4C3F59;--ink-400:#8C7E9B;
 --action:#0B051D;--action-hover:#1B1233;--ink-on-action:#FFFFFF;
---verified:#0B051D;--success:#1C7A4E;--warn:#8A5200;--danger:#C01F4A;
+--label:#D9F56F;--ink-on-label:#1A1026;
+--verified:#1A1026;--success:#1C7A4E;--warn:#8A5200;--danger:#C01F4A;
 --r-sm:14px;--r-md:18px;--r-lg:26px;--r-xl:30px;--r-pill:999px;
---glass:#FFFFFF;--glass-strong:#EFEFF2;--glass-blur:none;--glass-rim:inset 0 0 0 1px #E9E4F0;
---shadow-sm:0 1px 2px rgba(74,32,138,.08);
---shadow-md:0 1px 2px rgba(74,32,138,.08),0 12px 28px -16px rgba(74,32,138,.4);
---shadow-lg:0 8px 26px -12px rgba(74,32,138,.35);--shadow-card:0 16px 40px rgba(74,32,138,.22);
+--glass:#FFFFFF;--glass-strong:#EFEFF2;--glass-blur:none;--glass-rim:inset 0 0 0 1px #ECECEC;
+--shadow-sm:0 0 0 1px #ECECEC,0 1px 2px rgba(17,17,17,.04);
+--shadow-md:0 0 0 1px #ECECEC,0 1px 2px rgba(17,17,17,.04),0 2px 8px rgba(17,17,17,.06);
+--shadow-lg:0 0 0 1px #ECECEC,0 2px 10px rgba(17,17,17,.07);
+--shadow-card:0 0 0 1px #ECECEC,0 1px 2px rgba(17,17,17,.04),0 3px 12px rgba(17,17,17,.07);
 --font:'Figtree',system-ui,sans-serif;">
         <div><div class="frame"><div class="device" aria-hidden="true">
  <div class="screen">
