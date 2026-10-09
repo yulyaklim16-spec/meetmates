@@ -14,6 +14,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { esc, inline, md } from './lib/markdown.mjs';
 import { subtabsHtml, TABS_CSS, tabsJs } from './lib/tabs.mjs';
+import { wireframeOrder } from './lib/wfnav.mjs';
 
 const ROOT = process.cwd();
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -112,122 +113,16 @@ ${g.items.map((it) => `          <li><a href="../${it.file}"><b>${esc(it.title)}
 // ── экраны: сами макеты в стиле D, по мокапу на состояние ─────────────
 // Открываются в голом виде (`#bare`): без полосы состояний и служебного блока —
 // в превью они не читаются. Клик открывает страницу целиком.
-const SCREENS = [
-  {
-    title: 'Колода',
-    items: [
-      { file: 'concept/screens/deck.html', state: 'рабочий вид' },
-      { file: 'concept/screens/deck-empty.html', state: 'пусто' },
-      { file: 'concept/screens/deck-error.html', state: 'ошибка' },
-      { file: 'concept/screens/deck-loading.html', state: 'загрузка' },
-    ],
-  },
-  {
-    title: 'Совпадение',
-    items: [
-      { file: 'concept/screens/match.html', state: 'рабочий вид' },
-    ],
-  },
-  {
-    title: 'Профиль человека',
-    items: [
-      { file: 'concept/screens/profile.html', state: 'рабочий вид' },
-      { file: 'concept/screens/profile-empty.html', state: 'пусто' },
-      { file: 'concept/screens/profile-loading.html', state: 'загрузка' },
-    ],
-  },
-  {
-    title: 'Лента событий',
-    items: [
-      { file: 'concept/screens/feed.html', state: 'рабочий вид' },
-      { file: 'concept/screens/feed-empty.html', state: 'пусто' },
-      { file: 'concept/screens/feed-error.html', state: 'ошибка' },
-      { file: 'concept/screens/feed-loading.html', state: 'загрузка' },
-    ],
-  },
-  {
-    title: 'Карточка события',
-    items: [
-      { file: 'concept/screens/plan.html', state: 'рабочий вид' },
-      { file: 'concept/screens/plan-waiting.html', state: 'ждём автора' },
-      { file: 'concept/screens/plan-success.html', state: 'подтверждено' },
-      { file: 'concept/screens/plan-error.html', state: 'ошибка' },
-      { file: 'concept/screens/plan-loading.html', state: 'загрузка' },
-    ],
-  },
-  {
-    title: 'Мои события',
-    items: [
-      { file: 'concept/screens/my-events.html', state: 'рабочий вид' },
-      { file: 'concept/screens/my-events-empty.html', state: 'пусто' },
-      { file: 'concept/screens/my-events-error.html', state: 'ошибка' },
-      { file: 'concept/screens/my-events-loading.html', state: 'загрузка' },
-    ],
-  },
-  {
-    title: 'Поиск',
-    items: [
-      { file: 'concept/screens/search.html', state: 'рабочий вид' },
-      { file: 'concept/screens/search-empty.html', state: 'пусто' },
-      { file: 'concept/screens/search-error.html', state: 'ошибка' },
-      { file: 'concept/screens/search-loading.html', state: 'загрузка' },
-    ],
-  },
-  {
-    title: 'Список чатов',
-    items: [
-      { file: 'concept/screens/chats.html', state: 'рабочий вид' },
-      { file: 'concept/screens/chats-empty.html', state: 'пусто' },
-      { file: 'concept/screens/chats-error.html', state: 'ошибка' },
-      { file: 'concept/screens/chats-loading.html', state: 'загрузка' },
-    ],
-  },
-  {
-    title: 'Диалог',
-    items: [
-      { file: 'concept/screens/dialog.html', state: 'рабочий вид' },
-      { file: 'concept/screens/dialog-empty.html', state: 'пусто' },
-      { file: 'concept/screens/dialog-waiting.html', state: 'ждём второго' },
-      { file: 'concept/screens/dialog-success.html', state: 'день назначен' },
-      { file: 'concept/screens/dialog-error.html', state: 'ошибка' },
-      { file: 'concept/screens/dialog-loading.html', state: 'загрузка' },
-    ],
-  },
-  {
-    title: 'Позвать вдвоём',
-    items: [
-      { file: 'concept/screens/invite.html', state: 'рабочий вид' },
-      { file: 'concept/screens/invite-waiting.html', state: 'ждём согласия' },
-      { file: 'concept/screens/invite-success.html', state: 'отклик ушёл' },
-      { file: 'concept/screens/invite-empty.html', state: 'пусто' },
-      { file: 'concept/screens/invite-error.html', state: 'ошибка' },
-    ],
-  },
-  {
-    title: 'Верификация',
-    items: [
-      { file: 'concept/screens/verify.html', state: 'рабочий вид' },
-      { file: 'concept/screens/verify-waiting.html', state: 'на проверке' },
-      { file: 'concept/screens/verify-success.html', state: 'пройдено' },
-      { file: 'concept/screens/verify-success-signup.html', state: 'пройдено на входе' },
-      { file: 'concept/screens/verify-error.html', state: 'не распознали' },
-      { file: 'concept/screens/verify-loading.html', state: 'загрузка' },
-    ],
-  },
-  {
-    title: 'Радар',
-    items: [
-      { file: 'concept/screens/radar.html', state: 'рабочий вид' },
-    ],
-  },
-  {
-    title: 'Мой профиль',
-    items: [
-      { file: 'concept/screens/my-profile.html', state: 'рабочий вид' },
-      { file: 'concept/screens/my-profile-loading.html', state: 'загрузка' },
-    ],
-  },
-];
+// Галерея повторяет дерево вайрфреймов: ветки, экраны и состояния в том же
+// порядке. Свой список не заводим — он уже дважды отставал (см. lib/wfnav.mjs).
+const SCREENS = wireframeOrder(ROOT).map((b) => ({
+  title: b.title,
+  items: b.screens.flatMap((scr) => [
+    { file: `concept/screens/${scr.file}.html`, state: scr.title, head: true },
+    ...scr.pages.map((pg) => ({ file: `concept/screens/${pg.file}.html`, state: pg.title })),
+  ]),
+}));
+
 const SCREENS_NOTE = 'Руками не правятся: разметку берёт из вайрфреймов <code>build-concept-screens.mjs</code> — поправили вайрфрейм, пересобрали экран. Текст и структура те же, что в сером наборе; добавлены фото, цвет, шрифт и иконки.';
 for (const g of SCREENS) {
   for (const it of g.items) {

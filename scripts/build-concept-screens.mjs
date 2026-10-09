@@ -19,6 +19,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { rail } from './lib/chrome.mjs';
+import { wireframeOrder, flatPages } from './lib/wfnav.mjs';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
@@ -26,21 +27,10 @@ const OUT = join(ROOT, 'concept/screens');
 const ICONS = join(ROOT, 'concept/icons/solar-bold');
 const ICONS_LINEAR = join(ROOT, 'concept/icons/solar-linear');
 
-// какие экраны собираем; ссылки между ними остаются внутри концепта
-const SCREENS = [
-  'feed', 'feed-empty', 'feed-error', 'feed-loading',
-  'search', 'search-empty', 'search-error', 'search-loading',
-  'my-events', 'my-events-empty', 'my-events-error', 'my-events-loading',
-  'plan', 'plan-waiting', 'plan-success', 'plan-error', 'plan-loading',
-  'deck', 'deck-empty', 'deck-error', 'deck-loading', 'match',
-  'profile', 'profile-empty', 'profile-loading',
-  'chats', 'chats-empty', 'chats-error', 'chats-loading',
-  'dialog', 'dialog-empty', 'dialog-waiting', 'dialog-success', 'dialog-error', 'dialog-loading',
-  'invite', 'invite-waiting', 'invite-success', 'invite-empty', 'invite-error',
-  'verify', 'verify-waiting', 'verify-success', 'verify-success-signup', 'verify-error', 'verify-loading',
-  'radar',
-  'my-profile', 'my-profile-loading',
-];
+// Какие экраны собираем и в каком порядке — ровно как в дереве вайрфреймов:
+// порядок читается из него же, своего списка у концепта нет (см. lib/wfnav.mjs).
+const BRANCHES = wireframeOrder(ROOT);
+const SCREENS = flatPages(BRANCHES);
 
 // фото события — по началу названия; проверены, список в concept/references.md
 const unsplash = (id) => `https://images.unsplash.com/photo-${id}?w=320&h=360&fit=crop&q=75&auto=format`;
@@ -101,103 +91,24 @@ const svg = (name, dir = ICONS) =>
     .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
 
 
-// ── дерево экранов концепта: та же служебная навигация, что у вайрфреймов ──
+// ── дерево экранов концепта: ветки и порядок те же, что у вайрфреймов ──
 // Рядом с полосой разделов: из экрана видно весь набор и то, где ты в нём.
-const GROUPS = [
-  { title: 'Колода', items: [
-    { file: 'deck', title: 'рабочий вид' },
-    { file: 'deck-empty', title: 'пусто' },
-    { file: 'deck-error', title: 'ошибка' },
-    { file: 'deck-loading', title: 'загрузка' },
-  ] },
-  { title: 'Совпадение', items: [
-    { file: 'match', title: 'рабочий вид' },
-  ] },
-  { title: 'Профиль человека', items: [
-    { file: 'profile', title: 'рабочий вид' },
-    { file: 'profile-empty', title: 'пусто' },
-    { file: 'profile-loading', title: 'загрузка' },
-  ] },
-  { title: 'Лента событий', items: [
-    { file: 'feed', title: 'рабочий вид' },
-    { file: 'feed-empty', title: 'пусто' },
-    { file: 'feed-error', title: 'ошибка' },
-    { file: 'feed-loading', title: 'загрузка' },
-  ] },
-  { title: 'Карточка события', items: [
-    { file: 'plan', title: 'рабочий вид' },
-    { file: 'plan-waiting', title: 'ждём автора' },
-    { file: 'plan-success', title: 'подтверждено' },
-    { file: 'plan-error', title: 'ошибка' },
-    { file: 'plan-loading', title: 'загрузка' },
-  ] },
-  { title: 'Мои события', items: [
-    { file: 'my-events', title: 'рабочий вид' },
-    { file: 'my-events-empty', title: 'пусто' },
-    { file: 'my-events-error', title: 'ошибка' },
-    { file: 'my-events-loading', title: 'загрузка' },
-  ] },
-  { title: 'Поиск', items: [
-    { file: 'search', title: 'рабочий вид' },
-    { file: 'search-empty', title: 'пусто' },
-    { file: 'search-error', title: 'ошибка' },
-    { file: 'search-loading', title: 'загрузка' },
-  ] },
-  { title: 'Список чатов', items: [
-    { file: 'chats', title: 'рабочий вид' },
-    { file: 'chats-empty', title: 'пусто' },
-    { file: 'chats-error', title: 'ошибка' },
-    { file: 'chats-loading', title: 'загрузка' },
-  ] },
-  { title: 'Диалог', items: [
-    { file: 'dialog', title: 'рабочий вид' },
-    { file: 'dialog-empty', title: 'пусто' },
-    { file: 'dialog-waiting', title: 'ждём второго' },
-    { file: 'dialog-success', title: 'день назначен' },
-    { file: 'dialog-error', title: 'ошибка' },
-    { file: 'dialog-loading', title: 'загрузка' },
-  ] },
-  { title: 'Позвать вдвоём', items: [
-    { file: 'invite', title: 'рабочий вид' },
-    { file: 'invite-waiting', title: 'ждём согласия' },
-    { file: 'invite-success', title: 'отклик ушёл' },
-    { file: 'invite-empty', title: 'пусто' },
-    { file: 'invite-error', title: 'ошибка' },
-  ] },
-  { title: 'Верификация', items: [
-    { file: 'verify', title: 'рабочий вид' },
-    { file: 'verify-waiting', title: 'на проверке' },
-    { file: 'verify-success', title: 'пройдено' },
-    { file: 'verify-success-signup', title: 'пройдено на входе' },
-    { file: 'verify-error', title: 'не распознали' },
-    { file: 'verify-loading', title: 'загрузка' },
-  ] },
-  { title: 'Радар', items: [
-    { file: 'radar', title: 'рабочий вид' },
-  ] },
-  { title: 'Мой профиль', items: [
-    { file: 'my-profile', title: 'рабочий вид' },
-    { file: 'my-profile-loading', title: 'загрузка' },
-  ] },
-];
-
+const link = (file, title, current, cls = '') => (file === current
+  ? `<b${cls ? ` class="${cls}"` : ''} aria-current="page">${title}</b>`
+  : `<a${cls ? ` class="${cls}"` : ''} href="${file}.html">${title}</a>`);
 
 const tree = (current) => `<nav class="wfnav" aria-label="Экраны концепта">
   <p class="h">Концепт</p>
-  <p class="t">Направление R «Сирень» · ${SCREENS.length} из ${SCREENS.length}</p>
+  <p class="t">Направление R «Сирень» · ${SCREENS.length} страниц</p>
   <ul>
-${GROUPS.map((g, gi) => `    <li class="grp">
-      <p class="gt"><span class="gn">${gi + 1}</span>${g.title}</p>
+${BRANCHES.map((b, bi) => `    <li class="grp">
+      <p class="gt"><span class="gn">${bi + 1}</span>${b.title}</p>
       <ul>
-        <li class="scr${g.items.some((it) => it.file === current) ? ' now' : ''}">${g.items[0].file === current
-          ? `<b class="s" aria-current="page">${g.title}</b>`
-          : `<a class="s" href="${g.items[0].file}.html">${g.title}</a>`}
+${b.screens.map((scr) => `        <li class="scr${[scr, ...scr.pages].some((x) => x.file === current) ? ' now' : ''}">${link(scr.file, scr.title, current, 's')}${scr.pages.length ? `
           <ul>
-${g.items.slice(1).map((it) => `            <li>${it.file === current
-    ? `<b aria-current="page">${it.title}</b>`
-    : `<a href="${it.file}.html">${it.title}</a>`}</li>`).join('\n')}
+${scr.pages.map((pg) => `            <li>${link(pg.file, pg.title, current)}</li>`).join('\n')}
           </ul>
-        </li>
+        ` : ''}</li>`).join('\n')}
       </ul>
     </li>`).join('\n')}
   </ul>

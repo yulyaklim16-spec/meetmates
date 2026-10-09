@@ -640,7 +640,8 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
 <p><strong>Компоненты — один источник</strong> (2026-10-08): <code>components.css</code> подключают и стенд, и экраны; правка компонента вносится там. Раньше стенд и экраны описывали компоненты отдельно и разошлись (кнопки шапки, меню, Verified).</p>
 <p><strong>Стенд стиля</strong> — <a href="../concept/concept.html"><code>concept.html</code></a>: он пересобирается из токенов, поэтому показывает текущее направление, а не D. Значения D живут в таблице выше и на доске.</p>
 <h3 id="экраны-в-стиле-r">Экраны в стиле R</h3>
-<p><strong>Тринадцать экранов, 49 страниц</strong> — весь утверждённый набор вайрфреймов, собранный в цвете (2026-10-09). Порядок тот же, что в дереве: колода, совпадение, профиль человека, лента, карточка события, мои события, поиск, список чатов, диалог, «позвать вдвоём», верификация, радар, мой профиль. До этого дня в концепте было шесть страниц — лента и мой профиль. <a href="../concept/screens/my-profile.html"><code>screens/my-profile.html</code></a> и <a href="../concept/screens/my-profile-loading.html"><code>-loading</code></a> — мой профиль (2026-10-08): та же карточка, что у события, портрет во всю её ширину, полосы пагинации под фото — стекло живёт только в меню. Высота карточки человека вынесена в токен <code>--card-h: 400px</code>: в вайрфреймах она уже стояла, а в продукте её не было. <strong>Руками не правятся:</strong> <code>node scripts/build-concept-screens.mjs</code> берёт разметку из <code>wireframes/feed*.html</code> как есть (текст и структура те же — сверено скриптом), ставит фото в обложки, иконки Solar (Bold у активной вкладки, Linear у неактивных) и отметку Verified, подключает <a href="../concept/screens/screens.css"><code>screens/screens.css</code></a>. Вайрфреймы остаются серыми — это их этап. Поправили вайрфрейм — пересобрали экран.</p>
+<p><strong>Тринадцать экранов, 49 страниц</strong> — весь утверждённый набор вайрфреймов, собранный в цвете (2026-10-09). До этого дня в концепте было шесть страниц — лента и мой профиль.</p>
+<p><strong>Порядок не свой, а вайрфреймовый, и берётся оттуда же.</strong> Шесть веток в том же составе и той же последовательности: вход в продукт · колода и совпадение · человек · чат · запрос на компанию · поиск. Своего списка у концепта нет: <code>scripts/lib/wfnav.mjs</code> читает уже собранное дерево вайрфреймов, и если порядок поменяется там, он поменяется и здесь. Пока вайрфреймы не собраны, сборка концепта падает с понятным сообщением — это лучше, чем тихо устаревший список, который тут уже дважды заводился. <a href="../concept/screens/my-profile.html"><code>screens/my-profile.html</code></a> и <a href="../concept/screens/my-profile-loading.html"><code>-loading</code></a> — мой профиль (2026-10-08): та же карточка, что у события, портрет во всю её ширину, полосы пагинации под фото — стекло живёт только в меню. Высота карточки человека вынесена в токен <code>--card-h: 400px</code>: в вайрфреймах она уже стояла, а в продукте её не было. <strong>Руками не правятся:</strong> <code>node scripts/build-concept-screens.mjs</code> берёт разметку из <code>wireframes/feed*.html</code> как есть (текст и структура те же — сверено скриптом), ставит фото в обложки, иконки Solar (Bold у активной вкладки, Linear у неактивных) и отметку Verified, подключает <a href="../concept/screens/screens.css"><code>screens/screens.css</code></a>. Вайрфреймы остаются серыми — это их этап. Поправили вайрфрейм — пересобрали экран.</p>
 <p><strong>Проверка всего набора</strong> (2026-10-09): все 49 страниц открыты разом в одной сетке и просчитаны в браузере — не выходит ли содержимое за экран, не осталось ли пустых заглушек вместо фото, проходит ли каждая строка текста контраст против того фона, на котором реально лежит. Нашлось два: у <code>profile-loading</code> фото не подставлялось (класс был <code>photo blur</code>, а подстановка ждала <code>photo</code>), и в <code>dialog-error</code> красная подпись «не ушло» лежала на тёмном пузыре — 3,4:1. Первое починено в сборщике, второе — решением: неотправленная реплика перестаёт выглядеть отправленной, становится светлой с красной обводкой, и подпись читается 5,9:1 (<code class="dcode">D-52</code>).</p>
 <p><strong>Сверка ленты и профиля</strong> (2026-10-09, после переноса R): замером computed-стилей, а не на глаз. Совпали скругление, обводка, цвет карточки, лейба <code>Verified</code> целиком, нижнее меню, активная вкладка, заголовок экрана и фон. Разошлась одна вещь — карточка профиля несла <code>--shadow-sm</code>, а карточка события <code>--shadow-md</code>; выровнено по событию, потому что это одна и та же карточка (так и записано в <code>components.css</code>).</p>
 <p><strong>Полоса прокрутки видна</strong> (2026-10-08) — это подсказка, что ниже есть ещё содержимое; место под неё резервируется всегда, поэтому карточки одной ширины и там, где прокрутки нет. Решение перенесено из вайрфреймов, где оно записано у <code>.pane</code>; на экранах концепта полосу сначала спрятали, и подсказка пропала.</p>
@@ -725,168 +726,307 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
         <p class="intro">Экраны продукта в стиле D, со всеми состояниями. Превью показывает сам экран — клик открывает страницу целиком, с полосой состояний и разбором под мокапом. Руками не правятся: разметку берёт из вайрфреймов <code>build-concept-screens.mjs</code> — поправили вайрфрейм, пересобрали экран. Текст и структура те же, что в сером наборе; добавлены фото, цвет, шрифт и иконки.</p>
 
       <section class="gbranch">
-        <h3><span class="gn">1</span>Колода</h3>
+        <h3><span class="gn">1</span>Вход в продукт</h3>
         <ul class="gal">
           <li>
-            <a href="../concept/screens/deck.html" title="Колода — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/deck.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
+            <a href="../concept/screens/radar.html" title="Вход в продукт — Радар — как это работает">
+              <span class="shot"><iframe src="../concept/screens/radar.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Вход в продукт — Радар — как это работает"></iframe></span>
+              <span class="cap">Радар — как это работает</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="gbranch">
+        <h3><span class="gn">2</span>Колода и совпадение</h3>
+        <ul class="gal">
+          <li>
+            <a href="../concept/screens/deck.html" title="Колода и совпадение — Колода">
+              <span class="shot"><iframe src="../concept/screens/deck.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода и совпадение — Колода"></iframe></span>
+              <span class="cap">Колода</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/deck-empty.html" title="Колода — пусто">
-              <span class="shot"><iframe src="../concept/screens/deck-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода — пусто"></iframe></span>
+            <a href="../concept/screens/deck-empty.html" title="Колода и совпадение — пусто">
+              <span class="shot"><iframe src="../concept/screens/deck-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода и совпадение — пусто"></iframe></span>
               <span class="cap">пусто</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/deck-error.html" title="Колода — ошибка">
-              <span class="shot"><iframe src="../concept/screens/deck-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода — ошибка"></iframe></span>
+            <a href="../concept/screens/deck-error.html" title="Колода и совпадение — ошибка">
+              <span class="shot"><iframe src="../concept/screens/deck-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода и совпадение — ошибка"></iframe></span>
               <span class="cap">ошибка</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/deck-loading.html" title="Колода — загрузка">
-              <span class="shot"><iframe src="../concept/screens/deck-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода — загрузка"></iframe></span>
+            <a href="../concept/screens/deck-loading.html" title="Колода и совпадение — загрузка">
+              <span class="shot"><iframe src="../concept/screens/deck-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода и совпадение — загрузка"></iframe></span>
               <span class="cap">загрузка</span>
             </a>
           </li>
-        </ul>
-      </section>
-      <section class="gbranch">
-        <h3><span class="gn">2</span>Совпадение</h3>
-        <ul class="gal">
           <li>
-            <a href="../concept/screens/match.html" title="Совпадение — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/match.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Совпадение — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
+            <a href="../concept/screens/match.html" title="Колода и совпадение — Совпадение">
+              <span class="shot"><iframe src="../concept/screens/match.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Колода и совпадение — Совпадение"></iframe></span>
+              <span class="cap">Совпадение</span>
             </a>
           </li>
         </ul>
       </section>
       <section class="gbranch">
-        <h3><span class="gn">3</span>Профиль человека</h3>
+        <h3><span class="gn">3</span>Человек</h3>
         <ul class="gal">
           <li>
-            <a href="../concept/screens/profile.html" title="Профиль человека — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/profile.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Профиль человека — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
+            <a href="../concept/screens/profile.html" title="Человек — Профиль другого человека">
+              <span class="shot"><iframe src="../concept/screens/profile.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — Профиль другого человека"></iframe></span>
+              <span class="cap">Профиль другого человека</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/profile-empty.html" title="Профиль человека — пусто">
-              <span class="shot"><iframe src="../concept/screens/profile-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Профиль человека — пусто"></iframe></span>
+            <a href="../concept/screens/profile-empty.html" title="Человек — пусто">
+              <span class="shot"><iframe src="../concept/screens/profile-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — пусто"></iframe></span>
               <span class="cap">пусто</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/profile-loading.html" title="Профиль человека — загрузка">
-              <span class="shot"><iframe src="../concept/screens/profile-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Профиль человека — загрузка"></iframe></span>
+            <a href="../concept/screens/profile-loading.html" title="Человек — загрузка">
+              <span class="shot"><iframe src="../concept/screens/profile-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/verify.html" title="Человек — Верификация">
+              <span class="shot"><iframe src="../concept/screens/verify.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — Верификация"></iframe></span>
+              <span class="cap">Верификация</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/verify-error.html" title="Человек — ошибка">
+              <span class="shot"><iframe src="../concept/screens/verify-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/verify-loading.html" title="Человек — загрузка">
+              <span class="shot"><iframe src="../concept/screens/verify-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/verify-success.html" title="Человек — успех">
+              <span class="shot"><iframe src="../concept/screens/verify-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — успех"></iframe></span>
+              <span class="cap">успех</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/verify-waiting.html" title="Человек — ожидание чужого решения · D-42">
+              <span class="shot"><iframe src="../concept/screens/verify-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — ожидание чужого решения · D-42"></iframe></span>
+              <span class="cap">ожидание чужого решения · D-42</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/verify-success-signup.html" title="Человек — успех в онбординге: до первого свайпа, возвращать в чат некуда">
+              <span class="shot"><iframe src="../concept/screens/verify-success-signup.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — успех в онбординге: до первого свайпа, возвращать в чат некуда"></iframe></span>
+              <span class="cap">успех в онбординге: до первого свайпа, возвращать в чат некуда</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/my-profile.html" title="Человек — Мой профиль — как меня видят">
+              <span class="shot"><iframe src="../concept/screens/my-profile.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — Мой профиль — как меня видят"></iframe></span>
+              <span class="cap">Мой профиль — как меня видят</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/my-profile-loading.html" title="Человек — загрузка">
+              <span class="shot"><iframe src="../concept/screens/my-profile-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — загрузка"></iframe></span>
               <span class="cap">загрузка</span>
             </a>
           </li>
         </ul>
       </section>
       <section class="gbranch">
-        <h3><span class="gn">4</span>Лента событий</h3>
+        <h3><span class="gn">4</span>Чат</h3>
         <ul class="gal">
           <li>
-            <a href="../concept/screens/feed.html" title="Лента событий — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/feed.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента событий — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
+            <a href="../concept/screens/dialog.html" title="Чат — Диалог">
+              <span class="shot"><iframe src="../concept/screens/dialog.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — Диалог"></iframe></span>
+              <span class="cap">Диалог</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/feed-empty.html" title="Лента событий — пусто">
-              <span class="shot"><iframe src="../concept/screens/feed-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента событий — пусто"></iframe></span>
+            <a href="../concept/screens/dialog-empty.html" title="Чат — пусто">
+              <span class="shot"><iframe src="../concept/screens/dialog-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — пусто"></iframe></span>
               <span class="cap">пусто</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/feed-error.html" title="Лента событий — ошибка">
-              <span class="shot"><iframe src="../concept/screens/feed-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента событий — ошибка"></iframe></span>
+            <a href="../concept/screens/dialog-error.html" title="Чат — ошибка">
+              <span class="shot"><iframe src="../concept/screens/dialog-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — ошибка"></iframe></span>
               <span class="cap">ошибка</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/feed-loading.html" title="Лента событий — загрузка">
-              <span class="shot"><iframe src="../concept/screens/feed-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Лента событий — загрузка"></iframe></span>
+            <a href="../concept/screens/dialog-loading.html" title="Чат — загрузка">
+              <span class="shot"><iframe src="../concept/screens/dialog-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — загрузка"></iframe></span>
               <span class="cap">загрузка</span>
             </a>
           </li>
-        </ul>
-      </section>
-      <section class="gbranch">
-        <h3><span class="gn">5</span>Карточка события</h3>
-        <ul class="gal">
           <li>
-            <a href="../concept/screens/plan.html" title="Карточка события — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/plan.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Карточка события — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
+            <a href="../concept/screens/dialog-success.html" title="Чат — успех">
+              <span class="shot"><iframe src="../concept/screens/dialog-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — успех"></iframe></span>
+              <span class="cap">успех</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/plan-waiting.html" title="Карточка события — ждём автора">
-              <span class="shot"><iframe src="../concept/screens/plan-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Карточка события — ждём автора"></iframe></span>
-              <span class="cap">ждём автора</span>
+            <a href="../concept/screens/dialog-waiting.html" title="Чат — ожидание чужого решения · D-42">
+              <span class="shot"><iframe src="../concept/screens/dialog-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — ожидание чужого решения · D-42"></iframe></span>
+              <span class="cap">ожидание чужого решения · D-42</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/plan-success.html" title="Карточка события — подтверждено">
-              <span class="shot"><iframe src="../concept/screens/plan-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Карточка события — подтверждено"></iframe></span>
-              <span class="cap">подтверждено</span>
+            <a href="../concept/screens/invite.html" title="Чат — Позвать вдвоём в запрос">
+              <span class="shot"><iframe src="../concept/screens/invite.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — Позвать вдвоём в запрос"></iframe></span>
+              <span class="cap">Позвать вдвоём в запрос</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/plan-error.html" title="Карточка события — ошибка">
-              <span class="shot"><iframe src="../concept/screens/plan-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Карточка события — ошибка"></iframe></span>
-              <span class="cap">ошибка</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/plan-loading.html" title="Карточка события — загрузка">
-              <span class="shot"><iframe src="../concept/screens/plan-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Карточка события — загрузка"></iframe></span>
-              <span class="cap">загрузка</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <section class="gbranch">
-        <h3><span class="gn">6</span>Мои события</h3>
-        <ul class="gal">
-          <li>
-            <a href="../concept/screens/my-events.html" title="Мои события — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/my-events.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мои события — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/my-events-empty.html" title="Мои события — пусто">
-              <span class="shot"><iframe src="../concept/screens/my-events-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мои события — пусто"></iframe></span>
+            <a href="../concept/screens/invite-empty.html" title="Чат — пусто">
+              <span class="shot"><iframe src="../concept/screens/invite-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — пусто"></iframe></span>
               <span class="cap">пусто</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/my-events-error.html" title="Мои события — ошибка">
-              <span class="shot"><iframe src="../concept/screens/my-events-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мои события — ошибка"></iframe></span>
+            <a href="../concept/screens/invite-error.html" title="Чат — ошибка">
+              <span class="shot"><iframe src="../concept/screens/invite-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — ошибка"></iframe></span>
               <span class="cap">ошибка</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/my-events-loading.html" title="Мои события — загрузка">
-              <span class="shot"><iframe src="../concept/screens/my-events-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мои события — загрузка"></iframe></span>
+            <a href="../concept/screens/invite-success.html" title="Чат — успех">
+              <span class="shot"><iframe src="../concept/screens/invite-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — успех"></iframe></span>
+              <span class="cap">успех</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/invite-waiting.html" title="Чат — ожидание чужого решения · D-42">
+              <span class="shot"><iframe src="../concept/screens/invite-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — ожидание чужого решения · D-42"></iframe></span>
+              <span class="cap">ожидание чужого решения · D-42</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/chats.html" title="Чат — Список чатов">
+              <span class="shot"><iframe src="../concept/screens/chats.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — Список чатов"></iframe></span>
+              <span class="cap">Список чатов</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/chats-empty.html" title="Чат — пусто">
+              <span class="shot"><iframe src="../concept/screens/chats-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/chats-error.html" title="Чат — ошибка">
+              <span class="shot"><iframe src="../concept/screens/chats-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/chats-loading.html" title="Чат — загрузка">
+              <span class="shot"><iframe src="../concept/screens/chats-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — загрузка"></iframe></span>
               <span class="cap">загрузка</span>
             </a>
           </li>
         </ul>
       </section>
       <section class="gbranch">
-        <h3><span class="gn">7</span>Поиск</h3>
+        <h3><span class="gn">5</span>Запрос на компанию</h3>
         <ul class="gal">
           <li>
-            <a href="../concept/screens/search.html" title="Поиск — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/search.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Поиск — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
+            <a href="../concept/screens/feed.html" title="Запрос на компанию — Лента запросов">
+              <span class="shot"><iframe src="../concept/screens/feed.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — Лента запросов"></iframe></span>
+              <span class="cap">Лента запросов</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/feed-empty.html" title="Запрос на компанию — пусто">
+              <span class="shot"><iframe src="../concept/screens/feed-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/feed-error.html" title="Запрос на компанию — ошибка">
+              <span class="shot"><iframe src="../concept/screens/feed-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/feed-loading.html" title="Запрос на компанию — загрузка">
+              <span class="shot"><iframe src="../concept/screens/feed-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/plan.html" title="Запрос на компанию — Карточка запроса">
+              <span class="shot"><iframe src="../concept/screens/plan.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — Карточка запроса"></iframe></span>
+              <span class="cap">Карточка запроса</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/plan-error.html" title="Запрос на компанию — ошибка">
+              <span class="shot"><iframe src="../concept/screens/plan-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/plan-loading.html" title="Запрос на компанию — загрузка">
+              <span class="shot"><iframe src="../concept/screens/plan-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/plan-success.html" title="Запрос на компанию — успех">
+              <span class="shot"><iframe src="../concept/screens/plan-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — успех"></iframe></span>
+              <span class="cap">успех</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/plan-waiting.html" title="Запрос на компанию — ожидание чужого решения · D-42">
+              <span class="shot"><iframe src="../concept/screens/plan-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — ожидание чужого решения · D-42"></iframe></span>
+              <span class="cap">ожидание чужого решения · D-42</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/my-events.html" title="Запрос на компанию — Мои события — сегмент вкладки Events">
+              <span class="shot"><iframe src="../concept/screens/my-events.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — Мои события — сегмент вкладки Events"></iframe></span>
+              <span class="cap">Мои события — сегмент вкладки Events</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/my-events-empty.html" title="Запрос на компанию — пусто">
+              <span class="shot"><iframe src="../concept/screens/my-events-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — пусто"></iframe></span>
+              <span class="cap">пусто</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/my-events-error.html" title="Запрос на компанию — ошибка">
+              <span class="shot"><iframe src="../concept/screens/my-events-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — ошибка"></iframe></span>
+              <span class="cap">ошибка</span>
+            </a>
+          </li>
+          <li>
+            <a href="../concept/screens/my-events-loading.html" title="Запрос на компанию — загрузка">
+              <span class="shot"><iframe src="../concept/screens/my-events-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — загрузка"></iframe></span>
+              <span class="cap">загрузка</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="gbranch">
+        <h3><span class="gn">6</span>Поиск</h3>
+        <ul class="gal">
+          <li>
+            <a href="../concept/screens/search.html" title="Поиск — Поиск людей и планов">
+              <span class="shot"><iframe src="../concept/screens/search.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Поиск — Поиск людей и планов"></iframe></span>
+              <span class="cap">Поиск людей и планов</span>
             </a>
           </li>
           <li>
@@ -904,180 +1044,6 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
           <li>
             <a href="../concept/screens/search-loading.html" title="Поиск — загрузка">
               <span class="shot"><iframe src="../concept/screens/search-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Поиск — загрузка"></iframe></span>
-              <span class="cap">загрузка</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <section class="gbranch">
-        <h3><span class="gn">8</span>Список чатов</h3>
-        <ul class="gal">
-          <li>
-            <a href="../concept/screens/chats.html" title="Список чатов — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/chats.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Список чатов — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/chats-empty.html" title="Список чатов — пусто">
-              <span class="shot"><iframe src="../concept/screens/chats-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Список чатов — пусто"></iframe></span>
-              <span class="cap">пусто</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/chats-error.html" title="Список чатов — ошибка">
-              <span class="shot"><iframe src="../concept/screens/chats-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Список чатов — ошибка"></iframe></span>
-              <span class="cap">ошибка</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/chats-loading.html" title="Список чатов — загрузка">
-              <span class="shot"><iframe src="../concept/screens/chats-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Список чатов — загрузка"></iframe></span>
-              <span class="cap">загрузка</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <section class="gbranch">
-        <h3><span class="gn">9</span>Диалог</h3>
-        <ul class="gal">
-          <li>
-            <a href="../concept/screens/dialog.html" title="Диалог — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/dialog.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/dialog-empty.html" title="Диалог — пусто">
-              <span class="shot"><iframe src="../concept/screens/dialog-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — пусто"></iframe></span>
-              <span class="cap">пусто</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/dialog-waiting.html" title="Диалог — ждём второго">
-              <span class="shot"><iframe src="../concept/screens/dialog-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — ждём второго"></iframe></span>
-              <span class="cap">ждём второго</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/dialog-success.html" title="Диалог — день назначен">
-              <span class="shot"><iframe src="../concept/screens/dialog-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — день назначен"></iframe></span>
-              <span class="cap">день назначен</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/dialog-error.html" title="Диалог — ошибка">
-              <span class="shot"><iframe src="../concept/screens/dialog-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — ошибка"></iframe></span>
-              <span class="cap">ошибка</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/dialog-loading.html" title="Диалог — загрузка">
-              <span class="shot"><iframe src="../concept/screens/dialog-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Диалог — загрузка"></iframe></span>
-              <span class="cap">загрузка</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <section class="gbranch">
-        <h3><span class="gn">10</span>Позвать вдвоём</h3>
-        <ul class="gal">
-          <li>
-            <a href="../concept/screens/invite.html" title="Позвать вдвоём — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/invite.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Позвать вдвоём — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/invite-waiting.html" title="Позвать вдвоём — ждём согласия">
-              <span class="shot"><iframe src="../concept/screens/invite-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Позвать вдвоём — ждём согласия"></iframe></span>
-              <span class="cap">ждём согласия</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/invite-success.html" title="Позвать вдвоём — отклик ушёл">
-              <span class="shot"><iframe src="../concept/screens/invite-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Позвать вдвоём — отклик ушёл"></iframe></span>
-              <span class="cap">отклик ушёл</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/invite-empty.html" title="Позвать вдвоём — пусто">
-              <span class="shot"><iframe src="../concept/screens/invite-empty.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Позвать вдвоём — пусто"></iframe></span>
-              <span class="cap">пусто</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/invite-error.html" title="Позвать вдвоём — ошибка">
-              <span class="shot"><iframe src="../concept/screens/invite-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Позвать вдвоём — ошибка"></iframe></span>
-              <span class="cap">ошибка</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <section class="gbranch">
-        <h3><span class="gn">11</span>Верификация</h3>
-        <ul class="gal">
-          <li>
-            <a href="../concept/screens/verify.html" title="Верификация — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/verify.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/verify-waiting.html" title="Верификация — на проверке">
-              <span class="shot"><iframe src="../concept/screens/verify-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — на проверке"></iframe></span>
-              <span class="cap">на проверке</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/verify-success.html" title="Верификация — пройдено">
-              <span class="shot"><iframe src="../concept/screens/verify-success.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — пройдено"></iframe></span>
-              <span class="cap">пройдено</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/verify-success-signup.html" title="Верификация — пройдено на входе">
-              <span class="shot"><iframe src="../concept/screens/verify-success-signup.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — пройдено на входе"></iframe></span>
-              <span class="cap">пройдено на входе</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/verify-error.html" title="Верификация — не распознали">
-              <span class="shot"><iframe src="../concept/screens/verify-error.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — не распознали"></iframe></span>
-              <span class="cap">не распознали</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/verify-loading.html" title="Верификация — загрузка">
-              <span class="shot"><iframe src="../concept/screens/verify-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Верификация — загрузка"></iframe></span>
-              <span class="cap">загрузка</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <section class="gbranch">
-        <h3><span class="gn">12</span>Радар</h3>
-        <ul class="gal">
-          <li>
-            <a href="../concept/screens/radar.html" title="Радар — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/radar.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Радар — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <section class="gbranch">
-        <h3><span class="gn">13</span>Мой профиль</h3>
-        <ul class="gal">
-          <li>
-            <a href="../concept/screens/my-profile.html" title="Мой профиль — рабочий вид">
-              <span class="shot"><iframe src="../concept/screens/my-profile.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мой профиль — рабочий вид"></iframe></span>
-              <span class="cap">рабочий вид</span>
-            </a>
-          </li>
-          <li>
-            <a href="../concept/screens/my-profile-loading.html" title="Мой профиль — загрузка">
-              <span class="shot"><iframe src="../concept/screens/my-profile-loading.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Мой профиль — загрузка"></iframe></span>
               <span class="cap">загрузка</span>
             </a>
           </li>
