@@ -328,8 +328,15 @@
   width: 100%; margin: 0; padding: 0; border: 0; background: transparent; color: inherit; }
 
 /* ── радар: экран онбординга, данные на нём иллюстративные (D-47) ── */
-.mm-ui .promise { margin: 0 0 var(--s-3); font: var(--fw-bold) var(--t-display)/var(--lh-tight) var(--font);
+/* строки идут просторнее обычного display: подложки двух слов иначе сходятся краями */
+.mm-ui .promise { margin: 0 0 var(--s-3); font: var(--fw-bold) var(--t-display)/1.24 var(--font);
   letter-spacing: var(--tr-display); }
+/* два слова обещания — та же лейба, что у Verified: тёмный текст на лайме 15:1.
+   Лаймовым текстом их не сделать — на светлом фоне это 1,2:1 */
+.mm-ui .promise mark { background: var(--label); color: var(--ink-on-label);
+  text-transform: uppercase; padding: .02em .12em; border-radius: var(--r-sm);
+  box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
 .mm-ui .radar { position: relative; flex: 1; min-height: 0; margin: 0; display: grid; place-items: center; }
 .mm-ui .rings, .mm-ui .rings span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   margin: 0; border-radius: 50%; box-shadow: 0 0 0 1px var(--line); }

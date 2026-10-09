@@ -160,6 +160,11 @@ for (const name of SCREENS) {
       return a.replace(/<svg\b[\s\S]*?<\/svg>/, svg(icon, ICONS_LINEAR));
     }));
 
+  // 3а. обещание на радаре: mates и events — заглавными на лаймовой подложке.
+  // Лаймовым текстом нельзя: #D9F56F на светлом фоне даёт 1,2:1 (нужно 4,5).
+  body = body.replace(/(<h1[^>]*class="promise"[^>]*>)([\s\S]*?)(<\/h1>)/, (m, open, inner, close) =>
+    open + inner.replace(/(mates|events)/g, '<mark>$1</mark>') + close);
+
   // 3б. портрет в карточке профиля — на месте серой плашки .photo
   // обложка на карточке события — по названию события в заголовке экрана
   body = body.replace(/(<figure class="evcover">\s*)<p class="photo"[^>]*><\/p>/g, (m, head) => {
