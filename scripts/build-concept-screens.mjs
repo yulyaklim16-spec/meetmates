@@ -58,6 +58,23 @@ const portraitFor = (name) =>
   face((PORTRAIT_BY_SCREEN.find(([re]) => re.test(name)) || [null, FACES.dasha])[1]);
 
 // маленький кружок рядом с именем: по имени в той же строке, иначе — по очереди
+// Радар: свой набор, все снимки разные — сверены в concept/references.md.
+// Семь портретов и пять обложек ровно по числу мест на радаре.
+const RADAR_FACES = [
+  FACES.olena, FACES.dasha, FACES.andrii,
+  '1568602471122-7832951cc4c5',  // мужчина в очках и с бородой
+  '1535295972055-1c762f4483e5',  // девушка в сером худи
+  '1629747490241-624f07d70e1e',  // человек в жёлтой куртке
+  '1580489944761-15a19d654956',  // девушка в белой футболке
+];
+const RADAR_EVENTS = [
+  '1715860738421-b30b98f8614f',  // настольные игры во дворе
+  '1739368732843-800f36a9b7d0',  // бегуны на набережной
+  '1758525223193-1bd8fca96ef3',  // кофе и прогулка
+  '1676651471150-0e3a5f8de05e',  // настолка крупным планом
+  '1758274533800-6a5fe97f53f6',  // четверо друзей в парке
+];
+
 const AVATAR_BY_NAME = [
   [/Olena/, FACES.olena],
   [/Andrii/, FACES.andrii],
@@ -169,11 +186,16 @@ for (const name of SCREENS) {
   // Снимки — те же, что везде: портреты и обложки событий из references.md.
   {
     let ev = 0, fa = 0;
+    // портрет кадрируется по лицу, обложка — по центру: у стола с настолкой лица нет
+    const take = (list, i, what) => {
+      if (i >= list.length) throw new Error(`${name}: на радаре мест больше, чем сверенных снимков (${what})`);
+      return what === 'портреты'
+        ? face(list[i], 200, 200)
+        : `https://images.unsplash.com/photo-${list[i]}?w=200&h=200&fit=crop&q=75&auto=format`;
+    };
     body = body.replace(/<li class="([a-g])"><span class="dot( sm| lg)?" aria-hidden="true"><\/span>(Event|Person)<\/li>/g,
       (m, pos, size, kind) => {
-        const src = kind === 'Event'
-          ? PHOTOS[ev++ % PHOTOS.length][1].replace('w=320&h=360', 'w=200&h=200')
-          : face(Object.values(FACES)[fa++ % 3], 200, 200);
+        const src = kind === 'Event' ? take(RADAR_EVENTS, ev++, 'обложки') : take(RADAR_FACES, fa++, 'портреты');
         return `<li class="${pos}"><span class="dot${size || ''}" aria-hidden="true">`
           + `<img src="${src}" alt="" loading="lazy"></span><span class="vh">${kind}</span></li>`;
       });
@@ -186,9 +208,7 @@ for (const name of SCREENS) {
     // найденных больше: шесть снимков по кругу вдобавок к семи из вайрфрейма
     body = body.replace('</ul>\n      </figure>', ['h', 'i', 'j', 'k', 'l'].map((pos, n) => {
       const kind = n % 2 ? 'Event' : 'Person';
-      const src = kind === 'Event'
-        ? PHOTOS[ev++ % PHOTOS.length][1].replace('w=320&h=360', 'w=200&h=200')
-        : face(Object.values(FACES)[fa++ % 3], 200, 200);
+      const src = kind === 'Event' ? take(RADAR_EVENTS, ev++, 'обложки') : take(RADAR_FACES, fa++, 'портреты');
       const size = n % 3 === 0 ? ' sm' : (n % 3 === 1 ? '' : ' lg');
       return `<li class="${pos}"><span class="dot${size}" aria-hidden="true">`
         + `<img src="${src}" alt="" loading="lazy"></span><span class="vh">${kind}</span></li>`;
