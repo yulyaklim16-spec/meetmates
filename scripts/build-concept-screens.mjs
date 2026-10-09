@@ -179,6 +179,20 @@ for (const name of SCREENS) {
       });
     // волна поиска: отдельный круг, кольца расстояний остаются на месте
     body = body.replace('<p class="rings"', '<span class="scan" aria-hidden="true"></span><p class="rings"');
+    // колец больше: подписаны по-прежнему три, остальные — только рисунок
+    body = body.replace('<span class="mid"></span><span class="in"></span>',
+      '<span class="r5"></span><span class="mid"></span><span class="r3"></span>'
+      + '<span class="in"></span><span class="r1"></span>');
+    // найденных больше: шесть снимков по кругу вдобавок к семи из вайрфрейма
+    body = body.replace('</ul>\n      </figure>', ['h', 'i', 'j', 'k', 'l'].map((pos, n) => {
+      const kind = n % 2 ? 'Event' : 'Person';
+      const src = kind === 'Event'
+        ? PHOTOS[ev++ % PHOTOS.length][1].replace('w=320&h=360', 'w=200&h=200')
+        : face(Object.values(FACES)[fa++ % 3], 200, 200);
+      const size = n % 3 === 0 ? ' sm' : (n % 3 === 1 ? '' : ' lg');
+      return `<li class="${pos}"><span class="dot${size}" aria-hidden="true">`
+        + `<img src="${src}" alt="" loading="lazy"></span><span class="vh">${kind}</span></li>`;
+    }).join('') + '</ul>\n      </figure>');
   }
 
   // 3б. портрет в карточке профиля — на месте серой плашки .photo
