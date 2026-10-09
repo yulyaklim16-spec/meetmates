@@ -303,6 +303,16 @@
 /* фото дошло не целиком — показываем размытым и доводим по мере прихода (D-51) */
 .mm-ui .photo.blur img { filter: blur(14px); transform: scale(1.06); }
 
+/* Подсказки в пустом чате — это предложенные фразы, а не второе действие.
+   В разметке у них тот же класс, что у тихой кнопки, поэтому различаем по месту:
+   они стоят столбиком в p.rows. Белые с обводкой, как карточки, и текст слева —
+   так видно, что это предложение, а не кнопка рядом с главной. */
+.mm-ui p.rows > .btn.quiet {
+  justify-content: flex-start; background: var(--surface); color: var(--ink-900);
+  box-shadow: var(--shadow-sm); font-weight: var(--fw-regular);
+}
+.mm-ui p.rows > .btn.quiet:hover { background: var(--surface-2); }
+
 /* строка списка — ссылка целиком: подчёркивание тут шум, цвет берётся от текста */
 .mm-ui a.item { text-decoration: none; color: inherit; }
 .mm-ui a.item:hover .top > b { text-decoration: underline; text-underline-offset: 3px; }
