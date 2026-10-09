@@ -232,9 +232,6 @@
 .mm-ui .field[data-state="error"] .help { color: var(--danger); }
 .mm-ui .field[data-state="success"] .help { color: var(--success); }
 
-@media (prefers-reduced-motion: reduce) {
-  .mm-ui .skel, .mm-ui .btn .spin { animation: none; }
-}
 
 
 /* кнопка без роли — ровная белая: Skip в колоде стоит рядом с залитой Like */
@@ -339,7 +336,7 @@
 
 .mm-ui .radar { position: relative; flex: 1; min-height: 0; margin: 0; display: grid; place-items: center; }
 .mm-ui .rings, .mm-ui .rings span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  margin: 0; border-radius: 50%; box-shadow: 0 0 0 1px var(--line); }
+  margin: 0; border-radius: 50%; box-shadow: 0 0 0 2px var(--line); }
 .mm-ui .rings { width: 300px; height: 300px; }
 .mm-ui .rings .mid { width: 200px; height: 200px; }
 .mm-ui .rings .in { width: 100px; height: 100px; }
@@ -349,15 +346,55 @@
 .mm-ui .band.mid { top: calc(50% - 100px - 8px); }
 .mm-ui .band.near { top: calc(50% - 50px - 8px); }
 .mm-ui .pins { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
-.mm-ui .pins li { position: absolute; display: flex; align-items: center; gap: 4px;
-  font-size: var(--t-micro); color: var(--ink-600); white-space: nowrap; }
-.mm-ui .pins .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--action); }
-.mm-ui .pins .dot.sm { width: 7px; height: 7px; background: var(--ink-400); }
-.mm-ui .pins .dot.lg { width: 13px; height: 13px; }
-.mm-ui .pins .a { top: 16%; left: 22%; }
-.mm-ui .pins .b { top: 30%; right: 18%; }
-.mm-ui .pins .c { top: 46%; left: 12%; }
-.mm-ui .pins .d { top: 52%; right: 24%; }
-.mm-ui .pins .e { bottom: 24%; left: 30%; }
-.mm-ui .pins .f { bottom: 14%; right: 14%; }
-.mm-ui .pins .g { top: 44%; left: 46%; }
+/* на радаре не точки, а те же лица и обложки, что в ленте и в колоде:
+   кто рядом — видно по снимку, а не по слову «Person» */
+.mm-ui .pins li { position: absolute; transform: translate(-50%, -50%); }
+.mm-ui .pins .dot { display: block; width: 56px; height: 56px; border-radius: 50%; overflow: hidden;
+  background: var(--surface-2); box-shadow: 0 0 0 3px var(--surface), var(--shadow-md); }
+.mm-ui .pins .dot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mm-ui .pins .dot.sm { width: 40px; height: 40px; }
+.mm-ui .pins .dot.lg { width: 72px; height: 72px; }
+
+/* волна поиска идёт из центра наружу — это и есть «радар работает».
+   Кольца расстояний при этом стоят на месте: они подписаны и не должны ездить. */
+.mm-ui .scan { position: absolute; top: 50%; left: 50%; width: 300px; height: 300px;
+  margin: 0; border-radius: 50%; box-shadow: 0 0 0 2px var(--action);
+  transform: translate(-50%, -50%) scale(.12); opacity: 0;
+  animation: mm-scan 3.2s var(--ease-out) infinite; }
+@keyframes mm-scan {
+  0%   { transform: translate(-50%, -50%) scale(.12); opacity: 0; }
+  12%  { opacity: .55; }
+  100% { transform: translate(-50%, -50%) scale(1.06); opacity: 0; }
+}
+
+/* найденные появляются по мере того, как волна до них доходит: ближние раньше */
+.mm-ui .pins li { animation: mm-found .5s var(--ease-out) both; }
+@keyframes mm-found {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(.55); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.mm-ui .pins .g { animation-delay: .15s; }
+.mm-ui .pins .e { animation-delay: .3s; }
+.mm-ui .pins .d { animation-delay: .45s; }
+.mm-ui .pins .c { animation-delay: .6s; }
+.mm-ui .pins .b { animation-delay: .75s; }
+.mm-ui .pins .f { animation-delay: .9s; }
+.mm-ui .pins .a { animation-delay: 1.05s; }
+/* места отсчитываются от центра в пикселях — как и кольца, иначе снимки
+   уезжают с колец при другой высоте. Середина сверху оставлена подписям колец. */
+.mm-ui .pins li.a { top: calc(50% - 130px); left: calc(50% - 115px); }
+.mm-ui .pins li.b { top: calc(50% - 65px);  left: calc(50% + 105px); }
+.mm-ui .pins li.c { top: calc(50% - 10px);  left: calc(50% - 120px); }
+.mm-ui .pins li.d { top: calc(50% + 40px);  left: calc(50% + 70px); }
+.mm-ui .pins li.e { top: calc(50% + 45px);  left: calc(50% - 85px); }
+.mm-ui .pins li.f { top: calc(50% + 130px); left: calc(50% + 100px); }
+.mm-ui .pins li.g { top: calc(50% + 55px);  left: calc(50% + 10px); }
+
+/* Уважение к prefers-reduced-motion стоит последним: правила выше его
+   перебивали бы, добавься они в конец файла (правило 8). */
+@media (prefers-reduced-motion: reduce) {
+  .mm-ui .skel, .mm-ui .btn .spin { animation: none; }
+  /* радар: волна снимается целиком, найденные стоят на месте и видны сразу */
+  .mm-ui .scan { display: none; }
+  .mm-ui .pins li { animation: none; opacity: 1; }
+}

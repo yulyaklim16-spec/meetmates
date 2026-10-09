@@ -165,6 +165,22 @@ for (const name of SCREENS) {
   body = body.replace(/(<h1[^>]*class="promise"[^>]*>)([\s\S]*?)(<\/h1>)/, (m, open, inner, close) =>
     open + inner.replace(/(mates|events)/g, '<mark>$1</mark>') + close);
 
+  // 3в. радар: точки заменяются лицами и обложками, подпись уходит к скринридеру.
+  // Снимки — те же, что везде: портреты и обложки событий из references.md.
+  {
+    let ev = 0, fa = 0;
+    body = body.replace(/<li class="([a-g])"><span class="dot( sm| lg)?" aria-hidden="true"><\/span>(Event|Person)<\/li>/g,
+      (m, pos, size, kind) => {
+        const src = kind === 'Event'
+          ? PHOTOS[ev++ % PHOTOS.length][1].replace('w=320&h=360', 'w=200&h=200')
+          : face(Object.values(FACES)[fa++ % 3], 200, 200);
+        return `<li class="${pos}"><span class="dot${size || ''}" aria-hidden="true">`
+          + `<img src="${src}" alt="" loading="lazy"></span><span class="vh">${kind}</span></li>`;
+      });
+    // волна поиска: отдельный круг, кольца расстояний остаются на месте
+    body = body.replace('<p class="rings"', '<span class="scan" aria-hidden="true"></span><p class="rings"');
+  }
+
   // 3б. портрет в карточке профиля — на месте серой плашки .photo
   // обложка на карточке события — по названию события в заголовке экрана
   body = body.replace(/(<figure class="evcover">\s*)<p class="photo"[^>]*><\/p>/g, (m, head) => {
