@@ -165,9 +165,9 @@
 .mm-ui .card figure { flex: 1; min-height: 0; display: flex; flex-direction: column; margin: 0; }
 .mm-ui .card .photo { flex: 1; min-height: 0; margin: 0; background: var(--surface-2); }
 .mm-ui .card .photo img { width: 100%; height: 100%; object-fit: cover; }
-.mm-ui .card .pager { flex: none; display: flex; gap: 4px; margin: 0; padding: var(--s-2) var(--s-3); }
-.mm-ui .card .pager span { height: 3px; flex: 1; border-radius: var(--r-pill); background: var(--line); }
-.mm-ui .card .pager span.on { background: var(--ink-900); }
+.mm-ui .pager { flex: none; display: flex; gap: 4px; margin: 0; padding: var(--s-2) var(--s-3); }
+.mm-ui .pager span { height: 3px; flex: 1; border-radius: var(--r-pill); background: var(--line); }
+.mm-ui .pager span.on { background: var(--ink-900); }
 
 /* Профиль листается целиком: у вайрфрейма прокрутка тоже общая, у панели,
    а не у секции — иначе глубокий слой съедает всю высоту */
@@ -189,7 +189,7 @@
 }
 .mm-ui .signals li { display: inline-flex; align-items: center; gap: 3px; }
 .mm-ui .signals li + li::before { content: "·"; margin-right: 4px; color: var(--ink-400); }
-.mm-ui .signals li:first-child { font-weight: var(--fw-semibold);
+.mm-ui .signals li:first-child:has(svg) { font-weight: var(--fw-semibold);
   padding: var(--label-pad); border-radius: var(--r-pill); background: var(--label); color: var(--ink-on-label); }
 .mm-ui .signals .ico { display: inline-flex; }
 .mm-ui .signals .ico svg { width: var(--icon-sm); height: var(--icon-sm); }
@@ -235,3 +235,122 @@
 @media (prefers-reduced-motion: reduce) {
   .mm-ui .skel, .mm-ui .btn .spin { animation: none; }
 }
+
+
+/* кнопка без роли — ровная белая: Skip в колоде стоит рядом с залитой Like */
+.mm-ui :is(.btn, button):not(.primary):not(.quiet):not(header *):not(.danger-link) {
+  background: var(--surface); color: var(--ink-900); box-shadow: var(--shadow-sm);
+}
+.mm-ui :is(.btn, button):not(.primary):not(.quiet):not(header *):not(.danger-link):hover { background: var(--surface-2); }
+
+/* ── секция, которая забирает остаток высоты: колода, совпадение, селфи ── */
+.mm-ui .stretch { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.mm-ui .stretch > .card { flex: 1; height: auto; min-height: 0; }
+
+/* ── карточка человека: фото сверху, факты под ним (структура вайрфрейма) ── */
+.mm-ui .card figure { position: relative; }
+.mm-ui .card .body { flex: none; display: flex; flex-direction: column; gap: var(--s-1); padding: var(--s-3) var(--s-4) var(--s-4); }
+.mm-ui .card .body h3 { margin: 2px 0 0; font: var(--fw-semibold) var(--t-h2)/var(--lh-heading) var(--font); letter-spacing: var(--tr-heading); }
+.mm-ui .card .body > p:last-child { margin: 0; }
+.mm-ui .card figure figcaption:not(.vh) { position: absolute; left: var(--s-3); bottom: var(--s-3); margin: 0;
+  padding: 2px var(--s-2); border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--shadow-sm);
+  font-size: var(--t-micro); color: var(--ink-600); }
+
+/* округлённое расстояние поверх фото — единственное, что на нём стоит (§7.1) */
+.mm-ui .cardtop { position: absolute; top: var(--s-3); right: var(--s-3); margin: 0; }
+.mm-ui .chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px var(--s-2);
+  border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--shadow-sm);
+  font-size: var(--t-micro); font-weight: var(--fw-medium); color: var(--ink-900); }
+.mm-ui .chip svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--ink-600); }
+
+/* общие интересы — первая строка блока (D-13), перечисление чипами */
+.mm-ui .tags { display: flex; flex-wrap: wrap; gap: var(--s-1); margin: 2px 0 0; padding: 0; list-style: none; }
+.mm-ui .tags li { padding: 2px var(--s-2); border-radius: var(--r-pill); background: var(--surface-2);
+  font-size: var(--t-micro); color: var(--ink-900); }
+
+/* тап по всей карточке → профиль человека; поверх фото, под текстом нет нужды */
+.mm-ui .cardlink { position: absolute; inset: 0; border-radius: inherit; }
+.mm-ui .card { position: relative; }
+
+/* ── кружок с лицом рядом с именем ── */
+.mm-ui .avatar { flex: none; display: inline-block; width: 24px; height: 24px; border-radius: 50%;
+  overflow: hidden; background: var(--surface-2); box-shadow: 0 0 0 1px var(--card-ring); vertical-align: -6px; }
+.mm-ui .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mm-ui .skelrow .avatar { width: 56px; height: 56px; vertical-align: 0; }
+
+/* ── обложка события на его карточке: во всю ширину, полосы по числу фото ── */
+.mm-ui .evcover { position: relative; margin: 0; border-radius: var(--r-lg); overflow: hidden;
+  background: var(--surface-2); box-shadow: var(--shadow-sm); }
+.mm-ui .evcover .photo { margin: 0; aspect-ratio: 16 / 9; }
+.mm-ui .evcover .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mm-ui .evcover .pager { margin: 0; }
+
+/* ── переписка: своя реплика справа тёмная, чужая слева белая ── */
+.mm-ui .msgs { display: flex; flex-direction: column; gap: var(--s-2); }
+.mm-ui .bubble { max-width: 80%; margin: 0; align-self: flex-start; padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md) var(--r-md) var(--r-md) var(--r-sm);
+  background: var(--surface); box-shadow: var(--shadow-sm); font-size: var(--t-body-sm); }
+.mm-ui .bubble.me { align-self: flex-end; border-radius: var(--r-md) var(--r-md) var(--r-sm) var(--r-md);
+  background: var(--action); color: var(--ink-on-action); box-shadow: none; }
+.mm-ui .bubble .t { display: block; margin-top: 2px; font-size: var(--t-micro); color: var(--ink-600); }
+.mm-ui .bubble.me .t { color: var(--ink-on-action); opacity: .7; }
+/* не ушло — пузырь перестаёт выглядеть отправленным: светлый, с красной обводкой.
+   Красный на тёмном давал 3,4:1, а на белом даёт 5,9:1 — и смысл тот же (D-52) */
+.mm-ui .bubble.failed, .mm-ui .bubble.me.failed {
+  background: var(--surface); color: var(--ink-900); box-shadow: 0 0 0 1px var(--danger);
+}
+.mm-ui .bubble.failed .t, .mm-ui .bubble.me.failed .t { color: var(--danger); opacity: 1; }
+
+/* фото дошло не целиком — показываем размытым и доводим по мере прихода (D-51) */
+.mm-ui .photo.blur img { filter: blur(14px); transform: scale(1.06); }
+
+/* строка списка — ссылка целиком: подчёркивание тут шум, цвет берётся от текста */
+.mm-ui a.item { text-decoration: none; color: inherit; }
+.mm-ui a.item:hover .top > b { text-decoration: underline; text-underline-offset: 3px; }
+
+/* поле с иконкой одной строкой: поиск в шапке и ввод реплики в диалоге */
+.mm-ui :is(label, form).field { display: flex; align-items: center; gap: var(--s-2);
+  height: var(--tap-min); padding: 0 var(--s-3); border-radius: var(--r-pill);
+  background: var(--surface); box-shadow: var(--shadow-sm); }
+.mm-ui :is(label, form).field > .ico svg { width: var(--icon-md); height: var(--icon-md); color: var(--ink-400); }
+.mm-ui :is(label, form).field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
+  font: var(--fw-regular) var(--t-body-sm)/1.4 var(--font); color: var(--ink-900); }
+.mm-ui :is(label, form).field input::placeholder { color: var(--ink-600); }
+.mm-ui :is(label, form).field:focus-within { box-shadow: 0 0 0 2px var(--action); }
+
+/* ── закреплённая полоса внизу экрана: ввод в диалоге, решение в профиле ── */
+.mm-ui .pin { flex: none; padding: var(--s-2) var(--s-4) 0; }
+.mm-ui .pin > h2:not([hidden]) { margin: 0 0 var(--s-2); }
+.mm-ui .pin .row { margin: 0; }
+
+/* ── совпадение: не экран, а слой поверх колоды ── */
+.mm-ui dialog[open] { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: var(--s-3);
+  width: 100%; margin: 0; padding: 0; border: 0; background: transparent; color: inherit; }
+
+/* ── радар: экран онбординга, данные на нём иллюстративные (D-47) ── */
+.mm-ui .promise { margin: 0 0 var(--s-3); font: var(--fw-bold) var(--t-display)/var(--lh-tight) var(--font);
+  letter-spacing: var(--tr-display); }
+.mm-ui .radar { position: relative; flex: 1; min-height: 0; margin: 0; display: grid; place-items: center; }
+.mm-ui .rings, .mm-ui .rings span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  margin: 0; border-radius: 50%; box-shadow: 0 0 0 1px var(--line); }
+.mm-ui .rings { width: 300px; height: 300px; }
+.mm-ui .rings .mid { width: 200px; height: 200px; }
+.mm-ui .rings .in { width: 100px; height: 100px; }
+.mm-ui .band { position: absolute; left: 50%; transform: translateX(-50%); margin: 0;
+  font-size: var(--t-micro); color: var(--ink-600); background: var(--surface); padding: 0 var(--s-1); }
+.mm-ui .band.far { top: calc(50% - 150px - 8px); }
+.mm-ui .band.mid { top: calc(50% - 100px - 8px); }
+.mm-ui .band.near { top: calc(50% - 50px - 8px); }
+.mm-ui .pins { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+.mm-ui .pins li { position: absolute; display: flex; align-items: center; gap: 4px;
+  font-size: var(--t-micro); color: var(--ink-600); white-space: nowrap; }
+.mm-ui .pins .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--action); }
+.mm-ui .pins .dot.sm { width: 7px; height: 7px; background: var(--ink-400); }
+.mm-ui .pins .dot.lg { width: 13px; height: 13px; }
+.mm-ui .pins .a { top: 16%; left: 22%; }
+.mm-ui .pins .b { top: 30%; right: 18%; }
+.mm-ui .pins .c { top: 46%; left: 12%; }
+.mm-ui .pins .d { top: 52%; right: 24%; }
+.mm-ui .pins .e { bottom: 24%; left: 30%; }
+.mm-ui .pins .f { bottom: 14%; right: 14%; }
+.mm-ui .pins .g { top: 44%; left: 46%; }

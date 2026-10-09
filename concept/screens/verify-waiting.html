@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Верификация · ожидание чужого решения · MeetMates · концепт R</title>
+<!-- Сгенерировано scripts/build-concept-screens.mjs из wireframes/verify-waiting.html — руками не править. -->
+<!--
+  Экран:  I.5 Верификация — sitemap.md, ветка «Человек»
+  Job:    R2 · G5 — «не остаться снаружи из-за чужой ошибки»
+  Поток:  flows.md, M1 — Twice →|да| Manual → ManualGate → ManualResult
+  Состояние: ОЖИДАНИЕ чужого решения D-42 — после двух неудач селфи смотрит
+          живой модератор. Это не загрузка: ждут человека, и спиннер здесь
+          соврал бы, что тормозит приложение.
+  По D-42 страница называет три вещи: кто должен ответить, сколько это
+          живёт, что можно сделать вместо ожидания.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="screens.css">
+</head>
+<body class="mm-ui">
+<i id="bare" hidden></i>
+<nav class="wfrail" aria-label="Разделы проекта">
+  <a class="home" href="../../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
+  <a href="../../research/research.html" aria-label="Раздел 01 — Ресерч и бенчмарк" title="Ресерч и бенчмарк">01</a>
+  <a href="../../research/persones.html" aria-label="Раздел 02 — Персоны и JTBD" title="Персоны и JTBD">02</a>
+  <a href="../../sections/ia.html" aria-label="Раздел 03 — Информационная архитектура" title="Информационная архитектура">03</a>
+  <a href="../../sections/wireframes.html#wireframes" aria-label="Раздел 04 — Прототипирование и вайрфрейминг" title="Прототипирование и вайрфрейминг">04</a>
+  <a href="../../sections/voice.html" aria-label="Раздел 05 — Tone of voice и микрокопи" title="Tone of voice и микрокопи">05</a>
+  <a class="now" aria-current="page" href="../../sections/concept.html#screens" aria-label="Раздел 06 — Концепт" title="Концепт">06</a>
+</nav>
+<nav class="wfnav" aria-label="Экраны концепта">
+  <p class="h">Концепт</p>
+  <p class="t">Направление R «Сирень» · 49 из 49</p>
+  <ul>
+    <li class="grp">
+      <p class="gt"><span class="gn">1</span>Колода</p>
+      <ul>
+        <li class="scr"><a class="s" href="deck.html">Колода</a>
+          <ul>
+            <li><a href="deck-empty.html">пусто</a></li>
+            <li><a href="deck-error.html">ошибка</a></li>
+            <li><a href="deck-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">2</span>Совпадение</p>
+      <ul>
+        <li class="scr"><a class="s" href="match.html">Совпадение</a>
+          <ul>
+
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">3</span>Профиль человека</p>
+      <ul>
+        <li class="scr"><a class="s" href="profile.html">Профиль человека</a>
+          <ul>
+            <li><a href="profile-empty.html">пусто</a></li>
+            <li><a href="profile-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">4</span>Лента событий</p>
+      <ul>
+        <li class="scr"><a class="s" href="feed.html">Лента событий</a>
+          <ul>
+            <li><a href="feed-empty.html">пусто</a></li>
+            <li><a href="feed-error.html">ошибка</a></li>
+            <li><a href="feed-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">5</span>Карточка события</p>
+      <ul>
+        <li class="scr"><a class="s" href="plan.html">Карточка события</a>
+          <ul>
+            <li><a href="plan-waiting.html">ждём автора</a></li>
+            <li><a href="plan-success.html">подтверждено</a></li>
+            <li><a href="plan-error.html">ошибка</a></li>
+            <li><a href="plan-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">6</span>Мои события</p>
+      <ul>
+        <li class="scr"><a class="s" href="my-events.html">Мои события</a>
+          <ul>
+            <li><a href="my-events-empty.html">пусто</a></li>
+            <li><a href="my-events-error.html">ошибка</a></li>
+            <li><a href="my-events-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">7</span>Поиск</p>
+      <ul>
+        <li class="scr"><a class="s" href="search.html">Поиск</a>
+          <ul>
+            <li><a href="search-empty.html">пусто</a></li>
+            <li><a href="search-error.html">ошибка</a></li>
+            <li><a href="search-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">8</span>Список чатов</p>
+      <ul>
+        <li class="scr"><a class="s" href="chats.html">Список чатов</a>
+          <ul>
+            <li><a href="chats-empty.html">пусто</a></li>
+            <li><a href="chats-error.html">ошибка</a></li>
+            <li><a href="chats-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">9</span>Диалог</p>
+      <ul>
+        <li class="scr"><a class="s" href="dialog.html">Диалог</a>
+          <ul>
+            <li><a href="dialog-empty.html">пусто</a></li>
+            <li><a href="dialog-waiting.html">ждём второго</a></li>
+            <li><a href="dialog-success.html">день назначен</a></li>
+            <li><a href="dialog-error.html">ошибка</a></li>
+            <li><a href="dialog-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">10</span>Позвать вдвоём</p>
+      <ul>
+        <li class="scr"><a class="s" href="invite.html">Позвать вдвоём</a>
+          <ul>
+            <li><a href="invite-waiting.html">ждём согласия</a></li>
+            <li><a href="invite-success.html">отклик ушёл</a></li>
+            <li><a href="invite-empty.html">пусто</a></li>
+            <li><a href="invite-error.html">ошибка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">11</span>Верификация</p>
+      <ul>
+        <li class="scr now"><a class="s" href="verify.html">Верификация</a>
+          <ul>
+            <li><b aria-current="page">на проверке</b></li>
+            <li><a href="verify-success.html">пройдено</a></li>
+            <li><a href="verify-success-signup.html">пройдено на входе</a></li>
+            <li><a href="verify-error.html">не распознали</a></li>
+            <li><a href="verify-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">12</span>Радар</p>
+      <ul>
+        <li class="scr"><a class="s" href="radar.html">Радар</a>
+          <ul>
+
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">13</span>Мой профиль</p>
+      <ul>
+        <li class="scr"><a class="s" href="my-profile.html">Мой профиль</a>
+          <ul>
+            <li><a href="my-profile-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <p class="n">Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
+    текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
+</nav>
+<!-- states:start -->
+<nav class="wfstates" aria-label="Состояния экрана Верификация">
+  <p class="t">Верификация · состояния этого экрана</p>
+  <ul>
+    <li><a href="verify.html">рабочий вид</a></li>
+    <li><a href="verify-error.html">ошибка</a></li>
+    <li><a href="verify-loading.html">загрузка</a></li>
+    <li><a href="verify-success.html">успех</a></li>
+    <li class="now"><b aria-current="page">ожидание чужого решения · D-42</b></li>
+    <li><a href="verify-success-signup.html">успех в онбординге: до первого свайпа, возвращать в чат некуда</a></li>
+  </ul>
+</nav>
+<!-- states:end -->
+
+<!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
+     жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
+<div class="device">
+ <div class="screen">
+
+  <!-- зона системы: safe-area сверху, 47px -->
+  <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
+
+<header>
+  <a class="back" href="dialog.html" aria-label="Back to the chat"><span aria-hidden="true">&larr;</span></a>
+  <h1>Verification</h1>
+</header>
+  <main class="app">
+  <div class="pane">
+    <!-- ЗОНА 2: кто ответит и сколько это живёт — два из трёх требований D-42 -->
+    <section class="stretch" aria-labelledby="w-h">
+      <h2 id="w-h" hidden>In manual review</h2>
+      <article class="state">
+        <span class="state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>
+        <h3>Someone from the team is checking your selfie</h3>
+        <p>The automatic check couldn&rsquo;t read your face twice. Usually minutes, at most 24 hours. You&rsquo;ll hear back either way.</p>
+      </article>
+    </section>
+
+    <!-- ЗОНА 3: что можно делать вместо ожидания — третье требование D-42 -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" hidden>Meanwhile</h2>
+      <p class="row">
+        <a class="btn primary" href="deck.html">Keep browsing</a>
+        <a class="btn quiet" href="feed.html">Look at events</a>
+      </p>
+    </section>
+
+    <!-- ЗОНА 4: разговор ждёт — гейт остаётся, но чат не исчезает -->
+    <section aria-labelledby="exit-h">
+      <h2 id="exit-h" hidden>The chat</h2>
+      <a class="exit" href="dialog.html">
+        <span>Open the chat</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
+  </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Назад — в тот же чат, откуда пришёл гейт: экран не тупиковый ни в одном состоянии `D-03`</p>
+    <p class="ann"><b>Зона 2 — кто и сколько.</b> «Ждём модератора», а не «загрузка». Срок назван — требование `D-42`</p>
+    <p class="ann"><b>Зона 3 — что вместо ожидания.</b> Колода и лента открыты: гейт держит только сообщения и отклик, всё остальное работает</p>
+    <p class="ann"><b>Зона 4 — разговор на месте.</b> Матч и чат не пропадают: пока идёт проверка, поле ввода закрыто, но диалог виден</p>
+  </div>
+
+  <!-- ЗОНА 5: таб-бара нет — экран забирает всё, объяснение в служебном блоке -->
+
+  <p class="fold"><span>сгиб — ниже не наше</span></p>
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  <p class="browserbar">meetmates.app</p>
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+
+ </div>
+</div>
+
+<!-- служебное: на прототип не едет -->
+<footer class="meta">
+  <p><b>Верификация · ожидание чужого решения</b> <code>D-42</code> — ручная проверка.</p>
+  <p><b>Дальше по потоку:</b> Модератор пропустил — <a href="verify-success.html">пройдена</a> · отказал с причиной — <a href="verify-error.html">ошибка</a>.</p>
+  <p><b>Job:</b> R2 (тот же риск, но с моей стороны) · G5 «когда продукт меня проверяет,
+    я хочу, чтобы у меня был способ доказать, что я — это я, чтобы не остаться снаружи
+    из-за чужой ошибки».</p>
+  <p><b>Место в потоке M1:</b> <code>Match → IsVerified →|нет| Gate → Now →|да| Verify →
+    Recognised</code>. Гейт стоит перед первым сообщением, а не на входе — <code>D-03</code>.</p>
+  <p><b>Таб-бара нет:</b> съёмка забирает весь экран. Второй такой экран в наборе —
+    модальное «Совпадение».</p>
+  <p><b>Три требования <code>D-42</code> на экране:</b> кто должен ответить — человек
+    из команды; сколько это живёт — минуты, максимум сутки; что можно вместо —
+    колода, лента, вернуться в чат.</p>
+  <p><b>Срок назначен здесь.</b> В _screens.md он стоял как <code>[?]</code>: <code>D-27</code>
+    называет цель «минуты», но это цель, а не факт. Копирайт называет потолок — 24 часа, —
+    потому что ожидание без границы читается как «никогда». Это решение вайрфрейма,
+    и его надо либо подтвердить в <code>D-27</code>, либо поменять на измеренное.</p>
+  <p><b>Выходы:</b> все три нарисованы кнопками; результат проверки ведёт на успех
+    или на ошибку с причиной (flows.md <code>ManualResult</code>).</p>
+  <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
+    Серый ничего не кодирует: состояние читается из текста.</p>
+</footer>
+</body>
+</html>

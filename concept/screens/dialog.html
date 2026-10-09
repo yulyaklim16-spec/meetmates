@@ -3,15 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Мой профиль — как меня видят · загрузка · MeetMates · концепт R</title>
-<!-- Сгенерировано scripts/build-concept-screens.mjs из wireframes/my-profile-loading.html — руками не править. -->
+<title>Диалог · рабочий вид · MeetMates · концепт R</title>
+<!-- Сгенерировано scripts/build-concept-screens.mjs из wireframes/dialog.html — руками не править. -->
 <!--
-  Экран:  I.2 Мой профиль — как меня видят — sitemap.md, ветка «Человек»
-  Job:    S1 · R2, G5
-  Поток:  S1 (trust loop)
-  Состояние: загрузка — единственное описанное состояние экрана (_screens.md).
-  Имя и фото известны локально, поэтому скелет стоит там, где считается
-          на сервере: счётчик встреч и отзывчивость.
+  Экран:  IV.2 Диалог — sitemap.md, ветка «Чат — основная дорога к встрече D-37»
+  Job:    R1 «чтобы у разговора был выход в конкретный день» · M1
+  Поток:  flows.md, M1 и R1 — Dialog → Exit{Как выходим из разговора?}
+          →|предложила день| DayOffer · →|зовём вдвоём| Pair · →|никак| DeadChat
+  Состояние: рабочий вид — разговор идёт, дата ещё не названа.
+  Выходы наружу стоят в самом разговоре: чат — дорога к встрече D-37,
+          и провал здесь не молчание, а разговор без даты.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -130,7 +131,7 @@
     <li class="grp">
       <p class="gt"><span class="gn">9</span>Диалог</p>
       <ul>
-        <li class="scr"><a class="s" href="dialog.html">Диалог</a>
+        <li class="scr now"><b class="s" aria-current="page">Диалог</b>
           <ul>
             <li><a href="dialog-empty.html">пусто</a></li>
             <li><a href="dialog-waiting.html">ждём второго</a></li>
@@ -181,9 +182,9 @@
     <li class="grp">
       <p class="gt"><span class="gn">13</span>Мой профиль</p>
       <ul>
-        <li class="scr now"><a class="s" href="my-profile.html">Мой профиль</a>
+        <li class="scr"><a class="s" href="my-profile.html">Мой профиль</a>
           <ul>
-            <li><b aria-current="page">загрузка</b></li>
+            <li><a href="my-profile-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -193,11 +194,15 @@
     текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
 </nav>
 <!-- states:start -->
-<nav class="wfstates" aria-label="Состояния экрана Мой профиль — как меня видят">
-  <p class="t">Мой профиль — как меня видят · состояния этого экрана</p>
+<nav class="wfstates" aria-label="Состояния экрана Диалог">
+  <p class="t">Диалог · состояния этого экрана</p>
   <ul>
-    <li><a href="my-profile.html">рабочий вид</a></li>
-    <li class="now"><b aria-current="page">загрузка</b></li>
+    <li class="now"><b aria-current="page">рабочий вид</b></li>
+    <li><a href="dialog-empty.html">пусто</a></li>
+    <li><a href="dialog-error.html">ошибка</a></li>
+    <li><a href="dialog-loading.html">загрузка</a></li>
+    <li><a href="dialog-success.html">успех</a></li>
+    <li><a href="dialog-waiting.html">ожидание чужого решения · D-42</a></li>
   </ul>
 </nav>
 <!-- states:end -->
@@ -211,56 +216,48 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <h1 id="me-h">My profile</h1>
-  <button type="button" class="primary" aria-label="Edit profile"><span class="ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M11.4001 18.1612L11.4001 18.1612L18.796 10.7653C17.7894 10.3464 16.5972 9.6582 15.4697 8.53068C14.342 7.40298 13.6537 6.21058 13.2348 5.2039L5.83882 12.5999L5.83879 12.5999C5.26166 13.1771 4.97307 13.4657 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L7.47918 20.5844C8.25351 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5343 19.0269 10.823 18.7383 11.4001 18.1612Z"/><path d="M20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178L14.3999 4.03882C14.4121 4.0755 14.4246 4.11268 14.4377 4.15035C14.7628 5.0875 15.3763 6.31601 16.5303 7.47002C17.6843 8.62403 18.9128 9.23749 19.85 9.56262C19.8875 9.57563 19.9245 9.58817 19.961 9.60026L20.8482 8.71306Z"/></g></svg></span><span class="label">Edit</span></button>
+  <a class="back" href="chats.html" aria-label="Back to chats"><span aria-hidden="true">&larr;</span></a>
+  <span class="avatar" aria-hidden="true"><img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=96&h=96&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></span>
+  <h1>Olena</h1>
+  <button type="button"><span class="ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span><span class="label">Report</span></button>
 </header>
   <main class="app">
   <div class="pane">
-    <!-- ЗОНА 2: известное — сразу, скелет — у того, что считает сервер -->
-    <section class="scrolly" aria-labelledby="see-h">
-      <h2 id="see-h">How others see you</h2>
-      <p class="note" role="status">Updating your meetup count</p>
-      <article class="card">
-        <figure>
-          <p class="photo"><img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=720&h=560&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></p>
-          <figcaption class="vh">Photo 1 of 3</figcaption>
-          <p class="pager" aria-hidden="true"><span class="on"></span><span></span><span></span></p>
-        </figure>
-      </article>
-      <p class="common">Hiking &middot; Board games &middot; Coffee &middot; Running</p>
-      <h3>Dasha, 27</h3>
-      <p class="skelrow" aria-hidden="true">
-        <span class="skel pill w-s"></span>
-        <span class="skel pill w-m"></span>
-        <span class="skel pill w-s"></span>
-      </p>
-      <p class="skel line w-l" aria-hidden="true"></p>
+    <!-- ЗОНА 2: разговор. Прокручивается, выходы и ввод закреплены снизу -->
+    <section class="scrolly" aria-labelledby="msg-h">
+      <h2 id="msg-h" hidden>Chat with Olena</h2>
+      <div class="msgs">
+        <p class="bubble">Hi! Saw you&rsquo;re into board games too<span class="t">Olena &middot; 19:04</span></p>
+        <p class="bubble me">Yes &mdash; there&rsquo;s a game caf&eacute; on Podil I keep meaning to try<span class="t">19:06 &middot; Read</span></p>
+        <p class="bubble">Let&rsquo;s go then. Which day works for you?<span class="t">Olena &middot; 19:08</span></p>
+      </div>
     </section>
 
-    <!-- ЗОНА 3: глубокий слой доступен и во время загрузки -->
-    <section aria-labelledby="deep-h">
-      <h2 id="deep-h" hidden>Everything else</h2>
-      <ul class="rows">
-        <li><a class="item" href="my-events.html"><span class="top"><b>My events</b><span class="when"><span class="skel pill" aria-hidden="true"></span></span></span></a></li>
-        <li><a class="item" href="chats.html"><span class="top"><b>My matches</b><span class="when"><span class="skel pill" aria-hidden="true"></span></span></span></a></li>
-        <li><a class="item" href="verify.html"><span class="top"><b>Verification</b><span class="when"><span class="skel pill" aria-hidden="true"></span></span></span></a></li>
-        <li class="item"><span class="top"><b>Location</b><span class="when">On &middot; rounded</span></span></li>
-        <li class="item"><span class="top"><b>Blocked people</b><span class="when"><span class="skel pill" aria-hidden="true"></span></span></span></li>
-        <li class="item"><span class="top"><b>Safety center</b></span></li>
-        <li class="item"><span class="top"><b>Settings</b><span class="when">Account and notifications</span></span></li>
-      </ul>
-      <p class="note">You&rsquo;ll need to sign in again to get back to your chats and events.</p>
+    <!-- ЗОНА 3: выходы наружу. Ради них экран и существует: D-37 -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" hidden>Ways out of the chat</h2>
       <p class="row">
-        <button type="button" class="quiet">Log out</button>
+        <a class="btn primary" href="dialog-waiting.html">Suggest a day</a>
+        <a class="btn quiet" href="invite.html">Invite together</a>
       </p>
     </section>
   </div>
+  <!-- ЗОНА 4: поле ввода. Верификация пройдена, гейта нет (§7.3) -->
+  <section class="pin" aria-labelledby="in-h">
+    <h2 id="in-h" hidden>Message</h2>
+    <label class="field" for="msg">
+      <span class="ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.4003 22 8.88867 21.6239 7.54785 20.9561C7.19153 20.7786 6.78396 20.7204 6.39941 20.8232L4.17383 21.4189C3.20749 21.6775 2.3225 20.7925 2.58105 19.8262L3.17676 17.6006C3.27965 17.216 3.22142 16.8085 3.04395 16.4521C2.37612 15.1113 2 13.5997 2 12C2 6.47715 6.47715 2 12 2ZM7.99121 11C7.43893 11 6.99121 11.4477 6.99121 12C6.99121 12.5523 7.43893 13 7.99121 13C8.54327 12.9997 8.99121 12.5521 8.99121 12C8.99121 11.4479 8.54327 11.0003 7.99121 11ZM12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11ZM16.0088 11C15.4565 11 15.0088 11.4477 15.0088 12C15.0088 12.5523 15.4565 13 16.0088 13C16.5611 13 17.0088 12.5523 17.0088 12C17.0088 11.4477 16.5611 11 16.0088 11Z" clip-rule="evenodd"/></svg></span>
+      <span class="vh">Message</span>
+      <input id="msg" type="text" placeholder="Write a message">
+    </label>
+  </section>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
-    <p class="ann"><b>Зона 1 — что показываем.</b> Свой профиль глазами другого — потому строка так и называется. Экрана настроек нет: редкие действия тут же, в один тап `D-38`</p>
-    <p class="ann"><b>Зона 2 — известное и считаемое.</b> Фото и имя на руках, скелет — у счётчика встреч и отзывчивости: их считает сервер</p>
-    <p class="ann"><b>Зона 3 — глубокий слой.</b> Список пунктов тот же, что в рабочем виде, и в том же порядке: ждут только значения — счётчики и статус верификации. Пункт, который появляется после загрузки, сдвигал бы палец уже нажимающего человека</p>
+    <p class="ann"><b>Зона 1 — шапка.</b> Имя ведёт в профиль, Report и Block — здесь: правило 4, один тап оттуда, где виден человек</p>
+    <p class="ann"><b>Зона 2 — разговор.</b> Прокручивается; выходы и поле ввода закреплены снизу, чтобы дорога наружу не уезжала вверх вместе с историей</p>
+    <p class="ann"><b>Зона 3 — выходы наружу.</b> Главное действие: <code>Suggest a day</code> → запрос `+1` с датой `D-39`. Второй выход — позвать вдвоём в чужой план `D-36`</p>
+    <p class="ann"><b>Зона 4 — ввод.</b> Гейт снят: иначе здесь стоял бы призыв верифицироваться (§7.3)</p>
   </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
@@ -268,8 +265,8 @@
     <a href="deck.html"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="9" cy="6" r="4"/><path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"/><ellipse cx="9" cy="17" rx="7" ry="4"/><path d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"/></g></svg></span>People</a>
     <a href="feed.html"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg></span>Events</a>
     <a href="search.html"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
-    <a href="chats.html"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
-    <a href="my-profile.html" aria-current="page"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 13C15.866 13 19 14.7909 19 17C19 19.2091 15.866 21 12 21C8.13401 21 5 19.2091 5 17C5 14.7909 8.13401 13 12 13Z"/><path d="M12 2C14.2091 2 16 3.79086 16 6C16 8.20914 14.2091 10 12 10C9.79086 10 8 8.20914 8 6C8 3.79086 9.79086 2 12 2Z"/></g></svg></span>Profile</a>
+    <a href="chats.html" aria-current="page"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.4003 22 8.88867 21.6239 7.54785 20.9561C7.19153 20.7786 6.78396 20.7204 6.39941 20.8232L4.17383 21.4189C3.20749 21.6775 2.3225 20.7925 2.58105 19.8262L3.17676 17.6006C3.27965 17.216 3.22142 16.8085 3.04395 16.4521C2.37612 15.1113 2 13.5997 2 12C2 6.47715 6.47715 2 12 2ZM7.99121 11C7.43893 11 6.99121 11.4477 6.99121 12C6.99121 12.5523 7.43893 13 7.99121 13C8.54327 12.9997 8.99121 12.5521 8.99121 12C8.99121 11.4479 8.54327 11.0003 7.99121 11ZM12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11ZM16.0088 11C15.4565 11 15.0088 11.4477 15.0088 12C15.0088 12.5523 15.4565 13 16.0088 13C16.5611 13 17.0088 12.5523 17.0088 12C17.0088 11.4477 16.5611 11 16.0088 11Z" clip-rule="evenodd"/></svg></span>Chats</a>
+    <a href="my-profile.html"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
   </nav>
 
   <p class="fold"><span>сгиб — ниже не наше</span></p>
@@ -284,16 +281,21 @@
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>Мой профиль · загрузка</b> — пересчитывается счётчик встреч.</p>
-  <p><b>Дальше по потоку:</b> Пересчитали — <a href="my-profile.html">мой профиль</a>.</p>
-  <p><b>Job:</b> S1 «выглядеть тем, кому можно доверять» · R2, G5 (верификация).</p>
-  <p><b>Глубокий слой за вкладкой</b> <code>D-43</code>, <code>D-38</code>: редактирование,
-    верификация, геолокация, заблокированные, safety center, настройки —
-    все в один тап отсюда. Отдельного экрана «настройки» между ними нет.</p>
-  <p><b>Скелет только там, где считает сервер:</b> счётчик подтверждённых встреч
-    и признак отзывчивости (§5.5). Фото и интересы лежат локально и не мигают.</p>
-  <p><b>Это единственное описанное состояние экрана</b> (_screens.md): пустого не бывает,
-    ошибка и успех в дереве не описаны <code>[?]</code>.</p>
+  <p><b>Диалог · рабочий вид</b> — разговор идёт, дата ещё не названа.</p>
+  <p><b>Job:</b> R1 «когда переписка идёт, а до встречи не доходит, я хочу, чтобы
+    у разговора был выход в конкретный день, чтобы мы увиделись, пока интерес живой» · M1.</p>
+  <p><b>Место в потоке:</b> M1 и R1, центр — <code>Dialog → Exit{Как выходим из разговора?}</code>.
+    Три выхода: предложить день <code>D-39</code>, позвать вдвоём <code>D-36</code>, никак —
+    и «никак» ведёт в <code>DeadChat</code>, провал R1.</p>
+  <p><b>Чат — дорога к встрече</b> <code>D-37</code>, а не место для переписки. Поэтому
+    выходы наружу нарисованы в самом разговоре, а не спрятаны в меню.</p>
+  <p><b>Выходы:</b> <code>Suggest a day</code> → предложение дня, ждёт ответа второго
+    (flows.md <code>Exit →|предложила день| DayOffer</code>); <code>Invite together</code> →
+    «Позвать вдвоём» (<code>Exit →|зовём вдвоём| Pair</code>).</p>
+  <p><b>Находка.</b> В _screens.md у диалога описана отдельная раскладка
+    <code>РАЗГОВОР БЕЗ ДАТЫ</code> — провал R1, не пустота и не ошибка. В таблице состояний
+    ей файла нет, поэтому страницы нет: придумывать состояние сверх таблицы нельзя.
+    Решить — либо строка в таблице, либо раскладка остаётся частью рабочего вида.</p>
   <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
     Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>

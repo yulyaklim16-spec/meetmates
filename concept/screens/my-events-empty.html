@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Лента запросов · загрузка · MeetMates · концепт R</title>
-<!-- Сгенерировано scripts/build-concept-screens.mjs из wireframes/feed-loading.html — руками не править. -->
+<title>Мои события · пусто · MeetMates · концепт R</title>
+<!-- Сгенерировано scripts/build-concept-screens.mjs из wireframes/my-events-empty.html — руками не править. -->
 <!--
-  Экран:  III.1 Лента запросов — sitemap.md, ветка «Запрос на компанию»
-  Job:    M1 · G2 · G3
-  Поток:  flows.md, M1 — Feed → FeedLoad["Loading: грузим планы рядом"]
-          → HasPlans
-  Состояние: загрузка. Скелет повторяет строку плана: занятие, счётчик, автор —
-          три строки разной длины, в том же порядке, что в рабочем виде.
+  Экран:  III.6 Мои события — sitemap.md, ветка «Запрос на компанию»
+  Job:    M1 · R4 · R5 / S2
+  Поток:  R5 / S2 — до первого опубликованного события
+  Состояние: пусто — ни своих событий, ни тех, куда иду. На старте это
+          обычный вид: доля создающих — метрика §11, и порог там ещё не взят.
+  Не тупик: отсюда ведут оба действия — создать своё и посмотреть чужие.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,11 +69,11 @@
     <li class="grp">
       <p class="gt"><span class="gn">4</span>Лента событий</p>
       <ul>
-        <li class="scr now"><a class="s" href="feed.html">Лента событий</a>
+        <li class="scr"><a class="s" href="feed.html">Лента событий</a>
           <ul>
             <li><a href="feed-empty.html">пусто</a></li>
             <li><a href="feed-error.html">ошибка</a></li>
-            <li><b aria-current="page">загрузка</b></li>
+            <li><a href="feed-loading.html">загрузка</a></li>
           </ul>
         </li>
       </ul>
@@ -94,9 +94,9 @@
     <li class="grp">
       <p class="gt"><span class="gn">6</span>Мои события</p>
       <ul>
-        <li class="scr"><a class="s" href="my-events.html">Мои события</a>
+        <li class="scr now"><a class="s" href="my-events.html">Мои события</a>
           <ul>
-            <li><a href="my-events-empty.html">пусто</a></li>
+            <li><b aria-current="page">пусто</b></li>
             <li><a href="my-events-error.html">ошибка</a></li>
             <li><a href="my-events-loading.html">загрузка</a></li>
           </ul>
@@ -193,13 +193,13 @@
     текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
 </nav>
 <!-- states:start -->
-<nav class="wfstates" aria-label="Состояния экрана Лента запросов">
-  <p class="t">Лента запросов · состояния этого экрана</p>
+<nav class="wfstates" aria-label="Состояния экрана Мои события — сегмент вкладки Events">
+  <p class="t">Мои события — сегмент вкладки Events · состояния этого экрана</p>
   <ul>
-    <li><a href="feed.html">рабочий вид</a></li>
-    <li><a href="feed-empty.html">пусто</a></li>
-    <li><a href="feed-error.html">ошибка</a></li>
-    <li class="now"><b aria-current="page">загрузка</b></li>
+    <li><a href="my-events.html">рабочий вид</a></li>
+    <li class="now"><b aria-current="page">пусто</b></li>
+    <li><a href="my-events-error.html">ошибка</a></li>
+    <li><a href="my-events-loading.html">загрузка</a></li>
   </ul>
 </nav>
 <!-- states:end -->
@@ -213,48 +213,36 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <h1 id="fd-h">Events nearby</h1>
-  <button type="button"><span class="ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="label">Filters</span></button>
+  <h1 id="me-h">My events</h1>
   <button type="button" class="primary" aria-label="Post an event"><span class="ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="label">Post</span></button>
 </header>
   <main class="app">
   <div class="pane">
-    <!-- ЗОНА 2: срез вкладки. Он местный, не с сервера, — значит стоит во всех состояниях -->
+    <!-- ЗОНА 2: сегмент вкладки. Лента и «мои» — один объект, два среза -->
     <section aria-labelledby="seg-h">
       <h2 id="seg-h" hidden>Which events</h2>
       <p class="row">
-        <a class="btn primary" href="feed.html">Nearby</a>
-        <a class="btn quiet" href="my-events.html">Mine</a>
+        <a class="btn quiet" href="feed.html">Nearby</a>
+        <a class="btn primary" href="my-events.html">Mine</a>
       </p>
     </section>
 
-    <!-- ЗОНА 3: скелет ленты. Три строки на карточку — как в рабочем виде -->
-    <section class="scrolly" aria-labelledby="fd-h">
-      <p class="note" role="status">Looking for events near you</p>
-      <ul class="rows" aria-hidden="true">
-        <li class="item">
-          <span class="skel line w-l"></span>
-          <span class="skel line w-m"></span>
-          <span class="skel line w-s"></span>
-        </li>
-        <li class="item">
-          <span class="skel line w-m"></span>
-          <span class="skel line w-s"></span>
-          <span class="skel line w-m"></span>
-        </li>
-        <li class="item">
-          <span class="skel line w-l"></span>
-          <span class="skel line w-s"></span>
-          <span class="skel line w-m"></span>
-        </li>
-      </ul>
+    <!-- ЗОНА 3: пусто. Названо, что здесь появится, и как это появится -->
+    <section class="stretch" aria-labelledby="mine-h">
+      <h2 id="mine-h" hidden>My events</h2>
+      <article class="state">
+        <span class="state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>
+        <h3>No events yet</h3>
+        <p>Events you post and events you join will show up here &mdash; along with the ones that already happened.</p>
+        <p class="row"><button type="button" class="primary">Post an event</button></p>
+      </article>
     </section>
 
-    <!-- ЗОНА 4: выход живой: ждать ленту необязательно -->
+    <!-- ЗОНА 4: чужие события рядом -->
     <section aria-labelledby="ex-h">
-      <h2 id="ex-h" hidden>People</h2>
-      <a class="exit" href="deck.html">
-        <span>See people</span>
+      <h2 id="ex-h" hidden>Nearby</h2>
+      <a class="exit" href="feed.html">
+        <span>Look at events</span>
         <span aria-hidden="true">&rarr;</span>
       </a>
     </section>
@@ -262,10 +250,10 @@
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
-    <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Кнопка создания живёт здесь и в каждом пустом состоянии — §2.1, п. 3. Фильтр по дате не прячет бессрочные (§5.4)</p>
-    <p class="ann"><b>Зона 2 — срез вкладки.</b> `Nearby` и `Mine` стоят в каждом состоянии: переключатель местный, ждать его нечему, а появись он после загрузки — сдвинул бы всё под пальцем</p>
-    <p class="ann"><b>Зона 3 — скелет ленты.</b> Строки той же длины и в том же порядке, что в карточке плана: приход данных ничего не сдвинет</p>
-    <p class="ann"><b>Зона 4 — выход живой.</b> Дожидаться ленту человек не обязан: колода открыта во время загрузки</p>
+    <p class="ann"><b>Зона 1 — шапка.</b> Тот же `+`, что в ленте: создание доступно и отсюда — §2.1, п. 3</p>
+    <p class="ann"><b>Зона 2 — срез вкладки.</b> `Nearby` и `Mine` — не два экрана, а два среза одного объекта: событие (§6). Поэтому это переключатель, а не вкладка</p>
+    <p class="ann"><b>Зона 3 — пусто.</b> Сказано, что сюда попадает: своё, чужое подтверждённое и прошедшее. Иначе пустой экран читается как поломка</p>
+    <p class="ann"><b>Зона 4 — второй выход.</b> Своё создавать не обязательно: рядом есть чужие, и туда ведёт один тап</p>
   </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
@@ -289,16 +277,18 @@
 
 <!-- служебное: на прототип не едет -->
 <footer class="meta">
-  <p><b>Лента запросов · загрузка</b> — грузим планы рядом.</p>
-  <p><b>Дальше по потоку:</b> Планы есть — <a href="feed.html">лента</a> · нет — <a href="feed-empty.html">пусто</a> · сбой — <a href="feed-error.html">ошибка</a>.</p>
-  <p><b>Job:</b> M1 (второй путь к той же компании) · G2 «хочу куда-то пойти,
-    а компании нет» · G3 «занятие есть, компании нет».</p>
-  <p><b>Место в потоке M1:</b> ветка «ВТОРОЙ ПУТЬ» — <code>Feed → FeedLoad → HasPlans</code>.
-    Путь детерминированный: отклик зависит только от неё, поэтому лента не убрана
-    в глубину (§4).</p>
-  <p><b>Заглушки, а не спиннер:</b> скелет держит раскладку и показывает, что именно
-    грузится. Спиннер не делает ни того, ни другого.</p>
-  <p><b>Это не ожидание чужого решения</b> <code>D-42</code>: ждут данные, секунды.</p>
+  <p><b>Мои события · пусто</b> — ещё ничего не создано и никуда не иду.</p>
+  <p><b>Job:</b> M1 (мои события — вторая сторона того же пути) · R4 «продолжить
+    с теми же людьми без усилия первого раза» · R5 / S2 (сторона автора).</p>
+  <p><b>Где живёт:</b> сегмент вкладки Events — `Nearby` и `Mine`. Вход есть и из профиля
+    строкой «My events» `D-50`, но сам список стоит там, где с ним работают: подтверждать
+    отклики надо часто, а профиль открывают редко.</p>
+  <p><b>Три части в одном экране</b> (sitemap.md): мои события · куда иду ·
+    прошедшие. Серия — одной строкой, а не отдельным объектом (`D-15`).</p>
+  <p><b>На старте это обычный вид.</b> Доля создающих — метрика §11 с порогом «заметно
+    выше 1 %», и пока он не взят, пустой экран здесь норма, а не край.</p>
+  <p><b>Находка:</b> <code>Post an event</code> ведёт на «Создание события» —
+    экрана нет в наборе (_screens.md), поэтому кнопка без перехода.</p>
   <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
     Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>

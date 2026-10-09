@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Профиль другого человека · пусто · MeetMates · концепт R</title>
+<!-- Сгенерировано scripts/build-concept-screens.mjs из wireframes/profile-empty.html — руками не править. -->
+<!--
+  Экран:  I.1 Профиль другого человека — sitemap.md, ветка «Человек»
+  Job:    R2 · G1 — те же, что в рабочем виде
+  Поток:  flows.md, M1 — Person → Trust. Состояние решения не меняет
+  Состояние: пусто — у человека нет активных запросов. При плотности §2.1
+          это частый вид, а не край: планов в городе мало, людей больше.
+  Не тупик: решение по человеку остаётся, и выход в ленту нарисован.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="screens.css">
+</head>
+<body class="mm-ui">
+<i id="bare" hidden></i>
+<nav class="wfrail" aria-label="Разделы проекта">
+  <a class="home" href="../../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
+  <a href="../../research/research.html" aria-label="Раздел 01 — Ресерч и бенчмарк" title="Ресерч и бенчмарк">01</a>
+  <a href="../../research/persones.html" aria-label="Раздел 02 — Персоны и JTBD" title="Персоны и JTBD">02</a>
+  <a href="../../sections/ia.html" aria-label="Раздел 03 — Информационная архитектура" title="Информационная архитектура">03</a>
+  <a href="../../sections/wireframes.html#wireframes" aria-label="Раздел 04 — Прототипирование и вайрфрейминг" title="Прототипирование и вайрфрейминг">04</a>
+  <a href="../../sections/voice.html" aria-label="Раздел 05 — Tone of voice и микрокопи" title="Tone of voice и микрокопи">05</a>
+  <a class="now" aria-current="page" href="../../sections/concept.html#screens" aria-label="Раздел 06 — Концепт" title="Концепт">06</a>
+</nav>
+<nav class="wfnav" aria-label="Экраны концепта">
+  <p class="h">Концепт</p>
+  <p class="t">Направление R «Сирень» · 49 из 49</p>
+  <ul>
+    <li class="grp">
+      <p class="gt"><span class="gn">1</span>Колода</p>
+      <ul>
+        <li class="scr"><a class="s" href="deck.html">Колода</a>
+          <ul>
+            <li><a href="deck-empty.html">пусто</a></li>
+            <li><a href="deck-error.html">ошибка</a></li>
+            <li><a href="deck-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">2</span>Совпадение</p>
+      <ul>
+        <li class="scr"><a class="s" href="match.html">Совпадение</a>
+          <ul>
+
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">3</span>Профиль человека</p>
+      <ul>
+        <li class="scr now"><a class="s" href="profile.html">Профиль человека</a>
+          <ul>
+            <li><b aria-current="page">пусто</b></li>
+            <li><a href="profile-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">4</span>Лента событий</p>
+      <ul>
+        <li class="scr"><a class="s" href="feed.html">Лента событий</a>
+          <ul>
+            <li><a href="feed-empty.html">пусто</a></li>
+            <li><a href="feed-error.html">ошибка</a></li>
+            <li><a href="feed-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">5</span>Карточка события</p>
+      <ul>
+        <li class="scr"><a class="s" href="plan.html">Карточка события</a>
+          <ul>
+            <li><a href="plan-waiting.html">ждём автора</a></li>
+            <li><a href="plan-success.html">подтверждено</a></li>
+            <li><a href="plan-error.html">ошибка</a></li>
+            <li><a href="plan-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">6</span>Мои события</p>
+      <ul>
+        <li class="scr"><a class="s" href="my-events.html">Мои события</a>
+          <ul>
+            <li><a href="my-events-empty.html">пусто</a></li>
+            <li><a href="my-events-error.html">ошибка</a></li>
+            <li><a href="my-events-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">7</span>Поиск</p>
+      <ul>
+        <li class="scr"><a class="s" href="search.html">Поиск</a>
+          <ul>
+            <li><a href="search-empty.html">пусто</a></li>
+            <li><a href="search-error.html">ошибка</a></li>
+            <li><a href="search-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">8</span>Список чатов</p>
+      <ul>
+        <li class="scr"><a class="s" href="chats.html">Список чатов</a>
+          <ul>
+            <li><a href="chats-empty.html">пусто</a></li>
+            <li><a href="chats-error.html">ошибка</a></li>
+            <li><a href="chats-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">9</span>Диалог</p>
+      <ul>
+        <li class="scr"><a class="s" href="dialog.html">Диалог</a>
+          <ul>
+            <li><a href="dialog-empty.html">пусто</a></li>
+            <li><a href="dialog-waiting.html">ждём второго</a></li>
+            <li><a href="dialog-success.html">день назначен</a></li>
+            <li><a href="dialog-error.html">ошибка</a></li>
+            <li><a href="dialog-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">10</span>Позвать вдвоём</p>
+      <ul>
+        <li class="scr"><a class="s" href="invite.html">Позвать вдвоём</a>
+          <ul>
+            <li><a href="invite-waiting.html">ждём согласия</a></li>
+            <li><a href="invite-success.html">отклик ушёл</a></li>
+            <li><a href="invite-empty.html">пусто</a></li>
+            <li><a href="invite-error.html">ошибка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">11</span>Верификация</p>
+      <ul>
+        <li class="scr"><a class="s" href="verify.html">Верификация</a>
+          <ul>
+            <li><a href="verify-waiting.html">на проверке</a></li>
+            <li><a href="verify-success.html">пройдено</a></li>
+            <li><a href="verify-success-signup.html">пройдено на входе</a></li>
+            <li><a href="verify-error.html">не распознали</a></li>
+            <li><a href="verify-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">12</span>Радар</p>
+      <ul>
+        <li class="scr"><a class="s" href="radar.html">Радар</a>
+          <ul>
+
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="grp">
+      <p class="gt"><span class="gn">13</span>Мой профиль</p>
+      <ul>
+        <li class="scr"><a class="s" href="my-profile.html">Мой профиль</a>
+          <ul>
+            <li><a href="my-profile-loading.html">загрузка</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <p class="n">Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
+    текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
+</nav>
+<!-- states:start -->
+<nav class="wfstates" aria-label="Состояния экрана Профиль другого человека">
+  <p class="t">Профиль другого человека · состояния этого экрана</p>
+  <ul>
+    <li><a href="profile.html">рабочий вид</a></li>
+    <li class="now"><b aria-current="page">пусто</b></li>
+    <li><a href="profile-loading.html">загрузка</a></li>
+  </ul>
+</nav>
+<!-- states:end -->
+
+<!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
+     жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
+<div class="device">
+ <div class="screen">
+
+  <!-- зона системы: safe-area сверху, 47px -->
+  <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
+
+<header>
+  <a class="back" href="deck.html" aria-label="Back to people nearby"><span aria-hidden="true">&larr;</span></a>
+  <h1>Olena, 26</h1>
+  <button type="button"><span class="ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span><span class="label">Report</span></button>
+</header>
+  <main class="app">
+  <div class="pane">
+    <!-- ЗОНА 2: кто это — без изменений: профиль пришёл, пусто только в планах -->
+    <section class="scrolly" aria-labelledby="who-h">
+      <h2 id="who-h" hidden>Who</h2>
+      <!-- та же карточка, что в колоде: фото во всю площадь, текст подложкой снизу (§8).
+           Имя не повторяем — оно в шапке экрана; порядок чтения остальной D-13 -->
+      <article class="card">
+        <figure>
+          <p class="photo"><img src="https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?w=720&h=560&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></p>
+          <figcaption class="vh">Photo 1 of 4</figcaption>
+          <p class="pager" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></p>
+          <p class="cardtop">
+            <span class="chip"><span class="ico sm" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
+          </p>
+        </figure>
+        <section class="body" aria-label="Olena">
+          <p class="common">3 common interests</p>
+          <ul class="tags">
+            <li>Hiking</li>
+            <li>Board games</li>
+            <li>Coffee</li>
+          </ul>
+          <ul class="signals">
+            <li><span class="ico sm" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg></span>Verified</li>
+            <li>6 meetups attended</li>
+            <li>Replies quickly</li>
+          </ul>
+        </section>
+      </article>
+    </section>
+
+    <!-- ЗОНА 3: планов нет. Пусто здесь — частый вид, а не край (§2.1) -->
+    <section aria-labelledby="pl-h">
+      <h2 id="pl-h">Olena&rsquo;s events</h2>
+      <article class="state">
+        <span class="state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>
+        <h3>No events from Olena yet</h3>
+        <p>Events here are posted by people themselves &mdash; Olena hasn&rsquo;t posted one yet.</p>
+      </article>
+      <a class="exit" href="feed.html">
+        <span>Look at events</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+      <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
+    </section>
+  </div>
+  <!-- ЗОНА 4: решение. Закреплено внизу: оно должно быть видно до того,
+       как человек долистает профиль, — и доступно при любом состоянии дозагрузки -->
+  <section class="pin" aria-labelledby="act-h">
+    <h2 id="act-h" hidden>Decision</h2>
+    <p class="row">
+      <a class="btn" href="deck.html">Skip</a>
+      <a class="btn primary" href="match.html">Like</a>
+    </p>
+  </section>
+  </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <div class="anns">
+    <p class="ann"><b>Зона 1 — шапка.</b> Report и Block здесь, а не на карточке колоды: до них один тап с экрана, где виден человек — правило 4, `D-44`</p>
+    <p class="ann"><b>Зона 2 — кто это.</b> Не меняется: пусто только в планах, сам профиль на месте</p>
+    <p class="ann"><b>Зона 3 — планов нет.</b> Пустая строка была бы враньём: вместо неё названо, что это значит, и куда идти</p>
+    <p class="ann"><b>Зона 4 — решение.</b> Закреплено внизу: видно сразу, не дожидаясь прокрутки. Работает при любом состоянии — решать можно и с неполным профилем</p>
+  </div>
+
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav aria-label="Main navigation">
+    <a href="deck.html" aria-current="page"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.00098 13.001C12.867 13.001 16.001 14.7918 16.001 17.001C16.001 19.2101 12.867 21.001 9.00098 21.001C5.13498 21.001 2.00098 19.2101 2.00098 17.001C2.00098 14.7918 5.13498 13.001 9.00098 13.001Z"/><path d="M16.4766 14.001C18.9615 14.0011 20.9996 15.3434 21 17C21 18.6569 18.9638 20 16.4785 20C17.2107 19.1997 17.7148 18.1955 17.7148 17.002C17.7148 15.8071 17.2099 14.8017 16.4766 14.001Z"/><path d="M9.00098 2C11.2101 2 13.001 3.79086 13.001 6C13.001 8.20914 11.2101 10 9.00098 10C6.79184 10 5.00098 8.20914 5.00098 6C5.00098 3.79086 6.79184 2 9.00098 2Z"/><path d="M15 3.00098C16.6567 3.00118 18 4.34425 18 6.00098C17.9999 7.6576 16.6566 9.00078 15 9.00098C14.6388 9.00098 14.2924 8.93633 13.9717 8.81934C14.4445 7.98748 14.7148 7.02523 14.7148 6C14.7148 4.97534 14.4449 4.0132 13.9727 3.18164C14.2931 3.06489 14.6392 3.00098 15 3.00098Z"/></g></svg></span>People</a>
+    <a href="feed.html"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg></span>Events</a>
+    <a href="search.html"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+    <a href="chats.html"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
+    <a href="my-profile.html"><span class="ico lg" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+  </nav>
+
+  <p class="fold"><span>сгиб — ниже не наше</span></p>
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  <p class="browserbar">meetmates.app</p>
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+
+ </div>
+</div>
+
+<!-- служебное: на прототип не едет -->
+<footer class="meta">
+  <p><b>Профиль другого человека · пусто</b> — у человека нет активных запросов.</p>
+  <p><b>Job:</b> R2 «понимать, чем рискую, до того как соглашусь на место и время» ·
+    G1 «за несколько секунд понять, стоит ли встречаться».</p>
+  <p><b>Место в потоке M1:</b> <code>HasPeople →|да| Person → Trust{Интересы совпадают
+    и профиль внушает доверие?}</code>. Оба ответа — кнопки зоны 4.</p>
+  <p><b>Оба состояния экрана частичные</b> (_screens.md): шапка приходит вместе с карточкой
+    колоды и рисуется сразу, догружаются остальные фото и ближайшие запросы человека.
+    Поэтому Skip и Like живые в обоих. Состояния ошибки нет <code>D-51</code>.</p>
+  <p><b>Решение закреплено внизу.</b> Прокручивается всё остальное — фотография, интересы,
+    био, её события, — а <code>Skip</code> и <code>Like</code> стоят на месте: главное действие
+    экрана видно сразу, а не после того, как человек долистает. То же правило, что у поля
+    ввода в чате: закрепляем то, что продукт держит на месте.</p>
+  <p><b>Почему это частый вид.</b> Доля создающих запрос — метрика §11, и порог там
+    «заметно выше 1 %». Пока он не взят, профиль без планов — норма, и экран обязан
+    читаться нормально, а не как поломка.</p>
+  <p><b>Выходы:</b> <code>Like</code> / <code>Skip</code> — решение по человеку (flows.md M1);
+    <code>Look at events</code> — §4, выход во второй путь есть всегда.</p>
+  <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
+    Серый ничего не кодирует: состояние читается из текста.</p>
+</footer>
+</body>
+</html>

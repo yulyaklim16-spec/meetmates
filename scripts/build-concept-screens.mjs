@@ -27,7 +27,20 @@ const ICONS = join(ROOT, 'concept/icons/solar-bold');
 const ICONS_LINEAR = join(ROOT, 'concept/icons/solar-linear');
 
 // какие экраны собираем; ссылки между ними остаются внутри концепта
-const SCREENS = ['feed', 'feed-empty', 'feed-error', 'feed-loading', 'my-profile', 'my-profile-loading'];
+const SCREENS = [
+  'feed', 'feed-empty', 'feed-error', 'feed-loading',
+  'search', 'search-empty', 'search-error', 'search-loading',
+  'my-events', 'my-events-empty', 'my-events-error', 'my-events-loading',
+  'plan', 'plan-waiting', 'plan-success', 'plan-error', 'plan-loading',
+  'deck', 'deck-empty', 'deck-error', 'deck-loading', 'match',
+  'profile', 'profile-empty', 'profile-loading',
+  'chats', 'chats-empty', 'chats-error', 'chats-loading',
+  'dialog', 'dialog-empty', 'dialog-waiting', 'dialog-success', 'dialog-error', 'dialog-loading',
+  'invite', 'invite-waiting', 'invite-success', 'invite-empty', 'invite-error',
+  'verify', 'verify-waiting', 'verify-success', 'verify-success-signup', 'verify-error', 'verify-loading',
+  'radar',
+  'my-profile', 'my-profile-loading',
+];
 
 // фото события — по началу названия; проверены, список в concept/references.md
 const unsplash = (id) => `https://images.unsplash.com/photo-${id}?w=320&h=360&fit=crop&q=75&auto=format`;
@@ -37,8 +50,29 @@ const PHOTOS = [
   ['Coffee and a walk', unsplash('1758525223193-1bd8fca96ef3')],    // две девушки с кофе на прогулке
 ];
 
-// портрет в профиле — «B, профиль» из concept/references.md; кадрируется по лицу
-const PORTRAIT = 'https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=720&h=560&fit=crop&crop=faces&q=75&auto=format';
+// портреты — из concept/references.md, кадрируются по лицу
+const face = (id, w = 720, h = 560) =>
+  `https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&fit=crop&crop=faces&q=75&auto=format`;
+const FACES = {
+  dasha: '1758599543111-36ce5c34fceb',   // «B, профиль» — женщина в очках, это я
+  olena: '1662850886700-4ec19bd30d11',   // «A, профиль» — женщина с кудрявыми волосами
+  andrii: '1525457136159-8878648a7ad0',  // «C, профиль» — мужчина в коричневой куртке
+};
+// чей экран — тот и на снимке; верификация показывает своё лицо в камере
+const PORTRAIT_BY_SCREEN = [
+  [/^my-profile/, FACES.dasha],
+  [/^verify/, FACES.dasha],
+  [/^(deck|profile|match)/, FACES.olena],
+];
+const portraitFor = (name) =>
+  face((PORTRAIT_BY_SCREEN.find(([re]) => re.test(name)) || [null, FACES.dasha])[1]);
+
+// маленький кружок рядом с именем: по имени в той же строке, иначе — по очереди
+const AVATAR_BY_NAME = [
+  [/Olena/, FACES.olena],
+  [/Andrii/, FACES.andrii],
+  [/Maryna|Olha|Dasha/, FACES.dasha],
+];
 
 // иконка — по подписи, которая стоит сразу после пустой .ico
 const ICON_BY_LABEL = {
@@ -51,7 +85,15 @@ const ICON_BY_LABEL = {
   Chats: 'chat-round-dots',
   Profile: 'user-rounded',
   Verified: 'verified-check',
+  Report: 'flag',
 };
+
+// иконки без подписи рядом: смысл берётся из места, а не из слова (D-62)
+const ICON_BY_PLACE = [
+  [/<form class="field" role="search">\s*<span class="ico[^"]*" aria-hidden="true"><\/span>/, 'magnifer'],
+  [/<label class="field" for="msg">\s*<span class="ico[^"]*" aria-hidden="true"><\/span>/, 'chat-round-dots'],
+  [/<span class="ico[^"]*" aria-hidden="true"><\/span>~/, 'map-point'],
+];
 
 const svg = (name, dir = ICONS) =>
   readFileSync(join(dir, `${name}.svg`), 'utf8').trim()
@@ -62,17 +104,83 @@ const svg = (name, dir = ICONS) =>
 // ── дерево экранов концепта: та же служебная навигация, что у вайрфреймов ──
 // Рядом с полосой разделов: из экрана видно весь набор и то, где ты в нём.
 const GROUPS = [
+  { title: 'Колода', items: [
+    { file: 'deck', title: 'рабочий вид' },
+    { file: 'deck-empty', title: 'пусто' },
+    { file: 'deck-error', title: 'ошибка' },
+    { file: 'deck-loading', title: 'загрузка' },
+  ] },
+  { title: 'Совпадение', items: [
+    { file: 'match', title: 'рабочий вид' },
+  ] },
+  { title: 'Профиль человека', items: [
+    { file: 'profile', title: 'рабочий вид' },
+    { file: 'profile-empty', title: 'пусто' },
+    { file: 'profile-loading', title: 'загрузка' },
+  ] },
   { title: 'Лента событий', items: [
     { file: 'feed', title: 'рабочий вид' },
     { file: 'feed-empty', title: 'пусто' },
     { file: 'feed-error', title: 'ошибка' },
     { file: 'feed-loading', title: 'загрузка' },
   ] },
+  { title: 'Карточка события', items: [
+    { file: 'plan', title: 'рабочий вид' },
+    { file: 'plan-waiting', title: 'ждём автора' },
+    { file: 'plan-success', title: 'подтверждено' },
+    { file: 'plan-error', title: 'ошибка' },
+    { file: 'plan-loading', title: 'загрузка' },
+  ] },
+  { title: 'Мои события', items: [
+    { file: 'my-events', title: 'рабочий вид' },
+    { file: 'my-events-empty', title: 'пусто' },
+    { file: 'my-events-error', title: 'ошибка' },
+    { file: 'my-events-loading', title: 'загрузка' },
+  ] },
+  { title: 'Поиск', items: [
+    { file: 'search', title: 'рабочий вид' },
+    { file: 'search-empty', title: 'пусто' },
+    { file: 'search-error', title: 'ошибка' },
+    { file: 'search-loading', title: 'загрузка' },
+  ] },
+  { title: 'Список чатов', items: [
+    { file: 'chats', title: 'рабочий вид' },
+    { file: 'chats-empty', title: 'пусто' },
+    { file: 'chats-error', title: 'ошибка' },
+    { file: 'chats-loading', title: 'загрузка' },
+  ] },
+  { title: 'Диалог', items: [
+    { file: 'dialog', title: 'рабочий вид' },
+    { file: 'dialog-empty', title: 'пусто' },
+    { file: 'dialog-waiting', title: 'ждём второго' },
+    { file: 'dialog-success', title: 'день назначен' },
+    { file: 'dialog-error', title: 'ошибка' },
+    { file: 'dialog-loading', title: 'загрузка' },
+  ] },
+  { title: 'Позвать вдвоём', items: [
+    { file: 'invite', title: 'рабочий вид' },
+    { file: 'invite-waiting', title: 'ждём согласия' },
+    { file: 'invite-success', title: 'отклик ушёл' },
+    { file: 'invite-empty', title: 'пусто' },
+    { file: 'invite-error', title: 'ошибка' },
+  ] },
+  { title: 'Верификация', items: [
+    { file: 'verify', title: 'рабочий вид' },
+    { file: 'verify-waiting', title: 'на проверке' },
+    { file: 'verify-success', title: 'пройдено' },
+    { file: 'verify-success-signup', title: 'пройдено на входе' },
+    { file: 'verify-error', title: 'не распознали' },
+    { file: 'verify-loading', title: 'загрузка' },
+  ] },
+  { title: 'Радар', items: [
+    { file: 'radar', title: 'рабочий вид' },
+  ] },
   { title: 'Мой профиль', items: [
     { file: 'my-profile', title: 'рабочий вид' },
     { file: 'my-profile-loading', title: 'загрузка' },
   ] },
 ];
+
 
 const tree = (current) => `<nav class="wfnav" aria-label="Экраны концепта">
   <p class="h">Концепт</p>
@@ -125,6 +233,10 @@ for (const name of SCREENS) {
     if (!icon) throw new Error(`${name}: нет иконки для «${label}»`);
     return `<span class="ico${size || ''}" aria-hidden="true">${svg(icon)}</span>${label}`;
   });
+  for (const [re, icon] of ICON_BY_PLACE) {
+    body = body.replace(new RegExp(re.source, 'g'), (m) =>
+      m.replace('</span>', `${svg(icon)}</span>`));
+  }
   if (/<span class="ico[^"]*" aria-hidden="true"><\/span>/.test(body)) throw new Error(`${name}: осталась пустая иконка`);
 
   // 4а. нижнее меню: активной вкладке — залитая иконка, остальным контурная (D-62)
@@ -138,8 +250,28 @@ for (const name of SCREENS) {
     }));
 
   // 3б. портрет в карточке профиля — на месте серой плашки .photo
-  body = body.replace(/<p class="photo" aria-hidden="true"><\/p>/g,
-    `<p class="photo"><img src="${PORTRAIT}" alt="" loading="lazy"></p>`);
+  // обложка на карточке события — по названию события в заголовке экрана
+  body = body.replace(/(<figure class="evcover">\s*)<p class="photo"[^>]*><\/p>/g, (m, head) => {
+    const t = (src.match(/<h1[^>]*>([^<]*)<\/h1>/) || [])[1] || '';
+    const hit = PHOTOS.find(([k]) => t.startsWith(k));
+    if (!hit) throw new Error(`${name}: нет обложки для события «${t}»`);
+    return `${head}<p class="photo"><img src="${hit[1].replace('w=320&h=360', 'w=780&h=440')}" alt="" loading="lazy"></p>`;
+  });
+  body = body.replace(/<p class="photo( blur)?"(?: aria-hidden="true")?><\/p>/g,
+    (m, blur) => `<p class="photo${blur || ''}"><img src="${portraitFor(name)}" alt="" loading="lazy"></p>`);
+
+  // кружки рядом с именем
+  let avatarTurn = 0;
+  body = body.replace(/<(span|p)([^>]*)class="([^"]*\bwho\b[^"]*)"([^>]*)>([\s\S]*?)<\/\1>/g, (block) =>
+    block.replace(/<span class="avatar"( aria-hidden="true")?><\/span>/g, (av, hid) => {
+      const hit = AVATAR_BY_NAME.find(([re]) => re.test(block));
+      const id = hit ? hit[1] : Object.values(FACES)[avatarTurn++ % 3];
+      return `<span class="avatar"${hid || ''}><img src="${face(id, 96, 96)}" alt="" loading="lazy"></span>`;
+    }));
+  body = body.replace(/<span class="avatar"( aria-hidden="true")?><\/span>/g, (av, hid) => {
+    const id = Object.values(FACES)[avatarTurn++ % 3];
+    return `<span class="avatar"${hid || ''}><img src="${face(id, 96, 96)}" alt="" loading="lazy"></span>`;
+  });
 
   // 4б. кнопки шапки — только иконка: подпись остаётся в разметке, но скрыта для глаз
   body = body.replace(/<header>[\s\S]*?<\/header>/, (h) =>
