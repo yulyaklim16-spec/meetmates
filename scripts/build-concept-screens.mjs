@@ -100,6 +100,7 @@ const ICON_BY_PLACE = [
   [/<form class="field" role="search">\s*<span class="ico[^"]*" aria-hidden="true"><\/span>/, 'magnifer'],
   [/<label class="field" for="msg">\s*<span class="ico[^"]*" aria-hidden="true"><\/span>/, 'chat-round-dots'],
   [/<span class="ico[^"]*" aria-hidden="true"><\/span>~/, 'map-point'],
+  [/<span class="retry ico[^"]*" aria-hidden="true"><\/span>/, 'danger-circle'],
 ];
 
 const svg = (name, dir = ICONS) =>
@@ -241,7 +242,10 @@ for (const name of SCREENS) {
 
   // 4б. кнопки шапки — только иконка: подпись остаётся в разметке, но скрыта для глаз
   body = body.replace(/<header>[\s\S]*?<\/header>/, (h) =>
-    h.replace(/(<\/svg><\/span>)([^<]+)(<\/button>)/g, '$1<span class="label">$2</span>$3'));
+    h.replace(/(<\/svg><\/span>)([^<]+)(<\/button>)/g, '$1<span class="label">$2</span>$3')
+      // жалобу подписываем словом: флажок без подписи не читается (решение дизайнера)
+      .replace(/<button type="button">(?=(?:(?!<\/button>)[\s\S])*<span class="label">Report<)/,
+        '<button type="button" class="report">'));
 
   // 5. отметка Verified — одинаковая в каждой строке
   body = body.replace(/(<span class="who">[^<]*?)Verified(<\/span>)/g,

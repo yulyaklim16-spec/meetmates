@@ -38,6 +38,20 @@
 .mm-ui header button.primary:hover { background: var(--ink-900); opacity: .9; }
 .mm-ui header .ico svg { width: var(--icon-md); height: var(--icon-md); }
 
+/* Жалоба — единственная кнопка шапки со словом: флажок сам по себе не читается,
+   а действие это безопасности, и угадывать его нельзя. Круга под ней нет и иконка
+   меньше, чтобы она не спорила с главным действием экрана. Высота остаётся 44px:
+   это минимальный тач-таргет (§8), уменьшается только вид, не площадь нажатия. */
+.mm-ui header button.report {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: auto; height: var(--tap-min); padding: 0 var(--s-2); gap: 5px; border-radius: var(--r-pill);
+  background: none; box-shadow: none; color: var(--danger);
+  font: var(--fw-semibold) var(--t-micro)/1 var(--font);
+}
+.mm-ui header button.report:hover { background: var(--danger-soft); }
+.mm-ui header button.report .ico svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--danger); }
+.mm-ui header button.report .label { position: static; width: auto; height: auto; margin: 0; clip-path: none; white-space: nowrap; }
+
 /* ── кнопки содержимого: главная — action, тихая — surface-2 ── */
 .mm-ui :is(.btn, button.primary, button.quiet):not(header *) {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
@@ -293,12 +307,21 @@
   background: var(--mine); color: var(--ink-900); box-shadow: none; }
 .mm-ui .bubble .t { display: block; margin-top: 2px; font-size: var(--t-micro); color: var(--ink-600); }
 .mm-ui .bubble.me .t { color: var(--ink-600); }
-/* не ушло — пузырь перестаёт выглядеть отправленным: светлый, с красной обводкой.
-   Красный на тёмном давал 3,4:1, а на белом даёт 5,9:1 — и смысл тот же (D-52) */
+/* Не ушло — пузырь залит розоватым и обведён: видно сразу, не вчитываясь.
+   Подчёркивания нет, хотя это ссылка: подчёркнутый текст читается как ошибка вёрстки,
+   а не как «нажми, чтобы повторить» — это говорит подпись под репликой (D-52). */
 .mm-ui .bubble.failed, .mm-ui .bubble.me.failed {
-  background: var(--surface); color: var(--ink-900); box-shadow: 0 0 0 1px var(--danger);
+  background: var(--danger-soft); color: var(--ink-900); text-decoration: none;
+  box-shadow: 0 0 0 1px var(--danger);
 }
-.mm-ui .bubble.failed .t, .mm-ui .bubble.me.failed .t { color: var(--danger); opacity: 1; }
+.mm-ui .bubble.failed .t, .mm-ui .bubble.me.failed .t {
+  display: flex; align-items: center; gap: 4px; color: var(--danger); opacity: 1;
+}
+/* иконка повтора в правом углу — так её описывает сам макет: пузырь стал кнопкой */
+.mm-ui .bubble.failed { position: relative; padding-right: calc(var(--s-3) + var(--icon-sm) + 4px); }
+.mm-ui .bubble.failed .retry { position: absolute; top: var(--s-2); right: var(--s-2);
+  display: inline-flex; color: var(--danger); }
+.mm-ui .bubble.failed .retry svg { width: var(--icon-sm); height: var(--icon-sm); }
 
 /* фото дошло не целиком — показываем размытым и доводим по мере прихода (D-51) */
 .mm-ui .photo.blur img { filter: blur(14px); transform: scale(1.06); }
@@ -326,6 +349,18 @@
   font: var(--fw-regular) var(--t-body-sm)/1.4 var(--font); color: var(--ink-900); }
 .mm-ui :is(label, form).field input::placeholder { color: var(--ink-600); }
 .mm-ui :is(label, form).field:focus-within { box-shadow: 0 0 0 2px var(--action); }
+
+/* Итог разговора: день назначен, разговор превратился в событие (D-39).
+   Карточка, а не абзац: это новый объект, а не ещё одна реплика. Кнопка отбита
+   от текста — раньше она стояла к нему вплотную. */
+.mm-ui .banner {
+  display: flex; flex-direction: column; gap: var(--s-1);
+  margin-top: var(--s-3); padding: var(--s-3) var(--s-4) var(--s-4);
+  border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow-sm);
+}
+.mm-ui .banner b { font-weight: var(--fw-semibold); }
+.mm-ui .banner p { margin: 0; color: var(--ink-600); font-size: var(--t-body-sm); }
+.mm-ui .banner .row { margin-top: var(--s-3); }
 
 /* ── закреплённая полоса внизу экрана: ввод в диалоге, решение в профиле ── */
 /* поля экрана уже заданы у .app — своих горизонтальных здесь быть не должно,
