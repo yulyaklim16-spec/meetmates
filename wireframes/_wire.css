@@ -160,8 +160,7 @@ body:has(#bare:target) .device {
 
 /* где мы сейчас: заливка и полоса слева — один признак на одну страницу.
    Экран, внутри которого мы находимся, помечен только линией состояний выше */
-.wfnav [aria-current="page"] { background: var(--w-fill); color: var(--w-ink); font-weight: 700;
-  box-shadow: inset 2px 0 0 var(--w-ink); }
+.wfnav [aria-current="page"] { background: var(--w-fill); color: var(--w-ink); font-weight: 700; }
 
 /* ── мокап телефона ──────────────────────────────────────────
    Мы строим мобильный веб, и продукт владеет не всей высотой:

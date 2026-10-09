@@ -82,8 +82,7 @@ body {
 .wfnav .scr > ul a, .wfnav .scr > ul b { display: block; padding: 3px var(--s-3); border-radius: var(--r-sm); font-weight: 400; color: var(--ink-600); text-decoration: none; }
 /* где мы сейчас: заливка и полоса слева — один признак на одну страницу.
    Экран, внутри которого мы находимся, помечен только линией состояний выше */
-.wfnav [aria-current="page"] { background: var(--surface-2); color: var(--ink-900); font-weight: 700;
-  box-shadow: inset 2px 0 0 var(--action); }
+.wfnav [aria-current="page"] { background: var(--surface-2); color: var(--ink-900); font-weight: 700; }
 .wfnav a:hover, .wfnav a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
 
 @media (max-width: 1000px) {
