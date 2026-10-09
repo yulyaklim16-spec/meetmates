@@ -328,23 +328,19 @@
 /* строки идут просторнее обычного display: подложки двух слов иначе сходятся краями */
 .mm-ui .promise { margin: 0 0 var(--s-3); font: var(--fw-bold) var(--t-display)/1.24 var(--font);
   letter-spacing: var(--tr-display); }
-/* Радар — единственный экран на насыщенном фиолетовом, и причина не вкус:
-   лайм буквами на светлом фоне даёт 1,2:1, а на #6B3BC0 — 5,7:1. Белый на нём 7:1.
-   Экран показывается один раз, при первом входе (D-47), и остальной продукт
-   остаётся светлым. */
-.mm-ui .screen:has(.radar) { background-color: var(--onboard); background-image: var(--onboard-wash); }
-.mm-ui .screen:has(.radar) :is(.statusbar, .promise) { color: var(--surface); }
-.mm-ui .screen:has(.radar) .rings span,
-.mm-ui .screen:has(.radar) .rings { box-shadow: 0 0 0 2px rgba(255, 255, 255, .55); }
-.mm-ui .screen:has(.radar) .scan { box-shadow: 0 0 0 3px var(--label); }
-/* подписи колец ложатся поверх снимков — поэтому они на тёмной пилюле,
-   как и кнопки: белый на ней 19,9:1 вне зависимости от того, что под ней */
-.mm-ui .screen:has(.radar) .band { background: var(--action); color: var(--ink-on-action);
-  padding: 2px var(--s-2); border-radius: var(--r-pill); }
-
-/* заголовок обещания: капсом, по центру, лайм — буквами, без подложки */
+/* Радар живёт на том же фоне, что и остальные экраны: отдельный цвет делал
+   из него чужую страницу. Заголовок капсом по центру, два слова — в лаймовом
+   контейнере: лаймовым текстом их не сделать, на светлом фоне это 1,2:1,
+   а тёмный текст на лайме читается 15:1. */
 .mm-ui .promise { text-align: center; text-transform: uppercase; }
-.mm-ui .promise mark { background: transparent; color: var(--label); }
+.mm-ui .promise mark { background: var(--label); color: var(--ink-on-label);
+  padding: .02em .12em; border-radius: var(--r-sm);
+  box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+/* подписи колец ложатся поверх снимков — поэтому они на тёмной пилюле:
+   белый на ней 19,9:1 вне зависимости от того, что под ней */
+.mm-ui .band { background: var(--action); color: var(--ink-on-action);
+  padding: 2px var(--s-2); border-radius: var(--r-pill); }
 
 .mm-ui .radar { position: relative; flex: 1; min-height: 0; margin: 0; display: grid; place-items: center; }
 .mm-ui .rings, .mm-ui .rings span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -356,7 +352,7 @@
 .mm-ui .rings .in { width: 150px; height: 150px; }
 .mm-ui .rings .r1 { width: 100px; height: 100px; }
 .mm-ui .band { position: absolute; left: 50%; transform: translateX(-50%); margin: 0;
-  font-size: var(--t-micro); color: var(--ink-600); background: var(--surface); padding: 0 var(--s-1); }
+  font-size: var(--t-micro); }
 .mm-ui .band.far { top: calc(50% - 170px - 9px); }
 .mm-ui .band.mid { top: calc(50% - 125px - 9px); }
 .mm-ui .band.near { top: calc(50% - 75px - 9px); }
