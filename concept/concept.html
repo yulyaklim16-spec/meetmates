@@ -204,7 +204,7 @@ code{font-size:.92em}
   <!-- ═════════ Цвета ═════════ -->
   <section aria-labelledby="c-h">
     <h2 id="c-h">Цвета</h2>
-    <p class="lead">Почти без цвета: серые несут структуру, один оранжевый — действие. У каждой группы — атрибут из <code>concept.md</code>, из которого она следует.</p>
+    <p class="lead">Цвет держит фон, а не кнопка: размытие вверху экрана, белые карточки поверх, тёмное действие и одна лаймовая лейба. У каждой группы — атрибут из <code>concept.md</code>, из которого она следует.</p>
     <div class="colors">
       <div class="panel">
         <h3>Основной</h3>
@@ -214,12 +214,18 @@ code{font-size:.92em}
       <div class="panel">
         <h3>Акцентный</h3>
         <div class="sw-row"><div class="sw"><i style="background:var(--action)"></i><b>Action</b><code data-tok="action"></code></div><div class="sw"><i style="background:var(--action-hover)"></i><b>Action hover</b><code data-tok="action-hover"></code></div><div class="sw"><i style="background:var(--ink-on-action)"></i><b>Текст на action</b><code data-tok="ink-on-action"></code></div></div>
-        <p class="why">Только главная кнопка экрана. <span>Пара 5 «одно ясное действие»: на экране одно цветное пятно — его и нажимают.</span></p>
+        <p class="why">Только главная кнопка экрана. <span>Пара 5 «одно действие»: нажимаемая кнопка на экране одна, и она залита. Самой яркой она быть перестала — это записано в <code>D-62</code>.</span></p>
+      </div>
+      <div class="panel">
+        <h3>Лейба</h3>
+        <div class="sw-row"><div class="sw"><i style="background:var(--label)"></i><b>Label</b><code data-tok="label"></code></div><div class="sw"><i style="background:var(--ink-on-label)"></i><b>Текст на лейбе</b><code data-tok="ink-on-label"></code></div></div>
+        <p class="why">Отметка <code>Verified</code> — одна и та же в ленте и в профиле. <span>Пара 2 «проверка заметна»: её видно за секунду взгляда, до первого сообщения. Пустой <code>--label</code> выключает подложку, и слово возвращается к цвету текста.</span></p>
       </div>
       <div class="panel">
         <h3>Нейтральные</h3>
         <div class="sw-row"><div class="sw"><i style="background:var(--bg)"></i><b>Bg</b><code data-tok="bg"></code></div><div class="sw"><i style="background:var(--surface)"></i><b>Surface</b><code data-tok="surface"></code></div><div class="sw"><i style="background:var(--surface-2)"></i><b>Surface 2</b><code data-tok="surface-2"></code></div><div class="sw"><i style="background:var(--line)"></i><b>Line</b><code data-tok="line"></code></div><div class="sw"><i style="background:var(--ink-600)"></i><b>Ink 600</b><code data-tok="ink-600"></code></div><div class="sw"><i style="background:var(--ink-400)"></i><b>Ink 400 · иконки</b><code data-tok="ink-400"></code></div></div>
-        <p class="why">Фон, карточки, линии, вторичный текст. <span>Пара 1 «спокойный, а не тревожный»: серые без оттенка, много воздуха — экран не торопит.</span></p>
+        <div class="sw" style="margin-top:var(--s-3)"><i style="background:var(--bg-wash);height:72px;border-radius:var(--r-sm)"></i><b>Bg wash</b><code data-tok="bg-wash-top"></code></div>
+        <p class="why">Фон, карточки, линии, вторичный текст. Экран ниже размытия — чистый белый; само размытие <code>--bg-wash</code> живёт вверху и к 57% высоты сходит в него. Полоса выше — оно же, сжатое по высоте; значение рядом — самое тёмное его место, по нему считается контраст. <span>Пара 1 «спокойный, а не тревожный»: цвет размыт и бледен, поверхности белые, много воздуха — экран не торопит.</span></p>
       </div>
       <div class="panel">
         <h3>Состояния</h3>
