@@ -75,10 +75,15 @@ const RADAR_EVENTS = [
   '1758274533800-6a5fe97f53f6',  // четверо друзей в парке
 ];
 
+// У каждого имени своё лицо: в одной строке их бывает несколько,
+// и три одинаковых кружка читаются как ошибка данных.
 const AVATAR_BY_NAME = [
-  [/Olena/, FACES.olena],
-  [/Andrii/, FACES.andrii],
-  [/Maryna|Olha|Dasha/, FACES.dasha],
+  ['Olena', FACES.olena],
+  ['Andrii', FACES.andrii],
+  ['Dasha', FACES.dasha],
+  ['Maryna', '1535295972055-1c762f4483e5'],
+  ['Olha', '1580489944761-15a19d654956'],
+  ['Ihor', '1568602471122-7832951cc4c5'],
 ];
 
 // иконка — по подписи, которая стоит сразу после пустой .ico
@@ -229,12 +234,20 @@ for (const name of SCREENS) {
 
   // кружки рядом с именем
   let avatarTurn = 0;
-  body = body.replace(/<(span|p)([^>]*)class="([^"]*\bwho\b[^"]*)"([^>]*)>([\s\S]*?)<\/\1>/g, (block) =>
-    block.replace(/<span class="avatar"( aria-hidden="true")?><\/span>/g, (av, hid) => {
-      const hit = AVATAR_BY_NAME.find(([re]) => re.test(block));
-      const id = hit ? hit[1] : Object.values(FACES)[avatarTurn++ % 3];
+  body = body.replace(/<(span|p)([^>]*)class="([^"]*\bwho\b[^"]*)"([^>]*)>([\s\S]*?)<\/\1>/g, (block) => {
+    // имена берём в том порядке, в каком они стоят в строке, и раздаём кружкам по одному
+    const named = AVATAR_BY_NAME
+      .map(([name, id]) => [block.indexOf(name), id])
+      .filter(([at]) => at >= 0)
+      .sort((a, b) => a[0] - b[0])
+      .map(([, id]) => id);
+    let i = 0;
+    return block.replace(/<span class="avatar"( aria-hidden="true")?><\/span>/g, (av, hid) => {
+      const id = named[i] || Object.values(FACES)[avatarTurn++ % 3];
+      i += 1;
       return `<span class="avatar"${hid || ''}><img src="${face(id, 96, 96)}" alt="" loading="lazy"></span>`;
-    }));
+    });
+  });
   body = body.replace(/<span class="avatar"( aria-hidden="true")?><\/span>/g, (av, hid) => {
     const id = Object.values(FACES)[avatarTurn++ % 3];
     return `<span class="avatar"${hid || ''}><img src="${face(id, 96, 96)}" alt="" loading="lazy"></span>`;
