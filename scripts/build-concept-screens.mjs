@@ -102,8 +102,9 @@ const ICON_BY_LABEL = {
 
 // иконки без подписи рядом: смысл берётся из места, а не из слова (D-62)
 const ICON_BY_PLACE = [
-  [/<form class="field" role="search">\s*<span class="ico[^"]*" aria-hidden="true"><\/span>/, 'magnifer'],
-  [/<label class="field" for="msg">\s*<span class="ico[^"]*" aria-hidden="true"><\/span>/, 'chat-round-dots'],
+  // в поле иконка контурная: поле ничего не утверждает, оно ждёт ввода
+  [/<form class="field" role="search">\s*<span class="ico[^"]*" aria-hidden="true"><\/span>/, 'magnifer', ICONS_LINEAR],
+  [/<label class="field" for="msg">\s*<span class="ico[^"]*" aria-hidden="true"><\/span>/, 'chat-round-dots', ICONS_LINEAR],
   [/<span class="ico[^"]*" aria-hidden="true"><\/span>~/, 'map-point'],
   [/<span class="retry ico[^"]*" aria-hidden="true"><\/span>/, 'danger-circle'],
 ];
@@ -167,9 +168,9 @@ for (const name of SCREENS) {
     if (!icon) throw new Error(`${name}: нет иконки для «${label}»`);
     return `<span class="ico${size || ''}" aria-hidden="true">${svg(icon)}</span>${label}`;
   });
-  for (const [re, icon] of ICON_BY_PLACE) {
+  for (const [re, icon, dir] of ICON_BY_PLACE) {
     body = body.replace(new RegExp(re.source, 'g'), (m) =>
-      m.replace('</span>', `${svg(icon)}</span>`));
+      m.replace('</span>', `${svg(icon, dir || ICONS)}</span>`));
   }
   if (/<span class="ico[^"]*" aria-hidden="true"><\/span>/.test(body)) throw new Error(`${name}: осталась пустая иконка`);
 
@@ -254,7 +255,7 @@ for (const name of SCREENS) {
   });
 
   // 4б. кнопки шапки — только иконка: подпись остаётся в разметке, но скрыта для глаз
-  body = body.replace(/<header>[\s\S]*?<\/header>/, (h) =>
+  body = body.replace(/<header[^>]*>[\s\S]*?<\/header>/, (h) =>
     h.replace(/(<\/svg><\/span>)([^<]+)(<\/button>)/g, '$1<span class="label">$2</span>$3')
       // жалобу подписываем словом: флажок без подписи не читается (решение дизайнера)
       .replace(/<button type="button">(?=(?:(?!<\/button>)[\s\S])*<span class="label">Report<)/,
