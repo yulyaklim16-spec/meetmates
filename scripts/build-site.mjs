@@ -10,7 +10,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, rmSync, existsSync } from 'node:fs';
 import { execSync } from 'node:child_process';
-import { dirname, join, posix } from 'node:path';
+import { dirname, join, posix, sep } from 'node:path';
 
 const ROOT = process.cwd();
 const OUT = join(ROOT, 'dist');
@@ -118,17 +118,21 @@ const publish = (html, dirRelativeToRoot) =>
     const href = attrs.match(/href="([^"]+)"/);
     if (!href) return tag;
     const url = href[1];
-    // внешние ссылки, якоря, страницы сайта, папки с query и картинки оставляем как есть
+    // Якорь и параметры отрезаем перед проверкой: «страница сайта с #якорем» —
+    // это та же страница сайта. Без этого ссылки вида sections/concept.html#screens
+    // уводили в репозиторий, то есть полоса разделов не работала на макетах.
+    const path = url.split(/[?#]/)[0];
+    // внешние ссылки, якоря, страницы сайта, папки и картинки оставляем как есть
     if (
       /^(https?:|mailto:|#)/.test(url) ||
-      url.endsWith('.html') ||
-      url.endsWith('.png') ||
-      url.includes('?') ||
-      url.endsWith('/')
+      path.endsWith('.html') ||
+      path.endsWith('.png') ||
+      path === '' ||
+      path.endsWith('/')
     ) return tag;
 
     if (BLOB) {
-      const fromRoot = posix.normalize(posix.join(dirRelativeToRoot, url));
+      const fromRoot = posix.normalize(posix.join(dirRelativeToRoot, path));
       rewritten.push(fromRoot);
       const next = attrs.replace(/href="[^"]+"/, `href="${BLOB}${fromRoot}"`);
       return `<a${next}${/target=/.test(next) ? '' : ' target="_blank" rel="noopener"'}>`;
@@ -157,7 +161,18 @@ writeFileSync(join(OUT, 'index.html'), readFileSync(join(ROOT, 'index.html'), 'u
 // ── 5. без индексации: страницы внутренние ─────────────────────
 writeFileSync(join(OUT, 'robots.txt'), 'User-agent: *\nDisallow: /\n', 'utf8');
 
-// ── 6. проверка: ни одного .md в сборке ────────────────────────
+// ── 6. проверка: ни одна ссылка на страницу сайта не уведена наружу ──
+// Ровно эта ошибка уже случалась: ссылка с якорем (sections/concept.html#screens)
+// не распознавалась как страница сайта и уходила в репозиторий — полоса разделов
+// на макетах переставала работать. Теперь сборка падает, а не публикует это.
+const published = new Set(pages.map((p) => p.rel.split(sep).join('/')));
+const wrong = rewritten.filter((f) => published.has(f));
+if (wrong.length) {
+  console.error('Ссылки на страницы сайта уведены на GitHub:\n  ' + [...new Set(wrong)].join('\n  '));
+  process.exit(1);
+}
+
+// ── 7. проверка: ни одного .md в сборке ────────────────────────
 const leaked = copied.filter((f) => f.endsWith('.md'));
 if (leaked.length) {
   console.error('В сборку попали внутренние документы:\n  ' + leaked.join('\n  '));
