@@ -161,7 +161,36 @@ writeFileSync(join(OUT, 'index.html'), readFileSync(join(ROOT, 'index.html'), 'u
 // ── 5. без индексации: страницы внутренние ─────────────────────
 writeFileSync(join(OUT, 'robots.txt'), 'User-agent: *\nDisallow: /\n', 'utf8');
 
-// ── 6. проверка: ни одна ссылка на страницу сайта не уведена наружу ──
+// ── 6. проверка: полоса разделов везде говорит одно и то же ────
+// Страницы ресерча написаны руками до появления сборщиков и несут свою копию
+// полосы. Она уже отставала: 05 и 06 были готовы, а там стояло «скоро».
+// Теперь расхождение валит сборку, а не доживает до показа.
+{
+  const state = new Map();   // номер раздела → { состояние: [страницы] }
+  for (const p of pages) {
+    const html = readFileSync(join(OUT, p.rel), 'utf8');
+    for (const m of html.matchAll(/<span class="n">(\d\d)<\/span><span class="t">[^<]*<i>([^<]+)<\/i>/g)) {
+      const [, num, label] = m;
+      if (label === 'текущий раздел') continue;   // у каждой страницы свой текущий
+      if (!state.has(num)) state.set(num, new Map());
+      const byLabel = state.get(num);
+      if (!byLabel.has(label)) byLabel.set(label, []);
+      byLabel.get(label).push(p.rel);
+    }
+  }
+  const split = [...state.entries()].filter(([, byLabel]) => byLabel.size > 1);
+  if (split.length) {
+    console.error('Полоса разделов расходится между страницами:');
+    for (const [num, byLabel] of split) {
+      for (const [label, where] of byLabel) {
+        console.error(`  ${num} — «${label}»: ${where.slice(0, 3).join(', ')}${where.length > 3 ? ` и ещё ${where.length - 3}` : ''}`);
+      }
+    }
+    process.exit(1);
+  }
+}
+
+// ── 7. проверка: ни одна ссылка на страницу сайта не уведена наружу ──
 // Ровно эта ошибка уже случалась: ссылка с якорем (sections/concept.html#screens)
 // не распознавалась как страница сайта и уходила в репозиторий — полоса разделов
 // на макетах переставала работать. Теперь сборка падает, а не публикует это.
@@ -172,7 +201,7 @@ if (wrong.length) {
   process.exit(1);
 }
 
-// ── 7. проверка: ни одного .md в сборке ────────────────────────
+// ── 8. проверка: ни одного .md в сборке ────────────────────────
 const leaked = copied.filter((f) => f.endsWith('.md'));
 if (leaked.length) {
   console.error('В сборку попали внутренние документы:\n  ' + leaked.join('\n  '));
