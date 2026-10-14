@@ -1,0 +1,756 @@
+/* MeetMates UI kit — один файл, один уровень.
+ *
+ * Снято 2026-10-14 с окрашенных экранов (concept/screens/*.html — тринадцать
+ * экранов и все их состояния), значений tokens/tokens.css и описания DESIGN.md.
+ * Структура серых компонентов взята из wireframes/ как есть, вид — из языка
+ * DESIGN.md.
+ *
+ * ПРАВИЛА ЭТОГО ФАЙЛА
+ * 1. Все значения живут в :root. В классах нет ни одного литерала — ни цвета,
+ *    ни размера, ни тени. Нет значения в :root — его там заводят.
+ *    Одно исключение: 1px у .mm-vh. Это приём «скрыто для глаз, слышно
+ *    скринридеру», а не размер в дизайне, и менять его нельзя.
+ *    Семь значений не носит ни один класс — это шкала и палитра продукта,
+ *    под которые компонента в наборе пока нет. Каждое помечено на месте,
+ *    чтобы его не завели заново под другим именем и другим тоном.
+ * 2. Уровень токенов ровно один. Нет деления на «примитивы» и «семантику»:
+ *    --mm-action это и есть цвет действия, а не ссылка на --violet-900.
+ * 3. Каркас вайрфреймов сюда не входит: ни .wf-*, ни рамка .device, ни полоса
+ *    состояний, ни подписи зон. Это обвязка страницы макета, а не продукт.
+ *
+ * СВЕДЁННЫЙ ДРЕЙФ ИМЁН — что здесь стало одним API
+ * - Отметка проверки была `.verified` в ленте и `.signals li:first-child`
+ *   в профиле — два описания одного вида. Стало одно: .mm-verified.
+ * - `.item` значил и карточку события, и строку списка. Разведено:
+ *   .mm-event и .mm-row.
+ * - `.row` значил и строку действий, и дорожку переключателя срезов,
+ *   а `p.rows` — ещё и столбик подсказок в чате. Разведено:
+ *   .mm-actions, .mm-segmented, .mm-hints.
+ * - `.btn` в содержимом и `button` в шапке выглядели по-разному под одним
+ *   именем, и разделяло их `:not(header *)`. Разведено: .mm-btn и .mm-head-btn.
+ * - `.state` нёс четыре смысла: пусто, сбой, подтверждено, ждём. Первые два —
+ *   .mm-state и .mm-state--alert, вторые два — .mm-banner.
+ * - `.field` значил и строку поиска, и блок «подпись плюс ввод» со стенда.
+ *   Остался один — строка: .mm-field. Блока с подписью на экранах нет.
+ * - Включённое состояние писалось то `.on` (полосы фотографий), то `.now`,
+ *   то одним `aria-current`. Стало одно: .is-current.
+ */
+
+:root {
+  /* ── цвет ─────────────────────────────────────────────────────── */
+  --mm-action: #0B051D;
+  --mm-action-hover: #1B1233;
+  --mm-ink-on-action: #FFFFFF;
+  --mm-label: #D9F56F;
+  --mm-ink-on-label: #1A1026;
+  --mm-ink-900: #1A1026;
+  --mm-ink-600: #4C3F59;
+  --mm-ink-400: #8C7E9B;
+  --mm-bg: #FFFFFF;
+  --mm-surface: #FFFFFF;
+  --mm-surface-2: #F2EDF6;
+  --mm-line: #E8E1F1;
+  --mm-card-ring: #ECECEC;
+  --mm-tab-current: #EDE7F4;
+  --mm-mine: #E3DAEF;
+  --mm-danger: #C01F4A;
+  --mm-danger-soft: #F59BAF;
+  /* Не носит ни один компонент в наборе: экраны создания и редактирования,
+     где поле проходит проверку, в вайрфреймы ещё не вошли. Значения стоят здесь,
+     чтобы их не завели заново под другим именем и другим тоном. */
+  --mm-success: #1C7A4E;
+  --mm-warn: #8A5200;
+
+  /* фон экрана: два размытых пятна поверх вертикальной рампы.
+     К 57 % высоты всё сходится в чистый белый — там и лежат карточки. */
+  --mm-bg-wash:
+    radial-gradient(70% 40% at 100% 0%, rgba(234, 182, 210, .88) 0%, rgba(238, 190, 214, .6) 38%, rgba(242, 198, 218, 0) 80%),
+    radial-gradient(88% 26% at 46% -6%, rgba(166, 184, 224, .85) 0%, rgba(176, 192, 228, 0) 60%),
+    linear-gradient(180deg, #C9B6D6 0%, #D6B7D2 9%, #DCB8CE 15%, #DAB9CB 20%, #DDBED0 27%,
+      #E1CBD7 32%, #E7D6E0 37%, #E9E1E8 42%, #F0EAEE 48%, #F6F5F7 53%, #FFFFFF 57%, #FFFFFF 100%);
+  /* Самое тёмное место размытия: по нему считается контраст тёмного текста.
+     Ничего им не красится — это мера, а не краска. */
+  --mm-bg-wash-top: #C9B6D6;
+
+  /* бегущая полоса скелета */
+  --mm-skel-wash: linear-gradient(90deg, var(--mm-surface-2) 0%, var(--mm-line) 50%, var(--mm-surface-2) 100%);
+
+  /* ── шрифт ────────────────────────────────────────────────────── */
+  --mm-font: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mm-t-display: 34px;
+  --mm-t-h1: 28px;
+  --mm-t-h2: 22px;
+  --mm-t-h3: 17px;
+  --mm-t-body: 16px;
+  --mm-t-body-sm: 15px;
+  --mm-t-caption: 13px;
+  --mm-t-micro: 12px;
+  --mm-lh-tight: 1.05;
+  --mm-lh-heading: 1.25;
+  --mm-lh-body: 1.5;
+  --mm-lh-promise: 1.45;
+  --mm-tr-display: -0.035em;
+  --mm-tr-heading: -0.015em;
+  --mm-tr-btn: -0.01em;
+  --mm-fw-regular: 400;
+  --mm-fw-medium: 500;
+  --mm-fw-semibold: 600;
+  --mm-fw-bold: 700;
+  /* строка текста не шире этого: иначе пустое состояние читается абзацем */
+  --mm-measure: 30ch;
+
+  /* ── форма ────────────────────────────────────────────────────── */
+  --mm-r-sm: 14px;
+  --mm-r-md: 18px;
+  --mm-r-lg: 26px;
+  --mm-r-xl: 30px;                 /* bottom sheet — экрана с ним ещё нет */
+  --mm-r-pill: 999px;
+
+  /* ── отступы ──────────────────────────────────────────────────── */
+  --mm-s-1: 4px;
+  --mm-s-2: 8px;
+  --mm-s-3: 12px;
+  --mm-s-4: 16px;
+  --mm-s-5: 24px;
+  --mm-s-6: 32px;
+  --mm-s-7: 48px;                  /* компонента с этим шагом в наборе пока нет */
+  /* три мелких шага ниже --mm-s-1: зазор сегментов, отбивка иконки, поля панели */
+  --mm-s-hair: 2px;
+  --mm-s-gap3: 3px;
+  --mm-s-pad6: 6px;
+  /* подложка лейбы Verified: пустой --mm-label выключает её, отступ остаётся */
+  --mm-label-pad: 1px 7px;
+
+  /* ── тени: обводка плюс почти незаметная тень, цветных нет ─────── */
+  --mm-shadow-sm: 0 0 0 1px var(--mm-card-ring), 0 1px 2px rgba(17, 17, 17, .04);
+  --mm-shadow-md: 0 0 0 1px var(--mm-card-ring), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06);
+  --mm-shadow-lg: 0 0 0 1px var(--mm-card-ring), 0 2px 10px rgba(17, 17, 17, .07);
+  --mm-ring-avatar: 0 0 0 1px var(--mm-card-ring);
+  --mm-ring-inset: inset 0 0 0 1px var(--mm-card-ring);
+  --mm-ring-focus: 0 0 0 2px var(--mm-action);
+
+  /* ── движение ─────────────────────────────────────────────────── */
+  --mm-dur-fast: 200ms;
+  --mm-dur-slow: 300ms;            /* слой совпадения и bottom sheet */
+  --mm-dur-skel: 1.4s;
+  --mm-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --mm-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* возврат свайп-карточки */
+  --mm-press: scale(.98);
+
+  /* ── размеры ──────────────────────────────────────────────────── */
+  --mm-screen: 390px;
+  --mm-screen-h: 844px;
+  --mm-tap: 44px;
+  --mm-icon-sm: 16px;
+  --mm-icon-md: 24px;
+  --mm-icon-lg: 32px;
+  --mm-icon-btn: 20px;
+  --mm-t-back: 20px;
+  --mm-state-ico: 64px;
+  --mm-card-h: 400px;
+  --mm-cover-w: 104px;
+  --mm-cover-h: 112px;
+  --mm-avatar: 24px;
+  --mm-avatar-lg: 56px;
+  --mm-avatar-drop: -6px;
+  --mm-pager-h: 3px;
+  --mm-skel-line: 13px;
+  --mm-skel-pill: 20px;
+  --mm-w-l: 62%;
+  --mm-w-m: 44%;
+  --mm-w-s: 28%;
+  --mm-bubble-max: 80%;
+  --mm-blur: 14px;
+  --mm-under: 3px;
+}
+
+/* ═══ Оболочка: экран, шапка, нижнее меню. Разметка — в ui/shell.html ═══ */
+
+.mm {
+  font: var(--mm-fw-regular) var(--mm-t-body) / var(--mm-lh-body) var(--mm-font);
+  color: var(--mm-ink-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* экран: фон несёт цвет, карточки лежат на его белой половине */
+.mm-screen {
+  display: flex;
+  flex-direction: column;
+  width: var(--mm-screen);
+  height: var(--mm-screen-h);
+  overflow: hidden;
+  background-color: var(--mm-bg);
+  background-image: var(--mm-bg-wash);
+}
+
+/* содержимое экрана: горизонтальные поля задаются здесь и только здесь */
+.mm-app {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--mm-s-3) var(--mm-s-4) var(--mm-s-2);
+}
+
+.mm-pane { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: var(--mm-s-4); }
+/* секция, забирающая остаток высоты: колода, селфи, пустое состояние */
+.mm-stretch { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+/* прокручиваемая секция */
+.mm-scrolly { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: var(--mm-s-3); }
+
+/* заголовок секции внутри экрана */
+.mm-h2 { margin: 0; font: var(--mm-fw-semibold) var(--mm-t-h3) / var(--mm-lh-heading) var(--mm-font); letter-spacing: var(--mm-tr-heading); }
+
+/* шапка: заголовок и кнопки в одну строку */
+.mm-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--mm-s-2);
+  padding: var(--mm-s-2) var(--mm-s-4) var(--mm-s-1);
+}
+.mm-head-title {
+  margin: 0 auto 0 0;
+  white-space: nowrap;
+  font: var(--mm-fw-bold) var(--mm-t-h1) / var(--mm-lh-tight) var(--mm-font);
+  letter-spacing: var(--mm-tr-display);
+}
+/* двухуровневая шапка Поиска: заголовок строкой, под ним поле и фильтры */
+.mm-head--stack { flex-direction: column; align-items: stretch; }
+.mm-head-line { display: flex; align-items: center; gap: var(--mm-s-2); margin-top: var(--mm-s-2); }
+
+/* кнопка шапки — только иконка, круг 44px, подпись скрыта для скринридера */
+.mm-head-btn {
+  order: 2;
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: var(--mm-tap);
+  height: var(--mm-tap);
+  padding: 0;
+  border: 0;
+  border-radius: var(--mm-r-pill);
+  background: var(--mm-surface);
+  color: var(--mm-ink-900);
+  box-shadow: var(--mm-shadow-sm);
+  cursor: pointer;
+  transition: background var(--mm-dur-fast) var(--mm-ease-out);
+}
+.mm-head-btn:hover { background: var(--mm-surface-2); }
+.mm-head-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
+.mm-head-btn svg { width: var(--mm-icon-md); height: var(--mm-icon-md); }
+/* создание — тёмная: в строке с фильтрами видно, какая из двух главная */
+.mm-head-btn--primary { order: 1; background: var(--mm-ink-900); color: var(--mm-surface); box-shadow: none; }
+.mm-head-btn--primary:hover { background: var(--mm-ink-900); opacity: .9; }
+/* возврат: стоит только там, куда пришли с другого экрана. Стрелка, а не круг —
+   направление должно читаться без цвета; отрицательный отступ возвращает её
+   на край строки. Площадь нажатия те же 44px (так он размечен в вайрфрейме) */
+.mm-head-btn--back {
+  order: 0;
+  width: var(--mm-tap);
+  margin-left: calc(var(--mm-s-3) * -1);
+  background: none;
+  box-shadow: none;
+  font-size: var(--mm-t-back);
+  line-height: 1;
+}
+.mm-head-btn--back:hover { background: var(--mm-surface-2); }
+/* жалоба — единственная кнопка шапки со словом: флажок сам не читается,
+   а действие это безопасности, и угадывать его нельзя. Круга нет, иконка меньше,
+   площадь нажатия те же 44px */
+.mm-head-btn--report {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: var(--mm-tap);
+  padding: 0 var(--mm-s-2);
+  gap: var(--mm-s-1);
+  background: none;
+  box-shadow: none;
+  color: var(--mm-danger);
+  font: var(--mm-fw-semibold) var(--mm-t-micro) / 1 var(--mm-font);
+}
+.mm-head-btn--report:hover { background: var(--mm-surface-2); }
+.mm-head-btn--report svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
+
+/* нижнее меню: белая панель во всю ширину содержимого, пять равных вкладок */
+.mm-tabs {
+  flex: none;
+  display: flex;
+  gap: var(--mm-s-hair);
+  margin: var(--mm-s-2) var(--mm-s-4);
+  padding: var(--mm-s-pad6);
+  border-radius: var(--mm-r-pill);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-lg), var(--mm-ring-inset);
+}
+.mm-tab {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: var(--mm-s-gap3);
+  padding: var(--mm-s-pad6) 0;
+  border-radius: var(--mm-r-pill);
+  text-decoration: none;
+  font: var(--mm-fw-medium) var(--mm-t-micro) / 1 var(--mm-font);
+  color: var(--mm-ink-600);
+}
+.mm-tab svg { width: var(--mm-icon-md); height: var(--mm-icon-md); color: var(--mm-ink-400); }
+/* активная — на сиренево-серой пилюле, иконка залитая и тёмная */
+.mm-tab.is-current { background: var(--mm-tab-current); color: var(--mm-ink-900); box-shadow: var(--mm-ring-inset), var(--mm-shadow-sm); }
+.mm-tab.is-current svg { color: var(--mm-ink-900); }
+
+/* закреплённая полоса внизу: ввод в диалоге, решение в профиле.
+   Своих горизонтальных полей нет — их задаёт .mm-app */
+.mm-pin { flex: none; padding: var(--mm-s-2) 0 0; }
+
+/* ═══ Кнопки ═══ */
+
+.mm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mm-s-2);
+  min-height: var(--mm-tap);
+  padding: 0 var(--mm-s-4);
+  border: 0;
+  border-radius: var(--mm-r-pill);
+  background: var(--mm-surface);
+  color: var(--mm-ink-900);
+  box-shadow: var(--mm-shadow-sm);
+  font: var(--mm-fw-semibold) var(--mm-t-body-sm) / 1 var(--mm-font);
+  letter-spacing: var(--mm-tr-btn);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
+}
+.mm-btn:hover { background: var(--mm-surface-2); }
+.mm-btn:active { transform: var(--mm-press); }
+.mm-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
+.mm-btn svg { width: var(--mm-icon-btn); height: var(--mm-icon-btn); }
+
+/* главная — тёмно-фиолетовая, почти чёрная. На экране одна */
+.mm-btn--primary { background: var(--mm-action); color: var(--mm-ink-on-action); box-shadow: none; }
+.mm-btn--primary:hover { background: var(--mm-action-hover); }
+/* тихая — сиреневая подложка без обводки */
+.mm-btn--quiet { background: var(--mm-surface-2); box-shadow: none; }
+.mm-btn--quiet:hover { background: var(--mm-line); }
+.mm-btn--block { width: 100%; }
+/* недоступна: надпись говорит, что сделать (гейт §7.3), а не «disabled» */
+.mm-btn[disabled], .mm-btn.is-disabled {
+  background: var(--mm-surface-2);
+  color: var(--mm-ink-600);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* опасное действие — не заливка, а строка с иконкой, отбитая от остального */
+.mm-danger-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mm-s-1);
+  min-height: var(--mm-tap);
+  padding: 0 var(--mm-s-1);
+  border: 0;
+  background: none;
+  color: var(--mm-danger);
+  font: var(--mm-fw-semibold) var(--mm-t-body-sm) / 1 var(--mm-font);
+  cursor: pointer;
+}
+.mm-danger-link svg { width: var(--mm-icon-btn); height: var(--mm-icon-btn); }
+
+/* строка действий: одна-две кнопки в ряд, поровну */
+.mm-actions { display: flex; gap: var(--mm-s-3); margin: 0; }
+.mm-actions > * { flex: 1; }
+
+/* срез вкладки: сегменты вплотную на дорожке — это один орган,
+   а не две главные кнопки рядом */
+.mm-segmented {
+  display: flex;
+  gap: var(--mm-s-hair);
+  margin: 0;
+  padding: var(--mm-s-gap3);
+  border-radius: var(--mm-r-pill);
+  background: var(--mm-line);
+}
+.mm-segmented > * { flex: 1; }
+.mm-segmented .mm-btn { background: transparent; box-shadow: none; font-weight: var(--mm-fw-medium); }
+.mm-segmented .mm-btn:hover { background: transparent; }
+.mm-segmented .mm-btn.is-current { background: var(--mm-surface); box-shadow: var(--mm-shadow-sm); font-weight: var(--mm-fw-semibold); }
+
+/* выход в соседний контур: карточка со стрелкой, а не кнопка —
+   это не решение по экрану, а дверь наружу (правило 10) */
+.mm-exit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mm-s-3);
+  min-height: var(--mm-tap);
+  padding: var(--mm-s-3) var(--mm-s-4);
+  border-radius: var(--mm-r-lg);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-sm);
+  color: var(--mm-ink-900);
+  font: var(--mm-fw-semibold) var(--mm-t-body-sm) / var(--mm-lh-body) var(--mm-font);
+  text-decoration: none;
+}
+.mm-exit:hover { box-shadow: var(--mm-shadow-md); }
+
+/* ═══ Карточки и списки ═══ */
+
+.mm-list { display: flex; flex-direction: column; gap: var(--mm-s-3); margin: 0; padding: 0; list-style: none; }
+
+/* строка списка: чат, человек, строка глубокого слоя */
+.mm-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mm-s-2);
+  padding: var(--mm-s-4);
+  border-radius: var(--mm-r-lg);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-md);
+  text-decoration: none;
+  color: inherit;
+}
+.mm-row-head { display: flex; align-items: baseline; gap: var(--mm-s-3); width: 100%; }
+.mm-row-head > b { font-size: var(--mm-t-body-sm); font-weight: var(--mm-fw-medium); }
+.mm-row-head .mm-meta { margin-left: auto; }
+a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-offset: var(--mm-under); }
+
+/* карточка события: обложка слева во всю высоту строки, факты справа,
+   действие кнопкой во всю ширину под обложкой (D-55…D-58) */
+.mm-event {
+  display: grid;
+  grid-template-columns: var(--mm-cover-w) 1fr;
+  grid-template-rows: auto auto;
+  border-radius: var(--mm-r-lg);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-md);
+  overflow: hidden;
+}
+.mm-cover { grid-row: 1; position: relative; min-height: var(--mm-cover-h); background: var(--mm-surface-2); }
+.mm-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.mm-event-body { display: flex; flex-direction: column; gap: var(--mm-s-1); min-width: 0; padding: var(--mm-s-3) var(--mm-s-3) var(--mm-s-2); }
+.mm-event-head { display: flex; align-items: baseline; gap: var(--mm-s-2); text-decoration: none; color: inherit; }
+/* Заголовок не больше двух строк: лента держит ритм, остальное — на карточке
+   события. Размер снят с образца: 15px и средний вес. В concept/components.css
+   карточка события просит 16px и semibold, но следом идёт правило строки списка
+   той же силы — и побеждает оно. На экране видно 15/500, поэтому здесь 15/500:
+   кит повторяет то, что нарисовано. Решение, какой из двух размеров верен, —
+   за дизайнером; пока расхождение названо, а не вписано молча. */
+.mm-event-head > b {
+  flex: 1;
+  min-width: 0;
+  font: var(--mm-fw-medium) var(--mm-t-body-sm) / var(--mm-lh-heading) var(--mm-font);
+  letter-spacing: var(--mm-tr-heading);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.mm-event-head:hover > b { text-decoration: underline; text-underline-offset: var(--mm-under); text-decoration-color: var(--mm-ink-400); }
+.mm-event-acts { grid-column: 1 / -1; display: flex; gap: var(--mm-s-2); padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
+.mm-event-acts > .mm-btn { flex: 1; padding: 0 var(--mm-s-2); }
+.mm-event-acts > .mm-btn:first-child { flex: 1.6; }
+
+/* карточка человека: фото сверху, факты под ним, тап по всей площади — профиль */
+.mm-person {
+  position: relative;
+  flex: none;
+  height: var(--mm-card-h);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--mm-r-lg);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-md);
+  overflow: hidden;
+}
+.mm-stretch > .mm-person { flex: 1; height: auto; min-height: 0; }
+.mm-person figure { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; margin: 0; }
+.mm-photo { flex: 1; min-height: 0; margin: 0; background: var(--mm-surface-2); }
+.mm-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* фото дошло не целиком — показываем размытым и доводим по мере прихода (D-51) */
+.mm-photo--blur img { filter: blur(var(--mm-blur)); transform: scale(1.06); }
+.mm-person-body { flex: none; display: flex; flex-direction: column; gap: var(--mm-s-1); padding: var(--mm-s-3) var(--mm-s-4) var(--mm-s-4); }
+.mm-person-body > p:last-child { margin: 0; }
+.mm-person-name { margin: var(--mm-s-hair) 0 0; font: var(--mm-fw-semibold) var(--mm-t-h2) / var(--mm-lh-heading) var(--mm-font); letter-spacing: var(--mm-tr-heading); }
+.mm-cardlink { position: absolute; inset: 0; border-radius: inherit; }
+
+/* обложка события на его карточке: во всю ширину, полосы по числу фотографий.
+   flex: none обязателен — в колонке её сжимало до полоски, а overflow это прятал */
+.mm-evcover { flex: none; position: relative; margin: 0; border-radius: var(--mm-r-lg); overflow: hidden; background: var(--mm-surface-2); box-shadow: var(--mm-shadow-sm); }
+.mm-evcover .mm-photo { margin: 0; aspect-ratio: 16 / 9; }
+
+/* полосы по числу фотографий — под снимком, не поверх */
+.mm-pager { flex: none; display: flex; gap: var(--mm-s-1); margin: 0; padding: var(--mm-s-2) var(--mm-s-3); }
+.mm-pager span { flex: 1; height: var(--mm-pager-h); border-radius: var(--mm-r-pill); background: var(--mm-line); }
+.mm-pager span.is-current { background: var(--mm-ink-900); }
+
+/* округлённое расстояние поверх фотографии — единственное, что на ней стоит (§7.1) */
+.mm-cardtop { position: absolute; top: var(--mm-s-3); right: var(--mm-s-3); margin: 0; }
+.mm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mm-s-1);
+  padding: var(--mm-s-gap3) var(--mm-s-2);
+  border-radius: var(--mm-r-pill);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-sm);
+  font: var(--mm-fw-medium) var(--mm-t-micro) / var(--mm-lh-heading) var(--mm-font);
+  color: var(--mm-ink-900);
+}
+.mm-chip svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); color: var(--mm-ink-600); }
+
+/* теги интересов: перечисление под числом общих (D-13) */
+.mm-tags { display: flex; flex-wrap: wrap; gap: var(--mm-s-1); margin: var(--mm-s-hair) 0 0; padding: 0; list-style: none; }
+.mm-tags li { padding: var(--mm-s-hair) var(--mm-s-2); border-radius: var(--mm-r-pill); background: var(--mm-surface-2); font-size: var(--mm-t-micro); color: var(--mm-ink-900); }
+
+/* кружок с лицом рядом с именем */
+.mm-avatar {
+  flex: none;
+  display: inline-block;
+  width: var(--mm-avatar);
+  height: var(--mm-avatar);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--mm-surface-2);
+  box-shadow: var(--mm-ring-avatar);
+  vertical-align: var(--mm-avatar-drop);
+}
+.mm-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mm-avatar--lg { width: var(--mm-avatar-lg); height: var(--mm-avatar-lg); vertical-align: 0; }
+
+/* ═══ Строки фактов ═══ */
+
+.mm-facts { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--mm-s-1); margin: 0; font-size: var(--mm-t-caption); color: var(--mm-ink-600); }
+.mm-meta { flex: none; white-space: nowrap; font-size: var(--mm-t-micro); color: var(--mm-ink-600); }
+.mm-note { margin: 0; font-size: var(--mm-t-body-sm); color: var(--mm-ink-600); }
+.mm-common { margin: 0; font-size: var(--mm-t-caption); color: var(--mm-ink-600); }
+.mm-distance { margin: 0; font-size: var(--mm-t-micro); color: var(--mm-ink-600); }
+
+/* сигналы доверия: Verified · встречи · отзывчивость. Все до первого сообщения */
+.mm-signals {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--mm-s-1);
+  row-gap: var(--mm-s-hair);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--mm-t-caption);
+  color: var(--mm-ink-600);
+}
+.mm-signals li { display: inline-flex; align-items: center; gap: var(--mm-s-gap3); }
+.mm-signals li + li::before { content: "\00B7"; margin-right: var(--mm-s-1); color: var(--mm-ink-400); }
+
+/* отметка проверки — одна на весь продукт: слово с галочкой на лаймовой лейбе.
+   Пустой --mm-label выключает подложку, и слово возвращается к цвету текста */
+.mm-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mm-s-gap3);
+  padding: var(--mm-label-pad);
+  border-radius: var(--mm-r-pill);
+  background: var(--mm-label);
+  color: var(--mm-ink-on-label);
+  font-weight: var(--mm-fw-semibold);
+}
+.mm-verified svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
+
+/* ═══ Формы ═══ */
+
+/* поле с иконкой одной строкой: поиск в шапке и ввод реплики в диалоге.
+   Занимает остаток строки и ужимается само — кнопки рядом не двигает */
+.mm-field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--mm-s-2);
+  height: var(--mm-tap);
+  padding: 0 var(--mm-s-3);
+  border-radius: var(--mm-r-pill);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-sm);
+}
+.mm-field svg { flex: none; width: var(--mm-icon-md); height: var(--mm-icon-md); color: var(--mm-ink-400); }
+.mm-field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: var(--mm-fw-regular) var(--mm-t-body-sm) / var(--mm-lh-heading) var(--mm-font);
+  color: var(--mm-ink-900);
+}
+.mm-field input::placeholder { color: var(--mm-ink-600); }
+.mm-field:focus-within { box-shadow: var(--mm-ring-focus); }
+
+/* ═══ Обратная связь ═══ */
+
+/* пусто и сбой: один блок, смысл несут текст и role. Занимает площадь того,
+   что не пришло — это то же состояние того же экрана, а не другой экран */
+.mm-state {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mm-s-3);
+  padding: var(--mm-s-6) var(--mm-s-5);
+  border-radius: var(--mm-r-lg);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-sm);
+  text-align: center;
+}
+.mm-state-ico {
+  display: grid;
+  place-items: center;
+  width: var(--mm-state-ico);
+  height: var(--mm-state-ico);
+  border-radius: var(--mm-r-pill);
+  background: var(--mm-surface-2);
+  color: var(--mm-ink-900);
+}
+.mm-state-ico svg { width: var(--mm-icon-lg); height: var(--mm-icon-lg); }
+.mm-state h3 { margin: 0; font: var(--mm-fw-semibold) var(--mm-t-h2) / var(--mm-lh-heading) var(--mm-font); letter-spacing: var(--mm-tr-heading); text-wrap: balance; }
+.mm-state p { margin: 0; max-width: var(--mm-measure); color: var(--mm-ink-600); font-size: var(--mm-t-body-sm); }
+/* сбой: красным только иконка. Текст говорит, что данные целы */
+.mm-state--alert .mm-state-ico { color: var(--mm-danger); }
+
+/* итог: день назначен, отклик ушёл. Карточка, а не абзац —
+   это новый объект, а не ещё одна реплика (D-39, D-42) */
+.mm-banner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mm-s-1);
+  padding: var(--mm-s-3) var(--mm-s-4) var(--mm-s-4);
+  border-radius: var(--mm-r-lg);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-sm);
+}
+.mm-banner b { font-weight: var(--mm-fw-semibold); }
+.mm-banner p { margin: 0; color: var(--mm-ink-600); font-size: var(--mm-t-body-sm); }
+.mm-banner .mm-actions { margin-top: var(--mm-s-3); }
+
+/* загрузка: заглушки держат раскладку и показывают, что именно грузится.
+   Спиннер не делает ни того, ни другого */
+.mm-skel {
+  display: block;
+  margin: 0;
+  border-radius: var(--mm-r-sm);
+  background: var(--mm-skel-wash);
+  background-size: 200% 100%;
+  animation: mm-skel var(--mm-dur-skel) var(--mm-ease-out) infinite;
+}
+.mm-skel--line { height: var(--mm-skel-line); }
+.mm-skel--pill { height: var(--mm-skel-pill); border-radius: var(--mm-r-pill); }
+.mm-skel--w-l { width: var(--mm-w-l); }
+.mm-skel--w-m { width: var(--mm-w-m); }
+.mm-skel--w-s { width: var(--mm-w-s); }
+.mm-skelrow { display: flex; flex-wrap: wrap; gap: var(--mm-s-2); margin: 0; }
+
+@keyframes mm-skel {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+/* ═══ Чат ═══ */
+
+.mm-msgs { display: flex; flex-direction: column; gap: var(--mm-s-2); }
+
+/* чужая реплика слева, белая с обводкой */
+.mm-bubble {
+  max-width: var(--mm-bubble-max);
+  margin: 0;
+  align-self: flex-start;
+  padding: var(--mm-s-2) var(--mm-s-3);
+  border-radius: var(--mm-r-md) var(--mm-r-md) var(--mm-r-md) var(--mm-r-sm);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-sm);
+  font-size: var(--mm-t-body-sm);
+  color: var(--mm-ink-900);
+  text-decoration: none;
+}
+.mm-bubble-time { display: block; margin-top: var(--mm-s-hair); font-size: var(--mm-t-micro); color: var(--mm-ink-600); }
+
+/* своя реплика — не действие, поэтому и не цвет действия: сиреневый тон.
+   Отличают её сторона и отсутствие обводки */
+.mm-bubble--mine {
+  align-self: flex-end;
+  border-radius: var(--mm-r-md) var(--mm-r-md) var(--mm-r-sm) var(--mm-r-md);
+  background: var(--mm-mine);
+  box-shadow: none;
+}
+
+/* не ушло — пузырь залит розоватым, без обводки и без подчёркивания:
+   подчёркнутый текст читался бы как ошибка вёрстки, а не как «нажми» (D-52) */
+.mm-bubble--failed {
+  position: relative;
+  align-self: flex-end;
+  padding-right: calc(var(--mm-s-3) + var(--mm-icon-sm) + var(--mm-s-1));
+  border-radius: var(--mm-r-md) var(--mm-r-md) var(--mm-r-sm) var(--mm-r-md);
+  background: var(--mm-danger-soft);
+  box-shadow: none;
+}
+/* подпись и иконка — чернилами: красное несёт подложка. Один признак на роль */
+.mm-bubble--failed .mm-bubble-time { display: flex; align-items: center; gap: var(--mm-s-1); color: var(--mm-ink-900); }
+.mm-bubble-retry { position: absolute; top: var(--mm-s-2); right: var(--mm-s-2); display: inline-flex; color: var(--mm-ink-900); }
+.mm-bubble-retry svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
+
+/* подсказки в пустом чате — предложенные фразы, а не второе действие:
+   столбиком, белые, текст слева */
+.mm-hints { display: flex; flex-direction: column; gap: var(--mm-s-2); margin: 0; }
+.mm-hints > .mm-btn { justify-content: flex-start; background: var(--mm-surface); box-shadow: var(--mm-shadow-sm); font-weight: var(--mm-fw-regular); }
+.mm-hints > .mm-btn:hover { background: var(--mm-surface-2); }
+
+/* ═══ Онбординг: обещание на радаре ═══ */
+
+/* строки идут просторнее обычного заголовка: подложки двух слов иначе сходятся
+   краями. Лаймом залит контейнер, а не буквы — лаймовый текст на светлом фоне
+   даёт 1,2:1, а тёмный на лайме читается 15:1 */
+.mm-promise {
+  margin: 0;
+  font: var(--mm-fw-bold) var(--mm-t-display) / var(--mm-lh-promise) var(--mm-font);
+  letter-spacing: var(--mm-tr-display);
+  text-align: center;
+  text-transform: uppercase;
+}
+.mm-promise mark {
+  padding: .02em .12em;
+  border-radius: var(--mm-r-sm);
+  background: var(--mm-label);
+  color: var(--mm-ink-on-label);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* ═══ Служебное ═══ */
+
+/* скрыто для глаз, но не для скринридера: скрытый заголовок — такой же копирайт */
+.mm-vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.mm-ico { display: inline-flex; }
+
+/* Уважение к prefers-reduced-motion стоит последним: правила выше его
+   перебивали бы, добавься они в конец файла (правило 8) */
+@media (prefers-reduced-motion: reduce) {
+  .mm-skel { animation: none; }
+  .mm-btn, .mm-head-btn { transition: none; }
+  .mm-btn:active { transform: none; }
+}
