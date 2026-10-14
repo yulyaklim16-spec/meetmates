@@ -52,6 +52,10 @@
   /* высоту растягивающимся компонентам задаёт витрина, а не компонент */
   .kit-tall { height: 320px; display: flex; flex-direction: column; }
   .kit-card { height: 400px; }
+  .kit-radar { height: 460px; display: flex; }
+  .kit-layer { height: 420px; display: flex; flex-direction: column; }
+  .kit-shot { height: 360px; display: flex; flex-direction: column; }
+  .kit-shot .mm-person { height: auto; flex: 1; }
   .kit-row { flex: none; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .kit-narrow { flex: none; width: 200px; }
   .kit-shell { flex: none; width: 390px; }
@@ -691,14 +695,83 @@
 </section>
 
 <section class="kit-grp" id="g7">
-  <h2 class="kit-grp-h"><span class="kit-n">7</span>Онбординг</h2>
-  <p class="kit-lead">Один компонент, и он разовый: обещание на радаре. В ките он потому, что несёт лейбу — второй цвет направления R (<code>D-62</code>).</p>
+  <h2 class="kit-grp-h"><span class="kit-n">7</span>Онбординг и слои</h2>
+  <p class="kit-lead">Четыре компонента с экранов входа: обещание и радар на онбординге, слой совпадения поверх колоды, подпись на снимке в видоискателе. Все разовые — каждый стоит на одном экране, — но без них эти экраны не собрать.</p>
   <section class="kit-case">
     <p class="kit-h"><b>Обещание</b><code>.mm-promise</code></p>
     <div class="kit-live">
       <p class="mm-promise">Meet <mark>mates</mark><br>Enjoy the <mark>events</mark></p>
     </div>
     <p class="kit-note">Лаймом залит контейнер, а не буквы: лаймовый текст на светлом фоне даёт 1,2:1, тёмный на лайме — 15:1. Строки идут просторнее обычного заголовка, иначе подложки двух слов сходятся краями. Белого текста на размытии нет нигде — там он даёт 1,8:1.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Радар</b><code>.mm-radar · .mm-rings · .mm-pins · .mm-scan</code></p>
+    <div class="kit-live">
+      <div class="kit-radar">
+        <figure class="mm-radar">
+          <span class="mm-scan" aria-hidden="true"></span>
+          <p class="mm-rings" aria-hidden="true"><span class="r5"></span><span class="mid"></span><span class="r3"></span><span class="in"></span><span class="r1"></span></p>
+          <p class="mm-band far">~5 km</p>
+          <p class="mm-band mid">~2 km</p>
+          <p class="mm-band near">Nearby</p>
+          <ul class="mm-pins">
+            <li class="a"><span class="mm-dot" aria-hidden="true"><img src="img/olena-112.jpg" alt="" loading="lazy"></span><span class="mm-vh">Person</span></li>
+            <li class="d"><span class="mm-dot mm-dot--sm" aria-hidden="true"><img src="img/ev-games.jpg" alt="" loading="lazy"></span><span class="mm-vh">Event</span></li>
+            <li class="g"><span class="mm-dot" aria-hidden="true"><img src="img/andrii-112.jpg" alt="" loading="lazy"></span><span class="mm-vh">Person</span></li>
+            <li class="j"><span class="mm-dot mm-dot--lg" aria-hidden="true"><img src="img/dasha-112.jpg" alt="" loading="lazy"></span><span class="mm-vh">Person</span></li>
+            <li class="l"><span class="mm-dot mm-dot--sm" aria-hidden="true"><img src="img/ev-run.jpg" alt="" loading="lazy"></span><span class="mm-vh">Event</span></li>
+          </ul>
+        </figure>
+      </div>
+    </div>
+    <p class="kit-note">Кольца расстояний подписаны и стоят на месте; из центра идёт волна — это и есть «радар работает». На кольцах не точки, а те же лица и обложки, что в колоде и ленте: кто рядом — видно по снимку, а не по слову. Данные иллюстративные, живых людей экран не показывает (<code>D-47</code>). При <code>prefers-reduced-motion</code> волна снимается, найденные видны сразу.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Слой поверх экрана</b><code>.mm-layer</code></p>
+    <div class="kit-live">
+      <div class="kit-layer">
+        <dialog open class="mm-layer">
+          <section class="mm-stretch">
+            <article class="mm-state">
+              <p class="mm-skelrow" aria-hidden="true">
+                <span class="mm-avatar" aria-hidden="true"><img src="img/dasha-48.jpg" alt="" loading="lazy"></span>
+                <span class="mm-avatar" aria-hidden="true"><img src="img/olena-48.jpg" alt="" loading="lazy"></span>
+              </p>
+              <h1>You and Olena both said yes</h1>
+              <p>You have 3 interests in common. The chat is open &mdash; Olena can write to you too.</p>
+            </article>
+          </section>
+          <p class="mm-actions">
+            <a class="mm-btn mm-btn--primary" href="#">Say hi</a>
+            <a class="mm-btn mm-btn--quiet" href="#">See people</a>
+          </p>
+        </dialog>
+      </div>
+    </div>
+    <p class="kit-note">Совпадение — не экран, а слой поверх колоды, поэтому <code>dialog</code>. У него <code>position: static</code>: браузер ставит <code>absolute</code>, и слой выходит из потока, переставая слушаться полей экрана. Два кружка рядом — в ряду заглушек они крупнее, чем подпись у имени.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Подпись на снимке</b><code>.mm-photo-cap · .mm-skel--thumb</code></p>
+    <div class="kit-live">
+      <div class="kit-shot">
+        <article class="mm-person">
+          <figure>
+            <p class="mm-photo"><img src="img/dasha-112.jpg" alt="" loading="lazy"></p>
+            <figcaption class="mm-photo-cap">Camera</figcaption>
+          </figure>
+          <section class="mm-person-body">
+            <p class="mm-common">Turn your head slightly to the left</p>
+            <p class="mm-distance">Face the light, no sunglasses, no filters.</p>
+          </section>
+        </article>
+      </div>
+      <p class="mm-skelrow">
+        <span class="mm-skel mm-skel--thumb"></span>
+        <span class="mm-skel mm-skel--thumb"></span>
+        <span class="mm-skel mm-skel--thumb"></span>
+      </p>
+    </div>
+    <p class="kit-note">Видоискатель верификации — та же карточка человека, что в колоде: вместо снимка кадр камеры, вместо фактов подсказка позы. Подпись лежит на самом снимке. Справа — миниатюры, которых ещё нет: место под фотографии профиля, пока они грузятся.</p>
   </section>
 </section>
 

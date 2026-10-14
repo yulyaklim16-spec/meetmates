@@ -127,7 +127,7 @@ body:has(#bare:target) .device { margin: 0 auto; }
   background: var(--ink-900);
   box-shadow: var(--shadow-lg);
 }
-.screen {
+body:not(.kit) .screen {
   position: relative;
   width: var(--screen-max);
   height: 844px;
@@ -140,6 +140,11 @@ body:has(#bare:target) .device { margin: 0 auto; }
   flex-direction: column;
   overflow: hidden;
 }
+
+/* Экран, одетый в кит, берёт размер, фон и раскладку из ui/kit.css (.mm-screen).
+   Корпусу остаётся то, чем владеет мокап: скругление под рамкой телефона
+   и точка отсчёта для подписей зон. */
+.device > .mm-screen { position: relative; border-radius: 34px; }
 
 /* системные зоны: чужие, продукт их не рисует — только тихо обозначает */
 .statusbar, .browserbar { flex: none; display: flex; align-items: center; font-size: var(--t-micro); }
@@ -156,11 +161,11 @@ body:has(#bare:target) .device { margin: 0 auto; }
 }
 
 /* ── содержимое ───────────────────────────────────────────── */
-.app { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-main { flex: 1; min-height: 0; padding: var(--s-3) var(--s-4) var(--s-2); display: flex; flex-direction: column; gap: var(--s-4); overflow: hidden; }
-.pane { display: flex; flex-direction: column; gap: var(--s-4); flex: 1; min-height: 0; }
-section { display: flex; flex-direction: column; gap: var(--s-3); }
-section.stretch { flex: 1; min-height: 0; }
+body:not(.kit) .app { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+body:not(.kit) main { flex: 1; min-height: 0; padding: var(--s-3) var(--s-4) var(--s-2); display: flex; flex-direction: column; gap: var(--s-4); overflow: hidden; }
+body:not(.kit) .pane { display: flex; flex-direction: column; gap: var(--s-4); flex: 1; min-height: 0; }
+body:not(.kit) section { display: flex; flex-direction: column; gap: var(--s-3); }
+body:not(.kit) section.stretch { flex: 1; min-height: 0; }
 /* ── лента: прокрутка внутри экрана ──────────────────────── */
 /* Полоса прокрутки видна — это подсказка, что ниже ещё есть содержимое;
    место под неё резервируется всегда, поэтому карточки одной ширины и там,
@@ -170,19 +175,19 @@ section.stretch { flex: 1; min-height: 0; }
    полоса съедала ширину контента. Теперь полоса живёт в поле экрана, а блоки
    везде на одинаковом расстоянии от края. Значение равно ширине тонкой полосы. */
 :root { --scroll-gutter: 10px; }
-.scrolly { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; margin: 0 calc(var(--s-4) * -1);
+body:not(.kit) .scrolly { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; margin: 0 calc(var(--s-4) * -1);
   padding: 0 calc(var(--s-4) - var(--scroll-gutter)) var(--s-2) var(--s-4); }
 /* то же для экранов, где прокручивается сама панель (колода, профиль, селфи) */
 /* нижний отступ такой же, как у .scrolly: без него последний блок упирается
    в границу панели и его обводку срезает overflow */
-.pane:has(.card) { margin: 0 calc(var(--s-4) * -1);
+body:not(.kit) .pane:has(.card) { margin: 0 calc(var(--s-4) * -1);
   padding: 0 calc(var(--s-4) - var(--scroll-gutter)) var(--s-2) var(--s-4); }
 /* внутри такой панели секция уже не прокручивается — поля отдаёт панель */
-.pane:has(.card) > .scrolly { margin: 0; padding-left: 0; padding-right: 0; }
-.scrolly, .pane { scrollbar-width: thin; scrollbar-color: var(--ink-400) transparent; scrollbar-gutter: stable; }
-.scrolly::-webkit-scrollbar, .pane::-webkit-scrollbar { width: 6px; }
-.scrolly::-webkit-scrollbar-thumb, .pane::-webkit-scrollbar-thumb { background: var(--ink-400); border-radius: var(--r-pill); }
-.scrolly::-webkit-scrollbar-track, .pane::-webkit-scrollbar-track { background: transparent; }
+body:not(.kit) .pane:has(.card) > .scrolly { margin: 0; padding-left: 0; padding-right: 0; }
+body:not(.kit) :is(.scrolly, .pane) { scrollbar-width: thin; scrollbar-color: var(--ink-400) transparent; scrollbar-gutter: stable; }
+body:not(.kit) :is(.scrolly, .pane)::-webkit-scrollbar { width: 6px; }
+body:not(.kit) :is(.scrolly, .pane)::-webkit-scrollbar-thumb { background: var(--ink-400); border-radius: var(--r-pill); }
+body:not(.kit) :is(.scrolly, .pane)::-webkit-scrollbar-track { background: transparent; }
 /* ── служебное: подписи зон и описание — рядом с телефоном, не в нём ── */
 .anns {
   position: absolute; top: 0; left: calc(100% + var(--s-6));
@@ -191,9 +196,9 @@ section.stretch { flex: 1; min-height: 0; }
 .ann { font-size: var(--t-caption); line-height: 1.45; color: var(--ink-600); padding-left: var(--s-3); border-left: 2px solid var(--line); }
 .ann b { color: var(--ink-900); font-weight: var(--fw-semibold); }
 /* подписи живут вне экрана: телефон их не обрезает */
-.screen:has(.anns) { overflow: visible; }
-.screen:has(.anns) > :is(.statusbar) { border-radius: 34px 34px 0 0; }
-.screen:has(.anns) > .homebar { border-radius: 0 0 34px 34px; }
+:is(.screen, .mm-screen):has(.anns) { overflow: visible; }
+:is(.screen, .mm-screen):has(.anns) > :is(.statusbar) { border-radius: 34px 34px 0 0; }
+:is(.screen, .mm-screen):has(.anns) > .homebar { border-radius: 0 0 34px 34px; }
 @media (max-width: 1100px) {
   /* на узком экране подписи не помещаются сбоку; полное описание — в блоке под телефоном */
   .anns { display: none; }

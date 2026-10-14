@@ -1,11 +1,14 @@
 // Страницы кита: ui/kit.html (витрина) и ui/shell.html (оболочка).
 //
-// Иконки не копируются руками — берутся из тех же окрашенных экранов, что служат
-// киту образцом: поменялся набор на экране, пересобрали страницы, и в ките тот же.
+// Иконки берутся из того же набора, что и экраны, — concept/icons/solar-*.
+// Руками они не копируются: поменялся файл иконки, пересобрали страницы,
+// и в ките та же. Залитая там, где иконка что-то утверждает (активная вкладка,
+// Verified, кнопка), контурная там, где элемент ждёт ввода или не выбран.
+//
 // Разметка компонентов живёт здесь: это единственное место, где она описана
 // под именами кита (.mm-*), а не под именами вайрфреймов.
 //
-// Запуск: node scripts/build-kit-pages.mjs — после правки ui/kit.css или экранов.
+// Запуск: node scripts/build-kit-pages.mjs — после правки ui/kit.css.
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -13,65 +16,39 @@ import { rail } from './lib/chrome.mjs';
 
 const ROOT = process.cwd();
 const OUT = join(ROOT, 'ui');
-const S = (f) => readFileSync(join(ROOT, 'concept/screens', f), 'utf8');
+const BOLD = join(ROOT, 'concept/icons/solar-bold');
+const LINEAR = join(ROOT, 'concept/icons/solar-linear');
 
-const svgs = (s) => s.match(/<svg[\s\S]*?<\/svg>/g) || [];
+// иконка без собственных размеров: их задаёт класс, а не разметка
+const svg = (name, dir = BOLD) =>
+  readFileSync(join(dir, `${name}.svg`), 'utf8').trim()
+    .replace('width="1em" height="1em" ', '')
+    .replace('<svg ', '<svg aria-hidden="true" focusable="false" ')
+    .replace(/\s(width|height)="\d+"/g, '');
 
-// нижнее меню: пять вкладок по порядку, активная — залитая
-function navIcons(file) {
-  const s = S(file);
-  const nav = s.match(/<nav aria-label="Main navigation">[\s\S]*?<\/nav>/)[0];
-  return nav
-    .split('<a ')
-    .slice(1)
-    .map((a) => ({ current: /aria-current="page"/.test(a), svg: svgs(a)[0] }));
-}
-
-const feedNav = navIcons('feed.html');      // активна Events
-const deckNav = navIcons('deck.html');      // активна People
-const chatsNav = navIcons('chats.html');    // активна Chats
-
-// шапка ленты: Filters (тихая) и Post (тёмная)
-const feedHead = S('feed.html').match(/<header[^>]*>[\s\S]*?<\/header>/)[0];
-const feedBtns = feedHead.split('<button').slice(1);
-const pick = (arr, re) => arr.find((x) => re.test(x));
-
-const out = {
-  'tab-people': feedNav[0].svg,
-  'tab-people-bold': deckNav[0].svg,
-  'tab-events': deckNav[1].svg,
-  'tab-events-bold': feedNav[1].svg,
-  'tab-search': feedNav[2].svg,
-  'tab-chats': feedNav[3].svg,
-  'tab-chats-bold': chatsNav[3].svg,
-  'tab-profile': feedNav[4].svg,
-
-  filters: svgs(pick(feedBtns, /^(?!.*class="primary")/) || feedBtns[0])[0],
-  post: svgs(pick(feedBtns, /class="primary"/))[0],
-
-  verified: svgs(S('feed.html').match(/<span class="verified">[\s\S]*?<\/span>/)[0])[0],
-  pin: svgs(S('deck.html').match(/<span class="chip">[\s\S]*?<\/span>\s*<\/p>/)[0])[0],
-
-  search: svgs(S('search.html').match(/<form class="field"[\s\S]*?<\/form>/)[0])[0],
-  message: svgs(S('dialog.html').match(/<label class="field"[\s\S]*?<\/label>/)[0])[0],
-
-  retry: svgs(S('dialog-error.html').match(/<span class="retry[\s\S]*?<\/span>/)[0])[0],
-  back: svgs(S('plan.html').match(/class="back"[\s\S]*?<\/button>/)[0])[0],
-  report: svgs(S('profile.html').match(/<button[^>]*class="report"[\s\S]*?<\/button>/)[0])[0],
-
-  'state-empty': svgs(S('deck-empty.html').match(/<span class="state-ico"[\s\S]*?<\/span>/)[0])[0],
-  'state-alert': svgs(S('feed-error.html').match(/<span class="state-ico"[\s\S]*?<\/span>/)[0])[0],
-  'state-chats': svgs(S('chats-empty.html').match(/<span class="state-ico"[\s\S]*?<\/span>/)[0])[0],
-  'state-dialog': svgs(S('dialog-empty.html').match(/<span class="state-ico"[\s\S]*?<\/span>/)[0])[0],
+const I = {
+  'tab-people': svg('users-group-rounded', LINEAR),
+  'tab-people-bold': svg('users-group-rounded'),
+  'tab-events': svg('ticket', LINEAR),
+  'tab-events-bold': svg('ticket'),
+  'tab-search': svg('magnifer', LINEAR),
+  'tab-chats': svg('chat-round-dots', LINEAR),
+  'tab-chats-bold': svg('chat-round-dots'),
+  'tab-profile': svg('user-rounded', LINEAR),
+  filters: svg('tuning-2'),
+  post: svg('add'),
+  verified: svg('verified-check'),
+  pin: svg('map-point'),
+  // в поле иконка контурная: поле ничего не утверждает, оно ждёт ввода
+  search: svg('magnifer', LINEAR),
+  message: svg('chat-round-dots', LINEAR),
+  retry: svg('danger-circle'),
+  report: svg('flag'),
+  // пусто — событие, сбой — опасность: так же выбирает их экран
+  'state-empty': svg('ticket'),
+  'state-alert': svg('danger-circle'),
+  'state-chats': svg('ticket'),
 };
-
-
-for (const [k, v] of Object.entries(out)) {
-  if (!v) throw new Error('в экранах концепта нет иконки: ' + k + ' — набор разошёлся');
-  // в ките иконка идёт без своих размеров: их задаёт класс, а не разметка
-  out[k] = v.replace(/\s(width|height)="\d+"/g, '');
-}
-const I = out;
 
 const ico = (n, cls = 'mm-ico') => `<span class="${cls}" aria-hidden="true">${I[n]}</span>`;
 
@@ -132,7 +109,7 @@ const shellPage = (head, current, note) => `  <figure class="shelf">
       ${head}
       <main class="mm-app">
         <div class="mm-pane">
-          <p class="slot">содержимое экрана<br><small>.mm-pane &gt; section</small></p>
+          <section class="mm-section"><p class="slot">содержимое экрана<br><small>.mm-pane &gt; .mm-section</small></p></section>
         </div>
       </main>
       ${tabs(current)}
@@ -318,6 +295,10 @@ ${FONT}
   /* высоту растягивающимся компонентам задаёт витрина, а не компонент */
   .kit-tall { height: 320px; display: flex; flex-direction: column; }
   .kit-card { height: 400px; }
+  .kit-radar { height: 460px; display: flex; }
+  .kit-layer { height: 420px; display: flex; flex-direction: column; }
+  .kit-shot { height: 360px; display: flex; flex-direction: column; }
+  .kit-shot .mm-person { height: auto; flex: 1; }
   .kit-row { flex: none; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .kit-narrow { flex: none; width: 200px; }
   .kit-shell { flex: none; width: 390px; }
@@ -627,8 +608,59 @@ ${grp(6, 'Чат', 'По порогу «два экрана» переписка
       </p>`, 'Это предложенные фразы, а не второе действие: столбиком, белые, текст слева, вес обычный. Рядом с главной кнопкой они не спорят.'),
 ])}
 
-${grp(7, 'Онбординг', 'Один компонент, и он разовый: обещание на радаре. В ките он потому, что несёт лейбу — второй цвет направления R (<code>D-62</code>).', [
+${grp(7, 'Онбординг и слои', 'Четыре компонента с экранов входа: обещание и радар на онбординге, слой совпадения поверх колоды, подпись на снимке в видоискателе. Все разовые — каждый стоит на одном экране, — но без них эти экраны не собрать.', [
   cs('Обещание', '.mm-promise', `      <p class="mm-promise">Meet <mark>mates</mark><br>Enjoy the <mark>events</mark></p>`, 'Лаймом залит контейнер, а не буквы: лаймовый текст на светлом фоне даёт 1,2:1, тёмный на лайме — 15:1. Строки идут просторнее обычного заголовка, иначе подложки двух слов сходятся краями. Белого текста на размытии нет нигде — там он даёт 1,8:1.'),
+  cs('Радар', '.mm-radar · .mm-rings · .mm-pins · .mm-scan', `      <div class="kit-radar">
+        <figure class="mm-radar">
+          <span class="mm-scan" aria-hidden="true"></span>
+          <p class="mm-rings" aria-hidden="true"><span class="r5"></span><span class="mid"></span><span class="r3"></span><span class="in"></span><span class="r1"></span></p>
+          <p class="mm-band far">~5 km</p>
+          <p class="mm-band mid">~2 km</p>
+          <p class="mm-band near">Nearby</p>
+          <ul class="mm-pins">
+            <li class="a"><span class="mm-dot" aria-hidden="true">${face('olena', 112)}</span><span class="mm-vh">Person</span></li>
+            <li class="d"><span class="mm-dot mm-dot--sm" aria-hidden="true">${cover('games')}</span><span class="mm-vh">Event</span></li>
+            <li class="g"><span class="mm-dot" aria-hidden="true">${face('andrii', 112)}</span><span class="mm-vh">Person</span></li>
+            <li class="j"><span class="mm-dot mm-dot--lg" aria-hidden="true">${face('dasha', 112)}</span><span class="mm-vh">Person</span></li>
+            <li class="l"><span class="mm-dot mm-dot--sm" aria-hidden="true">${cover('run')}</span><span class="mm-vh">Event</span></li>
+          </ul>
+        </figure>
+      </div>`, 'Кольца расстояний подписаны и стоят на месте; из центра идёт волна — это и есть «радар работает». На кольцах не точки, а те же лица и обложки, что в колоде и ленте: кто рядом — видно по снимку, а не по слову. Данные иллюстративные, живых людей экран не показывает (<code>D-47</code>). При <code>prefers-reduced-motion</code> волна снимается, найденные видны сразу.'),
+  cs('Слой поверх экрана', '.mm-layer', `      <div class="kit-layer">
+        <dialog open class="mm-layer">
+          <section class="mm-stretch">
+            <article class="mm-state">
+              <p class="mm-skelrow" aria-hidden="true">
+                <span class="mm-avatar" aria-hidden="true">${face('dasha')}</span>
+                <span class="mm-avatar" aria-hidden="true">${face('olena')}</span>
+              </p>
+              <h1>You and Olena both said yes</h1>
+              <p>You have 3 interests in common. The chat is open &mdash; Olena can write to you too.</p>
+            </article>
+          </section>
+          <p class="mm-actions">
+            <a class="mm-btn mm-btn--primary" href="#">Say hi</a>
+            <a class="mm-btn mm-btn--quiet" href="#">See people</a>
+          </p>
+        </dialog>
+      </div>`, 'Совпадение — не экран, а слой поверх колоды, поэтому <code>dialog</code>. У него <code>position: static</code>: браузер ставит <code>absolute</code>, и слой выходит из потока, переставая слушаться полей экрана. Два кружка рядом — в ряду заглушек они крупнее, чем подпись у имени.'),
+  cs('Подпись на снимке', '.mm-photo-cap · .mm-skel--thumb', `      <div class="kit-shot">
+        <article class="mm-person">
+          <figure>
+            <p class="mm-photo"><img src="img/dasha-112.jpg" alt="" loading="lazy"></p>
+            <figcaption class="mm-photo-cap">Camera</figcaption>
+          </figure>
+          <section class="mm-person-body">
+            <p class="mm-common">Turn your head slightly to the left</p>
+            <p class="mm-distance">Face the light, no sunglasses, no filters.</p>
+          </section>
+        </article>
+      </div>
+      <p class="mm-skelrow">
+        <span class="mm-skel mm-skel--thumb"></span>
+        <span class="mm-skel mm-skel--thumb"></span>
+        <span class="mm-skel mm-skel--thumb"></span>
+      </p>`, 'Видоискатель верификации — та же карточка человека, что в колоде: вместо снимка кадр камеры, вместо фактов подсказка позы. Подпись лежит на самом снимке. Справа — миниатюры, которых ещё нет: место под фотографии профиля, пока они грузятся.'),
 ])}
 
 <div class="kit-top">

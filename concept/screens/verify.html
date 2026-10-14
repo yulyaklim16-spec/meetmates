@@ -21,8 +21,9 @@
      и все они показывали системный запасной шрифт. -->
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="screens.css">
+<link rel="stylesheet" href="../../ui/kit.css">
 </head>
-<body class="mm-ui">
+<body class="kit">
 <i id="bare" hidden></i>
 <nav class="wfrail" aria-label="Разделы проекта">
   <a class="home" href="../../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
@@ -170,45 +171,45 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="mm-screen">
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
-<header>
-  <a class="back" href="dialog.html" aria-label="Back to the chat"><span aria-hidden="true">&larr;</span></a>
-  <h1>Verification</h1>
+<header class="mm-head">
+  <a class="mm-head-btn mm-head-btn--back" href="dialog.html" aria-label="Back to the chat"><span aria-hidden="true">&larr;</span></a>
+  <h1 class="mm-head-title">Verification</h1>
 </header>
-  <main class="app">
-  <div class="pane">
+  <main class="mm-app">
+  <div class="mm-pane">
     <!-- ЗОНА 2: видоискатель. Поза — то, что отличает живое фото от чужого -->
-    <section class="stretch" aria-labelledby="cam-h">
+    <section class="mm-stretch" aria-labelledby="cam-h">
       <h2 id="cam-h" hidden>Selfie</h2>
-      <article class="card">
+      <article class="mm-person">
         <figure>
-          <p class="photo"><img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=720&h=560&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></p>
-          <figcaption>Camera</figcaption>
+          <p class="mm-photo"><img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=720&h=560&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></p>
+          <figcaption class="mm-photo-cap">Camera</figcaption>
         </figure>
-        <section class="body">
-          <p class="common">Turn your head slightly to the left</p>
-          <p class="distance">Face the light, no sunglasses, no filters.</p>
+        <section class="mm-person-body">
+          <p class="mm-common">Turn your head slightly to the left</p>
+          <p class="mm-distance">Face the light, no sunglasses, no filters.</p>
         </section>
       </article>
     </section>
 
     <!-- ЗОНА 3: снять. Одно действие, и оно главное -->
-    <section aria-labelledby="act-h">
+    <section class="mm-section" aria-labelledby="act-h">
       <h2 id="act-h" hidden>Decision</h2>
-      <p class="row">
-        <a class="btn primary" href="verify-loading.html">Take selfie</a>
+      <p class="mm-actions">
+        <a class="mm-btn mm-btn--primary" href="verify-loading.html">Take selfie</a>
       </p>
     </section>
 
     <!-- ЗОНА 4: пропуск с названной ценой (§7.3) -->
-    <section aria-labelledby="skip-h">
+    <section class="mm-section" aria-labelledby="skip-h">
       <h2 id="skip-h" hidden>Later</h2>
       <p>You can browse now &mdash; verify to start chatting.</p>
-      <a class="exit" href="deck.html">
+      <a class="mm-exit" href="deck.html">
         <span>Keep browsing</span>
         <span aria-hidden="true">&rarr;</span>
       </a>

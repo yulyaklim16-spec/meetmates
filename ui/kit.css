@@ -165,6 +165,15 @@
   --mm-w-s: 28%;
   --mm-bubble-max: 80%;
   --mm-blur: 14px;
+  --mm-thumb-h: 64px;
+  /* жёлоб под полосу прокрутки: вычитается из правого отступа, иначе содержимое
+     прокручиваемой секции стоит левее, чем в соседней непрокручиваемой */
+  --mm-scroll-gutter: 10px;
+  --mm-radar: 340px;
+  --mm-dot: 56px;
+  --mm-dot-sm: 40px;
+  --mm-dot-lg: 72px;
+  --mm-ring: 4px;
   --mm-under: 4px;
 }
 
@@ -197,10 +206,57 @@
 }
 
 .mm-pane { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: var(--mm-s-4); }
+/* секция экрана: блоки внутри идут одним шагом */
+.mm-section { display: flex; flex-direction: column; gap: var(--mm-s-3); }
 /* секция, забирающая остаток высоты: колода, селфи, пустое состояние */
 .mm-stretch { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-/* прокручиваемая секция */
-.mm-scrolly { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: var(--mm-s-3); }
+
+/* Прокручиваемая секция. Полоса прокрутки видна — это подсказка, что ниже ещё
+   есть содержимое; место под неё резервируется всегда, поэтому карточки одной
+   ширины и там, где прокрутки нет. Жёлоб вычитается из правого отступа: иначе
+   полоса съедает ширину и блоки стоят на разном расстоянии от края. */
+.mm-scrolly {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mm-s-3);
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 calc(var(--mm-s-4) * -1);
+  padding: 0 calc(var(--mm-s-4) - var(--mm-scroll-gutter)) var(--mm-s-2) var(--mm-s-4);
+}
+/* то же там, где прокручивается сама панель: колода, профиль, селфи */
+.mm-pane:has(.mm-person) {
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 calc(var(--mm-s-4) * -1);
+  padding: 0 calc(var(--mm-s-4) - var(--mm-scroll-gutter)) var(--mm-s-2) var(--mm-s-4);
+}
+/* внутри такой панели секция уже не прокручивается — поля отдаёт панель */
+.mm-pane:has(.mm-person) > .mm-scrolly { flex: none; min-height: auto; overflow: visible; margin: 0; padding-left: 0; padding-right: 0; }
+.mm-scrolly, .mm-pane { scrollbar-width: thin; scrollbar-color: var(--mm-ink-400) transparent; scrollbar-gutter: stable; }
+.mm-scrolly::-webkit-scrollbar, .mm-pane::-webkit-scrollbar { width: 6px; }
+.mm-scrolly::-webkit-scrollbar-thumb, .mm-pane::-webkit-scrollbar-thumb { background: var(--mm-ink-400); border-radius: var(--mm-r-pill); }
+.mm-scrolly::-webkit-scrollbar-track, .mm-pane::-webkit-scrollbar-track { background: transparent; }
+
+/* Слой поверх экрана: совпадение. position: static обязателен — у dialog[open]
+   браузер ставит absolute, и слой выходит из потока панели, переставая слушаться
+   полей экрана. */
+.mm-layer {
+  position: static;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mm-s-3);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
 
 /* заголовок секции внутри экрана */
 .mm-h2 { margin: 0; font: var(--mm-fw-semibold) var(--mm-t-h3) / var(--mm-lh-heading) var(--mm-font); letter-spacing: var(--mm-tr-heading); }
@@ -480,6 +536,19 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
 .mm-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* фото дошло не целиком — показываем размытым и доводим по мере прихода (D-51) */
 .mm-photo--blur img { filter: blur(var(--mm-blur)); transform: scale(1.06); }
+/* подпись на самом снимке: так подписан видоискатель на верификации */
+.mm-photo-cap {
+  position: absolute;
+  left: var(--mm-s-3);
+  bottom: var(--mm-s-3);
+  margin: 0;
+  padding: var(--mm-s-hair) var(--mm-s-2);
+  border-radius: var(--mm-r-pill);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-sm);
+  font-size: var(--mm-t-micro);
+  color: var(--mm-ink-600);
+}
 .mm-person-body { flex: none; display: flex; flex-direction: column; gap: var(--mm-s-1); padding: var(--mm-s-3) var(--mm-s-4) var(--mm-s-4); }
 .mm-person-body > p:last-child { margin: 0; }
 .mm-person-name { margin: var(--mm-s-hair) 0 0; font: var(--mm-fw-semibold) var(--mm-t-h2) / var(--mm-lh-heading) var(--mm-font); letter-spacing: var(--mm-tr-heading); }
@@ -534,8 +603,11 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
 .mm-facts { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--mm-s-1); margin: 0; font-size: var(--mm-t-caption); color: var(--mm-ink-600); }
 .mm-meta { flex: none; white-space: nowrap; font-size: var(--mm-t-micro); color: var(--mm-ink-600); }
 .mm-note { margin: 0; font-size: var(--mm-t-body-sm); color: var(--mm-ink-600); }
-.mm-common { margin: 0; font-size: var(--mm-t-caption); color: var(--mm-ink-600); }
-.mm-distance { margin: 0; font-size: var(--mm-t-micro); color: var(--mm-ink-600); }
+/* Отбивка у трёх строк своя, а не из шага контейнера: блок фактов отходит
+   от фотографии, сигналы — от имени, расстояние — от сигналов. Шаг контейнера
+   этого не даёт, потому что он один на все блоки, а здесь нужны разные. */
+.mm-common { margin: var(--mm-s-4) 0 0; font-size: var(--mm-t-caption); color: var(--mm-ink-600); }
+.mm-distance { margin: var(--mm-s-2) 0 0; font-size: var(--mm-t-micro); color: var(--mm-ink-600); }
 
 /* сигналы доверия: Verified · встречи · отзывчивость. Все до первого сообщения */
 .mm-signals {
@@ -544,7 +616,7 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
   align-items: center;
   column-gap: var(--mm-s-1);
   row-gap: var(--mm-s-hair);
-  margin: 0;
+  margin: var(--mm-s-2) 0 0;
   padding: 0;
   list-style: none;
   font-size: var(--mm-t-caption);
@@ -624,7 +696,7 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
   color: var(--mm-ink-900);
 }
 .mm-state-ico svg { width: var(--mm-icon-lg); height: var(--mm-icon-lg); }
-.mm-state h3 { margin: 0; font: var(--mm-fw-semibold) var(--mm-t-h2) / var(--mm-lh-heading) var(--mm-font); letter-spacing: var(--mm-tr-heading); text-wrap: balance; }
+.mm-state :is(h1, h2, h3) { margin: 0; font: var(--mm-fw-semibold) var(--mm-t-h2) / var(--mm-lh-heading) var(--mm-font); letter-spacing: var(--mm-tr-heading); text-wrap: balance; }
 .mm-state p { margin: 0; max-width: var(--mm-measure); color: var(--mm-ink-600); font-size: var(--mm-t-body-sm); }
 /* сбой: красным только иконка. Текст говорит, что данные целы */
 .mm-state--alert .mm-state-ico { color: var(--mm-danger); }
@@ -659,7 +731,12 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
 .mm-skel--w-l { width: var(--mm-w-l); }
 .mm-skel--w-m { width: var(--mm-w-m); }
 .mm-skel--w-s { width: var(--mm-w-s); }
-.mm-skelrow { display: flex; flex-wrap: wrap; gap: var(--mm-s-2); margin: 0; }
+/* миниатюра: место под фотографию, которой ещё нет */
+.mm-skel--thumb { flex: 1; height: var(--mm-thumb-h); }
+/* ряд заглушек отбит от того, что над ним: это отдельная строка, а не продолжение */
+.mm-skelrow { display: flex; flex-wrap: wrap; gap: var(--mm-s-2); margin: var(--mm-s-3) 0 0; }
+/* кружок в ряду заглушек — место под фотографию, а не подпись рядом с именем */
+.mm-skelrow .mm-avatar { width: var(--mm-avatar-lg); height: var(--mm-avatar-lg); vertical-align: 0; }
 
 @keyframes mm-skel {
   from { background-position: 100% 0; }
@@ -721,7 +798,7 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
    краями. Лаймом залит контейнер, а не буквы — лаймовый текст на светлом фоне
    даёт 1,2:1, а тёмный на лайме читается 15:1 */
 .mm-promise {
-  margin: 0;
+  margin: 0 0 var(--mm-s-3);
   font: var(--mm-fw-bold) var(--mm-t-display) / var(--mm-lh-promise) var(--mm-font);
   letter-spacing: var(--mm-tr-display);
   text-align: center;
@@ -736,7 +813,118 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
   -webkit-box-decoration-break: clone;
 }
 
+/* ═══ Радар: экран онбординга ═══ */
+
+/* Кольца расстояний стоят на месте и подписаны; из центра идёт волна поиска —
+   это и есть «радар работает». На кольцах не точки, а те же лица и обложки,
+   что в колоде и ленте: кто рядом — видно по снимку, а не по слову.
+   Данные иллюстративные: живых людей экран не показывает (D-47). */
+.mm-radar { position: relative; flex: 1; min-height: 0; margin: 0; display: grid; place-items: center; }
+
+.mm-rings, .mm-rings span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 var(--mm-s-hair) var(--mm-line);
+}
+.mm-rings { width: var(--mm-radar); height: var(--mm-radar); }
+.mm-rings .r5 { width: 300px; height: 300px; }
+.mm-rings .mid { width: 250px; height: 250px; }
+.mm-rings .r3 { width: 200px; height: 200px; }
+.mm-rings .in { width: 150px; height: 150px; }
+.mm-rings .r1 { width: 100px; height: 100px; }
+
+/* подписи колец ложатся поверх снимков — поэтому они на тёмной пилюле:
+   белый на ней 19,9:1 вне зависимости от того, что под ней */
+.mm-band {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: var(--mm-s-hair) var(--mm-s-2);
+  border-radius: var(--mm-r-pill);
+  background: var(--mm-action);
+  color: var(--mm-ink-on-action);
+  font-size: var(--mm-t-micro);
+}
+.mm-band.far { top: calc(50% - 170px - 10px); }
+.mm-band.mid { top: calc(50% - 126px - 10px); }
+.mm-band.near { top: calc(50% - 76px - 10px); }
+
+.mm-pins { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+.mm-pins li { position: absolute; transform: translate(-50%, -50%); }
+.mm-dot {
+  display: block;
+  width: var(--mm-dot);
+  height: var(--mm-dot);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--mm-surface-2);
+  box-shadow: 0 0 0 var(--mm-ring) var(--mm-surface), var(--mm-shadow-md);
+}
+.mm-dot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mm-dot--sm { width: var(--mm-dot-sm); height: var(--mm-dot-sm); }
+.mm-dot--lg { width: var(--mm-dot-lg); height: var(--mm-dot-lg); }
+
+/* волна идёт из центра наружу; кольца при этом не едут — они подписаны */
+.mm-scan {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--mm-radar);
+  height: var(--mm-radar);
+  margin: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 var(--mm-s-hair) var(--mm-action);
+  transform: translate(-50%, -50%) scale(.12);
+  opacity: 0;
+  animation: mm-scan 3.2s var(--mm-ease-out) infinite;
+}
+@keyframes mm-scan {
+  0% { transform: translate(-50%, -50%) scale(.12); opacity: 0; }
+  12% { opacity: .55; }
+  100% { transform: translate(-50%, -50%) scale(1.06); opacity: 0; }
+}
+
+/* найденные появляются по мере того, как волна до них доходит: ближние раньше */
+.mm-pins li { animation: mm-found .5s var(--mm-ease-out) both; }
+@keyframes mm-found {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(.55); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.mm-pins .g { animation-delay: .1s; }
+.mm-pins .i { animation-delay: .2s; }
+.mm-pins .l { animation-delay: .3s; }
+.mm-pins .k { animation-delay: .4s; }
+.mm-pins .e { animation-delay: .5s; }
+.mm-pins .d { animation-delay: .6s; }
+.mm-pins .c { animation-delay: .7s; }
+.mm-pins .b { animation-delay: .8s; }
+.mm-pins .j { animation-delay: .9s; }
+.mm-pins .f { animation-delay: 1s; }
+.mm-pins .h { animation-delay: 1.1s; }
+.mm-pins .a { animation-delay: 1.2s; }
+
+/* места отсчитываются от центра в пикселях — как и кольца, иначе снимки
+   уезжают с колец при другой высоте. Середина сверху оставлена подписям */
+.mm-pins li.a { top: calc(50% - 150px); left: calc(50% - 120px); }
+.mm-pins li.b { top: calc(50% - 96px); left: calc(50% + 120px); }
+.mm-pins li.c { top: calc(50% - 20px); left: calc(50% - 140px); }
+.mm-pins li.d { top: calc(50% + 46px); left: calc(50% + 86px); }
+.mm-pins li.e { top: calc(50% + 50px); left: calc(50% - 96px); }
+.mm-pins li.f { top: calc(50% + 150px); left: calc(50% + 96px); }
+.mm-pins li.g { top: calc(50% + 10px); left: calc(50% + 6px); }
+.mm-pins li.h { top: calc(50% - 148px); left: calc(50% + 78px); }
+.mm-pins li.i { top: calc(50% - 56px); left: calc(50% - 70px); }
+.mm-pins li.j { top: calc(50% + 116px); left: calc(50% - 116px); }
+.mm-pins li.k { top: calc(50% + 96px); left: calc(50% - 20px); }
+.mm-pins li.l { top: calc(50% - 40px); left: calc(50% + 70px); }
+
 /* ═══ Служебное ═══ */
+
 
 /* скрыто для глаз, но не для скринридера: скрытый заголовок — такой же копирайт */
 .mm-vh {
@@ -756,6 +944,9 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
    перебивали бы, добавься они в конец файла (правило 8) */
 @media (prefers-reduced-motion: reduce) {
   .mm-skel { animation: none; }
+  /* радар: волна снимается целиком, найденные стоят на месте и видны сразу */
+  .mm-scan { display: none; }
+  .mm-pins li { animation: none; opacity: 1; }
   .mm-btn, .mm-head-btn { transition: none; }
   .mm-btn:active { transform: none; }
 }

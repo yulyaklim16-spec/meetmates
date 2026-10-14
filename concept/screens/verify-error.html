@@ -22,8 +22,9 @@
      и все они показывали системный запасной шрифт. -->
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="screens.css">
+<link rel="stylesheet" href="../../ui/kit.css">
 </head>
-<body class="mm-ui">
+<body class="kit">
 <i id="bare" hidden></i>
 <nav class="wfrail" aria-label="Разделы проекта">
   <a class="home" href="../../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
@@ -171,40 +172,40 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="mm-screen">
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
-<header>
-  <a class="back" href="dialog.html" aria-label="Back to the chat"><span aria-hidden="true">&larr;</span></a>
-  <h1>Verification</h1>
+<header class="mm-head">
+  <a class="mm-head-btn mm-head-btn--back" href="dialog.html" aria-label="Back to the chat"><span aria-hidden="true">&larr;</span></a>
+  <h1 class="mm-head-title">Verification</h1>
 </header>
-  <main class="app">
-  <div class="pane">
+  <main class="mm-app">
+  <div class="mm-pane">
     <!-- ЗОНА 2: причина. Не «something went wrong», а что именно не так -->
-    <section class="stretch" aria-labelledby="err-h">
+    <section class="mm-stretch" aria-labelledby="err-h">
       <h2 id="err-h" hidden>Verification failed</h2>
-      <article class="state" role="alert">
-        <span class="state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span>
+      <article class="mm-state mm-state--alert" role="alert">
+        <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span>
         <h3>Couldn&rsquo;t read your face</h3>
         <p>Part of your face was out of frame. Hold the phone at eye level and try once more.</p>
       </article>
-      <p class="note">This was your first try. There&rsquo;s no limit on tries &mdash; after two, someone from the team looks at your selfie.</p>
+      <p class="mm-note">This was your first try. There&rsquo;s no limit on tries &mdash; after two, someone from the team looks at your selfie.</p>
     </section>
 
     <!-- ЗОНА 3: пересдать. Без таймаутов и без наказания -->
-    <section aria-labelledby="act-h">
+    <section class="mm-section" aria-labelledby="act-h">
       <h2 id="act-h" hidden>What next</h2>
-      <p class="row">
-        <a class="btn primary" href="verify.html">Try again</a>
+      <p class="mm-actions">
+        <a class="mm-btn mm-btn--primary" href="verify.html">Try again</a>
       </p>
     </section>
 
     <!-- ЗОНА 4: выход. Колода и просмотр остаются открытыми (§7.3) -->
-    <section aria-labelledby="skip-h">
+    <section class="mm-section" aria-labelledby="skip-h">
       <h2 id="skip-h" hidden>Later</h2>
-      <a class="exit" href="deck.html">
+      <a class="mm-exit" href="deck.html">
         <span>Keep browsing</span>
         <span aria-hidden="true">&rarr;</span>
       </a>

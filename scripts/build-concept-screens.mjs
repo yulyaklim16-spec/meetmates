@@ -139,6 +139,169 @@ ${scr.pages.map((pg) => `            <li>${link(pg.file, pg.title, current)}</li
     текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
 </nav>`;
 
+// ── Экран, одетый в кит ───────────────────────────────────────────────
+// Структура и текст остаются из вайрфрейма — меняются только имена классов,
+// и ровно там, где у кита есть компонент. Класс, которому перевода нет,
+// валит сборку: молча оставить чужое имя значит оставить экран без стиля.
+//
+// Список растёт по группам: экрана, которого в нём нет, перевод не касается —
+// он собирается по-старому, на concept/components.css. Два пути временные
+// и живут только пока идёт перевод набора.
+const KIT = new Set([
+  // образцы, на которых проверено, что вид не изменился
+  'feed', 'my-profile', 'my-profile-loading',
+  // 1. Вход в продукт
+  'radar',
+  // 2. Колода и совпадение
+  'deck', 'deck-empty', 'deck-error', 'deck-loading', 'match',
+  // 3. Человек
+  'profile', 'profile-empty', 'profile-loading',
+  'verify', 'verify-error', 'verify-loading', 'verify-success', 'verify-waiting', 'verify-success-signup',
+]);
+
+// имена, которые переводятся один в один
+const CLASS_MAP = {
+  app: 'mm-app', pane: 'mm-pane', scrolly: 'mm-scrolly', stretch: 'mm-stretch', pin: 'mm-pin',
+  rows: 'mm-list', exit: 'mm-exit', who: 'mm-facts', when: 'mm-meta', note: 'mm-note',
+  common: 'mm-common', distance: 'mm-distance', signals: 'mm-signals', verified: 'mm-verified',
+  photo: 'mm-photo', pager: 'mm-pager', cardtop: 'mm-cardtop', chip: 'mm-chip', tags: 'mm-tags',
+  cardlink: 'mm-cardlink', avatar: 'mm-avatar', evcover: 'mm-evcover', msgs: 'mm-msgs',
+  field: 'mm-field', banner: 'mm-banner', skelrow: 'mm-skelrow', vh: 'mm-vh', screen: 'mm-screen',
+  'state-ico': 'mm-state-ico', promise: 'mm-promise', radar: 'mm-radar', rings: 'mm-rings',
+  pins: 'mm-pins', band: 'mm-band', scan: 'mm-scan', ico: 'mm-ico',
+  // размер иконки задаёт место, где она стоит, а не её собственный класс
+  sm: null, lg: null,
+};
+
+// мокап телефона и подписи зон — обвязка страницы макета, а не продукт
+const CHROME = new Set(['device', 'statusbar', 'browserbar', 'homebar', 'fold', 'anns', 'ann',
+  'wfstates', 'meta', 'now', 't', 'bare']);
+// кольца радара и места снимков на них — часть компонента, имена те же
+const RADAR_PARTS = new Set(['near', 'mid', 'far', 'in', 'r5', 'r3', 'r1',
+  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']);
+
+function dressInKit(body, name) {
+  // Комментарии прячем на время перевода: в них цитируется разметка
+  // («конвенции §2 — <dialog open>»), и замены правили цитату, а не экран.
+  const notes = [];
+  let s = body.replace(/<!--[\s\S]*?-->/g, (m) => {
+    notes.push(m);
+    return ` ${notes.length - 1} `;
+  });
+
+  // 1. шапка: заголовок, кнопки, возврат
+  s = s.replace(/<header([^>]*)>([\s\S]*?)<\/header>/, (m, attrs, inner) => {
+    const stack = /\bstack\b/.test(attrs);
+    let h = inner;
+    h = h.replace(/<h1([^>]*)>/, (t, a) => (/class="/.test(a)
+      ? `<h1${a.replace(/class="([^"]*)"/, 'class="$1 mm-head-title"')}>`
+      : `<h1 class="mm-head-title"${a}>`));
+    h = h.replace(/<div class="row">/, '<div class="mm-head-line">');
+    // жалоба: слово остаётся видимым — флажок без подписи не читается
+    h = h.replace(/<button type="button" class="report">([\s\S]*?)<\/button>/,
+      (b, inner2) => `<button type="button" class="mm-head-btn mm-head-btn--report">${inner2.replace(/<span class="label">([^<]*)<\/span>/, '$1')}</button>`);
+    h = h.replace(/<button type="button" class="primary"([^>]*)>/, '<button type="button" class="mm-head-btn mm-head-btn--primary"$1>');
+    h = h.replace(/<button type="button"((?:(?!class=)[^>])*)>/g, '<button type="button" class="mm-head-btn"$1>');
+    h = h.replace(/<a class="back"/, '<a class="mm-head-btn mm-head-btn--back"');
+    h = h.replace(/<span class="label">/g, '<span class="mm-vh">');
+    return `<header class="mm-head${stack ? ' mm-head--stack' : ''}">${h}</header>`;
+  });
+
+  // 2. нижнее меню: активная вкладка одна
+  s = s.replace(/<nav aria-label="Main navigation">([\s\S]*?)<\/nav>/, (m, inner) =>
+    `<nav class="mm-tabs" aria-label="Main navigation">${inner.replace(/<a ([^>]*)>/g, (a, attrs) =>
+      `<a class="mm-tab${/aria-current/.test(attrs) ? ' is-current' : ''}" ${attrs}>`)}</nav>`);
+
+  // 3. карточка события
+  s = s.replace(/<li class="item ev">([\s\S]*?)<\/li>/g, (li, inner) =>
+    `<li class="mm-event">${inner
+      .replace(/<span class="cover"/, '<span class="mm-cover"')
+      .replace(/<span class="body">/, '<span class="mm-event-body">')
+      .replace(/<(a|span) class="top"/, '<$1 class="mm-event-head"')
+      .replace(/<span class="acts">/, '<span class="mm-event-acts">')}</li>`);
+
+  // 4. строка списка
+  s = s.replace(/class="item"/g, 'class="mm-row"');
+  s = s.replace(/<span class="top">/g, '<span class="mm-row-head">');
+  s = s.replace(/<a class="top"/g, '<a class="mm-event-head"');
+
+  // 5. карточка человека, видоискатель верификации и снимки на радаре
+  s = s.replace(/<article class="card"/g, '<article class="mm-person"');
+  s = s.replace(/<section class="body skeleton"/g, '<section class="mm-person-body"');
+  s = s.replace(/<section class="body"/g, '<section class="mm-person-body"');
+  s = s.replace(/<p class="photo blur"/g, '<p class="mm-photo mm-photo--blur"');
+  s = s.replace(/<figcaption>([^<]*)<\/figcaption>/g, '<figcaption class="mm-photo-cap">$1</figcaption>');
+  s = s.replace(/<span class="thumb blur"><\/span>/g, '<span class="mm-skel mm-skel--thumb"></span>');
+  s = s.replace(/(<section class="mm-person-body"[^>]*>[\s\S]*?)<h3>/g, '$1<h3 class="mm-person-name">');
+  s = s.replace(/<span class="dot sm"/g, '<span class="mm-dot mm-dot--sm"');
+  s = s.replace(/<span class="dot lg"/g, '<span class="mm-dot mm-dot--lg"');
+  s = s.replace(/<span class="dot"/g, '<span class="mm-dot"');
+
+  // 6. кнопки, строки действий, срез вкладки, подсказки в чате
+  s = s.replace(/class="btn primary"/g, 'class="mm-btn mm-btn--primary"');
+  s = s.replace(/class="btn quiet"/g, 'class="mm-btn mm-btn--quiet"');
+  s = s.replace(/class="btn"/g, 'class="mm-btn"');
+  // кнопка в содержимом: шапку уже перевели выше, значит это она
+  s = s.replace(/<button([^>]*)class="primary"/g, '<button$1class="mm-btn mm-btn--primary"');
+  s = s.replace(/<button([^>]*)class="quiet"/g, '<button$1class="mm-btn mm-btn--quiet"');
+  s = s.replace(/(<section aria-labelledby="seg-h">[\s\S]*?)<p class="row">([\s\S]*?)<\/p>/,
+    (m, head, inner) => `${head}<p class="mm-segmented">${inner
+      .replace(/class="mm-btn mm-btn--primary"/, 'class="mm-btn is-current"')
+      .replace(/class="mm-btn mm-btn--quiet"/, 'class="mm-btn"')}</p>`);
+  s = s.replace(/<p class="rows">/g, '<p class="mm-hints">');
+  s = s.replace(/<p class="row">/g, '<p class="mm-actions">');
+
+  // 7. пусто и сбой
+  s = s.replace(/<article class="state" role="alert">/g, '<article class="mm-state mm-state--alert" role="alert">');
+  s = s.replace(/<article class="state">/g, '<article class="mm-state">');
+
+  // 8. заглушки: skel line w-l → mm-skel mm-skel--line mm-skel--w-l
+  s = s.replace(/class="skel(?![a-z])([^"]*)"/g, (m, rest) =>
+    `class="mm-skel${rest.trim().split(/\s+/).filter(Boolean).map((t) => ` mm-skel--${t}`).join('')}"`);
+
+  // 9. переписка
+  s = s.replace(/class="bubble me failed"/g, 'class="mm-bubble mm-bubble--failed"');
+  s = s.replace(/class="bubble me"/g, 'class="mm-bubble mm-bubble--mine"');
+  s = s.replace(/class="bubble"/g, 'class="mm-bubble"');
+  s = s.replace(/<span class="t">/g, '<span class="mm-bubble-time">');
+  s = s.replace(/class="retry ico( sm)?"/g, 'class="mm-bubble-retry"');
+
+  // 10. полосы по числу фотографий: закрашенная — открытая
+  s = s.replace(/(<p class="pager"[^>]*>)([\s\S]*?)(<\/p>)/g,
+    (m, open, inner, close) => open + inner.replace(/<span class="on">/g, '<span class="is-current">') + close);
+
+  // 11. слой совпадения поверх колоды
+  s = s.replace(/<dialog open([^>]*)>/, '<dialog open class="mm-layer"$1>');
+
+  // 12. отметка проверки: в ките это одна лейба, а не первый пункт строки сигналов
+  s = s.replace(/<li><span class="ico sm" aria-hidden="true">(<svg[\s\S]*?<\/svg>)<\/span>Verified<\/li>/g,
+    '<li><span class="mm-verified">$1Verified</span></li>');
+
+  // 13. всё остальное — по карте имён; чужое имя валит сборку
+  s = s.replace(/class="([^"]*)"/g, (m, value) => {
+    const out = [];
+    for (const t of value.split(/\s+/).filter(Boolean)) {
+      if (t.startsWith('mm-') || t === 'is-current' || CHROME.has(t) || RADAR_PARTS.has(t)) { out.push(t); continue; }
+      if (!(t in CLASS_MAP)) throw new Error(`${name}: класс «${t}» не переведён в кит — экран остался бы без стиля`);
+      if (CLASS_MAP[t]) out.push(CLASS_MAP[t]);
+    }
+    return `class="${out.join(' ')}"`;
+  });
+
+  // 14. заголовки содержимого: имя человека 22px, заголовок блока 18px.
+  // Внутри состояния заголовок ведёт сам блок — его не трогаем.
+  s = s.replace(/<article class="mm-state[^"]*"[^>]*>[\s\S]*?<\/article>/g,
+    (m) => m.replace(/<h([123])>/g, '<h$1 data-in-state>'));
+  s = s.replace(/<h2(?![^>]*(?:class=|hidden|data-in-state))([^>]*)>/g, '<h2 class="mm-h2"$1>');
+  s = s.replace(/<h3(?![^>]*(?:class=|data-in-state))([^>]*)>/g, '<h3 class="mm-person-name"$1>');
+  s = s.replace(/ data-in-state/g, '');
+
+  // 15. секция экрана: шаг между блоками
+  s = s.replace(/<section(?![^>]*class=)([^>]*)>/g, '<section class="mm-section"$1>');
+
+  return s.replace(/ (\d+) /g, (m, i) => notes[Number(i)]);
+}
+
 mkdirSync(OUT, { recursive: true });
 
 for (const name of SCREENS) {
@@ -272,6 +435,10 @@ for (const name of SCREENS) {
   body = body.replace(/href="([a-z0-9-]+\.html)(#[^"]*)?"/g, (m, file, hash = '') =>
     SCREENS.includes(file.replace('.html', '')) ? m : `href="../../wireframes/${file}${hash}"`);
 
+  // 8. вид: одетый в кит экран берёт его из ui/kit.css, остальные — по-старому
+  const kit = KIT.has(name);
+  if (kit) body = dressInKit(body, name);
+
   const html = `<!doctype html>
 <html lang="en">
 <head>
@@ -287,8 +454,8 @@ ${docComment}
      и все они показывали системный запасной шрифт. -->
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="screens.css">
-</head>
-<body class="mm-ui">
+${kit ? '<link rel="stylesheet" href="../../ui/kit.css">\n' : ''}</head>
+<body class="${kit ? 'kit' : 'mm-ui'}">
 <i id="bare" hidden></i>
 ${rail({ prefix: '../../', current: '06' })}
 ${tree(name)}
