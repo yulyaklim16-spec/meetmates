@@ -13,7 +13,8 @@
   и ни одного инлайнового стиля. Обвязка самой витрины — классы .kit-*,
   они к продукту не относятся и в ui/kit.css их нет.
 
-  Файл правится руками. Порядок разделов — роли из ui/inventory.md.
+  Сгенерировано scripts/build-kit-pages.mjs — руками не править.
+  Порядок разделов — роли из ui/inventory.md.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,13 +24,13 @@
   /* обвязка витрины: к продукту не относится */
   :root { --page: #EFEFF2; --edge: #DCD6E4; --dim: #4C3F59; }
   body { margin: 0; background: var(--page); }
-  .kit-top { padding: 40px 32px 28px; }
+  .kit-top { padding: 40px 32px 28px 80px; }
   .kit-top h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -.03em; }
   .kit-top p { margin: 0 0 6px; max-width: 76ch; font-size: 14px; line-height: 1.55; color: var(--dim); }
   .kit-toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
   .kit-toc a { padding: 6px 12px; border-radius: 999px; background: #fff; box-shadow: 0 0 0 1px var(--edge);
     font-size: 12px; font-weight: 600; text-decoration: none; color: #1A1026; }
-  .kit-grp { padding: 28px 32px 8px; }
+  .kit-grp { padding: 28px 32px 8px 80px; }
   .kit-grp-h { display: flex; align-items: center; gap: 10px; margin: 0 0 4px; font-size: 20px; letter-spacing: -.02em; }
   .kit-n { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 999px;
     background: #1A1026; color: #fff; font-size: 12px; font-weight: 700; }
@@ -57,9 +58,40 @@
   .kit-after { margin-top: 12px; }
   .kit-stack > * + * { margin-top: 12px; }
   code { font-family: ui-monospace, monospace; font-size: 12px; }
+  /* полоса разделов проекта: та же, что на макетах и экранах концепта */
+  .wfrail { position: fixed; top: 32px; left: 16px; display: flex; flex-direction: column; align-items: center;
+    gap: 2px; font: 12px/1.4 var(--mm-font); }
+  .wfrail a { display: block; min-width: 32px; padding: 6px 8px; border-radius: 14px; color: #4C3F59;
+    text-decoration: none; text-align: center; font-variant-numeric: tabular-nums; }
+  .wfrail a:hover { background: #E8E1F1; color: #1A1026; }
+  .wfrail .home { margin-bottom: 16px; font-weight: 700; letter-spacing: .04em; color: #1A1026; }
+  .wfrail .now { background: #E8E1F1; color: #1A1026; font-weight: 700; }
+  @media (max-width: 1000px) {
+    .wfrail { position: static; flex-direction: row; flex-wrap: wrap; margin: 0 0 16px; }
+    .kit-top, .kit-grp { padding-left: 32px; }
+  }
+  /* на телефоне: поля экрана 16px, а ряд мокапов едет вбок внутри себя,
+     а не тянет вбок всю страницу — мокап шириной 390px иначе не помещается */
+  @media (max-width: 560px) {
+    .kit-top, .kit-grp { padding-left: 16px; padding-right: 16px; }
+    .kit-live { padding: 12px; }
+    .kit-live > * { flex: 1 1 100%; max-width: 100%; }
+    .kit-live--screens { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 8px; }
+    .kit-shell, .kit-narrow { width: 100%; }
+  }
 </style>
 </head>
 <body class="mm">
+<nav class="wfrail" aria-label="Разделы проекта">
+  <a class="home" href="../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
+  <a href="../research/research.html" aria-label="Раздел 01 — Ресерч и бенчмарк" title="Ресерч и бенчмарк">01</a>
+  <a href="../research/persones.html" aria-label="Раздел 02 — Персоны и JTBD" title="Персоны и JTBD">02</a>
+  <a href="../sections/ia.html" aria-label="Раздел 03 — Информационная архитектура" title="Информационная архитектура">03</a>
+  <a href="../sections/wireframes.html#wireframes" aria-label="Раздел 04 — Прототипирование и вайрфрейминг" title="Прототипирование и вайрфрейминг">04</a>
+  <a href="../sections/voice.html" aria-label="Раздел 05 — Tone of voice и микрокопи" title="Tone of voice и микрокопи">05</a>
+  <a href="../sections/concept.html#screens" aria-label="Раздел 06 — Концепт" title="Концепт">06</a>
+  <a class="now" aria-current="page" href="../sections/kit.html" aria-label="Раздел 07 — Сборка UI" title="Сборка UI">07</a>
+</nav>
 
 <div class="kit-top">
   <h1>Витрина компонентов</h1>
@@ -99,7 +131,7 @@
             </p>
         <ul class="mm-list">
           <li class="mm-event">
-            <span class="mm-cover" aria-hidden="true"><img src="https://images.unsplash.com/photo-1715860738421-b30b98f8614f?w=320&h=360&fit=crop&q=75&auto=format" alt="" loading="lazy"></span>
+            <span class="mm-cover" aria-hidden="true"><img src="img/ev-games.jpg" alt="" loading="lazy"></span>
             <span class="mm-event-body">
               <a class="mm-event-head" href="#"><b>Board games</b><span class="mm-meta">Sat 18:00</span></a>
               <span class="mm-facts">Kyiv Games Club &middot; Podil &middot; ~3 km</span>
@@ -136,7 +168,7 @@
             <h2 class="mm-h2">Events</h2>
         <ul class="mm-list">
           <li class="mm-event">
-            <span class="mm-cover" aria-hidden="true"><img src="https://images.unsplash.com/photo-1758525223193-1bd8fca96ef3?w=320&h=360&fit=crop&q=75&auto=format" alt="" loading="lazy"></span>
+            <span class="mm-cover" aria-hidden="true"><img src="img/ev-coffee.jpg" alt="" loading="lazy"></span>
             <span class="mm-event-body">
               <a class="mm-event-head" href="#"><b>Coffee and a walk in Podil</b><span class="mm-meta">Sun 11:00</span></a>
               <span class="mm-facts">Podil &middot; ~2 km</span>
@@ -210,7 +242,7 @@
             <section class="mm-stretch">
       <article class="mm-person">
         <figure>
-          <p class="mm-photo"><img src="https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?w=720&h=560&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></p>
+          <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
           <figcaption class="mm-vh">Photo 1 of 4</figcaption>
           <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
           <p class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></p>
@@ -305,7 +337,7 @@
       <div>
         <ul class="mm-list">
           <li class="mm-event">
-            <span class="mm-cover" aria-hidden="true"><img src="https://images.unsplash.com/photo-1715860738421-b30b98f8614f?w=320&h=360&fit=crop&q=75&auto=format" alt="" loading="lazy"></span>
+            <span class="mm-cover" aria-hidden="true"><img src="img/ev-games.jpg" alt="" loading="lazy"></span>
             <span class="mm-event-body">
               <a class="mm-event-head" href="#"><b>Board games</b><span class="mm-meta">Sat 18:00</span></a>
               <span class="mm-facts">Kyiv Games Club &middot; Podil &middot; ~3 km</span>
@@ -318,7 +350,7 @@
       <div>
         <ul class="mm-list">
           <li class="mm-event">
-            <span class="mm-cover" aria-hidden="true"><img src="https://images.unsplash.com/photo-1739368732843-800f36a9b7d0?w=320&h=360&fit=crop&q=75&auto=format" alt="" loading="lazy"></span>
+            <span class="mm-cover" aria-hidden="true"><img src="img/ev-run.jpg" alt="" loading="lazy"></span>
             <span class="mm-event-body">
               <a class="mm-event-head" href="#"><b>Morning run along the embankment</b><span class="mm-meta">No date yet</span></a>
               <span class="mm-facts">Podil &middot; ~1 km</span>
@@ -337,7 +369,7 @@
       <ul class="mm-list">
         <li><a class="mm-row" href="#">
           <span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span>
-          <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?w=48&h=48&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span>
+          <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span>
         </a></li>
         <li><a class="mm-row" href="#">
           <span class="mm-row-head"><b>Board games</b><span class="mm-meta">Mon</span></span>
@@ -345,7 +377,7 @@
         </a></li>
         <li><a class="mm-row" href="#">
           <span class="mm-row-head"><b>Maryna</b><span class="mm-meta">12 Jun</span></span>
-          <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=48&h=48&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></span>You both said yes &mdash; no messages yet</span>
+          <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="img/dasha-48.jpg" alt="" loading="lazy"></span>You both said yes &mdash; no messages yet</span>
         </a></li>
       </ul>
       <ul class="mm-list">
@@ -363,7 +395,7 @@
     <div class="kit-live">
       <div class="kit-card">      <article class="mm-person">
         <figure>
-          <p class="mm-photo"><img src="https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?w=720&h=560&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></p>
+          <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
           <figcaption class="mm-vh">Photo 1 of 4</figcaption>
           <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
           <p class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></p>
@@ -382,7 +414,7 @@
       </article></div>
       <div class="kit-card">      <article class="mm-person">
         <figure>
-          <p class="mm-photo mm-photo--blur"><img src="https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?w=720&h=560&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></p>
+          <p class="mm-photo mm-photo--blur"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
           <figcaption class="mm-vh">Photo 1 of 4</figcaption>
           <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
           <p class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></p>
@@ -424,9 +456,9 @@
     <p class="kit-h"><b>Аватар, чип расстояния, теги</b><code>.mm-avatar · .mm-chip · .mm-tags</code></p>
     <div class="kit-live">
       <p class="kit-row">
-        <span class="mm-avatar" aria-hidden="true"><img src="https://images.unsplash.com/photo-1525457136159-8878648a7ad0?w=48&h=48&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></span>
-        <span class="mm-avatar" aria-hidden="true"><img src="https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?w=48&h=48&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></span>
-        <span class="mm-avatar mm-avatar--lg" aria-hidden="true"><img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=112&h=112&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></span>
+        <span class="mm-avatar" aria-hidden="true"><img src="img/andrii-48.jpg" alt="" loading="lazy"></span>
+        <span class="mm-avatar" aria-hidden="true"><img src="img/olena-48.jpg" alt="" loading="lazy"></span>
+        <span class="mm-avatar mm-avatar--lg" aria-hidden="true"><img src="img/dasha-112.jpg" alt="" loading="lazy"></span>
         <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
         <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>Nearby</span>
       </p>
@@ -440,12 +472,12 @@
     <p class="kit-h"><b>Обложка на карточке события</b><code>.mm-evcover</code></p>
     <div class="kit-live">
       <figure class="mm-evcover">
-        <p class="mm-photo"><img src="https://images.unsplash.com/photo-1715860738421-b30b98f8614f?w=320&h=360&fit=crop&q=75&auto=format" alt="" loading="lazy"></p>
+        <p class="mm-photo"><img src="img/ev-games.jpg" alt="" loading="lazy"></p>
         <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span></p>
       </figure>
       <div class="kit-stack">
         <p class="mm-distance">Kyiv &middot; distance is always rounded for others</p>
-        <p class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="https://images.unsplash.com/photo-1525457136159-8878648a7ad0?w=48&h=48&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></span>Andrii &middot; 12 meetups attended &middot; Replies quickly</p>
+        <p class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="img/andrii-48.jpg" alt="" loading="lazy"></span>Andrii &middot; 12 meetups attended &middot; Replies quickly</p>
         <p class="mm-note">Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.</p>
       </div>
     </div>

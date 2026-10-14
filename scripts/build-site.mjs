@@ -16,9 +16,12 @@ const ROOT = process.cwd();
 const OUT = join(ROOT, 'dist');
 
 // страницы сайта относительно корня репозитория
-const PAGES = ['research/research.html', 'research/persones.html', 'sections/index.html', 'sections/ia.html', 'sections/wireframes.html', 'sections/voice.html', 'sections/concept.html'];
+const PAGES = ['research/research.html', 'research/persones.html', 'sections/index.html', 'sections/ia.html', 'sections/wireframes.html', 'sections/voice.html', 'sections/concept.html', 'sections/kit.html'];
+// Кит: раздел 07 показывает витрину и оболочку своими страницами, во всю ширину —
+// значит они такие же страницы сайта, как макеты вайрфреймов.
+PAGES.push('ui/kit.html', 'ui/shell.html');
 // концепт: стенд, направления и экраны — тоже страницы сайта (§8, D-61)
-import { readdirSync as ls } from 'node:fs';
+import { readdirSync as ls, readdirSync } from 'node:fs';
 const CONCEPT = [
   ...ls(join(ROOT, 'concept')).filter((f) => f.endsWith('.html')).map((f) => `concept/${f}`),
   ...ls(join(ROOT, 'concept/screens')).filter((f) => f.endsWith('.html')).map((f) => `concept/screens/${f}`),
@@ -97,9 +100,29 @@ for (const rel of ['tokens/tokens.css', 'concept/tokens.css', 'concept/component
   }
 }
 
+// ── 2в. кит: стили и снимки, которыми нарисованы его страницы ──
+// Снимки лежат файлами, а не ссылками на Unsplash: витрина не должна гаснуть
+// оттого, что чужой сервис недоступен.
+if (!copyAsset('ui/kit.css')) {
+  console.error('Нет ui/kit.css — страницы кита останутся без стилей');
+  process.exit(1);
+}
+{
+  const imgs = readdirSync(join(ROOT, 'ui/img')).filter((f) => /\.(jpg|jpeg|png|webp)$/i.test(f)).sort();
+  if (!imgs.length) {
+    console.error('В ui/img нет снимков — витрина кита останется без фотографий');
+    process.exit(1);
+  }
+  for (const f of imgs) {
+    if (!copyAsset(posix.join('ui/img', f))) {
+      console.error(`Не скопировался снимок кита: ${f}`);
+      process.exit(1);
+    }
+  }
+}
+
 // ── 2a. вайрфреймы: раздел 4 показывает их во фрейме, значит они едут на сайт.
 // Только .html и .css — разборы и задания в wireframes/*.md остаются в репозитории.
-import { readdirSync } from 'node:fs';
 const wire = readdirSync(join(ROOT, 'wireframes'))
   .filter((f) => f.endsWith('.html') || f.endsWith('.css'))
   .sort();

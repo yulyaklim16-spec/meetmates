@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сборка UI · MeetMates</title>
+<meta name="description" content="Кит: один файл стилей, оболочка разметкой и витрина компонентов. Снят с окрашенных экранов, свёл разошедшиеся имена в один набор.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<!-- Единственный источник правды по цвету, радиусам, шкалам и движению -->
+<link rel="stylesheet" href="../tokens/site.css">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Итоги исследования. Все значения — из tokens/site.css:
+   собственных цветов и радиусов здесь нет (Рабочие соглашения, п. 2).
+   Тёмная тема вне объёма v1 (§10), страница осознанно светлая.
+   Градиент — только на акцентах (§8).
+   ───────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-family: var(--font);
+  font-size: var(--t-body-sm);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip {
+  position: absolute; left: -9999px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface); border-radius: var(--r-sm);
+  font-weight: var(--fw-medium);
+}
+.skip:focus { left: var(--s-4); top: var(--s-4); z-index: 50; outline: 2px solid var(--brand-a); }
+
+.shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  gap: var(--s-7);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  align-items: start;
+}
+
+/* ── Боковая колонка ───────────────────────────────────────── */
+.side {
+  position: sticky; top: 0;
+  max-height: 100vh; overflow-y: auto;
+  padding: var(--s-6) 0 var(--s-6);
+}
+.side .brand {
+  display: flex; align-items: center; gap: var(--s-3);
+  margin-bottom: var(--s-2);
+}
+.side .dot {
+  width: 26px; height: 26px; border-radius: var(--r-pill);
+  background: var(--brand-gradient); flex: none; box-shadow: var(--shadow-sm);
+}
+.side .brand b { font-size: var(--t-body); letter-spacing: -0.01em; }
+.side .stage { font-size: var(--t-caption); color: var(--ink-600); margin: 0 0 var(--s-5); }
+
+.side .lbl {
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-600); margin: 0 0 var(--s-3);
+}
+
+.matlist { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--s-6); }
+.mat {
+  display: flex; gap: var(--s-3); align-items: baseline;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  text-decoration: none; color: var(--ink-900);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.mat:hover, .mat:focus-visible { background: var(--surface-2); }
+.mat:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.mat .n {
+  font-size: var(--t-micro); color: var(--ink-600);
+  font-variant-numeric: tabular-nums; flex: none; min-width: 2ch;
+}
+.mat .t { font-size: var(--t-caption); line-height: 1.45; }
+.mat .t i { display: block; font-style: normal; color: var(--ink-600); font-size: var(--t-micro); }
+.mat.current { background: var(--surface-2); }
+.mat.current .t { font-weight: var(--fw-medium); }
+.mat.soon .t { color: var(--ink-600); }
+.mat.soon .n { color: var(--line); }
+
+.anchors {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: var(--s-4); border-top: 1px solid var(--line);
+}
+.anchors a {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--t-caption);
+  text-decoration: none; color: var(--ink-600);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.anchors a:hover, .anchors a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
+.anchors a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+
+/* ── Основная колонка ──────────────────────────────────────── */
+main { padding: var(--s-7) 0 var(--s-7); min-width: 0; }
+
+.masthead { padding-bottom: var(--s-6); }
+h1 {
+  font-size: var(--t-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+  margin: 0 0 var(--s-4);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.lede { font-size: var(--t-body); color: var(--ink-600); max-width: 60ch; margin: 0 0 var(--s-5); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+.chips span { font-size: var(--t-caption); color: var(--ink-600); }
+.chips b { font-weight: var(--fw-bold); color: var(--ink-900); font-variant-numeric: tabular-nums; }
+.chips a { color: var(--brand-a); }
+
+/* ── Секции ────────────────────────────────────────────────── */
+section { padding-top: var(--s-7); scroll-margin-top: var(--s-4); }
+section > h2 {
+  font-size: var(--t-h1); font-weight: var(--fw-black);
+  letter-spacing: -0.02em; margin: 0 0 var(--s-3);
+  padding-bottom: var(--s-3); border-bottom: 1px solid var(--line);
+}
+section > .intro { font-size: var(--t-body-sm); color: var(--ink-600); max-width: 66ch; margin: 0 0 var(--s-5); }
+
+h3 {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.01em; margin: var(--s-6) 0 var(--s-3);
+}
+h4 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(--s-5) 0 var(--s-2); }
+p { margin: 0 0 var(--s-3); max-width: 72ch; }
+a { color: var(--brand-a); text-underline-offset: 3px; }
+strong { font-weight: var(--fw-bold); }
+
+ul { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+li { margin-bottom: var(--s-2); }
+ol { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+
+/* ── Пара колонок «что видели / что решили» ────────────────── */
+.duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+.duo > div { border-top: 2px solid var(--ink-900); padding-top: var(--s-4); }
+.duo h3 { margin: 0 0 var(--s-3); font-size: var(--t-body); }
+.duo ul { margin: 0; }
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+
+/* ── Таблицы ───────────────────────────────────────────────── */
+.tw {
+  overflow-x: auto; margin: 0 0 var(--s-4);
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+}
+table { border-collapse: collapse; width: 100%; font-size: var(--t-caption); }
+caption {
+  caption-side: bottom; text-align: left;
+  padding: var(--s-3) var(--s-4) 0;
+  font-size: var(--t-micro); color: var(--ink-600); line-height: 1.6;
+}
+th, td {
+  text-align: left; vertical-align: top;
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+thead th {
+  background: var(--surface-2);
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600);
+  white-space: nowrap;
+}
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+tbody th { font-weight: var(--fw-bold); font-size: var(--t-caption); white-space: nowrap; }
+td .lbl-cell { display: none; }
+.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+/* ── Чипы источников ───────────────────────────────────────── */
+.src {
+  display: inline-block;
+  font-size: var(--t-micro); line-height: 1.6;
+  padding: 1px var(--s-2); border-radius: var(--r-sm);
+  background: var(--surface-2); color: var(--ink-600);
+  white-space: nowrap;
+}
+.src.own { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.src.none { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+
+/* ── Выноски ───────────────────────────────────────────────── */
+.note {
+  border-left: 3px solid var(--brand-a);
+  padding: var(--s-2) 0 var(--s-2) var(--s-4);
+  margin: 0 0 var(--s-4); max-width: 72ch;
+  color: var(--ink-600);
+}
+.note.warn { border-left-color: var(--warn); }
+.note p:last-child, .note ul:last-child { margin-bottom: 0; }
+
+.panel {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5);
+  margin: 0 0 var(--s-4); max-width: 80ch;
+}
+.panel h4 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child, .panel ol:last-child { margin-bottom: 0; }
+
+.scores { display: grid; gap: var(--s-1); margin: 0 0 var(--s-4); max-width: 620px; }
+.srow { display: grid; grid-template-columns: 108px 1fr 34px; align-items: center; gap: var(--s-3); }
+.srow .nm { font-size: var(--t-caption); color: var(--ink-600); }
+.srow .bar { height: 16px; border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--brand-a); }
+.srow .v { font-size: var(--t-caption); font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-600); }
+.srow.us .nm, .srow.us .v { color: var(--ink-900); font-weight: var(--fw-bold); }
+.srow.us .bar { background: var(--brand-gradient); }
+.srow.bg .nm, .srow.bg .v { color: var(--ink-600); }
+.srow.bg .bar { background: var(--surface-2); border: 1px solid var(--line); }
+
+/* ── Скриншоты ─────────────────────────────────────────────── */
+.gallery {
+  display: grid; gap: var(--s-5);
+  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+}
+figure { margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+figure a {
+  display: block; border: 1px solid var(--line); border-radius: var(--r-md);
+  overflow: hidden; background: var(--surface-2); line-height: 0;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+figure a:hover, figure a:focus-visible { border-color: var(--brand-a); box-shadow: var(--shadow-md); }
+figure a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 3px; }
+figure img { width: 100%; height: 268px; object-fit: cover; object-position: top center; display: block; }
+figcaption { font-size: var(--t-caption); color: var(--ink-600); line-height: 1.5; }
+figcaption b { display: block; color: var(--ink-900); font-weight: var(--fw-bold); margin-bottom: 2px; }
+figcaption .fn { display: block; margin-top: var(--s-2); font-size: var(--t-micro); color: var(--ink-600); word-break: break-all; }
+
+.wide-shot { grid-column: 1 / -1; }
+.wide-shot .frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2); line-height: 0; }
+.wide-shot img { height: 260px; width: auto; max-width: none; object-fit: fill; }
+
+.section-nav {
+  display: flex; justify-content: space-between; gap: var(--s-4);
+  margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--line);
+  font-weight: var(--fw-medium);
+}
+.section-nav a { text-decoration: none; }
+footer {
+  margin-top: var(--s-6); padding: var(--s-5) 0 var(--s-7);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-caption); color: var(--ink-600);
+}
+footer a { color: var(--brand-a); }
+footer p { max-width: 72ch; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; gap: 0; }
+  .side { position: static; max-height: none; padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
+  .matlist { display: none; }
+  .side .stage { margin-bottom: var(--s-3); }
+  .anchors { flex-direction: row; flex-wrap: wrap; border-top: none; padding-top: 0; }
+}
+
+/* ── Персоны ───────────────────────────────────────────────── */
+.persona {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5); margin: 0 0 var(--s-5);
+}
+.persona.primary { border-color: var(--brand-a); box-shadow: var(--shadow-sm); }
+.persona.supply { border-style: dashed; }
+.phead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s-4); }
+.phead h3 { margin: 0 0 var(--s-1); }
+.pscene { margin: 0; color: var(--ink-600); font-size: var(--t-caption); max-width: 60ch; }
+.pneed { margin: var(--s-4) 0; padding: var(--s-3) var(--s-4); background: var(--surface-2); border-radius: var(--r-sm); font-size: var(--t-caption); max-width: none; }
+.pgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4) var(--s-5); }
+.pgrid h4 { margin: 0 0 var(--s-2); font-size: var(--t-micro); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-600); }
+.pgrid ul { margin: 0; padding-left: var(--s-4); font-size: var(--t-caption); }
+.pgrid li { margin-bottom: var(--s-1); }
+.pquote {
+  margin: var(--s-5) 0 0; padding: var(--s-4) var(--s-5);
+  border-left: 3px solid var(--brand-a); background: var(--surface-2); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-body-sm); line-height: 1.5;
+}
+.pquote cite { display: block; margin-top: var(--s-2); font-style: normal; font-size: var(--t-micro); color: var(--ink-600); }
+.pnote { margin: var(--s-4) 0 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+@media (max-width: 760px) { .pgrid { grid-template-columns: 1fr; } .phead { flex-direction: column; } }
+
+/* ── Пилюли статуса (как на хабе) ─────────────────────────── */
+.pill { flex: none; font-size: var(--t-micro); font-weight: var(--fw-medium); padding: 3px 10px; border-radius: var(--r-pill); letter-spacing: 0.02em; white-space: nowrap; }
+.pill.ready { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.pill.rules { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+.pill.empty { background: var(--surface-2); color: var(--ink-600); }
+
+/* ── Jobs ──────────────────────────────────────────────────── */
+.job { margin: 0 0 var(--s-4); padding: var(--s-4) var(--s-5); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.job.main { border-color: var(--brand-a); }
+.jcode { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-a); margin-bottom: var(--s-2); }
+.job blockquote { margin: 0 0 var(--s-2); font-size: var(--t-body-sm); font-weight: var(--fw-medium); line-height: 1.5; }
+.job.main blockquote { font-size: var(--t-body); }
+.jmeta { margin: 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+.jlist li { margin-bottom: var(--s-2); }
+.section-nav .soon { color: var(--ink-600); }
+
+/* ── Раздел 07: сборка UI ───────────────────────────────────── */
+
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ── Что показывать в разделе: подпункты в самом дереве ───── */
+.subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
+.subtabs a { padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
+.subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
+.subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.subtabs a[aria-current="true"] { background: var(--surface-2); color: var(--ink-900); font-weight: var(--fw-medium); }
+
+/* Нажат любой подпункт — разделы сжимаются до номеров.
+   Сами подпункты остаются: иначе, нажав первый, человек в нём запрётся */
+.shell[data-collapsed] { grid-template-columns: 124px minmax(0, 1fr); gap: var(--s-5); }
+.shell[data-collapsed] .side .stage,
+.shell[data-collapsed] .side .lbl,
+.shell[data-collapsed] .side .brand b,
+.shell[data-collapsed] .side .mat .t { display: none; }
+.shell[data-collapsed] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
+.shell[data-collapsed] .side .mat { justify-content: center; padding: var(--s-3) 0; }
+.shell[data-collapsed] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
+.shell[data-collapsed] .side .mat.current .n { color: var(--ink-900); font-weight: var(--fw-medium); }
+.shell[data-collapsed] .side .subtabs { margin-left: 0; padding-left: var(--s-2); border-left-color: var(--line); }
+.shell[data-collapsed] .side .subtabs a { font-size: var(--t-micro); padding: var(--s-2); }
+@media (max-width: 900px) {
+  .shell[data-collapsed] { grid-template-columns: minmax(0, 1fr); }
+}
+.grp { margin: 0 0 var(--s-6); }
+.cards { list-style: none; margin: var(--s-3) 0 var(--s-6); padding: 0; display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); }
+.cards a {
+  display: block; height: 100%;
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
+  padding: var(--s-3) var(--s-4); text-decoration: none; color: var(--ink-900);
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.cards a:hover, .cards a:focus-visible { border-color: var(--ink-400); background: var(--surface-2); }
+.cards b { display: block; font-size: var(--t-body-sm); margin-bottom: 2px; }
+.cards span { font-size: var(--t-caption); color: var(--ink-600); }
+
+/* Превью страниц кита: сама страница ужата, клик идёт по ссылке, не по фрейму */
+.gal { list-style: none; margin: var(--s-4) 0; padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, 320px); max-width: none; }
+.gal a { display: block; text-decoration: none; color: var(--ink-600); }
+.gal .shot {
+  display: block; position: relative; overflow: hidden;
+  width: 320px; height: 420px;
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
+}
+.gal iframe {
+  position: absolute; top: 0; left: 0;
+  width: 1000px; height: 1312px; border: 0;
+  transform: scale(0.32); transform-origin: 0 0; pointer-events: none;
+}
+.gal .cap { display: block; margin-top: var(--s-2); font-size: var(--t-micro); }
+.gal a:hover .shot, .gal a:focus-visible .shot { border-color: var(--ink-400); }
+.gal a:hover .cap { color: var(--ink-900); }
+
+#info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">К содержимому</a>
+
+<div class="shell">
+<aside class="side">
+    <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
+    <p class="stage">Разделы проекта</p>
+
+    <nav aria-label="Разделы">
+      <p class="lbl">Разделы</p>
+      <div class="matlist">
+        <a class="mat" href="../research/research.html"><span class="n">01</span><span class="t">Ресерч и бенчмарк<i>готово</i></span></a>
+        <a class="mat" href="../research/persones.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>готово</i></span></a>
+        <a class="mat" href="ia.html"><span class="n">03</span><span class="t">Информационная архитектура<i>готово</i></span></a>
+        <a class="mat" href="wireframes.html"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>готово</i></span></a>
+        <a class="mat" href="voice.html"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>готово</i></span></a>
+        <a class="mat" href="concept.html"><span class="n">06</span><span class="t">Концепт<i>готово</i></span></a>
+        <a class="mat current" href="kit.html" aria-current="page"><span class="n">07</span><span class="t">Сборка UI<i>текущий раздел</i></span></a>
+        <nav class="subtabs" aria-label="Что показывать в разделе">
+          <a href="#info" data-tab="info" aria-current="true">Информация</a>
+          <a href="#pages" data-tab="pages">Страницы</a>
+        </nav>
+        <a class="mat soon" href="?section=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
+      </div>
+    </nav>
+
+  </aside>
+
+  <main id="content">
+    <div class="masthead">
+      <p class="eyebrow">Раздел 07</p>
+      <h1>Сборка UI</h1>
+      <p class="lede">Кит: один файл стилей на 94 переменных и 75 классов,
+        оболочка разметкой и витрина, где каждый компонент стоит живым со своими состояниями.
+        Снят с окрашенных экранов раздела 06 — не нарисован заново.</p>
+      <div class="chips">
+        <span>94 переменных</span>
+        <span>75 классов</span>
+        <span>24 компонентов в витрине</span>
+        <span>один уровень токенов</span>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="info">
+      <h1 class="vh">Сборка UI: информация</h1>
+<blockquote><p><strong>Кит: то, из чего собираются экраны.</strong> Один файл стилей, одна оболочка разметкой и витрина, где каждый компонент стоит живым со своими состояниями.</p>
+<p>Снят с окрашенных экранов раздела 06 — не нарисован заново. Если компонент в ките выглядит не так, как на экране, прав экран, а кит отстал.</p>
+<p>Состав и порог отбора — <a href="../inventory.md"><code>inventory.md</code></a>; вид и правила — <a href="../../DESIGN.md"><code>DESIGN.md</code></a>; значения — <a href="../../tokens/tokens.css"><code>tokens/tokens.css</code></a>.</p></blockquote>
+
+      <section id="три-файла-и-это-всё">
+        <h2>Три файла, и это всё</h2>
+<div class="tw"><table><thead><tr><th>Файл</th><th>Что внутри</th></tr></thead><tbody>
+<tr><td><a href="../kit.css"><code>kit.css</code></a></td><td>94 переменные в <code>:root</code> и 75 классов компонентов. 762 строки</td></tr>
+<tr><td><a href="../shell.html"><code>shell.html</code></a></td><td>Оболочка разметкой: три шапки и нижнее меню. Отсюда её берёт экран, у которого ещё нет каркаса</td></tr>
+<tr><td><a href="../kit.html"><code>kit.html</code></a></td><td>Витрина: 7 разделов, 24 случая, каждый компонент с состояниями</td></tr>
+</tbody></table></div>
+<p><strong>Почему оболочка отдана разметкой, а не только стилями.</strong> На голый экран CSS надеть не на что: <code>.mm-screen</code>, <code>.mm-head</code>, <code>.mm-app</code>, <code>.mm-tabs</code> — это скелет, и его копируют целиком, а внутрь кладут содержимое. Без него каждый новый экран собирал бы шапку заново и собирал бы по-разному.</p>
+      </section>
+
+      <section id="выход-плоский">
+        <h2>Выход плоский</h2>
+<p><strong>Уровень токенов ровно один.</strong> Нет деления на «примитивы» и «семантику»: <code>--mm-action</code> — это и есть цвет действия, а не ссылка на <code>--violet-900</code>. Два уровня значат, что у каждого значения два имени, и в разговоре люди называют разные.</p>
+<p><strong>Все значения живут в <code>:root</code>.</strong> В классах нет ни одного литерала — ни цвета, ни размера, ни тени. Проверяется скриптом, а не глазами.</p>
+<p><strong>Каркас вайрфреймов в кит не входит:</strong> ни <code>.wf-*</code>, ни рамка <code>.device</code>, ни полоса состояний, ни подписи зон. Это обвязка страницы макета, а не продукт.</p>
+      </section>
+
+      <section id="сведённый-дрейф-имён">
+        <h2>Сведённый дрейф имён</h2>
+<p>Главное, что делает кит, — не «собрать красиво», а <strong>свести к одному API то, что разошлось</strong>. Одно и то же было описано дважды и по-разному:</p>
+<div class="tw"><table><thead><tr><th>Было</th><th>Стало</th><th>Что разошлось</th></tr></thead><tbody>
+<tr><td><code>.verified</code> в ленте · <code>.signals li:first-child</code> в профиле</td><td><code>.mm-verified</code></td><td>Один и тот же вид описан двумя правилами в разных местах файла</td></tr>
+<tr><td><code>.item</code> — и карточка события, и строка списка</td><td><code>.mm-event</code> · <code>.mm-row</code></td><td>Одно имя на два разных компонента</td></tr>
+<tr><td><code>.row</code> — строка действий, дорожка сегментов; <code>p.rows</code> — ещё и подсказки в чате</td><td><code>.mm-actions</code> · <code>.mm-segmented</code> · <code>.mm-hints</code></td><td>Три роли под одним именем, различались по месту в разметке</td></tr>
+<tr><td><code>.btn</code> в содержимом · <code>button</code> в шапке</td><td><code>.mm-btn</code> · <code>.mm-head-btn</code></td><td>Выглядели по-разному под одним именем, разделяло их <code>:not(header *)</code></td></tr>
+<tr><td><code>.state</code> — пусто, сбой, подтверждено, ждём</td><td><code>.mm-state</code> · <code>.mm-state--alert</code> · <code>.mm-banner</code></td><td>Четыре смысла в одном блоке</td></tr>
+<tr><td><code>.field</code> — строка поиска и блок «подпись плюс ввод»</td><td><code>.mm-field</code></td><td>Второго на экранах нет вовсе</td></tr>
+<tr><td><code>.on</code> · <code>.now</code> · <code>aria-current</code></td><td><code>.is-current</code></td><td>Включённое состояние писалось тремя способами</td></tr>
+</tbody></table></div>
+<p><strong>Цена:</strong> имена в ките не совпадают с именами в вайрфреймах и на экранах концепта. Пока экраны собираются скриптом из вайрфреймов, кит с ними не связан — он связь получит на сборке прототипа, и тогда старые имена уйдут.</p>
+      </section>
+
+      <section id="шкала-кратна-двум">
+        <h2>Шкала кратна двум</h2>
+<p>Шрифт: <strong>34 · 28 · 22 · 18 · 16 · 14 · 12</strong>. Отступы: <strong>4 · 8 · 12 · 16 · 24 · 32 · 48</strong>. Радиусы: <strong>14 · 18 · 26 · 30</strong> и пилюля.</p>
+<p><strong>Нечётных значений два, и оба не размеры:</strong> волосяная линия в <code>1px</code> — обводка карточки, физический пиксель устройства, и <code>999px</code> у пилюли — признак «скругли до конца», а не мера.</p>
+<p><strong>Что это стоило:</strong> строки фактов и время сравнялись — были 13 и 12, соседние роли, и разницу всё равно не было видно. Шкала стала короче на ступень.</p>
+      </section>
+
+      <section id="одно-расхождение-названо-а-не-вписано-молча">
+        <h2>Одно расхождение названо, а не вписано молча</h2>
+<p><strong>Заголовок события в ките 14px и средний вес.</strong> В <code>concept/components.css</code> карточка события просит 16px и semibold, но следом идёт правило строки списка той же силы — и побеждает оно. На экране видно 14/500, поэтому и в ките 14/500: кит повторяет то, что нарисовано, а не то, что просит правило.</p>
+<p>Какой из двух размеров верен — решение дизайнера, и оно ещё не принято.</p>
+      </section>
+
+      <section id="чем-кит-отличается-от-стенда-концепта">
+        <h2>Чем кит отличается от стенда концепта</h2>
+<p>Стенд <a href="../../concept/concept.html"><code>concept.html</code></a> отвечает на вопрос <strong>«какой у продукта облик»</strong>: палитра, шкала, проверка контраста. Кит отвечает на другой — <strong>«из чего собирают экран»</strong>: компонент, его состояния и одно имя на каждый.</p>
+<p>Поэтому в ките текст настоящий, из интерфейса, а не «Lorem ipsum»: компонент проверяется на той строке, которую он понесёт. И поэтому площадка под компонентом залита фоном экрана — белая карточка проверяется на том, на чём лежит.</p>
+      </section>
+
+      <section id="чего-в-ките-нет">
+        <h2>Чего в ките нет</h2>
+<ul><li><strong>Экранов создания, фильтров и редактирования</strong> — их нет в вайрфреймах, а значит нет и форм: полей ввода в наборе два вида на двух экранах.</li>
+<li><strong>Переключателей и чекбоксов</strong> — ни одного в наборе.</li>
+<li><strong>Тёмной темы</strong> — палитра к ней готова, экраны post-MVP (§10).</li>
+<li><strong>Второго уровня токенов</strong> и любого вида «тем»: продукт один, облик один.</li></ul>
+      </section>
+
+      <section id="источники">
+        <h2>Источники</h2>
+<ul><li><a href="../inventory.md"><code>inventory.md</code></a> — состав и порог «два экрана».</li>
+<li><a href="../../DESIGN.md"><code>DESIGN.md</code></a> — вид, правила и язык направления.</li>
+<li><a href="../../tokens/tokens.css"><code>tokens/tokens.css</code></a> — значения, источник правды.</li>
+<li><a href="../../concept/concept.md"><code>concept/concept.md</code></a> — направление R «Сирень» и его цена.</li>
+<li><a href="../../microcopy.md"><code>microcopy.md</code></a> — строки, которыми набрана витрина.</li></ul>
+      </section>
+    </div>
+
+    <div class="tabpanel" id="pages">
+      <h1 class="vh">Сборка UI: страницы</h1>
+      <section>
+        <h2>Страницы кита</h2>
+        <p class="intro">Открываются своими страницами, во всю ширину окна: они нарисованы
+          <a href="../ui/kit.css">ui/kit.css</a>, то есть значениями продукта, а не этого сайта.</p>
+
+      <ul class="cards">
+        <li><a href="../ui/kit.html"><b>Витрина компонентов</b><span>7 разделов по ролям, 24 случаев. Каждый компонент живой, со своими состояниями; текст настоящий, из интерфейса</span></a></li>
+        <li><a href="../ui/shell.html"><b>Оболочка экрана</b><span>Три шапки и нижнее меню разметкой. Отсюда её берёт экран, у которого ещё нет каркаса</span></a></li>
+      </ul>
+
+        <ul class="gal">
+        <li>
+          <a href="../ui/kit.html" title="Витрина компонентов">
+            <span class="shot"><iframe src="../ui/kit.html" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Витрина компонентов"></iframe></span>
+            <span class="cap">Витрина компонентов</span>
+          </a>
+        </li>
+        <li>
+          <a href="../ui/shell.html" title="Оболочка экрана">
+            <span class="shot"><iframe src="../ui/shell.html" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Оболочка экрана"></iframe></span>
+            <span class="cap">Оболочка экрана</span>
+          </a>
+        </li>
+        </ul>
+      </section>
+    </div>
+
+    <footer>
+      <p>Раздел 7 из 12 · Сборка UI. Источник — <a href="../ui/kit.md">ui/kit.md</a>;
+        состав — <a href="../ui/inventory.md">inventory.md</a>, вид — <a href="../DESIGN.md">DESIGN.md</a>,
+        значения — <a href="../tokens/tokens.css">tokens.css</a>.</p>
+      <nav class="section-nav"><a href="concept.html">← Раздел 6 · Концепт</a></nav>
+    </footer>
+  </main>
+</div>
+
+<script>
+// Подпункты текущего раздела в дереве. Нажат любой — дерево сжимается до номеров,
+// вернуть его целиком можно нажатием на сам номер раздела. Без скрипта — якоря.
+(function () {
+  var ids = ["info","pages"];
+  var shell = document.querySelector('.shell');
+  var subtabs = document.querySelector('.subtabs');
+  if (!shell || !subtabs) return;
+  var panels = {};
+  for (var i = 0; i < ids.length; i++) panels[ids[i]] = document.getElementById(ids[i]);
+  var links = subtabs.querySelectorAll('a[data-tab]');
+
+  function show(name, collapsed, push) {
+    shell.setAttribute('data-tab', name);
+    if (collapsed) shell.setAttribute('data-collapsed', '');
+    else shell.removeAttribute('data-collapsed');
+    for (var k in panels) if (panels[k]) panels[k].hidden = (k !== name);
+    for (var j = 0; j < links.length; j++) {
+      if (links[j].getAttribute('data-tab') === name) links[j].setAttribute('aria-current', 'true');
+      else links[j].removeAttribute('aria-current');
+    }
+    if (push) history.replaceState(null, '', '#' + name);
+  }
+
+  subtabs.addEventListener('click', function (e) {
+    var a = e.target.closest('a[data-tab]');
+    if (!a) return;
+    e.preventDefault();
+    show(a.getAttribute('data-tab'), true, true);
+  });
+
+  // номер раздела возвращает дерево целиком, не трогая показанное
+  var cur = document.querySelector('.side .mat.current');
+  if (cur) cur.addEventListener('click', function (e) {
+    if (shell.hasAttribute('data-collapsed')) {
+      e.preventDefault();
+      show(shell.getAttribute('data-tab'), false, false);
+    }
+  });
+
+  // переход по якорю внутри той же страницы (и кнопки «назад»/«вперёд»)
+  // не перезагружает её — вкладку переключаем сами
+  window.addEventListener('hashchange', function () {
+    var n = location.hash.slice(1);
+    if (ids.indexOf(n) > -1) show(n, true, false);
+  });
+
+  var h = location.hash.slice(1);
+  var known = ids.indexOf(h) > -1;
+  show(known ? h : ids[0], known, false);
+})();
+</script>
+
+</body>
+</html>
