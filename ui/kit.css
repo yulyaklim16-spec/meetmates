@@ -10,6 +10,11 @@
  *    ни размера, ни тени. Нет значения в :root — его там заводят.
  *    Одно исключение: 1px у .mm-vh. Это приём «скрыто для глаз, слышно
  *    скринридеру», а не размер в дизайне, и менять его нельзя.
+ * 1a. Каждое значение кратно двум: 34 · 28 · 22 · 18 · 16 · 14 · 12 в шрифте,
+ *    4 · 8 · 12 · 16 · 24 · 32 · 48 в отступах, радиусы 14 · 18 · 26 · 30.
+ *    Нечётных два вида, и оба не размеры: волосяная линия в 1px — обводка
+ *    карточки, физический пиксель устройства; 999px у пилюли — не мера,
+ *    а признак «скругли до конца».
  *    Семь значений не носит ни один класс — это шкала и палитра продукта,
  *    под которые компонента в наборе пока нет. Каждое помечено на месте,
  *    чтобы его не завели заново под другим именем и другим тоном.
@@ -80,10 +85,10 @@
   --mm-t-display: 34px;
   --mm-t-h1: 28px;
   --mm-t-h2: 22px;
-  --mm-t-h3: 17px;
+  --mm-t-h3: 18px;
   --mm-t-body: 16px;
-  --mm-t-body-sm: 15px;
-  --mm-t-caption: 13px;
+  --mm-t-body-sm: 14px;
+  --mm-t-caption: 12px;            /* сравнялся с --mm-t-micro: шкала кратна двум */
   --mm-t-micro: 12px;
   --mm-lh-tight: 1.05;
   --mm-lh-heading: 1.25;
@@ -114,12 +119,11 @@
   --mm-s-5: 24px;
   --mm-s-6: 32px;
   --mm-s-7: 48px;                  /* компонента с этим шагом в наборе пока нет */
-  /* три мелких шага ниже --mm-s-1: зазор сегментов, отбивка иконки, поля панели */
+  /* два мелких шага ниже --mm-s-1: зазор сегментов и поля панели вкладок */
   --mm-s-hair: 2px;
-  --mm-s-gap3: 3px;
   --mm-s-pad6: 6px;
   /* подложка лейбы Verified: пустой --mm-label выключает её, отступ остаётся */
-  --mm-label-pad: 1px 7px;
+  --mm-label-pad: 2px 8px;
 
   /* ── тени: обводка плюс почти незаметная тень, цветных нет ─────── */
   --mm-shadow-sm: 0 0 0 1px var(--mm-card-ring), 0 1px 2px rgba(17, 17, 17, .04);
@@ -153,15 +157,15 @@
   --mm-avatar: 24px;
   --mm-avatar-lg: 56px;
   --mm-avatar-drop: -6px;
-  --mm-pager-h: 3px;
-  --mm-skel-line: 13px;
+  --mm-pager-h: 4px;
+  --mm-skel-line: 12px;
   --mm-skel-pill: 20px;
   --mm-w-l: 62%;
   --mm-w-m: 44%;
   --mm-w-s: 28%;
   --mm-bubble-max: 80%;
   --mm-blur: 14px;
-  --mm-under: 3px;
+  --mm-under: 4px;
 }
 
 /* ═══ Оболочка: экран, шапка, нижнее меню. Разметка — в ui/shell.html ═══ */
@@ -233,6 +237,7 @@
   background: var(--mm-surface);
   color: var(--mm-ink-900);
   box-shadow: var(--mm-shadow-sm);
+  font: var(--mm-fw-semibold) var(--mm-t-micro) / 1 var(--mm-font);
   cursor: pointer;
   transition: background var(--mm-dur-fast) var(--mm-ease-out);
 }
@@ -290,7 +295,7 @@
   min-width: 0;
   display: grid;
   justify-items: center;
-  gap: var(--mm-s-gap3);
+  gap: var(--mm-s-1);
   padding: var(--mm-s-pad6) 0;
   border-radius: var(--mm-r-pill);
   text-decoration: none;
@@ -373,7 +378,7 @@
   display: flex;
   gap: var(--mm-s-hair);
   margin: 0;
-  padding: var(--mm-s-gap3);
+  padding: var(--mm-s-1);
   border-radius: var(--mm-r-pill);
   background: var(--mm-line);
 }
@@ -437,7 +442,7 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
 .mm-event-body { display: flex; flex-direction: column; gap: var(--mm-s-1); min-width: 0; padding: var(--mm-s-3) var(--mm-s-3) var(--mm-s-2); }
 .mm-event-head { display: flex; align-items: baseline; gap: var(--mm-s-2); text-decoration: none; color: inherit; }
 /* Заголовок не больше двух строк: лента держит ритм, остальное — на карточке
-   события. Размер снят с образца: 15px и средний вес. В concept/components.css
+   события. Размер снят с образца: --mm-t-body-sm и средний вес. В concept/components.css
    карточка события просит 16px и semibold, но следом идёт правило строки списка
    той же силы — и побеждает оно. На экране видно 15/500, поэтому здесь 15/500:
    кит повторяет то, что нарисовано. Решение, какой из двух размеров верен, —
@@ -496,7 +501,7 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
   display: inline-flex;
   align-items: center;
   gap: var(--mm-s-1);
-  padding: var(--mm-s-gap3) var(--mm-s-2);
+  padding: var(--mm-s-1) var(--mm-s-2);
   border-radius: var(--mm-r-pill);
   background: var(--mm-surface);
   box-shadow: var(--mm-shadow-sm);
@@ -545,7 +550,7 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
   font-size: var(--mm-t-caption);
   color: var(--mm-ink-600);
 }
-.mm-signals li { display: inline-flex; align-items: center; gap: var(--mm-s-gap3); }
+.mm-signals li { display: inline-flex; align-items: center; gap: var(--mm-s-1); }
 .mm-signals li + li::before { content: "\00B7"; margin-right: var(--mm-s-1); color: var(--mm-ink-400); }
 
 /* отметка проверки — одна на весь продукт: слово с галочкой на лаймовой лейбе.
@@ -553,7 +558,7 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
 .mm-verified {
   display: inline-flex;
   align-items: center;
-  gap: var(--mm-s-gap3);
+  gap: var(--mm-s-1);
   padding: var(--mm-label-pad);
   border-radius: var(--mm-r-pill);
   background: var(--mm-label);

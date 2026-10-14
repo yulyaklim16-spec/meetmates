@@ -235,7 +235,7 @@
       "refersTo": "button-primary",
       "description": "Главное действие экрана. На экране одно.",
       "html": "<a class=\"ds-btn-primary\" href=\"#\">Ask to join</a>",
-      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: #0B051D; color: #FFFFFF; font: 600 15px/1 Figtree, sans-serif; text-decoration: none; transition: background 200ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background: #1B1233; } .ds-btn-primary:focus-visible { outline: 2px solid #0B051D; outline-offset: 2px; } .ds-btn-primary:active { transform: scale(.98); }"
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: #0B051D; color: #FFFFFF; font: 600 14px/1 Figtree, sans-serif; text-decoration: none; transition: background 200ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background: #1B1233; } .ds-btn-primary:focus-visible { outline: 2px solid #0B051D; outline-offset: 2px; } .ds-btn-primary:active { transform: scale(.98); }"
     },
     {
       "name": "Quiet Button",
@@ -243,7 +243,7 @@
       "refersTo": "button-quiet",
       "description": "Второе действие рядом с главным.",
       "html": "<a class=\"ds-btn-quiet\" href=\"#\">Invite together</a>",
-      "css": ".ds-btn-quiet { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: #F2EDF6; color: #1A1026; font: 600 15px/1 Figtree, sans-serif; text-decoration: none; transition: background 200ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-quiet:hover { background: #E8E1F1; } .ds-btn-quiet:focus-visible { outline: 2px solid #0B051D; outline-offset: 2px; }"
+      "css": ".ds-btn-quiet { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: #F2EDF6; color: #1A1026; font: 600 14px/1 Figtree, sans-serif; text-decoration: none; transition: background 200ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-quiet:hover { background: #E8E1F1; } .ds-btn-quiet:focus-visible { outline: 2px solid #0B051D; outline-offset: 2px; }"
     },
     {
       "name": "Verified Label",
@@ -251,7 +251,7 @@
       "refersTo": "label-verified",
       "description": "Отметка проверки. Единственное место лайма в продукте.",
       "html": "<span class=\"ds-label-verified\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M9.59 3.2c.61-.52.92-.78 1.24-.93a2.8 2.8 0 0 1 2.34 0c.32.15.63.41 1.24.93.25.21.37.31.5.4.3.2.63.34.98.41.16.03.32.04.64.07.8.06 1.2.1 1.54.21.77.28 1.38.89 1.65 1.66.12.33.15.73.21 1.53.03.32.04.48.07.63.07.36.21.69.41.99.09.13.19.25.4.49.52.61.78.92.93 1.24.36.74.36 1.6 0 2.34-.15.32-.41.63-.93 1.24-.21.24-.31.36-.4.49-.2.3-.34.63-.41.98-.3.16-.4.32-.07.64-.6.8-.09 1.2-.21 1.53a2.8 2.8 0 0 1-1.65 1.66c-.34.12-.74.15-1.54.21-.32.03-.48.04-.64.07-.35.07-.68.21-.98.41-.13.09-.25.19-.49.4-.61.52-.92.78-1.24.93-.74.36-1.6.36-2.34 0-.32-.15-.63-.41-1.24-.93-.24-.21-.36-.31-.49-.4a2.8 2.8 0 0 0-.98-.41c-.16-.03-.32-.04-.64-.07-.8-.06-1.2-.09-1.54-.21a2.8 2.8 0 0 1-1.65-1.66c-.12-.33-.15-.73-.21-1.53-.03-.32-.04-.48-.07-.64a2.8 2.8 0 0 0-.41-.98c-.09-.13-.19-.25-.4-.49-.52-.61-.78-.92-.93-1.24a2.8 2.8 0 0 1 0-2.34c.15-.32.41-.63.93-1.24.21-.24.31-.36.4-.49.2-.3.34-.63.41-.99.03-.15.04-.31.07-.63.06-.8.09-1.2.21-1.53A2.8 2.8 0 0 1 5.6 4.21c.34-.11.74-.15 1.54-.21.32-.3.48-.4.64-.7.35-.7.68-.21.98-.41.13-.9.25-.19.49-.4ZM16.37 8.71a.81.81 0 0 0-1.15 0l-4.85 4.85-1.6-1.59a.81.81 0 1 0-1.15 1.15l2.17 2.17c.32.32.84.32 1.15 0l5.43-5.43a.81.81 0 0 0 0-1.15Z\"/></svg>Verified</span>",
-      "css": ".ds-label-verified { display: inline-flex; align-items: center; gap: 3px; padding: 1px 7px; border-radius: 999px; background: #D9F56F; color: #1A1026; font: 600 13px/1.5 Figtree, sans-serif; } .ds-label-verified svg { width: 16px; height: 16px; }"
+      "css": ".ds-label-verified { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; background: #D9F56F; color: #1A1026; font: 600 12px/1.5 Figtree, sans-serif; } .ds-label-verified svg { width: 16px; height: 16px; }"
     },
     {
       "name": "Event Card",
@@ -259,7 +259,7 @@
       "refersTo": "card",
       "description": "Строка ленты: обложка слева во всю высоту, факты справа, действие под ними.",
       "html": "<article class=\"ds-card\"><div class=\"ds-card-top\"><span class=\"ds-card-cover\"></span><div class=\"ds-card-body\"><div class=\"ds-card-head\"><b>Board games</b><time>Sat 18:00</time></div><span class=\"ds-card-who\">Kyiv Games Club · Podil · ~3 km</span><span class=\"ds-card-who\">1 spot left</span></div></div><div class=\"ds-card-acts\"><a class=\"ds-btn-primary\" href=\"#\">Ask to join</a></div></article>",
-      "css": ".ds-card { display: block; border-radius: 26px; background: #FFFFFF; box-shadow: 0 0 0 1px #ECECEC, 0 1px 2px rgba(17,17,17,.04), 0 2px 8px rgba(17,17,17,.06); overflow: hidden; font: 400 15px/1.5 Figtree, sans-serif; color: #1A1026; } .ds-card-top { display: grid; grid-template-columns: 104px 1fr; } .ds-card-cover { min-height: 112px; background: #F2EDF6; } .ds-card-body { display: flex; flex-direction: column; gap: 4px; padding: 12px 12px 8px; } .ds-card-head { display: flex; align-items: baseline; gap: 8px; } .ds-card-head b { flex: 1; font-weight: 500; letter-spacing: -.015em; } .ds-card-head time { font-size: 12px; color: #4C3F59; } .ds-card-who { font-size: 13px; color: #4C3F59; } .ds-card-acts { display: flex; gap: 8px; padding: 8px 12px 12px; } .ds-card-acts .ds-btn-primary { flex: 1; }"
+      "css": ".ds-card { display: block; border-radius: 26px; background: #FFFFFF; box-shadow: 0 0 0 1px #ECECEC, 0 1px 2px rgba(17,17,17,.04), 0 2px 8px rgba(17,17,17,.06); overflow: hidden; font: 400 14px/1.5 Figtree, sans-serif; color: #1A1026; } .ds-card-top { display: grid; grid-template-columns: 104px 1fr; } .ds-card-cover { min-height: 112px; background: #F2EDF6; } .ds-card-body { display: flex; flex-direction: column; gap: 4px; padding: 12px 12px 8px; } .ds-card-head { display: flex; align-items: baseline; gap: 8px; } .ds-card-head b { flex: 1; font-weight: 500; letter-spacing: -.015em; } .ds-card-head time { font-size: 12px; color: #4C3F59; } .ds-card-who { font-size: 12px; color: #4C3F59; } .ds-card-acts { display: flex; gap: 8px; padding: 8px 12px 12px; } .ds-card-acts .ds-btn-primary { flex: 1; }"
     },
     {
       "name": "Search Field",
@@ -267,7 +267,7 @@
       "refersTo": "input-field",
       "description": "Поле с контурной иконкой слева: поле ничего не утверждает, оно ждёт ввода.",
       "html": "<form class=\"ds-field\"><span class=\"ds-field-ico\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-width=\"1.5\"><circle cx=\"11.5\" cy=\"11.5\" r=\"9.5\"/><path d=\"M18.22 18.22 22 22\"/></g></svg></span><input type=\"search\" value=\"board games\"></form>",
-      "css": ".ds-field { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 0 0 1px #ECECEC, 0 1px 2px rgba(17,17,17,.04); } .ds-field-ico svg { width: 24px; height: 24px; color: #8C7E9B; display: block; } .ds-field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: 400 15px/1.4 Figtree, sans-serif; color: #1A1026; } .ds-field input::placeholder { color: #4C3F59; } .ds-field:focus-within { box-shadow: 0 0 0 2px #0B051D; }"
+      "css": ".ds-field { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 0 0 1px #ECECEC, 0 1px 2px rgba(17,17,17,.04); } .ds-field-ico svg { width: 24px; height: 24px; color: #8C7E9B; display: block; } .ds-field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: 400 14px/1.4 Figtree, sans-serif; color: #1A1026; } .ds-field input::placeholder { color: #4C3F59; } .ds-field:focus-within { box-shadow: 0 0 0 2px #0B051D; }"
     },
     {
       "name": "Bottom Navigation",
@@ -275,7 +275,7 @@
       "refersTo": "nav-bar",
       "description": "Белая пилюля: активная вкладка на подложке с залитой иконкой, остальные контурные.",
       "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-tab ds-now\" href=\"#\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8\" r=\"4\" fill=\"currentColor\"/><ellipse cx=\"12\" cy=\"17\" rx=\"7\" ry=\"4\" fill=\"currentColor\"/></svg>People</a><a class=\"ds-nav-tab\" href=\"#\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><ellipse cx=\"12\" cy=\"17\" rx=\"7\" ry=\"4\"/></g></svg>Events</a></nav>",
-      "css": ".ds-nav { display: flex; gap: 2px; padding: 6px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 0 0 1px #ECECEC, 0 2px 10px rgba(17,17,17,.07); } .ds-nav-tab { flex: 1; display: grid; justify-items: center; gap: 3px; padding: 6px 8px; border-radius: 14px; text-decoration: none; font: 500 12px/1 Figtree, sans-serif; color: #4C3F59; } .ds-nav-tab svg { width: 24px; height: 24px; color: #8C7E9B; } .ds-nav-tab.ds-now { background: #EDE7F4; color: #1A1026; } .ds-nav-tab.ds-now svg { color: #1A1026; } .ds-nav-tab:hover { background: #E8E1F1; }"
+      "css": ".ds-nav { display: flex; gap: 2px; padding: 6px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 0 0 1px #ECECEC, 0 2px 10px rgba(17,17,17,.07); } .ds-nav-tab { flex: 1; display: grid; justify-items: center; gap: 4px; padding: 6px 0; border-radius: 999px; text-decoration: none; font: 500 12px/1 Figtree, sans-serif; color: #4C3F59; } .ds-nav-tab svg { width: 24px; height: 24px; color: #8C7E9B; } .ds-nav-tab.ds-now { background: #EDE7F4; color: #1A1026; } .ds-nav-tab.ds-now svg { color: #1A1026; } .ds-nav-tab:hover { background: #E8E1F1; }"
     },
     {
       "name": "Own Message Bubble",
@@ -283,7 +283,7 @@
       "refersTo": "bubble-mine",
       "description": "Своя реплика: ни действие, ни кнопка — поэтому свой тон.",
       "html": "<p class=\"ds-bubble-mine\">Yes — there's a game café on Podil I keep meaning to try<span class=\"ds-bubble-t\">19:06 · Read</span></p>",
-      "css": ".ds-bubble-mine { max-width: 80%; margin: 0 0 0 auto; padding: 8px 12px; border-radius: 18px 18px 14px 18px; background: #E3DAEF; color: #1A1026; font: 400 15px/1.5 Figtree, sans-serif; } .ds-bubble-t { display: block; margin-top: 2px; font-size: 12px; color: #4C3F59; }"
+      "css": ".ds-bubble-mine { max-width: 80%; margin: 0 0 0 auto; padding: 8px 12px; border-radius: 18px 18px 14px 18px; background: #E3DAEF; color: #1A1026; font: 400 14px/1.5 Figtree, sans-serif; } .ds-bubble-t { display: block; margin-top: 2px; font-size: 12px; color: #4C3F59; }"
     },
     {
       "name": "Unsent Message Bubble",
@@ -291,7 +291,7 @@
       "refersTo": "bubble-failed",
       "description": "Не ушло: краснота в подложке, подпись и иконка — чернилами.",
       "html": "<a class=\"ds-bubble-failed\" href=\"#\">Saturday works — the café opens at six<span class=\"ds-bubble-retry\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 5a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0V8a1 1 0 0 1 1-1Zm0 9.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z\"/></svg></span><span class=\"ds-bubble-t\">Not sent · tap to try again</span></a>",
-      "css": ".ds-bubble-failed { position: relative; display: block; max-width: 80%; margin: 0 0 0 auto; padding: 8px 32px 8px 12px; border-radius: 18px 18px 14px 18px; background: #F59BAF; color: #1A1026; font: 400 15px/1.5 Figtree, sans-serif; text-decoration: none; } .ds-bubble-failed .ds-bubble-retry { position: absolute; top: 8px; right: 8px; display: inline-flex; color: #1A1026; } .ds-bubble-failed .ds-bubble-retry svg { width: 16px; height: 16px; } .ds-bubble-failed .ds-bubble-t { display: block; margin-top: 2px; font-size: 12px; color: #1A1026; }"
+      "css": ".ds-bubble-failed { position: relative; display: block; max-width: 80%; margin: 0 0 0 auto; padding: 8px 32px 8px 12px; border-radius: 18px 18px 14px 18px; background: #F59BAF; color: #1A1026; font: 400 14px/1.5 Figtree, sans-serif; text-decoration: none; } .ds-bubble-failed .ds-bubble-retry { position: absolute; top: 8px; right: 8px; display: inline-flex; color: #1A1026; } .ds-bubble-failed .ds-bubble-retry svg { width: 16px; height: 16px; } .ds-bubble-failed .ds-bubble-t { display: block; margin-top: 2px; font-size: 12px; color: #1A1026; }"
     },
     {
       "name": "Skeleton Line",
@@ -299,7 +299,7 @@
       "refersTo": "card",
       "description": "Загрузка: бегущий градиент вместо спиннера.",
       "html": "<p class=\"ds-skel\"></p>",
-      "css": ".ds-skel { height: 13px; width: 62%; margin: 0; border-radius: 14px; background: linear-gradient(90deg, #F2EDF6 0%, #E8E1F1 50%, #F2EDF6 100%); background-size: 200% 100%; animation: ds-skel 1.4s linear infinite; } @keyframes ds-skel { from { background-position: 100% 0; } to { background-position: -100% 0; } } @media (prefers-reduced-motion: reduce) { .ds-skel { animation: none; } }"
+      "css": ".ds-skel { height: 12px; width: 62%; margin: 0; border-radius: 14px; background: linear-gradient(90deg, #F2EDF6 0%, #E8E1F1 50%, #F2EDF6 100%); background-size: 200% 100%; animation: ds-skel 1.4s linear infinite; } @keyframes ds-skel { from { background-position: 100% 0; } to { background-position: -100% 0; } } @media (prefers-reduced-motion: reduce) { .ds-skel { animation: none; } }"
     }
   ],
   "narrative": {

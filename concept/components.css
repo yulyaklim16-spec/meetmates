@@ -38,6 +38,7 @@
    Порядок на экране: «+» (Post), затем Filters; в разметке вайрфрейма наоборот */
 .mm-ui header button {
   order: 2; flex: none; display: inline-grid; place-items: center; width: var(--tap-min); height: var(--tap-min); padding: 0;
+  font: var(--fw-semibold) var(--t-micro)/1 var(--font);
   border: 0; border-radius: var(--r-pill); background: var(--surface); color: var(--ink-900);
   box-shadow: var(--shadow-sm); cursor: pointer;
   transition: background var(--dur-fast) var(--ease-out);
@@ -53,7 +54,7 @@
    это минимальный тач-таргет (§8), уменьшается только вид, не площадь нажатия. */
 .mm-ui header button.report {
   display: inline-flex; align-items: center; justify-content: center;
-  width: auto; height: var(--tap-min); padding: 0 var(--s-2); gap: 5px; border-radius: var(--r-pill);
+  width: auto; height: var(--tap-min); padding: 0 var(--s-2); gap: var(--s-1); border-radius: var(--r-pill);
   background: none; box-shadow: none; color: var(--danger);
   font: var(--fw-semibold) var(--t-micro)/1 var(--font);
 }
@@ -88,7 +89,7 @@
 .mm-ui .danger-link svg { width: 18px; height: 18px; }
 
 /* ── срез вкладки Nearby / Mine — сегменты, а не две главные кнопки ── */
-.mm-ui section[aria-labelledby="seg-h"] .row { gap: 2px; padding: 3px; border-radius: var(--r-pill); background: var(--line); }
+.mm-ui section[aria-labelledby="seg-h"] .row { gap: 2px; padding: var(--s-1); border-radius: var(--r-pill); background: var(--line); }
 .mm-ui section[aria-labelledby="seg-h"] .btn.primary { background: var(--surface); color: var(--ink-900); box-shadow: var(--shadow-sm); }
 .mm-ui section[aria-labelledby="seg-h"] .btn.primary:hover { background: var(--surface); }
 .mm-ui section[aria-labelledby="seg-h"] .btn.quiet { background: transparent; color: var(--ink-900); font-weight: var(--fw-medium); }
@@ -110,7 +111,7 @@
   flex: 1; min-width: 0; font-weight: var(--fw-semibold); font-size: var(--t-body); line-height: var(--lh-heading); letter-spacing: var(--tr-heading);
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.mm-ui .item.ev .top:hover > b { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--ink-400); }
+.mm-ui .item.ev .top:hover > b { text-decoration: underline; text-underline-offset: var(--s-1); text-decoration-color: var(--ink-400); }
 .mm-ui .item .when { flex: none; white-space: nowrap; font-size: var(--t-micro); color: var(--ink-600); }
 .mm-ui .who { display: flex; flex-wrap: wrap; align-items: center; column-gap: 4px; font-size: var(--t-caption); color: var(--ink-600); }
 .mm-ui .item.ev .acts { grid-column: 1 / -1; display: flex; gap: var(--s-2); padding: var(--s-2) var(--s-3) var(--s-3); }
@@ -119,7 +120,7 @@
 
 /* отметка Verified — одна и та же везде: слово с галочкой в строке фактов (D-57).
    В направлении R это лаймовая лейба (D-62); токен --label пустой — лейба не рисуется. */
-.mm-ui .verified { display: inline-flex; align-items: center; gap: 3px; font-weight: var(--fw-semibold);
+.mm-ui .verified { display: inline-flex; align-items: center; gap: var(--s-1); font-weight: var(--fw-semibold);
   padding: var(--label-pad); border-radius: var(--r-pill); background: var(--label); color: var(--ink-on-label); }
 .mm-ui .verified svg { width: var(--icon-sm); height: var(--icon-sm); }
 
@@ -152,7 +153,7 @@
   background-size: 200% 100%;
   animation: mm-skel 1.4s var(--ease-out) infinite;
 }
-.mm-ui .skel.line { height: 13px; }
+.mm-ui .skel.line { height: 12px; }
 .mm-ui .skel.w-l { width: 62%; }
 .mm-ui .skel.w-m { width: 44%; }
 .mm-ui .skel.w-s { width: 28%; }
@@ -168,7 +169,7 @@
 }
 /* вкладки делят ширину поровну */
 .mm-ui nav[aria-label="Main navigation"] a {
-  flex: 1; min-width: 0; display: grid; justify-items: center; gap: 3px; padding: 6px 0;
+  flex: 1; min-width: 0; display: grid; justify-items: center; gap: var(--s-1); padding: 6px 0;
   border-radius: var(--r-pill); text-decoration: none;
   font: var(--fw-medium) var(--t-micro)/1 var(--font); color: var(--ink-600);
 }
@@ -189,7 +190,7 @@
 .mm-ui .card .photo { flex: 1; min-height: 0; margin: 0; background: var(--surface-2); }
 .mm-ui .card .photo img { width: 100%; height: 100%; object-fit: cover; }
 .mm-ui .pager { flex: none; display: flex; gap: 4px; margin: 0; padding: var(--s-2) var(--s-3); }
-.mm-ui .pager span { height: 3px; flex: 1; border-radius: var(--r-pill); background: var(--line); }
+.mm-ui .pager span { height: 4px; flex: 1; border-radius: var(--r-pill); background: var(--line); }
 .mm-ui .pager span.on { background: var(--ink-900); }
 
 /* Профиль листается целиком: у вайрфрейма прокрутка тоже общая, у панели,
@@ -210,7 +211,7 @@
   margin: var(--s-2) 0 0; padding: 0; list-style: none;
   font-size: var(--t-caption); color: var(--ink-600);
 }
-.mm-ui .signals li { display: inline-flex; align-items: center; gap: 3px; }
+.mm-ui .signals li { display: inline-flex; align-items: center; gap: var(--s-1); }
 .mm-ui .signals li + li::before { content: "·"; margin-right: 4px; color: var(--ink-400); }
 .mm-ui .signals li:first-child:has(svg) { font-weight: var(--fw-semibold);
   padding: var(--label-pad); border-radius: var(--r-pill); background: var(--label); color: var(--ink-on-label); }
@@ -233,7 +234,7 @@
 .mm-ui .person-hero { text-align: center; padding: var(--s-2) 0 var(--s-4); }
 .mm-ui .person-hero img { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; margin: 0 auto var(--s-3); }
 .mm-ui .person-name { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 0 0 var(--s-1); font: var(--fw-semibold) var(--t-h3)/1.1 var(--font); letter-spacing: -.02em; }
-.mm-ui .person-name svg { width: 19px; height: 19px; color: var(--verified); }
+.mm-ui .person-name svg { width: 20px; height: 20px; color: var(--verified); }
 .mm-ui .person-sub { margin: 0; font-size: var(--t-caption); color: var(--ink-600); }
 .mm-ui .facts { background: var(--surface); border-radius: var(--r-lg); padding: var(--s-2) var(--s-4); box-shadow: var(--shadow-sm); margin: 0; }
 .mm-ui .facts div { display: flex; align-items: center; gap: var(--s-3); min-height: 48px; border-top: 1px solid var(--line); font-size: var(--t-body-sm); }
@@ -243,15 +244,15 @@
 /* ── поле формы ───────────────────────────────────────────── */
 .mm-ui .field { display: grid; gap: 6px; }
 .mm-ui .field label { font: var(--fw-semibold) var(--t-caption)/1.2 var(--font); color: var(--ink-900); }
-.mm-ui .input { display: flex; align-items: center; gap: var(--s-2); min-height: 48px; padding: 0 14px; border-radius: var(--r-md); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); transition: box-shadow var(--dur-fast) var(--ease-out); }
+.mm-ui .input { display: flex; align-items: center; gap: var(--s-2); min-height: 48px; padding: 0 var(--s-4); border-radius: var(--r-md); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); transition: box-shadow var(--dur-fast) var(--ease-out); }
 .mm-ui .input svg { width: 20px; height: 20px; color: var(--ink-400); }
 .mm-ui .input input { flex: 1; min-width: 0; border: 0; background: transparent; font: var(--fw-regular) var(--t-body)/1.2 var(--font); color: var(--ink-900); outline: none; padding: 12px 0; }
 .mm-ui .input input::placeholder { color: var(--ink-600); }
 .mm-ui .input:focus-within { background: var(--surface); box-shadow: inset 0 0 0 2px var(--ink-900); }
 .mm-ui .field[data-state="error"] .input { box-shadow: inset 0 0 0 2px var(--danger); }
-.mm-ui .field[data-state="success"] .input { box-shadow: inset 0 0 0 1.5px var(--success); }
+.mm-ui .field[data-state="success"] .input { box-shadow: inset 0 0 0 2px var(--success); }
 .mm-ui .help { display: flex; gap: 6px; align-items: flex-start; margin: 0; font-size: var(--t-caption); color: var(--ink-600); }
-.mm-ui .help svg { width: var(--icon-sm); height: var(--icon-sm); margin-top: 1px; }
+.mm-ui .help svg { width: var(--icon-sm); height: var(--icon-sm); margin-top: 2px; }
 .mm-ui .field[data-state="error"] .help { color: var(--danger); }
 .mm-ui .field[data-state="success"] .help { color: var(--success); }
 
@@ -278,7 +279,7 @@
 
 /* округлённое расстояние поверх фото — единственное, что на нём стоит (§7.1) */
 .mm-ui .cardtop { position: absolute; top: var(--s-3); right: var(--s-3); margin: 0; }
-.mm-ui .chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px var(--s-2);
+.mm-ui .chip { display: inline-flex; align-items: center; gap: var(--s-1); padding: var(--s-1) var(--s-2);
   border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--shadow-sm);
   font-size: var(--t-micro); font-weight: var(--fw-medium); color: var(--ink-900); }
 .mm-ui .chip svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--ink-600); }
@@ -350,7 +351,7 @@
 
 /* строка списка — ссылка целиком: подчёркивание тут шум, цвет берётся от текста */
 .mm-ui a.item { text-decoration: none; color: inherit; }
-.mm-ui a.item:hover .top > b { text-decoration: underline; text-underline-offset: 3px; }
+.mm-ui a.item:hover .top > b { text-decoration: underline; text-underline-offset: var(--s-1); }
 
 /* поле с иконкой одной строкой: поиск в шапке и ввод реплики в диалоге */
 /* поле занимает остаток строки и ужимается само — кнопки рядом не двигает */
@@ -417,15 +418,15 @@
 .mm-ui .rings .r1 { width: 100px; height: 100px; }
 .mm-ui .band { position: absolute; left: 50%; transform: translateX(-50%); margin: 0;
   font-size: var(--t-micro); }
-.mm-ui .band.far { top: calc(50% - 170px - 9px); }
-.mm-ui .band.mid { top: calc(50% - 125px - 9px); }
-.mm-ui .band.near { top: calc(50% - 75px - 9px); }
+.mm-ui .band.far { top: calc(50% - 170px - 10px); }
+.mm-ui .band.mid { top: calc(50% - 126px - 10px); }
+.mm-ui .band.near { top: calc(50% - 76px - 10px); }
 .mm-ui .pins { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
 /* на радаре не точки, а те же лица и обложки, что в ленте и в колоде:
    кто рядом — видно по снимку, а не по слову «Person» */
 .mm-ui .pins li { position: absolute; transform: translate(-50%, -50%); }
 .mm-ui .pins .dot { display: block; width: 56px; height: 56px; border-radius: 50%; overflow: hidden;
-  background: var(--surface-2); box-shadow: 0 0 0 3px var(--surface), var(--shadow-md); }
+  background: var(--surface-2); box-shadow: 0 0 0 4px var(--surface), var(--shadow-md); }
 .mm-ui .pins .dot img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .mm-ui .pins .dot.sm { width: 40px; height: 40px; }
 .mm-ui .pins .dot.lg { width: 72px; height: 72px; }
@@ -463,16 +464,16 @@
 /* места отсчитываются от центра в пикселях — как и кольца, иначе снимки
    уезжают с колец при другой высоте. Середина сверху оставлена подписям колец. */
 .mm-ui .pins li.a { top: calc(50% - 150px); left: calc(50% - 120px); }
-.mm-ui .pins li.b { top: calc(50% - 95px);  left: calc(50% + 120px); }
+.mm-ui .pins li.b { top: calc(50% - 96px);  left: calc(50% + 120px); }
 .mm-ui .pins li.c { top: calc(50% - 20px);  left: calc(50% - 140px); }
-.mm-ui .pins li.d { top: calc(50% + 45px);  left: calc(50% + 85px); }
-.mm-ui .pins li.e { top: calc(50% + 50px);  left: calc(50% - 95px); }
-.mm-ui .pins li.f { top: calc(50% + 150px); left: calc(50% + 95px); }
-.mm-ui .pins li.g { top: calc(50% + 10px);  left: calc(50% + 5px); }
+.mm-ui .pins li.d { top: calc(50% + 46px);  left: calc(50% + 86px); }
+.mm-ui .pins li.e { top: calc(50% + 50px);  left: calc(50% - 96px); }
+.mm-ui .pins li.f { top: calc(50% + 150px); left: calc(50% + 96px); }
+.mm-ui .pins li.g { top: calc(50% + 10px);  left: calc(50% + 6px); }
 .mm-ui .pins li.h { top: calc(50% - 148px); left: calc(50% + 78px); }
-.mm-ui .pins li.i { top: calc(50% - 55px);  left: calc(50% - 70px); }
-.mm-ui .pins li.j { top: calc(50% + 115px); left: calc(50% - 115px); }
-.mm-ui .pins li.k { top: calc(50% + 95px);  left: calc(50% - 20px); }
+.mm-ui .pins li.i { top: calc(50% - 56px);  left: calc(50% - 70px); }
+.mm-ui .pins li.j { top: calc(50% + 116px); left: calc(50% - 116px); }
+.mm-ui .pins li.k { top: calc(50% + 96px);  left: calc(50% - 20px); }
 .mm-ui .pins li.l { top: calc(50% - 40px);  left: calc(50% + 70px); }
 
 /* Уважение к prefers-reduced-motion стоит последним: правила выше его

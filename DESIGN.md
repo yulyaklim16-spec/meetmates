@@ -37,7 +37,7 @@ typography:
     letterSpacing: "-0.035em"
   title:
     fontFamily: "{typography.display.fontFamily}"
-    fontSize: "17px"
+    fontSize: "18px"
     fontWeight: 600
     lineHeight: 1.25
     letterSpacing: "-0.015em"
@@ -49,7 +49,7 @@ typography:
     letterSpacing: "normal"
   label:
     fontFamily: "{typography.display.fontFamily}"
-    fontSize: "13px"
+    fontSize: "12px"
     fontWeight: 600
     lineHeight: 1.5
     letterSpacing: "normal"
@@ -97,7 +97,7 @@ components:
     backgroundColor: "{colors.label}"
     textColor: "{colors.ink-on-label}"
     rounded: "{rounded.pill}"
-    padding: "1px 7px"
+    padding: "2px 8px"
     typography: "{typography.label}"
   input-field:
     backgroundColor: "{colors.surface}"
@@ -209,9 +209,9 @@ components:
 - **Display** (700, 34px, 1.05, трекинг −0.035em): обещание на экране радара. Единственное
   место, где текст набран капсом.
 - **Headline** (700, 28px, 1.05, −0.035em): заголовок экрана — `People nearby`, `My chats`.
-- **Title** (600, 17px, 1.25, −0.015em): заголовки блоков внутри экрана.
+- **Title** (600, 18px, 1.25, −0.015em): заголовки блоков внутри экрана.
 - **Body** (400, 16px, 1.5): описания и абзацы.
-- **Label** (600, 13px, 1.5): отметка `Verified`, строка фактов, подписи вкладок (12px).
+- **Label** (600, 12px, 1.5): отметка `Verified`, строка фактов, подписи вкладок.
 
 ### Named Rules
 **Правило веса.** Иерархию держат вес и размер. Ни курсива, ни второй гарнитуры,
@@ -257,12 +257,12 @@ components:
 Фотографии кадрируются в прямоугольник карточки, кружки — только у лиц (аватар 24px,
 на радаре 40–72px).
 
-Полосы пагинации под фотографией — не поверх неё: 3px высотой, скруглённые, активная тёмная.
+Полосы пагинации под фотографией — не поверх неё: 4px высотой, скруглённые, активная тёмная.
 
 ## Components
 
 ### Buttons
-- **Shape:** пилюля (999px), высота 44px, вес 600, размер 15px.
+- **Shape:** пилюля (999px), высота 44px, вес 600, размер 14px.
 - **Primary:** `#0B051D` с белым текстом. На экране одна.
 - **Hover:** `#1B1233`, переход 200ms `cubic-bezier(0.16, 1, 0.3, 1)`; `:active` — `scale(.98)`.
 - **Quiet:** заливка `#F2EDF6`, тёмный текст. Второе действие рядом с главным.
@@ -296,7 +296,7 @@ components:
   Подписи 12px.
 
 ### Отметка `Verified` (signature)
-Лаймовая пилюля с галочкой, 13px/600, отступ `1px 7px`. Стоит в конце строки фактов
+Лаймовая пилюля с галочкой, 12px/600, отступ `2px 8px`. Стоит в конце строки фактов
 на карточке события и первой в строке сигналов в профиле. Один и тот же вид везде.
 
 ### Своя реплика и неотправленная (signature)
