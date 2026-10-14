@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-14T00:00:00.000Z",
+  "title": "Design System: MeetMates",
+  "extensions": {
+    "colorMeta": {
+      "action": {
+        "role": "primary",
+        "displayName": "Почти чёрный фиолет",
+        "canonical": "#0B051D",
+        "tonalRamp": [
+          "#05030F",
+          "#0B051D",
+          "#1B1233",
+          "#2E2150",
+          "#473676",
+          "#6B5699",
+          "#9A8CBD",
+          "#CFC7E0"
+        ]
+      },
+      "label": {
+        "role": "secondary",
+        "displayName": "Лайм отметки",
+        "canonical": "#D9F56F",
+        "tonalRamp": [
+          "#3C4A14",
+          "#55681D",
+          "#6F8828",
+          "#8CA837",
+          "#A9C64C",
+          "#C2DD5D",
+          "#D9F56F",
+          "#ECFBB6"
+        ]
+      },
+      "mine": {
+        "role": "tertiary",
+        "displayName": "Сиреневая своя реплика",
+        "canonical": "#E3DAEF",
+        "tonalRamp": [
+          "#2A2135",
+          "#3E3350",
+          "#55466C",
+          "#6F5E89",
+          "#9185AB",
+          "#B6ADCB",
+          "#E3DAEF",
+          "#F3EEF9"
+        ]
+      },
+      "danger-soft": {
+        "role": "tertiary",
+        "displayName": "Розовая неудача",
+        "canonical": "#F59BAF",
+        "tonalRamp": [
+          "#3E0A18",
+          "#5C1226",
+          "#7D1B36",
+          "#A02648",
+          "#C4425F",
+          "#E06D84",
+          "#F59BAF",
+          "#FBD2DC"
+        ]
+      },
+      "ink-900": {
+        "role": "neutral",
+        "displayName": "Чернила",
+        "canonical": "#1A1026",
+        "tonalRamp": [
+          "#0C0714",
+          "#1A1026",
+          "#2C1E3D",
+          "#433158",
+          "#5F4A76",
+          "#8475A0",
+          "#B4A9C8",
+          "#E0DAEA"
+        ]
+      },
+      "ink-600": {
+        "role": "neutral",
+        "displayName": "Вторичные чернила",
+        "canonical": "#4C3F59",
+        "tonalRamp": [
+          "#1B1620",
+          "#2B2434",
+          "#3B3147",
+          "#4C3F59",
+          "#685A77",
+          "#8C7E9B",
+          "#B6ACC0",
+          "#E1DBE7"
+        ]
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Светлая заливка",
+        "canonical": "#F2EDF6",
+        "tonalRamp": [
+          "#3A3142",
+          "#52475C",
+          "#6E6179",
+          "#8F849A",
+          "#B3AABD",
+          "#D5CEDF",
+          "#F2EDF6",
+          "#FBF9FD"
+        ]
+      },
+      "card-ring": {
+        "role": "neutral",
+        "displayName": "Обводка карточки",
+        "canonical": "#ECECEC",
+        "tonalRamp": [
+          "#2E2E2E",
+          "#464646",
+          "#616161",
+          "#808080",
+          "#A3A3A3",
+          "#C8C8C8",
+          "#ECECEC",
+          "#F8F8F8"
+        ]
+      },
+      "bg-wash-top": {
+        "role": "neutral",
+        "displayName": "Верх размытия",
+        "canonical": "#C9B6D6",
+        "tonalRamp": [
+          "#352B3C",
+          "#4C3E56",
+          "#675573",
+          "#866F93",
+          "#A68FB2",
+          "#C9B6D6",
+          "#E0D4E8",
+          "#F2ECF6"
+        ]
+      },
+      "glass-strong": {
+        "role": "neutral",
+        "displayName": "Подложка вкладки",
+        "canonical": "#EDE7F4",
+        "tonalRamp": [
+          "#332C3C",
+          "#4A4056",
+          "#645875",
+          "#847795",
+          "#A79CB6",
+          "#CBC3D8",
+          "#EDE7F4",
+          "#F8F5FB"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Обещание на радаре. Единственное место с капсом."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Заголовок экрана."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Заголовок блока внутри экрана."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Описания и абзацы."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Отметка Verified, строка фактов, подписи."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ring-touch",
+        "value": "0 0 0 1px #ECECEC, 0 1px 2px rgba(17,17,17,0.04)",
+        "purpose": "Поля, кнопки без роли, мелкие поверхности."
+      },
+      {
+        "name": "card",
+        "value": "0 0 0 1px #ECECEC, 0 1px 2px rgba(17,17,17,0.04), 0 2px 8px rgba(17,17,17,0.06)",
+        "purpose": "Карточка события, карточка человека, строка списка."
+      },
+      {
+        "name": "nav",
+        "value": "0 0 0 1px #ECECEC, 0 2px 10px rgba(17,17,17,0.07)",
+        "purpose": "Нижнее меню поверх содержимого."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Основное замедление: наведение, появление."
+      },
+      {
+        "name": "ease-spring",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "purpose": "Возврат свайп-карточки."
+      },
+      {
+        "name": "dur-fast",
+        "value": "200ms",
+        "purpose": "Смена фона у кнопки."
+      },
+      {
+        "name": "dur-slow",
+        "value": "300ms",
+        "purpose": "Переходы между экранами."
+      },
+      {
+        "name": "skeleton",
+        "value": "1.4s linear infinite",
+        "purpose": "Бегущий градиент скелета загрузки."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "390px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Главное действие экрана. На экране одно.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Ask to join</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: #0B051D; color: #FFFFFF; font: 600 15px/1 Figtree, sans-serif; text-decoration: none; transition: background 200ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background: #1B1233; } .ds-btn-primary:focus-visible { outline: 2px solid #0B051D; outline-offset: 2px; } .ds-btn-primary:active { transform: scale(.98); }"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Второе действие рядом с главным.",
+      "html": "<a class=\"ds-btn-quiet\" href=\"#\">Invite together</a>",
+      "css": ".ds-btn-quiet { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: #F2EDF6; color: #1A1026; font: 600 15px/1 Figtree, sans-serif; text-decoration: none; transition: background 200ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-quiet:hover { background: #E8E1F1; } .ds-btn-quiet:focus-visible { outline: 2px solid #0B051D; outline-offset: 2px; }"
+    },
+    {
+      "name": "Verified Label",
+      "kind": "chip",
+      "refersTo": "label-verified",
+      "description": "Отметка проверки. Единственное место лайма в продукте.",
+      "html": "<span class=\"ds-label-verified\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M9.59 3.2c.61-.52.92-.78 1.24-.93a2.8 2.8 0 0 1 2.34 0c.32.15.63.41 1.24.93.25.21.37.31.5.4.3.2.63.34.98.41.16.03.32.04.64.07.8.06 1.2.1 1.54.21.77.28 1.38.89 1.65 1.66.12.33.15.73.21 1.53.03.32.04.48.07.63.07.36.21.69.41.99.09.13.19.25.4.49.52.61.78.92.93 1.24.36.74.36 1.6 0 2.34-.15.32-.41.63-.93 1.24-.21.24-.31.36-.4.49-.2.3-.34.63-.41.98-.3.16-.4.32-.07.64-.6.8-.09 1.2-.21 1.53a2.8 2.8 0 0 1-1.65 1.66c-.34.12-.74.15-1.54.21-.32.03-.48.04-.64.07-.35.07-.68.21-.98.41-.13.09-.25.19-.49.4-.61.52-.92.78-1.24.93-.74.36-1.6.36-2.34 0-.32-.15-.63-.41-1.24-.93-.24-.21-.36-.31-.49-.4a2.8 2.8 0 0 0-.98-.41c-.16-.03-.32-.04-.64-.07-.8-.06-1.2-.09-1.54-.21a2.8 2.8 0 0 1-1.65-1.66c-.12-.33-.15-.73-.21-1.53-.03-.32-.04-.48-.07-.64a2.8 2.8 0 0 0-.41-.98c-.09-.13-.19-.25-.4-.49-.52-.61-.78-.92-.93-1.24a2.8 2.8 0 0 1 0-2.34c.15-.32.41-.63.93-1.24.21-.24.31-.36.4-.49.2-.3.34-.63.41-.99.03-.15.04-.31.07-.63.06-.8.09-1.2.21-1.53A2.8 2.8 0 0 1 5.6 4.21c.34-.11.74-.15 1.54-.21.32-.3.48-.4.64-.7.35-.7.68-.21.98-.41.13-.9.25-.19.49-.4ZM16.37 8.71a.81.81 0 0 0-1.15 0l-4.85 4.85-1.6-1.59a.81.81 0 1 0-1.15 1.15l2.17 2.17c.32.32.84.32 1.15 0l5.43-5.43a.81.81 0 0 0 0-1.15Z\"/></svg>Verified</span>",
+      "css": ".ds-label-verified { display: inline-flex; align-items: center; gap: 3px; padding: 1px 7px; border-radius: 999px; background: #D9F56F; color: #1A1026; font: 600 13px/1.5 Figtree, sans-serif; } .ds-label-verified svg { width: 16px; height: 16px; }"
+    },
+    {
+      "name": "Event Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Строка ленты: обложка слева во всю высоту, факты справа, действие под ними.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-top\"><span class=\"ds-card-cover\"></span><div class=\"ds-card-body\"><div class=\"ds-card-head\"><b>Board games</b><time>Sat 18:00</time></div><span class=\"ds-card-who\">Kyiv Games Club · Podil · ~3 km</span><span class=\"ds-card-who\">1 spot left</span></div></div><div class=\"ds-card-acts\"><a class=\"ds-btn-primary\" href=\"#\">Ask to join</a></div></article>",
+      "css": ".ds-card { display: block; border-radius: 26px; background: #FFFFFF; box-shadow: 0 0 0 1px #ECECEC, 0 1px 2px rgba(17,17,17,.04), 0 2px 8px rgba(17,17,17,.06); overflow: hidden; font: 400 15px/1.5 Figtree, sans-serif; color: #1A1026; } .ds-card-top { display: grid; grid-template-columns: 104px 1fr; } .ds-card-cover { min-height: 112px; background: #F2EDF6; } .ds-card-body { display: flex; flex-direction: column; gap: 4px; padding: 12px 12px 8px; } .ds-card-head { display: flex; align-items: baseline; gap: 8px; } .ds-card-head b { flex: 1; font-weight: 500; letter-spacing: -.015em; } .ds-card-head time { font-size: 12px; color: #4C3F59; } .ds-card-who { font-size: 13px; color: #4C3F59; } .ds-card-acts { display: flex; gap: 8px; padding: 8px 12px 12px; } .ds-card-acts .ds-btn-primary { flex: 1; }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Поле с контурной иконкой слева: поле ничего не утверждает, оно ждёт ввода.",
+      "html": "<form class=\"ds-field\"><span class=\"ds-field-ico\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-width=\"1.5\"><circle cx=\"11.5\" cy=\"11.5\" r=\"9.5\"/><path d=\"M18.22 18.22 22 22\"/></g></svg></span><input type=\"search\" value=\"board games\"></form>",
+      "css": ".ds-field { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 0 0 1px #ECECEC, 0 1px 2px rgba(17,17,17,.04); } .ds-field-ico svg { width: 24px; height: 24px; color: #8C7E9B; display: block; } .ds-field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: 400 15px/1.4 Figtree, sans-serif; color: #1A1026; } .ds-field input::placeholder { color: #4C3F59; } .ds-field:focus-within { box-shadow: 0 0 0 2px #0B051D; }"
+    },
+    {
+      "name": "Bottom Navigation",
+      "kind": "nav",
+      "refersTo": "nav-bar",
+      "description": "Белая пилюля: активная вкладка на подложке с залитой иконкой, остальные контурные.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-tab ds-now\" href=\"#\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8\" r=\"4\" fill=\"currentColor\"/><ellipse cx=\"12\" cy=\"17\" rx=\"7\" ry=\"4\" fill=\"currentColor\"/></svg>People</a><a class=\"ds-nav-tab\" href=\"#\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><ellipse cx=\"12\" cy=\"17\" rx=\"7\" ry=\"4\"/></g></svg>Events</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 2px; padding: 6px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 0 0 1px #ECECEC, 0 2px 10px rgba(17,17,17,.07); } .ds-nav-tab { flex: 1; display: grid; justify-items: center; gap: 3px; padding: 6px 8px; border-radius: 14px; text-decoration: none; font: 500 12px/1 Figtree, sans-serif; color: #4C3F59; } .ds-nav-tab svg { width: 24px; height: 24px; color: #8C7E9B; } .ds-nav-tab.ds-now { background: #EDE7F4; color: #1A1026; } .ds-nav-tab.ds-now svg { color: #1A1026; } .ds-nav-tab:hover { background: #E8E1F1; }"
+    },
+    {
+      "name": "Own Message Bubble",
+      "kind": "custom",
+      "refersTo": "bubble-mine",
+      "description": "Своя реплика: ни действие, ни кнопка — поэтому свой тон.",
+      "html": "<p class=\"ds-bubble-mine\">Yes — there's a game café on Podil I keep meaning to try<span class=\"ds-bubble-t\">19:06 · Read</span></p>",
+      "css": ".ds-bubble-mine { max-width: 80%; margin: 0 0 0 auto; padding: 8px 12px; border-radius: 18px 18px 14px 18px; background: #E3DAEF; color: #1A1026; font: 400 15px/1.5 Figtree, sans-serif; } .ds-bubble-t { display: block; margin-top: 2px; font-size: 12px; color: #4C3F59; }"
+    },
+    {
+      "name": "Unsent Message Bubble",
+      "kind": "custom",
+      "refersTo": "bubble-failed",
+      "description": "Не ушло: краснота в подложке, подпись и иконка — чернилами.",
+      "html": "<a class=\"ds-bubble-failed\" href=\"#\">Saturday works — the café opens at six<span class=\"ds-bubble-retry\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 5a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0V8a1 1 0 0 1 1-1Zm0 9.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z\"/></svg></span><span class=\"ds-bubble-t\">Not sent · tap to try again</span></a>",
+      "css": ".ds-bubble-failed { position: relative; display: block; max-width: 80%; margin: 0 0 0 auto; padding: 8px 32px 8px 12px; border-radius: 18px 18px 14px 18px; background: #F59BAF; color: #1A1026; font: 400 15px/1.5 Figtree, sans-serif; text-decoration: none; } .ds-bubble-failed .ds-bubble-retry { position: absolute; top: 8px; right: 8px; display: inline-flex; color: #1A1026; } .ds-bubble-failed .ds-bubble-retry svg { width: 16px; height: 16px; } .ds-bubble-failed .ds-bubble-t { display: block; margin-top: 2px; font-size: 12px; color: #1A1026; }"
+    },
+    {
+      "name": "Skeleton Line",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "Загрузка: бегущий градиент вместо спиннера.",
+      "html": "<p class=\"ds-skel\"></p>",
+      "css": ".ds-skel { height: 13px; width: 62%; margin: 0; border-radius: 14px; background: linear-gradient(90deg, #F2EDF6 0%, #E8E1F1 50%, #F2EDF6 100%); background-size: 200% 100%; animation: ds-skel 1.4s linear infinite; } @keyframes ds-skel { from { background-position: 100% 0; } to { background-position: -100% 0; } } @media (prefers-reduced-motion: reduce) { .ds-skel { animation: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Планы на светлом столе",
+    "overview": "Экран — светлая поверхность, на которой разложены карточки. Цвет живёт в фоне и в фотографиях, а не в элементах: вверху экрана размытое сиренево-розовое пятно, к 57% высоты оно сходит в чистый белый, и дальше всё держится на белых карточках с тонкой обводкой. Интерфейс почти не говорит собой — говорят снимки людей и мест. Плотность низкая, воздуха много, скруглений много (карточка 26px, всё нажимаемое — пилюля). Главное действие на экране одно и залито почти чёрным фиолетовым; рядом с ним живёт единственное яркое пятно системы — лаймовая лейба Verified. Это единственное место, где цвет громче действия, и это принятое решение, а не недосмотр.",
+    "keyCharacteristics": [
+      "Цвет в фоне, не в элементах: размытие вверху, белое ниже",
+      "Карточку держит обводка в 1px, а не тень",
+      "Одно залитое действие на экран; второе действие — светлая пилюля",
+      "Лайм только на одном: отметке Verified",
+      "Контраст считает скрипт, а не глаз: 26 пар, порог 4.5:1"
+    ],
+    "rules": [
+      {
+        "name": "Правило одного лайма",
+        "body": "Лайм в продукте ровно один и стоит ровно на одном — отметке Verified. Как только он появится на втором элементе, он перестанет что-либо значить.",
+        "section": "colors"
+      },
+      {
+        "name": "Правило чужого тона",
+        "body": "Элемент не берёт цвет чужой роли. Реплика не красится цветом кнопки, кнопка не красится цветом лейбы. Если роли нет тона — тон заводится, а не одалживается.",
+        "section": "colors"
+      },
+      {
+        "name": "Правило веса",
+        "body": "Иерархию держат вес и размер. Ни курсива, ни второй гарнитуры, ни цветного текста ради акцента.",
+        "section": "typography"
+      },
+      {
+        "name": "Правило линии вместо облака",
+        "body": "Поверхность отделяется линией. Если линии не хватает — меняется фон, а не наращивается тень.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do держать на экране одно залитое действие; второе — светлая пилюля #F2EDF6.",
+      "Do отделять поверхность обводкой #ECECEC в 1px, а тень оставлять почти незаметной.",
+      "Do давать роли свой токен, если подходящего нет: так появились --mine и --danger-soft.",
+      "Do считать контраст скриптом node scripts/contrast.mjs — 26 пар, порог 4.5:1 (иконки 3:1). Текст на размытии считается по #C9B6D6, самому тёмному его месту.",
+      "Do ставить залитую иконку там, где она что-то утверждает (активная вкладка, Verified), и контурную там, где элемент ждёт ввода (поле) или не выбран (неактивная вкладка).",
+      "Do держать 16px от края экрана для всего содержимого на всех экранах."
+    ],
+    "donts": [
+      "Don't красить текст лаймом: #D9F56F на светлом даёт 1.2:1. Лайм — только подложка.",
+      "Don't писать белым по размытию: белый на #C9B6D6 — 1.8:1.",
+      "Don't красить подпись --danger поверх --danger-soft: 2.9:1. Красное несёт подложка.",
+      "Don't одалживать тон чужой роли — реплика не красится цветом кнопки.",
+      "Don't уменьшать нажимаемую область ниже 44px ради вида.",
+      "Don't добавлять стекло и размытие на элементы: в продукте их нет (D-62).",
+      "Don't ставить градиент под текст или под кнопку — градиент только фон."
+    ]
+  }
+}
