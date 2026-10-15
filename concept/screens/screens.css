@@ -122,7 +122,7 @@ body:has(#bare:target) .device { margin: 0 auto; }
 .wfbar {
   width: 100%; max-width: 760px; justify-self: center;
   /* три зоны: состояния слева, ширина строго по центру, набор справа */
-  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s-4);
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; gap: var(--s-4);
 }
 .wfstates { min-width: 0; }
 .wfstates ul {
