@@ -317,7 +317,7 @@ const GROUPS = [
     ], 'Компонент один, иконка меняется по месту: лупа в поиске, реплика в диалоге. Иконка контурная — поле ничего не утверждает, оно ждёт ввода. Подпись скрытая, это такой же копирайт, он входит в перепись.'),
   ]),
 
-  grp(3, 'Вкладки и переключатели', 'Три органа, и у каждого ровно два состояния: выбран или нет. Промежуточных нет — выбор всегда один.', [
+  grp(3, 'Навигация и переключатели', 'Чем переходят с экрана на экран: нижнее меню, срез вкладки и дверь в соседний контур. У первых двух ровно два состояния — выбран или нет, промежуточных не бывает, выбор всегда один.', [
     comp('Вкладка нижнего меню', '.mm-tab', [
       cell('Tab-Default', `<nav class="mm-tabs kit-one"><a class="mm-tab" href="#">${ico('tab-events')}Events</a></nav>`),
       cell('Tab-Current', `<nav class="mm-tabs kit-one"><a class="mm-tab is-current" href="#" aria-current="page">${ico('tab-events-bold')}Events</a></nav>`),
@@ -328,17 +328,13 @@ const GROUPS = [
       cell('Segment-Hover', '<p class="mm-segmented"><a class="mm-btn is-current" href="#">Nearby</a><a class="mm-btn is-hover" href="#">Mine</a></p>', 'kit-cell--wide'),
     ], 'Сегменты стоят вплотную на дорожке: это один орган, а не две главные кнопки рядом. Наведение на невыбранный сегмент ничего не заливает — иначе он читался бы как выбранный.'),
 
-    comp('Полосы по числу фотографий', '.mm-pager', [
-      cell('Pager-Default', '<p class="mm-pager kit-one" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>', 'kit-cell--wide'),
-    ], 'Столько полос, сколько фотографий, закрашенная — открытая. Счёт нужен и на слух, поэтому рядом стоит скрытый <code>figcaption</code>: «Photo 1 of 4».'),
-
     comp('Выход в соседний контур', '.mm-exit', [
       cell('Exit-Default', '<a class="mm-exit" href="#"><span>Look at events</span><span aria-hidden="true">&rarr;</span></a>', 'kit-cell--wide'),
-      cell('Exit-Hover', '<a class="mm-exit is-hover" href="#"><span>See people</span><span aria-hidden="true">&rarr;</span></a>', 'kit-cell--wide'),
-    ], 'Два имени, и других нет: <code>nearby</code> в кнопке не пишется (правило 6). Это не решение по экрану, поэтому карточка со стрелкой, а не кнопка.'),
+      cell('Exit-Hover', '<a class="mm-exit is-hover" href="#"><span>Look at events</span><span aria-hidden="true">&rarr;</span></a>', 'kit-cell--wide'),
+    ], 'Имён у неё ровно два, и других нет: <code>Look at events</code> из колоды и <code>See people</code> из ленты. Слово <code>nearby</code> в них не пишется — выборку по радиусу называет заголовок экрана, а не кнопка (правило 6). Это не решение по экрану, поэтому карточка со стрелкой, а не кнопка: на наведении глубже тень, заливка не меняется.'),
   ]),
 
-  grp(4, 'Карточки и списки', 'Карточка события, строка списка и карточка человека. У каждой — рабочий вид, наведение и те состояния содержимого, что бывают в данных: нет даты, нет мест, фото ещё не пришло.', [
+  grp(4, 'Карточки и списки', 'Карточка события, строка списка, карточка человека и обложка с полосами по числу фотографий. У каждой — рабочий вид, наведение и те состояния содержимого, что бывают в данных: нет даты, нет мест, фото ещё не пришло.', [
     comp('Карточка события', '.mm-event', [
       cell('Event-Default', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join') }), 'kit-cell--wide'),
       cell('Event-Hover-Title', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join'), headState: ' is-hover' }), 'kit-cell--wide'),
@@ -358,6 +354,10 @@ const GROUPS = [
       cell('Person-Loading-Photo', person(' mm-photo--blur'), 'kit-cell--card'),
     ], 'Порядок чтения задан и не произволен (<code>D-13</code>): общие интересы → имя и возраст → сигналы доверия → расстояние. Справа — фото дошло не целиком: показывается заблюренным и становится чётким по мере прихода (<code>D-51</code>); экран при этом рабочий, <code>Skip</code> и <code>Like</code> живые.'),
 
+    comp('Полосы по числу фотографий', '.mm-pager', [
+      cell('Pager-Default', '<p class="mm-pager kit-one" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>', 'kit-cell--wide'),
+    ], 'Столько полос, сколько фотографий, закрашенная — открытая. Счёт нужен и на слух, поэтому рядом стоит скрытый <code>figcaption</code>: «Photo 1 of 4».'),
+
     comp('Обложка на карточке события', '.mm-evcover', [
       cell('Cover-Default', `<div class="kit-block"><figure class="mm-evcover"><p class="mm-photo">${cover('games')}</p><p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span></p></figure></div>`, 'kit-cell--wide'),
     ], 'На карточке события обложка идёт первой и во всю ширину; в превью ленты тот же снимок стоит слева во всю высоту строки, 104px. Это один снимок в двух местах, а не два компонента.'),
@@ -366,7 +366,7 @@ const GROUPS = [
   grp(5, 'Отметки и факты', 'Всё, чем карточка подтверждает себя: проверка, расстояние, интересы, сигналы доверия. Состояний у них нет — есть присутствие и отсутствие: нет данных, нет и строки.', [
     comp('Отметка проверки', '.mm-verified', [
       cell('Verified-Default', `<span class="mm-verified">${I.verified}Verified</span>`),
-    ], 'Одна на весь продукт: слово с галочкой на лаймовой лейбе. Пустой <code>--mm-label</code> выключает подложку, и слово возвращается к цвету текста.'),
+    ], 'Одна на весь продукт: слово с галочкой на лаймовой лейбе. Стоит и сама по себе — в превью события от автора остаётся один <code>Verified</code> (<code>D-57</code>), — и первой строкой в сигналах доверия, поэтому у неё своя клетка. Пустой <code>--mm-label</code> выключает подложку, и слово возвращается к цвету текста.'),
 
     comp('Сигналы доверия', '.mm-signals', [
       cell('Signals-Full', `<ul class="mm-signals"><li><span class="mm-verified">${I.verified}Verified</span></li><li>12 meetups attended</li><li>Replies quickly</li></ul>`, 'kit-cell--wide'),
@@ -409,9 +409,8 @@ const GROUPS = [
     comp('Заглушка', '.mm-skel', [
       cell('Skel-Line', '<p class="kit-block"><span class="mm-skel mm-skel--line mm-skel--w-l"></span><span class="mm-skel mm-skel--line mm-skel--w-m"></span><span class="mm-skel mm-skel--line mm-skel--w-s"></span></p>', 'kit-cell--wide'),
       cell('Skel-Pill', '<span class="mm-skel mm-skel--pill mm-skel--w-s"></span>', 'kit-cell--wide'),
-      cell('Skel-Thumb', '<p class="mm-skelrow"><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span></p>', 'kit-cell--wide'),
-      cell('Skel-Row', '<ul class="mm-list"><li class="mm-row" aria-hidden="true"><span class="mm-skel mm-skel--line mm-skel--w-l"></span><span class="mm-skel mm-skel--line mm-skel--w-m"></span><span class="mm-skel mm-skel--line mm-skel--w-s"></span></li></ul>', 'kit-cell--wide'),
-    ], 'Заглушки той же длины и в том же порядке, что в пришедшей карточке: приход данных ничего не сдвинет. Миниатюра — место под фотографию профиля, пока она грузится.'),
+      cell('Skel-Thumb', '<p class="mm-skelrow kit-block"><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span></p>', 'kit-cell--wide'),
+    ], 'Три формы, и это все: полоса текста, пилюля на месте кнопки или чипа, миниатюра на месте фотографии. Заглушки той же длины и в том же порядке, что в пришедшей карточке, — приход данных ничего не сдвинет. Отдельной заглушки у строки списка и у карточки нет: внутрь кладутся те же три формы, меняется только контейнер.'),
   ]),
 
   grp(8, 'Чат', 'По порогу «два экрана» переписка разовая: она стоит только на экране Диалог. В кит входит потому, что без пузыря чат нечем собрать, а экран этот — основная дорога к встрече (<code>D-37</code>).', [

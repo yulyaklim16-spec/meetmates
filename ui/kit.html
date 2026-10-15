@@ -327,8 +327,8 @@
 </section>
 
 <section class="kit-grp" id="g3">
-  <h2 class="kit-grp-h"><span class="kit-n">3</span>Вкладки и переключатели</h2>
-  <p class="kit-lead">Три органа, и у каждого ровно два состояния: выбран или нет. Промежуточных нет — выбор всегда один.</p>
+  <h2 class="kit-grp-h"><span class="kit-n">3</span>Навигация и переключатели</h2>
+  <p class="kit-lead">Чем переходят с экрана на экран: нижнее меню, срез вкладки и дверь в соседний контур. У первых двух ровно два состояния — выбран или нет, промежуточных не бывает, выбор всегда один.</p>
   <section class="kit-case">
     <p class="kit-h"><b>Вкладка нижнего меню</b><code>.mm-tab</code></p>
     <div class="kit-matrix">
@@ -358,16 +358,6 @@
     <p class="kit-note">Сегменты стоят вплотную на дорожке: это один орган, а не две главные кнопки рядом. Наведение на невыбранный сегмент ничего не заливает — иначе он читался бы как выбранный.</p>
   </section>
   <section class="kit-case">
-    <p class="kit-h"><b>Полосы по числу фотографий</b><code>.mm-pager</code></p>
-    <div class="kit-matrix">
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><p class="mm-pager kit-one" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p></div>
-        <figcaption>Pager-Default</figcaption>
-      </figure>
-    </div>
-    <p class="kit-note">Столько полос, сколько фотографий, закрашенная — открытая. Счёт нужен и на слух, поэтому рядом стоит скрытый <code>figcaption</code>: «Photo 1 of 4».</p>
-  </section>
-  <section class="kit-case">
     <p class="kit-h"><b>Выход в соседний контур</b><code>.mm-exit</code></p>
     <div class="kit-matrix">
       <figure class="kit-cell kit-cell--wide">
@@ -375,17 +365,17 @@
         <figcaption>Exit-Default</figcaption>
       </figure>
       <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><a class="mm-exit is-hover" href="#"><span>See people</span><span aria-hidden="true">&rarr;</span></a></div>
+        <div class="kit-stage"><a class="mm-exit is-hover" href="#"><span>Look at events</span><span aria-hidden="true">&rarr;</span></a></div>
         <figcaption>Exit-Hover</figcaption>
       </figure>
     </div>
-    <p class="kit-note">Два имени, и других нет: <code>nearby</code> в кнопке не пишется (правило 6). Это не решение по экрану, поэтому карточка со стрелкой, а не кнопка.</p>
+    <p class="kit-note">Имён у неё ровно два, и других нет: <code>Look at events</code> из колоды и <code>See people</code> из ленты. Слово <code>nearby</code> в них не пишется — выборку по радиусу называет заголовок экрана, а не кнопка (правило 6). Это не решение по экрану, поэтому карточка со стрелкой, а не кнопка: на наведении глубже тень, заливка не меняется.</p>
   </section>
 </section>
 
 <section class="kit-grp" id="g4">
   <h2 class="kit-grp-h"><span class="kit-n">4</span>Карточки и списки</h2>
-  <p class="kit-lead">Карточка события, строка списка и карточка человека. У каждой — рабочий вид, наведение и те состояния содержимого, что бывают в данных: нет даты, нет мест, фото ещё не пришло.</p>
+  <p class="kit-lead">Карточка события, строка списка, карточка человека и обложка с полосами по числу фотографий. У каждой — рабочий вид, наведение и те состояния содержимого, что бывают в данных: нет даты, нет мест, фото ещё не пришло.</p>
   <section class="kit-case">
     <p class="kit-h"><b>Карточка события</b><code>.mm-event</code></p>
     <div class="kit-matrix">
@@ -521,6 +511,16 @@
     <p class="kit-note">Порядок чтения задан и не произволен (<code>D-13</code>): общие интересы → имя и возраст → сигналы доверия → расстояние. Справа — фото дошло не целиком: показывается заблюренным и становится чётким по мере прихода (<code>D-51</code>); экран при этом рабочий, <code>Skip</code> и <code>Like</code> живые.</p>
   </section>
   <section class="kit-case">
+    <p class="kit-h"><b>Полосы по числу фотографий</b><code>.mm-pager</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-pager kit-one" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p></div>
+        <figcaption>Pager-Default</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Столько полос, сколько фотографий, закрашенная — открытая. Счёт нужен и на слух, поэтому рядом стоит скрытый <code>figcaption</code>: «Photo 1 of 4».</p>
+  </section>
+  <section class="kit-case">
     <p class="kit-h"><b>Обложка на карточке события</b><code>.mm-evcover</code></p>
     <div class="kit-matrix">
       <figure class="kit-cell kit-cell--wide">
@@ -543,7 +543,7 @@
         <figcaption>Verified-Default</figcaption>
       </figure>
     </div>
-    <p class="kit-note">Одна на весь продукт: слово с галочкой на лаймовой лейбе. Пустой <code>--mm-label</code> выключает подложку, и слово возвращается к цвету текста.</p>
+    <p class="kit-note">Одна на весь продукт: слово с галочкой на лаймовой лейбе. Стоит и сама по себе — в превью события от автора остаётся один <code>Verified</code> (<code>D-57</code>), — и первой строкой в сигналах доверия, поэтому у неё своя клетка. Пустой <code>--mm-label</code> выключает подложку, и слово возвращается к цвету текста.</p>
   </section>
   <section class="kit-case">
     <p class="kit-h"><b>Сигналы доверия</b><code>.mm-signals</code></p>
@@ -675,15 +675,11 @@
         <figcaption>Skel-Pill</figcaption>
       </figure>
       <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><p class="mm-skelrow"><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span></p></div>
+        <div class="kit-stage"><p class="mm-skelrow kit-block"><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span></p></div>
         <figcaption>Skel-Thumb</figcaption>
       </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><ul class="mm-list"><li class="mm-row" aria-hidden="true"><span class="mm-skel mm-skel--line mm-skel--w-l"></span><span class="mm-skel mm-skel--line mm-skel--w-m"></span><span class="mm-skel mm-skel--line mm-skel--w-s"></span></li></ul></div>
-        <figcaption>Skel-Row</figcaption>
-      </figure>
     </div>
-    <p class="kit-note">Заглушки той же длины и в том же порядке, что в пришедшей карточке: приход данных ничего не сдвинет. Миниатюра — место под фотографию профиля, пока она грузится.</p>
+    <p class="kit-note">Три формы, и это все: полоса текста, пилюля на месте кнопки или чипа, миниатюра на месте фотографии. Заглушки той же длины и в том же порядке, что в пришедшей карточке, — приход данных ничего не сдвинет. Отдельной заглушки у строки списка и у карточки нет: внутрь кладутся те же три формы, меняется только контейнер.</p>
   </section>
 </section>
 
