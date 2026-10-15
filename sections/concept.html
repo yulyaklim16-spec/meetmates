@@ -441,7 +441,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
         <span><b>11</b> направлений в четырёх раундах</span>
         <span><b>1</b> выбрано — R «Сирень»</span>
         <span><b>55</b> страниц концепта</span>
-        <span><b>26</b> пар цвета проверены</span>
+        <span><b>28</b> пар цвета проверены</span>
       </div>
       <!--PUBLIC-NOTE-->
     </div>
@@ -463,7 +463,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
             <li><i style="background:#1A1026"></i><b>--verified</b><code>#1A1026</code><span>галочка Verified — цвета текста на лейбе</span></li>
             <li><i style="background:#1C7A4E"></i><b>--success</b><code>#1C7A4E</code><span>успех: Joined, confirmed, поле прошло проверку; 5.3:1 на --bg</span></li>
             <li><i style="background:#8A5200"></i><b>--warn</b><code>#8A5200</code><span>производный: текст предупреждения, 6.4:1 на --bg</span></li>
-            <li><i style="background:#C01F4A"></i><b>--danger</b><code>#C01F4A</code><span>Report / Block: 5.9:1 на --bg</span></li>
+            <li><i style="background:#C01F4A"></i><b>--danger</b><code>#C01F4A</code><span>заливка и обводка опасного: 5.9:1 на --bg</span></li>
           </ul>
         </div>
         <div class="pal">
@@ -524,7 +524,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
         </div>
 
         <details class="src">
-          <summary>Контраст — 26 пар, порог 4.5:1 для текста и 3:1 для иконок</summary>
+          <summary>Контраст — 28 пар, порог 4.5:1 для текста и 3:1 для иконок</summary>
 <blockquote><p>Сгенерировано <code>node scripts/contrast.mjs</code> из <code>tokens/tokens.css</code>. Руками не править. Порог: текст 4.5:1, иконки 3:1. Фон экрана — градиент, поэтому текст на нём считается по <code>--bg-wash-top</code>, самому тёмному месту размытия.</p></blockquote>
 <div class="tw"><table><thead><tr><th>Где</th><th>Текст</th><th>Фон</th><th>Коэффициент</th><th>Порог</th><th>Проходит</th></tr></thead><tbody>
 <tr><td>Основной текст на фоне экрана</td><td><code>--ink-900</code> #1A1026</td><td><code>--bg</code> #FFFFFF</td><td><strong>18.32:1</strong></td><td>4.5:1</td><td>да</td></tr>
@@ -541,8 +541,10 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
 <tr><td>Галочка Verified на карточке</td><td><code>--verified</code> #1A1026</td><td><code>--surface</code> #FFFFFF</td><td><strong>18.32:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Заголовок экрана на размытии</td><td><code>--ink-900</code> #1A1026</td><td><code>--bg-wash-top</code> #C9B6D6</td><td><strong>9.73:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Вторичный текст на размытии</td><td><code>--ink-600</code> #4C3F59</td><td><code>--bg-wash-top</code> #C9B6D6</td><td><strong>5.15:1</strong></td><td>4.5:1</td><td>да</td></tr>
-<tr><td>Ошибка, Report на фоне экрана</td><td><code>--danger</code> #C01F4A</td><td><code>--bg</code> #FFFFFF</td><td><strong>5.94:1</strong></td><td>4.5:1</td><td>да</td></tr>
-<tr><td>Ошибка под полем на карточке</td><td><code>--danger</code> #C01F4A</td><td><code>--surface</code> #FFFFFF</td><td><strong>5.94:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Отказ, Report на фоне экрана</td><td><code>--danger-ink</code> #96123A</td><td><code>--bg</code> #FFFFFF</td><td><strong>8.59:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Обводка непринятого поля (не текст)</td><td><code>--danger</code> #C01F4A</td><td><code>--bg-wash-top</code> #C9B6D6</td><td><strong>3.15:1</strong></td><td>3:1</td><td>да</td></tr>
+<tr><td>Ошибка под полем на карточке</td><td><code>--danger-ink</code> #96123A</td><td><code>--surface</code> #FFFFFF</td><td><strong>8.59:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Отказ под полем, Report на размытии</td><td><code>--danger-ink</code> #96123A</td><td><code>--bg-wash-top</code> #C9B6D6</td><td><strong>4.56:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Успех на фоне экрана</td><td><code>--success</code> #1C7A4E</td><td><code>--bg</code> #FFFFFF</td><td><strong>5.33:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Успех под полем на карточке</td><td><code>--success</code> #1C7A4E</td><td><code>--surface</code> #FFFFFF</td><td><strong>5.33:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Предупреждение на фоне экрана</td><td><code>--warn</code> #8A5200</td><td><code>--bg</code> #FFFFFF</td><td><strong>6.39:1</strong></td><td>4.5:1</td><td>да</td></tr>

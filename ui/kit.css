@@ -59,6 +59,9 @@
   --mm-tab-current: #EDE7F4;
   --mm-mine: #E3DAEF;
   --mm-danger: #C01F4A;
+  /* опасное словом: на размытии --mm-danger даёт 3.15:1, а Report в шапке
+     и отказ под полем лежат именно на нём */
+  --mm-danger-ink: #96123A;
   --mm-danger-soft: #F59BAF;
   /* Не носит ни один компонент в наборе: экраны создания и редактирования,
      где поле проходит проверку, в вайрфреймы ещё не вошли. Значения стоят здесь,
@@ -132,6 +135,9 @@
   --mm-ring-avatar: 0 0 0 1px var(--mm-card-ring);
   --mm-ring-inset: inset 0 0 0 1px var(--mm-card-ring);
   --mm-ring-focus: 0 0 0 2px var(--mm-action);
+  /* поле, которое не приняло ввод: обводка цветом опасного, в 1px — та же
+     волосяная линия, что держит карточку, только красная */
+  --mm-ring-error: 0 0 0 1px var(--mm-danger);
 
   /* ── движение ─────────────────────────────────────────────────── */
   --mm-dur-fast: 200ms;
@@ -168,6 +174,8 @@
   --mm-bubble-max: 80%;
   --mm-blur: 14px;
   --mm-thumb-h: 64px;
+  /* многострочное поле: четыре строки видно, дальше прокрутка */
+  --mm-textarea-h: 96px;
   /* жёлоб под полосу прокрутки: вычитается из правого отступа, иначе содержимое
      прокручиваемой секции стоит левее, чем в соседней непрокручиваемой */
   --mm-scroll-gutter: 10px;
@@ -336,7 +344,7 @@
   gap: var(--mm-s-1);
   background: none;
   box-shadow: none;
-  color: var(--mm-danger);
+  color: var(--mm-danger-ink);
   font: var(--mm-fw-semibold) var(--mm-t-micro) / 1 var(--mm-font);
 }
 .mm-head-btn--danger:hover, .mm-head-btn--danger.is-hover { background: var(--mm-surface-2); }
@@ -440,7 +448,7 @@
   padding: 0 var(--mm-s-1);
   border: 0;
   background: none;
-  color: var(--mm-danger);
+  color: var(--mm-danger-ink);
   border-radius: var(--mm-r-pill);
   font: var(--mm-fw-semibold) var(--mm-t-body-sm) / 1 var(--mm-font);
   cursor: pointer;
@@ -667,8 +675,14 @@ a.mm-row:hover .mm-row-head > b, a.mm-row.is-hover .mm-row-head > b { text-decor
 
 /* ═══ Формы ═══ */
 
-/* поле с иконкой одной строкой: поиск в шапке и ввод реплики в диалоге.
-   Занимает остаток строки и ужимается само — кнопки рядом не двигает */
+/* Поле — одна строка с иконкой: поиск в шапке, ввод реплики в диалоге,
+   анкета на входе. Занимает остаток строки и ужимается само — кнопки
+   рядом не двигает.
+
+   Шесть состояний, и они одни и те же у всех шести видов: рабочее,
+   наведение, ввод, заполненное, недоступное, не приняло. Фокус здесь —
+   не кольцо от клавиатуры, а место, где стоит каретка: его видит каждый,
+   кто печатает, поэтому он в наборе и остался. */
 .mm-field {
   flex: 1;
   min-width: 0;
@@ -680,6 +694,7 @@ a.mm-row:hover .mm-row-head > b, a.mm-row.is-hover .mm-row-head > b { text-decor
   border-radius: var(--mm-r-pill);
   background: var(--mm-surface);
   box-shadow: var(--mm-shadow-sm);
+  transition: background var(--mm-dur-fast) var(--mm-ease-out), box-shadow var(--mm-dur-fast) var(--mm-ease-out);
 }
 .mm-field svg { flex: none; width: var(--mm-icon-md); height: var(--mm-icon-md); color: var(--mm-ink-400); }
 .mm-field input {
@@ -692,7 +707,117 @@ a.mm-row:hover .mm-row-head > b, a.mm-row.is-hover .mm-row-head > b { text-decor
   color: var(--mm-ink-900);
 }
 .mm-field input::placeholder { color: var(--mm-ink-600); }
-.mm-field:focus-within { box-shadow: var(--mm-ring-focus); }
+.mm-field:hover, .mm-field.is-hover { background: var(--mm-surface-2); }
+.mm-field:focus-within, .mm-field.is-focus { background: var(--mm-surface); box-shadow: var(--mm-ring-focus); }
+/* недоступное — то же поле в половину силы, как и кнопка */
+.mm-field:has(input:disabled), .mm-field:has(textarea:disabled), .mm-field.is-disabled {
+  opacity: var(--mm-off);
+  cursor: not-allowed;
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-sm);
+}
+/* не приняло ввод: обводка красная, но текст человек не теряет */
+.mm-field--error, .mm-field--error:hover, .mm-field--error.is-hover { box-shadow: var(--mm-ring-error); }
+.mm-field--error:focus-within, .mm-field--error.is-focus { box-shadow: var(--mm-ring-focus); }
+
+/* кнопка внутри поля: очистить поиск, показать пароль. Круга и заливки
+   нет — она часть поля, а не второе действие рядом с ним */
+.mm-field-btn {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: var(--mm-icon-md);
+  height: var(--mm-icon-md);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mm-ink-400);
+  cursor: pointer;
+}
+.mm-field-btn:hover, .mm-field-btn.is-hover { color: var(--mm-ink-900); }
+.mm-field-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); border-radius: var(--mm-r-pill); }
+
+/* подпись над полем: в анкете она видимая. В поиске и в диалоге смысл
+   берётся из места, и там подпись скрыта — но пишется так же (правило 1) */
+.mm-label {
+  display: block;
+  margin: 0 0 var(--mm-s-2) var(--mm-s-3);
+  color: var(--mm-ink-600);
+  font: var(--mm-fw-medium) var(--mm-t-micro) / var(--mm-lh-heading) var(--mm-font);
+}
+
+/* строка под полем: требование до ввода, причина отказа после. Один
+   элемент на оба случая — иначе при ошибке прыгает высота */
+.mm-field-note {
+  display: block;
+  margin: var(--mm-s-2) 0 0 var(--mm-s-3);
+  color: var(--mm-ink-600);
+  font: var(--mm-fw-regular) var(--mm-t-micro) / var(--mm-lh-heading) var(--mm-font);
+}
+.mm-field-note--error { color: var(--mm-danger-ink); font-weight: var(--mm-fw-medium); }
+
+/* многострочное: био и описание события. Та же обводка, но коробка,
+   а не пилюля — в неё пишут абзац, и форма об этом говорит */
+.mm-field--multi {
+  display: block;
+  height: auto;
+  padding: var(--mm-s-3);
+  border-radius: var(--mm-r-md);
+}
+.mm-field--multi textarea {
+  display: block;
+  width: 100%;
+  height: var(--mm-textarea-h);
+  border: 0;
+  outline: 0;
+  resize: none;
+  background: transparent;
+  font: var(--mm-fw-regular) var(--mm-t-body-sm) / var(--mm-lh-body) var(--mm-font);
+  color: var(--mm-ink-900);
+}
+.mm-field--multi textarea::placeholder { color: var(--mm-ink-600); }
+
+/* выпадающий список: то же поле, справа стрелка. Открытый список —
+   состояние поля, а не второй компонент */
+.mm-select { position: relative; }
+.mm-select-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--mm-ink-900);
+  font: var(--mm-fw-regular) var(--mm-t-body-sm) / var(--mm-lh-heading) var(--mm-font);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mm-menu {
+  position: absolute;
+  top: calc(100% + var(--mm-s-2));
+  right: 0;
+  left: 0;
+  z-index: 1;
+  margin: 0;
+  padding: var(--mm-s-1);
+  border-radius: var(--mm-r-md);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-lg);
+  list-style: none;
+}
+.mm-menu a {
+  display: block;
+  padding: var(--mm-s-2) var(--mm-s-3);
+  border-radius: var(--mm-r-sm);
+  color: var(--mm-ink-900);
+  font: var(--mm-fw-regular) var(--mm-t-body-sm) / var(--mm-lh-heading) var(--mm-font);
+  text-decoration: none;
+}
+.mm-menu a:hover, .mm-menu a.is-hover { background: var(--mm-surface-2); }
+.mm-menu a.is-current { background: var(--mm-surface-2); font-weight: var(--mm-fw-semibold); }
+
+/* дата рождения: три поля в ряд, а не одно с маской. Маску не видно,
+   пока в неё не попал, а здесь сразу видно, что и куда (§5.1, гейт 18+) */
+.mm-dates { display: flex; gap: var(--mm-s-2); margin: 0; }
+.mm-dates .mm-field { flex: 1; }
+.mm-dates input { text-align: center; }
 
 /* ═══ Обратная связь ═══ */
 

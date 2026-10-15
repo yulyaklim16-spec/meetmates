@@ -93,6 +93,8 @@
   .kit-after { margin-top: 12px; }
   .kit-one { width: 120px; }
   .kit-block { width: 100%; }
+  /* место под раскрытый список: он лежит слоем, высоту клетке он не задаёт */
+  .kit-drop { padding-bottom: 128px; }
   code { font-family: ui-monospace, monospace; font-size: 12px; }
 
   /* полоса разделов проекта: та же, что на макетах и экранах концепта */
@@ -297,20 +299,330 @@
 
 <section class="kit-grp" id="g2">
   <h2 class="kit-grp-h"><span class="kit-n">2</span>Поля</h2>
-  <p class="kit-lead">Поле в наборе одно и стоит в двух местах: поиск в шапке и ввод реплики в диалоге. Состояния ошибки у него нет — экранов, где поле что-то проверяет, в вайрфреймах ещё нет, и выдумывать его не стали.</p>
+  <p class="kit-lead">Шесть видов, и состояний у каждого шесть: рабочее, наведение, ввод, заполненное, недоступное и «не приняло». Разметка у всех одна — <code>.mm-field</code> плюс то, что внутри; вид задаёт содержимое, а не отдельный компонент. Ввод здесь не кольцо от клавиатуры, а место, где стоит каретка: его видит каждый, кто печатает, поэтому из всех элементов фокус остался только у поля.</p>
   <section class="kit-case">
-    <p class="kit-h"><b>Поле с иконкой</b><code>.mm-field</code></p>
+    <p class="kit-h"><b>Текстовое</b><code>.mm-field</code></p>
     <div class="kit-matrix">
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><form class="mm-field" role="search"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><label class="mm-vh" for="q1">Search people and events</label><input id="q1" type="search" placeholder="Search people and events"></form></div>
-        <figcaption>Field-Empty</figcaption>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f1">Email</label>
+          <div class="mm-field"><input id="f1" type="email" placeholder="name@example.com"></div>
+          
+        </div></div>
+        <figcaption>Field-Default</figcaption>
       </figure>
       <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><label class="mm-field" for="m1"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span><span class="mm-vh">Message</span><input id="m1" type="text" value="Saturday works"></label></div>
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f2">Email</label>
+          <div class="mm-field is-hover"><input id="f2" type="email" placeholder="name@example.com"></div>
+          
+        </div></div>
+        <figcaption>Field-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f3">Email</label>
+          <div class="mm-field is-focus"><input id="f3" type="email" placeholder="name@example.com"></div>
+          
+        </div></div>
+        <figcaption>Field-Focus</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f4">Email</label>
+          <div class="mm-field"><input id="f4" type="email" placeholder="name@example.com" value="dasha@example.com"></div>
+          
+        </div></div>
         <figcaption>Field-Filled</figcaption>
       </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f5">Email</label>
+          <div class="mm-field"><input id="f5" type="email" placeholder="name@example.com" disabled></div>
+          
+        </div></div>
+        <figcaption>Field-Disabled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f6">Email</label>
+          <div class="mm-field mm-field--error"><input id="f6" type="email" placeholder="name@example.com" value="dasha.example.com"></div>
+          <span class="mm-field-note mm-field-note--error">This address is missing an @</span>
+        </div></div>
+        <figcaption>Field-Error</figcaption>
+      </figure>
     </div>
-    <p class="kit-note">Компонент один, иконка меняется по месту: лупа в поиске, реплика в диалоге. Иконка контурная — поле ничего не утверждает, оно ждёт ввода. Подпись скрытая, это такой же копирайт, он входит в перепись.</p>
+    <p class="kit-note">Подпись видимая: в анкете человек заполняет несколько полей подряд, и по заполненному полю должно быть видно, что в нём лежит. Отказ не стирает введённое и называет причину — <code>This address is missing an @</code>, а не «неверный формат».</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Поиск</b><code>.mm-field</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f7" type="search" placeholder="Search people and events"></div>
+          
+        </div></div>
+        <figcaption>Search-Default</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field is-hover"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f8" type="search" placeholder="Search people and events"></div>
+          
+        </div></div>
+        <figcaption>Search-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field is-focus"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f9" type="search" placeholder="Search people and events"></div>
+          
+        </div></div>
+        <figcaption>Search-Focus</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f10" type="search" placeholder="Search people and events" value="board games"><button class="mm-field-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5"/></g></svg></span><span class="mm-vh">Clear</span></button></div>
+          
+        </div></div>
+        <figcaption>Search-Filled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f11" type="search" placeholder="Search people and events" disabled></div>
+          
+        </div></div>
+        <figcaption>Search-Disabled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field mm-field--error"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f12" type="search" placeholder="Search people and events" value="board games"></div>
+          <span class="mm-field-note mm-field-note--error">Couldn&rsquo;t search just now. Tap to try again</span>
+        </div></div>
+        <figcaption>Search-Error</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Подпись скрыта: поле стоит в шапке вкладки <code>Search</code>, и смысл берётся из места. Крестик появляется только с набранным — у пустого поля стирать нечего. Отказ здесь не про ввод, а про связь, поэтому строка под полем зовёт повторить.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Пароль</b><code>.mm-field</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f13">Password</label>
+          <div class="mm-field"><input id="f13" type="password" placeholder="At least 8 characters"><button class="mm-field-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C4.97196 6.49956 7.81811 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957Z"/><path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"/></g></svg></span><span class="mm-vh">Show password</span></button></div>
+          
+        </div></div>
+        <figcaption>Pass-Default</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f14">Password</label>
+          <div class="mm-field is-hover"><input id="f14" type="password" placeholder="At least 8 characters"><button class="mm-field-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C4.97196 6.49956 7.81811 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957Z"/><path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"/></g></svg></span><span class="mm-vh">Show password</span></button></div>
+          
+        </div></div>
+        <figcaption>Pass-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f15">Password</label>
+          <div class="mm-field is-focus"><input id="f15" type="password" placeholder="At least 8 characters"><button class="mm-field-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C4.97196 6.49956 7.81811 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957Z"/><path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"/></g></svg></span><span class="mm-vh">Show password</span></button></div>
+          
+        </div></div>
+        <figcaption>Pass-Focus</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f16">Password</label>
+          <div class="mm-field"><input id="f16" type="text" placeholder="At least 8 characters" value="board games 2026"><button class="mm-field-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M12 14C5 14 2 7 2 7M22 7C22 7 21.0586 9.19661 19 11.1288C18.0872 11.9856 16.9547 12.7904 15.5872 13.3287C14.5334 13.7435 13.34 14 12 14M12 14V16.5M15.5872 13.3287L17 15.5M19 11.1288L20.5 12.6288M8.41281 13.3287L7 15.5M5 11.1288L3.5 12.6288"/></svg></span><span class="mm-vh">Hide password</span></button></div>
+          
+        </div></div>
+        <figcaption>Pass-Filled-Shown</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f17">Password</label>
+          <div class="mm-field"><input id="f17" type="password" placeholder="At least 8 characters" disabled><button class="mm-field-btn" type="button" disabled><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C4.97196 6.49956 7.81811 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957Z"/><path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"/></g></svg></span><span class="mm-vh">Show password</span></button></div>
+          
+        </div></div>
+        <figcaption>Pass-Disabled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f18">Password</label>
+          <div class="mm-field mm-field--error"><input id="f18" type="password" placeholder="At least 8 characters" value="board"><button class="mm-field-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C4.97196 6.49956 7.81811 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957Z"/><path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"/></g></svg></span><span class="mm-vh">Show password</span></button></div>
+          <span class="mm-field-note mm-field-note--error">Use at least 8 characters</span>
+        </div></div>
+        <figcaption>Pass-Error</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Требование стоит подсказкой поля до ввода, а не выскакивает отказом после: <code>At least 8 characters</code>. Глаз показывает набранное — вслепую пароль набирают с ошибкой чаще, чем его подглядывают. Шкалы силы в наборе нет: правила к паролю ещё не выбраны (§12), а полоса «weak / strong» без правила — обещание, которого экран не держит.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Многострочное</b><code>.mm-field--multi</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f19">About you</label>
+          <div class="mm-field mm-field--multi"><textarea id="f19" placeholder="What you&rsquo;d like to do with people here"></textarea></div>
+          
+        </div></div>
+        <figcaption>Multi-Default</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f20">About you</label>
+          <div class="mm-field mm-field--multi is-hover"><textarea id="f20" placeholder="What you&rsquo;d like to do with people here"></textarea></div>
+          
+        </div></div>
+        <figcaption>Multi-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f21">About you</label>
+          <div class="mm-field mm-field--multi is-focus"><textarea id="f21" placeholder="What you&rsquo;d like to do with people here"></textarea></div>
+          
+        </div></div>
+        <figcaption>Multi-Focus</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f22">About you</label>
+          <div class="mm-field mm-field--multi"><textarea id="f22" placeholder="What you&rsquo;d like to do with people here">Moved to Kyiv in March. Board games, long walks on Podil and coffee at the end of it.</textarea></div>
+          <span class="mm-field-note">65 characters left</span>
+        </div></div>
+        <figcaption>Multi-Filled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f23">About you</label>
+          <div class="mm-field mm-field--multi"><textarea id="f23" placeholder="What you&rsquo;d like to do with people here" disabled></textarea></div>
+          
+        </div></div>
+        <figcaption>Multi-Disabled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f24">About you</label>
+          <div class="mm-field mm-field--multi mm-field--error"><textarea id="f24" placeholder="What you&rsquo;d like to do with people here">Moved to Kyiv in March. Board games, long walks on Podil and anything with a decent coffee at the end of it, which is most evenings honestly.</textarea></div>
+          <span class="mm-field-note mm-field-note--error">12 characters over the limit</span>
+        </div></div>
+        <figcaption>Multi-Error</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Коробка, а не пилюля: в неё пишут абзац, и форма об этом говорит. Видно четыре строки, дальше прокрутка. Счётчик остатка — та же строка под полем, что несёт и отказ: иначе при переборе прыгала бы высота (§5.1, био до 150 символов).</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Дата рождения</b><code>.mm-dates</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field"><input id="f25" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f25">DD</label></div><div class="mm-field"><input id="f26" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f26">MM</label></div><div class="mm-field"><input id="f27" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f27">YYYY</label></div></div>
+          
+        </div></div>
+        <figcaption>Date-Default</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field is-hover"><input id="f28" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f28">DD</label></div><div class="mm-field is-hover"><input id="f29" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f29">MM</label></div><div class="mm-field is-hover"><input id="f30" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f30">YYYY</label></div></div>
+          
+        </div></div>
+        <figcaption>Date-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field is-focus"><input id="f31" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f31">DD</label></div><div class="mm-field is-focus"><input id="f32" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f32">MM</label></div><div class="mm-field is-focus"><input id="f33" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f33">YYYY</label></div></div>
+          
+        </div></div>
+        <figcaption>Date-Focus</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field"><input id="f34" type="text" inputmode="numeric" placeholder="DD" value="14"><label class="mm-vh" for="f34">DD</label></div><div class="mm-field"><input id="f35" type="text" inputmode="numeric" placeholder="MM" value="03"><label class="mm-vh" for="f35">MM</label></div><div class="mm-field"><input id="f36" type="text" inputmode="numeric" placeholder="YYYY" value="1998"><label class="mm-vh" for="f36">YYYY</label></div></div>
+          
+        </div></div>
+        <figcaption>Date-Filled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field"><input id="f37" type="text" inputmode="numeric" placeholder="DD" disabled><label class="mm-vh" for="f37">DD</label></div><div class="mm-field"><input id="f38" type="text" inputmode="numeric" placeholder="MM" disabled><label class="mm-vh" for="f38">MM</label></div><div class="mm-field"><input id="f39" type="text" inputmode="numeric" placeholder="YYYY" disabled><label class="mm-vh" for="f39">YYYY</label></div></div>
+          
+        </div></div>
+        <figcaption>Date-Disabled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field mm-field--error"><input id="f40" type="text" inputmode="numeric" placeholder="DD" value="14"><label class="mm-vh" for="f40">DD</label></div><div class="mm-field mm-field--error"><input id="f41" type="text" inputmode="numeric" placeholder="MM" value="03"><label class="mm-vh" for="f41">MM</label></div><div class="mm-field mm-field--error"><input id="f42" type="text" inputmode="numeric" placeholder="YYYY" value="2012"><label class="mm-vh" for="f42">YYYY</label></div></div>
+          <span class="mm-field-note mm-field-note--error">You need to be 18 or older</span>
+        </div></div>
+        <figcaption>Date-Error</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Три поля, а не одно с маской: маску не видно, пока в неё не попал, а здесь сразу видно, что и куда. Возраст спрашивается один раз и здесь — гейт 18+ стоит на настройке профиля, отдельного экрана ему не нужно (<code>D-38</code>). Отказ говорит правило, а не «неверная дата».</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Выпадающий список</b><code>.mm-select · .mm-menu</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select"><span class="mm-select-value">Anyone</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span></div>
+          
+        </div></div>
+        <figcaption>Select-Default</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select is-hover"><span class="mm-select-value">Anyone</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span></div>
+          
+        </div></div>
+        <figcaption>Select-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select is-focus"><span class="mm-select-value">Anyone</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span></div>
+          
+        </div></div>
+        <figcaption>Select-Focus</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select"><span class="mm-select-value">Women only</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span></div>
+          
+        </div></div>
+        <figcaption>Select-Filled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select is-disabled"><span class="mm-select-value">Anyone</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span></div>
+          <span class="mm-field-note">Add your gender in the profile to limit who can join</span>
+        </div></div>
+        <figcaption>Select-Disabled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block kit-drop">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select is-focus"><span class="mm-select-value">Anyone</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span><ul class="mm-menu"><li><a class="is-current" href="#">Anyone</a></li><li><a href="#">Women only</a></li><li><a class="is-hover" href="#">Men only</a></li></ul></div>
+          
+        </div></div>
+        <figcaption>Select-Open</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Три значения — ограничение отклика на своём запросе (<code>D-25</code>). Открытый список — состояние поля, а не второй компонент. Недоступным он бывает ровно в одном случае: пол не указан, и ограничение поставить не из чего; строка под полем говорит, что сделать. Состояния «не приняло» у него нет — выбрано всегда одно из трёх, пустым он не бывает.</p>
   </section>
 </section>
 

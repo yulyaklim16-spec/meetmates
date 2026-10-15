@@ -44,6 +44,11 @@ const I = {
   message: svg('chat-round-dots', LINEAR),
   retry: svg('danger-circle'),
   report: svg('flag'),
+  // органы поля контурные: поле ничего не утверждает, оно ждёт ввода
+  clear: svg('close-circle', LINEAR),
+  eye: svg('eye', LINEAR),
+  'eye-off': svg('eye-closed', LINEAR),
+  chevron: svg('alt-arrow-down', LINEAR),
   // пусто — событие, сбой — опасность: так же выбирает их экран
   'state-empty': svg('ticket'),
   'state-alert': svg('danger-circle'),
@@ -260,6 +265,51 @@ const screenState = (icon, h, p, acts, alert) => `<div class="kit-tall">
           </article>
 ${acts ? `          <p class="mm-actions kit-after">${acts}</p>\n` : ''}        </div>`;
 
+// Поле: вид задаёт содержимое, состояние — класс. Один помощник на все
+// шесть видов, иначе матрица разошлась бы в шести местах.
+let fid = 0;
+const fld = ({ state = '', err = false, lead = '', tail = '', input, label, note = '', extra = '' }) => {
+  const id = `f${++fid}`;
+  return `<div class="kit-block">
+          ${label ? `<label class="mm-label" for="${id}">${label}</label>` : ''}
+          <div class="mm-field${extra}${err ? ' mm-field--error' : ''}${state}">${lead}${input(id)}${tail}</div>
+          ${note}
+        </div>`;
+};
+
+const noteOk = (t) => `<span class="mm-field-note">${t}</span>`;
+const noteErr = (t) => `<span class="mm-field-note mm-field-note--error">${t}</span>`;
+
+// однострочное: text, email, password — разметка одна, меняется type
+const line = (type, ph, value = '', dis = false) => (id) =>
+  `<input id="${id}" type="${type}" placeholder="${ph}"${value ? ` value="${value}"` : ''}${dis ? ' disabled' : ''}>`;
+
+const area = (ph, value = '', dis = false) => (id) =>
+  `<textarea id="${id}" placeholder="${ph}"${dis ? ' disabled' : ''}>${value}</textarea>`;
+
+const eyeBtn = (off = false, dis = false) =>
+  `<button class="mm-field-btn" type="button"${dis ? ' disabled' : ''}>${ico(off ? 'eye-off' : 'eye')}<span class="mm-vh">${off ? 'Hide' : 'Show'} password</span></button>`;
+
+// дата рождения: три поля в ряд, состояние у всех трёх одно
+const dob = (state = '', err = false, d = '', m = '', y = '', dis = false, note = '') => {
+  const one = (ph, v) => {
+    const id = `f${++fid}`;
+    return `<div class="mm-field${err ? ' mm-field--error' : ''}${state}"><input id="${id}" type="text" inputmode="numeric" placeholder="${ph}"${v ? ` value="${v}"` : ''}${dis ? ' disabled' : ''}><label class="mm-vh" for="${id}">${ph}</label></div>`;
+  };
+  return `<div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates">${one('DD', d)}${one('MM', m)}${one('YYYY', y)}</div>
+          ${note}
+        </div>`;
+};
+
+// выпадающий список: то же поле, справа стрелка
+const sel = (state = '', value = 'Anyone', menu = '', note = '') => `<div class="kit-block${menu ? ' kit-drop' : ''}">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select${state}"><span class="mm-select-value">${value}</span>${ico('chevron')}${menu}</div>
+          ${note}
+        </div>`;
+
 const GROUPS = [
   grp(1, 'Кнопки', 'Три ступени иерархии — <b>главная</b>, <b>вторичная</b>, <b>третичная</b> — и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Опасное действие ступенью не считается: это та же третья сила, но своим цветом, и стоит оно рядом. Кнопка только с иконкой — та же кнопка, поэтому стоит второй строкой под своей ролью, а не отдельной группой: <code>Primary-Default-Only icon</code> идёт под <code>Primary-Default</code>. Отдельно стоит лишь то, у чего роли нет вовсе, — возврат. Растянутая на всю ширину — тоже та же кнопка, и отдельной клетки ей не нужно. Своего компонента нет и у строки действий <code>.mm-actions</code>: это раскладка, одна-две кнопки в ряд поровну, вида у неё никакого — её видно там, где она работает, в пустых состояниях и на плашке итога. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.', [
     comp('Главная', '.mm-btn--primary · .mm-head-btn--primary', [
@@ -307,11 +357,60 @@ const GROUPS = [
     ], 'Возврат: стрелка без круга и без заливки. Роли взяться не из чего, поэтому на её месте в имени стоит <code>No filling</code>. Направление обязано читаться без цвета — отсюда и голая стрелка. Отключённой она не бывает: уйти с экрана можно всегда.'),
   ]),
 
-  grp(2, 'Поля', 'Поле в наборе одно и стоит в двух местах: поиск в шапке и ввод реплики в диалоге. Состояния ошибки у него нет — экранов, где поле что-то проверяет, в вайрфреймах ещё нет, и выдумывать его не стали.', [
-    comp('Поле с иконкой', '.mm-field', [
-      cell('Field-Empty', `<form class="mm-field" role="search">${ico('search')}<label class="mm-vh" for="q1">Search people and events</label><input id="q1" type="search" placeholder="Search people and events"></form>`, 'kit-cell--wide'),
-      cell('Field-Filled', `<label class="mm-field" for="m1">${ico('message')}<span class="mm-vh">Message</span><input id="m1" type="text" value="Saturday works"></label>`, 'kit-cell--wide'),
-    ], 'Компонент один, иконка меняется по месту: лупа в поиске, реплика в диалоге. Иконка контурная — поле ничего не утверждает, оно ждёт ввода. Подпись скрытая, это такой же копирайт, он входит в перепись.'),
+  grp(2, 'Поля', 'Шесть видов, и состояний у каждого шесть: рабочее, наведение, ввод, заполненное, недоступное и «не приняло». Разметка у всех одна — <code>.mm-field</code> плюс то, что внутри; вид задаёт содержимое, а не отдельный компонент. Ввод здесь не кольцо от клавиатуры, а место, где стоит каретка: его видит каждый, кто печатает, поэтому из всех элементов фокус остался только у поля.', [
+    comp('Текстовое', '.mm-field', [
+      cell('Field-Default', fld({ label: 'Email', input: line('email', 'name@example.com') }), 'kit-cell--wide kit-cell--nl'),
+      cell('Field-Hover', fld({ state: ' is-hover', label: 'Email', input: line('email', 'name@example.com') }), 'kit-cell--wide'),
+      cell('Field-Focus', fld({ state: ' is-focus', label: 'Email', input: line('email', 'name@example.com') }), 'kit-cell--wide kit-cell--nl'),
+      cell('Field-Filled', fld({ label: 'Email', input: line('email', 'name@example.com', 'dasha@example.com') }), 'kit-cell--wide'),
+      cell('Field-Disabled', fld({ label: 'Email', input: line('email', 'name@example.com', '', true) }), 'kit-cell--wide kit-cell--nl'),
+      cell('Field-Error', fld({ err: true, label: 'Email', input: line('email', 'name@example.com', 'dasha.example.com'), note: noteErr('This address is missing an @') }), 'kit-cell--wide'),
+    ], 'Подпись видимая: в анкете человек заполняет несколько полей подряд, и по заполненному полю должно быть видно, что в нём лежит. Отказ не стирает введённое и называет причину — <code>This address is missing an @</code>, а не «неверный формат».'),
+
+    comp('Поиск', '.mm-field', [
+      cell('Search-Default', fld({ lead: ico('search'), input: line('search', 'Search people and events') }), 'kit-cell--wide kit-cell--nl'),
+      cell('Search-Hover', fld({ state: ' is-hover', lead: ico('search'), input: line('search', 'Search people and events') }), 'kit-cell--wide'),
+      cell('Search-Focus', fld({ state: ' is-focus', lead: ico('search'), input: line('search', 'Search people and events') }), 'kit-cell--wide kit-cell--nl'),
+      cell('Search-Filled', fld({ lead: ico('search'), input: line('search', 'Search people and events', 'board games'), tail: `<button class="mm-field-btn" type="button">${ico('clear')}<span class="mm-vh">Clear</span></button>` }), 'kit-cell--wide'),
+      cell('Search-Disabled', fld({ lead: ico('search'), input: line('search', 'Search people and events', '', true) }), 'kit-cell--wide kit-cell--nl'),
+      cell('Search-Error', fld({ err: true, lead: ico('search'), input: line('search', 'Search people and events', 'board games'), note: noteErr('Couldn&rsquo;t search just now. Tap to try again') }), 'kit-cell--wide'),
+    ], 'Подпись скрыта: поле стоит в шапке вкладки <code>Search</code>, и смысл берётся из места. Крестик появляется только с набранным — у пустого поля стирать нечего. Отказ здесь не про ввод, а про связь, поэтому строка под полем зовёт повторить.'),
+
+    comp('Пароль', '.mm-field', [
+      cell('Pass-Default', fld({ label: 'Password', input: line('password', 'At least 8 characters'), tail: eyeBtn() }), 'kit-cell--wide kit-cell--nl'),
+      cell('Pass-Hover', fld({ state: ' is-hover', label: 'Password', input: line('password', 'At least 8 characters'), tail: eyeBtn() }), 'kit-cell--wide'),
+      cell('Pass-Focus', fld({ state: ' is-focus', label: 'Password', input: line('password', 'At least 8 characters'), tail: eyeBtn() }), 'kit-cell--wide kit-cell--nl'),
+      cell('Pass-Filled-Shown', fld({ label: 'Password', input: line('text', 'At least 8 characters', 'board games 2026'), tail: eyeBtn(true) }), 'kit-cell--wide'),
+      cell('Pass-Disabled', fld({ label: 'Password', input: line('password', 'At least 8 characters', '', true), tail: eyeBtn(false, true) }), 'kit-cell--wide kit-cell--nl'),
+      cell('Pass-Error', fld({ err: true, label: 'Password', input: line('password', 'At least 8 characters', 'board'), tail: eyeBtn(), note: noteErr('Use at least 8 characters') }), 'kit-cell--wide'),
+    ], 'Требование стоит подсказкой поля до ввода, а не выскакивает отказом после: <code>At least 8 characters</code>. Глаз показывает набранное — вслепую пароль набирают с ошибкой чаще, чем его подглядывают. Шкалы силы в наборе нет: правила к паролю ещё не выбраны (§12), а полоса «weak / strong» без правила — обещание, которого экран не держит.'),
+
+    comp('Многострочное', '.mm-field--multi', [
+      cell('Multi-Default', fld({ extra: ' mm-field--multi', label: 'About you', input: area('What you&rsquo;d like to do with people here') }), 'kit-cell--wide kit-cell--nl'),
+      cell('Multi-Hover', fld({ state: ' is-hover', extra: ' mm-field--multi', label: 'About you', input: area('What you&rsquo;d like to do with people here') }), 'kit-cell--wide'),
+      cell('Multi-Focus', fld({ state: ' is-focus', extra: ' mm-field--multi', label: 'About you', input: area('What you&rsquo;d like to do with people here') }), 'kit-cell--wide kit-cell--nl'),
+      cell('Multi-Filled', fld({ extra: ' mm-field--multi', label: 'About you', input: area('What you&rsquo;d like to do with people here', 'Moved to Kyiv in March. Board games, long walks on Podil and coffee at the end of it.'), note: noteOk('65 characters left') }), 'kit-cell--wide'),
+      cell('Multi-Disabled', fld({ extra: ' mm-field--multi', label: 'About you', input: area('What you&rsquo;d like to do with people here', '', true) }), 'kit-cell--wide kit-cell--nl'),
+      cell('Multi-Error', fld({ err: true, extra: ' mm-field--multi', label: 'About you', input: area('What you&rsquo;d like to do with people here', 'Moved to Kyiv in March. Board games, long walks on Podil and anything with a decent coffee at the end of it, which is most evenings honestly.'), note: noteErr('12 characters over the limit') }), 'kit-cell--wide'),
+    ], 'Коробка, а не пилюля: в неё пишут абзац, и форма об этом говорит. Видно четыре строки, дальше прокрутка. Счётчик остатка — та же строка под полем, что несёт и отказ: иначе при переборе прыгала бы высота (§5.1, био до 150 символов).'),
+
+    comp('Дата рождения', '.mm-dates', [
+      cell('Date-Default', dob(), 'kit-cell--wide kit-cell--nl'),
+      cell('Date-Hover', dob(' is-hover'), 'kit-cell--wide'),
+      cell('Date-Focus', dob(' is-focus'), 'kit-cell--wide kit-cell--nl'),
+      cell('Date-Filled', dob('', false, '14', '03', '1998'), 'kit-cell--wide'),
+      cell('Date-Disabled', dob('', false, '', '', '', true), 'kit-cell--wide kit-cell--nl'),
+      cell('Date-Error', dob('', true, '14', '03', '2012', false, noteErr('You need to be 18 or older')), 'kit-cell--wide'),
+    ], 'Три поля, а не одно с маской: маску не видно, пока в неё не попал, а здесь сразу видно, что и куда. Возраст спрашивается один раз и здесь — гейт 18+ стоит на настройке профиля, отдельного экрана ему не нужно (<code>D-38</code>). Отказ говорит правило, а не «неверная дата».'),
+
+    comp('Выпадающий список', '.mm-select · .mm-menu', [
+      cell('Select-Default', sel(), 'kit-cell--wide kit-cell--nl'),
+      cell('Select-Hover', sel(' is-hover'), 'kit-cell--wide'),
+      cell('Select-Focus', sel(' is-focus'), 'kit-cell--wide kit-cell--nl'),
+      cell('Select-Filled', sel('', 'Women only'), 'kit-cell--wide'),
+      cell('Select-Disabled', sel(' is-disabled', 'Anyone', '', noteOk('Add your gender in the profile to limit who can join')), 'kit-cell--wide kit-cell--nl'),
+      cell('Select-Open', sel(' is-focus', 'Anyone', '<ul class="mm-menu"><li><a class="is-current" href="#">Anyone</a></li><li><a href="#">Women only</a></li><li><a class="is-hover" href="#">Men only</a></li></ul>'), 'kit-cell--wide'),
+    ], 'Три значения — ограничение отклика на своём запросе (<code>D-25</code>). Открытый список — состояние поля, а не второй компонент. Недоступным он бывает ровно в одном случае: пол не указан, и ограничение поставить не из чего; строка под полем говорит, что сделать. Состояния «не приняло» у него нет — выбрано всегда одно из трёх, пустым он не бывает.'),
   ]),
 
   grp(3, 'Навигация и переключатели', 'Чем переходят с экрана на экран: нижнее меню, срез вкладки и дверь в соседний контур. У первых двух ровно два состояния — выбран или нет, промежуточных не бывает, выбор всегда один.', [
@@ -647,6 +746,8 @@ ${FONT}
   .kit-after { margin-top: 12px; }
   .kit-one { width: 120px; }
   .kit-block { width: 100%; }
+  /* место под раскрытый список: он лежит слоем, высоту клетке он не задаёт */
+  .kit-drop { padding-bottom: 128px; }
   code { font-family: ui-monospace, monospace; font-size: 12px; }
 
   /* полоса разделов проекта: та же, что на макетах и экранах концепта */

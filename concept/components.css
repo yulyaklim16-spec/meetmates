@@ -55,11 +55,11 @@
 .mm-ui header button.report {
   display: inline-flex; align-items: center; justify-content: center;
   width: auto; height: var(--tap-min); padding: 0 var(--s-2); gap: var(--s-1); border-radius: var(--r-pill);
-  background: none; box-shadow: none; color: var(--danger);
+  background: none; box-shadow: none; color: var(--danger-ink);
   font: var(--fw-semibold) var(--t-micro)/1 var(--font);
 }
 .mm-ui header button.report:hover { background: var(--surface-2); }
-.mm-ui header button.report .ico svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--danger); }
+.mm-ui header button.report .ico svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--danger-ink); }
 .mm-ui header button.report .label { position: static; width: auto; height: auto; margin: 0; clip-path: none; white-space: nowrap; }
 
 /* ── кнопки содержимого: главная — action, тихая — surface-2 ── */
@@ -85,7 +85,7 @@
 .mm-ui .btn.block { width: 100%; }
 
 /* опасное действие — не заливка, а ссылка с иконкой, отдельно от остального */
-.mm-ui .danger-link { display: inline-flex; align-items: center; gap: 6px; min-height: var(--tap-min); padding: 0 var(--s-1); background: none; border: 0; color: var(--danger); font: var(--fw-semibold) var(--t-body-sm)/1 var(--font); cursor: pointer; }
+.mm-ui .danger-link { display: inline-flex; align-items: center; gap: 6px; min-height: var(--tap-min); padding: 0 var(--s-1); background: none; border: 0; color: var(--danger-ink); font: var(--fw-semibold) var(--t-body-sm)/1 var(--font); cursor: pointer; }
 .mm-ui .danger-link svg { width: 18px; height: 18px; }
 
 /* ── срез вкладки Nearby / Mine — сегменты, а не две главные кнопки ── */
@@ -253,7 +253,7 @@
 .mm-ui .field[data-state="success"] .input { box-shadow: inset 0 0 0 2px var(--success); }
 .mm-ui .help { display: flex; gap: 6px; align-items: flex-start; margin: 0; font-size: var(--t-caption); color: var(--ink-600); }
 .mm-ui .help svg { width: var(--icon-sm); height: var(--icon-sm); margin-top: 2px; }
-.mm-ui .field[data-state="error"] .help { color: var(--danger); }
+.mm-ui .field[data-state="error"] .help { color: var(--danger-ink); }
 .mm-ui .field[data-state="success"] .help { color: var(--success); }
 
 
