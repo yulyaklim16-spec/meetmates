@@ -423,7 +423,7 @@ const GROUPS = [
       cell('Segment-Default', '<p class="mm-segmented kit-one"><a class="mm-btn" href="#">Mine</a></p>'),
       cell('Segment-Current', '<p class="mm-segmented kit-one"><a class="mm-btn is-current" href="#">Nearby</a></p>'),
       cell('Segment-Current-Whole control', '<p class="mm-segmented"><a class="mm-btn is-current" href="#">Nearby</a><a class="mm-btn" href="#">Mine</a></p>', 'kit-cell--wide kit-cell--nl'),
-    ], 'Сначала сам сегмент: выбранный — белая пилюля с тенью и полужирным, обычный — ничего, только текст на дорожке. Потом орган целиком: сегменты стоят вплотную, это один переключатель, а не две кнопки рядом. Наведения у сегмента нет вовсе — правило гасит заливку от <code>.mm-btn</code>, иначе невыбранный читался бы выбранным; клетки ему поэтому не нужно.'),
+    ], 'Сначала сама клавиша: выбранная — чисто белая, с тенью и полужирным; обычная — та же клавиша, но серая, потому что своей заливки у неё нет и сквозь неё видна дорожка. Потом орган целиком: клавиши стоят вплотную, это один переключатель, а не две кнопки рядом. Наведения у сегмента нет вовсе — правило гасит заливку от <code>.mm-btn</code>, иначе невыбранный читался бы выбранным; клетки ему поэтому не нужно.'),
 
   ]),
 
@@ -742,9 +742,10 @@ ${FONT}
   .kit-shot .mm-person { height: auto; flex: 1; }
   .kit-after { margin-top: 12px; }
   .kit-one { width: 120px; }
-  /* одиночный сегмент показывается на дорожке, а не вместо неё */
-  .mm-segmented.kit-one { width: 160px; }
-  .mm-segmented.kit-one > * { flex: none; min-width: 88px; }
+  /* одиночный сегмент показывается клавишей: дорожка ужата до неё самой,
+     и видно то, ради чего клетка стоит — белая клавиша против серой */
+  .mm-segmented.kit-one { width: auto; padding: 0; }
+  .mm-segmented.kit-one > * { flex: none; min-width: 112px; }
   .kit-block { width: 100%; }
   /* место под раскрытый список: он лежит слоем, высоту клетке он не задаёт */
   .kit-drop { padding-bottom: 128px; }
