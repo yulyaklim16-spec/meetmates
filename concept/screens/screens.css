@@ -161,7 +161,8 @@ body:has(#bare:target) .device { margin: 0 auto; }
   border-radius: var(--r-pill); background: var(--surface-2);
 }
 .wfdev button {
-  display: grid; place-items: center; width: 32px; height: 28px;
+  display: grid; place-items: center;
+  min-height: 0; padding: 5px var(--s-3);
   border: 0; border-radius: var(--r-pill); background: none; color: var(--ink-600); cursor: pointer;
 }
 .wfdev button svg { width: 18px; height: 18px; }
