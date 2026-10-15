@@ -261,49 +261,55 @@ const screenState = (icon, h, p, acts, alert) => `<div class="kit-tall">
 ${acts ? `          <p class="mm-actions kit-after">${acts}</p>\n` : ''}        </div>`;
 
 const GROUPS = [
-  grp(1, 'Кнопки', 'Три ступени иерархии — <b>главная</b>, <b>вторичная</b>, <b>третичная</b> — и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Опасное действие ступенью не считается: это та же третья сила, но своим цветом, и стоит оно рядом. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой, и роль в имени у неё та же; растянутая на всю ширину — тоже она, и отдельной клетки ей не нужно. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.', [
-    comp('Главная', '.mm-btn--primary', [
+  grp(1, 'Кнопки', 'Три ступени иерархии — <b>главная</b>, <b>вторичная</b>, <b>третичная</b> — и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Опасное действие ступенью не считается: это та же третья сила, но своим цветом, и стоит оно рядом. Кнопка только с иконкой — та же кнопка, поэтому стоит второй строкой под своей ролью, а не отдельной группой: <code>Primary-Default-Only icon</code> идёт под <code>Primary-Default</code>. Отдельно стоит лишь то, у чего роли нет вовсе, — возврат. Растянутая на всю ширину — тоже та же кнопка, и отдельной клетки ей не нужно. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.', [
+    comp('Главная', '.mm-btn--primary · .mm-head-btn--primary', [
       cell('Primary-Default', btn(' mm-btn--primary', '', 'Ask to join')),
       cell('Primary-Hover', btn(' mm-btn--primary', ' is-hover', 'Ask to join')),
       cell('Primary-Pressed', btn(' mm-btn--primary', ' is-pressed', 'Ask to join')),
       cell('Primary-Disabled', '<button class="mm-btn mm-btn--primary" type="button" disabled>Verify to send</button>'),
-    ], 'Главная на экране одна. Отключённая — та же кнопка в половину силы: роль видно по-прежнему, видно и то, что она сейчас не работает. Надпись при этом говорит, что сделать: <code>Verify to send</code> — это гейт §7.3, и она называет условие.'),
+      cell('Primary-Default-Only icon', `<button class="mm-head-btn mm-head-btn--primary" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`, 'kit-cell--nl'),
+      cell('Primary-Hover-Only icon', `<button class="mm-head-btn mm-head-btn--primary is-hover" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
+      cell('Primary-Pressed-Only icon', `<button class="mm-head-btn mm-head-btn--primary is-pressed" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
+      cell('Primary-Disabled-Only icon', `<button class="mm-head-btn mm-head-btn--primary" type="button" disabled aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
+    ], 'Главная на экране одна. Отключённая — та же кнопка в половину силы: роль видно по-прежнему, видно и то, что она сейчас не работает. Надпись при этом говорит, что сделать: <code>Verify to send</code> — это гейт §7.3, и она называет условие. Вторая строка — та же роль в шапке, где места на слово нет: заливка та же, круг вместо пилюли, подпись уходит в <code>aria-label</code>. Состояния у неё те же четыре и стоят в тех же колонках.'),
 
     comp('Вторичная', '.mm-btn--quiet', [
       cell('Secondary-Default', btn(' mm-btn--quiet', '', 'Invite together')),
       cell('Secondary-Hover', btn(' mm-btn--quiet', ' is-hover', 'Invite together')),
       cell('Secondary-Pressed', btn(' mm-btn--quiet', ' is-pressed', 'Invite together')),
       cell('Secondary-Disabled', '<button class="mm-btn mm-btn--quiet" type="button" disabled>Invite together</button>'),
-    ], 'Сиреневая подложка без обводки. Отключённая остаётся сиреневой — приглушается, но роли не теряет.'),
+    ], 'Сиреневая подложка без обводки. Отключённая остаётся сиреневой — приглушается, но роли не теряет. Строки «только иконка» у неё нет: в шапке вторичная не встречается ни на одном экране.'),
 
-    comp('Третичная', '.mm-btn', [
+    comp('Третичная', '.mm-btn · .mm-head-btn', [
       cell('Tertiary-Default', btn('', '', 'Skip')),
       cell('Tertiary-Hover', btn('', ' is-hover', 'Skip')),
       cell('Tertiary-Pressed', btn('', ' is-pressed', 'Skip')),
       cell('Tertiary-Disabled', '<button class="mm-btn" type="button" disabled>Skip</button>'),
-    ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Третья ступень иерархии — заливки нет, есть обводка и тень.'),
+      cell('Tertiary-Default-Only icon', `<button class="mm-head-btn" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`, 'kit-cell--nl'),
+      cell('Tertiary-Hover-Only icon', `<button class="mm-head-btn is-hover" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
+      cell('Tertiary-Pressed-Only icon', `<button class="mm-head-btn is-pressed" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
+      cell('Tertiary-Disabled-Only icon', `<button class="mm-head-btn" type="button" disabled>${ico('filters')}<span class="mm-vh">Filters</span></button>`),
+    ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Третья ступень иерархии — заливки нет, есть обводка и тень. Вторая строка — та же роль в шапке: белый кружок с тенью, подпись скрыта для скринридера, смысл берётся из места.'),
 
     comp('Опасное действие', '.mm-danger-link · .mm-head-btn--danger', [
       cell('Danger-Default', `<button class="mm-danger-link" type="button">${ico('report')}Report or block</button>`),
       cell('Danger-Hover', `<button class="mm-danger-link is-hover" type="button">${ico('report')}Report or block</button>`),
-      cell('Danger-Default-In header', `<button class="mm-head-btn mm-head-btn--danger" type="button">${ico('report')}Report</button>`),
+      cell('Danger-Pressed', `<button class="mm-danger-link is-pressed" type="button">${ico('report')}Report or block</button>`),
+      cell('Danger-Default-In header', `<button class="mm-head-btn mm-head-btn--danger" type="button">${ico('report')}Report</button>`, 'kit-cell--nl'),
       cell('Danger-Hover-In header', `<button class="mm-head-btn mm-head-btn--danger is-hover" type="button">${ico('report')}Report</button>`),
-    ], 'Названа по роли, а не по экрану: это не «кнопка Report», а опасное действие — туда же встанут <code>Block</code> и удаление, когда понадобятся. Не заливка, а строка с иконкой: <code>--mm-danger</code> в продукте носит только опасное. В шапке она мельче и со словом: флажок сам по себе не читается, а угадывать действие безопасности нельзя.'),
+      cell('Danger-Pressed-In header', `<button class="mm-head-btn mm-head-btn--danger is-pressed" type="button">${ico('report')}Report</button>`),
+    ], 'Названа по роли, а не по экрану: это не «кнопка Report», а опасное действие — туда же встанут <code>Block</code> и удаление, когда понадобятся. Не заливка, а строка с иконкой: <code>--mm-danger</code> в продукте носит только опасное. Вторая строка — она же в шапке: мельче и со словом, потому что флажок сам по себе не читается, а угадывать действие безопасности нельзя. Отключённой она не бывает нигде: пожаловаться можно всегда.'),
 
-    comp('Только иконка', '.mm-head-btn', [
-      cell('Tertiary-Default-Only icon', `<button class="mm-head-btn" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
-      cell('Tertiary-Hover-Only icon', `<button class="mm-head-btn is-hover" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
-      cell('Tertiary-Disabled-Only icon', `<button class="mm-head-btn" type="button" disabled>${ico('filters')}<span class="mm-vh">Filters</span></button>`),
-      cell('Primary-Default-Only icon', `<button class="mm-head-btn mm-head-btn--primary" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
-      cell('Primary-Hover-Only icon', `<button class="mm-head-btn mm-head-btn--primary is-hover" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
-      cell('Primary-Disabled-Only icon', `<button class="mm-head-btn mm-head-btn--primary" type="button" disabled aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
+    comp('Без заливки', '.mm-head-btn--back', [
       cell('No filling-Default-Only icon', '<a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
       cell('No filling-Hover-Only icon', '<a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
-    ], 'Роли те же, что у кнопок с текстом: тёмная заливка — главная, белая с тенью — третичная. Где заливки нет вовсе, на месте роли стоит <code>No filling</code>: возврат это стрелка без круга, направление должно читаться без цвета. Подпись у иконки скрыта для скринридера — смысл берётся из места.'),
+      cell('No filling-Pressed-Only icon', '<a class="mm-head-btn mm-head-btn--back is-pressed" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
+    ], 'Возврат: стрелка без круга и без заливки. Роли взяться не из чего, поэтому на её месте в имени стоит <code>No filling</code>. Направление обязано читаться без цвета — отсюда и голая стрелка. Отключённой она не бывает: уйти с экрана можно всегда.'),
 
     comp('Подсказка в чате', '.mm-hints > .mm-btn', [
       cell('Hint-Default', '<p class="mm-hints"><a class="mm-btn" href="#">Free this weekend?</a></p>'),
       cell('Hint-Hover', '<p class="mm-hints"><a class="mm-btn is-hover" href="#">Free this weekend?</a></p>'),
+      cell('Hint-Pressed', '<p class="mm-hints"><a class="mm-btn is-pressed" href="#">Free this weekend?</a></p>'),
     ], 'Предложенная фраза, а не второе действие: текст слева, вес обычный. Рядом с главной кнопкой не спорит.'),
 
     comp('Строка действий', '.mm-actions', [
@@ -626,6 +632,9 @@ ${FONT}
   }
   .kit-stage > * { max-width: 100%; }
   .kit-cell figcaption { font: 12px/1.3 ui-monospace, monospace; color: var(--dim); }
+  /* перенос строки внутри матрицы: иконочная кнопка начинает новый ряд
+     с первой колонки, чтобы стоять под своей текстовой ролью */
+  .kit-cell--nl { grid-column-start: 1; }
   .kit-cell--wide { grid-column: span 2; }
   .kit-cell--wide .kit-stage { justify-content: flex-start; }
   .kit-cell--tall { grid-column: span 2; }

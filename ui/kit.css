@@ -297,9 +297,11 @@
   box-shadow: var(--mm-shadow-sm);
   font: var(--mm-fw-semibold) var(--mm-t-micro) / 1 var(--mm-font);
   cursor: pointer;
-  transition: background var(--mm-dur-fast) var(--mm-ease-out);
+  transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
 }
 .mm-head-btn:hover, .mm-head-btn.is-hover { background: var(--mm-surface-2); }
+/* нажатие то же, что у кнопки с текстом: это та же кнопка, просто в шапке */
+.mm-head-btn:active, .mm-head-btn.is-pressed { transform: var(--mm-press); }
 .mm-head-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
 .mm-head-btn svg { width: var(--mm-icon-md); height: var(--mm-icon-md); }
 /* создание — тёмная: в строке с фильтрами видно, какая из двух главная */
@@ -442,8 +444,10 @@
   border-radius: var(--mm-r-pill);
   font: var(--mm-fw-semibold) var(--mm-t-body-sm) / 1 var(--mm-font);
   cursor: pointer;
+  transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
 }
 .mm-danger-link:hover, .mm-danger-link.is-hover { background: var(--mm-surface-2); }
+.mm-danger-link:active, .mm-danger-link.is-pressed { transform: var(--mm-press); }
 .mm-danger-link svg { width: var(--mm-icon-btn); height: var(--mm-icon-btn); }
 
 /* строка действий: одна-две кнопки в ряд, поровну */
