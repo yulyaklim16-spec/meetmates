@@ -280,7 +280,7 @@ const GROUPS = [
       cell('Secondary-Disabled', '<button class="mm-btn mm-btn--quiet" type="button" disabled>Invite together</button>'),
     ], 'Сиреневая подложка без обводки. Отключённая остаётся сиреневой — приглушается, но роли не теряет. Строки «только иконка» у неё нет: в шапке вторичная не встречается ни на одном экране.'),
 
-    comp('Третичная', '.mm-btn · .mm-head-btn · .mm-hints > .mm-btn', [
+    comp('Третичная', '.mm-btn · .mm-head-btn', [
       cell('Tertiary-Default', btn('', '', 'Skip')),
       cell('Tertiary-Hover', btn('', ' is-hover', 'Skip')),
       cell('Tertiary-Pressed', btn('', ' is-pressed', 'Skip')),
@@ -289,10 +289,7 @@ const GROUPS = [
       cell('Tertiary-Hover-Only icon', `<button class="mm-head-btn is-hover" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
       cell('Tertiary-Pressed-Only icon', `<button class="mm-head-btn is-pressed" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
       cell('Tertiary-Disabled-Only icon', `<button class="mm-head-btn" type="button" disabled>${ico('filters')}<span class="mm-vh">Filters</span></button>`),
-      cell('Tertiary-Default-In chat', '<p class="mm-hints kit-block"><a class="mm-btn" href="#">Free this weekend?</a></p>', 'kit-cell--nl'),
-      cell('Tertiary-Hover-In chat', '<p class="mm-hints kit-block"><a class="mm-btn is-hover" href="#">Free this weekend?</a></p>'),
-      cell('Tertiary-Pressed-In chat', '<p class="mm-hints kit-block"><a class="mm-btn is-pressed" href="#">Free this weekend?</a></p>'),
-    ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Третья ступень иерархии — заливки нет, есть обводка и тень. Вторая строка — та же роль в шапке: белый кружок с тенью, подпись скрыта для скринридера, смысл берётся из места. Третья — она же подсказкой в чате: отдельного компонента ей не нужно, меняются две вещи — текст встаёт слева и вес обычный, потому что это предложенная фраза, а не второе действие, и рядом с главной кнопкой она не спорит. Отключённой подсказка не бывает: нечего предлагать — её просто нет.'),
+    ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Третья ступень иерархии — заливки нет, есть обводка и тень. Вторая строка — та же роль в шапке: белый кружок с тенью, подпись скрыта для скринридера, смысл берётся из места. Подсказка в пустом чате — она же: три такие кнопки столбиком, меняется только текст. Своего вида у неё нет, поэтому нет ни клетки, ни класса.'),
 
     comp('Опасное действие', '.mm-danger-link · .mm-head-btn--danger', [
       cell('Danger-Default', `<button class="mm-danger-link" type="button">${ico('report')}Report or block</button>`),

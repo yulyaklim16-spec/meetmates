@@ -30,7 +30,7 @@
  *   .mm-event и .mm-row.
  * - `.row` значил и строку действий, и дорожку переключателя срезов,
  *   а `p.rows` — ещё и столбик подсказок в чате. Разведено:
- *   .mm-actions, .mm-segmented, .mm-hints.
+ *   .mm-actions и .mm-segmented.
  * - `.btn` в содержимом и `button` в шапке выглядели по-разному под одним
  *   именем, и разделяло их `:not(header *)`. Разведено: .mm-btn и .mm-head-btn.
  * - `.state` нёс четыре смысла: пусто, сбой, подтверждено, ждём. Первые два —
@@ -814,9 +814,6 @@ a.mm-row:hover .mm-row-head > b, a.mm-row.is-hover .mm-row-head > b { text-decor
 
 /* подсказки в пустом чате — предложенные фразы, а не второе действие:
    столбиком, белые, текст слева */
-.mm-hints { display: flex; flex-direction: column; gap: var(--mm-s-2); margin: 0; }
-.mm-hints > .mm-btn { justify-content: flex-start; background: var(--mm-surface); box-shadow: var(--mm-shadow-sm); font-weight: var(--mm-fw-regular); }
-.mm-hints > .mm-btn:hover, .mm-hints > .mm-btn.is-hover { background: var(--mm-surface-2); }
 
 /* ═══ Онбординг: обещание на радаре ═══ */
 

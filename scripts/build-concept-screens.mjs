@@ -254,7 +254,9 @@ function dressInKit(body, name) {
     (m, head, inner) => `${head}<p class="mm-segmented">${inner
       .replace(/class="mm-btn mm-btn--primary"/, 'class="mm-btn is-current"')
       .replace(/class="mm-btn mm-btn--quiet"/, 'class="mm-btn"')}</p>`);
-  s = s.replace(/<p class="rows">/g, '<p class="mm-hints">');
+  // p.rows — столбик подсказок в пустом чате. Своего компонента у него больше нет:
+  // это три третичные кнопки, и чем они ставятся столбиком, решается, когда
+  // ветка «Чат» пойдёт одеваться. Пока ни один одетый экран его не содержит.
   s = s.replace(/<p class="row">/g, '<p class="mm-actions">');
 
   // 7. пусто и сбой
