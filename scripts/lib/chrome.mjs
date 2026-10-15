@@ -10,9 +10,9 @@ const SECTIONS = [
   { n: '01', href: 'research/research.html', title: 'Ресерч и бенчмарк' },
   { n: '02', href: 'research/persones.html', title: 'Персоны и JTBD' },
   { n: '03', href: 'sections/ia.html', title: 'Информационная архитектура' },
-  { n: '04', href: 'sections/wireframes.html#wireframes', title: 'Прототипирование и вайрфрейминг' },
+  { n: '04', href: 'sections/wireframes.html', title: 'Прототипирование и вайрфрейминг' },
   { n: '05', href: 'sections/voice.html', title: 'Tone of voice и микрокопи' },
-  { n: '06', href: 'sections/concept.html#screens', title: 'Концепт' },
+  { n: '06', href: 'sections/concept.html', title: 'Концепт' },
   { n: '07', href: 'sections/kit.html', title: 'Сборка UI' },
 ];
 

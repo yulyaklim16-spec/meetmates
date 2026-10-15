@@ -21,6 +21,23 @@ const DEVICES = [
   ['desktop', 'Десктоп, 1280px'],
 ];
 
+// ── вайрфрейм или дизайн ──────────────────────────────────────────────
+// Один экран живёт в двух наборах: серая раскладка и окрашенная. Переключатель
+// ведёт в тот же экран соседнего набора, а не в список — сравнивают их, стоя
+// на одном месте.
+export function kindBar(kind, name) {
+  const wire = kind === 'wireframe'
+    ? '<b aria-current="page">Wireframe</b>'
+    : `<a href="../../wireframes/${name}.html">Wireframe</a>`;
+  const design = kind === 'design'
+    ? '<b aria-current="page">Design</b>'
+    : `<a href="../concept/screens/${name}.html">Design</a>`;
+  return `<nav class="wfkind" aria-label="Набор: вайрфрейм или дизайн">
+  ${wire}
+  ${design}
+</nav>`;
+}
+
 export function deviceBar() {
   const items = DEVICES.map(([id, title]) => `    <button type="button" data-w="${id}" aria-pressed="${id === 'mobile'}" title="${title}">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">${SHAPES[id]}</svg>

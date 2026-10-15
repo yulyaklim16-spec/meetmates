@@ -16,7 +16,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { subtabsHtml, TABS_CSS, tabsJs } from './lib/tabs.mjs';
 import { rail } from './lib/chrome.mjs';
-import { deviceBar, deviceJs } from './lib/screenbar.mjs';
+import { deviceBar, deviceJs, kindBar } from './lib/screenbar.mjs';
 
 // скрипт выбора ширины: ищем прежний, чтобы заменить его, а не дописать второй
 const RE_DEVJS = /<script>[\s\S]*?mm-screen-width[\s\S]*?<\/script>\n?/;
@@ -181,6 +181,7 @@ ${items}
   </ul>
 </nav>
 ${deviceBar()}
+${kindBar('wireframe', s.pages[0].file)}
 </div>`;
 }
 
@@ -283,8 +284,8 @@ if (!cur.test(asideSrc)) throw new Error('в sections/index.html не найде
 // и показывается оно только на вкладке «Вайрфреймы».
 const subtabs = subtabsHtml([
   { id: 'info', title: 'Информация' },
-  { id: 'wireframes', title: 'Вайрфреймы' },
-]);
+  { href: `../wireframes/${drawn[0].file}`, title: 'Вайрфреймы' },
+])
 const aside = asideSrc
   .replace(cur, (m, attrs, head) => `<a class="mat current"${attrs}href="wireframes.html" aria-current="page">${head}<i>текущий раздел</i></span></a>${subtabs}`);
 const wfAside = `  <aside class="wfside" aria-label="Все макеты">${sideTree()}
@@ -509,15 +510,6 @@ ${navHtml}
       </section>
     </div>
 
-    <div class="tabpanel" id="wireframes">
-      <h1 class="vh">Прототипирование и вайрфрейминг: макеты</h1>
-      <section id="gallery">
-        <h2>Макеты</h2>
-        <p class="intro">${drawn.length} страниц: по мокапу на состояние, в том же порядке, что в дереве слева. Превью показывает сам макет без служебных панелей — клик открывает страницу целиком, с деревом, состояниями этого экрана и подписями зон.</p>
-
-${galleryHtml}
-      </section>
-    </div>
 
     <footer>
       <p>Раздел 4 из 12 · Прототипирование и вайрфрейминг. Источники — <a href="../wireframes/_screens.md">_screens.md</a>, <a href="../wireframes/_conventions.md">_conventions.md</a>; экраны и состояния — <a href="../sitemap.md">sitemap.md</a>.</p>
@@ -525,7 +517,7 @@ ${galleryHtml}
     </footer>
   </main>
 </div>
-${tabsJs(['info', 'wireframes'])}
+${tabsJs(['info'])}
 
 </body>
 </html>

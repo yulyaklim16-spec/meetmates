@@ -181,8 +181,8 @@ const cur = /<a class="mat"([^>]*)href="concept\.html">([\s\S]*?)<i>[^<]*<\/i><\
 if (!cur.test(asideSrc)) throw new Error('в sections/index.html нет пункта 06 со ссылкой на concept.html — боковая колонка изменилась');
 const subtabs = subtabsHtml([
   { id: 'info', title: 'Информация' },
-  { id: 'screens', title: 'Экраны' },
-]);
+  { href: `../concept/screens/${SCREENS[0].items[0].file.replace('concept/screens/', '')}`, title: 'Экраны' },
+])
 const aside = asideSrc.replace(cur, (m, attrs, head) =>
   `<a class="mat current"${attrs}href="concept.html" aria-current="page">${head}<i>текущий раздел</i></span></a>${subtabs}`);
 
@@ -310,15 +310,6 @@ ${cardsHtml}
       </section>
     </div>
 
-    <div class="tabpanel" id="screens">
-      <h1 class="vh">Концепт: страницы</h1>
-      <section id="gallery">
-        <h2>Экраны</h2>
-        <p class="intro">Экраны продукта в стиле D, со всеми состояниями. Превью показывает сам экран — клик открывает страницу целиком, с полосой состояний и разбором под мокапом. ${SCREENS_NOTE}</p>
-
-${galleryHtml}
-      </section>
-    </div>
 
     <footer>
       <p>Раздел 6 из 12 · Концепт. Источник — <a href="../concept/concept.md">concept.md</a>; направление и палитра — <a href="../CLAUDE.md">CLAUDE.md</a> §8, решение — <a href="../DECISIONS.md">DECISIONS.md</a> <code class="dcode">D-61</code>.</p>
@@ -326,7 +317,7 @@ ${galleryHtml}
     </footer>
   </main>
 </div>
-${tabsJs(['info', 'screens'])}
+${tabsJs(['info'])}
 
 </body>
 </html>

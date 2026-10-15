@@ -11,8 +11,13 @@
 // Разметка подпунктов. Вставляется внутрь пункта текущего раздела в боковом дереве.
 // items: [{ id, title }] — id служит и якорем, и идентификатором панели.
 export function subtabsHtml(items, indent = '        ') {
+  // Подпункт с href ведёт наружу, на отдельную страницу: так устроены «Вайрфреймы»
+  // и «Экраны» — они открывают сам макет, а не панель внутри раздела. Скрипт
+  // вкладок такие пункты не трогает: у них нет data-tab.
   const rows = items.map((it, i) =>
-    `${indent}  <a href="#${it.id}" data-tab="${it.id}"${i === 0 ? ' aria-current="true"' : ''}>${it.title}</a>`).join('\n');
+    it.href
+      ? `${indent}  <a href="${it.href}">${it.title}</a>`
+      : `${indent}  <a href="#${it.id}" data-tab="${it.id}"${i === 0 ? ' aria-current="true"' : ''}>${it.title}</a>`).join('\n');
   return `
 ${indent}<nav class="subtabs" aria-label="Что показывать в разделе">
 ${rows}

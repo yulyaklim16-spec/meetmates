@@ -498,8 +498,10 @@ a { color: var(--w-ink); }
    читается как один орган, а не как список ссылок. */
 .wfbar {
   grid-column: 3;
-  width: 100%; max-width: 760px;
-  display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
+  width: 100%; max-width: 760px; justify-self: center;
+  /* три зоны: состояния слева, ширина строго по центру, набор справа.
+     Сетка, а не flex: при space-between центр уезжает вслед за длиной состояний */
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s-4);
   margin-bottom: var(--s-4);
 }
 .wfstates { font-size: 12px; color: var(--w-ink-2); }
@@ -526,6 +528,23 @@ a { color: var(--w-ink); }
   background: var(--w-surface); color: var(--w-ink); font-weight: 600;
   box-shadow: 0 0 0 1px var(--w-line);
 }
+
+/* вайрфрейм или дизайн: тот же экран в соседнем наборе */
+.wfkind {
+  justify-self: end;
+  display: flex; gap: 2px; padding: 3px;
+  border-radius: var(--r-pill); background: var(--w-zone);
+  box-shadow: inset 0 0 0 1px var(--w-line);
+}
+.wfkind a, .wfkind b {
+  padding: 5px var(--s-3); border-radius: var(--r-pill);
+  font-size: 12px; font-weight: 400; color: var(--w-ink-2);
+  text-decoration: none; white-space: nowrap;
+}
+.wfkind a:hover { color: var(--w-ink); }
+.wfkind b { background: var(--w-ink); color: var(--w-surface); font-weight: 600; }
+.wfdev { justify-self: center; }
+.wfstates { justify-self: start; }
 
 /* ширина устройства: три кнопки, активная залита. Что показывает каждая —
    в title; подпись скрыта, иконка сама называет форму */
