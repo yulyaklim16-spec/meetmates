@@ -261,15 +261,15 @@ const screenState = (icon, h, p, acts, alert) => `<div class="kit-tall">
 ${acts ? `          <p class="mm-actions kit-after">${acts}</p>\n` : ''}        </div>`;
 
 const GROUPS = [
-  grp(1, 'Кнопки', 'Три роли и состояния у каждой. Отключённая выглядит одинаково у всех ролей — правило не смотрит на роль, поэтому нарисована один раз. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой.', [
+  grp(1, 'Кнопки', 'Три роли, и у каждой пять состояний. Наведение и нажатие приходят от мыши, фокус — от клавиатуры: кольцо видно при обходе табом и не появляется от клика. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой.', [
     comp('Главная', '.mm-btn--primary', [
       cell('Primary-Default', btn(' mm-btn--primary', '', 'Ask to join')),
       cell('Primary-Hover', btn(' mm-btn--primary', ' is-hover', 'Ask to join')),
       cell('Primary-Pressed', btn(' mm-btn--primary', ' is-pressed', 'Ask to join')),
       cell('Primary-Focus', btn(' mm-btn--primary', ' is-focus', 'Ask to join')),
       cell('Primary-Disabled', '<button class="mm-btn mm-btn--primary" type="button" disabled>Verify to send</button>'),
-      cell('Primary-Default-Block', btn(' mm-btn--primary mm-btn--block', '', 'Try again'), 'kit-cell--wide'),
-    ], 'Главная на экране одна. Отключённая говорит, что сделать, а не «disabled»: <code>Verify to send</code> — это гейт §7.3, и надпись называет условие.'),
+      cell('Primary-Default-Full width', btn(' mm-btn--primary mm-btn--block', '', 'Try again'), 'kit-cell--wide'),
+    ], 'Главная на экране одна. Отключённая — та же кнопка в половину силы: роль видно по-прежнему, видно и то, что она сейчас не работает. Надпись при этом говорит, что сделать: <code>Verify to send</code> — это гейт §7.3, и она называет условие.'),
 
     comp('Вторичная', '.mm-btn--quiet', [
       cell('Secondary-Default', btn(' mm-btn--quiet', '', 'Invite together')),
@@ -277,13 +277,14 @@ const GROUPS = [
       cell('Secondary-Pressed', btn(' mm-btn--quiet', ' is-pressed', 'Invite together')),
       cell('Secondary-Focus', btn(' mm-btn--quiet', ' is-focus', 'Invite together')),
       cell('Secondary-Disabled', '<button class="mm-btn mm-btn--quiet" type="button" disabled>Invite together</button>'),
-    ], 'Сиреневая подложка без обводки. Отключённая совпадает с главной: правило <code>[disabled]</code> роли не различает.'),
+    ], 'Сиреневая подложка без обводки. Отключённая остаётся сиреневой — приглушается, но роли не теряет.'),
 
     comp('Без роли', '.mm-btn', [
       cell('Plain-Default', btn('', '', 'Skip')),
       cell('Plain-Hover', btn('', ' is-hover', 'Skip')),
       cell('Plain-Pressed', btn('', ' is-pressed', 'Skip')),
       cell('Plain-Focus', btn('', ' is-focus', 'Skip')),
+      cell('Plain-Disabled', '<button class="mm-btn" type="button" disabled>Skip</button>'),
     ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Роли у неё нет, и залитой она не бывает.'),
 
     comp('Только иконка', '.mm-head-btn', [
@@ -296,6 +297,8 @@ const GROUPS = [
       cell('Back-Hover', '<a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
       cell('Report-Default', `<button class="mm-head-btn mm-head-btn--report" type="button">${ico('report')}Report</button>`),
       cell('Report-Hover', `<button class="mm-head-btn mm-head-btn--report is-hover" type="button">${ico('report')}Report</button>`),
+      cell('Icon-Disabled', `<button class="mm-head-btn" type="button" disabled>${ico('filters')}<span class="mm-vh">Filters</span></button>`),
+      cell('Primary-Disabled-Only icon', `<button class="mm-head-btn mm-head-btn--primary" type="button" disabled aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
     ], 'Подпись у иконки скрыта для скринридера — смысл берётся из места. Исключение одно: у <code>Report</code> слово стоит видимым, флажок сам по себе не читается, а угадывать действие безопасности нельзя. Возврат — стрелка без круга: направление должно читаться без цвета.'),
 
     comp('Опасное действие', '.mm-danger-link', [

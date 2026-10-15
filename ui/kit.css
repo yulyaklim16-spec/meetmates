@@ -140,6 +140,8 @@
   --mm-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --mm-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* возврат свайп-карточки */
   --mm-press: scale(.98);
+  /* недоступный орган: тот же вид в половину силы */
+  --mm-off: .5;
 
   /* ── размеры ──────────────────────────────────────────────────── */
   --mm-screen: 390px;
@@ -405,11 +407,18 @@
 .mm-btn--quiet { background: var(--mm-surface-2); box-shadow: none; }
 .mm-btn--quiet:hover, .mm-btn--quiet.is-hover { background: var(--mm-line); }
 .mm-btn--block { width: 100%; }
-/* недоступна: надпись говорит, что сделать (гейт §7.3), а не «disabled» */
-.mm-btn[disabled], .mm-btn.is-disabled {
-  background: var(--mm-surface-2);
-  color: var(--mm-ink-600);
-  box-shadow: none;
+/* Недоступна — это та же кнопка в половину силы, а не третий вид: роль видно
+   по-прежнему, видно и то, что сейчас она не работает. Отдельная серая заливка
+   путала: главная, вторичная и без роли выключались в одно и то же пятно,
+   и роль пропадала. Надпись при этом говорит, что сделать (гейт §7.3),
+   а не «disabled».
+
+   Контраст у приглушённой ниже нормы, и это осознанно: WCAG 1.4.3 выводит
+   неактивные органы из-под правила, а приглушённость и есть признак того,
+   что нажимать нечего. */
+:is(.mm-btn, .mm-head-btn)[disabled],
+:is(.mm-btn, .mm-head-btn).is-disabled {
+  opacity: var(--mm-off);
   cursor: not-allowed;
   transform: none;
 }
