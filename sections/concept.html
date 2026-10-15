@@ -312,10 +312,16 @@ footer p { max-width: 72ch; }
 
 /* ── Что показывать в разделе: подпункты в самом дереве ───── */
 .subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
-.subtabs a { padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
+.subtabs a { position: relative; padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
 .subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
 .subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
-.subtabs a[aria-current="true"] { background: var(--surface-2); color: var(--ink-900); font-weight: var(--fw-medium); }
+/* Выбранный подпункт — жирный и с точкой слева, а не залитый: заливка занята
+   самим разделом, и два залитых пятна в колонке спорят друг с другом */
+.subtabs a[aria-current="true"] { color: var(--ink-900); font-weight: var(--fw-bold); }
+.subtabs a[aria-current="true"]::before {
+  content: ""; position: absolute; left: calc(var(--s-3) * -1 - 1px); top: 50%;
+  width: 5px; height: 5px; margin-top: -2px; border-radius: 50%; background: var(--ink-900);
+}
 
 /* Нажат любой подпункт — разделы сжимаются до номеров.
    Сами подпункты остаются: иначе, нажав первый, человек в нём запрётся */
@@ -857,15 +863,15 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
             </a>
           </li>
           <li>
-            <a href="../concept/screens/verify-waiting.html" title="Человек — ожидание чужого решения · D-42">
-              <span class="shot"><iframe src="../concept/screens/verify-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — ожидание чужого решения · D-42"></iframe></span>
-              <span class="cap">ожидание чужого решения · D-42</span>
+            <a href="../concept/screens/verify-waiting.html" title="Человек — ожидание чужого решения">
+              <span class="shot"><iframe src="../concept/screens/verify-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — ожидание чужого решения"></iframe></span>
+              <span class="cap">ожидание чужого решения</span>
             </a>
           </li>
           <li>
-            <a href="../concept/screens/verify-success-signup.html" title="Человек — успех в онбординге: до первого свайпа, возвращать в чат некуда">
-              <span class="shot"><iframe src="../concept/screens/verify-success-signup.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — успех в онбординге: до первого свайпа, возвращать в чат некуда"></iframe></span>
-              <span class="cap">успех в онбординге: до первого свайпа, возвращать в чат некуда</span>
+            <a href="../concept/screens/verify-success-signup.html" title="Человек — успех в онбординге">
+              <span class="shot"><iframe src="../concept/screens/verify-success-signup.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Человек — успех в онбординге"></iframe></span>
+              <span class="cap">успех в онбординге</span>
             </a>
           </li>
           <li>
@@ -916,9 +922,9 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
             </a>
           </li>
           <li>
-            <a href="../concept/screens/dialog-waiting.html" title="Чат — ожидание чужого решения · D-42">
-              <span class="shot"><iframe src="../concept/screens/dialog-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — ожидание чужого решения · D-42"></iframe></span>
-              <span class="cap">ожидание чужого решения · D-42</span>
+            <a href="../concept/screens/dialog-waiting.html" title="Чат — ожидание чужого решения">
+              <span class="shot"><iframe src="../concept/screens/dialog-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — ожидание чужого решения"></iframe></span>
+              <span class="cap">ожидание чужого решения</span>
             </a>
           </li>
           <li>
@@ -946,9 +952,9 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
             </a>
           </li>
           <li>
-            <a href="../concept/screens/invite-waiting.html" title="Чат — ожидание чужого решения · D-42">
-              <span class="shot"><iframe src="../concept/screens/invite-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — ожидание чужого решения · D-42"></iframe></span>
-              <span class="cap">ожидание чужого решения · D-42</span>
+            <a href="../concept/screens/invite-waiting.html" title="Чат — ожидание чужого решения">
+              <span class="shot"><iframe src="../concept/screens/invite-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Чат — ожидание чужого решения"></iframe></span>
+              <span class="cap">ожидание чужого решения</span>
             </a>
           </li>
           <li>
@@ -1029,9 +1035,9 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
             </a>
           </li>
           <li>
-            <a href="../concept/screens/plan-waiting.html" title="Запрос на компанию — ожидание чужого решения · D-42">
-              <span class="shot"><iframe src="../concept/screens/plan-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — ожидание чужого решения · D-42"></iframe></span>
-              <span class="cap">ожидание чужого решения · D-42</span>
+            <a href="../concept/screens/plan-waiting.html" title="Запрос на компанию — ожидание чужого решения">
+              <span class="shot"><iframe src="../concept/screens/plan-waiting.html#bare" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="Запрос на компанию — ожидание чужого решения"></iframe></span>
+              <span class="cap">ожидание чужого решения</span>
             </a>
           </li>
           <li>

@@ -124,18 +124,23 @@ const link = (file, title, current, cls = '') => (file === current
 const tree = (current) => `<nav class="wfnav" aria-label="Экраны концепта">
   <p class="h">Концепт</p>
   <ul>
-${BRANCHES.map((b, bi) => `    <li class="grp">
+${BRANCHES.map((b, bi) => {
+  const hereGroup = b.screens.some((scr) => [scr, ...scr.pages].some((x) => x.file === current));
+  return `    <li class="grp${hereGroup ? ' now' : ''}">
       <p class="gt"><span class="gn">${bi + 1}</span>${b.title}</p>
       <ul>
-${b.screens.map((scr) => `        <li class="scr${[scr, ...scr.pages].some((x) => x.file === current) ? ' now' : ''}">${link(scr.file, scr.title, current, 's')}${scr.pages.length ? `
-          <ul>
-${scr.pages.map((pg) => `            <li>${link(pg.file, pg.title, current)}</li>`).join('\n')}
-          </ul>
-        ` : ''}</li>`).join('\n')}
+${b.screens.map((scr) => {
+    const here = [scr, ...scr.pages].some((x) => x.file === current);
+    return `        <li class="scr${here ? ' now' : ''}">${scr.file === current
+      ? `<b class="s" aria-current="page">${scr.title}</b>`
+      : `<a class="s" href="${scr.file}.html"${here ? ' aria-current="true"' : ''}>${scr.title}</a>`}</li>`;
+  }).join('\n')}
       </ul>
-    </li>`).join('\n')}
+    </li>`;
+}).join('\n')}
   </ul>
-  <p class="n">Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
+  <p class="n">Дерево: ветка → экран. Состояния экрана — полосой над мокапом.
+    Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
     текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
 </nav>`;
 
@@ -175,7 +180,7 @@ const CLASS_MAP = {
 
 // мокап телефона и подписи зон — обвязка страницы макета, а не продукт
 const CHROME = new Set(['device', 'statusbar', 'browserbar', 'homebar', 'fold', 'anns', 'ann',
-  'wfstates', 'meta', 'now', 't', 'bare']);
+  'wfstates', 'wfbar', 'wfdev', 'meta', 'now', 't', 'bare', 'vh']);
 // кольца радара и места снимков на них — часть компонента, имена те же
 const RADAR_PARTS = new Set(['near', 'mid', 'far', 'in', 'r5', 'r3', 'r1',
   'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']);
@@ -186,7 +191,7 @@ function dressInKit(body, name) {
   const notes = [];
   let s = body.replace(/<!--[\s\S]*?-->/g, (m) => {
     notes.push(m);
-    return ` ${notes.length - 1} `;
+    return `\u0000${notes.length - 1}\u0000`;
   });
 
   // 1. шапка: заголовок, кнопки, возврат
@@ -299,7 +304,7 @@ function dressInKit(body, name) {
   // 15. секция экрана: шаг между блоками
   s = s.replace(/<section(?![^>]*class=)([^>]*)>/g, '<section class="mm-section"$1>');
 
-  return s.replace(/ (\d+) /g, (m, i) => notes[Number(i)]);
+  return s.replace(/\u0000(\d+)\u0000/g, (m, i) => notes[Number(i)]);
 }
 
 mkdirSync(OUT, { recursive: true });

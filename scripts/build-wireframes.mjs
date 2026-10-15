@@ -16,6 +16,10 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { subtabsHtml, TABS_CSS, tabsJs } from './lib/tabs.mjs';
 import { rail } from './lib/chrome.mjs';
+import { deviceBar, deviceJs } from './lib/screenbar.mjs';
+
+// скрипт выбора ширины: ищем прежний, чтобы заменить его, а не дописать второй
+const RE_DEVJS = /<script>[\s\S]*?mm-screen-width[\s\S]*?<\/script>\n?/;
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
@@ -121,41 +125,34 @@ function panel(activeFile) {
     const g = groups.find((x) => x.title === s.branch) || (groups.push({ title: s.branch, screens: [] }), groups.at(-1));
     g.screens.push(s);
   }
-  // узел состояния: ссылка на свою страницу, текущее — не ссылка
-  const node = (p, active, extra) => {
-    const cls = [active ? 'now' : '', p.stub ? 'stub' : '', extra || ''].filter(Boolean).join(' ');
-    const label = esc(p.title);
-    return `<li${cls ? ` class="${cls}"` : ''}>` +
-      (active ? `<b aria-current="page">${label}</b>` : `<a href="${p.file}">${label}</a>`) + `</li>`;
-  };
-  const rows = groups.map((g, gi) => `    <li class="grp">
+  // Состояний в дереве нет: они переехали в полосу над мокапом. Экран здесь
+  // один пункт, и он подсвечен, на каком бы из своих состояний мы ни стояли.
+  const rows = groups.map((g, gi) => {
+    const hereGroup = g.screens.some((s) => s.pages.some((p) => p.file === activeFile));
+    return `    <li class="grp${hereGroup ? ' now' : ''}">
       <p class="gt"><span class="gn">${gi + 1}</span>${esc(g.title)}</p>
       <ul>
 ${g.screens.map((s) => {
-    const [base, ...states] = s.pages;                    // рабочий вид — сам экран
-    const here = s.pages.some((p) => p.file === activeFile);
-    const baseCur = base.file === activeFile;
-    const cls = ['scr', here ? 'open' : '', baseCur ? 'now' : '', base.stub ? 'stub' : ''].filter(Boolean).join(' ');
-    const label = esc(s.name);
-    const head = baseCur
-      ? `<b class="s" aria-current="page">${label}</b>`
-      : `<a class="s" href="${base.file}">${label}</a>`;
-    if (!states.length) return `        <li class="${cls}">${head}</li>`;
-    return `        <li class="${cls}">${head}
-          <ul>
-${states.map((p) => `            ${node(p, p.file === activeFile)}`).join('\n')}
-          </ul>
-        </li>`;
-  }).join('\n')}
+      const [base] = s.pages;                             // рабочий вид — сам экран
+      const here = s.pages.some((p) => p.file === activeFile);
+      const cls = ['scr', here ? 'now' : '', base.stub ? 'stub' : ''].filter(Boolean).join(' ');
+      const label = esc(s.name);
+      const head = base.file === activeFile
+        ? `<b class="s" aria-current="page">${label}</b>`
+        : `<a class="s" href="${base.file}"${here ? ' aria-current="true"' : ''}>${label}</a>`;
+      return `        <li class="${cls}">${head}</li>`;
+    }).join('\n')}
       </ul>
-    </li>`).join('\n');
+    </li>`;
+  }).join('\n');
   return `<nav class="wfnav" aria-label="Все макеты">
   <p class="h">Вайрфреймы</p>
   <ul>
 ${rows}
   </ul>
-  <p class="n">Дерево: раздел → экран → его состояния. Экран ведёт на рабочий вид,
-    серым — заглушка: страница есть, макет не нарисован. Панель собирается
+  <p class="n">Дерево: раздел → экран. Состояния экрана — полосой над мокапом:
+    их сравнивают, стоя на одном экране, а в дереве они раздували список втрое.
+    Серым — заглушка: страница есть, макет не нарисован. Панель собирается
     из _screens.md и sitemap.md скриптом build-wireframes.mjs.</p>
 </nav>`;
 }
@@ -164,19 +161,27 @@ ${rows}
 // Панель слева ведёт по всем макетам, полоса — по состояниям одного экрана.
 // Состояния сравнивают друг с другом, и открыть соседнее должно быть дёшево.
 function strip(s, activeFile) {
+  // На сегменте — короткий ярлык, пояснение уходит в подсказку: «успех
+  // в онбординге: до первого свайпа, возвращать в чат некуда» в таб не влезает
+  // и выдавливает переключатель ширины за край.
   const items = s.pages.map((p) => {
     const cur = p.file === activeFile;
     const cls = [cur ? 'now' : '', p.stub ? 'stub' : ''].filter(Boolean).join(' ');
-    const label = esc(p.title);
+    const short = esc(p.title.split(/\s[\u00B7\u2014]\s|:\s/)[0].trim());
+    const full = esc(p.title);
+    const tip = short === full ? '' : ` title="${full}"`;
     return `    <li${cls ? ` class="${cls}"` : ''}>` +
-      (cur ? `<b aria-current="page">${label}</b>` : `<a href="${p.file}">${label}</a>`) + `</li>`;
+      (cur ? `<b aria-current="page"${tip}>${short}</b>` : `<a href="${p.file}"${tip}>${short}</a>`) + `</li>`;
   }).join('\n');
-  return `<nav class="wfstates" aria-label="Состояния экрана ${esc(s.name)}">
-  <p class="t">${esc(s.name)} · состояния этого экрана</p>
+  return `<div class="wfbar">
+<nav class="wfstates" aria-label="Состояния экрана ${esc(s.name)}">
+  <p class="vh">${esc(s.name)} · состояния этого экрана</p>
   <ul>
 ${items}
   </ul>
-</nav>`;
+</nav>
+${deviceBar()}
+</div>`;
 }
 
 // ── то же дерево для боковой колонки раздела 4 ─────────────────────────
@@ -192,14 +197,9 @@ function sideTree() {
             <p class="gt"><span class="gn">${gi + 1}</span>${esc(g.title)}</p>
             <ul>
 ${g.screens.map((s) => {
-    const [base, ...states] = s.pages;
-    const head = `<a class="s${base.stub ? ' todo' : ''}" href="../wireframes/${base.file}">${esc(s.name)}</a>`;
-    if (!states.length) return `              <li class="scr">${head}</li>`;
-    return `              <li class="scr">${head}
-                <ul>
-${states.map((p) => `                  <li${p.stub ? ' class="todo"' : ''}><a href="../wireframes/${p.file}">${esc(p.title)}</a></li>`).join('\n')}
-                </ul>
-              </li>`;
+    const [base] = s.pages;
+    // состояния в дерево не идут: они полосой над мокапом, на самой странице
+    return `              <li class="scr"><a class="s${base.stub ? ' todo' : ''}" href="../wireframes/${base.file}">${esc(s.name)}</a></li>`;
   }).join('\n')}
             </ul>
           </li>`).join('\n');
@@ -412,6 +412,9 @@ for (const s of list) {
     const d = next.indexOf('<!-- states:end -->');
     if (c === -1 || d === -1) throw new Error(`в ${p.file} не удалось поставить метки <!-- states:* -->`);
     next = next.slice(0, c) + '<!-- states:start -->\n' + strip(s, p.file) + '\n' + next.slice(d);
+    // скрипт ширины — один на страницу, перед </body>; старый снимаем, чтобы не копился
+    next = next.replace(RE_DEVJS, '');
+    next = next.replace('</body>', deviceJs() + '\n</body>');
     if (next !== html) { writeFileSync(join(ROOT, rel), next, 'utf8'); injected++; }
   }
 }

@@ -321,10 +321,16 @@ footer p { max-width: 72ch; }
 
 /* ── Что показывать в разделе: подпункты в самом дереве ───── */
 .subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
-.subtabs a { padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
+.subtabs a { position: relative; padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
 .subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
 .subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
-.subtabs a[aria-current="true"] { background: var(--surface-2); color: var(--ink-900); font-weight: var(--fw-medium); }
+/* Выбранный подпункт — жирный и с точкой слева, а не залитый: заливка занята
+   самим разделом, и два залитых пятна в колонке спорят друг с другом */
+.subtabs a[aria-current="true"] { color: var(--ink-900); font-weight: var(--fw-bold); }
+.subtabs a[aria-current="true"]::before {
+  content: ""; position: absolute; left: calc(var(--s-3) * -1 - 1px); top: 50%;
+  width: 5px; height: 5px; margin-top: -2px; border-radius: 50%; background: var(--ink-900);
+}
 
 /* Нажат любой подпункт — разделы сжимаются до номеров.
    Сами подпункты остаются: иначе, нажав первый, человек в нём запрётся */
@@ -471,107 +477,38 @@ footer p { max-width: 72ch; }
           <li class="grp">
             <p class="gt"><span class="gn">2</span>Колода и совпадение</p>
             <ul>
-              <li class="scr"><a class="s" href="../wireframes/deck.html">Колода</a>
-                <ul>
-                  <li><a href="../wireframes/deck-empty.html">пусто</a></li>
-                  <li><a href="../wireframes/deck-error.html">ошибка</a></li>
-                  <li><a href="../wireframes/deck-loading.html">загрузка</a></li>
-                </ul>
-              </li>
+              <li class="scr"><a class="s" href="../wireframes/deck.html">Колода</a></li>
               <li class="scr"><a class="s" href="../wireframes/match.html">Совпадение</a></li>
             </ul>
           </li>
           <li class="grp">
             <p class="gt"><span class="gn">3</span>Человек</p>
             <ul>
-              <li class="scr"><a class="s" href="../wireframes/profile.html">Профиль другого человека</a>
-                <ul>
-                  <li><a href="../wireframes/profile-empty.html">пусто</a></li>
-                  <li><a href="../wireframes/profile-loading.html">загрузка</a></li>
-                </ul>
-              </li>
-              <li class="scr"><a class="s" href="../wireframes/verify.html">Верификация</a>
-                <ul>
-                  <li><a href="../wireframes/verify-error.html">ошибка</a></li>
-                  <li><a href="../wireframes/verify-loading.html">загрузка</a></li>
-                  <li><a href="../wireframes/verify-success.html">успех</a></li>
-                  <li><a href="../wireframes/verify-waiting.html">ожидание чужого решения · D-42</a></li>
-                  <li><a href="../wireframes/verify-success-signup.html">успех в онбординге: до первого свайпа, возвращать в чат некуда</a></li>
-                </ul>
-              </li>
-              <li class="scr"><a class="s" href="../wireframes/my-profile.html">Мой профиль — как меня видят</a>
-                <ul>
-                  <li><a href="../wireframes/my-profile-loading.html">загрузка</a></li>
-                </ul>
-              </li>
+              <li class="scr"><a class="s" href="../wireframes/profile.html">Профиль другого человека</a></li>
+              <li class="scr"><a class="s" href="../wireframes/verify.html">Верификация</a></li>
+              <li class="scr"><a class="s" href="../wireframes/my-profile.html">Мой профиль — как меня видят</a></li>
             </ul>
           </li>
           <li class="grp">
             <p class="gt"><span class="gn">4</span>Чат</p>
             <ul>
-              <li class="scr"><a class="s" href="../wireframes/dialog.html">Диалог</a>
-                <ul>
-                  <li><a href="../wireframes/dialog-empty.html">пусто</a></li>
-                  <li><a href="../wireframes/dialog-error.html">ошибка</a></li>
-                  <li><a href="../wireframes/dialog-loading.html">загрузка</a></li>
-                  <li><a href="../wireframes/dialog-success.html">успех</a></li>
-                  <li><a href="../wireframes/dialog-waiting.html">ожидание чужого решения · D-42</a></li>
-                </ul>
-              </li>
-              <li class="scr"><a class="s" href="../wireframes/invite.html">Позвать вдвоём в запрос</a>
-                <ul>
-                  <li><a href="../wireframes/invite-empty.html">пусто</a></li>
-                  <li><a href="../wireframes/invite-error.html">ошибка</a></li>
-                  <li><a href="../wireframes/invite-success.html">успех</a></li>
-                  <li><a href="../wireframes/invite-waiting.html">ожидание чужого решения · D-42</a></li>
-                </ul>
-              </li>
-              <li class="scr"><a class="s" href="../wireframes/chats.html">Список чатов</a>
-                <ul>
-                  <li><a href="../wireframes/chats-empty.html">пусто</a></li>
-                  <li><a href="../wireframes/chats-error.html">ошибка</a></li>
-                  <li><a href="../wireframes/chats-loading.html">загрузка</a></li>
-                </ul>
-              </li>
+              <li class="scr"><a class="s" href="../wireframes/dialog.html">Диалог</a></li>
+              <li class="scr"><a class="s" href="../wireframes/invite.html">Позвать вдвоём в запрос</a></li>
+              <li class="scr"><a class="s" href="../wireframes/chats.html">Список чатов</a></li>
             </ul>
           </li>
           <li class="grp">
             <p class="gt"><span class="gn">5</span>Запрос на компанию</p>
             <ul>
-              <li class="scr"><a class="s" href="../wireframes/feed.html">Лента запросов</a>
-                <ul>
-                  <li><a href="../wireframes/feed-empty.html">пусто</a></li>
-                  <li><a href="../wireframes/feed-error.html">ошибка</a></li>
-                  <li><a href="../wireframes/feed-loading.html">загрузка</a></li>
-                </ul>
-              </li>
-              <li class="scr"><a class="s" href="../wireframes/plan.html">Карточка запроса</a>
-                <ul>
-                  <li><a href="../wireframes/plan-error.html">ошибка</a></li>
-                  <li><a href="../wireframes/plan-loading.html">загрузка</a></li>
-                  <li><a href="../wireframes/plan-success.html">успех</a></li>
-                  <li><a href="../wireframes/plan-waiting.html">ожидание чужого решения · D-42</a></li>
-                </ul>
-              </li>
-              <li class="scr"><a class="s" href="../wireframes/my-events.html">Мои события — сегмент вкладки Events</a>
-                <ul>
-                  <li><a href="../wireframes/my-events-empty.html">пусто</a></li>
-                  <li><a href="../wireframes/my-events-error.html">ошибка</a></li>
-                  <li><a href="../wireframes/my-events-loading.html">загрузка</a></li>
-                </ul>
-              </li>
+              <li class="scr"><a class="s" href="../wireframes/feed.html">Лента запросов</a></li>
+              <li class="scr"><a class="s" href="../wireframes/plan.html">Карточка запроса</a></li>
+              <li class="scr"><a class="s" href="../wireframes/my-events.html">Мои события — сегмент вкладки Events</a></li>
             </ul>
           </li>
           <li class="grp">
             <p class="gt"><span class="gn">6</span>Поиск</p>
             <ul>
-              <li class="scr"><a class="s" href="../wireframes/search.html">Поиск людей и планов</a>
-                <ul>
-                  <li><a href="../wireframes/search-empty.html">пусто</a></li>
-                  <li><a href="../wireframes/search-error.html">ошибка</a></li>
-                  <li><a href="../wireframes/search-loading.html">загрузка</a></li>
-                </ul>
-              </li>
+              <li class="scr"><a class="s" href="../wireframes/search.html">Поиск людей и планов</a></li>
             </ul>
           </li>
         </ul>

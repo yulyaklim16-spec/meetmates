@@ -118,49 +118,41 @@ body:has(#bare:target) .device {
 .wfnav .grp + .grp { border-top: 1px solid var(--w-line); padding-top: var(--s-4); }
 .wfnav .gn { display: inline-block; min-width: 1.4em; font-weight: 700; color: var(--w-ink); }
 .wfnav .gt {
-  padding: 0 var(--s-3) 0 0;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
   font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--w-ink); font-weight: 700;
-  margin-bottom: var(--s-3);
+  margin-bottom: var(--s-2);
 }
+/* ветка, внутри которой текущий экран, залита целиком: видно, где стоишь,
+   не вчитываясь в список */
+.wfnav .grp.now > .gt { background: var(--w-zone); }
 
-/* уровень 2 — экран: ссылка на свой рабочий вид, сдвинута вправо от раздела */
+/* уровень 2 — экран: ссылка на свой рабочий вид. Текущий — жирный и с точкой
+   слева; заливки у него нет, она занята веткой. Состояний в дереве больше нет:
+   они живут полосой над мокапом */
+.wfnav .grp > ul { margin-left: var(--s-4); border-left: 1px solid var(--w-line); }
 .wfnav .scr { margin-bottom: 1px; }
 .wfnav .s {
+  position: relative;
   display: block;
-  margin-left: 0;
   padding: 5px var(--s-3);
   border-radius: var(--r-sm);
-  font-size: 12px; font-weight: 600;
-  color: var(--w-ink);
+  font-size: 12px; font-weight: 400;
+  color: var(--w-ink-2);
   text-decoration: none;
+}
+.wfnav .scr.now > .s { font-weight: 700; color: var(--w-ink); }
+.wfnav .scr.now > .s::before {
+  content: ""; position: absolute; left: calc(var(--s-3) * -1 + 2px); top: 50%;
+  width: 5px; height: 5px; margin-top: -2px; border-radius: 50%;
+  background: var(--w-ink);
 }
 .wfnav .scr.stub > .s { color: #8a8a8a; }
 
-/* уровень 3 — состояния экрана, вдоль вертикальной линии, ещё правее */
-.wfnav .scr > ul {
-  margin: 1px 0 var(--s-3) var(--s-3);
-  padding-left: 0;
-  border-left: 1px solid var(--w-line);
-}
-.wfnav .scr > ul a, .wfnav .scr > ul b {
-  display: block;
-  padding: 3px var(--s-3);
-  border-radius: var(--r-sm);
-  font-weight: 400;
-}
-
-.wfnav a { color: var(--w-ink-2); text-decoration: none; }
-.wfnav a:hover, .wfnav a:focus-visible { color: var(--w-ink); background: var(--w-fill); }
-.wfnav .stub > a { color: #8a8a8a; }
-
-/* экран, внутри которого мы находимся: линия его состояний темнеет.
-   Заливка остаётся за текущей страницей — два разных признака не должны спорить */
-.wfnav .scr.open > ul { border-left-color: var(--w-ink); }
-
-/* где мы сейчас: заливка и полоса слева — один признак на одну страницу.
-   Экран, внутри которого мы находимся, помечен только линией состояний выше */
-.wfnav [aria-current="page"] { background: var(--w-fill); color: var(--w-ink); font-weight: 700; }
+/* текущий экран в дереве — только жирный и точка: цветной заливки здесь нет,
+   иначе два залитых пятна спорят друг с другом */
+.wfnav .s:hover, .wfnav .s:focus-visible { background: var(--w-zone); color: var(--w-ink); }
 
 /* ── мокап телефона ──────────────────────────────────────────
    Мы строим мобильный веб, и продукт владеет не всей высотой:
@@ -501,26 +493,88 @@ a { color: var(--w-ink); }
    Панель слева ведёт по всем макетам, полоса — по состояниям этого экрана:
    их сравнивают друг с другом, а не с чужими, и держать их рядом должно
    быть дёшево (_conventions.md §4). Собирается тем же скриптом. */
-.wfstates {
+/* Полоса над мокапом: слева состояния экрана, справа ширина устройства.
+   Состояния — сегменты в одной обойме: их сравнивают друг с другом, и переключатель
+   читается как один орган, а не как список ссылок. */
+.wfbar {
   grid-column: 3;
-  width: calc(var(--screen-max) + 24px);
+  width: 100%; max-width: 760px;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
   margin-bottom: var(--s-4);
-  padding-bottom: var(--s-3);
-  border-bottom: 1px solid var(--w-line);
-  font-size: 12px;
+}
+.wfstates { font-size: 12px; color: var(--w-ink-2); }
+.wfstates { min-width: 0; }
+.wfstates ul {
+  display: flex; flex-wrap: wrap; gap: 2px;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  background: var(--w-zone);
+  box-shadow: inset 0 0 0 1px var(--w-line);
+}
+.wfstates li a, .wfstates li b {
+  display: block;
+  padding: 5px var(--s-3);
+  border-radius: var(--r-pill);
+  font-size: 12px; font-weight: 400;
   color: var(--w-ink-2);
+  text-decoration: none;
+  white-space: nowrap;
 }
-.wfstates .t {
-  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--w-ink); font-weight: 700;
-  margin-bottom: var(--s-2);
-}
-.wfstates ul { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-3); }
-.wfstates li + li::before { content: "·"; margin-right: var(--s-3); color: var(--w-line); }
-.wfstates a { color: var(--w-ink-2); text-decoration: none; }
-.wfstates a:hover, .wfstates a:focus-visible { color: var(--w-ink); text-decoration: underline; }
+.wfstates li a:hover, .wfstates li a:focus-visible { color: var(--w-ink); }
 .wfstates .stub a { color: #8a8a8a; }
-.wfstates .now b { color: var(--w-ink); font-weight: 700; }
+.wfstates .now b {
+  background: var(--w-surface); color: var(--w-ink); font-weight: 600;
+  box-shadow: 0 0 0 1px var(--w-line);
+}
+
+/* ширина устройства: три кнопки, активная залита. Что показывает каждая —
+   в title; подпись скрыта, иконка сама называет форму */
+.wfdev {
+  flex: none;
+  display: flex; gap: 2px;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  background: var(--w-zone);
+  box-shadow: inset 0 0 0 1px var(--w-line);
+}
+.wfdev button {
+  display: grid; place-items: center;
+  width: 32px; height: 28px;
+  border: 0; border-radius: var(--r-pill);
+  background: none; color: var(--w-ink-2);
+  cursor: pointer;
+}
+.wfdev button svg { width: 18px; height: 18px; }
+.wfdev button:hover { color: var(--w-ink); }
+.wfdev button[aria-pressed="true"] {
+  background: var(--w-surface); color: var(--w-ink);
+  box-shadow: 0 0 0 1px var(--w-line);
+}
+
+/* Ширина. Раскладок под планшет и десктоп ещё нет — это раздел 10, Responsive.
+   Поэтому рамка расширяется, а сам экран остаётся колонкой 390px по центру:
+   так видно, что адаптив не нарисован, вместо того чтобы растянуть мобильный
+   макет и выдать это за десктопный. */
+:root[data-w="tablet"] .device { width: 834px; }
+:root[data-w="desktop"] .device { width: 1280px; }
+/* корпус телефона снимается: на этой ширине он врёт — это уже не телефон */
+:root[data-w="tablet"] .device,
+:root[data-w="desktop"] .device {
+  background: var(--w-fill);
+  border-radius: var(--r-md);
+  box-shadow: inset 0 0 0 1px var(--w-line);
+  padding: var(--s-5);
+}
+:root[data-w="tablet"] .screen,
+:root[data-w="desktop"] .screen { margin: 0 auto; }
+:root[data-w="tablet"] .wfbar { max-width: 834px; }
+:root[data-w="desktop"] .wfbar { max-width: 1280px; }
+:root[data-w="tablet"] .device::after,
+:root[data-w="desktop"] .device::after {
+  content: "Раскладка под эту ширину не нарисована — раздел 10, Responsive";
+  position: absolute; left: 0; right: 0; bottom: calc(var(--s-4) * -1 - 6px);
+  text-align: center; font-size: 11px; color: var(--w-ink-2);
+}
 
 /* ── состояние вместо содержимого: пусто и ошибка ───────────
    Стоит в той же зоне, что карточка человека, и занимает её целиком:

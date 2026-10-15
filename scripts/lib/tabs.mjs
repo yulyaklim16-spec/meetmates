@@ -27,10 +27,16 @@ export const TABS_CSS = `
 
 /* ── Что показывать в разделе: подпункты в самом дереве ───── */
 .subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
-.subtabs a { padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
+.subtabs a { position: relative; padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
 .subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
 .subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
-.subtabs a[aria-current="true"] { background: var(--surface-2); color: var(--ink-900); font-weight: var(--fw-medium); }
+/* Выбранный подпункт — жирный и с точкой слева, а не залитый: заливка занята
+   самим разделом, и два залитых пятна в колонке спорят друг с другом */
+.subtabs a[aria-current="true"] { color: var(--ink-900); font-weight: var(--fw-bold); }
+.subtabs a[aria-current="true"]::before {
+  content: ""; position: absolute; left: calc(var(--s-3) * -1 - 1px); top: 50%;
+  width: 5px; height: 5px; margin-top: -2px; border-radius: 50%; background: var(--ink-900);
+}
 
 /* Нажат любой подпункт — разделы сжимаются до номеров.
    Сами подпункты остаются: иначе, нажав первый, человек в нём запрётся */
