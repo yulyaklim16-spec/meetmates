@@ -181,7 +181,7 @@ ${items}
   </ul>
 </nav>
 ${deviceBar()}
-${kindBar('wireframe', s.pages[0].file)}
+${kindBar('wireframe', activeFile.replace('.html', ''))}
 </div>`;
 }
 

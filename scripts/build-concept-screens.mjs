@@ -123,7 +123,7 @@ const link = (file, title, current, cls = '') => (file === current
   : `<a${cls ? ` class="${cls}"` : ''} href="${file}.html">${title}</a>`);
 
 const tree = (current) => `<nav class="wfnav" aria-label="Экраны концепта">
-  <p class="h">Концепт</p>
+  <p class="h">Экраны</p>
   <ul>
 ${BRANCHES.map((b, bi) => {
   const hereGroup = b.screens.some((scr) => [scr, ...scr.pages].some((x) => x.file === current));

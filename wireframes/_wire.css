@@ -524,10 +524,9 @@ a { color: var(--w-ink); }
 }
 .wfstates li a:hover, .wfstates li a:focus-visible { color: var(--w-ink); }
 .wfstates .stub a { color: #8a8a8a; }
-.wfstates .now b {
-  background: var(--w-surface); color: var(--w-ink); font-weight: 600;
-  box-shadow: 0 0 0 1px var(--w-line);
-}
+/* активный сегмент одинаков во всех трёх группах полосы: залит тёмным.
+   Белая пилюля рядом с тёмной читалась как два разных органа */
+.wfstates .now b { background: var(--w-ink); color: var(--w-surface); font-weight: 600; }
 
 /* вайрфрейм или дизайн: тот же экран в соседнем наборе */
 .wfkind {
@@ -565,10 +564,7 @@ a { color: var(--w-ink); }
 }
 .wfdev button svg { width: 18px; height: 18px; }
 .wfdev button:hover { color: var(--w-ink); }
-.wfdev button[aria-pressed="true"] {
-  background: var(--w-surface); color: var(--w-ink);
-  box-shadow: 0 0 0 1px var(--w-line);
-}
+.wfdev button[aria-pressed="true"] { background: var(--w-ink); color: var(--w-surface); }
 
 /* Ширина. Раскладок под планшет и десктоп ещё нет — это раздел 10, Responsive.
    Поэтому рамка расширяется, а сам экран остаётся колонкой 390px по центру:

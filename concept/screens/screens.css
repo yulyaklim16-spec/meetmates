@@ -135,10 +135,8 @@ body:has(#bare:target) .device { margin: 0 auto; }
 }
 .wfstates li a { color: var(--ink-600); font-weight: var(--fw-regular); }
 .wfstates li a:hover { color: var(--ink-900); }
-.wfstates li b {
-  background: var(--surface); color: var(--ink-900); font-weight: var(--fw-semibold);
-  box-shadow: var(--shadow-sm);
-}
+/* активный сегмент одинаков во всех трёх группах полосы: залит цветом действия */
+.wfstates li b { background: var(--action); color: var(--ink-on-action); font-weight: var(--fw-semibold); }
 
 /* вайрфрейм или дизайн: тот же экран в соседнем наборе */
 .wfkind {
@@ -168,7 +166,7 @@ body:has(#bare:target) .device { margin: 0 auto; }
 }
 .wfdev button svg { width: 18px; height: 18px; }
 .wfdev button:hover { color: var(--ink-900); }
-.wfdev button[aria-pressed="true"] { background: var(--surface); color: var(--ink-900); box-shadow: var(--shadow-sm); }
+.wfdev button[aria-pressed="true"] { background: var(--action); color: var(--ink-on-action); }
 
 /* Ширина. Раскладок под планшет и десктоп ещё нет — это раздел 10, Responsive.
    Рамка расширяется, а экран остаётся колонкой 390px по центру: так видно,
