@@ -300,7 +300,7 @@
   transition: background var(--mm-dur-fast) var(--mm-ease-out);
 }
 .mm-head-btn:hover, .mm-head-btn.is-hover { background: var(--mm-surface-2); }
-.mm-head-btn:focus-visible, .mm-head-btn.is-focus { outline: none; box-shadow: var(--mm-ring-focus); }
+.mm-head-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
 .mm-head-btn svg { width: var(--mm-icon-md); height: var(--mm-icon-md); }
 /* создание — тёмная: в строке с фильтрами видно, какая из двух главная */
 .mm-head-btn--primary { order: 1; background: var(--mm-ink-900); color: var(--mm-surface); box-shadow: none; }
@@ -371,10 +371,14 @@
 
 /* ═══ Кнопки ═══ */
 
-/* Нарисованные состояния. :hover, :active и :focus-visible живут в браузере,
-   и на витрине их не поставить рядом. Классы .is-hover, .is-pressed и .is-focus
-   дают тот же вид — и не копией, а тем же правилом: селекторы перечислены через
-   запятую, описание одно. В экране продукта этих классов нет, они для витрины. */
+/* Нарисованные состояния. :hover и :active живут в браузере, и на витрине их
+   не поставить рядом. Классы .is-hover и .is-pressed дают тот же вид — и не копией,
+   а тем же правилом: селекторы перечислены через запятую, описание одно.
+   В экране продукта этих классов нет, они для витрины.
+
+   Фокуса среди них нет: его на витрину не выносят — он приходит от клавиатуры,
+   а не от мыши. Само :focus-visible остаётся и остаётся обязательным: без него
+   тот, кто ходит табом, не видит, где стоит (WCAG 2.4.7, уровень AA). */
 
 .mm-btn {
   display: inline-flex;
@@ -397,7 +401,7 @@
 }
 .mm-btn:hover, .mm-btn.is-hover { background: var(--mm-surface-2); }
 .mm-btn:active, .mm-btn.is-pressed { transform: var(--mm-press); }
-.mm-btn:focus-visible, .mm-btn.is-focus { outline: none; box-shadow: var(--mm-ring-focus); }
+.mm-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
 .mm-btn svg { width: var(--mm-icon-btn); height: var(--mm-icon-btn); }
 
 /* главная — тёмно-фиолетовая, почти чёрная. На экране одна */
@@ -406,7 +410,6 @@
 /* тихая — сиреневая подложка без обводки */
 .mm-btn--quiet { background: var(--mm-surface-2); box-shadow: none; }
 .mm-btn--quiet:hover, .mm-btn--quiet.is-hover { background: var(--mm-line); }
-.mm-btn--block { width: 100%; }
 /* Недоступна — это та же кнопка в половину силы, а не третий вид: роль видно
    по-прежнему, видно и то, что сейчас она не работает. Отдельная серая заливка
    путала: главная, вторичная и без роли выключались в одно и то же пятно,
@@ -680,7 +683,7 @@ a.mm-row:hover .mm-row-head > b, a.mm-row.is-hover .mm-row-head > b { text-decor
   color: var(--mm-ink-900);
 }
 .mm-field input::placeholder { color: var(--mm-ink-600); }
-.mm-field:focus-within, .mm-field.is-focus { box-shadow: var(--mm-ring-focus); }
+.mm-field:focus-within { box-shadow: var(--mm-ring-focus); }
 
 /* ═══ Обратная связь ═══ */
 

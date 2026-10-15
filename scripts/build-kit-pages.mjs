@@ -261,21 +261,18 @@ const screenState = (icon, h, p, acts, alert) => `<div class="kit-tall">
 ${acts ? `          <p class="mm-actions kit-after">${acts}</p>\n` : ''}        </div>`;
 
 const GROUPS = [
-  grp(1, 'Кнопки', 'Три роли, и у каждой пять состояний. Наведение и нажатие приходят от мыши, фокус — от клавиатуры: кольцо видно при обходе табом и не появляется от клика. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой.', [
+  grp(1, 'Кнопки', 'Три роли, и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой; растянутая на всю ширину — тоже она, и отдельной клетки ей не нужно. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.', [
     comp('Главная', '.mm-btn--primary', [
       cell('Primary-Default', btn(' mm-btn--primary', '', 'Ask to join')),
       cell('Primary-Hover', btn(' mm-btn--primary', ' is-hover', 'Ask to join')),
       cell('Primary-Pressed', btn(' mm-btn--primary', ' is-pressed', 'Ask to join')),
-      cell('Primary-Focus', btn(' mm-btn--primary', ' is-focus', 'Ask to join')),
       cell('Primary-Disabled', '<button class="mm-btn mm-btn--primary" type="button" disabled>Verify to send</button>'),
-      cell('Primary-Default-Full width', btn(' mm-btn--primary mm-btn--block', '', 'Try again'), 'kit-cell--wide'),
     ], 'Главная на экране одна. Отключённая — та же кнопка в половину силы: роль видно по-прежнему, видно и то, что она сейчас не работает. Надпись при этом говорит, что сделать: <code>Verify to send</code> — это гейт §7.3, и она называет условие.'),
 
     comp('Вторичная', '.mm-btn--quiet', [
       cell('Secondary-Default', btn(' mm-btn--quiet', '', 'Invite together')),
       cell('Secondary-Hover', btn(' mm-btn--quiet', ' is-hover', 'Invite together')),
       cell('Secondary-Pressed', btn(' mm-btn--quiet', ' is-pressed', 'Invite together')),
-      cell('Secondary-Focus', btn(' mm-btn--quiet', ' is-focus', 'Invite together')),
       cell('Secondary-Disabled', '<button class="mm-btn mm-btn--quiet" type="button" disabled>Invite together</button>'),
     ], 'Сиреневая подложка без обводки. Отключённая остаётся сиреневой — приглушается, но роли не теряет.'),
 
@@ -283,14 +280,12 @@ const GROUPS = [
       cell('Plain-Default', btn('', '', 'Skip')),
       cell('Plain-Hover', btn('', ' is-hover', 'Skip')),
       cell('Plain-Pressed', btn('', ' is-pressed', 'Skip')),
-      cell('Plain-Focus', btn('', ' is-focus', 'Skip')),
       cell('Plain-Disabled', '<button class="mm-btn" type="button" disabled>Skip</button>'),
     ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Роли у неё нет, и залитой она не бывает.'),
 
     comp('Только иконка', '.mm-head-btn', [
       cell('Icon-Default', `<button class="mm-head-btn" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
       cell('Icon-Hover', `<button class="mm-head-btn is-hover" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
-      cell('Icon-Focus', `<button class="mm-head-btn is-focus" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
       cell('Primary-Default-Only icon', `<button class="mm-head-btn mm-head-btn--primary" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
       cell('Primary-Hover-Only icon', `<button class="mm-head-btn mm-head-btn--primary is-hover" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
       cell('Back-Default', '<a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
@@ -311,26 +306,21 @@ const GROUPS = [
     ], 'Предложенная фраза, а не второе действие: текст слева, вес обычный. Рядом с главной кнопкой не спорит.'),
 
     comp('Строка действий', '.mm-actions', [
-      cell('Actions-Two', `<p class="mm-actions">${btn(' mm-btn--primary', '', 'Expand search')}${btn(' mm-btn--quiet', '', 'Reset filters')}</p>`, 'kit-cell--wide'),
-      cell('Actions-One', `<p class="mm-actions">${btn(' mm-btn--primary mm-btn--block', '', 'Try again')}</p>`, 'kit-cell--wide'),
-    ], 'Одна-две кнопки в ряд, поровну. Больше двух в наборе не встречается ни на одном экране.'),
+      cell('Actions-Default', `<p class="mm-actions">${btn(' mm-btn--primary', '', 'Expand search')}${btn(' mm-btn--quiet', '', 'Reset filters')}</p>`, 'kit-cell--wide'),
+    ], 'Одна-две кнопки в ряд, поровну. Одна растягивается на всю ширину сама — это та же кнопка, а не другой её вид. Больше двух в наборе не встречается ни на одном экране.'),
   ]),
 
   grp(2, 'Поля', 'Поле в наборе одно и стоит в двух местах: поиск в шапке и ввод реплики в диалоге. Состояния ошибки у него нет — экранов, где поле что-то проверяет, в вайрфреймах ещё нет, и выдумывать его не стали.', [
     comp('Поле с иконкой', '.mm-field', [
-      cell('Search-Empty', `<form class="mm-field" role="search">${ico('search')}<label class="mm-vh" for="q1">Search people and events</label><input id="q1" type="search" placeholder="Search people and events"></form>`, 'kit-cell--wide'),
-      cell('Search-Filled', `<form class="mm-field" role="search">${ico('search')}<label class="mm-vh" for="q2">Search people and events</label><input id="q2" type="search" value="board games"></form>`, 'kit-cell--wide'),
-      cell('Search-Focus', `<form class="mm-field is-focus" role="search">${ico('search')}<label class="mm-vh" for="q3">Search people and events</label><input id="q3" type="search" value="board games"></form>`, 'kit-cell--wide'),
-      cell('Message-Empty', `<label class="mm-field" for="m1">${ico('message')}<span class="mm-vh">Message</span><input id="m1" type="text" placeholder="Write a message"></label>`, 'kit-cell--wide'),
-      cell('Message-Focus', `<label class="mm-field is-focus" for="m2">${ico('message')}<span class="mm-vh">Message</span><input id="m2" type="text" value="Saturday works"></label>`, 'kit-cell--wide'),
-    ], 'Иконка в поле контурная: поле ничего не утверждает, оно ждёт ввода. Подпись скрытая — это такой же копирайт, он входит в перепись.'),
+      cell('Field-Empty', `<form class="mm-field" role="search">${ico('search')}<label class="mm-vh" for="q1">Search people and events</label><input id="q1" type="search" placeholder="Search people and events"></form>`, 'kit-cell--wide'),
+      cell('Field-Filled', `<label class="mm-field" for="m1">${ico('message')}<span class="mm-vh">Message</span><input id="m1" type="text" value="Saturday works"></label>`, 'kit-cell--wide'),
+    ], 'Компонент один, иконка меняется по месту: лупа в поиске, реплика в диалоге. Иконка контурная — поле ничего не утверждает, оно ждёт ввода. Подпись скрытая, это такой же копирайт, он входит в перепись.'),
   ]),
 
   grp(3, 'Вкладки и переключатели', 'Три органа, и у каждого ровно два состояния: выбран или нет. Промежуточных нет — выбор всегда один.', [
     comp('Вкладка нижнего меню', '.mm-tab', [
       cell('Tab-Default', `<nav class="mm-tabs kit-one"><a class="mm-tab" href="#">${ico('tab-events')}Events</a></nav>`),
       cell('Tab-Current', `<nav class="mm-tabs kit-one"><a class="mm-tab is-current" href="#" aria-current="page">${ico('tab-events-bold')}Events</a></nav>`),
-      cell('Tabs-Default-Full', tabs('Chats'), 'kit-cell--screen'),
     ], 'Активная — на сиренево-серой пилюле, иконка залитая и тёмная; неактивные контурные, цвета <code>--mm-ink-400</code>. Форма у обоих наборов одна, меняется только вес.'),
 
     comp('Срез вкладки', '.mm-segmented', [
@@ -339,8 +329,7 @@ const GROUPS = [
     ], 'Сегменты стоят вплотную на дорожке: это один орган, а не две главные кнопки рядом. Наведение на невыбранный сегмент ничего не заливает — иначе он читался бы как выбранный.'),
 
     comp('Полосы по числу фотографий', '.mm-pager', [
-      cell('Pager-First', '<p class="mm-pager kit-one" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>', 'kit-cell--wide'),
-      cell('Pager-Second', '<p class="mm-pager kit-one" aria-hidden="true"><span></span><span class="is-current"></span><span></span></p>', 'kit-cell--wide'),
+      cell('Pager-Default', '<p class="mm-pager kit-one" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>', 'kit-cell--wide'),
     ], 'Столько полос, сколько фотографий, закрашенная — открытая. Счёт нужен и на слух, поэтому рядом стоит скрытый <code>figcaption</code>: «Photo 1 of 4».'),
 
     comp('Выход в соседний контур', '.mm-exit', [
@@ -386,8 +375,7 @@ const GROUPS = [
     ], 'Нуля в продукте не бывает (<code>D-60</code>): у кого встреч нет, строка не показывается вовсе — то же правило, что у отзывчивости. Третий случай — первые недели: встреч нет ни у кого, отзывчивости ещё нет, и на карточке остаётся один <code>Verified</code> (цена <code>D-49</code>).'),
 
     comp('Чип расстояния', '.mm-chip', [
-      cell('Chip-Distance', `<span class="mm-chip">${ico('pin')}~2 km</span>`),
-      cell('Chip-Nearby', `<span class="mm-chip">${ico('pin')}Nearby</span>`),
+      cell('Chip-Default', `<span class="mm-chip">${ico('pin')}~2 km</span> <span class="mm-chip">${ico('pin')}Nearby</span>`, 'kit-cell--wide'),
     ], 'Расстояние округлённое и без слова <code>away</code> (<code>D-60</code>); меньше километра — <code>Nearby</code>. Точки на карте нет нигде и никогда (правило 5).'),
 
     comp('Теги интересов', '.mm-tags', [
@@ -395,41 +383,31 @@ const GROUPS = [
     ], 'Перечисление под числом общих интересов (<code>D-13</code>). Выбранного состояния у тега нет: в колоде он не фильтр, а факт.'),
 
     comp('Аватар', '.mm-avatar', [
-      cell('Avatar-Default', `<span class="mm-avatar" aria-hidden="true">${face('andrii')}</span>`),
-      cell('Avatar-Large', `<span class="mm-avatar mm-avatar--lg" aria-hidden="true">${face('dasha', 112)}</span>`),
-      cell('Avatar-Row', `<p class="mm-skelrow">${face('olena') && `<span class="mm-avatar" aria-hidden="true">${face('olena')}</span>`}<span class="mm-avatar" aria-hidden="true">${face('dasha')}</span></p>`),
+      cell('Avatar-Sizes', `<span class="mm-avatar" aria-hidden="true">${face('andrii')}</span> <span class="mm-avatar mm-avatar--lg" aria-hidden="true">${face('dasha', 112)}</span>`, 'kit-cell--wide'),
     ], 'У каждого имени своё лицо: три одинаковых кружка в одной строке читаются как ошибка данных. В ряду заглушек кружок крупнее — это место под фотографию, а не подпись рядом с именем.'),
 
     comp('Строки фактов', '.mm-facts · .mm-meta · .mm-note', [
       cell('Facts-Default', '<p class="mm-facts">Kyiv Games Club &middot; Podil &middot; ~3 km</p>', 'kit-cell--wide'),
-      cell('Meta-Default', '<p class="mm-meta">Sat 18:00</p>'),
-      cell('Meta-No date', '<p class="mm-meta">No date yet</p>'),
-      cell('Note-Going', '<output class="mm-note">2 going &middot; 1 spot left &middot; Still going? comes the day before</output>', 'kit-cell--wide'),
-      cell('Note-Confirmed', '<p class="mm-note">1 confirmed &middot; 1 spot left</p>', 'kit-cell--wide'),
-      cell('Note-No spots', '<p class="mm-note">No spots left</p>', 'kit-cell--wide'),
+      cell('Meta-Default', '<p class="kit-stack"><span class="mm-meta">Sat 18:00</span><br><span class="mm-meta">No date yet</span></p>', 'kit-cell--wide'),
+      cell('Note-Counter', '<p class="kit-stack"><output class="mm-note">2 going &middot; 1 spot left &middot; Still going? comes the day before</output><br><span class="mm-note">1 confirmed &middot; 1 spot left</span><br><span class="mm-note">No spots left</span></p>', 'kit-cell--wide'),
     ], 'Счётчик двухфазный (<code>D-16</code>): <code>going</code> → <code>confirmed</code>. Слово рядом с числом несёт честность — в каждой фазе показано ровно то, что известно.'),
   ]),
 
   grp(6, 'Состояния экрана', 'Четыре состояния, и ни одно из них не экран: пусто, сбой, итог и ожидание — состояния одного и того же экрана. Ожидание чужого решения загрузкой не считается (<code>D-42</code>): ждать можно днями, и спиннер здесь врёт.', [
     comp('Пусто и сбой', '.mm-state · .mm-state--alert', [
       cell('State-Empty', screenState('state-empty', 'No events within 5 km yet', 'Events here are posted by people like you &mdash; and yours would be the first one nearby.', '<a class="mm-btn mm-btn--quiet" href="#">Show events further out</a>', false), 'kit-cell--tall'),
-      cell('State-Empty-Deck', screenState('state-empty', 'You are all caught up', 'That&rsquo;s everyone within 5 km who matches your filters.', `${btn(' mm-btn--primary', '', 'Expand search')}${btn(' mm-btn--quiet', '', 'Reset filters')}`, false), 'kit-cell--tall'),
       cell('State-Error', screenState('state-alert', 'Couldn&rsquo;t load events nearby', 'The connection dropped. Your own events and requests are safe.', btn(' mm-btn--primary', '', 'Try again'), true), 'kit-cell--tall'),
-      cell('State-Empty-Chats', screenState('state-chats', 'No chats yet', 'Chats open when you and someone both say yes &mdash; or when you ask to join an event and the person confirms you.', `${btn(' mm-btn--primary', '', 'See people')}${btn(' mm-btn--quiet', '', 'Look at events')}`, false), 'kit-cell--tall'),
     ], 'Ни одно пустое состояние не выглядит пустым (§2.1, п. 1): у каждого есть ослабление условий и выход в соседний контур. Сбой — тот же блок, разница в <code>role="alert"</code> и в цвете иконки; текст называет причину и говорит, что данные целы.'),
 
     comp('Плашка итога', '.mm-banner', [
       cell('Banner-Success', '<article class="mm-banner"><b>It&rsquo;s an event</b><p>Board games at Kyiv Games Club &middot; Saturday, 18:00 &middot; the two of you.</p><p class="mm-actions"><a class="mm-btn mm-btn--primary" href="#">Open the event</a></p></article>', 'kit-cell--wide'),
       cell('Banner-Waiting', '<article class="mm-banner"><b>Waiting for Andrii</b><p>Your request is with Andrii. It stays open until Saturday &mdash; events without a date keep requests for 14 days.</p></article>', 'kit-cell--wide'),
-      cell('Banner-Confirmed', '<article class="mm-banner"><b>You&rsquo;re going</b><p>Andrii confirmed you. The chat is open and the exact address is now visible.</p></article>', 'kit-cell--wide'),
     ], 'Карточка, а не абзац: день назначен — это новый объект, а не ещё одна реплика (<code>D-39</code>). В ожидании названы тот, кто должен ответить, и срок (<code>D-42</code>).'),
   ]),
 
   grp(7, 'Загрузка', 'Заглушки держат раскладку и показывают, что именно грузится. Спиннер не делает ни того, ни другого. При <code>prefers-reduced-motion</code> полоса стоит на месте.', [
     comp('Заглушка', '.mm-skel', [
-      cell('Skel-Line-L', '<span class="mm-skel mm-skel--line mm-skel--w-l"></span>', 'kit-cell--wide'),
-      cell('Skel-Line-M', '<span class="mm-skel mm-skel--line mm-skel--w-m"></span>', 'kit-cell--wide'),
-      cell('Skel-Line-S', '<span class="mm-skel mm-skel--line mm-skel--w-s"></span>', 'kit-cell--wide'),
+      cell('Skel-Line', '<p class="kit-block"><span class="mm-skel mm-skel--line mm-skel--w-l"></span><span class="mm-skel mm-skel--line mm-skel--w-m"></span><span class="mm-skel mm-skel--line mm-skel--w-s"></span></p>', 'kit-cell--wide'),
       cell('Skel-Pill', '<span class="mm-skel mm-skel--pill mm-skel--w-s"></span>', 'kit-cell--wide'),
       cell('Skel-Thumb', '<p class="mm-skelrow"><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span></p>', 'kit-cell--wide'),
       cell('Skel-Row', '<ul class="mm-list"><li class="mm-row" aria-hidden="true"><span class="mm-skel mm-skel--line mm-skel--w-l"></span><span class="mm-skel mm-skel--line mm-skel--w-m"></span><span class="mm-skel mm-skel--line mm-skel--w-s"></span></li></ul>', 'kit-cell--wide'),
@@ -539,9 +517,7 @@ const GROUPS = [
           </ul>
         </figure>
       </div>`, 'kit-cell--screen'),
-      cell('Dot-Default', `<span class="mm-dot" aria-hidden="true">${face('olena', 112)}</span>`),
-      cell('Dot-Small', `<span class="mm-dot mm-dot--sm" aria-hidden="true">${cover('games')}</span>`),
-      cell('Dot-Large', `<span class="mm-dot mm-dot--lg" aria-hidden="true">${face('dasha', 112)}</span>`),
+      cell('Dot-Sizes', `<span class="mm-dot mm-dot--sm" aria-hidden="true">${cover('games')}</span> <span class="mm-dot" aria-hidden="true">${face('olena', 112)}</span> <span class="mm-dot mm-dot--lg" aria-hidden="true">${face('dasha', 112)}</span>`, 'kit-cell--wide'),
     ], 'Кольца подписаны и стоят на месте; из центра идёт волна — это и есть «радар работает». На кольцах не точки, а те же лица и обложки, что в колоде и ленте. Данные иллюстративные (<code>D-47</code>). При <code>prefers-reduced-motion</code> волна снимается, найденные видны сразу.'),
 
     comp('Слой поверх экрана', '.mm-layer', [
@@ -593,13 +569,20 @@ const kit = `<!doctype html>
   и у каждого состояния есть имя: вариант-состояние, а где нужно — и вид
   содержимого («Primary-Default-Only icon»).
 
-  Правило отбора: рисуем то, что в ките описано, и ничего сверх. Придуманное
-  состояние — обещание, которого экран не держит. Поэтому у поля нет ошибки,
-  а у тега нет выбранного вида: таких экранов в наборе ещё нет.
+  Правило отбора двойное. Первое: рисуем то, что в ките описано, и ничего сверх —
+  придуманное состояние это обещание, которого экран не держит. Поэтому у поля нет
+  ошибки, а у тега нет выбранного вида: таких экранов в наборе ещё нет.
+  Второе: в матрице стоит то, что меняет вид или поведение. Растянутая кнопка,
+  другой индекс полосы, другая ширина заглушки, другой размер кружка — тот же
+  компонент, и ему место в одной клетке, а не в пяти.
 
   Наведение и нажатие живут в браузере и рядом не ставятся — их рисуют классы
-  .is-hover, .is-pressed и .is-focus. Это не копия правил: в ui/kit.css они
-  перечислены через запятую с псевдоклассами, описание одно на двоих.
+  .is-hover и .is-pressed. Это не копия правил: в ui/kit.css они перечислены через
+  запятую с псевдоклассами, описание одно на двоих.
+
+  Фокуса на витрине нет: он приходит от клавиатуры, его не разглядывают рядом
+  с наведением. В ui/kit.css :focus-visible остаётся — без него тот, кто ходит
+  табом, не видит, где стоит (WCAG 2.4.7, уровень AA).
 
   Текст везде настоящий, из интерфейса: компонент проверяется на той строке,
   которую он понесёт, а не на «Lorem ipsum».
@@ -691,8 +674,8 @@ ${rail({ prefix: '../', current: '07' })}
   Состав и порог «два экрана» — <code>ui/inventory.md</code>, вид — <code>DESIGN.md</code>.</p>
   <p>У каждого компонента нарисовано каждое состояние, которое у него есть, и у каждого
   есть имя: вариант-состояние, а где нужно — и вид содержимого. Состояний, которых
-  в ките нет, здесь не появляется: придуманное состояние — обещание, которого экран
-  не держит.</p>
+  в ките нет, здесь не появляется. Ширина, размер и порядковый номер состоянием
+  не считаются: это тот же компонент, и он стоит в одной клетке.</p>
   <ul class="kit-toc">
     <li><a href="#g1">1 · Кнопки</a></li>
     <li><a href="#g2">2 · Поля</a></li>

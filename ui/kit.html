@@ -9,13 +9,20 @@
   и у каждого состояния есть имя: вариант-состояние, а где нужно — и вид
   содержимого («Primary-Default-Only icon»).
 
-  Правило отбора: рисуем то, что в ките описано, и ничего сверх. Придуманное
-  состояние — обещание, которого экран не держит. Поэтому у поля нет ошибки,
-  а у тега нет выбранного вида: таких экранов в наборе ещё нет.
+  Правило отбора двойное. Первое: рисуем то, что в ките описано, и ничего сверх —
+  придуманное состояние это обещание, которого экран не держит. Поэтому у поля нет
+  ошибки, а у тега нет выбранного вида: таких экранов в наборе ещё нет.
+  Второе: в матрице стоит то, что меняет вид или поведение. Растянутая кнопка,
+  другой индекс полосы, другая ширина заглушки, другой размер кружка — тот же
+  компонент, и ему место в одной клетке, а не в пяти.
 
   Наведение и нажатие живут в браузере и рядом не ставятся — их рисуют классы
-  .is-hover, .is-pressed и .is-focus. Это не копия правил: в ui/kit.css они
-  перечислены через запятую с псевдоклассами, описание одно на двоих.
+  .is-hover и .is-pressed. Это не копия правил: в ui/kit.css они перечислены через
+  запятую с псевдоклассами, описание одно на двоих.
+
+  Фокуса на витрине нет: он приходит от клавиатуры, его не разглядывают рядом
+  с наведением. В ui/kit.css :focus-visible остаётся — без него тот, кто ходит
+  табом, не видит, где стоит (WCAG 2.4.7, уровень AA).
 
   Текст везде настоящий, из интерфейса: компонент проверяется на той строке,
   которую он понесёт, а не на «Lorem ipsum».
@@ -118,8 +125,8 @@
   Состав и порог «два экрана» — <code>ui/inventory.md</code>, вид — <code>DESIGN.md</code>.</p>
   <p>У каждого компонента нарисовано каждое состояние, которое у него есть, и у каждого
   есть имя: вариант-состояние, а где нужно — и вид содержимого. Состояний, которых
-  в ките нет, здесь не появляется: придуманное состояние — обещание, которого экран
-  не держит.</p>
+  в ките нет, здесь не появляется. Ширина, размер и порядковый номер состоянием
+  не считаются: это тот же компонент, и он стоит в одной клетке.</p>
   <ul class="kit-toc">
     <li><a href="#g1">1 · Кнопки</a></li>
     <li><a href="#g2">2 · Поля</a></li>
@@ -136,7 +143,7 @@
 
 <section class="kit-grp" id="g1">
   <h2 class="kit-grp-h"><span class="kit-n">1</span>Кнопки</h2>
-  <p class="kit-lead">Три роли, и у каждой пять состояний. Наведение и нажатие приходят от мыши, фокус — от клавиатуры: кольцо видно при обходе табом и не появляется от клика. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой.</p>
+  <p class="kit-lead">Три роли, и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой; растянутая на всю ширину — тоже она, и отдельной клетки ей не нужно. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.</p>
   <section class="kit-case">
     <p class="kit-h"><b>Главная</b><code>.mm-btn--primary</code></p>
     <div class="kit-matrix">
@@ -153,16 +160,8 @@
         <figcaption>Primary-Pressed</figcaption>
       </figure>
       <figure class="kit-cell">
-        <div class="kit-stage"><a class="mm-btn mm-btn--primary is-focus" href="#">Ask to join</a></div>
-        <figcaption>Primary-Focus</figcaption>
-      </figure>
-      <figure class="kit-cell">
         <div class="kit-stage"><button class="mm-btn mm-btn--primary" type="button" disabled>Verify to send</button></div>
         <figcaption>Primary-Disabled</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><a class="mm-btn mm-btn--primary mm-btn--block" href="#">Try again</a></div>
-        <figcaption>Primary-Default-Full width</figcaption>
       </figure>
     </div>
     <p class="kit-note">Главная на экране одна. Отключённая — та же кнопка в половину силы: роль видно по-прежнему, видно и то, что она сейчас не работает. Надпись при этом говорит, что сделать: <code>Verify to send</code> — это гейт §7.3, и она называет условие.</p>
@@ -181,10 +180,6 @@
       <figure class="kit-cell">
         <div class="kit-stage"><a class="mm-btn mm-btn--quiet is-pressed" href="#">Invite together</a></div>
         <figcaption>Secondary-Pressed</figcaption>
-      </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><a class="mm-btn mm-btn--quiet is-focus" href="#">Invite together</a></div>
-        <figcaption>Secondary-Focus</figcaption>
       </figure>
       <figure class="kit-cell">
         <div class="kit-stage"><button class="mm-btn mm-btn--quiet" type="button" disabled>Invite together</button></div>
@@ -209,10 +204,6 @@
         <figcaption>Plain-Pressed</figcaption>
       </figure>
       <figure class="kit-cell">
-        <div class="kit-stage"><a class="mm-btn is-focus" href="#">Skip</a></div>
-        <figcaption>Plain-Focus</figcaption>
-      </figure>
-      <figure class="kit-cell">
         <div class="kit-stage"><button class="mm-btn" type="button" disabled>Skip</button></div>
         <figcaption>Plain-Disabled</figcaption>
       </figure>
@@ -229,10 +220,6 @@
       <figure class="kit-cell">
         <div class="kit-stage"><button class="mm-head-btn is-hover" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button></div>
         <figcaption>Icon-Hover</figcaption>
-      </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><button class="mm-head-btn is-focus" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button></div>
-        <figcaption>Icon-Focus</figcaption>
       </figure>
       <figure class="kit-cell">
         <div class="kit-stage"><button class="mm-head-btn mm-head-btn--primary" type="button" aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button></div>
@@ -298,14 +285,10 @@
     <div class="kit-matrix">
       <figure class="kit-cell kit-cell--wide">
         <div class="kit-stage"><p class="mm-actions"><a class="mm-btn mm-btn--primary" href="#">Expand search</a><a class="mm-btn mm-btn--quiet" href="#">Reset filters</a></p></div>
-        <figcaption>Actions-Two</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><p class="mm-actions"><a class="mm-btn mm-btn--primary mm-btn--block" href="#">Try again</a></p></div>
-        <figcaption>Actions-One</figcaption>
+        <figcaption>Actions-Default</figcaption>
       </figure>
     </div>
-    <p class="kit-note">Одна-две кнопки в ряд, поровну. Больше двух в наборе не встречается ни на одном экране.</p>
+    <p class="kit-note">Одна-две кнопки в ряд, поровну. Одна растягивается на всю ширину сама — это та же кнопка, а не другой её вид. Больше двух в наборе не встречается ни на одном экране.</p>
   </section>
 </section>
 
@@ -317,26 +300,14 @@
     <div class="kit-matrix">
       <figure class="kit-cell kit-cell--wide">
         <div class="kit-stage"><form class="mm-field" role="search"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><label class="mm-vh" for="q1">Search people and events</label><input id="q1" type="search" placeholder="Search people and events"></form></div>
-        <figcaption>Search-Empty</figcaption>
+        <figcaption>Field-Empty</figcaption>
       </figure>
       <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><form class="mm-field" role="search"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><label class="mm-vh" for="q2">Search people and events</label><input id="q2" type="search" value="board games"></form></div>
-        <figcaption>Search-Filled</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><form class="mm-field is-focus" role="search"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><label class="mm-vh" for="q3">Search people and events</label><input id="q3" type="search" value="board games"></form></div>
-        <figcaption>Search-Focus</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><label class="mm-field" for="m1"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span><span class="mm-vh">Message</span><input id="m1" type="text" placeholder="Write a message"></label></div>
-        <figcaption>Message-Empty</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><label class="mm-field is-focus" for="m2"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span><span class="mm-vh">Message</span><input id="m2" type="text" value="Saturday works"></label></div>
-        <figcaption>Message-Focus</figcaption>
+        <div class="kit-stage"><label class="mm-field" for="m1"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span><span class="mm-vh">Message</span><input id="m1" type="text" value="Saturday works"></label></div>
+        <figcaption>Field-Filled</figcaption>
       </figure>
     </div>
-    <p class="kit-note">Иконка в поле контурная: поле ничего не утверждает, оно ждёт ввода. Подпись скрытая — это такой же копирайт, он входит в перепись.</p>
+    <p class="kit-note">Компонент один, иконка меняется по месту: лупа в поиске, реплика в диалоге. Иконка контурная — поле ничего не утверждает, оно ждёт ввода. Подпись скрытая, это такой же копирайт, он входит в перепись.</p>
   </section>
 </section>
 
@@ -353,16 +324,6 @@
       <figure class="kit-cell">
         <div class="kit-stage"><nav class="mm-tabs kit-one"><a class="mm-tab is-current" href="#" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>Events</a></nav></div>
         <figcaption>Tab-Current</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--screen">
-        <div class="kit-stage"><nav class="mm-tabs" aria-label="Main navigation">
-        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="9" cy="6" r="4"/><path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"/><ellipse cx="9" cy="17" rx="7" ry="4"/><path d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"/></g></svg></span>People</a>
-        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg></span>Events</a>
-        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
-        <a class="mm-tab is-current" href="#" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.4003 22 8.88867 21.6239 7.54785 20.9561C7.19153 20.7786 6.78396 20.7204 6.39941 20.8232L4.17383 21.4189C3.20749 21.6775 2.3225 20.7925 2.58105 19.8262L3.17676 17.6006C3.27965 17.216 3.22142 16.8085 3.04395 16.4521C2.37612 15.1113 2 13.5997 2 12C2 6.47715 6.47715 2 12 2ZM7.99121 11C7.43893 11 6.99121 11.4477 6.99121 12C6.99121 12.5523 7.43893 13 7.99121 13C8.54327 12.9997 8.99121 12.5521 8.99121 12C8.99121 11.4479 8.54327 11.0003 7.99121 11ZM12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11ZM16.0088 11C15.4565 11 15.0088 11.4477 15.0088 12C15.0088 12.5523 15.4565 13 16.0088 13C16.5611 13 17.0088 12.5523 17.0088 12C17.0088 11.4477 16.5611 11 16.0088 11Z" clip-rule="evenodd"/></svg></span>Chats</a>
-        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
-      </nav></div>
-        <figcaption>Tabs-Default-Full</figcaption>
       </figure>
     </div>
     <p class="kit-note">Активная — на сиренево-серой пилюле, иконка залитая и тёмная; неактивные контурные, цвета <code>--mm-ink-400</code>. Форма у обоих наборов одна, меняется только вес.</p>
@@ -386,11 +347,7 @@
     <div class="kit-matrix">
       <figure class="kit-cell kit-cell--wide">
         <div class="kit-stage"><p class="mm-pager kit-one" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p></div>
-        <figcaption>Pager-First</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><p class="mm-pager kit-one" aria-hidden="true"><span></span><span class="is-current"></span><span></span></p></div>
-        <figcaption>Pager-Second</figcaption>
+        <figcaption>Pager-Default</figcaption>
       </figure>
     </div>
     <p class="kit-note">Столько полос, сколько фотографий, закрашенная — открытая. Счёт нужен и на слух, поэтому рядом стоит скрытый <code>figcaption</code>: «Photo 1 of 4».</p>
@@ -594,13 +551,9 @@
   <section class="kit-case">
     <p class="kit-h"><b>Чип расстояния</b><code>.mm-chip</code></p>
     <div class="kit-matrix">
-      <figure class="kit-cell">
-        <div class="kit-stage"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></div>
-        <figcaption>Chip-Distance</figcaption>
-      </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>Nearby</span></div>
-        <figcaption>Chip-Nearby</figcaption>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span> <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>Nearby</span></div>
+        <figcaption>Chip-Default</figcaption>
       </figure>
     </div>
     <p class="kit-note">Расстояние округлённое и без слова <code>away</code> (<code>D-60</code>); меньше километра — <code>Nearby</code>. Точки на карте нет нигде и никогда (правило 5).</p>
@@ -618,17 +571,9 @@
   <section class="kit-case">
     <p class="kit-h"><b>Аватар</b><code>.mm-avatar</code></p>
     <div class="kit-matrix">
-      <figure class="kit-cell">
-        <div class="kit-stage"><span class="mm-avatar" aria-hidden="true"><img src="img/andrii-48.jpg" alt="" loading="lazy"></span></div>
-        <figcaption>Avatar-Default</figcaption>
-      </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><span class="mm-avatar mm-avatar--lg" aria-hidden="true"><img src="img/dasha-112.jpg" alt="" loading="lazy"></span></div>
-        <figcaption>Avatar-Large</figcaption>
-      </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><p class="mm-skelrow"><span class="mm-avatar" aria-hidden="true"><img src="img/olena-48.jpg" alt="" loading="lazy"></span><span class="mm-avatar" aria-hidden="true"><img src="img/dasha-48.jpg" alt="" loading="lazy"></span></p></div>
-        <figcaption>Avatar-Row</figcaption>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><span class="mm-avatar" aria-hidden="true"><img src="img/andrii-48.jpg" alt="" loading="lazy"></span> <span class="mm-avatar mm-avatar--lg" aria-hidden="true"><img src="img/dasha-112.jpg" alt="" loading="lazy"></span></div>
+        <figcaption>Avatar-Sizes</figcaption>
       </figure>
     </div>
     <p class="kit-note">У каждого имени своё лицо: три одинаковых кружка в одной строке читаются как ошибка данных. В ряду заглушек кружок крупнее — это место под фотографию, а не подпись рядом с именем.</p>
@@ -640,25 +585,13 @@
         <div class="kit-stage"><p class="mm-facts">Kyiv Games Club &middot; Podil &middot; ~3 km</p></div>
         <figcaption>Facts-Default</figcaption>
       </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><p class="mm-meta">Sat 18:00</p></div>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="kit-stack"><span class="mm-meta">Sat 18:00</span><br><span class="mm-meta">No date yet</span></p></div>
         <figcaption>Meta-Default</figcaption>
       </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><p class="mm-meta">No date yet</p></div>
-        <figcaption>Meta-No date</figcaption>
-      </figure>
       <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><output class="mm-note">2 going &middot; 1 spot left &middot; Still going? comes the day before</output></div>
-        <figcaption>Note-Going</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><p class="mm-note">1 confirmed &middot; 1 spot left</p></div>
-        <figcaption>Note-Confirmed</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><p class="mm-note">No spots left</p></div>
-        <figcaption>Note-No spots</figcaption>
+        <div class="kit-stage"><p class="kit-stack"><output class="mm-note">2 going &middot; 1 spot left &middot; Still going? comes the day before</output><br><span class="mm-note">1 confirmed &middot; 1 spot left</span><br><span class="mm-note">No spots left</span></p></div>
+        <figcaption>Note-Counter</figcaption>
       </figure>
     </div>
     <p class="kit-note">Счётчик двухфазный (<code>D-16</code>): <code>going</code> → <code>confirmed</code>. Слово рядом с числом несёт честность — в каждой фазе показано ровно то, что известно.</p>
@@ -684,17 +617,6 @@
       </figure>
       <figure class="kit-cell kit-cell--tall">
         <div class="kit-stage"><div class="kit-tall">
-          <article class="mm-state">
-            <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>
-            <h3>You are all caught up</h3>
-            <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
-          </article>
-          <p class="mm-actions kit-after"><a class="mm-btn mm-btn--primary" href="#">Expand search</a><a class="mm-btn mm-btn--quiet" href="#">Reset filters</a></p>
-        </div></div>
-        <figcaption>State-Empty-Deck</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--tall">
-        <div class="kit-stage"><div class="kit-tall">
           <article class="mm-state mm-state--alert" role="alert">
             <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span>
             <h3>Couldn&rsquo;t load events nearby</h3>
@@ -703,17 +625,6 @@
           <p class="mm-actions kit-after"><a class="mm-btn mm-btn--primary" href="#">Try again</a></p>
         </div></div>
         <figcaption>State-Error</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--tall">
-        <div class="kit-stage"><div class="kit-tall">
-          <article class="mm-state">
-            <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>
-            <h3>No chats yet</h3>
-            <p>Chats open when you and someone both say yes &mdash; or when you ask to join an event and the person confirms you.</p>
-          </article>
-          <p class="mm-actions kit-after"><a class="mm-btn mm-btn--primary" href="#">See people</a><a class="mm-btn mm-btn--quiet" href="#">Look at events</a></p>
-        </div></div>
-        <figcaption>State-Empty-Chats</figcaption>
       </figure>
     </div>
     <p class="kit-note">Ни одно пустое состояние не выглядит пустым (§2.1, п. 1): у каждого есть ослабление условий и выход в соседний контур. Сбой — тот же блок, разница в <code>role="alert"</code> и в цвете иконки; текст называет причину и говорит, что данные целы.</p>
@@ -729,10 +640,6 @@
         <div class="kit-stage"><article class="mm-banner"><b>Waiting for Andrii</b><p>Your request is with Andrii. It stays open until Saturday &mdash; events without a date keep requests for 14 days.</p></article></div>
         <figcaption>Banner-Waiting</figcaption>
       </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><article class="mm-banner"><b>You&rsquo;re going</b><p>Andrii confirmed you. The chat is open and the exact address is now visible.</p></article></div>
-        <figcaption>Banner-Confirmed</figcaption>
-      </figure>
     </div>
     <p class="kit-note">Карточка, а не абзац: день назначен — это новый объект, а не ещё одна реплика (<code>D-39</code>). В ожидании названы тот, кто должен ответить, и срок (<code>D-42</code>).</p>
   </section>
@@ -745,16 +652,8 @@
     <p class="kit-h"><b>Заглушка</b><code>.mm-skel</code></p>
     <div class="kit-matrix">
       <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><span class="mm-skel mm-skel--line mm-skel--w-l"></span></div>
-        <figcaption>Skel-Line-L</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><span class="mm-skel mm-skel--line mm-skel--w-m"></span></div>
-        <figcaption>Skel-Line-M</figcaption>
-      </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><span class="mm-skel mm-skel--line mm-skel--w-s"></span></div>
-        <figcaption>Skel-Line-S</figcaption>
+        <div class="kit-stage"><p class="kit-block"><span class="mm-skel mm-skel--line mm-skel--w-l"></span><span class="mm-skel mm-skel--line mm-skel--w-m"></span><span class="mm-skel mm-skel--line mm-skel--w-s"></span></p></div>
+        <figcaption>Skel-Line</figcaption>
       </figure>
       <figure class="kit-cell kit-cell--wide">
         <div class="kit-stage"><span class="mm-skel mm-skel--pill mm-skel--w-s"></span></div>
@@ -1002,17 +901,9 @@
       </div></div>
         <figcaption>Radar-Default</figcaption>
       </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><span class="mm-dot" aria-hidden="true"><img src="img/olena-112.jpg" alt="" loading="lazy"></span></div>
-        <figcaption>Dot-Default</figcaption>
-      </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><span class="mm-dot mm-dot--sm" aria-hidden="true"><img src="img/ev-games.jpg" alt="" loading="lazy"></span></div>
-        <figcaption>Dot-Small</figcaption>
-      </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><span class="mm-dot mm-dot--lg" aria-hidden="true"><img src="img/dasha-112.jpg" alt="" loading="lazy"></span></div>
-        <figcaption>Dot-Large</figcaption>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><span class="mm-dot mm-dot--sm" aria-hidden="true"><img src="img/ev-games.jpg" alt="" loading="lazy"></span> <span class="mm-dot" aria-hidden="true"><img src="img/olena-112.jpg" alt="" loading="lazy"></span> <span class="mm-dot mm-dot--lg" aria-hidden="true"><img src="img/dasha-112.jpg" alt="" loading="lazy"></span></div>
+        <figcaption>Dot-Sizes</figcaption>
       </figure>
     </div>
     <p class="kit-note">Кольца подписаны и стоят на месте; из центра идёт волна — это и есть «радар работает». На кольцах не точки, а те же лица и обложки, что в колоде и ленте. Данные иллюстративные (<code>D-47</code>). При <code>prefers-reduced-motion</code> волна снимается, найденные видны сразу.</p>
