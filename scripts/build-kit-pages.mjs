@@ -99,7 +99,7 @@ const headStack = `<header class="mm-head mm-head--stack">
 const headBack = `<header class="mm-head">
         <a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>
         <h1 class="mm-head-title">Olena, 26</h1>
-        <button class="mm-head-btn mm-head-btn--report" type="button">${ico('report')}Report</button>
+        <button class="mm-head-btn mm-head-btn--danger" type="button">${ico('report')}Report</button>
       </header>`;
 
 // ═══════════════════════════ shell.html ═══════════════════════════
@@ -261,7 +261,7 @@ const screenState = (icon, h, p, acts, alert) => `<div class="kit-tall">
 ${acts ? `          <p class="mm-actions kit-after">${acts}</p>\n` : ''}        </div>`;
 
 const GROUPS = [
-  grp(1, 'Кнопки', 'Три роли, и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой; растянутая на всю ширину — тоже она, и отдельной клетки ей не нужно. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.', [
+  grp(1, 'Кнопки', 'Три ступени иерархии — <b>главная</b>, <b>вторичная</b>, <b>третичная</b> — и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Опасное действие ступенью не считается: это та же третья сила, но своим цветом, и стоит оно рядом. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой, и роль в имени у неё та же; растянутая на всю ширину — тоже она, и отдельной клетки ей не нужно. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.', [
     comp('Главная', '.mm-btn--primary', [
       cell('Primary-Default', btn(' mm-btn--primary', '', 'Ask to join')),
       cell('Primary-Hover', btn(' mm-btn--primary', ' is-hover', 'Ask to join')),
@@ -276,29 +276,30 @@ const GROUPS = [
       cell('Secondary-Disabled', '<button class="mm-btn mm-btn--quiet" type="button" disabled>Invite together</button>'),
     ], 'Сиреневая подложка без обводки. Отключённая остаётся сиреневой — приглушается, но роли не теряет.'),
 
-    comp('Без роли', '.mm-btn', [
-      cell('Plain-Default', btn('', '', 'Skip')),
-      cell('Plain-Hover', btn('', ' is-hover', 'Skip')),
-      cell('Plain-Pressed', btn('', ' is-pressed', 'Skip')),
-      cell('Plain-Disabled', '<button class="mm-btn" type="button" disabled>Skip</button>'),
-    ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Роли у неё нет, и залитой она не бывает.'),
+    comp('Третичная', '.mm-btn', [
+      cell('Tertiary-Default', btn('', '', 'Skip')),
+      cell('Tertiary-Hover', btn('', ' is-hover', 'Skip')),
+      cell('Tertiary-Pressed', btn('', ' is-pressed', 'Skip')),
+      cell('Tertiary-Disabled', '<button class="mm-btn" type="button" disabled>Skip</button>'),
+    ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Третья ступень иерархии — заливки нет, есть обводка и тень.'),
+
+    comp('Опасное действие', '.mm-danger-link · .mm-head-btn--danger', [
+      cell('Danger-Default', `<button class="mm-danger-link" type="button">${ico('report')}Report or block</button>`),
+      cell('Danger-Hover', `<button class="mm-danger-link is-hover" type="button">${ico('report')}Report or block</button>`),
+      cell('Danger-Default-In header', `<button class="mm-head-btn mm-head-btn--danger" type="button">${ico('report')}Report</button>`),
+      cell('Danger-Hover-In header', `<button class="mm-head-btn mm-head-btn--danger is-hover" type="button">${ico('report')}Report</button>`),
+    ], 'Названа по роли, а не по экрану: это не «кнопка Report», а опасное действие — туда же встанут <code>Block</code> и удаление, когда понадобятся. Не заливка, а строка с иконкой: <code>--mm-danger</code> в продукте носит только опасное. В шапке она мельче и со словом: флажок сам по себе не читается, а угадывать действие безопасности нельзя.'),
 
     comp('Только иконка', '.mm-head-btn', [
-      cell('Icon-Default', `<button class="mm-head-btn" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
-      cell('Icon-Hover', `<button class="mm-head-btn is-hover" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
+      cell('Tertiary-Default-Only icon', `<button class="mm-head-btn" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
+      cell('Tertiary-Hover-Only icon', `<button class="mm-head-btn is-hover" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
+      cell('Tertiary-Disabled-Only icon', `<button class="mm-head-btn" type="button" disabled>${ico('filters')}<span class="mm-vh">Filters</span></button>`),
       cell('Primary-Default-Only icon', `<button class="mm-head-btn mm-head-btn--primary" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
       cell('Primary-Hover-Only icon', `<button class="mm-head-btn mm-head-btn--primary is-hover" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
-      cell('Back-Default', '<a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
-      cell('Back-Hover', '<a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
-      cell('Report-Default', `<button class="mm-head-btn mm-head-btn--report" type="button">${ico('report')}Report</button>`),
-      cell('Report-Hover', `<button class="mm-head-btn mm-head-btn--report is-hover" type="button">${ico('report')}Report</button>`),
-      cell('Icon-Disabled', `<button class="mm-head-btn" type="button" disabled>${ico('filters')}<span class="mm-vh">Filters</span></button>`),
       cell('Primary-Disabled-Only icon', `<button class="mm-head-btn mm-head-btn--primary" type="button" disabled aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
-    ], 'Подпись у иконки скрыта для скринридера — смысл берётся из места. Исключение одно: у <code>Report</code> слово стоит видимым, флажок сам по себе не читается, а угадывать действие безопасности нельзя. Возврат — стрелка без круга: направление должно читаться без цвета.'),
-
-    comp('Опасное действие', '.mm-danger-link', [
-      cell('Danger-Default', `<button class="mm-danger-link" type="button">${ico('report')}Report this person</button>`),
-    ], 'Не заливка, а строка с иконкой: <code>--mm-danger</code> в продукте носят только <code>Report</code> и <code>Block</code>. Состояния наведения у неё нет — это ссылка, а не кнопка.'),
+      cell('No filling-Default-Only icon', '<a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
+      cell('No filling-Hover-Only icon', '<a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
+    ], 'Роли те же, что у кнопок с текстом: тёмная заливка — главная, белая с тенью — третичная. Где заливки нет вовсе, на месте роли стоит <code>No filling</code>: возврат это стрелка без круга, направление должно читаться без цвета. Подпись у иконки скрыта для скринридера — смысл берётся из места.'),
 
     comp('Подсказка в чате', '.mm-hints > .mm-btn', [
       cell('Hint-Default', '<p class="mm-hints"><a class="mm-btn" href="#">Free this weekend?</a></p>'),

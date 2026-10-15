@@ -143,7 +143,7 @@
 
 <section class="kit-grp" id="g1">
   <h2 class="kit-grp-h"><span class="kit-n">1</span>Кнопки</h2>
-  <p class="kit-lead">Три роли, и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой; растянутая на всю ширину — тоже она, и отдельной клетки ей не нужно. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.</p>
+  <p class="kit-lead">Три ступени иерархии — <b>главная</b>, <b>вторичная</b>, <b>третичная</b> — и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Опасное действие ступенью не считается: это та же третья сила, но своим цветом, и стоит оно рядом. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой, и роль в имени у неё та же; растянутая на всю ширину — тоже она, и отдельной клетки ей не нужно. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.</p>
   <section class="kit-case">
     <p class="kit-h"><b>Главная</b><code>.mm-btn--primary</code></p>
     <div class="kit-matrix">
@@ -189,37 +189,63 @@
     <p class="kit-note">Сиреневая подложка без обводки. Отключённая остаётся сиреневой — приглушается, но роли не теряет.</p>
   </section>
   <section class="kit-case">
-    <p class="kit-h"><b>Без роли</b><code>.mm-btn</code></p>
+    <p class="kit-h"><b>Третичная</b><code>.mm-btn</code></p>
     <div class="kit-matrix">
       <figure class="kit-cell">
         <div class="kit-stage"><a class="mm-btn" href="#">Skip</a></div>
-        <figcaption>Plain-Default</figcaption>
+        <figcaption>Tertiary-Default</figcaption>
       </figure>
       <figure class="kit-cell">
         <div class="kit-stage"><a class="mm-btn is-hover" href="#">Skip</a></div>
-        <figcaption>Plain-Hover</figcaption>
+        <figcaption>Tertiary-Hover</figcaption>
       </figure>
       <figure class="kit-cell">
         <div class="kit-stage"><a class="mm-btn is-pressed" href="#">Skip</a></div>
-        <figcaption>Plain-Pressed</figcaption>
+        <figcaption>Tertiary-Pressed</figcaption>
       </figure>
       <figure class="kit-cell">
         <div class="kit-stage"><button class="mm-btn" type="button" disabled>Skip</button></div>
-        <figcaption>Plain-Disabled</figcaption>
+        <figcaption>Tertiary-Disabled</figcaption>
       </figure>
     </div>
-    <p class="kit-note">Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Роли у неё нет, и залитой она не бывает.</p>
+    <p class="kit-note">Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Третья ступень иерархии — заливки нет, есть обводка и тень.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Опасное действие</b><code>.mm-danger-link · .mm-head-btn--danger</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-danger-link" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report or block</button></div>
+        <figcaption>Danger-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-danger-link is-hover" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report or block</button></div>
+        <figcaption>Danger-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-head-btn mm-head-btn--danger" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report</button></div>
+        <figcaption>Danger-Default-In header</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-head-btn mm-head-btn--danger is-hover" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report</button></div>
+        <figcaption>Danger-Hover-In header</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Названа по роли, а не по экрану: это не «кнопка Report», а опасное действие — туда же встанут <code>Block</code> и удаление, когда понадобятся. Не заливка, а строка с иконкой: <code>--mm-danger</code> в продукте носит только опасное. В шапке она мельче и со словом: флажок сам по себе не читается, а угадывать действие безопасности нельзя.</p>
   </section>
   <section class="kit-case">
     <p class="kit-h"><b>Только иконка</b><code>.mm-head-btn</code></p>
     <div class="kit-matrix">
       <figure class="kit-cell">
         <div class="kit-stage"><button class="mm-head-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button></div>
-        <figcaption>Icon-Default</figcaption>
+        <figcaption>Tertiary-Default-Only icon</figcaption>
       </figure>
       <figure class="kit-cell">
         <div class="kit-stage"><button class="mm-head-btn is-hover" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button></div>
-        <figcaption>Icon-Hover</figcaption>
+        <figcaption>Tertiary-Hover-Only icon</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-head-btn" type="button" disabled><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button></div>
+        <figcaption>Tertiary-Disabled-Only icon</figcaption>
       </figure>
       <figure class="kit-cell">
         <div class="kit-stage"><button class="mm-head-btn mm-head-btn--primary" type="button" aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button></div>
@@ -230,41 +256,19 @@
         <figcaption>Primary-Hover-Only icon</figcaption>
       </figure>
       <figure class="kit-cell">
-        <div class="kit-stage"><a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div>
-        <figcaption>Back-Default</figcaption>
-      </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div>
-        <figcaption>Back-Hover</figcaption>
-      </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><button class="mm-head-btn mm-head-btn--report" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report</button></div>
-        <figcaption>Report-Default</figcaption>
-      </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><button class="mm-head-btn mm-head-btn--report is-hover" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report</button></div>
-        <figcaption>Report-Hover</figcaption>
-      </figure>
-      <figure class="kit-cell">
-        <div class="kit-stage"><button class="mm-head-btn" type="button" disabled><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button></div>
-        <figcaption>Icon-Disabled</figcaption>
-      </figure>
-      <figure class="kit-cell">
         <div class="kit-stage"><button class="mm-head-btn mm-head-btn--primary" type="button" disabled aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button></div>
         <figcaption>Primary-Disabled-Only icon</figcaption>
       </figure>
-    </div>
-    <p class="kit-note">Подпись у иконки скрыта для скринридера — смысл берётся из места. Исключение одно: у <code>Report</code> слово стоит видимым, флажок сам по себе не читается, а угадывать действие безопасности нельзя. Возврат — стрелка без круга: направление должно читаться без цвета.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Опасное действие</b><code>.mm-danger-link</code></p>
-    <div class="kit-matrix">
       <figure class="kit-cell">
-        <div class="kit-stage"><button class="mm-danger-link" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report this person</button></div>
-        <figcaption>Danger-Default</figcaption>
+        <div class="kit-stage"><a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div>
+        <figcaption>No filling-Default-Only icon</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div>
+        <figcaption>No filling-Hover-Only icon</figcaption>
       </figure>
     </div>
-    <p class="kit-note">Не заливка, а строка с иконкой: <code>--mm-danger</code> в продукте носят только <code>Report</code> и <code>Block</code>. Состояния наведения у неё нет — это ссылка, а не кнопка.</p>
+    <p class="kit-note">Роли те же, что у кнопок с текстом: тёмная заливка — главная, белая с тенью — третичная. Где заливки нет вовсе, на месте роли стоит <code>No filling</code>: возврат это стрелка без круга, направление должно читаться без цвета. Подпись у иконки скрыта для скринридера — смысл берётся из места.</p>
   </section>
   <section class="kit-case">
     <p class="kit-h"><b>Подсказка в чате</b><code>.mm-hints > .mm-btn</code></p>
@@ -782,7 +786,7 @@
         <header class="mm-head">
         <a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>
         <h1 class="mm-head-title">Olena, 26</h1>
-        <button class="mm-head-btn mm-head-btn--report" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report</button>
+        <button class="mm-head-btn mm-head-btn--danger" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report</button>
       </header>
         <main class="mm-app">
           <div class="mm-pane">

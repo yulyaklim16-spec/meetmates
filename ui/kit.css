@@ -318,10 +318,13 @@
   line-height: 1;
 }
 .mm-head-btn--back:hover, .mm-head-btn--back.is-hover { background: var(--mm-surface-2); }
-/* жалоба — единственная кнопка шапки со словом: флажок сам не читается,
-   а действие это безопасности, и угадывать его нельзя. Круга нет, иконка меньше,
-   площадь нажатия те же 44px */
-.mm-head-btn--report {
+/* Опасное действие в шапке: единственная кнопка шапки со словом. Флажок сам
+   не читается, а угадывать действие безопасности нельзя. Заливки нет, круга нет,
+   иконка меньше, площадь нажатия те же 44px.
+
+   Названа по роли, а не по экрану: это не «кнопка Report», а опасное действие
+   в шапке — туда же встанет Block или удаление, когда понадобятся. */
+.mm-head-btn--danger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -334,8 +337,8 @@
   color: var(--mm-danger);
   font: var(--mm-fw-semibold) var(--mm-t-micro) / 1 var(--mm-font);
 }
-.mm-head-btn--report:hover, .mm-head-btn--report.is-hover { background: var(--mm-surface-2); }
-.mm-head-btn--report svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
+.mm-head-btn--danger:hover, .mm-head-btn--danger.is-hover { background: var(--mm-surface-2); }
+.mm-head-btn--danger svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
 
 /* нижнее меню: белая панель во всю ширину содержимого, пять равных вкладок */
 .mm-tabs {
@@ -436,9 +439,11 @@
   border: 0;
   background: none;
   color: var(--mm-danger);
+  border-radius: var(--mm-r-pill);
   font: var(--mm-fw-semibold) var(--mm-t-body-sm) / 1 var(--mm-font);
   cursor: pointer;
 }
+.mm-danger-link:hover, .mm-danger-link.is-hover { background: var(--mm-surface-2); }
 .mm-danger-link svg { width: var(--mm-icon-btn); height: var(--mm-icon-btn); }
 
 /* строка действий: одна-две кнопки в ряд, поровну */

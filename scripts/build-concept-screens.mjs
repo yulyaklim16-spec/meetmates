@@ -205,7 +205,7 @@ function dressInKit(body, name) {
     h = h.replace(/<div class="row">/, '<div class="mm-head-line">');
     // жалоба: слово остаётся видимым — флажок без подписи не читается
     h = h.replace(/<button type="button" class="report">([\s\S]*?)<\/button>/,
-      (b, inner2) => `<button type="button" class="mm-head-btn mm-head-btn--report">${inner2.replace(/<span class="label">([^<]*)<\/span>/, '$1')}</button>`);
+      (b, inner2) => `<button type="button" class="mm-head-btn mm-head-btn--danger">${inner2.replace(/<span class="label">([^<]*)<\/span>/, '$1')}</button>`);
     h = h.replace(/<button type="button" class="primary"([^>]*)>/, '<button type="button" class="mm-head-btn mm-head-btn--primary"$1>');
     h = h.replace(/<button type="button"((?:(?!class=)[^>])*)>/g, '<button type="button" class="mm-head-btn"$1>');
     h = h.replace(/<a class="back"/, '<a class="mm-head-btn mm-head-btn--back"');
