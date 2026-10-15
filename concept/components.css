@@ -259,10 +259,10 @@
 
 
 /* кнопка без роли — ровная белая: Skip в колоде стоит рядом с залитой Like */
-.mm-ui :is(.btn, button):not(.primary):not(.quiet):not(header *):not(.danger-link) {
+.mm-ui :is(.btn, button):not(.primary):not(.quiet):not(header *):not(.danger-link):not(.wfbar *) {
   background: var(--surface); color: var(--ink-900); box-shadow: var(--shadow-sm);
 }
-.mm-ui :is(.btn, button):not(.primary):not(.quiet):not(header *):not(.danger-link):hover { background: var(--surface-2); }
+.mm-ui :is(.btn, button):not(.primary):not(.quiet):not(header *):not(.danger-link):not(.wfbar *):hover { background: var(--surface-2); }
 
 /* ── секция, которая забирает остаток высоты: колода, совпадение, селфи ── */
 .mm-ui .stretch { flex: 1; min-height: 0; display: flex; flex-direction: column; }

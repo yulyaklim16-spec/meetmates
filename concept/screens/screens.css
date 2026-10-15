@@ -76,7 +76,7 @@ body {
 .wfnav .n { margin-top: var(--s-5); font-size: 11px; }
 .wfnav .gt { padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-900); font-weight: 700; margin-bottom: var(--s-2); }
 /* ветка, внутри которой текущий экран, залита целиком: видно, где стоишь */
-.wfnav .grp.now > .gt { background: var(--surface-2); }
+.wfnav .grp.now > .gt { background: var(--line); }
 /* ветки отбиты линией: группа не должна читаться как ещё один пункт списка */
 .wfnav .grp { padding-bottom: var(--s-4); }
 .wfnav .grp + .grp { border-top: 1px solid var(--line); padding-top: var(--s-4); }
@@ -130,7 +130,7 @@ body:has(#bare:target) .device { margin: 0 auto; }
   border-radius: var(--r-md); background: var(--line);
 }
 .wfstates li a, .wfstates li b {
-  display: block; padding: 5px var(--s-3); border-radius: var(--r-pill);
+  display: block; padding: 5px var(--s-2); border-radius: var(--r-pill);
   font-size: var(--t-micro); text-decoration: none; white-space: nowrap;
 }
 .wfstates li a { color: var(--ink-600); font-weight: var(--fw-regular); }

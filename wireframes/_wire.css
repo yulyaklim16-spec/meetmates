@@ -515,7 +515,7 @@ a { color: var(--w-ink); }
 }
 .wfstates li a, .wfstates li b {
   display: block;
-  padding: 5px var(--s-3);
+  padding: 5px var(--s-2);
   border-radius: var(--r-pill);
   font-size: 12px; font-weight: 400;
   color: var(--w-ink-2);
