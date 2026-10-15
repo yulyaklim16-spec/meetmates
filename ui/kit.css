@@ -217,20 +217,31 @@
   background-image: var(--mm-bg-wash);
 }
 
-/* содержимое экрана: горизонтальные поля задаются здесь и только здесь */
+/* содержимое экрана: горизонтальные поля задаются здесь и только здесь.
+   Шаг между панелью и закреплённой полосой — тот же, что между блоками панели:
+   без него поле ввода в диалоге подходит к последней реплике на 8px вместо 24,
+   и закреплённая полоса читается как часть прокручиваемого. Ничего, кроме панели
+   и полосы, в этом контейнере не лежит, поэтому шаг один и задан здесь.
+   Обрезка — своя: прокрутку держат .mm-pane и .mm-scrolly, а из экрана
+   выходить нечему. */
 .mm-app {
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
+  gap: var(--mm-s-4);
   padding: var(--mm-s-3) var(--mm-s-4) var(--mm-s-2);
+  overflow: hidden;
 }
 
 .mm-pane { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: var(--mm-s-4); }
 /* секция экрана: блоки внутри идут одним шагом */
 .mm-section { display: flex; flex-direction: column; gap: var(--mm-s-3); }
-/* секция, забирающая остаток высоты: колода, селфи, пустое состояние */
-.mm-stretch { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+/* секция, забирающая остаток высоты: колода, селфи, пустое состояние.
+   Шаг внутри тот же, что у обычной секции: разница между ними одна — эта
+   секция тянется. Без шага заголовок «Events that fit two» прилипал к карточке,
+   а строка «Loading…» — к заглушке колоды */
+.mm-stretch { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: var(--mm-s-3); }
 
 /* Прокручиваемая секция. Полоса прокрутки видна — это подсказка, что ниже ещё
    есть содержимое; место под неё резервируется всегда, поэтому карточки одной
@@ -690,13 +701,15 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
   transition: background var(--mm-dur-fast) var(--mm-ease-out), box-shadow var(--mm-dur-fast) var(--mm-ease-out);
 }
 .mm-field svg { flex: none; width: var(--mm-icon-md); height: var(--mm-icon-md); color: var(--mm-ink-400); }
+/* межстрочное — как у текста, а не как у заголовка: это набранная строка,
+   и в многострочном поле она читается тем же шагом, что абзац */
 .mm-field input {
   flex: 1;
   min-width: 0;
   border: 0;
   outline: 0;
   background: transparent;
-  font: var(--mm-fw-regular) var(--mm-t-body-sm) / var(--mm-lh-heading) var(--mm-font);
+  font: var(--mm-fw-regular) var(--mm-t-body-sm) / var(--mm-lh-body) var(--mm-font);
   color: var(--mm-ink-900);
 }
 .mm-field input::placeholder { color: var(--mm-ink-600); }
@@ -830,7 +843,11 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
   box-shadow: var(--mm-shadow-sm);
   text-align: center;
 }
+/* flex: none обязателен: блок состояния — колонка, и в тесной секции
+   (пустой диалог, где под ним ещё столбик подсказок) кружок сжимался
+   по высоте и становился овалом */
 .mm-state-ico {
+  flex: none;
   display: grid;
   place-items: center;
   width: var(--mm-state-ico);
@@ -847,10 +864,15 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
 
 /* итог: день назначен, отклик ушёл. Карточка, а не абзац —
    это новый объект, а не ещё одна реплика (D-39, D-42) */
+/* Отбивка сверху своя, а не из шага контейнера: плашка отходит от разговора
+   сильнее, чем реплики друг от друга, — иначе итог читается ещё одной репликой.
+   Та же причина, что у .mm-common и .mm-distance: шаг контейнера один на все
+   блоки, а здесь нужен больший. */
 .mm-banner {
   display: flex;
   flex-direction: column;
   gap: var(--mm-s-1);
+  margin-top: var(--mm-s-3);
   padding: var(--mm-s-3) var(--mm-s-4) var(--mm-s-4);
   border-radius: var(--mm-r-lg);
   background: var(--mm-surface);
@@ -930,8 +952,8 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
 .mm-bubble-retry { position: absolute; top: var(--mm-s-2); right: var(--mm-s-2); display: inline-flex; color: var(--mm-ink-900); }
 .mm-bubble-retry svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
 
-/* подсказки в пустом чате — предложенные фразы, а не второе действие:
-   столбиком, белые, текст слева */
+/* Подсказки в пустом чате своего вида не имеют: это третичные кнопки
+   с другим текстом, столбиком в .mm-list. Своего класса у них нет. */
 
 /* ═══ Онбординг: обещание на радаре ═══ */
 

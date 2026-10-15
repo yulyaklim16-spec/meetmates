@@ -339,7 +339,7 @@ const GROUPS = [
       cell('Tertiary-Hover-Only icon', `<button class="mm-head-btn is-hover" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
       cell('Tertiary-Pressed-Only icon', `<button class="mm-head-btn is-pressed" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
       cell('Tertiary-Disabled-Only icon', `<button class="mm-head-btn" type="button" disabled>${ico('filters')}<span class="mm-vh">Filters</span></button>`),
-    ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Третья ступень иерархии — заливки нет, есть обводка и тень. Вторая строка — та же роль в шапке: белый кружок с тенью, подпись скрыта для скринридера, смысл берётся из места. Подсказка в пустом чате — она же: три такие кнопки столбиком, меняется только текст. Своего вида у неё нет, поэтому нет ни клетки, ни класса.'),
+    ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Третья ступень иерархии — заливки нет, есть обводка и тень. Вторая строка — та же роль в шапке: белый кружок с тенью, подпись скрыта для скринридера, смысл берётся из места. Третья — подсказка в пустом чате: заливка, обводка и наведение те же, своё только выравнивание и вес, и по ним видно, что это предложенная фраза, а не кнопка рядом с главной. Отключённой подсказка не бывает: её либо предлагают, либо не показывают вовсе. Ширина состоянием не считается — на экране такая строка идёт во всю ширину, и площадка здесь показана широкой только затем, чтобы левый край надписи было видно.'),
 
     comp('Опасное действие', '.mm-danger-link · .mm-head-btn--danger', [
       cell('Danger-Default', `<button class="mm-danger-link" type="button">${ico('report')}Report or block</button>`),
@@ -726,6 +726,8 @@ ${FONT}
   .kit-cell--tall .kit-stage { align-items: stretch; }
   .kit-cell--card { grid-column: span 2; }
   .kit-cell--card .kit-stage > * { width: 100%; height: 400px; }
+  /* образец во всю ширину площадки: нужен там, где вид держится на выравнивании
+     внутри — у пилюли, обжатой по тексту, левого края не видно */
   .kit-cell--screen { grid-column: 1 / -1; }
   .kit-cell--screen .kit-stage { padding: 0; background: none; box-shadow: none; justify-content: flex-start; gap: 24px; overflow-x: auto; }
   .kit-cell--screen .mm-screen { flex: none; border-radius: 26px; box-shadow: 0 0 0 1px var(--edge), 0 8px 28px rgba(17, 17, 17, .1); }

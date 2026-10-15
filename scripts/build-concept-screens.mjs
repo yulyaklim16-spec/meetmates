@@ -163,6 +163,10 @@ const KIT = new Set([
   // 3. Человек
   'profile', 'profile-empty', 'profile-loading',
   'verify', 'verify-error', 'verify-loading', 'verify-success', 'verify-waiting', 'verify-success-signup',
+  // 4. Чат
+  'chats', 'chats-empty', 'chats-error', 'chats-loading',
+  'dialog', 'dialog-empty', 'dialog-error', 'dialog-loading', 'dialog-success', 'dialog-waiting',
+  'invite', 'invite-empty', 'invite-error', 'invite-success', 'invite-waiting',
 ]);
 
 // имена, которые переводятся один в один
@@ -244,6 +248,13 @@ function dressInKit(body, name) {
   s = s.replace(/<span class="dot"/g, '<span class="mm-dot"');
 
   // 6. кнопки, строки действий, срез вкладки, подсказки в чате
+  // Подсказки в пустом чате идут первыми: в разметке у них тот же класс, что
+  // у тихой кнопки, и различает их только место — столбик p.rows. Переведём
+  // позже — и они уедут в тихие, сиреневые, вперемешку с главным действием.
+  // Своего вида у подсказки нет: это третичная кнопка с другим текстом,
+  // а столбик задаёт раскладка .mm-list.
+  s = s.replace(/<p class="rows">([\s\S]*?)<\/p>/g, (m, inner) =>
+    `<p class="mm-list">${inner.replace(/class="btn quiet"/g, 'class="mm-btn"')}</p>`);
   s = s.replace(/class="btn primary"/g, 'class="mm-btn mm-btn--primary"');
   s = s.replace(/class="btn quiet"/g, 'class="mm-btn mm-btn--quiet"');
   s = s.replace(/class="btn"/g, 'class="mm-btn"');
@@ -254,9 +265,6 @@ function dressInKit(body, name) {
     (m, head, inner) => `${head}<p class="mm-segmented">${inner
       .replace(/class="mm-btn mm-btn--primary"/, 'class="mm-btn is-current"')
       .replace(/class="mm-btn mm-btn--quiet"/, 'class="mm-btn"')}</p>`);
-  // p.rows — столбик подсказок в пустом чате. Своего компонента у него больше нет:
-  // это три третичные кнопки, и чем они ставятся столбиком, решается, когда
-  // ветка «Чат» пойдёт одеваться. Пока ни один одетый экран его не содержит.
   s = s.replace(/<p class="row">/g, '<p class="mm-actions">');
 
   // 7. пусто и сбой
