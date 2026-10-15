@@ -127,7 +127,7 @@ body:has(#bare:target) .device { margin: 0 auto; }
 .wfstates { min-width: 0; }
 .wfstates ul {
   display: flex; flex-wrap: wrap; gap: 2px; padding: 3px;
-  border-radius: var(--r-pill); background: var(--line);
+  border-radius: var(--r-md); background: var(--line);
 }
 .wfstates li a, .wfstates li b {
   display: block; padding: 5px var(--s-3); border-radius: var(--r-pill);

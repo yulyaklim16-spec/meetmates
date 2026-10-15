@@ -164,10 +164,19 @@ function strip(s, activeFile) {
   // На сегменте — короткий ярлык, пояснение уходит в подсказку: «успех
   // в онбординге: до первого свайпа, возвращать в чат некуда» в таб не влезает
   // и выдавливает переключатель ширины за край.
+  //
+  // Два имени не укорачиваются сами собой — у них нет ни двоеточия, ни тире,
+  // а в одну строку обоймы они не помещаются. Короткое имя задано явно; полное
+  // по-прежнему в подсказке, и в списке состояний под мокапом оно не меняется.
+  const SHORT = {
+    'ожидание чужого решения': 'ожидание',
+    'успех в онбординге': 'онбординг',
+  };
   const items = s.pages.map((p) => {
     const cur = p.file === activeFile;
     const cls = [cur ? 'now' : '', p.stub ? 'stub' : ''].filter(Boolean).join(' ');
-    const short = esc(p.title.split(/\s[\u00B7\u2014]\s|:\s/)[0].trim());
+    const cut = p.title.split(/\s[\u00B7\u2014]\s|:\s/)[0].trim();
+    const short = esc(SHORT[cut] || cut);
     const full = esc(p.title);
     const tip = short === full ? '' : ` title="${full}"`;
     return `    <li${cls ? ` class="${cls}"` : ''}>` +
