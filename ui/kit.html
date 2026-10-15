@@ -92,6 +92,9 @@
   .kit-shot .mm-person { height: auto; flex: 1; }
   .kit-after { margin-top: 12px; }
   .kit-one { width: 120px; }
+  /* одиночный сегмент показывается на дорожке, а не вместо неё */
+  .mm-segmented.kit-one { width: 160px; }
+  .mm-segmented.kit-one > * { flex: none; min-width: 88px; }
   .kit-block { width: 100%; }
   /* место под раскрытый список: он лежит слоем, высоту клетке он не задаёт */
   .kit-drop { padding-bottom: 128px; }
@@ -646,16 +649,20 @@
   <section class="kit-case">
     <p class="kit-h"><b>Срез вкладки</b><code>.mm-segmented</code></p>
     <div class="kit-matrix">
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><p class="mm-segmented"><a class="mm-btn is-current" href="#">Nearby</a><a class="mm-btn" href="#">Mine</a></p></div>
+      <figure class="kit-cell">
+        <div class="kit-stage"><p class="mm-segmented kit-one"><a class="mm-btn" href="#">Mine</a></p></div>
+        <figcaption>Segment-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><p class="mm-segmented kit-one"><a class="mm-btn is-current" href="#">Nearby</a></p></div>
         <figcaption>Segment-Current</figcaption>
       </figure>
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><p class="mm-segmented"><a class="mm-btn is-current" href="#">Nearby</a><a class="mm-btn is-hover" href="#">Mine</a></p></div>
-        <figcaption>Segment-Hover</figcaption>
+      <figure class="kit-cell kit-cell--wide kit-cell--nl">
+        <div class="kit-stage"><p class="mm-segmented"><a class="mm-btn is-current" href="#">Nearby</a><a class="mm-btn" href="#">Mine</a></p></div>
+        <figcaption>Segment-Current-Whole control</figcaption>
       </figure>
     </div>
-    <p class="kit-note">Сегменты стоят вплотную на дорожке: это один орган, а не две главные кнопки рядом. Наведение на невыбранный сегмент ничего не заливает — иначе он читался бы как выбранный.</p>
+    <p class="kit-note">Сначала сам сегмент: выбранный — белая пилюля с тенью и полужирным, обычный — ничего, только текст на дорожке. Потом орган целиком: сегменты стоят вплотную, это один переключатель, а не две кнопки рядом. Наведения у сегмента нет вовсе — правило гасит заливку от <code>.mm-btn</code>, иначе невыбранный читался бы выбранным; клетки ему поэтому не нужно.</p>
   </section>
   <section class="kit-case">
     <p class="kit-h"><b>Выход в соседний контур</b><code>.mm-exit</code></p>

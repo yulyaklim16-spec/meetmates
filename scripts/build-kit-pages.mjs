@@ -420,9 +420,10 @@ const GROUPS = [
     ], 'Активная — на сиренево-серой пилюле, иконка залитая и тёмная; неактивные контурные, цвета <code>--mm-ink-400</code>. Форма у обоих наборов одна, меняется только вес.'),
 
     comp('Срез вкладки', '.mm-segmented', [
-      cell('Segment-Current', '<p class="mm-segmented"><a class="mm-btn is-current" href="#">Nearby</a><a class="mm-btn" href="#">Mine</a></p>', 'kit-cell--wide'),
-      cell('Segment-Hover', '<p class="mm-segmented"><a class="mm-btn is-current" href="#">Nearby</a><a class="mm-btn is-hover" href="#">Mine</a></p>', 'kit-cell--wide'),
-    ], 'Сегменты стоят вплотную на дорожке: это один орган, а не две главные кнопки рядом. Наведение на невыбранный сегмент ничего не заливает — иначе он читался бы как выбранный.'),
+      cell('Segment-Default', '<p class="mm-segmented kit-one"><a class="mm-btn" href="#">Mine</a></p>'),
+      cell('Segment-Current', '<p class="mm-segmented kit-one"><a class="mm-btn is-current" href="#">Nearby</a></p>'),
+      cell('Segment-Current-Whole control', '<p class="mm-segmented"><a class="mm-btn is-current" href="#">Nearby</a><a class="mm-btn" href="#">Mine</a></p>', 'kit-cell--wide kit-cell--nl'),
+    ], 'Сначала сам сегмент: выбранный — белая пилюля с тенью и полужирным, обычный — ничего, только текст на дорожке. Потом орган целиком: сегменты стоят вплотную, это один переключатель, а не две кнопки рядом. Наведения у сегмента нет вовсе — правило гасит заливку от <code>.mm-btn</code>, иначе невыбранный читался бы выбранным; клетки ему поэтому не нужно.'),
 
     comp('Выход в соседний контур', '.mm-exit', [
       cell('Exit-Default', '<a class="mm-exit" href="#"><span>Look at events</span><span aria-hidden="true">&rarr;</span></a>', 'kit-cell--wide'),
@@ -745,6 +746,9 @@ ${FONT}
   .kit-shot .mm-person { height: auto; flex: 1; }
   .kit-after { margin-top: 12px; }
   .kit-one { width: 120px; }
+  /* одиночный сегмент показывается на дорожке, а не вместо неё */
+  .mm-segmented.kit-one { width: 160px; }
+  .mm-segmented.kit-one > * { flex: none; min-width: 88px; }
   .kit-block { width: 100%; }
   /* место под раскрытый список: он лежит слоем, высоту клетке он не задаёт */
   .kit-drop { padding-bottom: 128px; }
