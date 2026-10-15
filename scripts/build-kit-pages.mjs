@@ -261,7 +261,7 @@ const screenState = (icon, h, p, acts, alert) => `<div class="kit-tall">
 ${acts ? `          <p class="mm-actions kit-after">${acts}</p>\n` : ''}        </div>`;
 
 const GROUPS = [
-  grp(1, 'Кнопки', 'Три ступени иерархии — <b>главная</b>, <b>вторичная</b>, <b>третичная</b> — и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Опасное действие ступенью не считается: это та же третья сила, но своим цветом, и стоит оно рядом. Кнопка только с иконкой — та же кнопка, поэтому стоит второй строкой под своей ролью, а не отдельной группой: <code>Primary-Default-Only icon</code> идёт под <code>Primary-Default</code>. Отдельно стоит лишь то, у чего роли нет вовсе, — возврат. Растянутая на всю ширину — тоже та же кнопка, и отдельной клетки ей не нужно. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.', [
+  grp(1, 'Кнопки', 'Три ступени иерархии — <b>главная</b>, <b>вторичная</b>, <b>третичная</b> — и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Опасное действие ступенью не считается: это та же третья сила, но своим цветом, и стоит оно рядом. Кнопка только с иконкой — та же кнопка, поэтому стоит второй строкой под своей ролью, а не отдельной группой: <code>Primary-Default-Only icon</code> идёт под <code>Primary-Default</code>. Отдельно стоит лишь то, у чего роли нет вовсе, — возврат. Растянутая на всю ширину — тоже та же кнопка, и отдельной клетки ей не нужно. Своего компонента нет и у строки действий <code>.mm-actions</code>: это раскладка, одна-две кнопки в ряд поровну, вида у неё никакого — её видно там, где она работает, в пустых состояниях и на плашке итога. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.', [
     comp('Главная', '.mm-btn--primary · .mm-head-btn--primary', [
       cell('Primary-Default', btn(' mm-btn--primary', '', 'Ask to join')),
       cell('Primary-Hover', btn(' mm-btn--primary', ' is-hover', 'Ask to join')),
@@ -280,7 +280,7 @@ const GROUPS = [
       cell('Secondary-Disabled', '<button class="mm-btn mm-btn--quiet" type="button" disabled>Invite together</button>'),
     ], 'Сиреневая подложка без обводки. Отключённая остаётся сиреневой — приглушается, но роли не теряет. Строки «только иконка» у неё нет: в шапке вторичная не встречается ни на одном экране.'),
 
-    comp('Третичная', '.mm-btn · .mm-head-btn', [
+    comp('Третичная', '.mm-btn · .mm-head-btn · .mm-hints > .mm-btn', [
       cell('Tertiary-Default', btn('', '', 'Skip')),
       cell('Tertiary-Hover', btn('', ' is-hover', 'Skip')),
       cell('Tertiary-Pressed', btn('', ' is-pressed', 'Skip')),
@@ -289,7 +289,10 @@ const GROUPS = [
       cell('Tertiary-Hover-Only icon', `<button class="mm-head-btn is-hover" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
       cell('Tertiary-Pressed-Only icon', `<button class="mm-head-btn is-pressed" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
       cell('Tertiary-Disabled-Only icon', `<button class="mm-head-btn" type="button" disabled>${ico('filters')}<span class="mm-vh">Filters</span></button>`),
-    ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Третья ступень иерархии — заливки нет, есть обводка и тень. Вторая строка — та же роль в шапке: белый кружок с тенью, подпись скрыта для скринридера, смысл берётся из места.'),
+      cell('Tertiary-Default-In chat', '<p class="mm-hints kit-block"><a class="mm-btn" href="#">Free this weekend?</a></p>', 'kit-cell--nl'),
+      cell('Tertiary-Hover-In chat', '<p class="mm-hints kit-block"><a class="mm-btn is-hover" href="#">Free this weekend?</a></p>'),
+      cell('Tertiary-Pressed-In chat', '<p class="mm-hints kit-block"><a class="mm-btn is-pressed" href="#">Free this weekend?</a></p>'),
+    ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Третья ступень иерархии — заливки нет, есть обводка и тень. Вторая строка — та же роль в шапке: белый кружок с тенью, подпись скрыта для скринридера, смысл берётся из места. Третья — она же подсказкой в чате: отдельного компонента ей не нужно, меняются две вещи — текст встаёт слева и вес обычный, потому что это предложенная фраза, а не второе действие, и рядом с главной кнопкой она не спорит. Отключённой подсказка не бывает: нечего предлагать — её просто нет.'),
 
     comp('Опасное действие', '.mm-danger-link · .mm-head-btn--danger', [
       cell('Danger-Default', `<button class="mm-danger-link" type="button">${ico('report')}Report or block</button>`),
@@ -305,16 +308,6 @@ const GROUPS = [
       cell('No filling-Hover-Only icon', '<a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
       cell('No filling-Pressed-Only icon', '<a class="mm-head-btn mm-head-btn--back is-pressed" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
     ], 'Возврат: стрелка без круга и без заливки. Роли взяться не из чего, поэтому на её месте в имени стоит <code>No filling</code>. Направление обязано читаться без цвета — отсюда и голая стрелка. Отключённой она не бывает: уйти с экрана можно всегда.'),
-
-    comp('Подсказка в чате', '.mm-hints > .mm-btn', [
-      cell('Hint-Default', '<p class="mm-hints"><a class="mm-btn" href="#">Free this weekend?</a></p>'),
-      cell('Hint-Hover', '<p class="mm-hints"><a class="mm-btn is-hover" href="#">Free this weekend?</a></p>'),
-      cell('Hint-Pressed', '<p class="mm-hints"><a class="mm-btn is-pressed" href="#">Free this weekend?</a></p>'),
-    ], 'Предложенная фраза, а не второе действие: текст слева, вес обычный. Рядом с главной кнопкой не спорит.'),
-
-    comp('Строка действий', '.mm-actions', [
-      cell('Actions-Default', `<p class="mm-actions">${btn(' mm-btn--primary', '', 'Expand search')}${btn(' mm-btn--quiet', '', 'Reset filters')}</p>`, 'kit-cell--wide'),
-    ], 'Одна-две кнопки в ряд, поровну. Одна растягивается на всю ширину сама — это та же кнопка, а не другой её вид. Больше двух в наборе не встречается ни на одном экране.'),
   ]),
 
   grp(2, 'Поля', 'Поле в наборе одно и стоит в двух местах: поиск в шапке и ввод реплики в диалоге. Состояния ошибки у него нет — экранов, где поле что-то проверяет, в вайрфреймах ещё нет, и выдумывать его не стали.', [
