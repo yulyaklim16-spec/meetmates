@@ -226,10 +226,10 @@ const btn = (mod, state, text) => `<a class="mm-btn${mod}${state}" href="#">${te
 
 const evCard = (acts, pic = 'games', head = 'Board games', when = 'Sat 18:00', where = 'Kyiv Games Club &middot; Podil &middot; ~3 km', spots = '2 going &middot; 1 spot left') =>
   `<ul class="mm-list">
-          <li class="mm-event">
+          <li class="mm-event${acts.cardState || ''}">
             <span class="mm-cover" aria-hidden="true">${cover(pic)}</span>
             <span class="mm-event-body">
-              <a class="mm-event-head${acts.headState || ''}" href="#"><b>${head}</b><span class="mm-meta">${when}</span></a>
+              <a class="mm-event-head" href="#"><b>${head}</b><span class="mm-meta">${when}</span></a>
               <span class="mm-facts">${where}</span>
               <span class="mm-facts">${spots} &middot; <span class="mm-verified">${I.verified}Verified</span></span>
             </span>
@@ -413,7 +413,7 @@ const GROUPS = [
     ], 'Три значения — ограничение отклика на своём запросе (<code>D-25</code>). Открытый список — состояние поля, а не второй компонент. Недоступным он бывает ровно в одном случае: пол не указан, и ограничение поставить не из чего; строка под полем говорит, что сделать. Состояния «не приняло» у него нет — выбрано всегда одно из трёх, пустым он не бывает.'),
   ]),
 
-  grp(3, 'Навигация и переключатели', 'Чем переходят с экрана на экран: нижнее меню, срез вкладки и дверь в соседний контур. У первых двух ровно два состояния — выбран или нет, промежуточных не бывает, выбор всегда один.', [
+  grp(3, 'Навигация и переключатели', 'Чем переходят с экрана на экран: нижнее меню и срез вкладки. У обоих ровно два состояния — выбран или нет, промежуточных не бывает, выбор всегда один. Двери в соседний контур здесь нет: <code>Look at events</code> и <code>See people</code> — это третичная кнопка со стрелкой в надписи, своего компонента ей не нужно (§1 «Чего компонентом не считается»).', [
     comp('Вкладка нижнего меню', '.mm-tab', [
       cell('Tab-Default', `<nav class="mm-tabs kit-one"><a class="mm-tab" href="#">${ico('tab-events')}Events</a></nav>`),
       cell('Tab-Current', `<nav class="mm-tabs kit-one"><a class="mm-tab is-current" href="#" aria-current="page">${ico('tab-events-bold')}Events</a></nav>`),
@@ -425,26 +425,22 @@ const GROUPS = [
       cell('Segment-Current-Whole control', '<p class="mm-segmented"><a class="mm-btn is-current" href="#">Nearby</a><a class="mm-btn" href="#">Mine</a></p>', 'kit-cell--wide kit-cell--nl'),
     ], 'Сначала сам сегмент: выбранный — белая пилюля с тенью и полужирным, обычный — ничего, только текст на дорожке. Потом орган целиком: сегменты стоят вплотную, это один переключатель, а не две кнопки рядом. Наведения у сегмента нет вовсе — правило гасит заливку от <code>.mm-btn</code>, иначе невыбранный читался бы выбранным; клетки ему поэтому не нужно.'),
 
-    comp('Выход в соседний контур', '.mm-exit', [
-      cell('Exit-Default', '<a class="mm-exit" href="#"><span>Look at events</span><span aria-hidden="true">&rarr;</span></a>', 'kit-cell--wide'),
-      cell('Exit-Hover', '<a class="mm-exit is-hover" href="#"><span>Look at events</span><span aria-hidden="true">&rarr;</span></a>', 'kit-cell--wide'),
-    ], 'Имён у неё ровно два, и других нет: <code>Look at events</code> из колоды и <code>See people</code> из ленты. Слово <code>nearby</code> в них не пишется — выборку по радиусу называет заголовок экрана, а не кнопка (правило 6). Это не решение по экрану, поэтому карточка со стрелкой, а не кнопка: на наведении глубже тень, заливка не меняется.'),
   ]),
 
   grp(4, 'Карточки и списки', 'Карточка события, строка списка, карточка человека и обложка с полосами по числу фотографий. У каждой — рабочий вид, наведение и те состояния содержимого, что бывают в данных: нет даты, нет мест, фото ещё не пришло.', [
     comp('Карточка события', '.mm-event', [
       cell('Event-Default', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join') }), 'kit-cell--wide'),
-      cell('Event-Hover-Title', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join'), headState: ' is-hover' }), 'kit-cell--wide'),
+      cell('Event-Hover', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join'), cardState: ' is-hover' }), 'kit-cell--wide'),
       cell('Event-Default-Two actions', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join') + btn(' mm-btn--quiet', '', 'Invite') }, 'run', 'Morning run along the embankment', 'No date yet', 'Podil &middot; ~1 km', '1 going &middot; 2 spots left'), 'kit-cell--wide'),
       cell('Event-Default-No spots', evCard({ html: '<button class="mm-btn mm-btn--primary" type="button" disabled>No spots left</button>' }, 'coffee', 'Coffee and a walk in Podil', 'Sun 11:00', 'Podil &middot; ~2 km', 'No spots left &middot; Women only'), 'kit-cell--wide'),
-    ], 'Три уровня чтения (<code>D-55</code>…<code>D-58</code>): что и когда · где и далеко ли · сколько мест и <code>Verified</code>. Где мест два и больше, появляется второе действие — <code>Invite</code>. Заполненное событие пишется словом, а не нулём (<code>D-60</code>).'),
+    ], 'Три уровня чтения (<code>D-55</code>…<code>D-58</code>): что и когда · где и далеко ли · сколько мест и <code>Verified</code>. Где мест два и больше, появляется второе действие — <code>Invite</code>. Заполненное событие пишется словом, а не нулём (<code>D-60</code>). На наведении отзывается вся карточка — светло-серая обводка: курсор наведён на предмет целиком, а подчёркнутый заголовок обещал, что ссылка только он.'),
 
     comp('Строка списка', '.mm-row', [
       cell('Row-Default', `<ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true">${face('olena')}</span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul>`, 'kit-cell--wide'),
       cell('Row-Hover', `<ul class="mm-list"><li><a class="mm-row is-hover" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true">${face('olena')}</span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul>`, 'kit-cell--wide'),
       cell('Row-Default-No link', '<ul class="mm-list"><li class="mm-row"><span class="mm-row-head"><b>Location</b><span class="mm-meta">On &middot; rounded</span></span></li></ul>', 'kit-cell--wide'),
       cell('Row-Default-One line', '<ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>My events</b><span class="mm-meta">1 request</span></span></a></li></ul>', 'kit-cell--wide'),
-    ], 'Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка подчёркивает заголовок на наведении; строка без ссылки — та, за которой экрана ещё нет, и подчёркивания у неё нет.'),
+    ], 'Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка на наведении обводится светло-серым целиком; строка без ссылки — та, за которой экрана ещё нет, — не отзывается вовсе, и по этому их видно.'),
 
     comp('Карточка человека', '.mm-person', [
       cell('Person-Default', person(), 'kit-cell--card'),
@@ -529,7 +525,7 @@ const GROUPS = [
               <a class="mm-btn" href="#">Mine</a>
             </p>
             ${evCard({ html: btn(' mm-btn--primary', '', 'Ask to join') })}
-            <a class="mm-exit" href="#"><span>See people</span><span aria-hidden="true">&rarr;</span></a>
+            <a class="mm-btn" href="#">See people <span aria-hidden="true">&rarr;</span></a>
           </div>
         </main>
         ${tabs('Events')}
@@ -583,7 +579,7 @@ const GROUPS = [
               <a class="mm-btn" href="#">Skip</a>
               <a class="mm-btn mm-btn--primary" href="#">Like</a>
             </p>
-            <a class="mm-exit" href="#"><span>Look at events</span><span aria-hidden="true">&rarr;</span></a>
+            <a class="mm-btn" href="#">Look at events <span aria-hidden="true">&rarr;</span></a>
           </div>
         </main>
         ${tabs('People')}

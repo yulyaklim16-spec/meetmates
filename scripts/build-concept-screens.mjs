@@ -168,7 +168,7 @@ const KIT = new Set([
 // имена, которые переводятся один в один
 const CLASS_MAP = {
   app: 'mm-app', pane: 'mm-pane', scrolly: 'mm-scrolly', stretch: 'mm-stretch', pin: 'mm-pin',
-  rows: 'mm-list', exit: 'mm-exit', who: 'mm-facts', when: 'mm-meta', note: 'mm-note',
+  rows: 'mm-list', exit: 'mm-btn', who: 'mm-facts', when: 'mm-meta', note: 'mm-note',
   common: 'mm-common', distance: 'mm-distance', signals: 'mm-signals', verified: 'mm-verified',
   photo: 'mm-photo', pager: 'mm-pager', cardtop: 'mm-cardtop', chip: 'mm-chip', tags: 'mm-tags',
   cardlink: 'mm-cardlink', avatar: 'mm-avatar', evcover: 'mm-evcover', msgs: 'mm-msgs',

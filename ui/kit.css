@@ -141,6 +141,9 @@
   /* поле, которое не приняло ввод: обводка цветом опасного, в 1px — та же
      волосяная линия, что держит карточку, только красная */
   --mm-ring-error: 0 0 0 1px var(--mm-danger);
+  /* наведение на карточку и строку: светло-серая обводка вместо подчёркивания
+     заголовка — курсор наведён на весь предмет, он весь и отзывается */
+  --mm-ring-hover: 0 0 0 1px var(--mm-ink-400);
 
   /* ── движение ─────────────────────────────────────────────────── */
   --mm-dur-fast: 200ms;
@@ -187,7 +190,6 @@
   --mm-dot-sm: 40px;
   --mm-dot-lg: 72px;
   --mm-ring: 4px;
-  --mm-under: 4px;
 }
 
 /* ═══ Оболочка: экран, шапка, нижнее меню. Разметка — в ui/shell.html ═══ */
@@ -480,24 +482,6 @@
 .mm-segmented .mm-btn:hover, .mm-segmented .mm-btn.is-hover { background: transparent; }
 .mm-segmented .mm-btn.is-current { background: var(--mm-surface); box-shadow: var(--mm-shadow-sm); font-weight: var(--mm-fw-semibold); }
 
-/* выход в соседний контур: карточка со стрелкой, а не кнопка —
-   это не решение по экрану, а дверь наружу (правило 10) */
-.mm-exit {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--mm-s-3);
-  min-height: var(--mm-tap);
-  padding: var(--mm-s-3) var(--mm-s-4);
-  border-radius: var(--mm-r-lg);
-  background: var(--mm-surface);
-  box-shadow: var(--mm-shadow-sm);
-  color: var(--mm-ink-900);
-  font: var(--mm-fw-semibold) var(--mm-t-body-sm) / var(--mm-lh-body) var(--mm-font);
-  text-decoration: none;
-}
-.mm-exit:hover, .mm-exit.is-hover { box-shadow: var(--mm-shadow-md); }
-
 /* ═══ Карточки и списки ═══ */
 
 .mm-list { display: flex; flex-direction: column; gap: var(--mm-s-3); margin: 0; padding: 0; list-style: none; }
@@ -517,7 +501,7 @@
 .mm-row-head { display: flex; align-items: baseline; gap: var(--mm-s-3); width: 100%; }
 .mm-row-head > b { font-size: var(--mm-t-body-sm); font-weight: var(--mm-fw-medium); }
 .mm-row-head .mm-meta { margin-left: auto; }
-a.mm-row:hover .mm-row-head > b, a.mm-row.is-hover .mm-row-head > b { text-decoration: underline; text-underline-offset: var(--mm-under); }
+a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-shadow-md); }
 
 /* карточка события: обложка слева во всю высоту строки, факты справа,
    действие кнопкой во всю ширину под обложкой (D-55…D-58) */
@@ -550,7 +534,7 @@ a.mm-row:hover .mm-row-head > b, a.mm-row.is-hover .mm-row-head > b { text-decor
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.mm-event-head:hover > b, .mm-event-head.is-hover > b { text-decoration: underline; text-underline-offset: var(--mm-under); text-decoration-color: var(--mm-ink-400); }
+.mm-event:hover, .mm-event.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-shadow-md); }
 .mm-event-acts { grid-column: 1 / -1; display: flex; gap: var(--mm-s-2); padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
 .mm-event-acts > .mm-btn { flex: 1; padding: 0 var(--mm-s-2); }
 .mm-event-acts > .mm-btn:first-child { flex: 1.6; }
