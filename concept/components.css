@@ -38,7 +38,7 @@
    Порядок на экране: «+» (Post), затем Filters; в разметке вайрфрейма наоборот */
 .mm-ui header button {
   order: 2; flex: none; display: inline-grid; place-items: center; width: var(--tap-min); height: var(--tap-min); padding: 0;
-  font: var(--fw-semibold) var(--t-micro)/1 var(--font);
+  font: var(--fw-semibold) var(--t-micro)/var(--lh-flat) var(--font);
   border: 0; border-radius: var(--r-pill); background: var(--surface); color: var(--ink-900);
   box-shadow: var(--shadow-sm); cursor: pointer;
   transition: background var(--dur-fast) var(--ease-out);
@@ -56,7 +56,7 @@
   display: inline-flex; align-items: center; justify-content: center;
   width: auto; height: var(--tap-min); padding: 0 var(--s-2); gap: var(--s-1); border-radius: var(--r-pill);
   background: none; box-shadow: none; color: var(--danger-ink);
-  font: var(--fw-semibold) var(--t-micro)/1 var(--font);
+  font: var(--fw-semibold) var(--t-micro)/var(--lh-flat) var(--font);
 }
 .mm-ui header button.report:hover { background: var(--surface-2); }
 .mm-ui header button.report .ico svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--danger-ink); }
@@ -67,7 +67,7 @@
   display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
   min-height: var(--tap-min); padding: 0 var(--s-4);
   border: 0; border-radius: var(--r-pill);
-  font: var(--fw-semibold) var(--t-body-sm)/1 var(--font); letter-spacing: -.01em;
+  font: var(--fw-semibold) var(--t-body-sm)/var(--lh-flat) var(--font); letter-spacing: var(--tr-btn);
   text-decoration: none; white-space: nowrap; cursor: pointer;
   transition: background var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 }
@@ -85,7 +85,7 @@
 .mm-ui .btn.block { width: 100%; }
 
 /* опасное действие — не заливка, а ссылка с иконкой, отдельно от остального */
-.mm-ui .danger-link { display: inline-flex; align-items: center; gap: 6px; min-height: var(--tap-min); padding: 0 var(--s-1); background: none; border: 0; color: var(--danger-ink); font: var(--fw-semibold) var(--t-body-sm)/1 var(--font); cursor: pointer; }
+.mm-ui .danger-link { display: inline-flex; align-items: center; gap: 6px; min-height: var(--tap-min); padding: 0 var(--s-1); background: none; border: 0; color: var(--danger-ink); font: var(--fw-semibold) var(--t-body-sm)/var(--lh-flat) var(--font); cursor: pointer; }
 .mm-ui .danger-link svg { width: 18px; height: 18px; }
 
 /* ── срез вкладки Nearby / Mine — сегменты, а не две главные кнопки ── */
@@ -171,7 +171,7 @@
 .mm-ui nav[aria-label="Main navigation"] a {
   flex: 1; min-width: 0; display: grid; justify-items: center; gap: var(--s-1); padding: 6px 0;
   border-radius: var(--r-pill); text-decoration: none;
-  font: var(--fw-medium) var(--t-micro)/1 var(--font); color: var(--ink-600);
+  font: var(--fw-medium) var(--t-micro)/var(--lh-flat) var(--font); color: var(--ink-600);
 }
 .mm-ui nav[aria-label="Main navigation"] a .ico svg { width: var(--icon-md); height: var(--icon-md); color: var(--ink-400); }
 .mm-ui nav[aria-label="Main navigation"] a[aria-current="page"] { background: var(--glass-strong); box-shadow: var(--glass-rim), var(--shadow-sm); color: var(--ink-900); }
@@ -233,7 +233,7 @@
 /* ── профиль: на экранах ещё нет, первым появится my-profile ── */
 .mm-ui .person-hero { text-align: center; padding: var(--s-2) 0 var(--s-4); }
 .mm-ui .person-hero img { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; margin: 0 auto var(--s-3); }
-.mm-ui .person-name { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 0 0 var(--s-1); font: var(--fw-semibold) var(--t-h3)/1.1 var(--font); letter-spacing: -.02em; }
+.mm-ui .person-name { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 0 0 var(--s-1); font: var(--fw-semibold) var(--t-h3)/var(--lh-tight) var(--font); letter-spacing: var(--tr-heading); }
 .mm-ui .person-name svg { width: 20px; height: 20px; color: var(--verified); }
 .mm-ui .person-sub { margin: 0; font-size: var(--t-caption); color: var(--ink-600); }
 .mm-ui .facts { background: var(--surface); border-radius: var(--r-lg); padding: var(--s-2) var(--s-4); box-shadow: var(--shadow-sm); margin: 0; }
@@ -243,10 +243,10 @@
 
 /* ── поле формы ───────────────────────────────────────────── */
 .mm-ui .field { display: grid; gap: 6px; }
-.mm-ui .field label { font: var(--fw-semibold) var(--t-caption)/1.2 var(--font); color: var(--ink-900); }
+.mm-ui .field label { font: var(--fw-semibold) var(--t-caption)/var(--lh-heading) var(--font); color: var(--ink-900); }
 .mm-ui .input { display: flex; align-items: center; gap: var(--s-2); min-height: 48px; padding: 0 var(--s-4); border-radius: var(--r-md); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); transition: box-shadow var(--dur-fast) var(--ease-out); }
 .mm-ui .input svg { width: 20px; height: 20px; color: var(--ink-400); }
-.mm-ui .input input { flex: 1; min-width: 0; border: 0; background: transparent; font: var(--fw-regular) var(--t-body)/1.2 var(--font); color: var(--ink-900); outline: none; padding: 12px 0; }
+.mm-ui .input input { flex: 1; min-width: 0; border: 0; background: transparent; font: var(--fw-regular) var(--t-body)/var(--lh-heading) var(--font); color: var(--ink-900); outline: none; padding: 12px 0; }
 .mm-ui .input input::placeholder { color: var(--ink-600); }
 .mm-ui .input:focus-within { background: var(--surface); box-shadow: inset 0 0 0 2px var(--ink-900); }
 .mm-ui .field[data-state="error"] .input { box-shadow: inset 0 0 0 2px var(--danger); }
@@ -360,7 +360,7 @@
   background: var(--surface); box-shadow: var(--shadow-sm); }
 .mm-ui :is(label, form).field > .ico svg { width: var(--icon-md); height: var(--icon-md); color: var(--ink-400); }
 .mm-ui :is(label, form).field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
-  font: var(--fw-regular) var(--t-body-sm)/1.4 var(--font); color: var(--ink-900); }
+  font: var(--fw-regular) var(--t-body-sm)/var(--lh-body) var(--font); color: var(--ink-900); }
 .mm-ui :is(label, form).field input::placeholder { color: var(--ink-600); }
 .mm-ui :is(label, form).field:focus-within { box-shadow: 0 0 0 2px var(--action); }
 
@@ -391,7 +391,7 @@
 
 /* ── радар: экран онбординга, данные на нём иллюстративные (D-47) ── */
 /* строки идут просторнее обычного display: подложки двух слов иначе сходятся краями */
-.mm-ui .promise { margin: 0 0 var(--s-3); font: var(--fw-bold) var(--t-display)/1.45 var(--font);
+.mm-ui .promise { margin: 0 0 var(--s-3); font: var(--fw-bold) var(--t-display)/var(--lh-promise) var(--font);
   letter-spacing: var(--tr-display); }
 /* Радар живёт на том же фоне, что и остальные экраны: отдельный цвет делал
    из него чужую страницу. Заголовок капсом по центру, два слова — в лаймовом

@@ -96,6 +96,7 @@
   --mm-t-body-sm: 14px;
   --mm-t-caption: 12px;            /* сравнялся с --mm-t-micro: шкала кратна двум */
   --mm-t-micro: 12px;
+  --mm-lh-flat: 1;                 /* однострочный орган: кнопка, чип, бейдж, лейба */
   --mm-lh-tight: 1.05;
   --mm-lh-heading: 1.25;
   --mm-lh-body: 1.5;
@@ -313,7 +314,7 @@
   background: var(--mm-surface);
   color: var(--mm-ink-900);
   box-shadow: var(--mm-shadow-sm);
-  font: var(--mm-fw-semibold) var(--mm-t-micro) / 1 var(--mm-font);
+  font: var(--mm-fw-semibold) var(--mm-t-micro) / var(--mm-lh-flat) var(--mm-font);
   cursor: pointer;
   transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
 }
@@ -335,7 +336,7 @@
   background: none;
   box-shadow: none;
   font-size: var(--mm-t-back);
-  line-height: 1;
+  line-height: var(--mm-lh-flat);
 }
 .mm-head-btn--back:hover, .mm-head-btn--back.is-hover { background: var(--mm-surface-2); }
 /* Опасное действие в шапке: единственная кнопка шапки со словом. Флажок сам
@@ -355,7 +356,7 @@
   background: none;
   box-shadow: none;
   color: var(--mm-danger-ink);
-  font: var(--mm-fw-semibold) var(--mm-t-micro) / 1 var(--mm-font);
+  font: var(--mm-fw-semibold) var(--mm-t-micro) / var(--mm-lh-flat) var(--mm-font);
 }
 .mm-head-btn--danger:hover, .mm-head-btn--danger.is-hover { background: var(--mm-surface-2); }
 .mm-head-btn--danger svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
@@ -380,7 +381,7 @@
   padding: var(--mm-s-pad6) 0;
   border-radius: var(--mm-r-pill);
   text-decoration: none;
-  font: var(--mm-fw-medium) var(--mm-t-micro) / 1 var(--mm-font);
+  font: var(--mm-fw-medium) var(--mm-t-micro) / var(--mm-lh-flat) var(--mm-font);
   color: var(--mm-ink-600);
 }
 .mm-tab svg { width: var(--mm-icon-md); height: var(--mm-icon-md); color: var(--mm-ink-400); }
@@ -415,7 +416,7 @@
   background: var(--mm-surface);
   color: var(--mm-ink-900);
   box-shadow: var(--mm-shadow-sm);
-  font: var(--mm-fw-semibold) var(--mm-t-body-sm) / 1 var(--mm-font);
+  font: var(--mm-fw-semibold) var(--mm-t-body-sm) / var(--mm-lh-flat) var(--mm-font);
   letter-spacing: var(--mm-tr-btn);
   white-space: nowrap;
   text-decoration: none;
@@ -460,7 +461,7 @@
   background: none;
   color: var(--mm-danger-ink);
   border-radius: var(--mm-r-pill);
-  font: var(--mm-fw-semibold) var(--mm-t-body-sm) / 1 var(--mm-font);
+  font: var(--mm-fw-semibold) var(--mm-t-body-sm) / var(--mm-lh-flat) var(--mm-font);
   cursor: pointer;
   transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
 }
