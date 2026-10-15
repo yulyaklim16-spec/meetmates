@@ -297,12 +297,12 @@
   cursor: pointer;
   transition: background var(--mm-dur-fast) var(--mm-ease-out);
 }
-.mm-head-btn:hover { background: var(--mm-surface-2); }
-.mm-head-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
+.mm-head-btn:hover, .mm-head-btn.is-hover { background: var(--mm-surface-2); }
+.mm-head-btn:focus-visible, .mm-head-btn.is-focus { outline: none; box-shadow: var(--mm-ring-focus); }
 .mm-head-btn svg { width: var(--mm-icon-md); height: var(--mm-icon-md); }
 /* создание — тёмная: в строке с фильтрами видно, какая из двух главная */
 .mm-head-btn--primary { order: 1; background: var(--mm-ink-900); color: var(--mm-surface); box-shadow: none; }
-.mm-head-btn--primary:hover { background: var(--mm-ink-900); opacity: .9; }
+.mm-head-btn--primary:hover, .mm-head-btn--primary.is-hover { background: var(--mm-ink-900); opacity: .9; }
 /* возврат: стоит только там, куда пришли с другого экрана. Стрелка, а не круг —
    направление должно читаться без цвета; отрицательный отступ возвращает её
    на край строки. Площадь нажатия те же 44px (так он размечен в вайрфрейме) */
@@ -315,7 +315,7 @@
   font-size: var(--mm-t-back);
   line-height: 1;
 }
-.mm-head-btn--back:hover { background: var(--mm-surface-2); }
+.mm-head-btn--back:hover, .mm-head-btn--back.is-hover { background: var(--mm-surface-2); }
 /* жалоба — единственная кнопка шапки со словом: флажок сам не читается,
    а действие это безопасности, и угадывать его нельзя. Круга нет, иконка меньше,
    площадь нажатия те же 44px */
@@ -332,7 +332,7 @@
   color: var(--mm-danger);
   font: var(--mm-fw-semibold) var(--mm-t-micro) / 1 var(--mm-font);
 }
-.mm-head-btn--report:hover { background: var(--mm-surface-2); }
+.mm-head-btn--report:hover, .mm-head-btn--report.is-hover { background: var(--mm-surface-2); }
 .mm-head-btn--report svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
 
 /* нижнее меню: белая панель во всю ширину содержимого, пять равных вкладок */
@@ -369,6 +369,11 @@
 
 /* ═══ Кнопки ═══ */
 
+/* Нарисованные состояния. :hover, :active и :focus-visible живут в браузере,
+   и на витрине их не поставить рядом. Классы .is-hover, .is-pressed и .is-focus
+   дают тот же вид — и не копией, а тем же правилом: селекторы перечислены через
+   запятую, описание одно. В экране продукта этих классов нет, они для витрины. */
+
 .mm-btn {
   display: inline-flex;
   align-items: center;
@@ -388,17 +393,17 @@
   cursor: pointer;
   transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
 }
-.mm-btn:hover { background: var(--mm-surface-2); }
-.mm-btn:active { transform: var(--mm-press); }
-.mm-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
+.mm-btn:hover, .mm-btn.is-hover { background: var(--mm-surface-2); }
+.mm-btn:active, .mm-btn.is-pressed { transform: var(--mm-press); }
+.mm-btn:focus-visible, .mm-btn.is-focus { outline: none; box-shadow: var(--mm-ring-focus); }
 .mm-btn svg { width: var(--mm-icon-btn); height: var(--mm-icon-btn); }
 
 /* главная — тёмно-фиолетовая, почти чёрная. На экране одна */
 .mm-btn--primary { background: var(--mm-action); color: var(--mm-ink-on-action); box-shadow: none; }
-.mm-btn--primary:hover { background: var(--mm-action-hover); }
+.mm-btn--primary:hover, .mm-btn--primary.is-hover { background: var(--mm-action-hover); }
 /* тихая — сиреневая подложка без обводки */
 .mm-btn--quiet { background: var(--mm-surface-2); box-shadow: none; }
-.mm-btn--quiet:hover { background: var(--mm-line); }
+.mm-btn--quiet:hover, .mm-btn--quiet.is-hover { background: var(--mm-line); }
 .mm-btn--block { width: 100%; }
 /* недоступна: надпись говорит, что сделать (гейт §7.3), а не «disabled» */
 .mm-btn[disabled], .mm-btn.is-disabled {
@@ -440,7 +445,7 @@
 }
 .mm-segmented > * { flex: 1; }
 .mm-segmented .mm-btn { background: transparent; box-shadow: none; font-weight: var(--mm-fw-medium); }
-.mm-segmented .mm-btn:hover { background: transparent; }
+.mm-segmented .mm-btn:hover, .mm-segmented .mm-btn.is-hover { background: transparent; }
 .mm-segmented .mm-btn.is-current { background: var(--mm-surface); box-shadow: var(--mm-shadow-sm); font-weight: var(--mm-fw-semibold); }
 
 /* выход в соседний контур: карточка со стрелкой, а не кнопка —
@@ -459,7 +464,7 @@
   font: var(--mm-fw-semibold) var(--mm-t-body-sm) / var(--mm-lh-body) var(--mm-font);
   text-decoration: none;
 }
-.mm-exit:hover { box-shadow: var(--mm-shadow-md); }
+.mm-exit:hover, .mm-exit.is-hover { box-shadow: var(--mm-shadow-md); }
 
 /* ═══ Карточки и списки ═══ */
 
@@ -480,7 +485,7 @@
 .mm-row-head { display: flex; align-items: baseline; gap: var(--mm-s-3); width: 100%; }
 .mm-row-head > b { font-size: var(--mm-t-body-sm); font-weight: var(--mm-fw-medium); }
 .mm-row-head .mm-meta { margin-left: auto; }
-a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-offset: var(--mm-under); }
+a.mm-row:hover .mm-row-head > b, a.mm-row.is-hover .mm-row-head > b { text-decoration: underline; text-underline-offset: var(--mm-under); }
 
 /* карточка события: обложка слева во всю высоту строки, факты справа,
    действие кнопкой во всю ширину под обложкой (D-55…D-58) */
@@ -513,7 +518,7 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.mm-event-head:hover > b { text-decoration: underline; text-underline-offset: var(--mm-under); text-decoration-color: var(--mm-ink-400); }
+.mm-event-head:hover > b, .mm-event-head.is-hover > b { text-decoration: underline; text-underline-offset: var(--mm-under); text-decoration-color: var(--mm-ink-400); }
 .mm-event-acts { grid-column: 1 / -1; display: flex; gap: var(--mm-s-2); padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
 .mm-event-acts > .mm-btn { flex: 1; padding: 0 var(--mm-s-2); }
 .mm-event-acts > .mm-btn:first-child { flex: 1.6; }
@@ -666,7 +671,7 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
   color: var(--mm-ink-900);
 }
 .mm-field input::placeholder { color: var(--mm-ink-600); }
-.mm-field:focus-within { box-shadow: var(--mm-ring-focus); }
+.mm-field:focus-within, .mm-field.is-focus { box-shadow: var(--mm-ring-focus); }
 
 /* ═══ Обратная связь ═══ */
 
@@ -790,7 +795,7 @@ a.mm-row:hover .mm-row-head > b { text-decoration: underline; text-underline-off
    столбиком, белые, текст слева */
 .mm-hints { display: flex; flex-direction: column; gap: var(--mm-s-2); margin: 0; }
 .mm-hints > .mm-btn { justify-content: flex-start; background: var(--mm-surface); box-shadow: var(--mm-shadow-sm); font-weight: var(--mm-fw-regular); }
-.mm-hints > .mm-btn:hover { background: var(--mm-surface-2); }
+.mm-hints > .mm-btn:hover, .mm-hints > .mm-btn.is-hover { background: var(--mm-surface-2); }
 
 /* ═══ Онбординг: обещание на радаре ═══ */
 

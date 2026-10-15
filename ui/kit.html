@@ -5,16 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Витрина компонентов · MeetMates UI kit</title>
 <!--
-  ВИТРИНА. Каждый компонент из ui/inventory.md — живой, со своими состояниями.
+  ВИТРИНА. У каждого компонента нарисовано каждое состояние, которое у него есть,
+  и у каждого состояния есть имя: вариант-состояние, а где нужно — и вид
+  содержимого («Primary-Default-Only icon»).
+
+  Правило отбора: рисуем то, что в ките описано, и ничего сверх. Придуманное
+  состояние — обещание, которого экран не держит. Поэтому у поля нет ошибки,
+  а у тега нет выбранного вида: таких экранов в наборе ещё нет.
+
+  Наведение и нажатие живут в браузере и рядом не ставятся — их рисуют классы
+  .is-hover, .is-pressed и .is-focus. Это не копия правил: в ui/kit.css они
+  перечислены через запятую с псевдоклассами, описание одно на двоих.
+
   Текст везде настоящий, из интерфейса: компонент проверяется на той строке,
   которую он понесёт, а не на «Lorem ipsum».
 
-  Чего здесь нет: каркаса вайрфреймов (.wf-*, рамка .device, полоса состояний)
-  и ни одного инлайнового стиля. Обвязка самой витрины — классы .kit-*,
-  они к продукту не относятся и в ui/kit.css их нет.
-
   Сгенерировано scripts/build-kit-pages.mjs — руками не править.
-  Порядок разделов — роли из ui/inventory.md.
+  Порядок групп — роли из ui/inventory.md.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,33 +42,49 @@
   .kit-n { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 999px;
     background: #1A1026; color: #fff; font-size: 12px; font-weight: 700; }
   .kit-lead { margin: 0 0 20px; max-width: 76ch; font-size: 14px; line-height: 1.55; color: var(--dim); }
-  .kit-case { margin: 0 0 20px; }
-  .kit-h { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px; font-size: 14px; }
+  .kit-case { margin: 0 0 28px; }
+  .kit-h { display: flex; align-items: baseline; gap: 10px; margin: 0 0 10px; font-size: 14px; }
   .kit-h code { font: 12px/1 ui-monospace, monospace; padding: 4px 8px; border-radius: 999px;
     background: #fff; box-shadow: 0 0 0 1px var(--edge); color: var(--dim); }
-  .kit-note { margin: 8px 0 0; max-width: 90ch; font-size: 12px; line-height: 1.5; color: var(--dim); }
-  /* площадка: фон тот же, что у экрана, — белая карточка видна так, как лежит */
-  .kit-live { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;
-    max-width: 844px; padding: 16px; border-radius: 26px;
+  .kit-note { margin: 10px 0 0; max-width: 90ch; font-size: 12px; line-height: 1.5; color: var(--dim); }
+
+  /* Матрица состояний: клетка — образец и его имя. Фон площадки тот же, что
+     у экрана: белая карточка проверяется на том, на чём лежит. */
+  .kit-matrix { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); max-width: 1100px; }
+  .kit-cell { margin: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .kit-stage {
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px; border-radius: 18px;
     background-color: #fff; background-image: var(--mm-bg-wash); background-size: 100% 844px;
-    box-shadow: 0 0 0 1px var(--edge); }
-  .kit-live > * { flex: 1 1 358px; min-width: 0; max-width: 390px; }
-  .kit-live--screens { display: flex; gap: 32px; padding: 0; background: none; box-shadow: none; }
-  .kit-live--screens > * { flex: none; max-width: none; }
-  .kit-live--screens .mm-screen { border-radius: 26px; box-shadow: 0 0 0 1px var(--edge), 0 8px 28px rgba(17, 17, 17, .1); }
+    box-shadow: 0 0 0 1px var(--edge);
+  }
+  .kit-stage > * { max-width: 100%; }
+  .kit-cell figcaption { font: 12px/1.3 ui-monospace, monospace; color: var(--dim); }
+  .kit-cell--wide { grid-column: span 2; }
+  .kit-cell--wide .kit-stage { justify-content: flex-start; }
+  .kit-cell--tall { grid-column: span 2; }
+  .kit-cell--tall .kit-stage { align-items: stretch; }
+  .kit-cell--card { grid-column: span 2; }
+  .kit-cell--card .kit-stage > * { width: 100%; height: 400px; }
+  .kit-cell--screen { grid-column: 1 / -1; }
+  .kit-cell--screen .kit-stage { padding: 0; background: none; box-shadow: none; justify-content: flex-start; gap: 24px; overflow-x: auto; }
+  .kit-cell--screen .mm-screen { flex: none; border-radius: 26px; box-shadow: 0 0 0 1px var(--edge), 0 8px 28px rgba(17, 17, 17, .1); }
+  @media (max-width: 760px) {
+    .kit-matrix { grid-template-columns: 1fr; }
+    .kit-cell--wide, .kit-cell--tall, .kit-cell--card { grid-column: span 1; }
+  }
+
   /* высоту растягивающимся компонентам задаёт витрина, а не компонент */
-  .kit-tall { height: 320px; display: flex; flex-direction: column; }
-  .kit-card { height: 400px; }
-  .kit-radar { height: 460px; display: flex; }
-  .kit-layer { height: 420px; display: flex; flex-direction: column; }
-  .kit-shot { height: 360px; display: flex; flex-direction: column; }
+  .kit-tall { height: 300px; display: flex; flex-direction: column; width: 100%; }
+  .kit-radar { height: 460px; width: 390px; display: flex; }
+  .kit-layer { height: 420px; width: 390px; display: flex; flex-direction: column; }
+  .kit-shot { height: 360px; display: flex; flex-direction: column; width: 100%; }
   .kit-shot .mm-person { height: auto; flex: 1; }
-  .kit-row { flex: none; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .kit-narrow { flex: none; width: 200px; }
-  .kit-shell { flex: none; width: 390px; }
   .kit-after { margin-top: 12px; }
-  .kit-stack > * + * { margin-top: 12px; }
+  .kit-one { width: 120px; }
+  .kit-block { width: 100%; }
   code { font-family: ui-monospace, monospace; font-size: 12px; }
+
   /* полоса разделов проекта: та же, что на макетах и экранах концепта */
   .wfrail { position: fixed; top: 32px; left: 16px; display: flex; flex-direction: column; align-items: center;
     gap: 2px; font: 12px/1.4 var(--mm-font); }
@@ -73,15 +96,6 @@
   @media (max-width: 1000px) {
     .wfrail { position: static; flex-direction: row; flex-wrap: wrap; margin: 0 0 16px; }
     .kit-top, .kit-grp { padding-left: 32px; }
-  }
-  /* на телефоне: поля экрана 16px, а ряд мокапов едет вбок внутри себя,
-     а не тянет вбок всю страницу — мокап шириной 390px иначе не помещается */
-  @media (max-width: 560px) {
-    .kit-top, .kit-grp { padding-left: 16px; padding-right: 16px; }
-    .kit-live { padding: 12px; }
-    .kit-live > * { flex: 1 1 100%; max-width: 100%; }
-    .kit-live--screens { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 8px; }
-    .kit-shell, .kit-narrow { width: 100%; }
   }
 </style>
 </head>
@@ -102,26 +116,682 @@
   <p>Один файл стилей — <code>ui/kit.css</code>: переменные в <code>:root</code> и классы
   компонентов, без второго уровня токенов. Оболочка как разметка — <code>ui/shell.html</code>.
   Состав и порог «два экрана» — <code>ui/inventory.md</code>, вид — <code>DESIGN.md</code>.</p>
-  <p>Текст у каждого компонента настоящий, из интерфейса. Фон площадки — тот же,
-  что у экрана: белая карточка проверяется на том, на чём лежит.</p>
+  <p>У каждого компонента нарисовано каждое состояние, которое у него есть, и у каждого
+  есть имя: вариант-состояние, а где нужно — и вид содержимого. Состояний, которых
+  в ките нет, здесь не появляется: придуманное состояние — обещание, которого экран
+  не держит.</p>
   <ul class="kit-toc">
-    <li><a href="#g1">1 · Оболочка</a></li>
-    <li><a href="#g2">2 · Навигация</a></li>
-    <li><a href="#g3">3 · Карточки и списки</a></li>
-    <li><a href="#g4">4 · Формы</a></li>
-    <li><a href="#g5">5 · Обратная связь</a></li>
-    <li><a href="#g6">6 · Чат</a></li>
-    <li><a href="#g7">7 · Онбординг</a></li>
+    <li><a href="#g1">1 · Кнопки</a></li>
+    <li><a href="#g2">2 · Поля</a></li>
+    <li><a href="#g3">3 · Вкладки и переключатели</a></li>
+    <li><a href="#g4">4 · Карточки и списки</a></li>
+    <li><a href="#g5">5 · Отметки и факты</a></li>
+    <li><a href="#g6">6 · Состояния экрана</a></li>
+    <li><a href="#g7">7 · Загрузка</a></li>
+    <li><a href="#g8">8 · Чат</a></li>
+    <li><a href="#g9">9 · Оболочка</a></li>
+    <li><a href="#g10">10 · Онбординг и слои</a></li>
   </ul>
 </div>
 
 <section class="kit-grp" id="g1">
-  <h2 class="kit-grp-h"><span class="kit-n">1</span>Оболочка</h2>
+  <h2 class="kit-grp-h"><span class="kit-n">1</span>Кнопки</h2>
+  <p class="kit-lead">Три роли и состояния у каждой. Отключённая выглядит одинаково у всех ролей — правило не смотрит на роль, поэтому нарисована один раз. Кнопка только с иконкой — та же кнопка, поэтому стоит здесь, а не отдельной группой.</p>
+  <section class="kit-case">
+    <p class="kit-h"><b>Главная</b><code>.mm-btn--primary</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn mm-btn--primary" href="#">Ask to join</a></div>
+        <figcaption>Primary-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn mm-btn--primary is-hover" href="#">Ask to join</a></div>
+        <figcaption>Primary-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn mm-btn--primary is-pressed" href="#">Ask to join</a></div>
+        <figcaption>Primary-Pressed</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn mm-btn--primary is-focus" href="#">Ask to join</a></div>
+        <figcaption>Primary-Focus</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-btn mm-btn--primary" type="button" disabled>Verify to send</button></div>
+        <figcaption>Primary-Disabled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><a class="mm-btn mm-btn--primary mm-btn--block" href="#">Try again</a></div>
+        <figcaption>Primary-Default-Block</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Главная на экране одна. Отключённая говорит, что сделать, а не «disabled»: <code>Verify to send</code> — это гейт §7.3, и надпись называет условие.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Вторичная</b><code>.mm-btn--quiet</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn mm-btn--quiet" href="#">Invite together</a></div>
+        <figcaption>Secondary-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn mm-btn--quiet is-hover" href="#">Invite together</a></div>
+        <figcaption>Secondary-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn mm-btn--quiet is-pressed" href="#">Invite together</a></div>
+        <figcaption>Secondary-Pressed</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn mm-btn--quiet is-focus" href="#">Invite together</a></div>
+        <figcaption>Secondary-Focus</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-btn mm-btn--quiet" type="button" disabled>Invite together</button></div>
+        <figcaption>Secondary-Disabled</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Сиреневая подложка без обводки. Отключённая совпадает с главной: правило <code>[disabled]</code> роли не различает.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Без роли</b><code>.mm-btn</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn" href="#">Skip</a></div>
+        <figcaption>Plain-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn is-hover" href="#">Skip</a></div>
+        <figcaption>Plain-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn is-pressed" href="#">Skip</a></div>
+        <figcaption>Plain-Pressed</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-btn is-focus" href="#">Skip</a></div>
+        <figcaption>Plain-Focus</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Роли у неё нет, и залитой она не бывает.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Только иконка</b><code>.mm-head-btn</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-head-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button></div>
+        <figcaption>Icon-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-head-btn is-hover" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button></div>
+        <figcaption>Icon-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-head-btn is-focus" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button></div>
+        <figcaption>Icon-Focus</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-head-btn mm-head-btn--primary" type="button" aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button></div>
+        <figcaption>Primary-Default-Only icon</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-head-btn mm-head-btn--primary is-hover" type="button" aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button></div>
+        <figcaption>Primary-Hover-Only icon</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div>
+        <figcaption>Back-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div>
+        <figcaption>Back-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-head-btn mm-head-btn--report" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report</button></div>
+        <figcaption>Report-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-head-btn mm-head-btn--report is-hover" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report</button></div>
+        <figcaption>Report-Hover</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Подпись у иконки скрыта для скринридера — смысл берётся из места. Исключение одно: у <code>Report</code> слово стоит видимым, флажок сам по себе не читается, а угадывать действие безопасности нельзя. Возврат — стрелка без круга: направление должно читаться без цвета.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Опасное действие</b><code>.mm-danger-link</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell">
+        <div class="kit-stage"><button class="mm-danger-link" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report this person</button></div>
+        <figcaption>Danger-Default</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Не заливка, а строка с иконкой: <code>--mm-danger</code> в продукте носят только <code>Report</code> и <code>Block</code>. Состояния наведения у неё нет — это ссылка, а не кнопка.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Подсказка в чате</b><code>.mm-hints > .mm-btn</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell">
+        <div class="kit-stage"><p class="mm-hints"><a class="mm-btn" href="#">Free this weekend?</a></p></div>
+        <figcaption>Hint-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><p class="mm-hints"><a class="mm-btn is-hover" href="#">Free this weekend?</a></p></div>
+        <figcaption>Hint-Hover</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Предложенная фраза, а не второе действие: текст слева, вес обычный. Рядом с главной кнопкой не спорит.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Строка действий</b><code>.mm-actions</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-actions"><a class="mm-btn mm-btn--primary" href="#">Expand search</a><a class="mm-btn mm-btn--quiet" href="#">Reset filters</a></p></div>
+        <figcaption>Actions-Two</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-actions"><a class="mm-btn mm-btn--primary mm-btn--block" href="#">Try again</a></p></div>
+        <figcaption>Actions-One</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Одна-две кнопки в ряд, поровну. Больше двух в наборе не встречается ни на одном экране.</p>
+  </section>
+</section>
+
+<section class="kit-grp" id="g2">
+  <h2 class="kit-grp-h"><span class="kit-n">2</span>Поля</h2>
+  <p class="kit-lead">Поле в наборе одно и стоит в двух местах: поиск в шапке и ввод реплики в диалоге. Состояния ошибки у него нет — экранов, где поле что-то проверяет, в вайрфреймах ещё нет, и выдумывать его не стали.</p>
+  <section class="kit-case">
+    <p class="kit-h"><b>Поле с иконкой</b><code>.mm-field</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><form class="mm-field" role="search"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><label class="mm-vh" for="q1">Search people and events</label><input id="q1" type="search" placeholder="Search people and events"></form></div>
+        <figcaption>Search-Empty</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><form class="mm-field" role="search"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><label class="mm-vh" for="q2">Search people and events</label><input id="q2" type="search" value="board games"></form></div>
+        <figcaption>Search-Filled</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><form class="mm-field is-focus" role="search"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><label class="mm-vh" for="q3">Search people and events</label><input id="q3" type="search" value="board games"></form></div>
+        <figcaption>Search-Focus</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><label class="mm-field" for="m1"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span><span class="mm-vh">Message</span><input id="m1" type="text" placeholder="Write a message"></label></div>
+        <figcaption>Message-Empty</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><label class="mm-field is-focus" for="m2"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span><span class="mm-vh">Message</span><input id="m2" type="text" value="Saturday works"></label></div>
+        <figcaption>Message-Focus</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Иконка в поле контурная: поле ничего не утверждает, оно ждёт ввода. Подпись скрытая — это такой же копирайт, он входит в перепись.</p>
+  </section>
+</section>
+
+<section class="kit-grp" id="g3">
+  <h2 class="kit-grp-h"><span class="kit-n">3</span>Вкладки и переключатели</h2>
+  <p class="kit-lead">Три органа, и у каждого ровно два состояния: выбран или нет. Промежуточных нет — выбор всегда один.</p>
+  <section class="kit-case">
+    <p class="kit-h"><b>Вкладка нижнего меню</b><code>.mm-tab</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell">
+        <div class="kit-stage"><nav class="mm-tabs kit-one"><a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg></span>Events</a></nav></div>
+        <figcaption>Tab-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><nav class="mm-tabs kit-one"><a class="mm-tab is-current" href="#" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>Events</a></nav></div>
+        <figcaption>Tab-Current</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--screen">
+        <div class="kit-stage"><nav class="mm-tabs" aria-label="Main navigation">
+        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="9" cy="6" r="4"/><path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"/><ellipse cx="9" cy="17" rx="7" ry="4"/><path d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"/></g></svg></span>People</a>
+        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg></span>Events</a>
+        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+        <a class="mm-tab is-current" href="#" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.4003 22 8.88867 21.6239 7.54785 20.9561C7.19153 20.7786 6.78396 20.7204 6.39941 20.8232L4.17383 21.4189C3.20749 21.6775 2.3225 20.7925 2.58105 19.8262L3.17676 17.6006C3.27965 17.216 3.22142 16.8085 3.04395 16.4521C2.37612 15.1113 2 13.5997 2 12C2 6.47715 6.47715 2 12 2ZM7.99121 11C7.43893 11 6.99121 11.4477 6.99121 12C6.99121 12.5523 7.43893 13 7.99121 13C8.54327 12.9997 8.99121 12.5521 8.99121 12C8.99121 11.4479 8.54327 11.0003 7.99121 11ZM12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11ZM16.0088 11C15.4565 11 15.0088 11.4477 15.0088 12C15.0088 12.5523 15.4565 13 16.0088 13C16.5611 13 17.0088 12.5523 17.0088 12C17.0088 11.4477 16.5611 11 16.0088 11Z" clip-rule="evenodd"/></svg></span>Chats</a>
+        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+      </nav></div>
+        <figcaption>Tabs-Default-Full</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Активная — на сиренево-серой пилюле, иконка залитая и тёмная; неактивные контурные, цвета <code>--mm-ink-400</code>. Форма у обоих наборов одна, меняется только вес.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Срез вкладки</b><code>.mm-segmented</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-segmented"><a class="mm-btn is-current" href="#">Nearby</a><a class="mm-btn" href="#">Mine</a></p></div>
+        <figcaption>Segment-Current</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-segmented"><a class="mm-btn is-current" href="#">Nearby</a><a class="mm-btn is-hover" href="#">Mine</a></p></div>
+        <figcaption>Segment-Hover</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Сегменты стоят вплотную на дорожке: это один орган, а не две главные кнопки рядом. Наведение на невыбранный сегмент ничего не заливает — иначе он читался бы как выбранный.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Полосы по числу фотографий</b><code>.mm-pager</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-pager kit-one" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p></div>
+        <figcaption>Pager-First</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-pager kit-one" aria-hidden="true"><span></span><span class="is-current"></span><span></span></p></div>
+        <figcaption>Pager-Second</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Столько полос, сколько фотографий, закрашенная — открытая. Счёт нужен и на слух, поэтому рядом стоит скрытый <code>figcaption</code>: «Photo 1 of 4».</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Выход в соседний контур</b><code>.mm-exit</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><a class="mm-exit" href="#"><span>Look at events</span><span aria-hidden="true">&rarr;</span></a></div>
+        <figcaption>Exit-Default</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><a class="mm-exit is-hover" href="#"><span>See people</span><span aria-hidden="true">&rarr;</span></a></div>
+        <figcaption>Exit-Hover</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Два имени, и других нет: <code>nearby</code> в кнопке не пишется (правило 6). Это не решение по экрану, поэтому карточка со стрелкой, а не кнопка.</p>
+  </section>
+</section>
+
+<section class="kit-grp" id="g4">
+  <h2 class="kit-grp-h"><span class="kit-n">4</span>Карточки и списки</h2>
+  <p class="kit-lead">Карточка события, строка списка и карточка человека. У каждой — рабочий вид, наведение и те состояния содержимого, что бывают в данных: нет даты, нет мест, фото ещё не пришло.</p>
+  <section class="kit-case">
+    <p class="kit-h"><b>Карточка события</b><code>.mm-event</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-list">
+          <li class="mm-event">
+            <span class="mm-cover" aria-hidden="true"><img src="img/ev-games.jpg" alt="" loading="lazy"></span>
+            <span class="mm-event-body">
+              <a class="mm-event-head" href="#"><b>Board games</b><span class="mm-meta">Sat 18:00</span></a>
+              <span class="mm-facts">Kyiv Games Club &middot; Podil &middot; ~3 km</span>
+              <span class="mm-facts">2 going &middot; 1 spot left &middot; <span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></span>
+            </span>
+            <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="#">Ask to join</a></span>
+          </li>
+        </ul></div>
+        <figcaption>Event-Default</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-list">
+          <li class="mm-event">
+            <span class="mm-cover" aria-hidden="true"><img src="img/ev-games.jpg" alt="" loading="lazy"></span>
+            <span class="mm-event-body">
+              <a class="mm-event-head is-hover" href="#"><b>Board games</b><span class="mm-meta">Sat 18:00</span></a>
+              <span class="mm-facts">Kyiv Games Club &middot; Podil &middot; ~3 km</span>
+              <span class="mm-facts">2 going &middot; 1 spot left &middot; <span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></span>
+            </span>
+            <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="#">Ask to join</a></span>
+          </li>
+        </ul></div>
+        <figcaption>Event-Hover-Title</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-list">
+          <li class="mm-event">
+            <span class="mm-cover" aria-hidden="true"><img src="img/ev-run.jpg" alt="" loading="lazy"></span>
+            <span class="mm-event-body">
+              <a class="mm-event-head" href="#"><b>Morning run along the embankment</b><span class="mm-meta">No date yet</span></a>
+              <span class="mm-facts">Podil &middot; ~1 km</span>
+              <span class="mm-facts">1 going &middot; 2 spots left &middot; <span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></span>
+            </span>
+            <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="#">Ask to join</a><a class="mm-btn mm-btn--quiet" href="#">Invite</a></span>
+          </li>
+        </ul></div>
+        <figcaption>Event-Default-Two actions</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-list">
+          <li class="mm-event">
+            <span class="mm-cover" aria-hidden="true"><img src="img/ev-coffee.jpg" alt="" loading="lazy"></span>
+            <span class="mm-event-body">
+              <a class="mm-event-head" href="#"><b>Coffee and a walk in Podil</b><span class="mm-meta">Sun 11:00</span></a>
+              <span class="mm-facts">Podil &middot; ~2 km</span>
+              <span class="mm-facts">No spots left &middot; Women only &middot; <span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></span>
+            </span>
+            <span class="mm-event-acts"><button class="mm-btn mm-btn--primary" type="button" disabled>No spots left</button></span>
+          </li>
+        </ul></div>
+        <figcaption>Event-Default-No spots</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Три уровня чтения (<code>D-55</code>…<code>D-58</code>): что и когда · где и далеко ли · сколько мест и <code>Verified</code>. Где мест два и больше, появляется второе действие — <code>Invite</code>. Заполненное событие пишется словом, а не нулём (<code>D-60</code>).</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Строка списка</b><code>.mm-row</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul></div>
+        <figcaption>Row-Default</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-list"><li><a class="mm-row is-hover" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul></div>
+        <figcaption>Row-Hover</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-list"><li class="mm-row"><span class="mm-row-head"><b>Location</b><span class="mm-meta">On &middot; rounded</span></span></li></ul></div>
+        <figcaption>Row-Default-No link</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>My events</b><span class="mm-meta">1 request</span></span></a></li></ul></div>
+        <figcaption>Row-Default-One line</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка подчёркивает заголовок на наведении; строка без ссылки — та, за которой экрана ещё нет, и подчёркивания у неё нет.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Карточка человека</b><code>.mm-person</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--card">
+        <div class="kit-stage"><article class="mm-person">
+          <figure>
+            <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
+            <figcaption class="mm-vh">Photo 1 of 4</figcaption>
+            <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
+            <p class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></p>
+          </figure>
+          <section class="mm-person-body" aria-label="Olena, 26">
+            <p class="mm-common">3 common interests</p>
+            <ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li></ul>
+            <h3 class="mm-person-name">Olena, 26</h3>
+            <ul class="mm-signals">
+              <li><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></li>
+              <li>6 meetups attended</li>
+              <li>Replies quickly</li>
+            </ul>
+          </section>
+          <a class="mm-cardlink" href="#" aria-label="Olena, 26 — open profile"></a>
+        </article></div>
+        <figcaption>Person-Default</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--card">
+        <div class="kit-stage"><article class="mm-person">
+          <figure>
+            <p class="mm-photo mm-photo--blur"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
+            <figcaption class="mm-vh">Photo 1 of 4</figcaption>
+            <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
+            <p class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></p>
+          </figure>
+          <section class="mm-person-body" aria-label="Olena, 26">
+            <p class="mm-common">3 common interests</p>
+            <ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li></ul>
+            <h3 class="mm-person-name">Olena, 26</h3>
+            <ul class="mm-signals">
+              <li><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></li>
+              <li>6 meetups attended</li>
+              <li>Replies quickly</li>
+            </ul>
+          </section>
+          <a class="mm-cardlink" href="#" aria-label="Olena, 26 — open profile"></a>
+        </article></div>
+        <figcaption>Person-Loading-Photo</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Порядок чтения задан и не произволен (<code>D-13</code>): общие интересы → имя и возраст → сигналы доверия → расстояние. Справа — фото дошло не целиком: показывается заблюренным и становится чётким по мере прихода (<code>D-51</code>); экран при этом рабочий, <code>Skip</code> и <code>Like</code> живые.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Обложка на карточке события</b><code>.mm-evcover</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block"><figure class="mm-evcover"><p class="mm-photo"><img src="img/ev-games.jpg" alt="" loading="lazy"></p><p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span></p></figure></div></div>
+        <figcaption>Cover-Default</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">На карточке события обложка идёт первой и во всю ширину; в превью ленты тот же снимок стоит слева во всю высоту строки, 104px. Это один снимок в двух местах, а не два компонента.</p>
+  </section>
+</section>
+
+<section class="kit-grp" id="g5">
+  <h2 class="kit-grp-h"><span class="kit-n">5</span>Отметки и факты</h2>
+  <p class="kit-lead">Всё, чем карточка подтверждает себя: проверка, расстояние, интересы, сигналы доверия. Состояний у них нет — есть присутствие и отсутствие: нет данных, нет и строки.</p>
+  <section class="kit-case">
+    <p class="kit-h"><b>Отметка проверки</b><code>.mm-verified</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell">
+        <div class="kit-stage"><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></div>
+        <figcaption>Verified-Default</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Одна на весь продукт: слово с галочкой на лаймовой лейбе. Пустой <code>--mm-label</code> выключает подложку, и слово возвращается к цвету текста.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Сигналы доверия</b><code>.mm-signals</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-signals"><li><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></li><li>12 meetups attended</li><li>Replies quickly</li></ul></div>
+        <figcaption>Signals-Full</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-signals"><li><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></li><li>Usually replies within a day</li></ul></div>
+        <figcaption>Signals-No meetups</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-signals"><li><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></li></ul></div>
+        <figcaption>Signals-Verified only</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Нуля в продукте не бывает (<code>D-60</code>): у кого встреч нет, строка не показывается вовсе — то же правило, что у отзывчивости. Третий случай — первые недели: встреч нет ни у кого, отзывчивости ещё нет, и на карточке остаётся один <code>Verified</code> (цена <code>D-49</code>).</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Чип расстояния</b><code>.mm-chip</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell">
+        <div class="kit-stage"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></div>
+        <figcaption>Chip-Distance</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>Nearby</span></div>
+        <figcaption>Chip-Nearby</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Расстояние округлённое и без слова <code>away</code> (<code>D-60</code>); меньше километра — <code>Nearby</code>. Точки на карте нет нигде и никогда (правило 5).</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Теги интересов</b><code>.mm-tags</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li><li>Running</li></ul></div>
+        <figcaption>Tags-Default</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Перечисление под числом общих интересов (<code>D-13</code>). Выбранного состояния у тега нет: в колоде он не фильтр, а факт.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Аватар</b><code>.mm-avatar</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell">
+        <div class="kit-stage"><span class="mm-avatar" aria-hidden="true"><img src="img/andrii-48.jpg" alt="" loading="lazy"></span></div>
+        <figcaption>Avatar-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><span class="mm-avatar mm-avatar--lg" aria-hidden="true"><img src="img/dasha-112.jpg" alt="" loading="lazy"></span></div>
+        <figcaption>Avatar-Large</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><p class="mm-skelrow"><span class="mm-avatar" aria-hidden="true"><img src="img/olena-48.jpg" alt="" loading="lazy"></span><span class="mm-avatar" aria-hidden="true"><img src="img/dasha-48.jpg" alt="" loading="lazy"></span></p></div>
+        <figcaption>Avatar-Row</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">У каждого имени своё лицо: три одинаковых кружка в одной строке читаются как ошибка данных. В ряду заглушек кружок крупнее — это место под фотографию, а не подпись рядом с именем.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Строки фактов</b><code>.mm-facts · .mm-meta · .mm-note</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-facts">Kyiv Games Club &middot; Podil &middot; ~3 km</p></div>
+        <figcaption>Facts-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><p class="mm-meta">Sat 18:00</p></div>
+        <figcaption>Meta-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><p class="mm-meta">No date yet</p></div>
+        <figcaption>Meta-No date</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><output class="mm-note">2 going &middot; 1 spot left &middot; Still going? comes the day before</output></div>
+        <figcaption>Note-Going</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-note">1 confirmed &middot; 1 spot left</p></div>
+        <figcaption>Note-Confirmed</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-note">No spots left</p></div>
+        <figcaption>Note-No spots</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Счётчик двухфазный (<code>D-16</code>): <code>going</code> → <code>confirmed</code>. Слово рядом с числом несёт честность — в каждой фазе показано ровно то, что известно.</p>
+  </section>
+</section>
+
+<section class="kit-grp" id="g6">
+  <h2 class="kit-grp-h"><span class="kit-n">6</span>Состояния экрана</h2>
+  <p class="kit-lead">Четыре состояния, и ни одно из них не экран: пусто, сбой, итог и ожидание — состояния одного и того же экрана. Ожидание чужого решения загрузкой не считается (<code>D-42</code>): ждать можно днями, и спиннер здесь врёт.</p>
+  <section class="kit-case">
+    <p class="kit-h"><b>Пусто и сбой</b><code>.mm-state · .mm-state--alert</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--tall">
+        <div class="kit-stage"><div class="kit-tall">
+          <article class="mm-state">
+            <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>
+            <h3>No events within 5 km yet</h3>
+            <p>Events here are posted by people like you &mdash; and yours would be the first one nearby.</p>
+          </article>
+          <p class="mm-actions kit-after"><a class="mm-btn mm-btn--quiet" href="#">Show events further out</a></p>
+        </div></div>
+        <figcaption>State-Empty</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--tall">
+        <div class="kit-stage"><div class="kit-tall">
+          <article class="mm-state">
+            <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>
+            <h3>You are all caught up</h3>
+            <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
+          </article>
+          <p class="mm-actions kit-after"><a class="mm-btn mm-btn--primary" href="#">Expand search</a><a class="mm-btn mm-btn--quiet" href="#">Reset filters</a></p>
+        </div></div>
+        <figcaption>State-Empty-Deck</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--tall">
+        <div class="kit-stage"><div class="kit-tall">
+          <article class="mm-state mm-state--alert" role="alert">
+            <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span>
+            <h3>Couldn&rsquo;t load events nearby</h3>
+            <p>The connection dropped. Your own events and requests are safe.</p>
+          </article>
+          <p class="mm-actions kit-after"><a class="mm-btn mm-btn--primary" href="#">Try again</a></p>
+        </div></div>
+        <figcaption>State-Error</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--tall">
+        <div class="kit-stage"><div class="kit-tall">
+          <article class="mm-state">
+            <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>
+            <h3>No chats yet</h3>
+            <p>Chats open when you and someone both say yes &mdash; or when you ask to join an event and the person confirms you.</p>
+          </article>
+          <p class="mm-actions kit-after"><a class="mm-btn mm-btn--primary" href="#">See people</a><a class="mm-btn mm-btn--quiet" href="#">Look at events</a></p>
+        </div></div>
+        <figcaption>State-Empty-Chats</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Ни одно пустое состояние не выглядит пустым (§2.1, п. 1): у каждого есть ослабление условий и выход в соседний контур. Сбой — тот же блок, разница в <code>role="alert"</code> и в цвете иконки; текст называет причину и говорит, что данные целы.</p>
+  </section>
+  <section class="kit-case">
+    <p class="kit-h"><b>Плашка итога</b><code>.mm-banner</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><article class="mm-banner"><b>It&rsquo;s an event</b><p>Board games at Kyiv Games Club &middot; Saturday, 18:00 &middot; the two of you.</p><p class="mm-actions"><a class="mm-btn mm-btn--primary" href="#">Open the event</a></p></article></div>
+        <figcaption>Banner-Success</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><article class="mm-banner"><b>Waiting for Andrii</b><p>Your request is with Andrii. It stays open until Saturday &mdash; events without a date keep requests for 14 days.</p></article></div>
+        <figcaption>Banner-Waiting</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><article class="mm-banner"><b>You&rsquo;re going</b><p>Andrii confirmed you. The chat is open and the exact address is now visible.</p></article></div>
+        <figcaption>Banner-Confirmed</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Карточка, а не абзац: день назначен — это новый объект, а не ещё одна реплика (<code>D-39</code>). В ожидании названы тот, кто должен ответить, и срок (<code>D-42</code>).</p>
+  </section>
+</section>
+
+<section class="kit-grp" id="g7">
+  <h2 class="kit-grp-h"><span class="kit-n">7</span>Загрузка</h2>
+  <p class="kit-lead">Заглушки держат раскладку и показывают, что именно грузится. Спиннер не делает ни того, ни другого. При <code>prefers-reduced-motion</code> полоса стоит на месте.</p>
+  <section class="kit-case">
+    <p class="kit-h"><b>Заглушка</b><code>.mm-skel</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><span class="mm-skel mm-skel--line mm-skel--w-l"></span></div>
+        <figcaption>Skel-Line-L</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><span class="mm-skel mm-skel--line mm-skel--w-m"></span></div>
+        <figcaption>Skel-Line-M</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><span class="mm-skel mm-skel--line mm-skel--w-s"></span></div>
+        <figcaption>Skel-Line-S</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><span class="mm-skel mm-skel--pill mm-skel--w-s"></span></div>
+        <figcaption>Skel-Pill</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-skelrow"><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span></p></div>
+        <figcaption>Skel-Thumb</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><ul class="mm-list"><li class="mm-row" aria-hidden="true"><span class="mm-skel mm-skel--line mm-skel--w-l"></span><span class="mm-skel mm-skel--line mm-skel--w-m"></span><span class="mm-skel mm-skel--line mm-skel--w-s"></span></li></ul></div>
+        <figcaption>Skel-Row</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Заглушки той же длины и в том же порядке, что в пришедшей карточке: приход данных ничего не сдвинет. Миниатюра — место под фотографию профиля, пока она грузится.</p>
+  </section>
+</section>
+
+<section class="kit-grp" id="g8">
+  <h2 class="kit-grp-h"><span class="kit-n">8</span>Чат</h2>
+  <p class="kit-lead">По порогу «два экрана» переписка разовая: она стоит только на экране Диалог. В кит входит потому, что без пузыря чат нечем собрать, а экран этот — основная дорога к встрече (<code>D-37</code>).</p>
+  <section class="kit-case">
+    <p class="kit-h"><b>Реплика</b><code>.mm-bubble</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="mm-msgs"><p class="mm-bubble">Hi! Saw you&rsquo;re into board games too<span class="mm-bubble-time">Olena &middot; 19:04</span></p></div></div>
+        <figcaption>Bubble-Other</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="mm-msgs"><p class="mm-bubble mm-bubble--mine">Yes &mdash; there&rsquo;s a game caf&eacute; on Podil I keep meaning to try<span class="mm-bubble-time">19:06 &middot; Read</span></p></div></div>
+        <figcaption>Bubble-Mine</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="mm-msgs"><a class="mm-bubble mm-bubble--failed" href="#" role="alert" aria-label="Message not sent. Tap to try again">Saturday works &mdash; the caf&eacute; opens at six<span class="mm-bubble-retry" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span><span class="mm-bubble-time">Not sent &middot; tap to try again</span></a></div></div>
+        <figcaption>Bubble-Mine-Failed</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Своя реплика — не действие, поэтому и не цвет действия: сиреневый тон, отличают её сторона и отсутствие обводки. Не ушло — состояние реплики, а не экрана (<code>D-52</code>): помечен сам пузырь, нажатие повторяет отправку.</p>
+  </section>
+</section>
+
+<section class="kit-grp" id="g9">
+  <h2 class="kit-grp-h"><span class="kit-n">9</span>Оболочка</h2>
   <p class="kit-lead">Экран целиком: шапка, содержимое, нижнее меню. Разметка — <code>ui/shell.html</code>, оттуда её берёт экран, у которого ещё нет каркаса.</p>
   <section class="kit-case">
     <p class="kit-h"><b>Экран</b><code>.mm-screen · .mm-head · .mm-app · .mm-tabs</code></p>
-    <div class="kit-live kit-live--screens">
-      <div class="mm-screen">
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--screen">
+        <div class="kit-stage"><div class="mm-screen">
         <header class="mm-head">
         <h1 class="mm-head-title">Events nearby</h1>
         <button class="mm-head-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
@@ -133,7 +803,7 @@
               <a class="mm-btn is-current" href="#">Nearby</a>
               <a class="mm-btn" href="#">Mine</a>
             </p>
-        <ul class="mm-list">
+            <ul class="mm-list">
           <li class="mm-event">
             <span class="mm-cover" aria-hidden="true"><img src="img/ev-games.jpg" alt="" loading="lazy"></span>
             <span class="mm-event-body">
@@ -154,8 +824,11 @@
         <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
         <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
       </nav>
-      </div>
-      <div class="mm-screen">
+      </div></div>
+        <figcaption>Screen-Feed</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--screen">
+        <div class="kit-stage"><div class="mm-screen">
         <header class="mm-head mm-head--stack">
         <h1 class="mm-head-title">Search</h1>
         <div class="mm-head-line">
@@ -170,7 +843,7 @@
         <main class="mm-app">
           <div class="mm-pane">
             <h2 class="mm-h2">Events</h2>
-        <ul class="mm-list">
+            <ul class="mm-list">
           <li class="mm-event">
             <span class="mm-cover" aria-hidden="true"><img src="img/ev-coffee.jpg" alt="" loading="lazy"></span>
             <span class="mm-event-body">
@@ -181,13 +854,6 @@
             <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="#">Ask to join</a></span>
           </li>
         </ul>
-            <h2 class="mm-h2">People</h2>
-            <ul class="mm-list">
-              <li><a class="mm-row" href="#">
-                <span class="mm-row-head"><b>Olena, 26</b><span class="mm-meta">~2 km</span></span>
-                <span class="mm-facts">3 common interests &middot; Board games</span>
-              </a></li>
-            </ul>
           </div>
         </main>
         <nav class="mm-tabs" aria-label="Main navigation">
@@ -197,8 +863,11 @@
         <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
         <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
       </nav>
-      </div>
-      <div class="mm-screen">
+      </div></div>
+        <figcaption>Screen-Search</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--screen">
+        <div class="kit-stage"><div class="mm-screen">
         <header class="mm-head">
         <a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>
         <h1 class="mm-head-title">Olena, 26</h1>
@@ -211,7 +880,6 @@
               <div class="mm-msgs">
                 <p class="mm-bubble">Hi! Saw you&rsquo;re into board games too<span class="mm-bubble-time">Olena &middot; 19:04</span></p>
                 <p class="mm-bubble mm-bubble--mine">Yes &mdash; there&rsquo;s a game caf&eacute; on Podil I keep meaning to try<span class="mm-bubble-time">19:06 &middot; Read</span></p>
-                <p class="mm-bubble">Let&rsquo;s go then. Which day works for you?<span class="mm-bubble-time">Olena &middot; 19:08</span></p>
               </div>
             </section>
             <p class="mm-actions">
@@ -235,35 +903,36 @@
         <a class="mm-tab is-current" href="#" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.4003 22 8.88867 21.6239 7.54785 20.9561C7.19153 20.7786 6.78396 20.7204 6.39941 20.8232L4.17383 21.4189C3.20749 21.6775 2.3225 20.7925 2.58105 19.8262L3.17676 17.6006C3.27965 17.216 3.22142 16.8085 3.04395 16.4521C2.37612 15.1113 2 13.5997 2 12C2 6.47715 6.47715 2 12 2ZM7.99121 11C7.43893 11 6.99121 11.4477 6.99121 12C6.99121 12.5523 7.43893 13 7.99121 13C8.54327 12.9997 8.99121 12.5521 8.99121 12C8.99121 11.4479 8.54327 11.0003 7.99121 11ZM12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11ZM16.0088 11C15.4565 11 15.0088 11.4477 15.0088 12C15.0088 12.5523 15.4565 13 16.0088 13C16.5611 13 17.0088 12.5523 17.0088 12C17.0088 11.4477 16.5611 11 16.0088 11Z" clip-rule="evenodd"/></svg></span>Chats</a>
         <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
       </nav>
-      </div>
-      <div class="mm-screen">
+      </div></div>
+        <figcaption>Screen-Dialog</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--screen">
+        <div class="kit-stage"><div class="mm-screen">
         <header class="mm-head">
           <h1 class="mm-head-title">People nearby</h1>
           <button class="mm-head-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
         </header>
         <main class="mm-app">
           <div class="mm-pane">
-            <section class="mm-stretch">
-      <article class="mm-person">
-        <figure>
-          <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
-          <figcaption class="mm-vh">Photo 1 of 4</figcaption>
-          <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
-          <p class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></p>
-        </figure>
-        <section class="mm-person-body" aria-label="Olena, 26">
-          <p class="mm-common">3 common interests</p>
-          <ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li></ul>
-          <h3 class="mm-person-name">Olena, 26</h3>
-          <ul class="mm-signals">
-            <li><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></li>
-            <li>6 meetups attended</li>
-            <li>Replies quickly</li>
-          </ul>
-        </section>
-        <a class="mm-cardlink" href="#" aria-label="Olena, 26 — open profile"></a>
-      </article>
-            </section>
+            <section class="mm-stretch"><article class="mm-person">
+          <figure>
+            <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
+            <figcaption class="mm-vh">Photo 1 of 4</figcaption>
+            <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
+            <p class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></p>
+          </figure>
+          <section class="mm-person-body" aria-label="Olena, 26">
+            <p class="mm-common">3 common interests</p>
+            <ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li></ul>
+            <h3 class="mm-person-name">Olena, 26</h3>
+            <ul class="mm-signals">
+              <li><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></li>
+              <li>6 meetups attended</li>
+              <li>Replies quickly</li>
+            </ul>
+          </section>
+          <a class="mm-cardlink" href="#" aria-label="Olena, 26 — open profile"></a>
+        </article></section>
             <p class="mm-actions">
               <a class="mm-btn" href="#">Skip</a>
               <a class="mm-btn mm-btn--primary" href="#">Like</a>
@@ -278,436 +947,32 @@
         <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
         <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
       </nav>
-      </div>
-    </div>
-    <p class="kit-note">Активная вкладка одна, на сиренево-серой пилюле, иконка залитая и тёмная; неактивные — контурные, цвета <code>--mm-ink-400</code>. Горизонтальные поля задаёт <code>.mm-app</code>: закреплённая полоса и секции своих не имеют, иначе они встают на 32px от края вместо 16px. Третий экран показывает две вещи, которых не видно на остальных: прокручиваемую секцию <code>.mm-scrolly</code> (реплики едут, кнопки и поле стоят) и закреплённую полосу <code>.mm-pin</code> — она лежит внутри <code>.mm-app</code>, но вне <code>.mm-pane</code>, поэтому прокрутка её не трогает. Четвёртый — колода: <code>.mm-stretch</code> отдаёт карточке человека весь остаток высоты, поэтому решение <code>Skip</code> / <code>Like</code> и выход всегда стоят на своих местах, какой бы длины ни оказалась подпись.</p>
-  </section>
-</section>
-
-<section class="kit-grp" id="g2">
-  <h2 class="kit-grp-h"><span class="kit-n">2</span>Навигация</h2>
-  <p class="kit-lead">Шапка, кнопки в ней, нижнее меню и выход в соседний контур. Выход — то, чем закрывается тупик (правило 10): он стоит на десяти экранах из тринадцати, а не только в пустом состоянии.</p>
-  <section class="kit-case">
-    <p class="kit-h"><b>Кнопка в шапке</b><code>.mm-head-btn</code></p>
-    <div class="kit-live">
-      <p class="kit-row">
-        <button class="mm-head-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
-        <button class="mm-head-btn mm-head-btn--primary" type="button" aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button>
-        <a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>
-        <button class="mm-head-btn mm-head-btn--report" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report</button>
-      </p>
-    </div>
-    <p class="kit-note">Четыре назначения: <code>Filters</code>, <code>Post</code>, возврат, <code>Report</code>. У первых трёх подпись скрыта для скринридера — смысл берётся из места. У <code>Report</code> слово стоит: флажок сам по себе не читается, а угадывать действие безопасности нельзя. Полное имя <code>Post an event</code> живёт в <code>aria-label</code> (<code>D-60</code>).</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Нижнее меню</b><code>.mm-tabs · .mm-tab.is-current</code></p>
-    <div class="kit-live">
-      <div class="kit-shell"><nav class="mm-tabs" aria-label="Main navigation">
-        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="9" cy="6" r="4"/><path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"/><ellipse cx="9" cy="17" rx="7" ry="4"/><path d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"/></g></svg></span>People</a>
-        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg></span>Events</a>
-        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
-        <a class="mm-tab is-current" href="#" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.4003 22 8.88867 21.6239 7.54785 20.9561C7.19153 20.7786 6.78396 20.7204 6.39941 20.8232L4.17383 21.4189C3.20749 21.6775 2.3225 20.7925 2.58105 19.8262L3.17676 17.6006C3.27965 17.216 3.22142 16.8085 3.04395 16.4521C2.37612 15.1113 2 13.5997 2 12C2 6.47715 6.47715 2 12 2ZM7.99121 11C7.43893 11 6.99121 11.4477 6.99121 12C6.99121 12.5523 7.43893 13 7.99121 13C8.54327 12.9997 8.99121 12.5521 8.99121 12C8.99121 11.4479 8.54327 11.0003 7.99121 11ZM12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11ZM16.0088 11C15.4565 11 15.0088 11.4477 15.0088 12C15.0088 12.5523 15.4565 13 16.0088 13C16.5611 13 17.0088 12.5523 17.0088 12C17.0088 11.4477 16.5611 11 16.0088 11Z" clip-rule="evenodd"/></svg></span>Chats</a>
-        <a class="mm-tab" href="#"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
-      </nav></div>
-    </div>
-    <p class="kit-note">Пять вкладок на 390px — по 78px на каждую: подписи короткие, иконка обязательна. Панель показана в полную ширину экрана: её поля (16px по краям) — часть компонента, панель не на всю ширину экрана, а на ширину содержимого.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Выход в соседний контур</b><code>.mm-exit</code></p>
-    <div class="kit-live">
-      <a class="mm-exit" href="#"><span>Look at events</span><span aria-hidden="true">&rarr;</span></a>
-      <a class="mm-exit" href="#"><span>See people</span><span aria-hidden="true">&rarr;</span></a>
-    </div>
-    <p class="kit-note">Два имени, и других нет: <code>nearby</code> в кнопке не пишется — расстояние решения не принимает, а выборку называет заголовок экрана (правило 6). Это не решение по экрану, поэтому карточка со стрелкой, а не кнопка.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Срез вкладки</b><code>.mm-segmented</code></p>
-    <div class="kit-live">
-      <p class="mm-segmented">
-        <a class="mm-btn is-current" href="#">Nearby</a>
-        <a class="mm-btn" href="#">Mine</a>
-      </p>
-    </div>
-    <p class="kit-note">Сегменты стоят вплотную на дорожке: это один орган, а не две главные кнопки рядом. Срез местный, не с сервера, — поэтому он есть во всех состояниях экрана, включая загрузку: появись он после неё, сдвинул бы всё под пальцем.</p>
-  </section>
-</section>
-
-<section class="kit-grp" id="g3">
-  <h2 class="kit-grp-h"><span class="kit-n">3</span>Карточки и списки</h2>
-  <p class="kit-lead">Карточка события, строка списка, карточка человека, аватар и строки фактов. Фотография у события обязательна (<code>D-56</code>): без неё карточки не существует, поэтому состояния «карточка без обложки» в ките нет.</p>
-  <section class="kit-case">
-    <p class="kit-h"><b>Карточка события</b><code>.mm-event</code></p>
-    <div class="kit-live">
-      <div>
-        <ul class="mm-list">
-          <li class="mm-event">
-            <span class="mm-cover" aria-hidden="true"><img src="img/ev-games.jpg" alt="" loading="lazy"></span>
-            <span class="mm-event-body">
-              <a class="mm-event-head" href="#"><b>Board games</b><span class="mm-meta">Sat 18:00</span></a>
-              <span class="mm-facts">Kyiv Games Club &middot; Podil &middot; ~3 km</span>
-              <span class="mm-facts">2 going &middot; 1 spot left &middot; <span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></span>
-            </span>
-            <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="#">Ask to join</a></span>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <ul class="mm-list">
-          <li class="mm-event">
-            <span class="mm-cover" aria-hidden="true"><img src="img/ev-run.jpg" alt="" loading="lazy"></span>
-            <span class="mm-event-body">
-              <a class="mm-event-head" href="#"><b>Morning run along the embankment</b><span class="mm-meta">No date yet</span></a>
-              <span class="mm-facts">Podil &middot; ~1 km</span>
-              <span class="mm-facts">1 going &middot; 2 spots left &middot; <span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></span>
-            </span>
-            <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="#">Ask to join</a><a class="mm-btn mm-btn--quiet" href="#">Invite</a></span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <p class="kit-note">Три уровня чтения (<code>D-55</code>…<code>D-58</code>): что и когда · где и далеко ли · сколько мест и <code>Verified</code>. Действие стоит на самой карточке — открывать событие ради того же действия не нужно (<code>D-54</code>). Где мест два и больше, появляется второе: <code>Invite</code> — так сокращается <code>Invite together</code>, когда полное имя не помещается (<code>D-60</code>). Фото и имени автора в превью нет: строка про занятие. Датированные и бессрочные — в одной ленте.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Строка списка</b><code>.mm-row</code></p>
-    <div class="kit-live">
-      <ul class="mm-list">
-        <li><a class="mm-row" href="#">
-          <span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span>
-          <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span>
-        </a></li>
-        <li><a class="mm-row" href="#">
-          <span class="mm-row-head"><b>Board games</b><span class="mm-meta">Mon</span></span>
-          <span class="mm-facts">Event chat &middot; 3 people &middot; Andrii: see you at six</span>
-        </a></li>
-        <li><a class="mm-row" href="#">
-          <span class="mm-row-head"><b>Maryna</b><span class="mm-meta">12 Jun</span></span>
-          <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="img/dasha-48.jpg" alt="" loading="lazy"></span>You both said yes &mdash; no messages yet</span>
-        </a></li>
-      </ul>
-      <ul class="mm-list">
-        <li><a class="mm-row" href="#"><span class="mm-row-head"><b>My events</b><span class="mm-meta">1 request</span></span></a></li>
-        <li><a class="mm-row" href="#"><span class="mm-row-head"><b>My matches</b><span class="mm-meta">3 new</span></span></a></li>
-        <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Verification</b><span class="mm-meta">Verified</span></span></a></li>
-        <li class="mm-row"><span class="mm-row-head"><b>Location</b><span class="mm-meta">On &middot; rounded</span></span></li>
-        <li class="mm-row"><span class="mm-row-head"><b>Blocked people</b><span class="mm-meta">None</span></span></li>
-      </ul>
-    </div>
-    <p class="kit-note">Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка подчёркивает заголовок на наведении; строка без ссылки — та, за которой экрана ещё нет, и подчёркивания у неё нет. Время, счётчик непрочитанных и состояние настройки — один и тот же <code>.mm-meta</code> справа.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Карточка человека</b><code>.mm-person</code></p>
-    <div class="kit-live">
-      <div class="kit-card">      <article class="mm-person">
-        <figure>
-          <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
-          <figcaption class="mm-vh">Photo 1 of 4</figcaption>
-          <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
-          <p class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></p>
-        </figure>
-        <section class="mm-person-body" aria-label="Olena, 26">
-          <p class="mm-common">3 common interests</p>
-          <ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li></ul>
-          <h3 class="mm-person-name">Olena, 26</h3>
-          <ul class="mm-signals">
-            <li><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></li>
-            <li>6 meetups attended</li>
-            <li>Replies quickly</li>
-          </ul>
-        </section>
-        <a class="mm-cardlink" href="#" aria-label="Olena, 26 — open profile"></a>
-      </article></div>
-      <div class="kit-card">      <article class="mm-person">
-        <figure>
-          <p class="mm-photo mm-photo--blur"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
-          <figcaption class="mm-vh">Photo 1 of 4</figcaption>
-          <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
-          <p class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></p>
-        </figure>
-        <section class="mm-person-body" aria-label="Olena, 26">
-          <p class="mm-common">3 common interests</p>
-          <ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li></ul>
-          <h3 class="mm-person-name">Olena, 26</h3>
-          <ul class="mm-signals">
-            <li><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></li>
-            <li>6 meetups attended</li>
-            <li>Replies quickly</li>
-          </ul>
-        </section>
-        <a class="mm-cardlink" href="#" aria-label="Olena, 26 — open profile"></a>
-      </article></div>
-    </div>
-    <p class="kit-note">Порядок чтения задан и не произволен (<code>D-13</code>): общие интересы → имя и возраст → сигналы доверия → расстояние. Свайп в дружбе делается по совпадению, а не по внешности, поэтому число общих идёт первой строкой. Расстояние — единственное, что лежит поверх фотографии (§7.1). Справа: фото дошло не целиком — заблюренное, становится чётким по мере прихода (<code>D-51</code>); экран при этом рабочий, <code>Skip</code> и <code>Like</code> живые.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Отметка проверки и сигналы доверия</b><code>.mm-verified · .mm-signals</code></p>
-    <div class="kit-live">
-      <div class="kit-stack">
-        <ul class="mm-signals">
-          <li><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></li>
-          <li>12 meetups attended</li>
-          <li>Replies quickly</li>
-        </ul>
-        <ul class="mm-signals">
-          <li><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span></li>
-          <li>Usually replies within a day</li>
-        </ul>
-        <p class="mm-facts">Andrii &middot; <span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span> &middot; 12 meetups attended</p>
-      </div>
-    </div>
-    <p class="kit-note">Нуля в продукте не бывает (<code>D-60</code>): у кого встреч нет, строка не показывается вовсе — то же правило, что у отзывчивости («нет данных — нет бейджа»). Второй пример — человек без подтверждённых встреч. Ступеней профиля не существует (<code>D-49</code>), бейджа присутствия не делаем нигде (<code>D-06</code>). Лейба одна и та же в строке сигналов и в строке фактов — это и был сведённый дрейф.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Аватар, чип расстояния, теги</b><code>.mm-avatar · .mm-chip · .mm-tags</code></p>
-    <div class="kit-live">
-      <p class="kit-row">
-        <span class="mm-avatar" aria-hidden="true"><img src="img/andrii-48.jpg" alt="" loading="lazy"></span>
-        <span class="mm-avatar" aria-hidden="true"><img src="img/olena-48.jpg" alt="" loading="lazy"></span>
-        <span class="mm-avatar mm-avatar--lg" aria-hidden="true"><img src="img/dasha-112.jpg" alt="" loading="lazy"></span>
-        <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
-        <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>Nearby</span>
-      </p>
-      <ul class="mm-tags">
-        <li>Hiking</li><li>Board games</li><li>Coffee</li><li>Running</li>
-      </ul>
-    </div>
-    <p class="kit-note">У каждого имени своё лицо: три одинаковых кружка в одной строке читаются как ошибка данных. Расстояние округлённое и без слова <code>away</code> (<code>D-60</code>), меньше километра — <code>Nearby</code>; точки на карте нет нигде и никогда (правило 5).</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Обложка на карточке события</b><code>.mm-evcover</code></p>
-    <div class="kit-live">
-      <figure class="mm-evcover">
-        <p class="mm-photo"><img src="img/ev-games.jpg" alt="" loading="lazy"></p>
-        <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span></p>
+      </div></div>
+        <figcaption>Screen-Deck</figcaption>
       </figure>
-      <div class="kit-stack">
-        <p class="mm-distance">Kyiv &middot; distance is always rounded for others</p>
-        <p class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="img/andrii-48.jpg" alt="" loading="lazy"></span>Andrii &middot; 12 meetups attended &middot; Replies quickly</p>
-        <p class="mm-note">Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.</p>
-      </div>
     </div>
-    <p class="kit-note">На карточке события обложка идёт первой и во всю ширину, с полосами по числу фотографий; в превью ленты она же стоит слева во всю высоту строки, 104px. Это один снимок в двух местах, а не два компонента. Справа — строки, которые ходят с ней рядом: город без точных координат (§7.1), автор целиком и описание от первого лица.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Полосы по числу фотографий</b><code>.mm-pager</code></p>
-    <div class="kit-live">
-      <div class="kit-narrow kit-stack">
-        <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
-        <p class="mm-pager" aria-hidden="true"><span></span><span class="is-current"></span><span></span></p>
-      </div>
-    </div>
-    <p class="kit-note">Столько полос, сколько фотографий, закрашенная — открытая. Счёт нужен и на слух, поэтому рядом стоит скрытый <code>figcaption</code>: «Photo 1 of 4».</p>
+    <p class="kit-note">Горизонтальные поля задаёт <code>.mm-app</code>: закреплённая полоса и секции своих не имеют, иначе они встают на 32px от края вместо 16px. Третий экран показывает прокручиваемую секцию и закреплённую полосу, четвёртый — <code>.mm-stretch</code>: он отдаёт карточке весь остаток высоты.</p>
   </section>
 </section>
 
-<section class="kit-grp" id="g4">
-  <h2 class="kit-grp-h"><span class="kit-n">4</span>Формы</h2>
-  <p class="kit-lead">Кнопки, строка действий, поле. Полей ввода в наборе ровно два вида на двух экранах — поиск и реплика: экраны создания, фильтров и редактирования в вайрфреймы ещё не вошли, а вместе с ними не вошли и формы.</p>
-  <section class="kit-case">
-    <p class="kit-h"><b>Кнопка</b><code>.mm-btn</code></p>
-    <div class="kit-live">
-      <p class="kit-row">
-        <a class="mm-btn mm-btn--primary" href="#">Ask to join</a>
-        <a class="mm-btn mm-btn--quiet" href="#">Invite together</a>
-        <a class="mm-btn" href="#">Skip</a>
-        <button class="mm-btn" type="button" disabled>Verify to send</button>
-      </p>
-    </div>
-    <p class="kit-note">Главная на экране одна, тёмно-фиолетовая. Тихая — сиреневая. Без роли — ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Недоступная говорит, что сделать (гейт §7.3), а не «disabled». Имя кнопки — глагол, из которого виден результат: <code>Join</code>, <code>Explore</code>, <code>Create</code> не пишем.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Строка действий</b><code>.mm-actions</code></p>
-    <div class="kit-live">
-      <div class="kit-stack">
-        <p class="mm-actions">
-          <a class="mm-btn mm-btn--primary" href="#">Expand search</a>
-          <a class="mm-btn mm-btn--quiet" href="#">Reset filters</a>
-        </p>
-        <p class="mm-actions">
-          <a class="mm-btn mm-btn--primary mm-btn--block" href="#">Try again</a>
-        </p>
-      </div>
-    </div>
-    <p class="kit-note">Одна-две кнопки в ряд, поровну. Больше двух в наборе не встречается ни на одном экране.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Поле с иконкой</b><code>.mm-field</code></p>
-    <div class="kit-live">
-      <div class="kit-stack">
-        <form class="mm-field" role="search">
-          <span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>
-          <label class="mm-vh" for="q2">Search people and events</label>
-          <input id="q2" type="search" value="board games">
-        </form>
-        <label class="mm-field" for="msg">
-          <span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>
-          <span class="mm-vh">Message</span>
-          <input id="msg" type="text" placeholder="Write a message">
-        </label>
-      </div>
-    </div>
-    <p class="kit-note">Иконка в поле контурная: поле ничего не утверждает, оно ждёт ввода. Подпись у обоих скрытая — <code>Search people and events</code> и <code>Message</code>: это такой же копирайт, он входит в перепись. На фокусе — обводка цветом действия.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Опасное действие</b><code>.mm-danger-link</code></p>
-    <div class="kit-live">
-      <p class="kit-row">
-        <button class="mm-danger-link" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report this person</button>
-      </p>
-    </div>
-    <p class="kit-note">Не заливка, а строка с иконкой, отбитая от остального: <code>--mm-danger</code> в продукте носят только <code>Report</code> и <code>Block</code>. С любого экрана, где виден другой человек, до них один тап (правило 4).</p>
-  </section>
-</section>
-
-<section class="kit-grp" id="g5">
-  <h2 class="kit-grp-h"><span class="kit-n">5</span>Обратная связь</h2>
-  <p class="kit-lead">Четыре состояния, и ни одно из них не экран: пусто, сбой, итог и загрузка — состояния одного и того же экрана. Ожидание чужого решения загрузкой не считается (<code>D-42</code>): ждать можно днями, и спиннер здесь врёт.</p>
-  <section class="kit-case">
-    <p class="kit-h"><b>Пусто</b><code>.mm-state</code></p>
-    <div class="kit-live">
-      <div class="kit-tall">
-        <article class="mm-state">
-          <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>
-          <h3>No events within 5 km yet</h3>
-          <p>Events here are posted by people like you &mdash; and yours would be the first one nearby.</p>
-        </article>
-        <p class="mm-actions kit-after"><a class="mm-btn mm-btn--quiet" href="#">Show events further out</a></p>
-      </div>
-      <div class="kit-tall">
-        <article class="mm-state">
-          <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>
-          <h3>You are all caught up</h3>
-          <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
-        </article>
-        <p class="mm-actions kit-after"><a class="mm-btn mm-btn--primary" href="#">Expand search</a><a class="mm-btn mm-btn--quiet" href="#">Reset filters</a></p>
-      </div>
-    </div>
-    <p class="kit-note">Ни одно пустое состояние не выглядит пустым (§2.1, п. 1): у каждого есть ослабление условий и выход в соседний контур. Про одиночество не говорим — правило 13: кончился список, а не «ты одна». Блок занимает ту же площадь, что не пришедшее содержимое: это тот же экран.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Сбой и пустой чат</b><code>.mm-state--alert</code></p>
-    <div class="kit-live">
-      <div class="kit-tall">
-        <article class="mm-state mm-state--alert" role="alert">
-          <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span>
-          <h3>Couldn&rsquo;t load events nearby</h3>
-          <p>The connection dropped. Your own events and requests are safe.</p>
-        </article>
-        <p class="mm-actions kit-after"><a class="mm-btn mm-btn--primary" href="#">Try again</a></p>
-      </div>
-      <div class="kit-tall">
-        <article class="mm-state">
-          <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>
-          <h3>No chats yet</h3>
-          <p>Chats open when you and someone both say yes &mdash; or when you ask to join an event and the person confirms you.</p>
-        </article>
-        <p class="mm-actions kit-after"><a class="mm-btn mm-btn--primary" href="#">See people</a><a class="mm-btn mm-btn--quiet" href="#">Look at events</a></p>
-      </div>
-    </div>
-    <p class="kit-note">Тот же блок, что «пусто», — разница в <code>role="alert"</code> и в цвете иконки. Текст называет причину и говорит, что данные целы: «something went wrong» не пишем. Красным здесь только иконка — один признак на одну роль.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Плашка итога</b><code>.mm-banner</code></p>
-    <div class="kit-live">
-      <article class="mm-banner">
-        <b>It&rsquo;s an event</b>
-        <p>Board games at Kyiv Games Club &middot; Saturday, 18:00 &middot; the two of you.</p>
-        <p class="mm-actions"><a class="mm-btn mm-btn--primary" href="#">Open the event</a></p>
-      </article>
-      <div class="kit-stack">
-        <article class="mm-banner">
-          <b>Waiting for Andrii</b>
-          <p>Your request is with Andrii. It stays open until Saturday &mdash; events without a date keep requests for 14 days.</p>
-        </article>
-        <article class="mm-banner">
-          <b>You&rsquo;re going</b>
-          <p>Andrii confirmed you. The chat is open and the exact address is now visible.</p>
-        </article>
-      </div>
-    </div>
-    <p class="kit-note">Карточка, а не абзац: день назначен — это новый объект, а не ещё одна реплика (<code>D-39</code>). Справа — ожидание чужого решения: названы тот, кто должен ответить, и срок, а третье («что можно сделать вместо») стоит кнопками под плашкой (<code>D-42</code>).</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Скелет загрузки</b><code>.mm-skel</code></p>
-    <div class="kit-live">
-      <ul class="mm-list">
-        <li class="mm-row" aria-hidden="true">
-          <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
-          <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
-          <span class="mm-skel mm-skel--line mm-skel--w-s"></span>
-        </li>
-        <li class="mm-row" aria-hidden="true">
-          <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
-          <span class="mm-skel mm-skel--line mm-skel--w-s"></span>
-          <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
-        </li>
-      </ul>
-      <div class="kit-stack">
-        <p class="mm-note" role="status">Looking for events near you</p>
-        <p class="mm-skelrow">
-          <span class="mm-avatar mm-avatar--lg mm-skel"></span>
-          <span class="mm-skel mm-skel--pill mm-skel--w-s"></span>
-          <span class="mm-skel mm-skel--pill mm-skel--w-m"></span>
-        </p>
-      </div>
-    </div>
-    <p class="kit-note">Заглушки той же длины и в том же порядке, что в пришедшей карточке: приход данных ничего не сдвинет. Спиннер не держит раскладку и не говорит, что грузится. При <code>prefers-reduced-motion</code> полоса стоит на месте. Рядом — строка <code>role="status"</code>: что именно ищем.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Примечание и счётчик</b><code>.mm-note</code></p>
-    <div class="kit-live">
-      <div class="kit-stack">
-        <output class="mm-note">2 going &middot; 1 spot left &middot; Still going? comes the day before</output>
-        <p class="mm-note">1 confirmed &middot; 1 spot left</p>
-        <p class="mm-note">No spots left</p>
-        <p class="mm-note">2 going &middot; 1 spot left &middot; your request doesn&rsquo;t take a spot yet</p>
-      </div>
-    </div>
-    <p class="kit-note">Счётчик двухфазный (<code>D-16</code>): <code>going</code> → <code>confirmed</code>. Слово рядом с числом несёт честность — в каждой фазе показано ровно то, что известно. Заполненное событие пишется словом, а не нулём (<code>D-60</code>). Мест не прибавляется: уменьшить <code>spots left</code> может только явное <code>Can&rsquo;t make it</code>.</p>
-  </section>
-</section>
-
-<section class="kit-grp" id="g6">
-  <h2 class="kit-grp-h"><span class="kit-n">6</span>Чат</h2>
-  <p class="kit-lead">По порогу «два экрана» переписка — разовое: она стоит только на экране Диалог, пусть и на пяти его состояниях. В кит она всё же входит: без пузыря чат нечем собрать, а экран этот — основная дорога к встрече (<code>D-37</code>).</p>
-  <section class="kit-case">
-    <p class="kit-h"><b>Реплики</b><code>.mm-bubble</code></p>
-    <div class="kit-live">
-      <div class="mm-msgs">
-        <p class="mm-bubble">Hi! Saw you&rsquo;re into board games too<span class="mm-bubble-time">Olena &middot; 19:04</span></p>
-        <p class="mm-bubble mm-bubble--mine">Yes &mdash; there&rsquo;s a game caf&eacute; on Podil I keep meaning to try<span class="mm-bubble-time">19:06 &middot; Read</span></p>
-        <p class="mm-bubble">Let&rsquo;s go then. Which day works for you?<span class="mm-bubble-time">Olena &middot; 19:08</span></p>
-        <a class="mm-bubble mm-bubble--failed" href="#" role="alert" aria-label="Message not sent. Tap to try again">Saturday works &mdash; the caf&eacute; opens at six<span class="mm-bubble-retry" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span><span class="mm-bubble-time">Not sent &middot; tap to try again</span></a>
-      </div>
-    </div>
-    <p class="kit-note">Своя реплика — не действие, поэтому и не цвет действия: сиреневый тон, а отличают её сторона и отсутствие обводки. Не ушло — состояние реплики, а не экрана (<code>D-52</code>): помечен сам пузырь, нажатие повторяет отправку, отдельного блока об ошибке в диалоге нет. Подчёркивания нет — подчёркнутый текст читался бы как ошибка вёрстки; подпись и иконка чернилами, красное несёт подложка.</p>
-  </section>
-  <section class="kit-case">
-    <p class="kit-h"><b>Подсказки в пустом чате</b><code>.mm-hints</code></p>
-    <div class="kit-live">
-      <p class="mm-hints">
-        <a class="mm-btn" href="#">What got you into board games?</a>
-        <a class="mm-btn" href="#">Know a good spot on Podil?</a>
-        <a class="mm-btn" href="#">Free this weekend?</a>
-      </p>
-    </div>
-    <p class="kit-note">Это предложенные фразы, а не второе действие: столбиком, белые, текст слева, вес обычный. Рядом с главной кнопкой они не спорят.</p>
-  </section>
-</section>
-
-<section class="kit-grp" id="g7">
-  <h2 class="kit-grp-h"><span class="kit-n">7</span>Онбординг и слои</h2>
+<section class="kit-grp" id="g10">
+  <h2 class="kit-grp-h"><span class="kit-n">10</span>Онбординг и слои</h2>
   <p class="kit-lead">Четыре компонента с экранов входа: обещание и радар на онбординге, слой совпадения поверх колоды, подпись на снимке в видоискателе. Все разовые — каждый стоит на одном экране, — но без них эти экраны не собрать.</p>
   <section class="kit-case">
     <p class="kit-h"><b>Обещание</b><code>.mm-promise</code></p>
-    <div class="kit-live">
-      <p class="mm-promise">Meet <mark>mates</mark><br>Enjoy the <mark>events</mark></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><p class="mm-promise">Meet <mark>mates</mark><br>Enjoy the <mark>events</mark></p></div>
+        <figcaption>Promise-Default</figcaption>
+      </figure>
     </div>
-    <p class="kit-note">Лаймом залит контейнер, а не буквы: лаймовый текст на светлом фоне даёт 1,2:1, тёмный на лайме — 15:1. Строки идут просторнее обычного заголовка, иначе подложки двух слов сходятся краями. Белого текста на размытии нет нигде — там он даёт 1,8:1.</p>
+    <p class="kit-note">Лаймом залит контейнер, а не буквы: лаймовый текст на светлом фоне даёт 1,2:1, тёмный на лайме — 15:1.</p>
   </section>
   <section class="kit-case">
     <p class="kit-h"><b>Радар</b><code>.mm-radar · .mm-rings · .mm-pins · .mm-scan</code></p>
-    <div class="kit-live">
-      <div class="kit-radar">
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--screen">
+        <div class="kit-stage"><div class="kit-radar">
         <figure class="mm-radar">
           <span class="mm-scan" aria-hidden="true"></span>
           <p class="mm-rings" aria-hidden="true"><span class="r5"></span><span class="mid"></span><span class="r3"></span><span class="in"></span><span class="r1"></span></p>
@@ -722,14 +987,29 @@
             <li class="l"><span class="mm-dot mm-dot--sm" aria-hidden="true"><img src="img/ev-run.jpg" alt="" loading="lazy"></span><span class="mm-vh">Event</span></li>
           </ul>
         </figure>
-      </div>
+      </div></div>
+        <figcaption>Radar-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><span class="mm-dot" aria-hidden="true"><img src="img/olena-112.jpg" alt="" loading="lazy"></span></div>
+        <figcaption>Dot-Default</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><span class="mm-dot mm-dot--sm" aria-hidden="true"><img src="img/ev-games.jpg" alt="" loading="lazy"></span></div>
+        <figcaption>Dot-Small</figcaption>
+      </figure>
+      <figure class="kit-cell">
+        <div class="kit-stage"><span class="mm-dot mm-dot--lg" aria-hidden="true"><img src="img/dasha-112.jpg" alt="" loading="lazy"></span></div>
+        <figcaption>Dot-Large</figcaption>
+      </figure>
     </div>
-    <p class="kit-note">Кольца расстояний подписаны и стоят на месте; из центра идёт волна — это и есть «радар работает». На кольцах не точки, а те же лица и обложки, что в колоде и ленте: кто рядом — видно по снимку, а не по слову. Данные иллюстративные, живых людей экран не показывает (<code>D-47</code>). При <code>prefers-reduced-motion</code> волна снимается, найденные видны сразу.</p>
+    <p class="kit-note">Кольца подписаны и стоят на месте; из центра идёт волна — это и есть «радар работает». На кольцах не точки, а те же лица и обложки, что в колоде и ленте. Данные иллюстративные (<code>D-47</code>). При <code>prefers-reduced-motion</code> волна снимается, найденные видны сразу.</p>
   </section>
   <section class="kit-case">
     <p class="kit-h"><b>Слой поверх экрана</b><code>.mm-layer</code></p>
-    <div class="kit-live">
-      <div class="kit-layer">
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--screen">
+        <div class="kit-stage"><div class="kit-layer">
         <dialog open class="mm-layer">
           <section class="mm-stretch">
             <article class="mm-state">
@@ -746,14 +1026,17 @@
             <a class="mm-btn mm-btn--quiet" href="#">See people</a>
           </p>
         </dialog>
-      </div>
+      </div></div>
+        <figcaption>Layer-Match</figcaption>
+      </figure>
     </div>
-    <p class="kit-note">Совпадение — не экран, а слой поверх колоды, поэтому <code>dialog</code>. У него <code>position: static</code>: браузер ставит <code>absolute</code>, и слой выходит из потока, переставая слушаться полей экрана. Два кружка рядом — в ряду заглушек они крупнее, чем подпись у имени.</p>
+    <p class="kit-note">Совпадение — не экран, а слой поверх колоды, поэтому <code>dialog</code>. У него <code>position: static</code>: браузер ставит <code>absolute</code>, и слой выходит из потока, переставая слушаться полей экрана.</p>
   </section>
   <section class="kit-case">
-    <p class="kit-h"><b>Подпись на снимке</b><code>.mm-photo-cap · .mm-skel--thumb</code></p>
-    <div class="kit-live">
-      <div class="kit-shot">
+    <p class="kit-h"><b>Подпись на снимке</b><code>.mm-photo-cap</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--card">
+        <div class="kit-stage"><div class="kit-shot">
         <article class="mm-person">
           <figure>
             <p class="mm-photo"><img src="img/dasha-112.jpg" alt="" loading="lazy"></p>
@@ -764,14 +1047,11 @@
             <p class="mm-distance">Face the light, no sunglasses, no filters.</p>
           </section>
         </article>
-      </div>
-      <p class="mm-skelrow">
-        <span class="mm-skel mm-skel--thumb"></span>
-        <span class="mm-skel mm-skel--thumb"></span>
-        <span class="mm-skel mm-skel--thumb"></span>
-      </p>
+      </div></div>
+        <figcaption>Viewfinder-Default</figcaption>
+      </figure>
     </div>
-    <p class="kit-note">Видоискатель верификации — та же карточка человека, что в колоде: вместо снимка кадр камеры, вместо фактов подсказка позы. Подпись лежит на самом снимке. Справа — миниатюры, которых ещё нет: место под фотографии профиля, пока они грузятся.</p>
+    <p class="kit-note">Видоискатель верификации — та же карточка человека, что в колоде: вместо снимка кадр камеры, вместо фактов подсказка позы. Подпись лежит на самом снимке.</p>
   </section>
 </section>
 
