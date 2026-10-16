@@ -37,7 +37,7 @@
       "mine": {
         "role": "tertiary",
         "displayName": "Сиреневая своя реплика",
-        "canonical": "#C8B4E2",
+        "canonical": "#E3DAEF",
         "tonalRamp": [
           "#2A2135",
           "#3E3350",
@@ -45,7 +45,7 @@
           "#6F5E89",
           "#9185AB",
           "#B6ADCB",
-          "#C8B4E2",
+          "#E3DAEF",
           "#F3EEF9"
         ]
       },
@@ -283,7 +283,7 @@
       "refersTo": "bubble-mine",
       "description": "Своя реплика: ни действие, ни кнопка — поэтому свой тон.",
       "html": "<p class=\"ds-bubble-mine\">Yes — there's a game café on Podil I keep meaning to try<span class=\"ds-bubble-t\">19:06 · Read</span></p>",
-      "css": ".ds-bubble-mine { max-width: 80%; margin: 0 0 0 auto; padding: 8px 12px; border-radius: 18px 18px 14px 18px; background: #C8B4E2; color: #1A1026; font: 400 14px/1.5 Figtree, sans-serif; } .ds-bubble-t { display: block; margin-top: 2px; font-size: 12px; color: #4C3F59; }"
+      "css": ".ds-bubble-mine { max-width: 80%; margin: 0 0 0 auto; padding: 8px 12px; border-radius: 18px 18px 14px 18px; background: #E3DAEF; color: #1A1026; font: 400 14px/1.5 Figtree, sans-serif; } .ds-bubble-t { display: block; margin-top: 2px; font-size: 12px; color: #4C3F59; }"
     },
     {
       "name": "Unsent Message Bubble",
