@@ -404,8 +404,8 @@ details.inv h3 { font-size: var(--t-body-sm); margin: var(--s-4) 0 var(--s-2); }
       <div class="chips">
         <span><b>5</b> принципов</span>
         <span><b>21</b> слово в словаре</span>
-        <span><b>466</b> строк интерфейса</span>
-        <span><b>85</b> правок текста</span>
+        <span><b>494</b> строки интерфейса</span>
+        <span><b>95</b> правок текста</span>
       </div>
       <!--PUBLIC-NOTE-->
     </div>
@@ -715,15 +715,16 @@ Hang tight! We're working on it 🎉</pre>
     <div class="tabpanel" id="microcopy">
       <h1 class="vh">Tone of voice и микрокопи: перепись</h1>
 <blockquote><p><strong>Инвентарь, а не свод правил.</strong> Здесь собран весь текст, который сейчас стоит на макетах <code>wireframes/*.html</code>: заголовки, кнопки, подписи полей, сообщения состояний. Ничего не переписано — задача переписи в том, чтобы стало видно то, чего не видно по одному экрану: одна и та же вещь названа в разных местах по-разному.</p>
-<p>Снято 30.09.2026 — после переписывания текста по <code>voice.md</code> — с набора <strong>49 страниц, 13 экранов</strong>. Пересобирается скриптом из самих макетов, руками не правится.</p>
+<p>Снято 30.09.2026 — после переписывания текста по <code>voice.md</code> — с набора <strong>49 страниц, 13 экранов</strong>; дополнено 16.10.2026.</p>
+<p><strong>Сверяется скриптом, а не глазами:</strong> <code>node scripts/microcopy-audit.mjs</code> читает макеты и эту таблицу и сверяет их <strong>в обе стороны</strong> — что стоит на экране и чего нет здесь, и что осталось здесь, а с экрана ушло. Каждая страница сверяется с таблицей своего экрана: код экрана берётся из комментария в начале макета. Правится таблица руками, но разойтись с макетами ей больше не дают.</p>
 <p>Голос продукта и <strong>словарь терминов</strong> — <a href="../voice.md"><code>voice.md</code></a>. Что уже решено про отдельные строки — <a href="../wireframes/_conventions.md"><code>wireframes/_conventions.md</code></a>.</p></blockquote>
 
       <section id="1-что-вошло-в-перепись-и-что-нет">
         <h2>1. Что вошло в перепись и что нет</h2>
 <p><strong>Вошло:</strong> всё, что человек читает в продукте — заголовки экранов и секций, подписи кнопок и ссылок-выходов, плейсхолдеры и подписи полей, сообщения пустых состояний, ошибок, загрузок и ожиданий, мета-строки карточек (расстояние, счётчик мест, сигналы доверия), свободный текст экрана.</p>
-<p><strong>И то, чего глазом не видно:</strong> <strong>скрытые заголовки секций</strong> и <strong><code>aria-label</code></strong> — их слышит скринридер, значит это такой же копирайт (<code>wireframes/_conventions.md</code>). До 30.09 их в переписи не было, и расхождения в них приходилось находить глазами: 85 скрытых заголовков и 34 <code>aria-label</code> жили на экранах мимо таблицы.</p>
+<p><strong>И то, чего глазом не видно:</strong> <strong>скрытые заголовки секций</strong>, <strong>подписи фотографий для скринридера</strong> (<code>Photo 1 of 4</code>) и <strong><code>aria-label</code></strong> — их слышит скринридер, значит это такой же копирайт (<code>wireframes/_conventions.md</code>). До 30.09 их в переписи не было, и расхождения в них приходилось находить глазами: 85 скрытых заголовков и 34 <code>aria-label</code> жили на экранах мимо таблицы.</p>
 <p><strong>Не вошло — это леса, а не продукт:</strong> панель страниц слева, полоса состояний над мокапом, подписи зон справа, служебный блок под макетом, системная строка телефона и метка «сгиб — ниже не наше».</p>
-<p><strong>Как читать колонки.</strong> <code>Состояние</code> — базовый вид или одно из состояний экрана; <strong>во всех</strong> значит, что строка одинакова во всех состояниях этого экрана. <code>Зона</code> — из комментария в разметке: шапка, содержимое, действия, выход. <code>Тип</code> — заголовок · скрытый заголовок · aria-label · кнопка · подпись поля · сообщение состояния · подпись · текст экрана · строка списка · текст пользователя.</p>
+<p><strong>Как читать колонки.</strong> <code>Состояние</code> — базовый вид или одно из состояний экрана; <strong>во всех</strong> значит, что строка одинакова во всех состояниях этого экрана. <code>Зона</code> — из комментария в разметке: шапка, содержимое, действия, выход. <code>Тип</code> — заголовок · скрытый заголовок · aria-label · кнопка · подпись поля · сообщение состояния · подпись · скрытая подпись · текст экрана · строка списка · текст пользователя. Список закрыт: нового типа не появляется без строки, которую некуда записать.</p>
       </section>
 
       <section id="2-общее-для-всех-экранов">
@@ -732,6 +733,7 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td><code>People</code> · <code>Events</code> · <code>Search</code> · <code>Chats</code> · <code>Profile</code></td><td>кнопка</td><td>Таб-бар, все 49 страниц</td></tr>
 <tr><td><code>←</code></td><td>кнопка, только aria-label</td><td>Шапка 24 страниц: <code>Back to chats</code>, <code>Back to the chat</code>, <code>Back to events</code>, <code>Back to people nearby</code></td></tr>
 <tr><td><code>Report</code></td><td>кнопка</td><td>Шапка там, где виден человек: диалог, профиль, карточка события (правило 4)</td></tr>
+<tr><td><code>Main navigation</code></td><td>aria-label</td><td>Нижнее меню, все 49 страниц</td></tr>
 </tbody></table></div>
       </section>
 
@@ -740,20 +742,30 @@ Hang tight! We're working on it 🎉</pre>
 
 <div class="invlist">
       <details class="inv" id="vii-8-радар">
-        <summary>VII.8 Радар<span>3 строки</span></summary>
+        <summary>VII.8 Радар<span>8 строк</span></summary>
         <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
 <tr><td>рабочий вид</td><td>Обещание</td><td><code>Meet mates Enjoy the events</code></td><td>заголовок</td></tr>
 <tr><td>рабочий вид</td><td>Как это устроено</td><td><code>How it works</code></td><td>скрытый заголовок</td></tr>
 <tr><td>рабочий вид</td><td>С чего начать</td><td><code>Where to start</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Как это устроено</td><td><code>~5 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Как это устроено</td><td><code>~2 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Как это устроено</td><td><code>Nearby</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Как это устроено</td><td><code>Event</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Как это устроено</td><td><code>Person</code></td><td>подпись</td></tr>
 </tbody></table></div>
       </details>
       <details class="inv" id="ii-1-колода">
-        <summary>II.1 Колода<span>33 строки</span></summary>
+        <summary>II.1 Колода<span>40 строк</span></summary>
         <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
 <tr><td><strong>во всех</strong></td><td>Шапка</td><td><code>People nearby</code></td><td>заголовок</td></tr>
 <tr><td><strong>во всех</strong></td><td>Шапка</td><td><code>Filters</code></td><td>кнопка</td></tr>
 <tr><td><strong>во всех</strong></td><td>Выход во второй путь</td><td><code>Look at events →</code></td><td>кнопка</td></tr>
 <tr><td>рабочий вид</td><td>Карточка человека</td><td><code>Olena, 26 — open profile</code></td><td>aria-label</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>Who</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>Photo 1 of 4</code></td><td>скрытая подпись</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>~2 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>3 common interests</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Карточка человека</td><td><code>Verified</code></td><td>подпись</td></tr>
 <tr><td>рабочий вид</td><td>Карточка человека</td><td><code>Olena, 26</code></td><td>заголовок</td></tr>
 <tr><td>рабочий вид</td><td>Решение по карточке</td><td><code>Skip</code></td><td>кнопка</td></tr>
 <tr><td>рабочий вид</td><td>Решение по карточке</td><td><code>Like</code></td><td>кнопка</td></tr>
@@ -765,6 +777,7 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td>рабочий вид</td><td>Решение по карточке</td><td><code>Decision</code></td><td>скрытый заголовок</td></tr>
 <tr><td>рабочий вид</td><td>Выход во второй путь</td><td><code>Events</code></td><td>скрытый заголовок</td></tr>
 <tr><td>пусто</td><td>Что дальше</td><td><code>Show people further out</code></td><td>aria-label</td></tr>
+<tr><td>пусто</td><td>Вместо карточки</td><td><code>Status</code></td><td>скрытый заголовок</td></tr>
 <tr><td>пусто</td><td>Вместо карточки</td><td><code>You are all caught up</code></td><td>заголовок</td></tr>
 <tr><td>пусто</td><td>Что дальше</td><td><code>Expand search</code></td><td>кнопка</td></tr>
 <tr><td>пусто</td><td>Что дальше</td><td><code>Reset filters</code></td><td>кнопка</td></tr>
@@ -772,6 +785,7 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td>пусто</td><td>Выход во второй путь</td><td><code>Events</code></td><td>скрытый заголовок</td></tr>
 <tr><td>пусто</td><td>Вместо карточки</td><td><code>That’s everyone within 5 km who matches your filters.</code></td><td>сообщение состояния</td></tr>
 <tr><td>пусто</td><td>Вместо карточки</td><td><code>That’s everyone within 5 km who matches your filters.</code></td><td>текст экрана</td></tr>
+<tr><td>ошибка</td><td>Вместо карточки</td><td><code>Status</code></td><td>скрытый заголовок</td></tr>
 <tr><td>ошибка</td><td>Вместо карточки</td><td><code>Couldn’t load people nearby</code></td><td>заголовок</td></tr>
 <tr><td>ошибка</td><td>Что дальше</td><td><code>Try again</code></td><td>кнопка</td></tr>
 <tr><td>ошибка</td><td>Что дальше</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
@@ -786,7 +800,7 @@ Hang tight! We're working on it 🎉</pre>
 </tbody></table></div>
       </details>
       <details class="inv" id="i-1-профиль-человека">
-        <summary>I.1 Профиль человека<span>24 строки</span></summary>
+        <summary>I.1 Профиль человека<span>27 строк</span></summary>
         <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
 <tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Back to people nearby</code></td><td>aria-label</td></tr>
 <tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Olena, 26</code></td><td>заголовок</td></tr>
@@ -799,6 +813,9 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>6 meetups attended</code></td><td>подпись</td></tr>
 <tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>Replies quickly</code></td><td>подпись</td></tr>
 <tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>Who</code></td><td>скрытый заголовок</td></tr>
+<tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>Photo 1 of 4</code></td><td>скрытая подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>~2 km</code></td><td>подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Кто это</td><td><code>3 common interests</code></td><td>подпись</td></tr>
 <tr><td><strong>во всех</strong></td><td>Решение</td><td><code>Decision</code></td><td>скрытый заголовок</td></tr>
 <tr><td><strong>во всех</strong></td><td>Планов нет</td><td><code>Moved to Kyiv in spring. Weekends are for long walks and board games.</code></td><td>текст экрана</td></tr>
 <tr><td>рабочий вид</td><td>Ближайшие запросы человека</td><td><code>Board games</code></td><td>заголовок объекта</td></tr>
@@ -827,13 +844,15 @@ Hang tight! We're working on it 🎉</pre>
 </tbody></table></div>
       </details>
       <details class="inv" id="i-5-верификация">
-        <summary>I.5 Верификация<span>44 строки</span></summary>
+        <summary>I.5 Верификация<span>47 строк</span></summary>
         <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
 <tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Back to the chat</code></td><td>aria-label</td></tr>
 <tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Verification</code></td><td>заголовок</td></tr>
 <tr><td><strong>во всех</strong></td><td>Выход</td><td><code>Keep browsing →</code></td><td>кнопка</td></tr>
 <tr><td><strong>во всех</strong></td><td>Выход</td><td><code>Later</code></td><td>скрытый заголовок</td></tr>
 <tr><td>рабочий вид</td><td>Снять</td><td><code>Take selfie</code></td><td>кнопка</td></tr>
+<tr><td>рабочий вид</td><td>Видоискатель</td><td><code>Camera</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Видоискатель</td><td><code>Turn your head slightly to the left</code></td><td>подпись</td></tr>
 <tr><td>рабочий вид</td><td>Видоискатель</td><td><code>Face the light, no sunglasses, no filters.</code></td><td>подпись</td></tr>
 <tr><td>рабочий вид</td><td>Видоискатель</td><td><code>Selfie</code></td><td>скрытый заголовок</td></tr>
 <tr><td>рабочий вид</td><td>Снять</td><td><code>Decision</code></td><td>скрытый заголовок</td></tr>
@@ -846,6 +865,7 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td>ошибка</td><td>Причина</td><td><code>This was your first try. There’s no limit on tries — after two, someone from the team looks at your selfie.</code></td><td>сообщение состояния</td></tr>
 <tr><td>ошибка</td><td>Причина</td><td><code>Part of your face was out of frame. Hold the phone at eye level and try once more.</code></td><td>текст экрана</td></tr>
 <tr><td>загрузка</td><td>Действие выключено</td><td><code>Take selfie</code></td><td>кнопка</td></tr>
+<tr><td>загрузка</td><td>Обработка</td><td><code>Your selfie</code></td><td>подпись</td></tr>
 <tr><td>загрузка</td><td>Обработка</td><td><code>Checking</code></td><td>скрытый заголовок</td></tr>
 <tr><td>загрузка</td><td>Действие выключено</td><td><code>Decision</code></td><td>скрытый заголовок</td></tr>
 <tr><td>загрузка</td><td>Обработка</td><td><code>Checking your selfie</code></td><td>сообщение состояния</td></tr>
@@ -876,7 +896,7 @@ Hang tight! We're working on it 🎉</pre>
 </tbody></table></div>
       </details>
       <details class="inv" id="iv-2-диалог">
-        <summary>IV.2 Диалог<span>41 строка</span></summary>
+        <summary>IV.2 Диалог<span>46 строк</span></summary>
         <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
 <tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Back to chats</code></td><td>aria-label</td></tr>
 <tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Olena</code></td><td>заголовок</td></tr>
@@ -887,6 +907,9 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td><strong>во всех</strong></td><td>Пусто</td><td><code>Chat with Olena</code></td><td>скрытый заголовок</td></tr>
 <tr><td><strong>во всех</strong></td><td>Выходы наружу</td><td><code>Ways out of the chat</code></td><td>скрытый заголовок</td></tr>
 <tr><td><strong>во всех</strong></td><td>Поле ввода</td><td><code>Message</code></td><td>скрытый заголовок</td></tr>
+<tr><td>рабочий вид</td><td>Разговор</td><td><code>Olena · 19:04</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Разговор</td><td><code>19:06 · Read</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Разговор</td><td><code>Olena · 19:08</code></td><td>подпись</td></tr>
 <tr><td>рабочий вид</td><td>Разговор</td><td><code>Hi! Saw you’re into board games too</code></td><td>текст пользователя</td></tr>
 <tr><td>рабочий вид</td><td>Разговор</td><td><code>Yes — there’s a game café on Podil I keep meaning to try</code></td><td>текст пользователя</td></tr>
 <tr><td>рабочий вид</td><td>Разговор</td><td><code>Let’s go then. Which day works for you?</code></td><td>текст пользователя</td></tr>
@@ -901,6 +924,8 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td>ошибка</td><td>Разговор цел</td><td><code>Let’s go then. Which day works for you?</code></td><td>текст пользователя</td></tr>
 <tr><td>ошибка</td><td>Разговор цел</td><td><code>Saturday works — the café opens at six</code></td><td>текст пользователя</td></tr>
 <tr><td>загрузка</td><td>Скелет истории</td><td><code>Loading your chat with Olena</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех</td><td>Разговор и то</td><td><code>19:11 · Read</code></td><td>подпись</td></tr>
+<tr><td>успех</td><td>Разговор и то</td><td><code>Olena · 19:12</code></td><td>подпись</td></tr>
 <tr><td>успех</td><td>Разговор и то</td><td><code>It’s an event</code></td><td>заголовок объекта</td></tr>
 <tr><td>успех</td><td>Разговор и то</td><td><code>Open the event</code></td><td>кнопка</td></tr>
 <tr><td>успех</td><td>Что дальше</td><td><code>It’s in My events →</code></td><td>кнопка</td></tr>
@@ -1033,11 +1058,12 @@ Hang tight! We're working on it 🎉</pre>
 </tbody></table></div>
       </details>
       <details class="inv" id="iii-3-карточка-события">
-        <summary>III.3 Карточка события<span>50 строк</span></summary>
+        <summary>III.3 Карточка события<span>51 строка</span></summary>
         <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
 <tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Back to events</code></td><td>aria-label</td></tr>
 <tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Board games</code></td><td>заголовок</td></tr>
 <tr><td><strong>во всех</strong></td><td>Подтверждено</td><td><code>Andrii · Verified · 12 meetups attended · Replies quickly</code></td><td>подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Подтверждено</td><td><code>Photo 1 of 2</code></td><td>скрытая подпись</td></tr>
 <tr><td><strong>во всех</strong></td><td>Подтверждено</td><td><code>Saturday, 18:00</code></td><td>подпись</td></tr>
 <tr><td><strong>во всех</strong></td><td>Подтверждено</td><td><code>Free</code></td><td>подпись</td></tr>
 <tr><td><strong>во всех</strong></td><td>Подтверждено</td><td><code>Kyiv Games Club · Podil · ~3 km</code></td><td>подпись</td></tr>
@@ -1051,7 +1077,7 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td>ошибка</td><td>Отказ</td><td><code>Andrii didn’t take this one</code></td><td>заголовок</td></tr>
 <tr><td>ошибка</td><td>Следующий шаг</td><td><code>Look at other events</code></td><td>кнопка</td></tr>
 <tr><td>ошибка</td><td>Следующий шаг</td><td><code>See people</code></td><td>кнопка</td></tr>
-<tr><td>ошибка</td><td>Свой план</td><td><code>Post an event →</code></td><td>кнопка</td></tr>
+<tr><td>ошибка</td><td>Свой план</td><td><code>Post an event</code></td><td>кнопка</td></tr>
 <tr><td>ошибка</td><td>Отказ</td><td><code>Declined</code></td><td>скрытый заголовок</td></tr>
 <tr><td>ошибка</td><td>Следующий шаг</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
 <tr><td>ошибка</td><td>Свой план</td><td><code>Your own</code></td><td>скрытый заголовок</td></tr>
@@ -1108,7 +1134,7 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td>рабочий вид</td><td>Мои события</td><td><code>Board games Sat 18:00</code></td><td>кнопка</td></tr>
 <tr><td>рабочий вид</td><td>Мои события</td><td><code>Coffee and a walk in Podil 20 Sep</code></td><td>кнопка</td></tr>
 <tr><td>рабочий вид</td><td>Мои события</td><td><code>2 requests · tap to confirm · 1 spot left</code></td><td>подпись</td></tr>
-<tr><td>рабочий вид</td><td>Мои события</td><td><code>Maryna · 3 going · ~1 km</code></td><td>подпись</td></tr>
+<tr><td>рабочий вид</td><td>Мои события</td><td><code>3 going · ~1 km</code></td><td>подпись</td></tr>
 <tr><td>рабочий вид</td><td>Мои события</td><td><code>Repeats weekly · 2 meetups attended</code></td><td>подпись</td></tr>
 <tr><td>рабочий вид</td><td>Мои события</td><td><code>Sat 18:00</code></td><td>подпись</td></tr>
 <tr><td>рабочий вид</td><td>Мои события</td><td><code>Sun 08:00</code></td><td>подпись</td></tr>
@@ -1127,7 +1153,7 @@ Hang tight! We're working on it 🎉</pre>
 </tbody></table></div>
       </details>
       <details class="inv" id="iv-1-список-чатов">
-        <summary>IV.1 Список чатов<span>30 строк</span></summary>
+        <summary>IV.1 Список чатов<span>32 строки</span></summary>
         <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
 <tr><td><strong>во всех</strong></td><td>шапка</td><td><code>My chats</code></td><td>заголовок</td></tr>
 <tr><td><strong>во всех</strong></td><td>Выход</td><td><code>See people →</code></td><td>кнопка</td></tr>
@@ -1146,12 +1172,14 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td>рабочий вид</td><td>Список</td><td><code>Olena 19:08 · 1 new Let’s go then. Which day works for you?</code></td><td>строка списка</td></tr>
 <tr><td>рабочий вид</td><td>Список</td><td><code>Board games Mon Event chat · 3 people · Andrii: see you at six</code></td><td>строка списка</td></tr>
 <tr><td>рабочий вид</td><td>Список</td><td><code>Maryna 12 Jun You both said yes — no messages yet</code></td><td>строка списка</td></tr>
+<tr><td>пусто</td><td>Пусто</td><td><code>Status</code></td><td>скрытый заголовок</td></tr>
 <tr><td>пусто</td><td>Пусто</td><td><code>No chats yet</code></td><td>заголовок</td></tr>
 <tr><td>пусто</td><td>Оба пути к первому разговору</td><td><code>See people</code></td><td>кнопка</td></tr>
 <tr><td>пусто</td><td>Оба пути к первому разговору</td><td><code>Look at events</code></td><td>кнопка</td></tr>
 <tr><td>пусто</td><td>Оба пути к первому разговору</td><td><code>What next</code></td><td>скрытый заголовок</td></tr>
 <tr><td>пусто</td><td>Пусто</td><td><code>Chats open when you and someone both say yes — or when you ask to join an event and the person confirms you.</code></td><td>сообщение состояния</td></tr>
 <tr><td>пусто</td><td>Пусто</td><td><code>Chats open when you and someone both say yes — or when you ask to join an event and the person confirms you.</code></td><td>текст экрана</td></tr>
+<tr><td>ошибка</td><td>Причина названа</td><td><code>Status</code></td><td>скрытый заголовок</td></tr>
 <tr><td>ошибка</td><td>Причина названа</td><td><code>Couldn’t load your chats</code></td><td>заголовок</td></tr>
 <tr><td>ошибка</td><td>Причина названа</td><td><code>Try again</code></td><td>кнопка</td></tr>
 <tr><td>ошибка</td><td>Выход</td><td><code>People</code></td><td>скрытый заголовок</td></tr>
@@ -1212,8 +1240,10 @@ Hang tight! We're working on it 🎉</pre>
 </tbody></table></div>
       </details>
       <details class="inv" id="i-2-мой-профиль">
-        <summary>I.2 Мой профиль<span>54 строки</span></summary>
+        <summary>I.2 Мой профиль<span>56 строк</span></summary>
         <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
+<tr><td><strong>во всех</strong></td><td>Как меня видят</td><td><code>Photo 1 of 3</code></td><td>скрытая подпись</td></tr>
+<tr><td><strong>во всех</strong></td><td>Как меня видят</td><td><code>Hiking · Board games · Coffee · Running</code></td><td>подпись</td></tr>
 <tr><td>рабочий вид</td><td>шапка</td><td><code>Edit profile</code></td><td>aria-label</td></tr>
 <tr><td>рабочий вид</td><td>шапка</td><td><code>My profile</code></td><td>заголовок</td></tr>
 <tr><td>рабочий вид</td><td>Как меня видят</td><td><code>How others see you</code></td><td>заголовок</td></tr>
@@ -1461,7 +1491,24 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td><code>my-events</code></td><td><code>h3 Waiting for you</code></td><td><code>Requests to confirm</code></td><td>Рядом стоят <code>Going</code> и <code>Past</code> — они называют предмет. И <code>Waiting for …</code> в четырёх других местах значит «<strong>мы</strong> ждём чужого ответа» (<code class="dcode">D-42</code>): здесь смысл обратный</td></tr>
 </tbody></table></div>
 <h4 id="перепись-стала-полной">Перепись стала полной</h4>
-<p><strong>85 скрытых заголовков и 34 <code>aria-label</code></strong> жили на экранах мимо таблицы, хотя <code>_conventions.md</code> считает их копирайтом — и именно их мы переписывали (<code>Chat with Olena</code>, <code>Results</code>, <code>Take the selfie</code>). Извлечение дополнено двумя типами: <strong>скрытый заголовок</strong> и <strong>aria-label</strong>. Инвентарь вырос с 374 строк до 466.</p>
+<p><strong>85 скрытых заголовков и 34 <code>aria-label</code></strong> жили на экранах мимо таблицы, хотя <code>_conventions.md</code> считает их копирайтом — и именно их мы переписывали (<code>Chat with Olena</code>, <code>Results</code>, <code>Take the selfie</code>). Извлечение дополнено двумя типами: <strong>скрытый заголовок</strong> и <strong>aria-label</strong>. Инвентарь вырос с 374 строк до 466 — и до 494 на сверке 16.10, о которой ниже.</p>
+<h4 id="перепись-сошлась-с-макетами-в-обе-стороны-16-10">Перепись сошлась с макетами в обе стороны — 16.10</h4>
+<p>Полной её считали по типам строк, а не по сверке: типы добавили, а <strong>совпадает ли таблица с макетами</strong>, по-прежнему никто не проверял. Теперь проверяет <code>node scripts/microcopy-audit.mjs</code> — по таблице своего экрана и в обе стороны. Первый прогон нашёл <strong>28 строк на экранах мимо таблицы</strong> и <strong>три строки в таблице, которых на экранах уже нет</strong>.</p>
+<div class="tw"><table><thead><tr><th>Чего не хватало</th><th>Где</th></tr></thead><tbody>
+<tr><td><code>Photo 1 of 4</code> · <code>Photo 1 of 3</code> · <code>Photo 1 of 2</code> — подпись снимка для скринридера</td><td>девять страниц: колода, профиль, свой профиль, карточка события</td></tr>
+<tr><td><code>Camera</code> · <code>Your selfie</code> · <code>Turn your head slightly to the left</code></td><td>видоискатель верификации</td></tr>
+<tr><td><code>~5 km</code> · <code>~2 km</code> · <code>Nearby</code> · <code>Event</code> · <code>Person</code></td><td>полосы и точки радара</td></tr>
+<tr><td><code>Hiking · Board games · Coffee · Running</code></td><td>строка интересов своего профиля</td></tr>
+<tr><td><code>Olena · 19:04</code> · <code>19:06 · Read</code> и ещё три — мета реплик</td><td>диалог, успех и ожидание</td></tr>
+<tr><td><code>Main navigation</code></td><td>нижнее меню, все 49 страниц — строка раздела 2</td></tr>
+<tr><td><code>Who</code> · <code>Status</code> — скрытые заголовки зон</td><td>колода и список чатов; добавлены этим же проходом, чтобы уровень заголовков не прыгал с <code>h1</code> на <code>h3</code></td></tr>
+</tbody></table></div>
+<div class="tw"><table><thead><tr><th>Что осталось в таблице, а с экрана ушло</th><th>Почему ушло</th></tr></thead><tbody>
+<tr><td><code>Maryna · 3 going · ~1 km</code></td><td>автора в превью нет (<code class="dcode">D-55</code>) — осталось <code>3 going · ~1 km</code>. В разделе 6 правка записана, в инвентаре строка не поменялась</td></tr>
+<tr><td><code>Post an event →</code></td><td>стрелка ушла вместе с адресом: экран создания вне набора, кнопка никуда не ведёт</td></tr>
+<tr><td><code>board games</code></td><td>строка на месте, не видел её скрипт: запрос поиска стоит в <code>value</code> поля. Чинился скрипт, а не таблица</td></tr>
+</tbody></table></div>
+<p>Инвентарь — <strong>494 строки</strong>, из них 267 различных. Подпись для скринридера стала третьим невидимым типом рядом со скрытым заголовком и <code>aria-label</code>.</p>
 <p><strong>Что не дефект, хотя похоже:</strong> <code>Expand search</code> (колода) против <code>Show events further out</code> (лента) — решение по ширине, полное имя в <code>aria-label</code>; <code>Change the day</code> рядом с <code>Suggest a day</code> — другое действие; <code>Meanwhile</code> / <code>What next</code> / <code>Ways out of the chat</code> — имена по типу состояния, а не три имени одной зоны; <code>Open the event</code> рядом с <code>Open the chat</code> — разные объекты.</p>
       </section>
 
