@@ -376,7 +376,7 @@
 | успех | Мои события | `My events` | скрытый заголовок |
 | успех | Подтверждено | `You’re going` | сообщение состояния |
 | успех | Подтверждено | `Andrii confirmed you. The chat is open and the exact address is now visible.` | сообщение состояния |
-| успех | Подтверждено | `2 going · 1 spot left · Still going? comes the day before` | сообщение состояния |
+| успех | Подтверждено | `3 going · No spots left · Still going? comes the day before` | сообщение состояния |
 | успех | Подтверждено | `Andrii confirmed you. The chat is open and the exact address is now visible.` | текст экрана |
 | ожидание | Кто должен ответить и сколько это живёт | `Waiting for Andrii` | заголовок объекта |
 | ожидание | Что можно вместо ожидания | `Look at other events` | кнопка |
@@ -649,6 +649,18 @@ Kyiv Games Club, Podil, `2 going · 1 spot left`, `6 meetups attended`, `~3 km`.
 
 Правка по [`voice.md`](./voice.md) идёт экранами. Ниже — что изменилось на уже
 переписанных; строки, которые проверены и оставлены, перечислены после таблицы.
+
+### Карточка запроса и мои события: `plan-success` · `my-events` · `plan-error` — 16.10
+
+Правка по критике: экраны врали данными и проводкой, а не словами.
+
+| Экран | Тип | Было | Стало | Почему |
+|---|---|---|---|---|
+| `plan-success` | сообщение состояния | `2 going · 1 spot left · Still going? comes the day before` | `3 going · No spots left · Still going? comes the day before` | Человек только что присоединился, а счётчик показывал прежнее число: мест было три, занято стало три. Заполненное пишется словом, не нулём (`D-60`) |
+| `my-events` | строка списка | «Requests to confirm» вела на `plan-success` | ссылки нет | `plan-success` — вид присоединившегося, не автора. Экран откликов (III.5) вне набора, и это записанный долг, а не повод вести куда попало |
+| `my-events` | строка списка | прошедшее событие вело на `plan` | ссылки нет | Рабочая карточка зовёт откликнуться, а отклик гаснет с наступлением даты (§5.4) |
+| `my-events` | подпись | `Maryna · 3 going · ~1 km` с аватаром | `3 going · ~1 km` | Единственное превью в наборе, показывавшее автора. Фото и имени автора в превью нет (`D-55`): там строка про занятие |
+| `plan-error` | кнопка | `Post an event` вела на `feed-empty` | кнопка без адреса, как на шести других экранах | `feed-empty` говорит `No events within 5 km yet` человеку, пришедшему из полной ленты. Экран создания вне набора — долг записан в `_screens.md` п. 6 |
 
 ### Лента событий: `feed` · `feed-empty` · `feed-error` · `feed-loading` — 30.09
 

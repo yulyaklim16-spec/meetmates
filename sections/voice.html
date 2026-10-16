@@ -405,7 +405,7 @@ details.inv h3 { font-size: var(--t-body-sm); margin: var(--s-4) 0 var(--s-2); }
         <span><b>5</b> принципов</span>
         <span><b>21</b> слово в словаре</span>
         <span><b>466</b> строк интерфейса</span>
-        <span><b>80</b> правок текста</span>
+        <span><b>85</b> правок текста</span>
       </div>
       <!--PUBLIC-NOTE-->
     </div>
@@ -1072,7 +1072,7 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td>успех</td><td>Мои события</td><td><code>My events</code></td><td>скрытый заголовок</td></tr>
 <tr><td>успех</td><td>Подтверждено</td><td><code>You’re going</code></td><td>сообщение состояния</td></tr>
 <tr><td>успех</td><td>Подтверждено</td><td><code>Andrii confirmed you. The chat is open and the exact address is now visible.</code></td><td>сообщение состояния</td></tr>
-<tr><td>успех</td><td>Подтверждено</td><td><code>2 going · 1 spot left · Still going? comes the day before</code></td><td>сообщение состояния</td></tr>
+<tr><td>успех</td><td>Подтверждено</td><td><code>3 going · No spots left · Still going? comes the day before</code></td><td>сообщение состояния</td></tr>
 <tr><td>успех</td><td>Подтверждено</td><td><code>Andrii confirmed you. The chat is open and the exact address is now visible.</code></td><td>текст экрана</td></tr>
 <tr><td>ожидание</td><td>Кто должен ответить и сколько это живёт</td><td><code>Waiting for Andrii</code></td><td>заголовок объекта</td></tr>
 <tr><td>ожидание</td><td>Что можно вместо ожидания</td><td><code>Look at other events</code></td><td>кнопка</td></tr>
@@ -1324,6 +1324,15 @@ Hang tight! We're working on it 🎉</pre>
       <section id="6-переписанные-страницы-было-и-стало">
         <h2>6. Переписанные страницы — было и стало</h2>
 <p>Правка по <a href="../voice.md"><code>voice.md</code></a> идёт экранами. Ниже — что изменилось на уже переписанных; строки, которые проверены и оставлены, перечислены после таблицы.</p>
+<h3 id="карточка-запроса-и-мои-события-plan-success-my-events-plan-error-16-10">Карточка запроса и мои события: <code>plan-success</code> · <code>my-events</code> · <code>plan-error</code> — 16.10</h3>
+<p>Правка по критике: экраны врали данными и проводкой, а не словами.</p>
+<div class="tw"><table><thead><tr><th>Экран</th><th>Тип</th><th>Было</th><th>Стало</th><th>Почему</th></tr></thead><tbody>
+<tr><td><code>plan-success</code></td><td>сообщение состояния</td><td><code>2 going · 1 spot left · Still going? comes the day before</code></td><td><code>3 going · No spots left · Still going? comes the day before</code></td><td>Человек только что присоединился, а счётчик показывал прежнее число: мест было три, занято стало три. Заполненное пишется словом, не нулём (<code class="dcode">D-60</code>)</td></tr>
+<tr><td><code>my-events</code></td><td>строка списка</td><td>«Requests to confirm» вела на <code>plan-success</code></td><td>ссылки нет</td><td><code>plan-success</code> — вид присоединившегося, не автора. Экран откликов (III.5) вне набора, и это записанный долг, а не повод вести куда попало</td></tr>
+<tr><td><code>my-events</code></td><td>строка списка</td><td>прошедшее событие вело на <code>plan</code></td><td>ссылки нет</td><td>Рабочая карточка зовёт откликнуться, а отклик гаснет с наступлением даты (§5.4)</td></tr>
+<tr><td><code>my-events</code></td><td>подпись</td><td><code>Maryna · 3 going · ~1 km</code> с аватаром</td><td><code>3 going · ~1 km</code></td><td>Единственное превью в наборе, показывавшее автора. Фото и имени автора в превью нет (<code class="dcode">D-55</code>): там строка про занятие</td></tr>
+<tr><td><code>plan-error</code></td><td>кнопка</td><td><code>Post an event</code> вела на <code>feed-empty</code></td><td>кнопка без адреса, как на шести других экранах</td><td><code>feed-empty</code> говорит <code>No events within 5 km yet</code> человеку, пришедшему из полной ленты. Экран создания вне набора — долг записан в <code>_screens.md</code> п. 6</td></tr>
+</tbody></table></div>
 <h3 id="лента-событий-feed-feed-empty-feed-error-feed-loading-30-09">Лента событий: <code>feed</code> · <code>feed-empty</code> · <code>feed-error</code> · <code>feed-loading</code> — 30.09</h3>
 <div class="tw"><table><thead><tr><th>Экран</th><th>Тип</th><th>Было</th><th>Стало</th><th>Почему</th></tr></thead><tbody>
 <tr><td>все четыре</td><td>кнопка, шапка</td><td><code>New</code></td><td><code>Post</code> (+ <code>aria-label=&quot;Post an event&quot;</code>)</td><td>Кнопка — глагол, из которого виден результат («Микрокопи»). Полное имя словаря не помещается рядом с <code>Filters</code>, поэтому оно в aria — тот же приём, что <code>Invite</code> в превью <code class="dcode">D-60</code></td></tr>

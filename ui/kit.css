@@ -975,6 +975,11 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
   color: var(--mm-ink-900);
   text-decoration: none;
 }
+/* Пузырь, в котором лежит заглушка, берёт свою полную ширину: полосы заданы
+   процентом, а пузырь сам по содержимому — процент считался от нуля, и три
+   реплики выходили тремя точками. Рабочий пузырь по-прежнему по содержимому. */
+.mm-bubble:has(> .mm-skel) { width: var(--mm-bubble-max); }
+
 .mm-bubble-time { display: block; margin-top: var(--mm-s-hair); font-size: var(--mm-t-micro); color: var(--mm-ink-600); }
 
 /* своя реплика — не действие, поэтому и не цвет действия: сиреневый тон.

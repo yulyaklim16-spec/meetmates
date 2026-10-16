@@ -155,10 +155,14 @@
     <!-- ЗОНА 4: свой план — путь, где отказать некому -->
     <section aria-labelledby="ex-h">
       <h2 id="ex-h" hidden>Your own</h2>
-      <a class="exit" href="feed-empty.html">
-        <span>Post an event</span>
-        <span aria-hidden="true">&rarr;</span>
-      </a>
+      <!-- Адреса нет нарочно: экран создания (III.4) вне набора, и это
+           записанный долг `_screens.md` п. 6. Так же набрана эта кнопка
+           на шести других экранах. Прежде она вела на feed-empty — экран,
+           который говорит «No events within 5 km yet» человеку, пришедшему
+           из полной ленты. -->
+      <p class="row">
+        <button type="button" class="btn primary">Post an event</button>
+      </p>
     </section>
   </div>
   </main>
