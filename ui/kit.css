@@ -75,13 +75,13 @@
   /* фон экрана: два размытых пятна поверх вертикальной рампы.
      К 57 % высоты всё сходится в чистый белый — там и лежат карточки. */
   --mm-bg-wash:
-    radial-gradient(70% 40% at 100% 0%, rgba(234, 182, 210, .88) 0%, rgba(238, 190, 214, .6) 38%, rgba(242, 198, 218, 0) 80%),
-    radial-gradient(88% 26% at 46% -6%, rgba(166, 184, 224, .85) 0%, rgba(176, 192, 228, 0) 60%),
-    linear-gradient(180deg, #C9B6D6 0%, #D6B7D2 9%, #DCB8CE 15%, #DAB9CB 20%, #DDBED0 27%,
-      #E1CBD7 32%, #E7D6E0 37%, #E9E1E8 42%, #F0EAEE 48%, #F6F5F7 53%, #FFFFFF 57%, #FFFFFF 100%);
+    radial-gradient(70% 40% at 100% 0%, rgba(239, 198, 220, .66) 0%, rgba(242, 204, 223, .45) 38%, rgba(245, 211, 226, 0) 80%),
+    radial-gradient(88% 26% at 46% -6%, rgba(186, 200, 231, .64) 0%, rgba(193, 206, 234, 0) 60%),
+    linear-gradient(180deg, #D5C6DF 0%, #DFC7DC 9%, #E4C8D9 15%, #E2C8D6 20%, #E4CCDA 27%,
+      #E8D6E0 32%, #ECDFE7 37%, #EEE8ED 42%, #F3EFF2 48%, #F8F7F9 53%, #FFFFFF 57%, #FFFFFF 100%);
   /* Самое тёмное место размытия: по нему считается контраст тёмного текста.
      Ничего им не красится — это мера, а не краска. */
-  --mm-bg-wash-top: #C9B6D6;
+  --mm-bg-wash-top: #D5C6DF;
 
   /* бегущая полоса скелета */
   --mm-skel-wash: linear-gradient(90deg, var(--mm-surface-2) 0%, var(--mm-line) 50%, var(--mm-surface-2) 100%);
