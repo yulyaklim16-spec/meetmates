@@ -347,12 +347,19 @@ for (const name of SCREENS) {
   // 3. фото в обложки
   body = body.replace(/<li class="item ev">([\s\S]*?)<\/li>/g, (li, inner) => {
     const t = (inner.match(/<b>([^<]*)<\/b>/) || [])[1] || '';
+    // карточка-заглушка: названия нет, потому что данные ещё не пришли —
+    // обложка остаётся серым прямоугольником, местом под фотографию
+    if (!t && /class="skel/.test(inner)) return li;
     const hit = PHOTOS.find(([k]) => t.startsWith(k));
     if (!hit) throw new Error(`${name}: нет фото для события «${t}»`);
     return li.replace('<span class="cover" aria-hidden="true"></span>',
       `<span class="cover" aria-hidden="true"><img src="${hit[1]}" alt="" loading="lazy"></span>`);
   });
-  if (/<span class="cover"[^>]*><\/span>/.test(body)) throw new Error(`${name}: осталась пустая обложка`);
+  // В заглушке обложка пустая нарочно: фотографии ещё нет, и серый
+  // прямоугольник .mm-cover — это и есть место под неё. Проверка смотрит
+  // только на рабочие карточки, не на списки с aria-hidden.
+  const liveCovers = body.replace(/<ul class="rows" aria-hidden="true">[\s\S]*?<\/ul>/g, '');
+  if (/<span class="cover"[^>]*><\/span>/.test(liveCovers)) throw new Error(`${name}: осталась пустая обложка`);
 
   // 4. иконки по подписи
   body = body.replace(/<span class="ico( lg| sm)?" aria-hidden="true"><\/span>([A-Za-z]+)/g, (m, size, label) => {

@@ -943,6 +943,10 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
 }
 .mm-skel--line { height: var(--mm-skel-line); }
 .mm-skel--pill { height: var(--mm-skel-pill); border-radius: var(--mm-r-pill); }
+/* на месте кнопки: пилюля ростом с саму кнопку. Прежняя --pill стоит за чип
+   и бейдж, она вдвое ниже — заглушка на её месте не держала бы высоту строки
+   действий, и карточка подскакивала бы при приходе данных */
+.mm-skel--btn { height: var(--mm-tap); border-radius: var(--mm-r-pill); }
 .mm-skel--w-l { width: var(--mm-w-l); }
 .mm-skel--w-m { width: var(--mm-w-m); }
 .mm-skel--w-s { width: var(--mm-w-s); }
