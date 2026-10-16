@@ -249,7 +249,7 @@ function dressInKit(body, name) {
   s = s.replace(/<p class="photo blur"/g, '<p class="mm-photo mm-photo--blur"');
   s = s.replace(/<figcaption>([^<]*)<\/figcaption>/g, '<figcaption class="mm-photo-cap">$1</figcaption>');
   s = s.replace(/<span class="thumb blur"><\/span>/g, '<span class="mm-skel mm-skel--thumb"></span>');
-  s = s.replace(/(<section class="mm-person-body"[^>]*>[\s\S]*?)<h3>/g, '$1<h3 class="mm-person-name">');
+  s = s.replace(/(<section class="mm-person-body"[^>]*>[\s\S]*?)<h3>/g, '$1<h3 class="mm-subhead">');
   s = s.replace(/<span class="dot sm"/g, '<span class="mm-dot mm-dot--sm"');
   s = s.replace(/<span class="dot lg"/g, '<span class="mm-dot mm-dot--lg"');
   s = s.replace(/<span class="dot"/g, '<span class="mm-dot"');
@@ -314,7 +314,7 @@ function dressInKit(body, name) {
   // 14. заголовки содержимого: имя человека 22px, заголовок блока 18px.
   // Внутри состояния заголовок ведёт сам блок — его не трогаем.
   //
-  // Имя `.mm-person-name` на «Мои события» становится узким: там тем же
+  // Имя `.mm-subhead` на «Мои события» становится узким: там тем же
   // шагом 22px набран заголовок группы строк («Requests to confirm»), а не имя
   // человека. Класс оставлен как есть — вид от него не меняется, — но роли
   // у 22px в ките две, и имя у неё одно, по содержимому. Решать, свести ли
@@ -323,7 +323,7 @@ function dressInKit(body, name) {
   s = s.replace(/<article class="mm-state[^"]*"[^>]*>[\s\S]*?<\/article>/g,
     (m) => m.replace(/<h([123])>/g, '<h$1 data-in-state>'));
   s = s.replace(/<h2(?![^>]*(?:class=|hidden|data-in-state))([^>]*)>/g, '<h2 class="mm-h2"$1>');
-  s = s.replace(/<h3(?![^>]*(?:class=|data-in-state))([^>]*)>/g, '<h3 class="mm-person-name"$1>');
+  s = s.replace(/<h3(?![^>]*(?:class=|data-in-state))([^>]*)>/g, '<h3 class="mm-subhead"$1>');
   s = s.replace(/ data-in-state/g, '');
 
   // 15. секция экрана: шаг между блоками

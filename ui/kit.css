@@ -591,7 +591,11 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
 }
 .mm-person-body { flex: none; display: flex; flex-direction: column; gap: var(--mm-s-1); padding: var(--mm-s-3) var(--mm-s-4) var(--mm-s-4); }
 .mm-person-body > p:last-child { margin: 0; }
-.mm-person-name { margin: var(--mm-s-hair) 0 0; font: var(--mm-fw-semibold) var(--mm-t-h2) / var(--mm-lh-heading) var(--mm-font); letter-spacing: var(--mm-tr-heading); }
+/* Шаг 22px: заголовок предмета или группы внутри экрана — имя человека
+   на карточке, название группы в списке, заголовок состояния. Имя по роли,
+   а не по содержимому: прежнее .mm-subhead называло один из трёх случаев
+   и на двух других врало. */
+.mm-subhead { margin: var(--mm-s-hair) 0 0; font: var(--mm-fw-semibold) var(--mm-t-h2) / var(--mm-lh-heading) var(--mm-font); letter-spacing: var(--mm-tr-heading); }
 .mm-cardlink { position: absolute; inset: 0; border-radius: inherit; }
 
 /* обложка события на его карточке: во всю ширину, полосы по числу фотографий.
@@ -839,9 +843,13 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
 
 /* пусто и сбой: один блок, смысл несут текст и role. Занимает площадь того,
    что не пришло — это то же состояние того же экрана, а не другой экран */
+/* Карточка состояния высотой по содержимому, а не по остатку экрана.
+   Тянулась — и один компонент выходил пяти разных высот, а под тремя
+   строками текста оставалось до половины пустоты. Теперь она
+   одинакова везде и прижата к верху секции: воздух уходит вниз, под неё,
+   где он читается полем, а не дырой внутри карточки. */
 .mm-state {
-  flex: 1;
-  min-height: 0;
+  flex: none;
   display: flex;
   flex-direction: column;
   align-items: center;

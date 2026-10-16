@@ -247,7 +247,7 @@ const person = (mod = '') => `<article class="mm-person">
           <section class="mm-person-body" aria-label="Olena, 26">
             <p class="mm-common">3 common interests</p>
             <ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li></ul>
-            <h3 class="mm-person-name">Olena, 26</h3>
+            <h3 class="mm-subhead">Olena, 26</h3>
             <ul class="mm-signals">
               <li><span class="mm-verified">${I.verified}Verified</span></li>
               <li>6 meetups attended</li>
