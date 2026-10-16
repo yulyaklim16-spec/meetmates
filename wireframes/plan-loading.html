@@ -135,16 +135,19 @@
     <section class="scrolly" aria-labelledby="pl-h">
       <h2 id="pl-h" hidden>The event</h2>
       <p class="note" role="status">Opening the event</p>
-      <p class="skel line w-l" aria-hidden="true"></p>
-      <p class="skelrow" aria-hidden="true">
-        <span class="skel pill w-m"></span>
-        <span class="skel pill w-s"></span>
-      </p>
+      <!-- Обложка идёт первой и в рабочем виде (D-56): без её места
+           карточка подпрыгивала на две сотни пикселей, когда снимок
+           приходил. Серый прямоугольник .evcover и есть это место. -->
+      <figure class="evcover" aria-hidden="true">
+        <p class="photo"></p>
+      </figure>
       <p class="skel line w-m" aria-hidden="true"></p>
       <p class="skel line w-l" aria-hidden="true"></p>
+      <p class="skel line w-m" aria-hidden="true"></p>
+      <!-- Аватар автора в заглушке не стоит: автор ещё неизвестен,
+           а заглушка не показывает данных. -->
       <p class="skelrow" aria-hidden="true">
-        <span class="avatar"></span>
-        <span class="skel line w-m"></span>
+        <span class="skel line w-l"></span>
       </p>
     </section>
 

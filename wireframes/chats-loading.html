@@ -125,7 +125,20 @@
 </header>
   <main class="app">
   <div class="pane">
-    <!-- ЗОНА 2: скелет списка -->
+    <!-- ЗОНА 2: новые совпадения — тот же блок, что в рабочем виде.
+         Без него список съезжал вниз на всю его высоту, когда данные
+         приходили, — а скелет затем и стоит, чтобы ничего не двигалось -->
+    <section aria-labelledby="new-h">
+      <h3 class="skel line w-s" aria-hidden="true"></h3>
+      <p class="who" aria-hidden="true">
+        <span class="avatar"></span>
+        <span class="avatar"></span>
+        <span class="avatar"></span>
+        <span class="skel line w-m"></span>
+      </p>
+    </section>
+
+    <!-- ЗОНА 3: скелет списка -->
     <section class="scrolly" aria-labelledby="ch-h">
       <p class="note" role="status">Loading your chats</p>
       <ul class="rows" aria-hidden="true">

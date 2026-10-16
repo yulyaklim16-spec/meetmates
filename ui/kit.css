@@ -583,7 +583,11 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
   box-shadow: var(--mm-shadow-md);
   overflow: hidden;
 }
-.mm-stretch > .mm-person { flex: 1; height: auto; min-height: 0; }
+/* Карточка держит свою высоту и в растягивающейся секции: токен --mm-card-h
+   одинаков везде (DESIGN.md). Прежде здесь стояло flex: 1 и height: auto —
+   карточка забирала остаток секции и менялась от того, что стоит рядом:
+   строка статуса в загрузке ужимала её на три десятка пикселей. */
+.mm-stretch > .mm-person { flex: none; }
 .mm-person figure { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; margin: 0; }
 .mm-photo { flex: 1; min-height: 0; margin: 0; background: var(--mm-surface-2); }
 .mm-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }

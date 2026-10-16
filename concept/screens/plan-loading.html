@@ -138,16 +138,19 @@
     <section class="mm-scrolly" aria-labelledby="pl-h">
       <h2 id="pl-h" class="mm-vh">The event</h2>
       <p class="mm-note" role="status">Opening the event</p>
-      <p class="mm-skel mm-skel--line mm-skel--w-l" aria-hidden="true"></p>
-      <p class="mm-skelrow" aria-hidden="true">
-        <span class="mm-skel mm-skel--pill mm-skel--w-m"></span>
-        <span class="mm-skel mm-skel--pill mm-skel--w-s"></span>
-      </p>
+      <!-- Обложка идёт первой и в рабочем виде (D-56): без её места
+           карточка подпрыгивала на две сотни пикселей, когда снимок
+           приходил. Серый прямоугольник .evcover и есть это место. -->
+      <figure class="mm-evcover" aria-hidden="true">
+        <p class="mm-photo"><img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=720&h=560&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></p>
+      </figure>
       <p class="mm-skel mm-skel--line mm-skel--w-m" aria-hidden="true"></p>
       <p class="mm-skel mm-skel--line mm-skel--w-l" aria-hidden="true"></p>
+      <p class="mm-skel mm-skel--line mm-skel--w-m" aria-hidden="true"></p>
+      <!-- Аватар автора в заглушке не стоит: автор ещё неизвестен,
+           а заглушка не показывает данных. -->
       <p class="mm-skelrow" aria-hidden="true">
-        <span class="mm-avatar"><img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=96&h=96&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></span>
-        <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+        <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
       </p>
     </section>
 
