@@ -220,7 +220,12 @@ ${tabsJs(['info', 'pages'])}
       var d = f.contentDocument;
       if (!d) return;
       var h = Math.max(d.documentElement.scrollHeight, d.body ? d.body.scrollHeight : 0);
-      if (h) f.style.height = h + 'px';
+      if (!h) return;
+      f.style.height = h + 'px';
+      // рамка считает высоту вместе со своими бортами: без добавки последние
+      // два пикселя страницы оказывались срезаны
+      var edges = h - f.clientHeight;
+      if (edges > 0) f.style.height = (h + edges) + 'px';
     } catch (e) {}
   }
   function fitAll() { for (var i = 0; i < frames.length; i++) fit(frames[i]); }
