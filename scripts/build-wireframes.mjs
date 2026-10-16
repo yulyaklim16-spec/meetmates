@@ -57,12 +57,14 @@ function screens() {
 
   return rows.map(([, code, name, file, tail]) => {
     const flags = tail.split('|').map((c) => c.trim());
-    const has = Object.fromEntries(STATES.map((s, i) => [s.key, flags[i] === '✓']));
-    const onlySuccess = has.success && !has.empty && !has.error && !has.loading;
-    const pages = [{ file: `${file}.html`, title: onlySuccess ? 'успех — он же рабочий вид' : 'рабочий вид' }];
+    const has = Object.fromEntries(STATES.map((s, i) => [s.key, (flags[i] || '').startsWith('✓')]));
+    // «✓ сам экран» — состояние есть, а отдельной страницы у него нет: базовый вид
+    // и есть это состояние (_screens.md, §2). Прежде это выводилось догадкой
+    // «успех и больше ничего»; догадка врала бы на экране с успехом и загрузкой.
+    const self = STATES.find((s, i) => has[s.key] && /сам экран/.test(flags[i] || ''));
+    const pages = [{ file: `${file}.html`, title: self ? `${self.title} — он же рабочий вид` : 'рабочий вид' }];
     for (const s of STATES) {
-      if (!has[s.key]) continue;
-      if (s.key === 'success' && onlySuccess) continue;   // успех совпал с базовым видом
+      if (!has[s.key] || s === self) continue;
       pages.push({ file: `${file}${s.suffix}.html`, title: s.title });
     }
     if (waits.has(code)) pages.push({ file: `${file}-waiting.html`, title: 'ожидание чужого решения · D-42' });
