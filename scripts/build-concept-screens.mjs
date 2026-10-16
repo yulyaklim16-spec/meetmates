@@ -167,6 +167,10 @@ const KIT = new Set([
   'chats', 'chats-empty', 'chats-error', 'chats-loading',
   'dialog', 'dialog-empty', 'dialog-error', 'dialog-loading', 'dialog-success', 'dialog-waiting',
   'invite', 'invite-empty', 'invite-error', 'invite-success', 'invite-waiting',
+  // 5. Запрос на компанию
+  'feed-empty', 'feed-error', 'feed-loading',
+  'my-events', 'my-events-empty', 'my-events-error', 'my-events-loading',
+  'plan', 'plan-error', 'plan-loading', 'plan-success', 'plan-waiting',
 ]);
 
 // имена, которые переводятся один в один
@@ -306,6 +310,13 @@ function dressInKit(body, name) {
 
   // 14. заголовки содержимого: имя человека 22px, заголовок блока 18px.
   // Внутри состояния заголовок ведёт сам блок — его не трогаем.
+  //
+  // Имя `.mm-person-name` на «Мои события» становится узким: там тем же
+  // шагом 22px набран заголовок группы строк («Requests to confirm»), а не имя
+  // человека. Класс оставлен как есть — вид от него не меняется, — но роли
+  // у 22px в ките две, и имя у неё одно, по содержимому. Решать, свести ли
+  // их под одно имя по роли или опустить заголовок группы до 18px (`.mm-h2`,
+  // «Title» в DESIGN.md — там 22px в иерархии вообще нет), должен дизайнер.
   s = s.replace(/<article class="mm-state[^"]*"[^>]*>[\s\S]*?<\/article>/g,
     (m) => m.replace(/<h([123])>/g, '<h$1 data-in-state>'));
   s = s.replace(/<h2(?![^>]*(?:class=|hidden|data-in-state))([^>]*)>/g, '<h2 class="mm-h2"$1>');
