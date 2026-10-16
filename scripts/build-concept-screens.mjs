@@ -453,9 +453,15 @@ for (const name of SCREENS) {
       .replace(/<button type="button">(?=(?:(?!<\/button>)[\s\S])*<span class="label">Report<)/,
         '<button type="button" class="report">'));
 
-  // 5. отметка Verified — одинаковая в каждой строке
-  body = body.replace(/(<span class="who">[^<]*?)Verified(<\/span>)/g,
-    (m, a, b) => `${a}<span class="verified">${svg('verified-check')}Verified</span>${b}`);
+  // 5. отметка Verified — одинаковая в каждой строке (D-57, правило 12).
+  // Строка бывает и span, и p, и начинается с аватара — у автора запроса
+  // и у человека в выдаче поиска. Прежнее правило требовало, чтобы до слова
+  // не было ни одного тега, и эти две строки оставались словом без лейбы.
+  // Строку-значение в глубоком слое (Verification | Verified) это не трогает:
+  // там класс не who, и это состояние в списке, а не отметка о человеке.
+  body = body.replace(
+    /(<(?:span|p) class="who">(?:<span class="avatar"[^>]*>[\s\S]*?<\/span>)?[^<]*?)Verified/g,
+    (m, head) => `${head}<span class="verified">${svg('verified-check')}Verified</span>`);
 
   // 6. иконка состояния: ошибка — опасность, пусто — событие
   body = body.replace(/<article class="state"( role="alert")?>/g, (m, alert) =>

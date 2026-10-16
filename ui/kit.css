@@ -640,7 +640,15 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
 
 /* ═══ Строки фактов ═══ */
 
-.mm-facts { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--mm-s-1); margin: 0; font-size: var(--mm-t-caption); color: var(--mm-ink-600); }
+/* Строка фактов набирается как текст, а не как ряд блоков: в ней бывает
+   и аватар, и лейба Verified, и при flex каждый из них становился отдельным
+   элементом — перенос уносил разделитель «·» в начало следующей строки.
+   Аватар и лейба выровнены по базовой линии своими правилами. */
+.mm-facts { margin: 0; font-size: var(--mm-t-caption); line-height: var(--mm-lh-body); color: var(--mm-ink-600); }
+.mm-facts > * { vertical-align: middle; }
+/* зазор после аватара раньше давал column-gap строки; в тексте его
+   задаёт сам аватар, иначе имя прилипает к лицу */
+.mm-facts > .mm-avatar { margin-right: var(--mm-s-1); }
 .mm-meta { flex: none; white-space: nowrap; font-size: var(--mm-t-micro); color: var(--mm-ink-600); }
 .mm-note { margin: 0; font-size: var(--mm-t-body-sm); color: var(--mm-ink-600); }
 /* Отбивка у трёх строк своя, а не из шага контейнера: блок фактов отходит
