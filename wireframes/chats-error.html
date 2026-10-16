@@ -127,7 +127,11 @@
   <main class="app">
   <div class="pane">
     <!-- ЗОНА 2: причина названа -->
-    <section class="stretch" aria-labelledby="ch-h">
+    <section class="stretch" aria-labelledby="st-h">
+      <!-- Заголовок состояния идёт третьим уровнем — он одинаков на всех
+           21 экране с .mm-state, и разметку блока мы не трогаем. Ступень
+           добавляет зона: без неё уровень прыгал с h1 на h3. -->
+      <h2 id="st-h" hidden>Status</h2>
       <article class="state" role="alert">
         <h3>Couldn&rsquo;t load your chats</h3>
         <p>The connection dropped. Nothing is lost &mdash; your messages are on the server.</p>

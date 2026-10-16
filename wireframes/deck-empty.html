@@ -136,8 +136,11 @@
   <main class="app">
   <div class="pane">
     <!-- ЗОНА 2: вместо карточки — состояние. Занимает ту же площадь: тот же экран -->
-    <section class="stretch" aria-labelledby="deck-h">
-
+    <section class="stretch" aria-labelledby="st-h">
+      <!-- Заголовок состояния идёт третьим уровнем — он одинаков на всех
+           21 экране с .mm-state, и разметку блока мы не трогаем. Ступень
+           добавляет зона: без неё уровень прыгал с h1 на h3. -->
+      <h2 id="st-h" hidden>Status</h2>
       <article class="state">
         <h3>You are all caught up</h3>
         <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
