@@ -307,9 +307,11 @@
   font: var(--mm-fw-bold) var(--mm-t-h1) / var(--mm-lh-tight) var(--mm-font);
   letter-spacing: var(--mm-tr-display);
 }
-/* двухуровневая шапка Поиска: заголовок строкой, под ним поле и фильтры */
+/* двухуровневая шапка Поиска: заголовок строкой, под ним поле и фильтры.
+   Шаг между уровнями даёт gap самой шапки — своего margin у второго уровня
+   нет: с ним шаг складывался вдвое и шапка была на 8px выше, чем на экране. */
 .mm-head--stack { flex-direction: column; align-items: stretch; }
-.mm-head-line { display: flex; align-items: center; gap: var(--mm-s-2); margin-top: var(--mm-s-2); }
+.mm-head-line { display: flex; align-items: center; gap: var(--mm-s-2); }
 
 /* кнопка шапки — только иконка, круг 44px, подпись скрыта для скринридера */
 .mm-head-btn {
