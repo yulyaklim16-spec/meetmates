@@ -174,9 +174,15 @@ ${FONT}
     .wfrail { position: static; flex-direction: row; flex-wrap: wrap; margin: 0 0 16px; }
     body { padding: 32px; }
   }
+  /* ── Голый вид: адрес с #bare ───────────────────────────────────
+     Та же причина, что на витрине: встроенной странице вторая полоса
+     разделов не нужна, слева уже стоит дерево сайта. */
+  body:has(#bare:target) .wfrail { display: none; }
+  body:has(#bare:target) { padding-left: 32px; }
 </style>
 </head>
 <body class="mm">
+<i id="bare" hidden></i>
 ${rail({ prefix: '../', current: '07' })}
 <h1 class="t">Оболочка экрана</h1>
 <p class="lead">Три шапки на выбор и одно нижнее меню. Серый экран берёт отсюда каркас:
@@ -767,9 +773,17 @@ ${FONT}
     .wfrail { position: static; flex-direction: row; flex-wrap: wrap; margin: 0 0 16px; }
     .kit-top, .kit-grp { padding-left: 32px; }
   }
+  /* ── Голый вид: адрес с #bare ───────────────────────────────────
+     Страница встроена в раздел 07, а там слева уже стоит дерево сайта:
+     вторая такая же полоса рядом не нужна. Переключает :target,
+     скрипта на странице нет — тот же приём, что у экранов концепта. */
+  body:has(#bare:target) .wfrail { display: none; }
+  body:has(#bare:target) .kit-top,
+  body:has(#bare:target) .kit-grp { padding-left: 32px; }
 </style>
 </head>
 <body class="mm">
+<i id="bare" hidden></i>
 ${rail({ prefix: '../', current: '07' })}
 
 <div class="kit-top">

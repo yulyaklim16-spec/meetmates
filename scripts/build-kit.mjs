@@ -87,7 +87,7 @@ for (const p of PAGES) {
 const liveHtml = PAGES.map((p) => `        <li>
           <h3>${esc(p.title)} <a href="../${p.file}">открыть страницей &rarr;</a></h3>
           <p class="cap">${esc(p.note)}</p>
-          <iframe src="../${p.file}" loading="lazy" title="${esc(p.title)}"></iframe>
+          <iframe src="../${p.file}#bare" loading="lazy" scrolling="no" title="${esc(p.title)}"></iframe>
         </li>`).join('\n');
 
 // ── разбор документа на разделы `## ` ─────────────────────────────────
@@ -137,10 +137,10 @@ const extraCss = `
 /* ── Раздел 07: сборка UI ───────────────────────────────────── */
 ${TABS_CSS}
 .grp { margin: 0 0 var(--s-6); }
-/* Страницы кита стоят открытыми: витрина сверху, оболочка под ней.
-   Рамка почти во весь экран — так следующая страница читается как следующая,
-   а не теряется за двадцатью экранами прокрутки. Витрина листается внутри
-   рамки; короткая страница ужимает рамку по себе, этим занят скрипт внизу. */
+/* Страницы кита стоят открытыми во всю свою длину: витрина сверху, оболочка
+   под ней. Своей прокрутки у рамки нет — страница внутри не обрезана, и листает
+   её общая полоса раздела. Высоту рамке задаёт скрипт внизу: пока он не отработал,
+   держится запас, иначе страница прыгала бы с нуля. */
 .live { list-style: none; margin: var(--s-4) 0 0; padding: 0; max-width: none; }
 .live > li { margin: 0 0 var(--s-6); }
 .live h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-3); margin: 0 0 var(--s-1); font-size: var(--t-body); }
@@ -149,7 +149,7 @@ ${TABS_CSS}
    лиловую полосу слева и читается цитатой, а это просто строка о странице */
 .live .cap { font-size: var(--t-caption); color: var(--ink-600); max-width: 72ch; margin: 0 0 var(--s-3); }
 .live iframe {
-  display: block; width: 100%; height: 86vh; min-height: 560px;
+  display: block; width: 100%; height: 86vh; overflow: hidden;
   border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
 }
 
@@ -209,27 +209,41 @@ ${liveHtml}
 </div>
 ${tabsJs(['info', 'pages'])}
 <script>
-// Рамка ужимается по странице, если та короче рамки: оболочка занимает ровно
-// свою высоту, витрина остаётся высокой и листается внутри. Страницы свои,
-// с того же домена, поэтому высота читается напрямую; на всякий случай
-// в try — без скрипта обе рамки просто остаются высокими.
+// Рамка принимает высоту своей страницы: прокрутки внутри нет, страницу
+// листает общая полоса раздела. Страницы свои, с того же домена, поэтому
+// высота читается напрямую; всё в try — если доступа не будет, рамка
+// останется с запасом высоты из стилей, а не схлопнется.
 (function () {
   var frames = document.querySelectorAll('.live iframe');
   function fit(f) {
     try {
       var d = f.contentDocument;
-      if (!d || !f.clientHeight) return;
-      var h = d.documentElement.scrollHeight;
-      if (h && h < f.clientHeight) f.style.height = h + 'px';
+      if (!d) return;
+      var h = Math.max(d.documentElement.scrollHeight, d.body ? d.body.scrollHeight : 0);
+      if (h) f.style.height = h + 'px';
     } catch (e) {}
   }
   function fitAll() { for (var i = 0; i < frames.length; i++) fit(frames[i]); }
-  for (var i = 0; i < frames.length; i++) frames[i].addEventListener('load', fitAll);
+  for (var i = 0; i < frames.length; i++) {
+    (function (f) {
+      f.addEventListener('load', function () {
+        fit(f);
+        // содержимое меняет высоту и после загрузки: доезжают снимки,
+        // текст перетекает при смене ширины окна
+        try {
+          if (window.ResizeObserver && f.contentDocument) {
+            new ResizeObserver(function () { fit(f); }).observe(f.contentDocument.documentElement);
+          }
+        } catch (e) {}
+      });
+    })(frames[i]);
+  }
   // вкладка открывается скрытой: пока она спрятана, высоту не измерить
   var panel = document.getElementById('pages');
   if (panel && window.MutationObserver) {
     new MutationObserver(fitAll).observe(panel, { attributes: true, attributeFilter: ['hidden'] });
   }
+  window.addEventListener('resize', fitAll);
   fitAll();
 })();
 </script>

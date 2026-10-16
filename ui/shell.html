@@ -52,9 +52,15 @@
     .wfrail { position: static; flex-direction: row; flex-wrap: wrap; margin: 0 0 16px; }
     body { padding: 32px; }
   }
+  /* ── Голый вид: адрес с #bare ───────────────────────────────────
+     Та же причина, что на витрине: встроенной странице вторая полоса
+     разделов не нужна, слева уже стоит дерево сайта. */
+  body:has(#bare:target) .wfrail { display: none; }
+  body:has(#bare:target) { padding-left: 32px; }
 </style>
 </head>
 <body class="mm">
+<i id="bare" hidden></i>
 <nav class="wfrail" aria-label="Разделы проекта">
   <a class="home" href="../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
   <a href="../research/research.html" aria-label="Раздел 01 — Ресерч и бенчмарк" title="Ресерч и бенчмарк">01</a>

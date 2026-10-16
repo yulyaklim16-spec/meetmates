@@ -115,9 +115,17 @@
     .wfrail { position: static; flex-direction: row; flex-wrap: wrap; margin: 0 0 16px; }
     .kit-top, .kit-grp { padding-left: 32px; }
   }
+  /* ── Голый вид: адрес с #bare ───────────────────────────────────
+     Страница встроена в раздел 07, а там слева уже стоит дерево сайта:
+     вторая такая же полоса рядом не нужна. Переключает :target,
+     скрипта на странице нет — тот же приём, что у экранов концепта. */
+  body:has(#bare:target) .wfrail { display: none; }
+  body:has(#bare:target) .kit-top,
+  body:has(#bare:target) .kit-grp { padding-left: 32px; }
 </style>
 </head>
 <body class="mm">
+<i id="bare" hidden></i>
 <nav class="wfrail" aria-label="Разделы проекта">
   <a class="home" href="../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
   <a href="../research/research.html" aria-label="Раздел 01 — Ресерч и бенчмарк" title="Ресерч и бенчмарк">01</a>
