@@ -465,7 +465,8 @@ const GROUPS = [
       cell('Signals-Full', `<ul class="mm-signals"><li><span class="mm-verified">${I.verified}Verified</span></li><li>12 meetups attended</li><li>Replies quickly</li></ul>`, 'kit-cell--wide'),
       cell('Signals-No meetups', `<ul class="mm-signals"><li><span class="mm-verified">${I.verified}Verified</span></li><li>Usually replies within a day</li></ul>`, 'kit-cell--wide'),
       cell('Signals-Verified only', `<ul class="mm-signals"><li><span class="mm-verified">${I.verified}Verified</span></li></ul>`, 'kit-cell--wide'),
-    ], 'Нуля в продукте не бывает (<code>D-60</code>): у кого встреч нет, строка не показывается вовсе — то же правило, что у отзывчивости. Третий случай — первые недели: встреч нет ни у кого, отзывчивости ещё нет, и на карточке остаётся один <code>Verified</code> (цена <code>D-49</code>).'),
+      cell('Signals-Counting', `<ul class="mm-signals"><li><span class="mm-verified">${I.verified}Verified</span></li><li aria-hidden="true"><span class="mm-skel mm-skel--line"></span></li><li>Replies quickly</li></ul>`, 'kit-cell--wide'),
+    ], 'Нуля в продукте не бывает (<code>D-60</code>): у кого встреч нет, строка не показывается вовсе — то же правило, что у отзывчивости. Третий случай — первые недели: встреч нет ни у кого, отзывчивости ещё нет, и на карточке остаётся один <code>Verified</code> (цена <code>D-49</code>). Четвёртый — свой профиль, пока сервер пересчитывает число встреч: строка остаётся на месте, заглушка стоит у одного факта, и остальные читаются как есть.'),
 
     comp('Чип расстояния', '.mm-chip', [
       cell('Chip-Default', `<span class="mm-chip">${ico('pin')}~2 km</span> <span class="mm-chip">${ico('pin')}Nearby</span>`, 'kit-cell--wide'),
