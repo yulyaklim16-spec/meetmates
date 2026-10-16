@@ -88,7 +88,7 @@
 <!-- states:start -->
 <div class="wfbar">
 <nav class="wfstates" aria-label="Состояния экрана Диалог">
-  <p class="vh">Диалог · состояния этого экрана</p>
+  <p class="mm-vh">Диалог · состояния этого экрана</p>
   <ul>
     <li><a href="dialog.html">рабочий вид</a></li>
     <li><a href="dialog-empty.html">пусто</a></li>
@@ -101,15 +101,15 @@
 <nav class="wfdev" aria-label="Ширина экрана">
     <button type="button" data-w="mobile" aria-pressed="true" title="Телефон, 390px — базовый макет">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
-      <span class="vh">Телефон, 390px — базовый макет</span>
+      <span class="mm-vh">Телефон, 390px — базовый макет</span>
     </button>
     <button type="button" data-w="tablet" aria-pressed="false" title="Планшет, 834px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M10.5 17.8h3"/></svg>
-      <span class="vh">Планшет, 834px</span>
+      <span class="mm-vh">Планшет, 834px</span>
     </button>
     <button type="button" data-w="desktop" aria-pressed="false" title="Десктоп, 1280px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="4" width="20" height="13" rx="2.5"/><path d="M9 20.5h6M12 17.5v3"/></svg>
-      <span class="vh">Десктоп, 1280px</span>
+      <span class="mm-vh">Десктоп, 1280px</span>
     </button>
 </nav>
 <nav class="wfkind" aria-label="Набор: вайрфрейм или дизайн">
@@ -137,7 +137,7 @@
   <div class="mm-pane">
     <!-- ЗОНА 2: разговор цел, помечена одна реплика -->
     <section class="mm-scrolly" aria-labelledby="msg-h">
-      <h2 id="msg-h" hidden>Chat with Olena</h2>
+      <h2 id="msg-h" class="mm-vh">Chat with Olena</h2>
       <div class="mm-msgs">
         <p class="mm-bubble">Let&rsquo;s go then. Which day works for you?<span class="mm-bubble-time">Olena &middot; 19:08</span></p>
         <a class="mm-bubble mm-bubble--failed" href="dialog.html" role="alert" aria-label="Message not sent. Tap to try again">Saturday works &mdash; the caf&eacute; opens at six<span class="mm-bubble-retry" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span><span class="mm-bubble-time">Not sent &middot; tap to try again</span></a>
@@ -146,7 +146,7 @@
 
     <!-- ЗОНА 3: выходы наружу. Ради них экран и существует: D-37 -->
     <section class="mm-section" aria-labelledby="ex-h">
-      <h2 id="ex-h" hidden>Ways out of the chat</h2>
+      <h2 id="ex-h" class="mm-vh">Ways out of the chat</h2>
       <p class="mm-actions">
         <a class="mm-btn mm-btn--primary" href="dialog-waiting.html">Suggest a day</a>
         <a class="mm-btn mm-btn--quiet" href="invite.html">Invite together</a>
@@ -155,10 +155,10 @@
   </div>
   <!-- ЗОНА 4: поле ввода. Верификация пройдена, гейта нет (§7.3) -->
   <section class="mm-pin" aria-labelledby="in-h">
-    <h2 id="in-h" hidden>Message</h2>
+    <h2 id="in-h" class="mm-vh">Message</h2>
     <label class="mm-field" for="msg">
       <span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>
-      <span class="vh">Message</span>
+      <span class="mm-vh">Message</span>
       <input id="msg" type="text" placeholder="Write a message">
     </label>
   </section>

@@ -31,8 +31,10 @@ const ROOT = process.cwd();
 // declaredIn — где у файла объявлены переменные: кит держит свои сам,
 // окрашенный слой концепта берёт их из tokens/tokens.css
 const FILES = [
-  { path: 'ui/kit.css', prefix: '--mm-', declaredIn: ['ui/kit.css'] },
-  { path: 'concept/components.css', prefix: '--', declaredIn: ['tokens/tokens.css'] },
+  // checkSizes — размеры проверяем только в ките: слой концепта больше
+  // не одевает ни одного экрана и доживает свой век под стендом
+  { path: 'ui/kit.css', prefix: '--mm-', declaredIn: ['ui/kit.css'], checkSizes: true },
+  { path: 'concept/components.css', prefix: '--', declaredIn: ['tokens/tokens.css'], checkSizes: false },
 ];
 
 // свойства, значение которых обязано приходить из переменной
@@ -41,6 +43,15 @@ const COLOR = ['color', 'background', 'background-color', 'border-color', 'borde
   'caret-color', 'scrollbar-color'];
 const TYPE = ['font', 'font-family', 'font-size', 'font-weight', 'line-height',
   'letter-spacing'];
+// размеры: отступы, радиусы, ширины и высоты. Два значения литералом разрешены
+// и названы в ui/kit.md: 1px — волосяная линия, физический пиксель устройства,
+// и 999px — признак «скругли до конца», а не мера.
+const SIZE = ['margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
+  'padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
+  'gap', 'row-gap', 'column-gap', 'width', 'height', 'min-width', 'min-height',
+  'max-width', 'max-height', 'border-radius', 'top', 'right', 'bottom', 'left',
+  'inset', 'flex-basis'];
+const SIZE_OK = /^(?:0|1|999)$/;
 
 // значения, которые переменной не требуют: они не цвет и не размер, а отсутствие
 const NEUTRAL = /\b(none|transparent|inherit|currentcolor|initial|unset|auto|solid|dashed|inset|normal|italic|nowrap|0)\b/g;
@@ -60,19 +71,28 @@ const say = (ok, line) => {
 
 console.log('# Токены вместо значений\n');
 
-for (const { path, prefix, declaredIn } of FILES) {
-  const raw = strip(readFileSync(join(ROOT, path), 'utf8'));
+for (const { path, prefix, declaredIn, checkSizes } of FILES) {
+  const src = readFileSync(join(ROOT, path), 'utf8');
+  // геометрию рисунка вырезаем до того, как снимем комментарии: метки живут в них
+  const raw = strip(src);
   const body = bodyOf(raw);
+  const drawn = bodyOf(strip(src.replace(/\/\* geometry:start[\s\S]*?geometry:end \*\//g, '')));
 
   const colors = [];
   const types = [];
-  for (const m of body.matchAll(/([-a-z]+)\s*:\s*([^;{}]+);/g)) {
+  const sizes = [];
+  for (const m of drawn.matchAll(/([-a-z]+)\s*:\s*([^;{}]+);/g)) {
     const prop = m[1];
     const val = m[2].trim().toLowerCase();
     // всё, что пришло из переменных и нейтральных слов, из проверки убираем
     const rest = val.replace(/var\(--[a-z0-9-]+\)/g, '').replace(NEUTRAL, '');
     if (COLOR.includes(prop) && LITERAL_COLOR.test(rest)) colors.push(`${prop}: ${val}`);
     if (TYPE.includes(prop) && rest.replace(/[\s/,]/g, '')) types.push(`${prop}: ${val}`);
+    if (checkSizes && SIZE.includes(prop)) {
+      for (const px of rest.matchAll(/(\d+)px/g)) {
+        if (!SIZE_OK.test(px[1])) sizes.push(`${prop}: ${val}`);
+      }
+    }
   }
 
   const decl = declaredIn.map((f) => strip(readFileSync(join(ROOT, f), 'utf8'))).join('\n');
@@ -84,6 +104,8 @@ for (const { path, prefix, declaredIn } of FILES) {
   console.log(`## ${path}\n`);
   say(!colors.length, `цвет литералом: ${colors.length ? colors.join(' · ') : 'нет'}`);
   say(!types.length, `шрифт литералом: ${types.length ? types.join(' · ') : 'нет'}`);
+  if (checkSizes) say(!sizes.length, `размер литералом: ${sizes.length ? [...new Set(sizes)].join(' · ') : 'нет'}`);
+  else console.log('  —   размер литералом: не проверяется (слой доживает свой век)');
   say(!undeclared.length, `переменные без объявления: ${undeclared.join(' · ') || 'нет'}`);
   console.log(`  —   объявлено и не используется: ${unused.join(' · ') || 'нет'} (это запас, не ошибка)`);
   console.log('');

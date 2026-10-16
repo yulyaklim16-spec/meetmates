@@ -90,7 +90,7 @@
 <!-- states:start -->
 <div class="wfbar">
 <nav class="wfstates" aria-label="Состояния экрана Верификация">
-  <p class="vh">Верификация · состояния этого экрана</p>
+  <p class="mm-vh">Верификация · состояния этого экрана</p>
   <ul>
     <li><a href="verify.html">рабочий вид</a></li>
     <li class="now"><b aria-current="page">ошибка</b></li>
@@ -103,15 +103,15 @@
 <nav class="wfdev" aria-label="Ширина экрана">
     <button type="button" data-w="mobile" aria-pressed="true" title="Телефон, 390px — базовый макет">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
-      <span class="vh">Телефон, 390px — базовый макет</span>
+      <span class="mm-vh">Телефон, 390px — базовый макет</span>
     </button>
     <button type="button" data-w="tablet" aria-pressed="false" title="Планшет, 834px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M10.5 17.8h3"/></svg>
-      <span class="vh">Планшет, 834px</span>
+      <span class="mm-vh">Планшет, 834px</span>
     </button>
     <button type="button" data-w="desktop" aria-pressed="false" title="Десктоп, 1280px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="4" width="20" height="13" rx="2.5"/><path d="M9 20.5h6M12 17.5v3"/></svg>
-      <span class="vh">Десктоп, 1280px</span>
+      <span class="mm-vh">Десктоп, 1280px</span>
     </button>
 </nav>
 <nav class="wfkind" aria-label="Набор: вайрфрейм или дизайн">
@@ -137,7 +137,7 @@
   <div class="mm-pane">
     <!-- ЗОНА 2: причина. Не «something went wrong», а что именно не так -->
     <section class="mm-stretch" aria-labelledby="err-h">
-      <h2 id="err-h" hidden>Verification failed</h2>
+      <h2 id="err-h" class="mm-vh">Verification failed</h2>
       <article class="mm-state mm-state--alert" role="alert">
         <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span>
         <h3>Couldn&rsquo;t read your face</h3>
@@ -148,7 +148,7 @@
 
     <!-- ЗОНА 3: пересдать. Без таймаутов и без наказания -->
     <section class="mm-section" aria-labelledby="act-h">
-      <h2 id="act-h" hidden>What next</h2>
+      <h2 id="act-h" class="mm-vh">What next</h2>
       <p class="mm-actions">
         <a class="mm-btn mm-btn--primary" href="verify.html">Try again</a>
       </p>
@@ -156,7 +156,7 @@
 
     <!-- ЗОНА 4: выход. Колода и просмотр остаются открытыми (§7.3) -->
     <section class="mm-section" aria-labelledby="skip-h">
-      <h2 id="skip-h" hidden>Later</h2>
+      <h2 id="skip-h" class="mm-vh">Later</h2>
       <a class="mm-btn" href="deck.html">
         <span>Keep browsing</span>
         <span aria-hidden="true">&rarr;</span>

@@ -192,7 +192,7 @@ const CLASS_MAP = {
 
 // мокап телефона и подписи зон — обвязка страницы макета, а не продукт
 const CHROME = new Set(['device', 'statusbar', 'browserbar', 'homebar', 'fold', 'anns', 'ann',
-  'wfstates', 'wfbar', 'wfdev', 'wfkind', 'meta', 'now', 't', 'bare', 'vh']);
+  'wfstates', 'wfbar', 'wfdev', 'wfkind', 'meta', 'now', 't', 'bare']);
 // кольца радара и места снимков на них — часть компонента, имена те же
 const RADAR_PARTS = new Set(['near', 'mid', 'far', 'in', 'r5', 'r3', 'r1',
   'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']);
@@ -462,6 +462,14 @@ for (const name of SCREENS) {
   body = body.replace(
     /(<(?:span|p) class="who">(?:<span class="avatar"[^>]*>[\s\S]*?<\/span>)?[^<]*?)Verified/g,
     (m, head) => `${head}<span class="verified">${svg('verified-check')}Verified</span>`);
+
+  // 5б. скрытые заголовки зон: атрибут hidden убирает их из дерева доступности
+  // целиком — aria-labelledby ещё работает, а самого заголовка скринридер
+  // не слышит, и между h1 и h3 структуры нет. В ките для этого есть .mm-vh:
+  // он прячет от глаз и оставляет в дереве (§8.1 — скрытый заголовок такой же
+  // копирайт). Класс добавляем, не трогая id, на который ссылаются секции.
+  body = body.replace(/<(h[1-6])([^>]*?)\shidden(\s[^>]*)?>/g,
+    (m, tag, before, after) => `<${tag}${before}${after || ''} class="vh">`);
 
   // 6. иконка состояния: ошибка — опасность, пусто — событие
   body = body.replace(/<article class="state"( role="alert")?>/g, (m, alert) =>

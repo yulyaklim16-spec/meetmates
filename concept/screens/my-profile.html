@@ -89,7 +89,7 @@
 <!-- states:start -->
 <div class="wfbar">
 <nav class="wfstates" aria-label="Состояния экрана Мой профиль — как меня видят">
-  <p class="vh">Мой профиль — как меня видят · состояния этого экрана</p>
+  <p class="mm-vh">Мой профиль — как меня видят · состояния этого экрана</p>
   <ul>
     <li class="now"><b aria-current="page">рабочий вид</b></li>
     <li><a href="my-profile-loading.html">загрузка</a></li>
@@ -98,15 +98,15 @@
 <nav class="wfdev" aria-label="Ширина экрана">
     <button type="button" data-w="mobile" aria-pressed="true" title="Телефон, 390px — базовый макет">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
-      <span class="vh">Телефон, 390px — базовый макет</span>
+      <span class="mm-vh">Телефон, 390px — базовый макет</span>
     </button>
     <button type="button" data-w="tablet" aria-pressed="false" title="Планшет, 834px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M10.5 17.8h3"/></svg>
-      <span class="vh">Планшет, 834px</span>
+      <span class="mm-vh">Планшет, 834px</span>
     </button>
     <button type="button" data-w="desktop" aria-pressed="false" title="Десктоп, 1280px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="4" width="20" height="13" rx="2.5"/><path d="M9 20.5h6M12 17.5v3"/></svg>
-      <span class="vh">Десктоп, 1280px</span>
+      <span class="mm-vh">Десктоп, 1280px</span>
     </button>
 </nav>
 <nav class="wfkind" aria-label="Набор: вайрфрейм или дизайн">
@@ -136,7 +136,7 @@
       <article class="mm-person">
         <figure>
           <p class="mm-photo"><img src="https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?w=720&h=560&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></p>
-          <figcaption class="vh">Photo 1 of 3</figcaption>
+          <figcaption class="mm-vh">Photo 1 of 3</figcaption>
           <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span></p>
         </figure>
       </article>
@@ -153,7 +153,7 @@
 
     <!-- ЗОНА 3: глубокий слой. Всё редкое — здесь, экрана настроек нет D-38 -->
     <section class="mm-section" aria-labelledby="deep-h">
-      <h2 id="deep-h" hidden>Everything else</h2>
+      <h2 id="deep-h" class="mm-vh">Everything else</h2>
       <ul class="mm-list">
         <li><a class="mm-row" href="my-events.html"><span class="mm-row-head"><b>My events</b><span class="mm-meta">1 request</span></span></a></li>
         <li><a class="mm-row" href="chats.html"><span class="mm-row-head"><b>My matches</b><span class="mm-meta">3 new</span></span></a></li>

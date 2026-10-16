@@ -190,6 +190,8 @@
   --mm-textarea-h: 96px;
   /* жёлоб под полосу прокрутки: вычитается из правого отступа, иначе содержимое
      прокручиваемой секции стоит левее, чем в соседней непрокручиваемой */
+  /* жёлоб полосы прокрутки: им же задаётся ширина самой полосы, иначе
+     правый отступ уезжает там, где движок рисует полосу своей ширины */
   --mm-scroll-gutter: 10px;
   --mm-radar: 340px;
   --mm-dot: 56px;
@@ -268,7 +270,7 @@
 /* внутри такой панели секция уже не прокручивается — поля отдаёт панель */
 .mm-pane:has(.mm-person) > .mm-scrolly { flex: none; min-height: auto; overflow: visible; margin: 0; padding-left: 0; padding-right: 0; }
 .mm-scrolly, .mm-pane { scrollbar-width: thin; scrollbar-color: var(--mm-ink-400) transparent; scrollbar-gutter: stable; }
-.mm-scrolly::-webkit-scrollbar, .mm-pane::-webkit-scrollbar { width: 6px; }
+.mm-scrolly::-webkit-scrollbar, .mm-pane::-webkit-scrollbar { width: var(--mm-scroll-gutter); }
 .mm-scrolly::-webkit-scrollbar-thumb, .mm-pane::-webkit-scrollbar-thumb { background: var(--mm-ink-400); border-radius: var(--mm-r-pill); }
 .mm-scrolly::-webkit-scrollbar-track, .mm-pane::-webkit-scrollbar-track { background: transparent; }
 
@@ -536,7 +538,18 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
 .mm-cover { grid-row: 1; position: relative; min-height: var(--mm-cover-h); background: var(--mm-surface-2); }
 .mm-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .mm-event-body { display: flex; flex-direction: column; gap: var(--mm-s-1); min-width: 0; padding: var(--mm-s-3) var(--mm-s-3) var(--mm-s-2); }
-.mm-event-head { display: flex; align-items: baseline; gap: var(--mm-s-2); text-decoration: none; color: inherit; }
+/* Площадь нажатия добирается отступом, а отступ снимается отрицательным
+   полем: строка остаётся на месте, а палец получает свои 44px. Высота карточки
+   события зафиксирована, растить её ради цели нельзя. */
+.mm-event-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--mm-s-2);
+  padding: var(--mm-s-3) 0;
+  margin: calc(var(--mm-s-3) * -1) 0;
+  text-decoration: none;
+  color: inherit;
+}
 /* Заголовок не больше двух строк: лента держит ритм, остальное — на карточке
    события. Размер снят с образца: --mm-t-body-sm и средний вес. В concept/components.css
    карточка события просит 16px и semibold, но следом идёт правило строки списка
@@ -717,8 +730,13 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
 .mm-field svg { flex: none; width: var(--mm-icon-md); height: var(--mm-icon-md); color: var(--mm-ink-400); }
 /* межстрочное — как у текста, а не как у заголовка: это набранная строка,
    и в многострочном поле она читается тем же шагом, что абзац */
+/* Ввод во всю высоту пилюли. Был по высоте строки, и у поля, обёрнутого
+   в form (поиск), верхняя и нижняя кромки не ставили каретку: нажималась
+   середина. У поля-label это скрадывалось тем, что клик по label уходит
+   в поле, но полагаться на обёртку нельзя. */
 .mm-field input {
   flex: 1;
+  align-self: stretch;
   min-width: 0;
   border: 0;
   outline: 0;
@@ -756,6 +774,19 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
 }
 .mm-field-btn:hover, .mm-field-btn.is-hover { color: var(--mm-ink-900); }
 .mm-field-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); border-radius: var(--mm-r-pill); }
+
+/* Фокус у всего остального, что нажимается. Раньше его носили только кнопки
+   и поле, а вкладка, строка списка, заголовок события и карточка-ссылка
+   обходились правилом страницы макета — в прототип оно не поедет, и тот,
+   кто ходит табом, остался бы без индикатора (WCAG 2.4.7, уровень AA). */
+.mm-tab:focus-visible,
+.mm-row:focus-visible,
+.mm-event-head:focus-visible,
+.mm-cardlink:focus-visible,
+.mm-menu a:focus-visible {
+  outline: none;
+  box-shadow: var(--mm-ring-focus);
+}
 
 /* подпись над полем: в анкете она видимая. В поиске и в диалоге смысл
    берётся из места, и там подпись скрыта — но пишется так же (правило 1) */
@@ -996,6 +1027,13 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
 
 /* ═══ Радар: экран онбординга ═══ */
 
+/* geometry:start — геометрия рисунка, выведена из проверки на литералы размера.
+   Ниже лежат радиусы колец и координаты снимков на них. Это не значения системы,
+   а точки на картинке: имени у «96px влево от центра» нет и быть не может,
+   а превращать их в два десятка переменных значит спрятать рисунок за словами.
+   Правило «все значения через переменные» держится на всём остальном ките —
+   это единственное исключение, и оно названо. */
+
 /* Кольца расстояний стоят на месте и подписаны; из центра идёт волна поиска —
    это и есть «радар работает». На кольцах не точки, а те же лица и обложки,
    что в колоде и ленте: кто рядом — видно по снимку, а не по слову.
@@ -1104,6 +1142,8 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
 .mm-pins li.k { top: calc(50% + 96px); left: calc(50% - 20px); }
 .mm-pins li.l { top: calc(50% - 40px); left: calc(50% + 70px); }
 
+/* geometry:end */
+
 /* ═══ Служебное ═══ */
 
 
@@ -1128,6 +1168,8 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
   /* радар: волна снимается целиком, найденные стоят на месте и видны сразу */
   .mm-scan { display: none; }
   .mm-pins li { animation: none; opacity: 1; }
-  .mm-btn, .mm-head-btn { transition: none; }
-  .mm-btn:active { transform: none; }
+  .mm-btn, .mm-head-btn, .mm-danger-link { transition: none; }
+  /* нажатие снимается у всего, что его показывает, а не у одной кнопки:
+     раньше здесь стоял только .mm-btn, и кнопка шапки продолжала уезжать */
+  .mm-btn:active, .mm-head-btn:active, .mm-danger-link:active { transform: none; }
 }

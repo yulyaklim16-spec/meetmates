@@ -89,7 +89,7 @@
 <!-- states:start -->
 <div class="wfbar">
 <nav class="wfstates" aria-label="Состояния экрана Карточка запроса">
-  <p class="vh">Карточка запроса · состояния этого экрана</p>
+  <p class="mm-vh">Карточка запроса · состояния этого экрана</p>
   <ul>
     <li><a href="plan.html">рабочий вид</a></li>
     <li><a href="plan-error.html">ошибка</a></li>
@@ -101,15 +101,15 @@
 <nav class="wfdev" aria-label="Ширина экрана">
     <button type="button" data-w="mobile" aria-pressed="true" title="Телефон, 390px — базовый макет">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
-      <span class="vh">Телефон, 390px — базовый макет</span>
+      <span class="mm-vh">Телефон, 390px — базовый макет</span>
     </button>
     <button type="button" data-w="tablet" aria-pressed="false" title="Планшет, 834px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M10.5 17.8h3"/></svg>
-      <span class="vh">Планшет, 834px</span>
+      <span class="mm-vh">Планшет, 834px</span>
     </button>
     <button type="button" data-w="desktop" aria-pressed="false" title="Десктоп, 1280px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="4" width="20" height="13" rx="2.5"/><path d="M9 20.5h6M12 17.5v3"/></svg>
-      <span class="vh">Десктоп, 1280px</span>
+      <span class="mm-vh">Десктоп, 1280px</span>
     </button>
 </nav>
 <nav class="wfkind" aria-label="Набор: вайрфрейм или дизайн">
@@ -136,7 +136,7 @@
   <div class="mm-pane">
     <!-- ЗОНА 2: полный скелет: данных нет вовсе, это холодное открытие -->
     <section class="mm-scrolly" aria-labelledby="pl-h">
-      <h2 id="pl-h" hidden>The event</h2>
+      <h2 id="pl-h" class="mm-vh">The event</h2>
       <p class="mm-note" role="status">Opening the event</p>
       <p class="mm-skel mm-skel--line mm-skel--w-l" aria-hidden="true"></p>
       <p class="mm-skelrow" aria-hidden="true">
@@ -153,7 +153,7 @@
 
     <!-- ЗОНА 3: действие на паузе, место под него занято -->
     <section class="mm-section" aria-labelledby="act-h">
-      <h2 id="act-h" hidden>Decision</h2>
+      <h2 id="act-h" class="mm-vh">Decision</h2>
       <p class="mm-actions">
         <button type="button" class="mm-btn mm-btn--primary" disabled>Ask to join</button>
       </p>
@@ -161,7 +161,7 @@
 
     <!-- ЗОНА 4: выход живой -->
     <section class="mm-section" aria-labelledby="ex-h">
-      <h2 id="ex-h" hidden>Other events</h2>
+      <h2 id="ex-h" class="mm-vh">Other events</h2>
       <a class="mm-btn" href="feed.html">
         <span>Look at other events</span>
         <span aria-hidden="true">&rarr;</span>

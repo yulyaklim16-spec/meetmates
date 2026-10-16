@@ -91,7 +91,7 @@
 <!-- states:start -->
 <div class="wfbar">
 <nav class="wfstates" aria-label="Состояния экрана Лента запросов">
-  <p class="vh">Лента запросов · состояния этого экрана</p>
+  <p class="mm-vh">Лента запросов · состояния этого экрана</p>
   <ul>
     <li><a href="feed.html">рабочий вид</a></li>
     <li class="now"><b aria-current="page">пусто</b></li>
@@ -102,15 +102,15 @@
 <nav class="wfdev" aria-label="Ширина экрана">
     <button type="button" data-w="mobile" aria-pressed="true" title="Телефон, 390px — базовый макет">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
-      <span class="vh">Телефон, 390px — базовый макет</span>
+      <span class="mm-vh">Телефон, 390px — базовый макет</span>
     </button>
     <button type="button" data-w="tablet" aria-pressed="false" title="Планшет, 834px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M10.5 17.8h3"/></svg>
-      <span class="vh">Планшет, 834px</span>
+      <span class="mm-vh">Планшет, 834px</span>
     </button>
     <button type="button" data-w="desktop" aria-pressed="false" title="Десктоп, 1280px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="4" width="20" height="13" rx="2.5"/><path d="M9 20.5h6M12 17.5v3"/></svg>
-      <span class="vh">Десктоп, 1280px</span>
+      <span class="mm-vh">Десктоп, 1280px</span>
     </button>
 </nav>
 <nav class="wfkind" aria-label="Набор: вайрфрейм или дизайн">
@@ -137,7 +137,7 @@
   <div class="mm-pane">
     <!-- ЗОНА 2: срез вкладки. Он местный, не с сервера, — значит стоит во всех состояниях -->
     <section class="mm-section" aria-labelledby="seg-h">
-      <h2 id="seg-h" hidden>Which events</h2>
+      <h2 id="seg-h" class="mm-vh">Which events</h2>
       <p class="mm-segmented">
         <a class="mm-btn is-current" href="feed.html">Nearby</a>
         <a class="mm-btn" href="my-events.html">Mine</a>
@@ -155,7 +155,7 @@
 
     <!-- ЗОНА 4: три ответа потока, все кнопками -->
     <section class="mm-section" aria-labelledby="act-h">
-      <h2 id="act-h" hidden>What next</h2>
+      <h2 id="act-h" class="mm-vh">What next</h2>
       <p class="mm-actions">
         <button type="button" class="mm-btn mm-btn--primary">Post an event</button>
       </p>
@@ -166,7 +166,7 @@
 
     <!-- ЗОНА 5: третий ответ — уйти в колоду -->
     <section class="mm-section" aria-labelledby="ex-h">
-      <h2 id="ex-h" hidden>People</h2>
+      <h2 id="ex-h" class="mm-vh">People</h2>
       <a class="mm-btn" href="deck.html">
         <span>See people</span>
         <span aria-hidden="true">&rarr;</span>

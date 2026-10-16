@@ -94,7 +94,7 @@
 <!-- states:start -->
 <div class="wfbar">
 <nav class="wfstates" aria-label="Состояния экрана Колода">
-  <p class="vh">Колода · состояния этого экрана</p>
+  <p class="mm-vh">Колода · состояния этого экрана</p>
   <ul>
     <li class="now"><b aria-current="page">рабочий вид</b></li>
     <li><a href="deck-empty.html">пусто</a></li>
@@ -105,15 +105,15 @@
 <nav class="wfdev" aria-label="Ширина экрана">
     <button type="button" data-w="mobile" aria-pressed="true" title="Телефон, 390px — базовый макет">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
-      <span class="vh">Телефон, 390px — базовый макет</span>
+      <span class="mm-vh">Телефон, 390px — базовый макет</span>
     </button>
     <button type="button" data-w="tablet" aria-pressed="false" title="Планшет, 834px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M10.5 17.8h3"/></svg>
-      <span class="vh">Планшет, 834px</span>
+      <span class="mm-vh">Планшет, 834px</span>
     </button>
     <button type="button" data-w="desktop" aria-pressed="false" title="Десктоп, 1280px">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="4" width="20" height="13" rx="2.5"/><path d="M9 20.5h6M12 17.5v3"/></svg>
-      <span class="vh">Десктоп, 1280px</span>
+      <span class="mm-vh">Десктоп, 1280px</span>
     </button>
 </nav>
 <nav class="wfkind" aria-label="Набор: вайрфрейм или дизайн">
@@ -145,7 +145,7 @@
       <article class="mm-person">
         <figure>
           <p class="mm-photo"><img src="https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?w=720&h=560&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></p>
-          <figcaption class="vh">Photo 1 of 4</figcaption>
+          <figcaption class="mm-vh">Photo 1 of 4</figcaption>
           <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
           <p class="mm-cardtop">
             <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
@@ -179,7 +179,7 @@
 
     <!-- ЗОНА 3: решение по карточке. Главное действие — Like -->
     <section class="mm-section" aria-labelledby="act-h">
-      <h2 id="act-h" hidden>Decision</h2>
+      <h2 id="act-h" class="mm-vh">Decision</h2>
       <p class="mm-actions">
         <a class="mm-btn" href="deck.html">Skip</a>
         <a class="mm-btn mm-btn--primary" href="match.html">Like</a>
@@ -188,7 +188,7 @@
 
     <!-- ЗОНА 4: выход во второй путь. Обязателен всегда, а не только в пустом виде (§4, D-10) -->
     <section class="mm-section" aria-labelledby="exit-h">
-      <h2 id="exit-h" hidden>Events</h2>
+      <h2 id="exit-h" class="mm-vh">Events</h2>
       <a class="mm-btn" href="feed.html">
         <span>Look at events</span>
         <span aria-hidden="true">&rarr;</span>
