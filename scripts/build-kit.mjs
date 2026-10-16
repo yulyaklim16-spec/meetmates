@@ -69,17 +69,15 @@ for (const p of PAGES) {
   if (!existsSync(join(ROOT, p.file))) throw new Error(`нет страницы ${p.file} — список раздела отстал`);
 }
 
-const cardsHtml = `      <ul class="cards">
-${PAGES.map((p) => `        <li><a href="../${p.file}"><b>${esc(p.title)}</b><span>${esc(p.note)}</span></a></li>`).join('\n')}
-      </ul>`;
-
-// Превью: страница кита ужата до карточки. Мокап внутри неё — 390px,
-// поэтому масштаб тот же, что в галерее раздела 06.
-const previewHtml = PAGES.map((p) => `        <li>
-          <a href="../${p.file}" title="${esc(p.title)}">
-            <span class="shot"><iframe src="../${p.file}" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true" title="${esc(p.title)}"></iframe></span>
-            <span class="cap">${esc(p.title)}</span>
-          </a>
+// Страницы стоят открытыми, а не миниатюрами: витрину смотрят подолгу,
+// и уходить ради этого со страницы раздела незачем. Порядок — из PAGES:
+// витрина сверху, оболочка под ней. Карточек-ссылок рядом больше нет —
+// ссылка стоит в заголовке каждой страницы, две двери в одно место
+// рядом не нужны.
+const liveHtml = PAGES.map((p) => `        <li>
+          <h3>${esc(p.title)} <a href="../${p.file}">открыть страницей &rarr;</a></h3>
+          <p class="note">${esc(p.note)}</p>
+          <iframe src="../${p.file}" loading="lazy" title="${esc(p.title)}"></iframe>
         </li>`).join('\n');
 
 // ── разбор документа на разделы `## ` ─────────────────────────────────
@@ -129,33 +127,19 @@ const extraCss = `
 /* ── Раздел 07: сборка UI ───────────────────────────────────── */
 ${TABS_CSS}
 .grp { margin: 0 0 var(--s-6); }
-.cards { list-style: none; margin: var(--s-3) 0 var(--s-6); padding: 0; display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); }
-.cards a {
-  display: block; height: 100%;
-  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
-  padding: var(--s-3) var(--s-4); text-decoration: none; color: var(--ink-900);
-  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
-}
-.cards a:hover, .cards a:focus-visible { border-color: var(--ink-400); background: var(--surface-2); }
-.cards b { display: block; font-size: var(--t-body-sm); margin-bottom: 2px; }
-.cards span { font-size: var(--t-caption); color: var(--ink-600); }
-
-/* Превью страниц кита: сама страница ужата, клик идёт по ссылке, не по фрейму */
-.gal { list-style: none; margin: var(--s-4) 0; padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, 320px); max-width: none; }
-.gal a { display: block; text-decoration: none; color: var(--ink-600); }
-.gal .shot {
-  display: block; position: relative; overflow: hidden;
-  width: 320px; height: 420px;
+/* Страницы кита стоят открытыми: витрина сверху, оболочка под ней.
+   Рамка почти во весь экран — так следующая страница читается как следующая,
+   а не теряется за двадцатью экранами прокрутки. Витрина листается внутри
+   рамки; короткая страница ужимает рамку по себе, этим занят скрипт внизу. */
+.live { list-style: none; margin: var(--s-4) 0 0; padding: 0; max-width: none; }
+.live > li { margin: 0 0 var(--s-6); }
+.live h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-3); margin: 0 0 var(--s-1); font-size: var(--t-body); }
+.live h3 a { font-size: var(--t-caption); font-weight: var(--fw-regular); }
+.live .note { font-size: var(--t-caption); color: var(--ink-600); max-width: 72ch; margin: 0 0 var(--s-3); }
+.live iframe {
+  display: block; width: 100%; height: 86vh; min-height: 560px;
   border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
 }
-.gal iframe {
-  position: absolute; top: 0; left: 0;
-  width: 1000px; height: 1312px; border: 0;
-  transform: scale(0.32); transform-origin: 0 0; pointer-events: none;
-}
-.gal .cap { display: block; margin-top: var(--s-2); font-size: var(--t-micro); }
-.gal a:hover .shot, .gal a:focus-visible .shot { border-color: var(--ink-400); }
-.gal a:hover .cap { color: var(--ink-900); }
 
 #info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 `;
@@ -192,13 +176,12 @@ ${infoHtml}
       <h1 class="vh">Сборка UI: страницы</h1>
       <section>
         <h2>Страницы кита</h2>
-        <p class="intro">Открываются своими страницами, во всю ширину окна: они нарисованы
-          <a href="../ui/kit.css">ui/kit.css</a>, то есть значениями продукта, а не этого сайта.</p>
+        <p class="intro">Стоят открытыми, а не снимками: обе нарисованы
+          <a href="../ui/kit.css">ui/kit.css</a>, то есть значениями продукта, а не этого сайта.
+          Витрина высокая и листается внутри рамки; оболочка короткая, и рамка ужата по ней.</p>
 
-${cardsHtml}
-
-        <ul class="gal">
-${previewHtml}
+        <ul class="live">
+${liveHtml}
         </ul>
       </section>
     </div>
@@ -212,6 +195,31 @@ ${previewHtml}
   </main>
 </div>
 ${tabsJs(['info', 'pages'])}
+<script>
+// Рамка ужимается по странице, если та короче рамки: оболочка занимает ровно
+// свою высоту, витрина остаётся высокой и листается внутри. Страницы свои,
+// с того же домена, поэтому высота читается напрямую; на всякий случай
+// в try — без скрипта обе рамки просто остаются высокими.
+(function () {
+  var frames = document.querySelectorAll('.live iframe');
+  function fit(f) {
+    try {
+      var d = f.contentDocument;
+      if (!d || !f.clientHeight) return;
+      var h = d.documentElement.scrollHeight;
+      if (h && h < f.clientHeight) f.style.height = h + 'px';
+    } catch (e) {}
+  }
+  function fitAll() { for (var i = 0; i < frames.length; i++) fit(frames[i]); }
+  for (var i = 0; i < frames.length; i++) frames[i].addEventListener('load', fitAll);
+  // вкладка открывается скрытой: пока она спрятана, высоту не измерить
+  var panel = document.getElementById('pages');
+  if (panel && window.MutationObserver) {
+    new MutationObserver(fitAll).observe(panel, { attributes: true, attributeFilter: ['hidden'] });
+  }
+  fitAll();
+})();
+</script>
 
 </body>
 </html>
