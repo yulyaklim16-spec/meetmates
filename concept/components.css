@@ -248,9 +248,9 @@
 .mm-ui .input svg { width: 20px; height: 20px; color: var(--ink-400); }
 .mm-ui .input input { flex: 1; min-width: 0; border: 0; background: transparent; font: var(--fw-regular) var(--t-body)/var(--lh-heading) var(--font); color: var(--ink-900); outline: none; padding: 12px 0; }
 .mm-ui .input input::placeholder { color: var(--ink-600); }
-.mm-ui .input:focus-within { background: var(--surface); box-shadow: inset 0 0 0 2px var(--ink-900); }
-.mm-ui .field[data-state="error"] .input { box-shadow: inset 0 0 0 2px var(--danger); }
-.mm-ui .field[data-state="success"] .input { box-shadow: inset 0 0 0 2px var(--success); }
+.mm-ui .input:focus-within { background: var(--surface); box-shadow: inset 0 0 0 1px var(--ink-400); }
+.mm-ui .field[data-state="error"] .input { box-shadow: inset 0 0 0 1px var(--danger); }
+.mm-ui .field[data-state="success"] .input { box-shadow: inset 0 0 0 1px var(--success); }
 .mm-ui .help { display: flex; gap: 6px; align-items: flex-start; margin: 0; font-size: var(--t-caption); color: var(--ink-600); }
 .mm-ui .help svg { width: var(--icon-sm); height: var(--icon-sm); margin-top: 2px; }
 .mm-ui .field[data-state="error"] .help { color: var(--danger-ink); }
@@ -362,7 +362,7 @@
 .mm-ui :is(label, form).field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
   font: var(--fw-regular) var(--t-body-sm)/var(--lh-body) var(--font); color: var(--ink-900); }
 .mm-ui :is(label, form).field input::placeholder { color: var(--ink-600); }
-.mm-ui :is(label, form).field:focus-within { box-shadow: 0 0 0 2px var(--action); }
+.mm-ui :is(label, form).field:focus-within { box-shadow: 0 0 0 1px var(--ink-400); }
 
 /* Итог разговора: день назначен, разговор превратился в событие (D-39).
    Карточка, а не абзац: это новый объект, а не ещё одна реплика. Кнопка отбита
