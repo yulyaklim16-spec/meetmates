@@ -347,7 +347,9 @@ footer p { max-width: 72ch; }
 .live > li { margin: 0 0 var(--s-6); }
 .live h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-3); margin: 0 0 var(--s-1); font-size: var(--t-body); }
 .live h3 a { font-size: var(--t-caption); font-weight: var(--fw-regular); }
-.live .note { font-size: var(--t-caption); color: var(--ink-600); max-width: 72ch; margin: 0 0 var(--s-3); }
+/* подпись под заголовком — не выноска: .note на этой странице носит
+   лиловую полосу слева и читается цитатой, а это просто строка о странице */
+.live .cap { font-size: var(--t-caption); color: var(--ink-600); max-width: 72ch; margin: 0 0 var(--s-3); }
 .live iframe {
   display: block; width: 100%; height: 86vh; min-height: 560px;
   border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
@@ -519,12 +521,12 @@ footer p { max-width: 72ch; }
         <ul class="live">
         <li>
           <h3>Витрина компонентов <a href="../ui/kit.html">открыть страницей &rarr;</a></h3>
-          <p class="note">10 разделов по ролям, 33 случаев. Каждый компонент живой, со своими состояниями; текст настоящий, из интерфейса</p>
+          <p class="cap">10 разделов по ролям, 33 случаев. Каждый компонент живой, со своими состояниями; текст настоящий, из интерфейса</p>
           <iframe src="../ui/kit.html" loading="lazy" title="Витрина компонентов"></iframe>
         </li>
         <li>
           <h3>Оболочка экрана <a href="../ui/shell.html">открыть страницей &rarr;</a></h3>
-          <p class="note">Три шапки и нижнее меню разметкой. Отсюда её берёт экран, у которого ещё нет каркаса</p>
+          <p class="cap">Три шапки и нижнее меню разметкой. Отсюда её берёт экран, у которого ещё нет каркаса</p>
           <iframe src="../ui/shell.html" loading="lazy" title="Оболочка экрана"></iframe>
         </li>
         </ul>

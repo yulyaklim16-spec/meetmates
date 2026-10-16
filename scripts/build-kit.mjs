@@ -76,7 +76,7 @@ for (const p of PAGES) {
 // рядом не нужны.
 const liveHtml = PAGES.map((p) => `        <li>
           <h3>${esc(p.title)} <a href="../${p.file}">открыть страницей &rarr;</a></h3>
-          <p class="note">${esc(p.note)}</p>
+          <p class="cap">${esc(p.note)}</p>
           <iframe src="../${p.file}" loading="lazy" title="${esc(p.title)}"></iframe>
         </li>`).join('\n');
 
@@ -135,7 +135,9 @@ ${TABS_CSS}
 .live > li { margin: 0 0 var(--s-6); }
 .live h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-3); margin: 0 0 var(--s-1); font-size: var(--t-body); }
 .live h3 a { font-size: var(--t-caption); font-weight: var(--fw-regular); }
-.live .note { font-size: var(--t-caption); color: var(--ink-600); max-width: 72ch; margin: 0 0 var(--s-3); }
+/* подпись под заголовком — не выноска: .note на этой странице носит
+   лиловую полосу слева и читается цитатой, а это просто строка о странице */
+.live .cap { font-size: var(--t-caption); color: var(--ink-600); max-width: 72ch; margin: 0 0 var(--s-3); }
 .live iframe {
   display: block; width: 100%; height: 86vh; min-height: 560px;
   border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
