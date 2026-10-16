@@ -121,6 +121,22 @@ if (!copyAsset('ui/kit.css')) {
   }
 }
 
+// ── 2г. снимки экранов концепта: та же причина, что у снимков кита —
+// прототип не должен гаснуть оттого, что чужой сервис недоступен.
+{
+  const imgs = readdirSync(join(ROOT, 'concept/img')).filter((f) => /\.(jpg|jpeg|png|webp)$/i.test(f)).sort();
+  if (!imgs.length) {
+    console.error('В concept/img нет снимков — экраны концепта останутся без фотографий');
+    process.exit(1);
+  }
+  for (const f of imgs) {
+    if (!copyAsset(posix.join('concept/img', f))) {
+      console.error(`Не скопировался снимок экрана: ${f}`);
+      process.exit(1);
+    }
+  }
+}
+
 // ── 2a. вайрфреймы: раздел 4 показывает их во фрейме, значит они едут на сайт.
 // Только .html и .css — разборы и задания в wireframes/*.md остаются в репозитории.
 const wire = readdirSync(join(ROOT, 'wireframes'))

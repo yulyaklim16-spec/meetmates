@@ -140,11 +140,15 @@
   <main class="mm-app">
   <div class="mm-pane">
     <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком -->
-    <section class="mm-stretch" aria-labelledby="deck-h">
+    <section class="mm-stretch" aria-labelledby="who-h">
+      <!-- Зона названа своим заголовком, а не заголовком экрана: имя на карточке
+           идёт третьим уровнем, и без второго уровень прыгал через ступень.
+           Так же названа эта зона на profile.html. -->
+      <h2 id="who-h" class="mm-vh">Who</h2>
 
       <article class="mm-person">
         <figure>
-          <p class="mm-photo"><img src="https://images.unsplash.com/photo-1662850886700-4ec19bd30d11?w=720&h=560&fit=crop&crop=faces&q=75&auto=format" alt="" loading="lazy"></p>
+          <p class="mm-photo"><img src="../img/olena-720.jpg" alt="" loading="lazy"></p>
           <figcaption class="mm-vh">Photo 1 of 4</figcaption>
           <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
           <p class="mm-cardtop">

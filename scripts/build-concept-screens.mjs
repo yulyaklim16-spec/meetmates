@@ -14,8 +14,9 @@
 // Если чего-то не хватает (фото, иконки) — падает, а не оставляет серую заглушку.
 //
 // Запуск: node scripts/build-concept-screens.mjs — после правки вайрфрейма или стилей.
-// Стили — concept/screens/screens.css (устройство) + concept/components.css (компоненты,
-// общие со стендом); значения — только из concept/tokens.css.
+// Стили — concept/screens/screens.css (устройство) + ui/kit.css (компоненты);
+// значения — только из concept/tokens.css. От concept/components.css экраны
+// отцеплены 2026-10-16: он одевал их до кита и остался только под стенд стиля.
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { rail } from './lib/chrome.mjs';
@@ -33,21 +34,27 @@ const ICONS_LINEAR = join(ROOT, 'concept/icons/solar-linear');
 const BRANCHES = wireframeOrder(ROOT);
 const SCREENS = flatPages(BRANCHES);
 
-// фото события — по началу названия; проверены, список в concept/references.md
-const unsplash = (id) => `https://images.unsplash.com/photo-${id}?w=320&h=360&fit=crop&q=75&auto=format`;
+// Снимки лежат в репозитории, в concept/img: те же кадры, что и были, но взятые
+// файлами. Прототип не должен гаснуть оттого, что Unsplash недоступен или что
+// страницу открыли без сети. Происхождение каждого кадра — concept/references.md.
+const img = (file) => `../img/${file}`;
+
+// обложка события — по началу названия. Порядок важен: более длинное название
+// стоит первым, иначе «Board games evening at home» ушло бы в «Board games»
 const PHOTOS = [
-  ['Board games', unsplash('1715860738421-b30b98f8614f')],          // настольные игры во дворе
-  ['Morning run', unsplash('1739368732843-800f36a9b7d0')],          // бегуны на набережной
-  ['Coffee and a walk', unsplash('1758525223193-1bd8fca96ef3')],    // две девушки с кофе на прогулке
+  ['Board games evening', 'ev-home'],   // настолка крупным планом
+  ['Board games', 'ev-games'],          // настольные игры во дворе
+  ['Morning run', 'ev-run'],            // бегуны на набережной
+  ['Coffee and a walk', 'ev-coffee'],   // две девушки с кофе на прогулке
 ];
 
-// портреты — из concept/references.md, кадрируются по лицу
-const face = (id, w = 720, h = 560) =>
-  `https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&fit=crop&crop=faces&q=75&auto=format`;
+// портреты — из concept/references.md, кадрированы по лицу при скачивании.
+// Два размера: 720 на карточку во всю площадь, 96 на кружок рядом с именем
+const face = (slug, big = false) => img(`${slug}-${big ? 720 : 96}.jpg`);
 const FACES = {
-  dasha: '1758599543111-36ce5c34fceb',   // «B, профиль» — женщина в очках, это я
-  olena: '1662850886700-4ec19bd30d11',   // «A, профиль» — женщина с кудрявыми волосами
-  andrii: '1525457136159-8878648a7ad0',  // «C, профиль» — мужчина в коричневой куртке
+  dasha: 'dasha',    // «B, профиль» — женщина в очках, это я
+  olena: 'olena',    // «A, профиль» — женщина с кудрявыми волосами
+  andrii: 'andrii',  // «C, профиль» — мужчина в коричневой куртке
 };
 // чей экран — тот и на снимке; верификация показывает своё лицо в камере
 const PORTRAIT_BY_SCREEN = [
@@ -56,25 +63,14 @@ const PORTRAIT_BY_SCREEN = [
   [/^(deck|profile|match)/, FACES.olena],
 ];
 const portraitFor = (name) =>
-  face((PORTRAIT_BY_SCREEN.find(([re]) => re.test(name)) || [null, FACES.dasha])[1]);
+  face((PORTRAIT_BY_SCREEN.find(([re]) => re.test(name)) || [null, FACES.dasha])[1], true);
 
 // маленький кружок рядом с именем: по имени в той же строке, иначе — по очереди
 // Радар: свой набор, все снимки разные — сверены в concept/references.md.
 // Семь портретов и пять обложек ровно по числу мест на радаре.
-const RADAR_FACES = [
-  FACES.olena, FACES.dasha, FACES.andrii,
-  '1568602471122-7832951cc4c5',  // мужчина в очках и с бородой
-  '1535295972055-1c762f4483e5',  // девушка в сером худи
-  '1629747490241-624f07d70e1e',  // человек в жёлтой куртке
-  '1580489944761-15a19d654956',  // девушка в белой футболке
-];
-const RADAR_EVENTS = [
-  '1715860738421-b30b98f8614f',  // настольные игры во дворе
-  '1739368732843-800f36a9b7d0',  // бегуны на набережной
-  '1758525223193-1bd8fca96ef3',  // кофе и прогулка
-  '1676651471150-0e3a5f8de05e',  // настолка крупным планом
-  '1758274533800-6a5fe97f53f6',  // четверо друзей в парке
-];
+const RADAR_FACES = ['r-face-1', 'r-face-2', 'r-face-3', 'r-face-4',
+  'r-face-5', 'r-face-6', 'r-face-7'];
+const RADAR_EVENTS = ['ev-games', 'ev-run', 'ev-coffee', 'ev-home', 'ev-park'];
 
 // У каждого имени своё лицо: в одной строке их бывает несколько,
 // и три одинаковых кружка читаются как ошибка данных.
@@ -82,9 +78,9 @@ const AVATAR_BY_NAME = [
   ['Olena', FACES.olena],
   ['Andrii', FACES.andrii],
   ['Dasha', FACES.dasha],
-  ['Maryna', '1535295972055-1c762f4483e5'],
-  ['Olha', '1580489944761-15a19d654956'],
-  ['Ihor', '1568602471122-7832951cc4c5'],
+  ['Maryna', 'maryna'],
+  ['Olha', 'olha'],
+  ['Ihor', 'ihor'],
 ];
 
 // иконка — по подписи, которая стоит сразу после пустой .ico
@@ -353,7 +349,7 @@ for (const name of SCREENS) {
     const hit = PHOTOS.find(([k]) => t.startsWith(k));
     if (!hit) throw new Error(`${name}: нет фото для события «${t}»`);
     return li.replace('<span class="cover" aria-hidden="true"></span>',
-      `<span class="cover" aria-hidden="true"><img src="${hit[1]}" alt="" loading="lazy"></span>`);
+      `<span class="cover" aria-hidden="true"><img src="${img(hit[1] + '.jpg')}" alt="" loading="lazy"></span>`);
   });
   // В заглушке обложка пустая нарочно: фотографии ещё нет, и серый
   // прямоугольник .mm-cover — это и есть место под неё. Проверка смотрит
@@ -395,9 +391,7 @@ for (const name of SCREENS) {
     // портрет кадрируется по лицу, обложка — по центру: у стола с настолкой лица нет
     const take = (list, i, what) => {
       if (i >= list.length) throw new Error(`${name}: на радаре мест больше, чем сверенных снимков (${what})`);
-      return what === 'портреты'
-        ? face(list[i], 200, 200)
-        : `https://images.unsplash.com/photo-${list[i]}?w=200&h=200&fit=crop&q=75&auto=format`;
+      return img(`${list[i]}.jpg`);
     };
     body = body.replace(/<li class="([a-g])"><span class="dot( sm| lg)?" aria-hidden="true"><\/span>(Event|Person)<\/li>/g,
       (m, pos, size, kind) => {
@@ -427,7 +421,8 @@ for (const name of SCREENS) {
     const t = (src.match(/<h1[^>]*>([^<]*)<\/h1>/) || [])[1] || '';
     const hit = PHOTOS.find(([k]) => t.startsWith(k));
     if (!hit) throw new Error(`${name}: нет обложки для события «${t}»`);
-    return `${head}<p class="photo"><img src="${hit[1].replace('w=320&h=360', 'w=780&h=440')}" alt="" loading="lazy"></p>`;
+    // на карточке события снимок идёт во всю ширину — берём широкий кадр
+    return `${head}<p class="photo"><img src="${img(hit[1] + '-wide.jpg')}" alt="" loading="lazy"></p>`;
   });
   body = body.replace(/<p class="photo( blur)?"(?: aria-hidden="true")?><\/p>/g,
     (m, blur) => `<p class="photo${blur || ''}"><img src="${portraitFor(name)}" alt="" loading="lazy"></p>`);
@@ -445,12 +440,12 @@ for (const name of SCREENS) {
     return block.replace(/<span class="avatar"( aria-hidden="true")?><\/span>/g, (av, hid) => {
       const id = named[i] || Object.values(FACES)[avatarTurn++ % 3];
       i += 1;
-      return `<span class="avatar"${hid || ''}><img src="${face(id, 96, 96)}" alt="" loading="lazy"></span>`;
+      return `<span class="avatar"${hid || ''}><img src="${face(id)}" alt="" loading="lazy"></span>`;
     });
   });
   body = body.replace(/<span class="avatar"( aria-hidden="true")?><\/span>/g, (av, hid) => {
     const id = Object.values(FACES)[avatarTurn++ % 3];
-    return `<span class="avatar"${hid || ''}><img src="${face(id, 96, 96)}" alt="" loading="lazy"></span>`;
+    return `<span class="avatar"${hid || ''}><img src="${face(id)}" alt="" loading="lazy"></span>`;
   });
 
   // 4б. кнопки шапки — только иконка: подпись остаётся в разметке, но скрыта для глаз

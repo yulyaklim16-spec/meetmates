@@ -138,8 +138,11 @@
   <main class="mm-app">
   <div class="mm-pane">
     <!-- ЗОНА 2: вместо карточки — состояние. Причина названа, вины на человеке нет -->
-    <section class="mm-stretch" aria-labelledby="deck-h">
-
+    <section class="mm-stretch" aria-labelledby="st-h">
+      <!-- Заголовок состояния идёт третьим уровнем — он одинаков на всех
+           21 экране с .mm-state, и разметку блока мы не трогаем. Ступень
+           добавляет зона: без неё уровень прыгал с h1 на h3. -->
+      <h2 id="st-h" class="mm-vh">Status</h2>
       <article class="mm-state mm-state--alert" role="alert">
         <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span>
         <h3>Couldn&rsquo;t load people nearby</h3>
