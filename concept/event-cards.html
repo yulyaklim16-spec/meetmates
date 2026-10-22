@@ -47,7 +47,9 @@
   /* ── 2. Фото во весь рост: текст на снимке ──────────────────────── */
   .v2 .mm-event { grid-template-columns: 1fr; grid-template-rows: 1fr auto auto; min-height: 240px; }
   .v2 .mm-cover { grid-area: 1 / 1 / 4 / 2; min-height: 240px; }
-  .v2 .mm-event-body, .v2 .mm-event-acts { position: relative; z-index: 1; }
+  /* текст и действие ложатся в ту же колонку, что обложка, — поверх снимка.
+     Без явной колонки раскладка уводила их вправо, в неявную вторую */
+  .v2 .mm-event-body, .v2 .mm-event-acts { position: relative; z-index: 1; grid-column: 1; }
   .v2 .mm-event-body {
     grid-row: 2; color: #fff;
     padding-top: var(--s-6);
@@ -62,7 +64,9 @@
   .v3 .mm-event-body { grid-column: 1; grid-row: 1; }
 
   /* ── 4. Строка: обложка-квадрат, действие в той же строке ───────── */
-  .v4 .mm-event { grid-template-columns: 76px 1fr auto; grid-template-rows: auto; align-items: center; }
+  /* minmax(0, 1fr) обязателен: с обычным 1fr колонка не ужимается ниже
+     содержимого, и длинный заголовок схлопывался в пустую строку */
+  .v4 .mm-event { grid-template-columns: 76px minmax(0, 1fr) auto; grid-template-rows: auto; align-items: center; }
   .v4 .mm-cover { min-height: 76px; height: 100%; }
   .v4 .mm-event-body { padding: var(--s-2) var(--s-3); gap: 0; }
   .v4 .mm-event-acts { grid-column: 3; grid-row: 1; padding: var(--s-2) var(--s-3) var(--s-2) 0; }
