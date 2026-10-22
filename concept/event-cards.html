@@ -152,7 +152,6 @@
     </span>
     <span class="mm-event-body">
       <a class="mm-event-head" href="screens/plan.html"><b></b></a>
-      <span class="mm-facts mm-facts--where"></span>
       <span class="mm-facts mm-facts--spots"></span>
       <span class="side">
         <time class="when-pill"></time>
@@ -226,12 +225,14 @@ const VARIANTS = [
   {
     cls: 'v6', name: '6 · Как в Figma', tag: 'снимок, заголовок, дата лейбой', tpl: 'card6',
     gives: 'Ровно та карточка, что нарисована в Figma, и на ней всё наше: на снимке — <code>Verified</code> '
-      + 'и под ним расстояние; слева занятие, площадка с районом и <code>2 going</code>; '
+      + 'и под ним расстояние; слева занятие и <code>2 going</code>; '
       + 'в правом углу — время старта тегом и под ним свободные места; действие во всю ширину.',
     costs: '<code>D-57</code> говорит, что в превью <code>Verified</code> стоит под датой — здесь отметка '
       + 'уехала на снимок, а дата встала в правый угол: решение придётся переписать. '
       + 'Дата на светлой сиреневой пилюле, а не на лайме: лайм занят отметкой проверки и на втором '
-      + 'предмете перестал бы что-либо значить. '
+      + 'предмете перестал бы что-либо значить. Площадка с районом с карточки ушла — остаётся '
+      + 'только расстояние; по §7.2 в ленте показывают название публичного места и район, '
+      + 'и это решение тоже придётся переписать. '
       + 'И карточка вырастает до 403px: на экран помещается одна целиком и край второй. '
       + 'У события без даты лейба говорит «No date yet» — лайм там обещает громче, чем есть что обещать.',
   },
@@ -257,7 +258,6 @@ for (const v of VARIANTS) {
       li.querySelector('.mm-chip').innerHTML = PIN + e.far;
       li.querySelector('.verified-slot').innerHTML = VERIFIED;
       li.querySelector('.mm-meta--spots').textContent = e.free;
-      li.querySelector('.mm-facts--where').textContent = e.venue;
       li.querySelector('.mm-facts--spots').textContent = e.going;
       const pill = li.querySelector('.when-pill');
       pill.textContent = e.when;
