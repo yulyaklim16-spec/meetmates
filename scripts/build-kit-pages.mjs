@@ -439,14 +439,14 @@ const GROUPS = [
       cell('Event-Hover', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join'), cardState: ' is-hover' }), 'kit-cell--wide'),
       cell('Event-Default-Two actions', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join') + btn(' mm-btn--quiet', '', 'Invite') }, 'run', 'Morning run along the embankment', 'No date yet', 'Podil &middot; ~1 km', '1 going &middot; 2 spots left'), 'kit-cell--wide'),
       cell('Event-Default-No spots', evCard({ html: '<button class="mm-btn mm-btn--primary" type="button" disabled>No spots left</button>' }, 'coffee', 'Coffee and a walk in Podil', 'Sun 11:00', 'Podil &middot; ~2 km', 'No spots left &middot; Women only'), 'kit-cell--wide'),
-    ], 'Три уровня чтения (<code>D-55</code>…<code>D-58</code>): что и когда · где и далеко ли · сколько мест и <code>Verified</code>. Где мест два и больше, появляется второе действие — <code>Invite</code>. Заполненное событие пишется словом, а не нулём (<code>D-60</code>). На наведении отзывается вся карточка — светло-серая обводка: курсор наведён на предмет целиком, а подчёркнутый заголовок обещал, что ссылка только он.'),
+    ], 'Три уровня чтения (<code>D-55</code>…<code>D-58</code>): что и когда · где и далеко ли · сколько мест и <code>Verified</code>. Где мест два и больше, появляется второе действие — <code>Invite</code>. Заполненное событие пишется словом, а не нулём (<code>D-60</code>). На наведении отзывается обложка — приближается на 6%: курсор наведён на предмет целиком, и показывает это снимок, а не вторая обводка рядом с обводкой покоя.'),
 
     comp('Строка списка', '.mm-row', [
       cell('Row-Default', `<ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true">${face('olena')}</span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul>`, 'kit-cell--wide'),
       cell('Row-Hover', `<ul class="mm-list"><li><a class="mm-row is-hover" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true">${face('olena')}</span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul>`, 'kit-cell--wide'),
       cell('Row-Default-No link', '<ul class="mm-list"><li class="mm-row"><span class="mm-row-head"><b>Location</b><span class="mm-meta">On &middot; rounded</span></span></li></ul>', 'kit-cell--wide'),
       cell('Row-Default-One line', '<ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>My events</b><span class="mm-meta">1 request</span></span></a></li></ul>', 'kit-cell--wide'),
-    ], 'Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка на наведении обводится светло-серым целиком; строка без ссылки — та, за которой экрана ещё нет, — не отзывается вовсе, и по этому их видно.'),
+    ], 'Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка со снимком на наведении приближает обложку; строка без снимка и строка без ссылки не отзываются вовсе.'),
 
     comp('Карточка человека', '.mm-person', [
       cell('Person-Default', person(), 'kit-cell--card'),

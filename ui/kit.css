@@ -58,7 +58,6 @@
   --mm-card-ring: #ECECEC;
   /* тихая обводка: видно, что предмет отозвался на курсор, но она не спорит
      с содержимым. Порога у наведения нет — курсор и так виден */
-  --mm-edge: #B0A4BF;
   --mm-tab-current: #EDE7F4;
   --mm-mine: #E3DAEF;
   --mm-danger: #C01F4A;
@@ -147,9 +146,8 @@
      волосяная линия, что держит карточку, только красная */
   --mm-ring-error: 0 0 0 1px var(--mm-danger);
   /* наведение на карточку и строку: обводка вместо подчёркивания заголовка —
-     курсор наведён на весь предмет, он весь и отзывается. Тихая: WCAG наведение
-     индикатором не считает, курсор уже на экране */
-  --mm-ring-hover: 0 0 0 1px var(--mm-edge);
+  /* Кольца наведения в ките нет: обводка рядом с обводкой покоя читалась
+     ошибкой. Наведение показывает снимок — см. .mm-cover img ниже. */
 
   /* ── движение ─────────────────────────────────────────────────── */
   --mm-dur-fast: 200ms;
@@ -160,6 +158,8 @@
      в ките не бывает — карточка стоит в клетке, её не тянут. Значение живёт
      в tokens/tokens.css (--ease-spring), оттуда его возьмёт прототип. */
   --mm-press: scale(.98);
+  /* наведение на карточку со снимком: обложка приближается */
+  --mm-zoom-hover: 1.06;
   /* недоступный орган: тот же вид в половину силы */
   --mm-off: .5;
 
@@ -527,7 +527,9 @@
 .mm-row-head { display: flex; align-items: baseline; gap: var(--mm-s-3); width: 100%; }
 .mm-row-head > b { font-size: var(--mm-t-body-sm); font-weight: var(--mm-fw-medium); }
 .mm-row-head .mm-meta { margin-left: auto; }
-a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-shadow-md); }
+/* Наведение на строку-ссылку показывает снимок, а не обводку: приближается
+   обложка. У строки без снимка (чат, глубокий слой) наведение ничего
+   не меняет — показывать нечего, и по этому видно, где снимок есть. */
 
 /* карточка события: обложка слева во всю высоту строки, факты справа,
    действие кнопкой во всю ширину под обложкой (D-55…D-58) */
@@ -571,7 +573,13 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.mm-event:hover, .mm-event.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-shadow-md); }
+/* Наведение на карточку события: обложка наезжает на свои рамки.
+   Движение одно и в одну сторону, поэтому читается приближением,
+   а не дрожанием. */
+.mm-cover { overflow: hidden; }
+.mm-cover img { transition: transform var(--mm-dur-slow) var(--mm-ease-out); }
+a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
+.mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: scale(var(--mm-zoom-hover)); }
 .mm-event-acts { grid-column: 1 / -1; display: flex; gap: var(--mm-s-2); padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
 .mm-event-acts > .mm-btn { flex: 1; padding: 0 var(--mm-s-2); }
 .mm-event-acts > .mm-btn:first-child { flex: 1.6; }
@@ -1191,6 +1199,10 @@ a.mm-row:hover, a.mm-row.is-hover { box-shadow: var(--mm-ring-hover), var(--mm-s
   .mm-scan { display: none; }
   .mm-pins li { animation: none; opacity: 1; }
   .mm-btn, .mm-head-btn, .mm-danger-link { transition: none; }
+  /* приближение обложки на наведении — тоже движение (правило 8) */
+  .mm-cover img { transition: none; }
+  a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
+  .mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: none; }
   /* нажатие снимается у всего, что его показывает, а не у одной кнопки:
      раньше здесь стоял только .mm-btn, и кнопка шапки продолжала уезжать */
   .mm-btn:active, .mm-head-btn:active, .mm-danger-link:active { transform: none; }
