@@ -84,19 +84,30 @@
   /* ── 6. Как в Figma: снимок, заголовок, лейба с датой ───────────── */
   .v6 .mm-event { grid-template-columns: 1fr; padding: var(--s-3); gap: var(--s-1); }
   .v6 .mm-cover { min-height: 232px; border-radius: var(--r-md); overflow: hidden; }
-  .v6 .mm-event-body { padding: var(--s-3) var(--s-1) 0; }
+  /* Текст в две колонки: слева занятие, площадка и «2 going»; справа,
+     в правом углу, — время старта и над чем оно стоит, свободные места. */
+  .v6 .mm-event-body {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--s-3); align-items: start;
+    padding: var(--s-3) var(--s-1) 0;
+  }
+  .v6 .mm-event-head, .v6 .mm-facts { grid-column: 1; }
   .v6 .mm-event-head > b { font: var(--fw-bold) var(--t-h3)/var(--lh-heading) var(--font); letter-spacing: var(--tr-heading); }
-  .v6 .mm-event-head .mm-meta { white-space: nowrap; }
+  .v6 .side { grid-column: 2; grid-row: 1 / span 3; display: flex; flex-direction: column; align-items: flex-end; gap: var(--s-2); }
+  .v6 .mm-meta--spots { white-space: nowrap; }
   .v6 .mm-event-acts { padding: var(--s-3) var(--s-1) var(--s-1); }
-  /* чип расстояния лежит на снимке, как на карточке человека */
-  .v6 .cover-top { position: absolute; z-index: 1; top: var(--s-3); right: var(--s-3); }
+  /* на снимке — расстояние и отметка проверки, одна под другой в правом углу */
+  .v6 .cover-top {
+    position: absolute; z-index: 1; top: var(--s-3); right: var(--s-3);
+    display: flex; flex-direction: column; align-items: flex-end; gap: var(--s-2);
+  }
   /* дата на лейбе — приём из Figma. Лайм в продукте стоит под Verified,
      и здесь он появляется второй раз: цена названа в подписи под вариантом */
   .v6 .when-pill {
-    align-self: center; margin: var(--s-3) 0 0;
-    padding: var(--s-2) var(--s-5); border-radius: var(--r-pill);
+    margin: 0; padding: var(--s-2) var(--s-4); border-radius: var(--r-pill);
     background: var(--label); color: var(--ink-on-label);
     font: var(--fw-semibold) var(--t-body-sm)/var(--lh-heading) var(--font);
+    white-space: nowrap;
   }
 
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
@@ -131,15 +142,18 @@
      в общий шаблон чип и лейба не входят. -->
 <template id="card6">
   <li class="mm-event">
-    <span class="mm-cover" aria-hidden="true">
-      <span class="cover-top"><span class="mm-chip"></span></span>
+    <span class="mm-cover">
+      <span class="cover-top"><span class="mm-chip" aria-hidden="true"></span><span class="verified-slot"></span></span>
       <img alt="" loading="lazy">
     </span>
     <span class="mm-event-body">
-      <a class="mm-event-head" href="screens/plan.html"><b></b><span class="mm-meta mm-meta--spots"></span></a>
+      <a class="mm-event-head" href="screens/plan.html"><b></b></a>
       <span class="mm-facts mm-facts--where"></span>
       <span class="mm-facts mm-facts--spots"></span>
-      <time class="when-pill"></time>
+      <span class="side">
+        <time class="when-pill"></time>
+        <span class="mm-meta mm-meta--spots"></span>
+      </span>
     </span>
     <span class="mm-event-acts"></span>
   </li>
@@ -207,10 +221,12 @@ const VARIANTS = [
   },
   {
     cls: 'v6', name: '6 · Как в Figma', tag: 'снимок, заголовок, дата лейбой', tpl: 'card6',
-    gives: 'Ровно та карточка, что нарисована в Figma, и на ней всё наше: расстояние чипом на снимке, '
-      + 'занятие и свободные места в одну строку, место и район ниже, <code>2 going</code> и <code>Verified</code> '
-      + 'строкой фактов, дата лейбой по центру, действие во всю ширину.',
-    costs: 'Лайм появляется второй раз — на дате; в продукте он стоит под одним <code>Verified</code> '
+    gives: 'Ровно та карточка, что нарисована в Figma, и на ней всё наше: на снимке — расстояние '
+      + 'и под ним <code>Verified</code>; слева занятие, площадка с районом и <code>2 going</code>; '
+      + 'в правом углу — время старта лейбой и под ним свободные места; действие во всю ширину.',
+    costs: '<code>D-57</code> говорит, что в превью <code>Verified</code> стоит под датой — здесь он уехал '
+      + 'на снимок, под расстояние: решение придётся либо переписать, либо вернуть отметку вниз. '
+      + 'Лайм появляется второй раз — на дате; в продукте он стоит под одним <code>Verified</code> '
       + '(правило одного лайма, DESIGN.md). Либо правило пересматривается, либо дата идёт на светлой пилюле. '
       + 'И карточка вырастает до 456px: на экран помещается одна целиком и край второй. '
       + 'У события без даты лейба говорит «No date yet» — лайм там обещает громче, чем есть что обещать.',
@@ -235,9 +251,10 @@ for (const v of VARIANTS) {
     li.querySelector('.mm-event-acts').innerHTML = e.acts;
     if (v.tpl === 'card6') {
       li.querySelector('.mm-chip').innerHTML = PIN + e.far;
+      li.querySelector('.verified-slot').innerHTML = VERIFIED;
       li.querySelector('.mm-meta--spots').textContent = e.free;
       li.querySelector('.mm-facts--where').textContent = e.venue;
-      li.querySelector('.mm-facts--spots').innerHTML = e.going + ' · ' + VERIFIED;
+      li.querySelector('.mm-facts--spots').textContent = e.going;
       const pill = li.querySelector('.when-pill');
       pill.textContent = e.when;
       if (e.dt) pill.dateTime = e.dt; else pill.removeAttribute('datetime');
