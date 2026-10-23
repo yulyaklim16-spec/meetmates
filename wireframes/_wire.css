@@ -384,11 +384,9 @@ section.stretch { flex: 1; min-height: 0; }
 .rows.rail::-webkit-scrollbar { width: 0; height: 0; }
 .rows.rail > li { flex: 0 0 150px; scroll-snap-align: start; }
 .rows.rail .item.ev { grid-template-rows: auto 1fr; }
-/* знаки на снимке в ленте — внизу: кадр мелкий, верх занят головой */
-.rows.rail .cardtop {
-  top: auto; bottom: var(--s-2); left: var(--s-2); right: var(--s-2);
-  flex-direction: row; align-items: center; justify-content: flex-end; gap: 4px;
-}
+/* на мелком кадре лейба сжимается до галочки: слово остаётся в разметке */
+.rows.rail .verified { gap: 0; padding: 2px; font-size: 0; }
+.rows.rail .cardtop { gap: 4px; }
 .grouphead { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); }
 .grouphead h3 { margin: 0; }
 .more { flex: none; display: inline-flex; align-items: center; gap: 4px; font-size: 14px; }

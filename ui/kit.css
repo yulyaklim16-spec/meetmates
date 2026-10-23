@@ -605,14 +605,12 @@
 .mm-list--rail > li { flex: 0 0 var(--mm-rail-card); scroll-snap-align: start; }
 .mm-list--rail .mm-event { grid-template-rows: auto 1fr; }
 .mm-list--rail .mm-cover { height: var(--mm-cover-h-sm); }
-/* Знаки на снимке в ленте стоят внизу, а не в правом верхнем углу: кадр
-   здесь 154×120, и верх — это голова. На большой карточке верх свободен,
-   поэтому там они остаются сверху. Строкой, а не столбиком: вниз они
-   не помещаются вдвоём. */
-.mm-list--rail .mm-cardtop {
-  top: auto; bottom: var(--mm-s-2); left: var(--mm-s-2); right: var(--mm-s-2);
-  flex-direction: row; align-items: center; justify-content: flex-end; gap: var(--mm-s-1);
-}
+/* Мелкая карточка — та же карточка, уменьшенная: знаки стоят там же,
+   в правом верхнем углу, и выглядят так же. Лицо освобождает размер,
+   а не перестановка — на кадре 154×120 лейба сжимается до галочки.
+   Слово остаётся в разметке: его читает скринридер, и перепись его видит. */
+.mm-list--rail .mm-verified { gap: 0; padding: var(--mm-s-1); font-size: 0; }
+.mm-list--rail .mm-cardtop { top: var(--mm-s-2); right: var(--mm-s-2); gap: var(--mm-s-1); }
 .mm-list--rail .mm-event-body { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
 /* В плитку заголовок и «когда» в одну строку не встают: дата вклинивалась
    в середину названия. Поэтому здесь они столбиком — сначала занятие,
