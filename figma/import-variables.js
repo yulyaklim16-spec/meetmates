@@ -397,12 +397,6 @@ const PRIMITIVE = [
     "css": "radius-lg"
   },
   {
-    "path": "radius/xl",
-    "type": "FLOAT",
-    "value": 30,
-    "css": "radius-xl"
-  },
-  {
     "path": "radius/pill",
     "type": "FLOAT",
     "value": 999,
