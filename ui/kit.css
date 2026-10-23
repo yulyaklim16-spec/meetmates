@@ -47,10 +47,11 @@
   --mm-action-hover: #2A1C4D;
   --mm-ink-on-action: #FFFFFF;
   --mm-label: #D9F56F;
-  --mm-ink-on-label: #1A1026;
   --mm-ink-900: #1A1026;
   --mm-ink-600: #4C3F59;
   --mm-ink-400: #8C7E9B;
+  /* фокус — своя роль: менять серый у иконок не значит менять кольцо */
+  --mm-focus: #8C7E9B;
   --mm-bg: #FFFFFF;
   --mm-surface: #FFFFFF;
   --mm-surface-2: #F2EDF6;
@@ -63,8 +64,7 @@
   --mm-hover: #E9E1F1;
   /* тихая обводка: видно, что предмет отозвался на курсор, но она не спорит
      с содержимым. Порога у наведения нет — курсор и так виден */
-  --mm-tab-current: #EDE7F4;
-  --mm-dot-on: #FFFFFF;
+  --mm-selected: #EDE7F4;
   --mm-dot-shadow: 0 1px 3px rgba(11, 5, 29, .45);
   --mm-mine: #E3DAEF;
   --mm-danger: #C01F4A;
@@ -75,8 +75,6 @@
   /* Не носит ни один компонент в наборе: экраны создания и редактирования,
      где поле проходит проверку, в вайрфреймы ещё не вошли. Значения стоят здесь,
      чтобы их не завели заново под другим именем и другим тоном. */
-  --mm-success: #1C7A4E;
-  --mm-warn: #8A5200;
 
   /* фон экрана: два размытых пятна поверх вертикальной рампы.
      К 57 % высоты всё сходится в чистый белый — там и лежат карточки. */
@@ -100,8 +98,7 @@
   --mm-t-h3: 18px;
   --mm-t-body: 16px;
   --mm-t-body-sm: 14px;
-  --mm-t-caption: 12px;            /* сравнялся с --mm-t-micro: шкала кратна двум */
-  --mm-t-micro: 12px;
+  --mm-t-caption: 12px;            /* единственный мелкий кегль: подпись, метка, чип, тег */
   --mm-lh-flat: 1;                 /* однострочный орган: кнопка, чип, бейдж, лейба */
   --mm-lh-tight: 1.05;
   --mm-lh-heading: 1.25;
@@ -148,7 +145,7 @@
      это самый светлый серый, который ещё держит 3:1 с белым полем (3.77)
      и с сиреневым (3.27), а фокус WCAG индикатором считает (1.4.11). Поэтому
      облегчено толщиной: 1px вместо 2px */
-  --mm-ring-focus: 0 0 0 1px var(--mm-ink-400);
+  --mm-ring-focus: 0 0 0 1px var(--mm-focus);
   /* поле, которое не приняло ввод: обводка цветом опасного, в 1px — та же
      волосяная линия, что держит карточку, только красная */
   --mm-ring-error: 0 0 0 1px var(--mm-danger);
@@ -197,7 +194,6 @@
   --mm-w-s: 28%;
   --mm-bubble-max: 80%;
   --mm-blur: 14px;
-  --mm-thumb-h: 64px;
   /* многострочное поле: четыре строки видно, дальше прокрутка */
   --mm-textarea-h: 96px;
   /* жёлоб под полосу прокрутки: вычитается из правого отступа, иначе содержимое
@@ -209,7 +205,7 @@
   --mm-dot: 56px;
   --mm-dot-sm: 40px;
   --mm-dot-lg: 72px;
-  --mm-ring: 4px;
+  --mm-dot-ring: 4px;
 }
 
 /* ═══ Оболочка: экран, шапка, нижнее меню. Разметка — в ui/shell.html ═══ */
@@ -341,7 +337,7 @@
   background: var(--mm-surface);
   color: var(--mm-ink-900);
   box-shadow: var(--mm-shadow-sm);
-  font: var(--mm-fw-semibold) var(--mm-t-micro) / var(--mm-lh-flat) var(--mm-font);
+  font: var(--mm-fw-semibold) var(--mm-t-caption) / var(--mm-lh-flat) var(--mm-font);
   cursor: pointer;
   transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
 }
@@ -350,7 +346,7 @@
 .mm-head-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
 .mm-head-btn svg { width: var(--mm-icon-md); height: var(--mm-icon-md); }
 /* создание — тёмная: в строке с фильтрами видно, какая из двух главная */
-.mm-head-btn--primary { order: 1; background: var(--mm-ink-900); color: var(--mm-surface); box-shadow: none; }
+.mm-head-btn--primary { order: 1; background: var(--mm-action); color: var(--mm-surface); box-shadow: none; }
 .mm-head-btn--primary:hover, .mm-head-btn--primary.is-hover { background: var(--mm-action-hover); }
 /* возврат: стоит только там, куда пришли с другого экрана. Стрелка, а не круг —
    направление должно читаться без цвета; отрицательный отступ возвращает её
@@ -382,7 +378,7 @@
   background: none;
   box-shadow: none;
   color: var(--mm-danger-ink);
-  font: var(--mm-fw-semibold) var(--mm-t-micro) / var(--mm-lh-flat) var(--mm-font);
+  font: var(--mm-fw-semibold) var(--mm-t-caption) / var(--mm-lh-flat) var(--mm-font);
 }
 .mm-head-btn--danger:hover, .mm-head-btn--danger.is-hover { background: var(--mm-hover); }
 .mm-head-btn--danger svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
@@ -407,12 +403,12 @@
   padding: var(--mm-s-pad6) 0;
   border-radius: var(--mm-r-pill);
   text-decoration: none;
-  font: var(--mm-fw-medium) var(--mm-t-micro) / var(--mm-lh-flat) var(--mm-font);
+  font: var(--mm-fw-medium) var(--mm-t-caption) / var(--mm-lh-flat) var(--mm-font);
   color: var(--mm-ink-600);
 }
 .mm-tab svg { width: var(--mm-icon-md); height: var(--mm-icon-md); color: var(--mm-ink-400); }
 /* активная — на сиренево-серой пилюле, иконка залитая и тёмная */
-.mm-tab.is-current { background: var(--mm-tab-current); color: var(--mm-ink-900); box-shadow: var(--mm-ring-inset), var(--mm-shadow-sm); }
+.mm-tab.is-current { background: var(--mm-selected); color: var(--mm-ink-900); box-shadow: var(--mm-ring-inset), var(--mm-shadow-sm); }
 .mm-tab.is-current svg { color: var(--mm-ink-900); }
 
 /* закреплённая полоса внизу: ввод в диалоге, решение в профиле.
@@ -637,7 +633,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   border-radius: var(--mm-r-pill);
   background: var(--mm-surface);
   box-shadow: var(--mm-shadow-sm);
-  font-size: var(--mm-t-micro);
+  font-size: var(--mm-t-caption);
   color: var(--mm-ink-600);
 }
 .mm-person-body { flex: none; display: flex; flex-direction: column; gap: var(--mm-s-1); padding: var(--mm-s-3) var(--mm-s-4) var(--mm-s-4); }
@@ -692,9 +688,9 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   width: var(--mm-dot-pager); height: var(--mm-dot-pager);
   border-radius: 50%;
   background: transparent;
-  box-shadow: inset 0 0 0 1px var(--mm-dot-on), var(--mm-dot-shadow);
+  box-shadow: inset 0 0 0 1px var(--mm-surface), var(--mm-dot-shadow);
 }
-.mm-pager span.is-current { background: var(--mm-dot-on); }
+.mm-pager span.is-current { background: var(--mm-surface); }
 
 /* На снимке стоят два знака, один под другим: отметка проверки и округлённое
    расстояние (§7.1). Порядок тот же, что на карточке события: сперва «кому
@@ -712,7 +708,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   border-radius: var(--mm-r-pill);
   background: var(--mm-surface);
   box-shadow: var(--mm-shadow-sm);
-  font: var(--mm-fw-medium) var(--mm-t-micro) / var(--mm-lh-heading) var(--mm-font);
+  font: var(--mm-fw-medium) var(--mm-t-caption) / var(--mm-lh-heading) var(--mm-font);
   color: var(--mm-ink-900);
   white-space: nowrap;
 }
@@ -720,7 +716,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
 
 /* теги интересов: перечисление под числом общих (D-13) */
 .mm-tags { display: flex; flex-wrap: wrap; gap: var(--mm-s-1); margin: var(--mm-s-hair) 0 0; padding: 0; list-style: none; }
-.mm-tags li { padding: var(--mm-s-hair) var(--mm-s-2); border-radius: var(--mm-r-pill); background: var(--mm-surface-2); font-size: var(--mm-t-micro); color: var(--mm-ink-900); }
+.mm-tags li { padding: var(--mm-s-hair) var(--mm-s-2); border-radius: var(--mm-r-pill); background: var(--mm-surface-2); font-size: var(--mm-t-caption); color: var(--mm-ink-900); }
 
 /* кружок с лицом рядом с именем */
 .mm-avatar {
@@ -747,13 +743,13 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
 /* зазор после аватара раньше давал column-gap строки; в тексте его
    задаёт сам аватар, иначе имя прилипает к лицу */
 .mm-facts > .mm-avatar { margin-right: var(--mm-s-1); }
-.mm-meta { flex: none; white-space: nowrap; font-size: var(--mm-t-micro); color: var(--mm-ink-600); }
+.mm-meta { flex: none; white-space: nowrap; font-size: var(--mm-t-caption); color: var(--mm-ink-600); }
 .mm-note { margin: 0; font-size: var(--mm-t-body-sm); color: var(--mm-ink-600); }
 /* Отбивка у трёх строк своя, а не из шага контейнера: блок фактов отходит
    от фотографии, сигналы — от имени, расстояние — от сигналов. Шаг контейнера
    этого не даёт, потому что он один на все блоки, а здесь нужны разные. */
 .mm-common { margin: var(--mm-s-4) 0 0; font-size: var(--mm-t-caption); color: var(--mm-ink-600); }
-.mm-distance { margin: var(--mm-s-2) 0 0; font-size: var(--mm-t-micro); color: var(--mm-ink-600); }
+.mm-distance { margin: var(--mm-s-2) 0 0; font-size: var(--mm-t-caption); color: var(--mm-ink-600); }
 
 /* сигналы доверия: Verified · встречи · отзывчивость. Все до первого сообщения */
 .mm-signals {
@@ -788,7 +784,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   padding: var(--mm-label-pad);
   border-radius: var(--mm-r-pill);
   background: var(--mm-label);
-  color: var(--mm-ink-on-label);
+  color: var(--mm-ink-900);
   font-weight: var(--mm-fw-semibold);
 }
 .mm-verified svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
@@ -883,7 +879,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   display: block;
   margin: 0 0 var(--mm-s-2) var(--mm-s-3);
   color: var(--mm-ink-600);
-  font: var(--mm-fw-medium) var(--mm-t-micro) / var(--mm-lh-heading) var(--mm-font);
+  font: var(--mm-fw-medium) var(--mm-t-caption) / var(--mm-lh-heading) var(--mm-font);
 }
 
 /* строка под полем: требование до ввода, причина отказа после. Один
@@ -892,7 +888,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   display: block;
   margin: var(--mm-s-2) 0 0 var(--mm-s-3);
   color: var(--mm-ink-600);
-  font: var(--mm-fw-regular) var(--mm-t-micro) / var(--mm-lh-heading) var(--mm-font);
+  font: var(--mm-fw-regular) var(--mm-t-caption) / var(--mm-lh-heading) var(--mm-font);
 }
 .mm-field-note--error { color: var(--mm-danger-ink); font-weight: var(--mm-fw-medium); }
 
@@ -951,7 +947,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   text-decoration: none;
 }
 .mm-menu a:hover, .mm-menu a.is-hover { background: var(--mm-hover); }
-.mm-menu a.is-current { background: var(--mm-surface-2); font-weight: var(--mm-fw-semibold); }
+.mm-menu a.is-current { background: var(--mm-selected); font-weight: var(--mm-fw-semibold); }
 
 /* дата рождения: три поля в ряд, а не одно с маской. Маску не видно,
    пока в неё не попал, а здесь сразу видно, что и куда (§5.1, гейт 18+) */
@@ -1040,7 +1036,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
 .mm-skel--w-m { width: var(--mm-w-m); }
 .mm-skel--w-s { width: var(--mm-w-s); }
 /* миниатюра: место под фотографию, которой ещё нет */
-.mm-skel--thumb { flex: 1; height: var(--mm-thumb-h); }
+.mm-skel--thumb { flex: 1; height: var(--mm-thumb); }
 /* ряд заглушек отбит от того, что над ним: это отдельная строка, а не продолжение */
 .mm-skelrow { display: flex; flex-wrap: wrap; gap: var(--mm-s-2); margin: var(--mm-s-3) 0 0; }
 /* кружок в ряду заглушек — место под фотографию, а не подпись рядом с именем */
@@ -1072,7 +1068,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
    реплики выходили тремя точками. Рабочий пузырь по-прежнему по содержимому. */
 .mm-bubble:has(> .mm-skel) { width: var(--mm-bubble-max); }
 
-.mm-bubble-time { display: block; margin-top: var(--mm-s-hair); font-size: var(--mm-t-micro); color: var(--mm-ink-600); }
+.mm-bubble-time { display: block; margin-top: var(--mm-s-hair); font-size: var(--mm-t-caption); color: var(--mm-ink-600); }
 
 /* своя реплика — не действие, поэтому и не цвет действия: сиреневый тон.
    Отличают её сторона и отсутствие обводки */
@@ -1117,7 +1113,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   padding: .02em .12em;
   border-radius: var(--mm-r-sm);
   background: var(--mm-label);
-  color: var(--mm-ink-on-label);
+  color: var(--mm-ink-900);
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
@@ -1164,7 +1160,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   border-radius: var(--mm-r-pill);
   background: var(--mm-action);
   color: var(--mm-ink-on-action);
-  font-size: var(--mm-t-micro);
+  font-size: var(--mm-t-caption);
 }
 .mm-band.far { top: calc(50% - 170px - 10px); }
 .mm-band.mid { top: calc(50% - 126px - 10px); }
@@ -1179,7 +1175,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   border-radius: 50%;
   overflow: hidden;
   background: var(--mm-surface-2);
-  box-shadow: 0 0 0 var(--mm-ring) var(--mm-surface), var(--mm-shadow-md);
+  box-shadow: 0 0 0 var(--mm-dot-ring) var(--mm-surface), var(--mm-shadow-md);
 }
 .mm-dot img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .mm-dot--sm { width: var(--mm-dot-sm); height: var(--mm-dot-sm); }

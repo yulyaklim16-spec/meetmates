@@ -13,6 +13,7 @@
   --w-line:    #d6d6d6;   /* границы и разделители */
   --w-ink:     #1a1a1a;   /* основной текст */
   --w-ink-2:   #555555;   /* вторичный текст и подписи, 7,4:1 */
+  --w-dim:     #8a8a8a;   /* заглушка и недоступное: страница есть, макета нет */
 }
 
 * { box-sizing: border-box; }
@@ -148,7 +149,7 @@ body:has(#bare:target) .device {
   width: 5px; height: 5px; margin-top: -2px; border-radius: 50%;
   background: var(--w-ink);
 }
-.wfnav .scr.stub > .s { color: #8a8a8a; }
+.wfnav .scr.stub > .s { color: var(--w-dim); }
 
 /* текущий экран в дереве — только жирный и точка: цветной заливки здесь нет,
    иначе два залитых пятна спорят друг с другом */
@@ -521,7 +522,7 @@ a { color: var(--w-ink); }
 }
 .meta b { color: var(--w-ink); font-weight: 600; }
 .meta ul { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-3); }
-.meta li[aria-disabled="true"] { color: #8a8a8a; }
+.meta li[aria-disabled="true"] { color: var(--w-dim); }
 
 /* ── полоса состояний экрана: над мокапом, служебная ────────
    Панель слева ведёт по всем макетам, полоса — по состояниям этого экрана:
@@ -557,7 +558,7 @@ a { color: var(--w-ink); }
   white-space: nowrap;
 }
 .wfstates li a:hover, .wfstates li a:focus-visible { color: var(--w-ink); }
-.wfstates .stub a { color: #8a8a8a; }
+.wfstates .stub a { color: var(--w-dim); }
 /* активный сегмент одинаков во всех трёх группах полосы: залит тёмным.
    Белая пилюля рядом с тёмной читалась как два разных органа */
 .wfstates .now b { background: var(--w-ink); color: var(--w-surface); font-weight: 600; }

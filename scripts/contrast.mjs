@@ -61,8 +61,8 @@ const ratio = (a, b) => {
 const hex = ([r, g, b]) => '#' + [r, g, b].map((v) => Math.round(v).toString(16).padStart(2, '0')).join('').toUpperCase();
 
 // меню лежит в потоке над фоном экрана: стекло поверх --bg
-const glassOverBg = over(tok('glass'), tok('bg'));
-const glassStrongOverBg = over(tok('glass-strong'), tok('bg'));
+const panelOverBg = over(tok('panel'), tok('bg'));
+const selectedOverBg = over(tok('selected'), tok('bg'));
 
 // [что, токен текста, фон (токен или готовый цвет), порог]
 const PAIRS = [
@@ -72,7 +72,7 @@ const PAIRS = [
   ['Вторичный текст на карточке', 'ink-600', 'surface', 4.5],
   ['Вторичный текст в поле / чипе', 'ink-600', 'surface-2', 4.5],
   ['Текст на кнопке действия', 'ink-on-action', 'action', 4.5],
-  ['Текст на лейбе Verified', 'ink-on-label', 'label', 4.5],
+  ['Текст на лейбе Verified', 'ink-900', 'label', 4.5],
   ['Текст своей реплики', 'ink-900', 'mine', 4.5],
   ['Текст неотправленной реплики', 'ink-900', 'danger-soft', 4.5],
   ['Подпись «не ушло»', 'ink-900', 'danger-soft', 4.5],
@@ -97,8 +97,8 @@ const PAIRS = [
   ['Подпись кнопки под курсором', 'ink-900', 'hover', 4.5],
   ['Опасное словом под курсором', 'danger-ink', 'hover', 4.5],
   ['Вторичный текст в поле под курсором', 'ink-600', 'hover', 4.5],
-  ['Подпись вкладки на стекле меню', 'ink-600', glassOverBg, 4.5],
-  ['Подпись выбранной вкладки', 'ink-900', glassStrongOverBg, 4.5],
+  ['Подпись вкладки на панели меню', 'ink-600', panelOverBg, 4.5],
+  ['Подпись выбранной вкладки', 'ink-900', selectedOverBg, 4.5],
   ['Системные панели: адрес, сгиб', 'ink-600', 'surface-2', 4.5],
   ['Иконка, неактивная вкладка (не текст)', 'ink-400', 'bg', 3],
   ['Иконка на карточке (не текст)', 'ink-400', 'surface', 3],

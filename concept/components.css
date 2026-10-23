@@ -38,7 +38,7 @@
    Порядок на экране: «+» (Post), затем Filters; в разметке вайрфрейма наоборот */
 .mm-ui header button {
   order: 2; flex: none; display: inline-grid; place-items: center; width: var(--tap-min); height: var(--tap-min); padding: 0;
-  font: var(--fw-semibold) var(--t-micro)/var(--lh-flat) var(--font);
+  font: var(--fw-semibold) var(--t-caption)/var(--lh-flat) var(--font);
   border: 0; border-radius: var(--r-pill); background: var(--surface); color: var(--ink-900);
   box-shadow: var(--shadow-sm); cursor: pointer;
   transition: background var(--dur-fast) var(--ease-out);
@@ -56,7 +56,7 @@
   display: inline-flex; align-items: center; justify-content: center;
   width: auto; height: var(--tap-min); padding: 0 var(--s-2); gap: var(--s-1); border-radius: var(--r-pill);
   background: none; box-shadow: none; color: var(--danger-ink);
-  font: var(--fw-semibold) var(--t-micro)/var(--lh-flat) var(--font);
+  font: var(--fw-semibold) var(--t-caption)/var(--lh-flat) var(--font);
 }
 .mm-ui header button.report:hover { background: var(--hover); }
 .mm-ui header button.report .ico svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--danger-ink); }
@@ -112,7 +112,7 @@
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .mm-ui .item.ev .top:hover > b { text-decoration: underline; text-underline-offset: var(--s-1); text-decoration-color: var(--ink-400); }
-.mm-ui .item .when { flex: none; white-space: nowrap; font-size: var(--t-micro); color: var(--ink-600); }
+.mm-ui .item .when { flex: none; white-space: nowrap; font-size: var(--t-caption); color: var(--ink-600); }
 .mm-ui .who { display: flex; flex-wrap: wrap; align-items: center; column-gap: 4px; font-size: var(--t-caption); color: var(--ink-600); }
 .mm-ui .item.ev .acts { grid-column: 1 / -1; display: flex; gap: var(--s-2); padding: var(--s-2) var(--s-3) var(--s-3); }
 .mm-ui .item.ev .acts .btn { flex: 1; padding: 0 var(--s-2); }
@@ -121,7 +121,7 @@
 /* отметка Verified — одна и та же везде: слово с галочкой в строке фактов (D-57).
    В направлении R это лаймовая лейба (D-62); токен --label пустой — лейба не рисуется. */
 .mm-ui .verified { display: inline-flex; align-items: center; gap: var(--s-1); font-weight: var(--fw-semibold);
-  padding: var(--label-pad); border-radius: var(--r-pill); background: var(--label); color: var(--ink-on-label); }
+  padding: var(--label-pad); border-radius: var(--r-pill); background: var(--label); color: var(--ink-900); }
 .mm-ui .verified svg { width: var(--icon-sm); height: var(--icon-sm); }
 
 /* ── выход в соседний контур ──────────────────────────────── */
@@ -164,17 +164,17 @@
   flex: none; display: flex; gap: 2px;
   margin: var(--s-2) var(--s-4); padding: 6px;
   border-radius: var(--r-pill);
-  background: var(--glass); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-  box-shadow: var(--shadow-lg), var(--glass-rim);
+  background: var(--panel); 
+  box-shadow: var(--shadow-lg), var(--panel-rim);
 }
 /* вкладки делят ширину поровну */
 .mm-ui nav[aria-label="Main navigation"] a {
   flex: 1; min-width: 0; display: grid; justify-items: center; gap: var(--s-1); padding: 6px 0;
   border-radius: var(--r-pill); text-decoration: none;
-  font: var(--fw-medium) var(--t-micro)/var(--lh-flat) var(--font); color: var(--ink-600);
+  font: var(--fw-medium) var(--t-caption)/var(--lh-flat) var(--font); color: var(--ink-600);
 }
 .mm-ui nav[aria-label="Main navigation"] a .ico svg { width: var(--icon-md); height: var(--icon-md); color: var(--ink-400); }
-.mm-ui nav[aria-label="Main navigation"] a[aria-current="page"] { background: var(--glass-strong); box-shadow: var(--glass-rim), var(--shadow-sm); color: var(--ink-900); }
+.mm-ui nav[aria-label="Main navigation"] a[aria-current="page"] { background: var(--selected); box-shadow: var(--panel-rim), var(--shadow-sm); color: var(--ink-900); }
 .mm-ui nav[aria-label="Main navigation"] a[aria-current="page"] .ico svg { color: var(--ink-900); }
 
 
@@ -214,10 +214,10 @@
 .mm-ui .signals li { display: inline-flex; align-items: center; gap: var(--s-1); }
 .mm-ui .signals li + li::before { content: "·"; margin-right: 4px; color: var(--ink-400); }
 .mm-ui .signals li:first-child:has(svg) { font-weight: var(--fw-semibold);
-  padding: var(--label-pad); border-radius: var(--r-pill); background: var(--label); color: var(--ink-on-label); }
+  padding: var(--label-pad); border-radius: var(--r-pill); background: var(--label); color: var(--ink-900); }
 .mm-ui .signals .ico { display: inline-flex; }
 .mm-ui .signals .ico svg { width: var(--icon-sm); height: var(--icon-sm); }
-.mm-ui .distance { margin: var(--s-2) 0 0; font-size: var(--t-micro); color: var(--ink-600); }
+.mm-ui .distance { margin: var(--s-2) 0 0; font-size: var(--t-caption); color: var(--ink-600); }
 
 /* Скелет в профиле: те же плашки, что в ленте */
 .mm-ui .skelrow { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-3) 0 0; }
@@ -275,19 +275,19 @@
 .mm-ui .card .body > p:last-child { margin: 0; }
 .mm-ui .card figure figcaption:not(.vh) { position: absolute; left: var(--s-3); bottom: var(--s-3); margin: 0;
   padding: 2px var(--s-2); border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--shadow-sm);
-  font-size: var(--t-micro); color: var(--ink-600); }
+  font-size: var(--t-caption); color: var(--ink-600); }
 
 /* округлённое расстояние поверх фото — единственное, что на нём стоит (§7.1) */
 .mm-ui .cardtop { position: absolute; top: var(--s-3); right: var(--s-3); margin: 0; }
 .mm-ui .chip { display: inline-flex; align-items: center; gap: var(--s-1); padding: var(--s-1) var(--s-2);
   border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--shadow-sm);
-  font-size: var(--t-micro); font-weight: var(--fw-medium); color: var(--ink-900); }
+  font-size: var(--t-caption); font-weight: var(--fw-medium); color: var(--ink-900); }
 .mm-ui .chip svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--ink-600); }
 
 /* общие интересы — первая строка блока (D-13), перечисление чипами */
 .mm-ui .tags { display: flex; flex-wrap: wrap; gap: var(--s-1); margin: 2px 0 0; padding: 0; list-style: none; }
 .mm-ui .tags li { padding: 2px var(--s-2); border-radius: var(--r-pill); background: var(--surface-2);
-  font-size: var(--t-micro); color: var(--ink-900); }
+  font-size: var(--t-caption); color: var(--ink-900); }
 
 /* тап по всей карточке → профиль человека; поверх фото, под текстом нет нужды */
 .mm-ui .cardlink { position: absolute; inset: 0; border-radius: inherit; }
@@ -317,7 +317,7 @@
    что у полей и тихих кнопок. Отличают её сторона и отсутствие обводки */
 .mm-ui .bubble.me { align-self: flex-end; border-radius: var(--r-md) var(--r-md) var(--r-sm) var(--r-md);
   background: var(--mine); color: var(--ink-900); box-shadow: none; }
-.mm-ui .bubble .t { display: block; margin-top: 2px; font-size: var(--t-micro); color: var(--ink-600); }
+.mm-ui .bubble .t { display: block; margin-top: 2px; font-size: var(--t-caption); color: var(--ink-600); }
 .mm-ui .bubble.me .t { color: var(--ink-600); }
 /* Не ушло — пузырь залит розоватым и обведён: видно сразу, не вчитываясь.
    Подчёркивания нет, хотя это ссылка: подчёркнутый текст читается как ошибка вёрстки,
@@ -398,7 +398,7 @@
    контейнере: лаймовым текстом их не сделать, на светлом фоне это 1,2:1,
    а тёмный текст на лайме читается 15:1. */
 .mm-ui .promise { text-align: center; text-transform: uppercase; }
-.mm-ui .promise mark { background: var(--label); color: var(--ink-on-label);
+.mm-ui .promise mark { background: var(--label); color: var(--ink-900);
   padding: .02em .12em; border-radius: var(--r-sm);
   box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 
@@ -417,7 +417,7 @@
 .mm-ui .rings .in { width: 150px; height: 150px; }
 .mm-ui .rings .r1 { width: 100px; height: 100px; }
 .mm-ui .band { position: absolute; left: 50%; transform: translateX(-50%); margin: 0;
-  font-size: var(--t-micro); }
+  font-size: var(--t-caption); }
 .mm-ui .band.far { top: calc(50% - 170px - 10px); }
 .mm-ui .band.mid { top: calc(50% - 126px - 10px); }
 .mm-ui .band.near { top: calc(50% - 76px - 10px); }
