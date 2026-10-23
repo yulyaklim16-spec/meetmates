@@ -1,0 +1,57 @@
+/* Карточка человека — MeetMates
+ *
+ * Фото на всю площадь, под ним общие интересы, имя и сигналы доверия.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+/* карточка человека: фото сверху, факты под ним, тап по всей площади — профиль */
+.mm-person {
+  position: relative;
+  flex: none;
+  height: var(--size-card);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+}
+
+.mm-person figure {
+  position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; margin: 0;
+}
+
+.mm-photo {
+  flex: 1; min-height: 0; margin: 0; background: var(--bg-nested);
+}
+
+.mm-photo img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+/* фото дошло не целиком — показываем размытым и доводим по мере прихода (D-51) */
+.mm-photo--blur img {
+  filter: blur(var(--size-blur-photo)); transform: scale(1.06);
+}
+
+/* подпись на самом снимке: так подписан видоискатель на верификации */
+.mm-photo-cap {
+  position: absolute;
+  left: var(--space-12);
+  bottom: var(--space-12);
+  margin: 0;
+  padding: var(--space-2) var(--space-8);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-1);
+  font-size: var(--text-12);
+  color: var(--text-muted);
+}
+
+.mm-person-body {
+  flex: none; display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-12) var(--space-16) var(--space-16);
+}
+
+.mm-person-body > p:last-child { margin: 0; }

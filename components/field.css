@@ -1,0 +1,148 @@
+/* Поля и меню — MeetMates
+ *
+ * Поле ввода, многострочное поле, выбор из списка и само меню.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+/* Поле — одна строка с иконкой: поиск в шапке, ввод реплики в диалоге,
+ анкета на входе. Занимает остаток строки и ужимается само — кнопки
+ рядом не двигает.
+ 
+ Шесть состояний, и они одни и те же у всех шести видов: рабочее,
+ наведение, ввод, заполненное, недоступное, не приняло. Фокус здесь —
+ не кольцо от клавиатуры, а место, где стоит каретка: его видит каждый,
+ кто печатает, поэтому он в наборе и остался. */
+.mm-field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  height: var(--size-control);
+  padding: 0 var(--space-12);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-1);
+  transition: background var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.mm-field svg {
+  flex: none; width: var(--size-icon-md); height: var(--size-icon-md); color: var(--icon-muted);
+}
+
+/* Ввод во всю высоту пилюли. Был по высоте строки, и у поля, обёрнутого
+ в form (поиск), верхняя и нижняя кромки не ставили каретку: нажималась
+ середина. У поля-label это скрадывалось тем, что клик по label уходит
+ в поле, но полагаться на обёртку нельзя. */
+.mm-field input {
+  flex: 1;
+  align-self: stretch;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: var(--weight-400) var(--text-14) / var(--leading-150) var(--font-sans);
+  color: var(--text-primary);
+}
+
+.mm-field input::placeholder { color: var(--text-muted); }
+
+/* недоступное — то же поле в половину силы, как и кнопка */
+.mm-field:has(input:disabled), .mm-field:has(textarea:disabled), .mm-field.is-disabled {
+  opacity: var(--opacity-off);
+  cursor: not-allowed;
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-1);
+}
+
+/* кнопка внутри поля: очистить поиск, показать пароль. Круга и заливки
+ нет — она часть поля, а не второе действие рядом с ним */
+.mm-field-btn {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--icon-muted);
+  cursor: pointer;
+}
+
+.mm-field-btn:hover, .mm-field-btn.is-hover { color: var(--text-primary); }
+
+/* строка под полем: требование до ввода, причина отказа после. Один
+ элемент на оба случая — иначе при ошибке прыгает высота */
+.mm-field-note {
+  display: block;
+  margin: var(--space-8) 0 0 var(--space-12);
+  color: var(--text-muted);
+  font: var(--weight-400) var(--text-12) / var(--leading-125) var(--font-sans);
+}
+
+.mm-field-note--error {
+  color: var(--text-danger); font-weight: var(--weight-500);
+}
+
+/* многострочное: био и описание события. Та же обводка, но коробка,
+ а не пилюля — в неё пишут абзац, и форма об этом говорит */
+.mm-field--multi {
+  display: block;
+  height: auto;
+  padding: var(--space-12);
+  border-radius: var(--radius-md);
+}
+
+.mm-field--multi textarea {
+  display: block;
+  width: 100%;
+  height: var(--size-textarea);
+  border: 0;
+  outline: 0;
+  resize: none;
+  background: transparent;
+  font: var(--weight-400) var(--text-14) / var(--leading-150) var(--font-sans);
+  color: var(--text-primary);
+}
+
+.mm-field--multi textarea::placeholder { color: var(--text-muted); }
+
+/* выпадающий список: то же поле, справа стрелка. Открытый список —
+ состояние поля, а не второй компонент */
+.mm-select { position: relative; }
+
+.mm-select-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-primary);
+  font: var(--weight-400) var(--text-14) / var(--leading-125) var(--font-sans);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mm-menu {
+  position: absolute;
+  top: calc(100% + var(--space-8));
+  right: 0;
+  left: 0;
+  z-index: 1;
+  margin: 0;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-3);
+  list-style: none;
+}
+
+.mm-menu a {
+  display: block;
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font: var(--weight-400) var(--text-14) / var(--leading-125) var(--font-sans);
+  text-decoration: none;
+}

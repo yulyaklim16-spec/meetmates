@@ -1,0 +1,43 @@
+/* Реплики — MeetMates
+ *
+ * Лента сообщений и пузырь.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+/* ═══ Чат ═══ */
+.mm-msgs {
+  display: flex; flex-direction: column; gap: var(--space-8);
+}
+
+/* чужая реплика слева, белая с обводкой */
+.mm-bubble {
+  max-width: var(--width-bubble);
+  margin: 0;
+  align-self: flex-start;
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-md) var(--radius-md) var(--radius-md) var(--radius-sm);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-1);
+  font-size: var(--text-14);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.mm-bubble-time {
+  display: block; margin-top: var(--space-2); font-size: var(--text-12); color: var(--text-muted);
+}
+
+/* подпись и иконка — чернилами: красное несёт подложка. Один признак на роль */
+.mm-bubble--failed .mm-bubble-time {
+  display: flex; align-items: center; gap: var(--space-4); color: var(--text-primary);
+}
+
+.mm-bubble-retry {
+  position: absolute; top: var(--space-8); right: var(--space-8); display: inline-flex; color: var(--text-primary);
+}
+
+.mm-bubble-retry svg {
+  width: var(--size-icon-sm); height: var(--size-icon-sm);
+}

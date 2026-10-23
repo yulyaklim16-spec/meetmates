@@ -1,0 +1,31 @@
+/* Срез вкладки — MeetMates
+ *
+ * Два среза одного объекта: Nearby и Mine. Клавиши стоят вплотную —
+   это один переключатель, а не две кнопки рядом.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+/* срез вкладки: сегменты вплотную на дорожке — это один орган,
+ а не две главные кнопки рядом */
+.mm-segmented {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--bg-nested);
+}
+
+.mm-segmented > * { flex: 1; }
+
+.mm-segmented .mm-btn {
+  background: transparent; box-shadow: none; font-weight: var(--weight-500);
+}
+
+.mm-segmented .mm-btn:hover, .mm-segmented .mm-btn.is-hover { background: transparent; }
+
+.mm-segmented .mm-btn.is-current {
+  background: var(--bg-surface); box-shadow: var(--shadow-1); font-weight: var(--weight-600);
+}

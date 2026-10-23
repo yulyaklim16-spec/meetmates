@@ -19,13 +19,15 @@
   и индикатор жеста — чужие зоны, продукт ими не владеет; их рисует
   страница макета, а не оболочка.
 
-  Вид — ui/kit.css. В этом файле ни одного стиля продукта, только обвязка
+  Вид — ../tokens.css и ../components/index.css. В самой странице ни одного
+  стиля продукта, только обвязка
   самой страницы (классы без префикса mm-).
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="kit.css">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components/index.css">
 <style>
   /* обвязка этой страницы: к продукту не относится */
   body { margin: 0; padding: 32px 32px 32px 80px; background: #EFEFF2; }

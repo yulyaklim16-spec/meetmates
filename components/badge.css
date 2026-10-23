@@ -1,0 +1,105 @@
+/* Знаки и перечисления — MeetMates
+ *
+ * Отметка проверки, чип, теги, сигналы доверия, кружок лица.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+.mm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-1);
+  font: var(--weight-500) var(--text-12) / var(--leading-125) var(--font-sans);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.mm-chip svg {
+  width: var(--size-icon-sm); height: var(--size-icon-sm); color: var(--text-muted);
+}
+
+/* теги интересов: перечисление под числом общих (D-13) */
+.mm-tags {
+  display: flex; flex-wrap: wrap; gap: var(--space-4); margin: var(--space-2) 0 0; padding: 0; list-style: none;
+}
+
+.mm-tags li {
+  padding: var(--space-2) var(--space-8); border-radius: var(--radius-pill); background: var(--bg-nested); font-size: var(--text-12); color: var(--text-primary);
+}
+
+/* кружок с лицом рядом с именем */
+.mm-avatar {
+  flex: none;
+  display: inline-block;
+  width: var(--size-avatar);
+  height: var(--size-avatar);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-nested);
+  box-shadow: var(--ring-hairline);
+  vertical-align: var(--size-avatar-drop);
+}
+
+.mm-avatar img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+/* сигналы доверия: Verified · встречи · отзывчивость. Все до первого сообщения */
+.mm-signals {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-4);
+  row-gap: var(--space-2);
+  margin: var(--space-8) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-12);
+  color: var(--text-muted);
+}
+
+.mm-signals li {
+  display: inline-flex; align-items: center; gap: var(--space-4);
+}
+
+/* Дата тяжелее времени и на карточке события тоже (D-63): по числу решают,
+ час его только уточняет. */
+.mm-signals b {
+  font-weight: var(--weight-600); color: var(--text-primary);
+}
+
+.mm-signals li + li::before {
+  content: "\00B7"; margin-right: var(--space-4); color: var(--icon-muted);
+}
+
+/* отметка проверки — одна на весь продукт: слово с галочкой на лаймовой лейбе.
+ Пустой --mm-label выключает подложку, и слово возвращается к цвету текста */
+.mm-verified {
+  display: inline-flex;
+  white-space: nowrap;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-label);
+  border-radius: var(--radius-pill);
+  background: var(--color-verified);
+  color: var(--text-primary);
+  font-weight: var(--weight-600);
+}
+
+.mm-verified svg {
+  width: var(--size-icon-sm); height: var(--size-icon-sm);
+}
+
+/* подпись над полем: в анкете она видимая. В поиске и в диалоге смысл
+ берётся из места, и там подпись скрыта — но пишется так же (правило 1) */
+.mm-label {
+  display: block;
+  margin: 0 0 var(--space-8) var(--space-12);
+  color: var(--text-muted);
+  font: var(--weight-500) var(--text-12) / var(--leading-125) var(--font-sans);
+}

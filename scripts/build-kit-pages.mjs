@@ -8,7 +8,7 @@
 // Разметка компонентов живёт здесь: это единственное место, где она описана
 // под именами кита (.mm-*), а не под именами вайрфреймов.
 //
-// Запуск: node scripts/build-kit-pages.mjs — после правки ui/kit.css.
+// Запуск: node scripts/build-kit-pages.mjs — после правки components/*.css.
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -143,11 +143,13 @@ const shell = `<!doctype html>
   и индикатор жеста — чужие зоны, продукт ими не владеет; их рисует
   страница макета, а не оболочка.
 
-  Вид — ui/kit.css. В этом файле ни одного стиля продукта, только обвязка
+  Вид — ../tokens.css и ../components/index.css. В самой странице ни одного
+  стиля продукта, только обвязка
   самой страницы (классы без префикса mm-).
 -->
 ${FONT}
-<link rel="stylesheet" href="kit.css">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components/index.css">
 <style>
   /* обвязка этой страницы: к продукту не относится */
   body { margin: 0; padding: 32px 32px 32px 80px; background: #EFEFF2; }
@@ -684,7 +686,8 @@ const kit = `<!doctype html>
   Порядок групп — роли из ui/inventory.md.
 -->
 ${FONT}
-<link rel="stylesheet" href="kit.css">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components/index.css">
 <style>
   /* обвязка витрины: к продукту не относится */
   :root { --page: #EFEFF2; --edge: #DCD6E4; --dim: #4C3F59; }

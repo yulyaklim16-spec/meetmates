@@ -1,0 +1,98 @@
+/* Состояние экрана и плашки — MeetMates
+ *
+ * Блок состояния, баннер в диалоге и обещание на радаре.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+/* Карточка состояния высотой по содержимому, а не по остатку экрана.
+ Тянулась — и один компонент выходил пяти разных высот, а под тремя
+ строками текста оставалось до половины пустоты. Теперь она
+ одинакова везде и прижата к верху секции: воздух уходит вниз, под неё,
+ где он читается полем, а не дырой внутри карточки. */
+.mm-state {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-12);
+  padding: var(--space-32) var(--space-24);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-1);
+  text-align: center;
+}
+
+/* flex: none обязателен: блок состояния — колонка, и в тесной секции
+ (пустой диалог, где под ним ещё столбик подсказок) кружок сжимался
+ по высоте и становился овалом */
+.mm-state-ico {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--size-state-icon);
+  height: var(--size-state-icon);
+  border-radius: var(--radius-pill);
+  background: var(--bg-nested);
+  color: var(--text-primary);
+}
+
+.mm-state-ico svg {
+  width: var(--size-icon-lg); height: var(--size-icon-lg);
+}
+
+.mm-state :is(h1, h2, h3) {
+  margin: 0; font: var(--weight-600) var(--text-22) / var(--leading-125) var(--font-sans); letter-spacing: var(--tracking-heading); text-wrap: balance;
+}
+
+.mm-state p {
+  margin: 0; max-width: var(--measure-text); color: var(--text-muted); font-size: var(--text-14);
+}
+
+/* сбой: красным только иконка. Текст говорит, что данные целы */
+.mm-state--alert .mm-state-ico { color: var(--color-danger); }
+
+/* Отбивка сверху своя, а не из шага контейнера: плашка отходит от разговора
+ сильнее, чем реплики друг от друга, — иначе итог читается ещё одной репликой.
+ Та же причина, что у .mm-common и .mm-distance: шаг контейнера один на все
+ блоки, а здесь нужен больший. */
+.mm-banner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-12);
+  padding: var(--space-12) var(--space-16) var(--space-16);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-1);
+}
+
+.mm-banner b { font-weight: var(--weight-600); }
+
+.mm-banner p {
+  margin: 0; color: var(--text-muted); font-size: var(--text-14);
+}
+
+.mm-banner .mm-actions { margin-top: var(--space-12); }
+
+/* строки идут просторнее обычного заголовка: подложки двух слов иначе сходятся
+ краями. Лаймом залит контейнер, а не буквы — лаймовый текст на светлом фоне
+ даёт 1,2:1, а тёмный на лайме читается 15:1 */
+.mm-promise {
+  margin: 0 0 var(--space-12);
+  font: var(--weight-700) var(--text-34) / var(--leading-145) var(--font-sans);
+  letter-spacing: var(--tracking-display);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mm-promise mark {
+  padding: .02em .12em;
+  border-radius: var(--radius-sm);
+  background: var(--color-verified);
+  color: var(--text-primary);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}

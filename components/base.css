@@ -1,0 +1,89 @@
+/* Основа и текст — MeetMates
+ *
+ * Корень, скрытая подпись, заголовки и строки фактов.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+/* ═══ Оболочка: экран, шапка, нижнее меню. Разметка — в ui/shell.html ═══ */
+.mm {
+  font: var(--weight-400) var(--text-16) / var(--leading-150) var(--font-sans);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* заголовок секции внутри экрана */
+.mm-h2 {
+  margin: 0; font: var(--weight-600) var(--text-18) / var(--leading-125) var(--font-sans); letter-spacing: var(--tracking-heading);
+}
+
+/* Шаг 22px: заголовок предмета или группы внутри экрана — имя человека
+ на карточке, название группы в списке, заголовок состояния. Имя по роли,
+ а не по содержимому: прежнее .mm-subhead называло один из трёх случаев
+ и на двух других врало. */
+.mm-subhead {
+  margin: var(--space-2) 0 0; font: var(--weight-600) var(--text-22) / var(--leading-125) var(--font-sans); letter-spacing: var(--tracking-heading);
+}
+
+.mm-cardlink {
+  position: absolute; inset: 0; border-radius: inherit;
+}
+
+/* Строка фактов набирается как текст, а не как ряд блоков: в ней бывает
+ и аватар, и лейба Verified, и при flex каждый из них становился отдельным
+ элементом — перенос уносил разделитель «·» в начало следующей строки.
+ Аватар и лейба выровнены по базовой линии своими правилами. */
+.mm-facts {
+  margin: 0; font-size: var(--text-12); line-height: var(--leading-150); color: var(--text-muted);
+}
+
+.mm-facts > * { vertical-align: middle; }
+
+/* зазор после аватара раньше давал column-gap строки; в тексте его
+ задаёт сам аватар, иначе имя прилипает к лицу */
+.mm-facts > .mm-avatar { margin-right: var(--space-4); }
+
+.mm-meta {
+  flex: none; white-space: nowrap; font-size: var(--text-12); color: var(--text-muted);
+}
+
+.mm-note {
+  margin: 0; font-size: var(--text-14); color: var(--text-muted);
+}
+
+/* Отбивка у трёх строк своя, а не из шага контейнера: блок фактов отходит
+ от фотографии, сигналы — от имени, расстояние — от сигналов. Шаг контейнера
+ этого не даёт, потому что он один на все блоки, а здесь нужны разные. */
+.mm-common {
+  margin: var(--space-16) 0 0; font-size: var(--text-12); color: var(--text-muted);
+}
+
+.mm-distance {
+  margin: var(--space-8) 0 0; font-size: var(--text-12); color: var(--text-muted);
+}
+
+/* дата рождения: три поля в ряд, а не одно с маской. Маску не видно,
+ пока в неё не попал, а здесь сразу видно, что и куда (§5.1, гейт 18+) */
+.mm-dates {
+  display: flex; gap: var(--space-8); margin: 0;
+}
+
+.mm-dates .mm-field { flex: 1; }
+
+.mm-dates input { text-align: center; }
+
+/* скрыто для глаз, но не для скринридера: скрытый заголовок — такой же копирайт */
+.mm-vh {
+  position: absolute;
+  width: var(--size-hairline);
+  height: var(--size-hairline);
+  margin: calc(var(--size-hairline) * -1);
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mm-ico { display: inline-flex; }

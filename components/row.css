@@ -1,0 +1,79 @@
+/* Строка списка — MeetMates
+ *
+ * Одна и та же строка несёт чат, событие и строку выдачи поиска.
+   Слева может стоять миниатюра: квадрат у события, круг у человека.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+/* ═══ Карточки и списки ═══ */
+.mm-list {
+  display: flex; flex-direction: column; gap: var(--space-12); margin: 0; padding: 0; list-style: none;
+}
+
+/* строка списка: чат, человек, строка глубокого слоя */
+.mm-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-16);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-2);
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Строка выдачи: миниатюра слева, под ней ничего не меняется — это та же
+ строка, что несёт чат и событие в «Моих событиях». Поиск отвечает «что
+ нашлось», и список строк читается быстрее ряда карточек: за экран видно
+ шесть-восемь попаданий, а не три. */
+.mm-row--media {
+  flex-direction: row; align-items: center; gap: var(--space-12);
+}
+
+.mm-row--media > .mm-row-body {
+  display: flex; flex-direction: column; gap: var(--space-4); min-width: 0;
+}
+
+.mm-thumb {
+  flex: none; width: var(--size-thumb); height: var(--size-thumb);
+  border-radius: var(--radius-md); overflow: hidden; background: var(--bg-nested);
+}
+
+/* круг говорит «человек» до того, как прочитано имя: тот же приём, что
+ у аватара в строке фактов */
+.mm-thumb--round { border-radius: 50%; }
+
+.mm-thumb img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+.mm-row-head {
+  display: flex; align-items: baseline; gap: var(--space-12); width: 100%;
+}
+
+.mm-row-head > b {
+  font-size: var(--text-14); font-weight: var(--weight-500);
+}
+
+.mm-row-head .mm-meta { margin-left: auto; }
+
+/* Заголовок группы и дверь на одной строке: группа едет вбок, и список
+ кончается не концом, а краем экрана — дверь под ним осталась бы незамеченной.
+ Имя двери короткое, потому что объект уже назван заголовком слева;
+ полное стоит в aria-label (D-60). */
+.mm-grouphead {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-12);
+}
+
+.mm-grouphead .mm-subhead { margin: 0; }
+
+.mm-more {
+  flex: none; display: inline-flex; align-items: center; gap: var(--space-4);
+  text-decoration: none; color: var(--text-muted);
+  font: var(--weight-500) var(--text-14) / var(--leading-150) var(--font-sans);
+}
+
+.mm-more:hover { color: var(--text-primary); }

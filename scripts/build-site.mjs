@@ -107,6 +107,14 @@ if (!copyAsset('ui/kit.css')) {
   console.error('Нет ui/kit.css — страницы кита останутся без стилей');
   process.exit(1);
 }
+// витрина с 23.10 одета не китом, а компонентами: корневой tokens.css
+// и components/*.css. Сам kit.css пока едет рядом — он нужен для сравнения
+for (const rel of ['tokens.css', ...readdirSync(join(ROOT, 'components')).sort().map((f) => `components/${f}`)]) {
+  if (!copyAsset(rel)) {
+    console.error(`Нет ${rel} — витрина кита останется без стилей`);
+    process.exit(1);
+  }
+}
 {
   const imgs = readdirSync(join(ROOT, 'ui/img')).filter((f) => /\.(jpg|jpeg|png|webp)$/i.test(f)).sort();
   if (!imgs.length) {

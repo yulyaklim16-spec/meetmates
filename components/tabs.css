@@ -1,0 +1,38 @@
+/* Нижнее меню — MeetMates
+ *
+ * Белая панель во всю ширину содержимого, пять равных вкладок.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+/* нижнее меню: белая панель во всю ширину содержимого, пять равных вкладок */
+.mm-tabs {
+  flex: none;
+  display: flex;
+  gap: var(--space-2);
+  margin: var(--space-8) var(--space-16);
+  padding: var(--space-6);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-3), var(--ring-hairline-inset);
+}
+
+.mm-tab {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6) 0;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  font: var(--weight-500) var(--text-12) / var(--leading-100) var(--font-sans);
+  color: var(--text-muted);
+}
+
+.mm-tab svg {
+  width: var(--size-icon-md); height: var(--size-icon-md); color: var(--icon-muted);
+}
+
+.mm-tab.is-current svg { color: var(--text-primary); }

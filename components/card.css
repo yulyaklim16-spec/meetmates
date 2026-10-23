@@ -1,0 +1,137 @@
+/* Карточка события — MeetMates
+ *
+ * Обложка во всю ширину сверху, под ней занятие с датой, площадка
+   и счётчик мест; действие кнопкой во всю ширину.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+/* Карточка события: обложка во всю ширину сверху, под ней занятие и «когда»,
+ площадка, счётчик и действие (D-55…D-58). Прежде обложка стояла слева
+ полосой в 104px — снимок в ней не жил, а обозначался, и лента читалась
+ списком дел. Знаки доверия и расстояния переехали на сам снимок. */
+.mm-event {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+}
+
+.mm-cover {
+  grid-row: 1; position: relative; height: var(--size-cover); background: var(--bg-nested);
+}
+
+.mm-cover img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+
+.mm-event-body {
+  display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; padding: var(--space-12) var(--space-12) var(--space-8);
+}
+
+/* Площадь нажатия добирается отступом, а отступ снимается отрицательным
+ полем: строка остаётся на месте, а палец получает свои 44px. Высота карточки
+ события зафиксирована, растить её ради цели нельзя. */
+.mm-event-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-8);
+  padding: var(--space-12) 0;
+  margin: calc(var(--space-12) * -1) 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Заголовок не больше двух строк: лента держит ритм, остальное — на карточке
+ события. Размер снят с образца: --mm-t-body-sm и средний вес. В concept/components.css
+ карточка события просит 16px и semibold, но следом идёт правило строки списка
+ той же силы — и побеждает оно. На экране видно 15/500, поэтому здесь 15/500:
+ кит повторяет то, что нарисовано. Решение, какой из двух размеров верен, —
+ за дизайнером; пока расхождение названо, а не вписано молча. */
+.mm-event-head > b {
+  flex: 1;
+  min-width: 0;
+  font: var(--weight-500) var(--text-14) / var(--leading-125) var(--font-sans);
+  letter-spacing: var(--tracking-heading);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Наведение на карточку события: обложка наезжает на свои рамки.
+ Движение одно и в одну сторону, поэтому читается приближением,
+ а не дрожанием. */
+.mm-cover { overflow: hidden; }
+
+.mm-cover img { transition: transform var(--duration-slow) var(--ease-out); }
+
+a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img, .mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: scale(var(--zoom-hover)); }
+
+.mm-event-acts {
+  grid-column: 1 / -1; display: flex; gap: var(--space-8); padding: var(--space-8) var(--space-12) var(--space-12);
+}
+
+.mm-event-acts > .mm-btn {
+  flex: 1; padding: 0 var(--space-8);
+}
+
+.mm-event-acts > .mm-btn:first-child { flex: 1.6; }
+
+/* «когда» стоит справа от занятия одним куском: дата жирной, время за ней.
+ Разводить их по разным местам карточки значит заставить глаз собирать
+ ответ на один вопрос из двух углов. */
+.mm-event-head .mm-meta b {
+  font-weight: var(--weight-600); color: var(--text-primary);
+}
+
+/* обложка события на его карточке: во всю ширину, полосы по числу фотографий.
+ flex: none обязателен — в колонке её сжимало до полоски, а overflow это прятал */
+.mm-evcover {
+  flex: none; position: relative; margin: 0; border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-nested); box-shadow: var(--shadow-1);
+}
+
+.mm-evcover .mm-photo {
+  margin: 0; aspect-ratio: 16 / 9;
+}
+
+/* Кружки пагинации лежат на самом снимке, внизу по центру. Полосы под
+ фотографией отнимали у карточки строку и читались разделителем между
+ снимком и текстом; на снимке кружки говорят то же и места не занимают. */
+.mm-pager {
+  position: absolute; z-index: 1;
+  left: 0; right: 0; bottom: var(--space-12);
+  display: flex; justify-content: center; gap: var(--space-4);
+  margin: 0; padding: 0;
+}
+
+/* Открытая фотография — залитый кружок, остальные — обводка: заливка
+ в полсилы читалась «тоже активная, только бледнее». Тень держит обводку
+ видимой и на светлом кадре. */
+.mm-pager span {
+  flex: none;
+  width: var(--size-pager-dot); height: var(--size-pager-dot);
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: var(--ring-dot), var(--shadow-dot);
+}
+
+.mm-pager span.is-current { background: var(--bg-surface); }
+
+/* На снимке стоят два знака, один под другим: отметка проверки и округлённое
+ расстояние (§7.1). Порядок тот же, что на карточке события: сперва «кому
+ верить», потом «далеко ли». Точки на карте здесь нет и не будет. */
+.mm-cardtop {
+  position: absolute; z-index: 1;
+  top: var(--space-12); right: var(--space-12); margin: 0;
+  display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-8);
+}
+
+/* приближение обложки на наведении — тоже движение (правило 8) */
+.mm-cover img { transition: none; }
+
+a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img, .mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: none; }

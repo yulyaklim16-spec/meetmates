@@ -1,0 +1,124 @@
+/* Оболочка экрана — MeetMates
+ *
+ * Экран, панель, секция, прокрутка, закреплённая полоса и слой
+   поверх. Поля экрана задаются здесь и только здесь.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+/* экран: фон несёт цвет, карточки лежат на его белой половине */
+.mm-screen {
+  display: flex;
+  flex-direction: column;
+  width: var(--size-screen-w);
+  height: var(--size-screen-h);
+  overflow: hidden;
+  background-color: var(--bg-page);
+  background-image: var(--bg-page-wash);
+}
+
+/* содержимое экрана: горизонтальные поля задаются здесь и только здесь.
+ Шаг между панелью и закреплённой полосой — тот же, что между блоками панели:
+ без него поле ввода в диалоге подходит к последней реплике на 8px вместо 24,
+ и закреплённая полоса читается как часть прокручиваемого. Ничего, кроме панели
+ и полосы, в этом контейнере не лежит, поэтому шаг один и задан здесь.
+ Обрезка — своя: прокрутку держат .mm-pane и .mm-scrolly, а из экрана
+ выходить нечему. */
+.mm-app {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding: var(--space-12) var(--space-16) var(--space-8);
+  overflow: hidden;
+}
+
+.mm-pane {
+  flex: 1; min-height: 0; display: flex; flex-direction: column; gap: var(--space-16);
+}
+
+/* секция экрана: блоки внутри идут одним шагом */
+.mm-section {
+  display: flex; flex-direction: column; gap: var(--space-12);
+}
+
+/* секция, забирающая остаток высоты: колода, селфи, пустое состояние.
+ Шаг внутри тот же, что у обычной секции: разница между ними одна — эта
+ секция тянется. Без шага заголовок «Events that fit two» прилипал к карточке,
+ а строка «Loading…» — к заглушке колоды */
+.mm-stretch {
+  flex: 1; min-height: 0; display: flex; flex-direction: column; gap: var(--space-12);
+}
+
+/* Прокручиваемая секция. Полоса прокрутки видна — это подсказка, что ниже ещё
+ есть содержимое; место под неё резервируется всегда, поэтому карточки одной
+ ширины и там, где прокрутки нет. Жёлоб вычитается из правого отступа: иначе
+ полоса съедает ширину и блоки стоят на разном расстоянии от края. */
+.mm-scrolly {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 calc(var(--space-16) * -1);
+  padding: 0 calc(var(--space-16) - var(--size-scroll-gutter)) var(--space-8) var(--space-16);
+}
+
+/* то же там, где прокручивается сама панель: колода, профиль, селфи */
+.mm-pane:has(.mm-person) {
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 calc(var(--space-16) * -1);
+  padding: 0 calc(var(--space-16) - var(--size-scroll-gutter)) var(--space-8) var(--space-16);
+}
+
+/* внутри такой панели секция уже не прокручивается — поля отдаёт панель */
+.mm-pane:has(.mm-person) > .mm-scrolly {
+  flex: none; min-height: auto; overflow: visible; margin: 0; padding-left: 0; padding-right: 0;
+}
+
+.mm-scrolly, .mm-pane {
+  scrollbar-width: thin; scrollbar-color: var(--icon-muted) transparent; scrollbar-gutter: stable;
+}
+
+.mm-scrolly::-webkit-scrollbar, .mm-pane::-webkit-scrollbar { width: var(--size-scroll-gutter); }
+
+.mm-scrolly::-webkit-scrollbar-thumb, .mm-pane::-webkit-scrollbar-thumb {
+  background: var(--icon-muted); border-radius: var(--radius-pill);
+}
+
+.mm-scrolly::-webkit-scrollbar-track, .mm-pane::-webkit-scrollbar-track { background: transparent; }
+
+/* Слой поверх экрана: совпадение. position: static обязателен — у dialog[open]
+ браузер ставит absolute, и слой выходит из потока панели, переставая слушаться
+ полей экрана. */
+.mm-layer {
+  position: static;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+/* закреплённая полоса внизу: ввод в диалоге, решение в профиле.
+ Своих горизонтальных полей нет — их задаёт .mm-app */
+.mm-pin {
+  flex: none; padding: var(--space-8) 0 0;
+}
+
+/* Карточка держит свою высоту и в растягивающейся секции: токен --mm-card-h
+ одинаков везде (DESIGN.md). Прежде здесь стояло flex: 1 и height: auto —
+ карточка забирала остаток секции и менялась от того, что стоит рядом:
+ строка статуса в загрузке ужимала её на три десятка пикселей. */
+.mm-stretch > .mm-person { flex: none; }

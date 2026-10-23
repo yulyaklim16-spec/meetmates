@@ -1,0 +1,94 @@
+/* Кнопки — MeetMates
+ *
+ * Три ступени иерархии: главная, вторичная, третичная. Опасное
+   действие — та же третья сила, но своим цветом.
+ *
+ * Цвет — только через роли tokens.css; геометрия, шрифт и движение —
+ * из примитивов. Ни одного hex, пикселя и имени шрифта в правилах.
+ */
+
+/* Нарисованное состояние. :hover живёт в браузере, и на витрине его
+ не поставить. Класс .is-hover даёт тот же вид — и не копией,
+ а тем же правилом: селекторы перечислены через запятую, описание одно.
+ В экране продукта этих классов нет, они для витрины.
+ 
+ Фокуса среди них нет: его на витрину не выносят — он приходит от клавиатуры,
+ а не от мыши. Само :focus-visible остаётся и остаётся обязательным: без него
+ тот, кто ходит табом, не видит, где стоит (WCAG 2.4.7, уровень AA). */
+.mm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  min-height: var(--size-control);
+  padding: 0 var(--space-16);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-1);
+  font: var(--weight-600) var(--text-14) / var(--leading-100) var(--font-sans);
+  letter-spacing: var(--tracking-button);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+
+.mm-btn svg {
+  width: var(--size-icon-button); height: var(--size-icon-button);
+}
+
+/* главная — тёмно-фиолетовая, почти чёрная. На экране одна */
+.mm-btn--primary {
+  background: var(--color-action); color: var(--text-on-action); box-shadow: none;
+}
+
+/* тихая — сиреневая подложка без обводки */
+.mm-btn--quiet {
+  background: var(--bg-nested); box-shadow: none;
+}
+
+/* Недоступна — это та же кнопка в половину силы, а не третий вид: роль видно
+ по-прежнему, видно и то, что сейчас она не работает. Отдельная серая заливка
+ путала: главная, вторичная и без роли выключались в одно и то же пятно,
+ и роль пропадала. Надпись при этом говорит, что сделать (гейт §7.3),
+ а не «disabled».
+ 
+ Контраст у приглушённой ниже нормы, и это осознанно: WCAG 1.4.3 выводит
+ неактивные органы из-под правила, а приглушённость и есть признак того,
+ что нажимать нечего. */
+:is(.mm-btn, .mm-head-btn)[disabled], :is(.mm-btn, .mm-head-btn).is-disabled {
+  opacity: var(--opacity-off);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* опасное действие — не заливка, а строка с иконкой, отбитая от остального */
+.mm-danger-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: var(--size-control);
+  padding: 0 var(--space-4);
+  border: 0;
+  background: none;
+  color: var(--text-danger);
+  border-radius: var(--radius-pill);
+  font: var(--weight-600) var(--text-14) / var(--leading-100) var(--font-sans);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+
+.mm-danger-link svg {
+  width: var(--size-icon-button); height: var(--size-icon-button);
+}
+
+/* строка действий: одна-две кнопки в ряд, поровну */
+.mm-actions {
+  display: flex; gap: var(--space-12); margin: 0;
+}
+
+.mm-actions > * { flex: 1; }
+
+.mm-btn, .mm-head-btn, .mm-danger-link { transition: none; }
