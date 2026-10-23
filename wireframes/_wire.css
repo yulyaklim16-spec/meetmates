@@ -385,10 +385,13 @@ section.stretch { flex: 1; min-height: 0; }
 .rows.grid .item.ev .top b { flex: none; }
 .rows.grid .item.ev .top .when { margin-left: 0; }
 
-/* человек в выдаче поиска: та же карточка, что в колоде, но короче */
-.card.compact { height: auto; }
-.card.compact figure { flex: none; height: 132px; }
+/* человек в выдаче поиска: та же карточка, что в колоде, но короче.
+   В колоде фото лежит на всей карточке, а текст подложкой поверх него;
+   здесь карточка стопкой — снимок сверху, факты под ним */
+.card.compact { height: auto; display: flex; flex-direction: column; }
+.card.compact figure { position: relative; inset: auto; flex: none; height: 132px; }
 .card.compact .photo { height: 100%; }
+.card.compact .body { position: static; }
 
 .avatar {
   display: inline-block;

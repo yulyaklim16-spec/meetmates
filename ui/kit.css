@@ -597,9 +597,7 @@
 .mm-list--grid > li { display: grid; }
 .mm-list--grid .mm-event { grid-template-rows: auto 1fr auto; }
 .mm-list--grid .mm-cover { height: var(--mm-cover-h-sm); }
-.mm-list--grid .mm-person--compact figure { height: var(--mm-cover-h-sm); }
-.mm-list--grid .mm-event-body,
-.mm-list--grid .mm-person-body { padding: var(--mm-s-2) var(--mm-s-3) 0; }
+.mm-list--grid .mm-event-body { padding: var(--mm-s-2) var(--mm-s-3) 0; }
 .mm-list--grid .mm-event-acts { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
 /* В плитку заголовок и «когда» в одну строку не встают: дата вклинивалась
    в середину названия. Поэтому здесь они столбиком — сначала занятие,
@@ -608,13 +606,6 @@
 .mm-list--grid .mm-event-head > b { flex: none; }
 .mm-list--grid .mm-event-head .mm-meta { margin-left: 0; }
 .mm-list--grid .mm-subhead { font-size: var(--mm-t-body); }
-
-/* Короткий вид карточки человека — для выдачи поиска. Та же карточка,
-   что в колоде, но ростом с карточку события: две группы одной выдачи
-   не могут быть разного веса. Решают по-прежнему не здесь — тап открывает
-   профиль, где стоят Skip и Like, поэтому кнопки на ней нет. */
-.mm-person--compact { height: auto; }
-.mm-person--compact figure { flex: none; height: var(--mm-cover-h); }
 
 a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
 .mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: scale(var(--mm-zoom-hover)); }
@@ -659,6 +650,17 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
 }
 .mm-person-body { flex: none; display: flex; flex-direction: column; gap: var(--mm-s-1); padding: var(--mm-s-3) var(--mm-s-4) var(--mm-s-4); }
 .mm-person-body > p:last-child { margin: 0; }
+/* Короткий вид карточки человека — для выдачи поиска. Та же карточка,
+   что в колоде, но ростом с карточку события: две группы одной выдачи
+   не могут быть разного веса. Решают по-прежнему не здесь — тап открывает
+   профиль, где стоят Skip и Like, поэтому кнопки на ней нет. */
+.mm-person--compact { height: auto; }
+.mm-person--compact figure { flex: none; height: var(--mm-cover-h); }
+
+/* Короткий вид в плитке: обложка ещё ниже, поля уже — две карточки в ряд. */
+.mm-list--grid .mm-person--compact figure { height: var(--mm-cover-h-sm); }
+.mm-list--grid .mm-person-body { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
+
 /* Шаг 22px: заголовок предмета или группы внутри экрана — имя человека
    на карточке, название группы в списке, заголовок состояния. Имя по роли,
    а не по содержимому: прежнее .mm-subhead называло один из трёх случаев
