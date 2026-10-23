@@ -59,6 +59,9 @@
   /* тихая обводка: видно, что предмет отозвался на курсор, но она не спорит
      с содержимым. Порога у наведения нет — курсор и так виден */
   --mm-tab-current: #EDE7F4;
+  --mm-dot-on: #FFFFFF;
+  --mm-dot-off: #FFFFFFA6;
+  --mm-dot-shadow: 0 1px 3px rgba(11, 5, 29, .45);
   --mm-mine: #E3DAEF;
   --mm-danger: #C01F4A;
   /* опасное словом: на размытии --mm-danger даёт 3.15:1, а Report в шапке
@@ -179,7 +182,7 @@
   --mm-avatar: 24px;
   --mm-avatar-lg: 56px;
   --mm-avatar-drop: -6px;
-  --mm-pager-h: 4px;
+  --mm-dot-pager: 6px;
   --mm-skel-line: 12px;
   --mm-skel-pill: 20px;
   /* заглушка внутри строки фактов: доля в процентах там схлопнулась бы
@@ -634,12 +637,32 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
 .mm-evcover .mm-photo { margin: 0; aspect-ratio: 16 / 9; }
 
 /* полосы по числу фотографий — под снимком, не поверх */
-.mm-pager { flex: none; display: flex; gap: var(--mm-s-1); margin: 0; padding: var(--mm-s-2) var(--mm-s-3); }
-.mm-pager span { flex: 1; height: var(--mm-pager-h); border-radius: var(--mm-r-pill); background: var(--mm-line); }
-.mm-pager span.is-current { background: var(--mm-ink-900); }
+/* Кружки пагинации лежат на самом снимке, внизу по центру. Полосы под
+   фотографией отнимали у карточки строку и читались разделителем между
+   снимком и текстом; на снимке кружки говорят то же и места не занимают. */
+.mm-pager {
+  position: absolute; z-index: 1;
+  left: 0; right: 0; bottom: var(--mm-s-3);
+  display: flex; justify-content: center; gap: var(--mm-s-1);
+  margin: 0; padding: 0;
+}
+.mm-pager span {
+  flex: none;
+  width: var(--mm-dot-pager); height: var(--mm-dot-pager);
+  border-radius: 50%;
+  background: var(--mm-dot-off);
+  box-shadow: var(--mm-dot-shadow);
+}
+.mm-pager span.is-current { background: var(--mm-dot-on); }
 
-/* округлённое расстояние поверх фотографии — единственное, что на ней стоит (§7.1) */
-.mm-cardtop { position: absolute; top: var(--mm-s-3); right: var(--mm-s-3); margin: 0; }
+/* На снимке стоят два знака, один под другим: отметка проверки и округлённое
+   расстояние (§7.1). Порядок тот же, что на карточке события: сперва «кому
+   верить», потом «далеко ли». Точки на карте здесь нет и не будет. */
+.mm-cardtop {
+  position: absolute; z-index: 1;
+  top: var(--mm-s-3); right: var(--mm-s-3); margin: 0;
+  display: flex; flex-direction: column; align-items: flex-end; gap: var(--mm-s-2);
+}
 .mm-chip {
   display: inline-flex;
   align-items: center;

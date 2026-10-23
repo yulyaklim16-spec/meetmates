@@ -248,14 +248,13 @@ const person = (mod = '') => `<article class="mm-person">
             <p class="mm-photo${mod}"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
             <figcaption class="mm-vh">Photo 1 of 4</figcaption>
             <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
-            <p class="mm-cardtop"><span class="mm-chip">${ico('pin')}~2 km</span></p>
+            <p class="mm-cardtop"><span class="mm-verified">${I.verified}Verified</span><span class="mm-chip">${ico('pin')}~2 km</span></p>
           </figure>
           <section class="mm-person-body" aria-label="Olena, 26">
             <p class="mm-common">3 common interests</p>
             <ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li></ul>
             <h3 class="mm-subhead">Olena, 26</h3>
             <ul class="mm-signals">
-              <li><span class="mm-verified">${I.verified}Verified</span></li>
               <li>6 meetups attended</li>
               <li>Replies quickly</li>
             </ul>
@@ -453,9 +452,9 @@ const GROUPS = [
       cell('Person-Loading-Photo', person(' mm-photo--blur'), 'kit-cell--card'),
     ], 'Порядок чтения задан и не произволен (<code>D-13</code>): общие интересы → имя и возраст → сигналы доверия → расстояние. Справа — фото дошло не целиком: показывается заблюренным и становится чётким по мере прихода (<code>D-51</code>); экран при этом рабочий, <code>Skip</code> и <code>Like</code> живые.'),
 
-    comp('Полосы по числу фотографий', '.mm-pager', [
-      cell('Pager-Default', '<p class="mm-pager kit-one" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>', 'kit-cell--wide'),
-    ], 'Столько полос, сколько фотографий, закрашенная — открытая. Счёт нужен и на слух, поэтому рядом стоит скрытый <code>figcaption</code>: «Photo 1 of 4».'),
+    comp('Кружки по числу фотографий', '.mm-pager', [
+      cell('Pager-Default', `<div class="kit-block"><figure class="mm-evcover"><p class="mm-photo">${cover('run')}</p><p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p></figure></div>`, 'kit-cell--wide'),
+    ], 'Столько кружков, сколько фотографий, закрашенный — открытая. Кружки лежат на самом снимке, внизу по центру: полосы под фотографией отнимали у карточки строку и читались разделителем между снимком и текстом. Контраст им держать с любым кадром, поэтому активный — чистый белый, остальные он же в две трети силы, и под обоими мягкая тень. Счёт нужен и на слух, поэтому рядом стоит скрытая подпись <code>Photo 1 of 4</code>.'),
 
     comp('Обложка на карточке события', '.mm-evcover', [
       cell('Cover-Default', `<div class="kit-block"><figure class="mm-evcover"><p class="mm-photo">${cover('games')}</p><p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span></p></figure></div>`, 'kit-cell--wide'),
