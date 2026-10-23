@@ -1,0 +1,68 @@
+/* Заглушки загрузки — MeetMates
+ *
+ * Полоса, пилюля, кнопка и миниатюра — места, где данных ещё нет.
+ *
+ * Цвет — через роли tokens.css там, где роль есть; геометрия и движение —
+ * из примитивов.
+ */
+
+/* один факт пересчитывается — на его месте заглушка, остальные стоят текстом.
+   Форма та же, что у полосы текста: высота ниже строки, поэтому ряд не растёт
+   и карточка не меняет размер, когда число пришло */
+.mm-signals .mm-skel { width: var(--size-skel-count); }
+
+/* загрузка: заглушки держат раскладку и показывают, что именно грузится.
+   Спиннер не делает ни того, ни другого */
+.mm-skel {
+  display: block;
+  margin: 0;
+  border-radius: var(--radius-sm);
+  background: var(--gradient-skeleton);
+  background-size: 200% 100%;
+  animation: mm-skel var(--duration-skeleton) var(--ease-out) infinite;
+}
+
+.mm-skel--line { height: var(--size-skel-line); }
+
+.mm-skel--pill { height: var(--size-skel-pill); border-radius: var(--radius-pill); }
+
+/* на месте кнопки: пилюля ростом с саму кнопку. Прежняя --pill стоит за чип
+   и бейдж, она вдвое ниже — заглушка на её месте не держала бы высоту строки
+   действий, и карточка подскакивала бы при приходе данных */
+.mm-skel--btn { height: var(--size-control); border-radius: var(--radius-pill); }
+
+.mm-skel--w-l { width: var(--width-l); }
+
+.mm-skel--w-m { width: var(--width-m); }
+
+.mm-skel--w-s { width: var(--width-s); }
+
+/* миниатюра: место под фотографию, которой ещё нет */
+.mm-skel--thumb { flex: 1; height: var(--size-thumb); }
+
+/* ряд заглушек отбит от того, что над ним: это отдельная строка, а не продолжение */
+.mm-skelrow { display: flex; flex-wrap: wrap; gap: var(--space-8); margin: var(--space-12) 0 0; }
+
+/* Пузырь, в котором лежит заглушка, берёт свою полную ширину: полосы заданы
+   процентом, а пузырь сам по содержимому — процент считался от нуля, и три
+   реплики выходили тремя точками. Рабочий пузырь по-прежнему по содержимому. */
+.mm-bubble:has(> .mm-skel) { width: var(--width-bubble); }
+
+@keyframes mm-skel {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-skel { animation: none; }
+  /* радар: волна снимается целиком, найденные стоят на месте и видны сразу */
+  .mm-scan { display: none; }
+  .mm-pins li { animation: none; opacity: 1; }
+  .mm-btn, .mm-head-btn, .mm-danger-link { transition: none; }
+  /* приближение обложки на наведении — тоже движение (правило 8) */
+  .mm-cover img { transition: none; }
+  a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
+  .mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: none; }
+  /* нажатие снимается у всего, что его показывает, а не у одной кнопки:
+     раньше здесь стоял только .mm-btn, и кнопка шапки продолжала уезжать */
+}

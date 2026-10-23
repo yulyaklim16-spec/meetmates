@@ -146,3 +146,22 @@
   font: var(--weight-400) var(--text-14) / var(--leading-125) var(--font-sans);
   text-decoration: none;
 }
+
+/* Цвет состояния читается примитивом: ролей для выбранное, наведение в tokens.css
+   ещё нет — их назовут на уроке 9, и тогда var() здесь сменится
+   на роль, а не на другое значение. */
+
+.mm-field:hover, .mm-field.is-hover { background: var(--lilac-100); }
+
+.mm-field:focus-within, .mm-field.is-focus { background: var(--bg-surface); box-shadow: var(--ring-focus); }
+
+/* не приняло ввод: обводка красная, но текст человек не теряет */
+.mm-field--error, .mm-field--error:hover, .mm-field--error.is-hover { box-shadow: var(--ring-error); }
+
+.mm-field--error:focus-within, .mm-field--error.is-focus { box-shadow: var(--ring-focus); }
+
+.mm-field-btn:focus-visible { outline: none; box-shadow: var(--ring-focus); border-radius: var(--radius-pill); }
+
+.mm-menu a:hover, .mm-menu a.is-hover { background: var(--lilac-100); }
+
+.mm-menu a.is-current { background: var(--lilac-300); font-weight: var(--weight-600); }

@@ -36,3 +36,19 @@
 }
 
 .mm-tab.is-current svg { color: var(--text-primary); }
+
+/* Цвет состояния читается примитивом: ролей для выбранное в tokens.css
+   ещё нет — их назовут на уроке 9, и тогда var() здесь сменится
+   на роль, а не на другое значение. */
+
+/* активная — на сиренево-серой пилюле, иконка залитая и тёмная */
+.mm-tab.is-current { background: var(--lilac-300); color: var(--text-primary); box-shadow: var(--ring-hairline-inset), var(--shadow-1); }
+
+/* Фокус у всего остального, что нажимается. Раньше его носили только кнопки
+   и поле, а вкладка, строка списка, заголовок события и карточка-ссылка
+   обходились правилом страницы макета — в прототип оно не поедет, и тот,
+   кто ходит табом, остался бы без индикатора (WCAG 2.4.7, уровень AA). */
+.mm-tab:focus-visible, .mm-row:focus-visible, .mm-event-head:focus-visible, .mm-cardlink:focus-visible, .mm-menu a:focus-visible {
+  outline: none;
+  box-shadow: var(--ring-focus);
+}

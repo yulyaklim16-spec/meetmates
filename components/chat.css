@@ -41,3 +41,27 @@
 .mm-bubble-retry svg {
   width: var(--size-icon-sm); height: var(--size-icon-sm);
 }
+
+/* Цвет состояния читается примитивом: ролей для реплика не ушла, своя реплика в tokens.css
+   ещё нет — их назовут на уроке 9, и тогда var() здесь сменится
+   на роль, а не на другое значение. */
+
+/* своя реплика — не действие, поэтому и не цвет действия: сиреневый тон.
+   Отличают её сторона и отсутствие обводки */
+.mm-bubble--mine {
+  align-self: flex-end;
+  border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
+  background: var(--lilac-200);
+  box-shadow: none;
+}
+
+/* не ушло — пузырь залит розоватым, без обводки и без подчёркивания:
+   подчёркнутый текст читался бы как ошибка вёрстки, а не как «нажми» (D-52) */
+.mm-bubble--failed {
+  position: relative;
+  align-self: flex-end;
+  padding-right: calc(var(--space-12) + var(--size-icon-sm) + var(--space-4));
+  border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
+  background: var(--rose-300);
+  box-shadow: none;
+}

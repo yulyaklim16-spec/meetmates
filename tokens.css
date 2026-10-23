@@ -77,6 +77,8 @@
      стопов рампы оставлены значениями нарочно — это одна картинка,
      а не одиннадцать ролей; первый стоп вынесен примитивом --lilac-150,
      потому что по нему считается контраст. */
+  /* блик заглушки: та же лестница сиреневых, что у поверхности и наведения */
+  --gradient-skeleton: linear-gradient(90deg, var(--lilac-50) 0%, var(--lilac-100) 50%, var(--lilac-50) 100%);
   --gradient-page-wash:
     radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%),
     radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%),
@@ -92,6 +94,9 @@
   --ring-hairline-inset: inset 0 0 0 1px var(--gray-100);
   /* белая обводка кружка пагинации: тот же физический пиксель, но поверх снимка */
   --ring-dot: inset 0 0 0 1px var(--white);
+  /* кольца состояний: значения из ui/kit.css, роли им дадут на уроке 9 */
+  --ring-focus: 0 0 0 1px var(--plum-400);
+  --ring-error: 0 0 0 1px var(--crimson-600);
 
   /* ── шрифт ──────────────────────────────────────────────────────── */
   --font-sans: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;

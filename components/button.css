@@ -92,3 +92,17 @@
 .mm-actions > * { flex: 1; }
 
 .mm-btn, .mm-head-btn, .mm-danger-link { transition: none; }
+
+/* Цвет состояния читается примитивом: ролей для наведение, наведение действия в tokens.css
+   ещё нет — их назовут на уроке 9, и тогда var() здесь сменится
+   на роль, а не на другое значение. */
+
+.mm-btn:hover, .mm-btn.is-hover { background: var(--lilac-100); }
+
+.mm-btn:focus-visible { outline: none; box-shadow: var(--ring-focus); }
+
+.mm-btn--primary:hover, .mm-btn--primary.is-hover { background: var(--plum-800); }
+
+.mm-btn--quiet:hover, .mm-btn--quiet.is-hover { background: var(--lilac-100); }
+
+.mm-danger-link:hover, .mm-danger-link.is-hover { background: var(--lilac-100); }
