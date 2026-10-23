@@ -124,7 +124,7 @@ ${rows.map((r) => `    <tr><td>${swatch(r.value)}</td><td><code>${esc(r.name)}</
 </table>`;
 
 const roleTable = (rows) => `<table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Роль</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
   <tbody>
 ${rows.map((r) => {
   const to = r.value.match(/^var\((--[a-z0-9-]+)\)$/);
@@ -219,7 +219,7 @@ const aside = asideSrc.replace(cur, (m, attrs, head) =>
 const head = shell.slice(0, shell.indexOf('</style>'))
   .replace(/<title>[^<]*<\/title>/, '<title>Дизайн-токены · MeetMates</title>')
   .replace(/<meta name="description" content="[^"]*">/,
-    '<meta name="description" content="Два слоя токенов: примитив — значение, роль — ответственность. Правила слоя и весь набор таблицами, собранными из самого файла.">');
+    '<meta name="description" content="Два слоя токенов: примитив — значение, семантика — ответственность. Правила слоя и весь набор таблицами, собранными из самого файла.">');
 
 const extraCss = `
 /* ── Раздел 08: дизайн-токены ───────────────────────────────── */
@@ -266,14 +266,13 @@ ${aside}
     <div class="masthead">
       <p class="eyebrow">Раздел 08</p>
       <h1>Дизайн-токены</h1>
-      <p class="lede">Два слоя: <b>примитив</b> — значение само по себе, <b>роль</b> — ответственность.
-        Это и есть слои <code>PRIMITIVE</code> и <code>SEMANTIC</code> в <a href="../tokens.css">tokens.css</a>:
-        «роль» и «семантический токен» — одно и то же.
-        Компонент берёт цвет только ролью, геометрию — только примитивом. Таблицы ниже собраны
+      <p class="lede">Два слоя: <b>примитив</b> — значение само по себе, <b>семантика</b> — ответственность.
+        Так они и названы в <a href="../tokens.css">tokens.css</a> — <code>PRIMITIVE</code> и <code>SEMANTIC</code>,
+        и так же в Figma. Компонент берёт цвет только семантикой, геометрию — только примитивом. Таблицы ниже собраны
         из <a href="../tokens.css">tokens.css</a> при сборке страницы, поэтому отстать не могут.</p>
       <div class="chips">
         <span>${prim.length} примитивов</span>
-        <span>${sem.length} ролей</span>
+        <span>${sem.length} семантических</span>
         <span>ноль значений в компонентах</span>
       </div>
     </div>
@@ -289,20 +288,20 @@ ${infoHtml}
       <section id="prim-color">
         <h2>Примитивы (<code>PRIMITIVE</code>): цвет и составные значения</h2>
         <p class="intro">Имя говорит, <b>что это</b>, и молчит о месте. Компонент к ним
-          за цветом не обращается — только роль.</p>
+          за цветом не обращается — только через семантику.</p>
 ${colorHtml}
       </section>
 
       <section id="roles">
-        <h2>Роли (<code>SEMANTIC</code>)</h2>
-        <p class="intro">Каждая показывает на примитив и ни на что больше. Третья колонка —
-          во что роль упирается сейчас; четвёртая — из какого употребления она выросла.</p>
+        <h2>Семантика (<code>SEMANTIC</code>)</h2>
+        <p class="intro">Каждый токен показывает на примитив и ни на что больше. Третья колонка —
+          во что токен упирается сейчас; четвёртая — из какого употребления он вырос.</p>
 ${semHtml}
       </section>
 
       <section id="scales">
         <h2>Шкалы</h2>
-        <p class="intro">Геометрия и шрифт ролей не получают: отступ и радиус одинаковы
+        <p class="intro">Геометрия и шрифт семантики не получают: отступ и радиус одинаковы
           в любой теме, и второе имя добавило бы слово, а не смысл.</p>
         <h3>Кегль</h3>
 ${typeHtml}
@@ -336,4 +335,4 @@ if (unresolved.size) {
 }
 
 writeFileSync(join(ROOT, 'sections/tokens.html'), page, 'utf8');
-console.log(`sections/tokens.html: ${prim.length} примитивов, ${sem.length} ролей`);
+console.log(`sections/tokens.html: ${prim.length} примитивов, ${sem.length} семантических`);

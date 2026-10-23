@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Дизайн-токены · MeetMates</title>
-<meta name="description" content="Два слоя токенов: примитив — значение, роль — ответственность. Правила слоя и весь набор таблицами, собранными из самого файла.">
+<meta name="description" content="Два слоя токенов: примитив — значение, семантика — ответственность. Правила слоя и весь набор таблицами, собранными из самого файла.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
@@ -404,14 +404,13 @@ footer p { max-width: 72ch; }
     <div class="masthead">
       <p class="eyebrow">Раздел 08</p>
       <h1>Дизайн-токены</h1>
-      <p class="lede">Два слоя: <b>примитив</b> — значение само по себе, <b>роль</b> — ответственность.
-        Это и есть слои <code>PRIMITIVE</code> и <code>SEMANTIC</code> в <a href="../tokens.css">tokens.css</a>:
-        «роль» и «семантический токен» — одно и то же.
-        Компонент берёт цвет только ролью, геометрию — только примитивом. Таблицы ниже собраны
+      <p class="lede">Два слоя: <b>примитив</b> — значение само по себе, <b>семантика</b> — ответственность.
+        Так они и названы в <a href="../tokens.css">tokens.css</a> — <code>PRIMITIVE</code> и <code>SEMANTIC</code>,
+        и так же в Figma. Компонент берёт цвет только семантикой, геометрию — только примитивом. Таблицы ниже собраны
         из <a href="../tokens.css">tokens.css</a> при сборке страницы, поэтому отстать не могут.</p>
       <div class="chips">
         <span>97 примитивов</span>
-        <span>29 ролей</span>
+        <span>29 семантических</span>
         <span>ноль значений в компонентах</span>
       </div>
     </div>
@@ -423,25 +422,25 @@ footer p { max-width: 72ch; }
 
       <section id="два-слоя-и-граница-между-ними-жёсткая">
         <h2>Два слоя, и граница между ними жёсткая</h2>
-<p>Слои названы в самом файле: <code>PRIMITIVE</code> и <code>SEMANTIC</code>. <strong>«Роль» и «семантический токен» — одно и то же слово о разном</strong>: первое говорит, что элемент делает, второе — в каком слое он лежит. В Figma это коллекции <code>Primitive</code> и <code>Semantic</code>.</p>
+<p>Слои названы в самом файле: <code>PRIMITIVE</code> и <code>SEMANTIC</code>, и так же они называются в Figma — коллекции <code>Primitive</code> и <code>Semantic</code>. <strong>Семантика</strong> — то, что в разговоре называют «ролью» токена; дальше в тексте одно слово, чтобы не держать в голове два.</p>
 <p><strong>Примитив — это значение.</strong> <code>--plum-900: #1A1026</code>, <code>--space-16: 16px</code>, <code>--radius-lg: 26px</code>. Имя говорит, <strong>что это</strong>, и ничего не говорит о месте: сливовый 900 остаётся сливовым 900, где бы ни стоял.</p>
-<p><strong>Роль — это ответственность.</strong> <code>--bg-surface</code>, <code>--text-muted</code>, <code>--color-action</code>, <code>--border-hairline</code>. Имя говорит, <strong>за что отвечает</strong>, а значение — всегда <code>var()</code> на примитив. Своего числа у роли не бывает.</p>
-<p>Разделение отвечает на два разных вопроса, которые в одном слое склеиваются. «Поменяй оттенок сиреневого» — правка примитива, и она разойдётся всюду сама. «Фон карточки теперь не белый» — правка роли, и она не тронет остальные белые места. Пока слой был один, эти правки были неразличимы, а имена давались по месту: <code>--card-ring</code>, <code>--tab-current</code>, <code>--glass-strong</code>. Такое имя перестаёт отвечать на вопрос «куда это ставить», как только компонент переезжает.</p>
+<p><strong>Семантика — это ответственность.</strong> <code>--bg-surface</code>, <code>--text-muted</code>, <code>--color-action</code>, <code>--border-hairline</code>. Имя говорит, <strong>за что отвечает</strong>, а значение — всегда <code>var()</code> на примитив. Своего числа у семантического токена не бывает.</p>
+<p>Разделение отвечает на два разных вопроса, которые в одном слое склеиваются. «Поменяй оттенок сиреневого» — правка примитива, и она разойдётся всюду сама. «Фон карточки теперь не белый» — правка семантики, и она не тронет остальные белые места. Пока слой был один, эти правки были неразличимы, а имена давались по месту: <code>--card-ring</code>, <code>--tab-current</code>, <code>--glass-strong</code>. Такое имя перестаёт отвечать на вопрос «куда это ставить», как только компонент переезжает.</p>
       </section>
 
       <section id="четыре-правила">
         <h2>Четыре правила</h2>
-<p><strong>1. Цвет компонент берёт только ролью.</strong> <code>var(--plum-800)</code> в <code>components/</code> — ошибка. Нужен цвет, роли у которого нет, — роль заводится, а не одалживается у соседа.</p>
-<p><strong>2. Геометрию компонент берёт примитивом, и ролей у неё нет.</strong> Отступ и радиус одинаковы в любой теме; роль здесь была бы вторым именем без второго смысла.</p>
+<p><strong>1. Цвет компонент берёт только семантикой.</strong> <code>var(--plum-800)</code> в <code>components/</code> — ошибка. Нужен цвет, семантики у которого нет, — она заводится, а не одалживается у соседа.</p>
+<p><strong>2. Геометрию компонент берёт примитивом, и семантики у неё нет.</strong> Отступ и радиус одинаковы везде; второе имя добавило бы слово, а не смысл.</p>
 <p><strong>3. Цвет, не стоящий нигде, в палитре не висит.</strong> <code>--warn</code> сняли, когда оказалось, что он не красит ни одного экрана; <code>--radius-xl</code> — когда выяснилось, что bottom sheet, под который он заведён, не нарисован. Значение уходит в журнал решений и возвращается вместе с экраном, которому понадобится.</p>
-<p><strong>4. Слово на цветной подложке берёт свою роль, а не наследует соседнюю.</strong> <code>--text-on-action</code>, <code>--text-on-selected</code>, <code>--text-on-verified</code>. Наследование выглядит экономией ровно до первой правки: поменяется цвет основного текста — и слово на лейбе, на кнопке и на выбранной вкладке поедет за ним, хотя подложка под ним прежняя. Лаймовая лейба <code>Verified</code> на этом и попалась: пока у неё не было своих чернил, она держалась только тем, что основной текст случайно оказывался тёмным.</p>
+<p><strong>4. Слово на цветной подложке берёт свой токен, а не наследует соседний.</strong> <code>--text-on-action</code>, <code>--text-on-selected</code>, <code>--text-on-verified</code>. Наследование выглядит экономией ровно до первой правки: поменяется цвет основного текста — и слово на лейбе, на кнопке и на выбранной вкладке поедет за ним, хотя подложка под ним прежняя. Лаймовая лейба <code>Verified</code> на этом и попалась: пока у неё не было своих чернил, она держалась только тем, что основной текст случайно оказывался тёмным.</p>
       </section>
 
       <section id="что-проверяют-скрипты">
         <h2>Что проверяют скрипты</h2>
 <div class="tw"><table><thead><tr><th>Скрипт</th><th>Что ловит</th></tr></thead><tbody>
 <tr><td><code>node scripts/contrast.mjs</code></td><td>Контраст пар из токенов: текст 4.5:1, не-текст 3:1</td></tr>
-<tr><td><code>node scripts/palette-audit.mjs</code></td><td>Различимость: ΔE2000 между ролями, порог ступени 3,5. Одно значение под двумя именами разрешено только с записанной причиной</td></tr>
+<tr><td><code>node scripts/palette-audit.mjs</code></td><td>Различимость: ΔE2000 между семантическими токенами, порог ступени 3,5. Одно значение под двумя именами разрешено только с записанной причиной</td></tr>
 <tr><td><code>node scripts/tokens-audit.mjs</code></td><td>Литералы цвета и шрифта в <code>components/</code>, переменные без объявления, расхождение корневого <code>tokens.css</code> с <code>tokens/tokens.css</code></td></tr>
 <tr><td><code>node scripts/build-figma-tokens.mjs</code></td><td>Собирает набор для Figma из того же файла — руками его не правят</td></tr>
 </tbody></table></div>
@@ -449,12 +448,12 @@ footer p { max-width: 72ch; }
 
       <section id="что-уезжает-в-figma">
         <h2>Что уезжает в Figma</h2>
-<p><a href="../figma/"><code>figma/</code></a> — переменные двумя коллекциями: <code>Primitive</code> и <code>Semantic</code>, роли ссылками на примитивы. Тени, размытие и проценты переменными в Figma не держатся и переносятся стилями и строками.</p>
+<p><a href="../figma/"><code>figma/</code></a> — переменные двумя коллекциями: <code>Primitive</code> и <code>Semantic</code>, семантика ссылками на примитивы. Тени, размытие и проценты переменными в Figma не держатся и переносятся стилями и строками.</p>
       </section>
 
       <section id="чего-в-наборе-нет-нарочно">
         <h2>Чего в наборе нет нарочно</h2>
-<p>Ролей под то, что ещё не нарисовано. Предупреждение о приватном адресе, поле, прошедшее проверку в создании события, bottom sheet фильтров — экраны отложены, и цвета под них ждут в журнале решений, а не в палитре.</p>
+<p>Семантики под то, что ещё не нарисовано. Предупреждение о приватном адресе, поле, прошедшее проверку в создании события, bottom sheet фильтров — экраны отложены, и цвета под них ждут в журнале решений, а не в палитре.</p>
       </section>
     </div>
 
@@ -464,7 +463,7 @@ footer p { max-width: 72ch; }
       <section id="prim-color">
         <h2>Примитивы (<code>PRIMITIVE</code>): цвет и составные значения</h2>
         <p class="intro">Имя говорит, <b>что это</b>, и молчит о месте. Компонент к ним
-          за цветом не обращается — только роль.</p>
+          за цветом не обращается — только через семантику.</p>
       <h3>Цвет: нейтральное</h3>
 <table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
@@ -513,7 +512,7 @@ footer p { max-width: 72ch; }
 <table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
-    <tr><td><i class="sw sw--wide" style="background-image:radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)"></i></td><td><code>--gradient-page-wash</code></td><td class="val"><code>radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)</code></td><td class="tnote">Размытие экрана: два пятна поверх вертикальной рампы. Одиннадцать стопов рампы оставлены значениями нарочно — это одна картинка, а не одиннадцать ролей; первый стоп вынесен примитивом --lilac-150, потому что по нему считается контраст.</td></tr>
+    <tr><td><i class="sw sw--wide" style="background-image:radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)"></i></td><td><code>--gradient-page-wash</code></td><td class="val"><code>radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)</code></td><td class="tnote">Размытие экрана: два пятна поверх вертикальной рампы. Одиннадцать стопов рампы оставлены значениями нарочно — это одна картинка, а не одиннадцать токенов; первый стоп вынесен примитивом --lilac-150, потому что по нему считается контраст.</td></tr>
   </tbody>
 </table>
 
@@ -528,12 +527,12 @@ footer p { max-width: 72ch; }
       </section>
 
       <section id="roles">
-        <h2>Роли (<code>SEMANTIC</code>)</h2>
-        <p class="intro">Каждая показывает на примитив и ни на что больше. Третья колонка —
-          во что роль упирается сейчас; четвёртая — из какого употребления она выросла.</p>
+        <h2>Семантика (<code>SEMANTIC</code>)</h2>
+        <p class="intro">Каждый токен показывает на примитив и ни на что больше. Третья колонка —
+          во что токен упирается сейчас; четвёртая — из какого употребления он вырос.</p>
       <h3>Прочее</h3>
 <table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Роль</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
   <tbody>
     <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--bg-page</code></td><td class="val"><code>--white</code> <span class="dim">#FFFFFF</span></td><td class="tnote">—</td></tr>
     <tr><td><i class="sw sw--wide" style="background-image:radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)"></i></td><td><code>--bg-page-wash</code></td><td class="val"><code>--gradient-page-wash</code> <span class="dim">radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)</span></td><td class="tnote">—</td></tr>
@@ -544,7 +543,7 @@ footer p { max-width: 72ch; }
 
       <h3>Текст и иконка</h3>
 <table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Роль</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
   <tbody>
     <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--text-primary</code></td><td class="val"><code>--plum-900</code> <span class="dim">#1A1026</span></td><td class="tnote">Выросла из 19 цветовых употреблений: .mm (корень), .mm-subhead, Ею же пишется слово на лаймовой лейбе — прежняя --ink-on-label.</td></tr>
     <tr><td><i class="sw" style="background:#4C3F59"></i></td><td><code>--text-muted</code></td><td class="val"><code>--plum-600</code> <span class="dim">#4C3F59</span></td><td class="tnote">Выросла из 17 употреблений: .mm-facts, .mm-meta, .mm-distance, (§5 «Текст второстепенный»).</td></tr>
@@ -556,7 +555,7 @@ footer p { max-width: 72ch; }
 
       <h3>Действие, доверие, опасность, граница</h3>
 <table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Роль</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
   <tbody>
     <tr><td><i class="sw" style="background:#0B051D"></i></td><td><code>--color-action</code></td><td class="val"><code>--plum-950</code> <span class="dim">#0B051D</span></td><td class="tnote">Выросла из .mm-btn--primary (заливка), .mm-head-btn--primary и .mm-band, а тёмный акцент: роль шире имени, и это записано в разборе.</td></tr>
     <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--text-on-verified</code></td><td class="val"><code>--plum-900</code> <span class="dim">#1A1026</span></td><td class="tnote">Выросла из .mm-verified и .mm-promise mark: слово на лайме. Раньше цвет наследовался от --text-primary — и слово на лейбе ехало за основным текстом, хотя подложка под ним своя. У лейбы свои чернила (D-80).</td></tr>
@@ -566,9 +565,9 @@ footer p { max-width: 72ch; }
   </tbody>
 </table>
 
-      <h3>Роли состояний</h3>
+      <h3>Семантика состояний</h3>
 <table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Роль</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
   <tbody>
     <tr><td><i class="sw" style="background:#E9E1F1"></i></td><td><code>--bg-hover</code></td><td class="val"><code>--lilac-100</code> <span class="dim">#E9E1F1</span></td><td class="tnote">Выросла из наведения пяти органов: .mm-btn, .mm-head-btn и его видов, .mm-field, .mm-menu a, .mm-danger-link (§5, разбор B1).</td></tr>
     <tr><td><i class="sw" style="background:#E0D6EE"></i></td><td><code>--bg-selected</code></td><td class="val"><code>--lilac-300</code> <span class="dim">#E0D6EE</span></td><td class="tnote">Выросла из .mm-tab.is-current и .mm-menu a.is-current — выбранное (§5, разбор A4).</td></tr>
@@ -580,9 +579,9 @@ footer p { max-width: 72ch; }
   </tbody>
 </table>
 
-      <h3>Составные роли: тень, кольцо, блик</h3>
+      <h3>Составная семантика: тень, кольцо, блик</h3>
 <table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Роль</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
   <tbody>
     <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04)"></i></td><td><code>--shadow-1</code></td><td class="val"><code>0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04)</code></td><td class="tnote">—</td></tr>
     <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06)"></i></td><td><code>--shadow-2</code></td><td class="val"><code>0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06)</code></td><td class="tnote">—</td></tr>
@@ -598,7 +597,7 @@ footer p { max-width: 72ch; }
 
       <section id="scales">
         <h2>Шкалы</h2>
-        <p class="intro">Геометрия и шрифт ролей не получают: отступ и радиус одинаковы
+        <p class="intro">Геометрия и шрифт семантики не получают: отступ и радиус одинаковы
           в любой теме, и второе имя добавило бы слово, а не смысл.</p>
         <h3>Кегль</h3>
 <table class="tok">
