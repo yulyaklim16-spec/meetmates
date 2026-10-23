@@ -374,7 +374,6 @@ section.stretch { flex: 1; min-height: 0; }
 .ico.sm { width: 14px; height: 14px; border-radius: 3px; }
 /* плитка выдачи: две карточки в ряд */
 .rows.grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); align-items: stretch; }
-.rows.grid > li { display: grid; }
 .rows.grid .item.ev { grid-template-rows: auto 1fr auto; }
 .rows.grid .item.ev { height: auto; }
 .rows.grid .item.ev .cover { height: 96px; }
@@ -392,7 +391,9 @@ section.stretch { flex: 1; min-height: 0; }
 .card.compact figure { position: relative; inset: auto; flex: none; height: 132px; }
 .card.compact .photo { height: 100%; }
 .card.compact .body { position: static; }
-a.card.compact { text-decoration: none; color: inherit; }
+.card.compact .cardtap { flex: 1; min-height: 0; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+.card.compact .card-acts { flex: none; display: flex; gap: var(--s-2); padding: var(--s-2) var(--s-3) var(--s-3); }
+.card.compact .card-acts .btn { flex: 1; }
 /* в 170px сигналы не встают в строку — идут друг под другом */
 .rows.grid .signals { flex-direction: column; align-items: flex-start; }
 
