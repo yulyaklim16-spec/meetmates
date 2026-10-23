@@ -60,7 +60,6 @@
      с содержимым. Порога у наведения нет — курсор и так виден */
   --mm-tab-current: #EDE7F4;
   --mm-dot-on: #FFFFFF;
-  --mm-dot-off: #FFFFFFA6;
   --mm-dot-shadow: 0 1px 3px rgba(11, 5, 29, .45);
   --mm-mine: #E3DAEF;
   --mm-danger: #C01F4A;
@@ -646,12 +645,15 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   display: flex; justify-content: center; gap: var(--mm-s-1);
   margin: 0; padding: 0;
 }
+/* Открытая фотография — залитый кружок, остальные — обводка: заливка
+   в полсилы читалась «тоже активная, только бледнее». Тень держит обводку
+   видимой и на светлом кадре. */
 .mm-pager span {
   flex: none;
   width: var(--mm-dot-pager); height: var(--mm-dot-pager);
   border-radius: 50%;
-  background: var(--mm-dot-off);
-  box-shadow: var(--mm-dot-shadow);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--mm-dot-on), var(--mm-dot-shadow);
 }
 .mm-pager span.is-current { background: var(--mm-dot-on); }
 
