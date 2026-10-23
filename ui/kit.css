@@ -596,7 +596,11 @@
 .mm-list--grid .mm-event-body,
 .mm-list--grid .mm-person-body { padding: var(--mm-s-2) var(--mm-s-3) 0; }
 .mm-list--grid .mm-event-acts { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
-.mm-list--grid .mm-event-head { gap: var(--mm-s-1); flex-wrap: wrap; }
+/* В плитку заголовок и «когда» в одну строку не встают: дата вклинивалась
+   в середину названия. Поэтому здесь они столбиком — сначала занятие,
+   под ним день и час. Порядок чтения тот же, что в ленте (D-63). */
+.mm-list--grid .mm-event-head { flex-direction: column; align-items: flex-start; gap: var(--mm-s-1); }
+.mm-list--grid .mm-event-head > b { flex: none; }
 .mm-list--grid .mm-event-head .mm-meta { margin-left: 0; }
 .mm-list--grid .mm-subhead { font-size: var(--mm-t-body); }
 

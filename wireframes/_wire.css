@@ -379,6 +379,9 @@ section.stretch { flex: 1; min-height: 0; }
 .rows.grid .card.compact figure { height: 96px; }
 .rows.grid .item.ev .body { padding: var(--s-2) var(--s-3) 0; }
 .rows.grid .item.ev .acts { padding: var(--s-2) var(--s-3) var(--s-3); }
+.rows.grid .item.ev .top { flex-direction: column; align-items: flex-start; gap: 4px; }
+.rows.grid .item.ev .top b { flex: none; }
+.rows.grid .item.ev .top .when { margin-left: 0; }
 
 /* человек в выдаче поиска: та же карточка, что в колоде, но короче */
 .card.compact { height: auto; }
