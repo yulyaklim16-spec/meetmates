@@ -178,7 +178,7 @@ const KIT = new Set([
 // имена, которые переводятся один в один
 const CLASS_MAP = {
   app: 'mm-app', pane: 'mm-pane', scrolly: 'mm-scrolly', stretch: 'mm-stretch', pin: 'mm-pin',
-  rows: 'mm-list', exit: 'mm-btn', who: 'mm-facts', when: 'mm-meta', note: 'mm-note',
+  rows: 'mm-list', grid: 'mm-list--grid', exit: 'mm-btn', who: 'mm-facts', when: 'mm-meta', note: 'mm-note',
   common: 'mm-common', distance: 'mm-distance', signals: 'mm-signals', verified: 'mm-verified',
   photo: 'mm-photo', pager: 'mm-pager', cardtop: 'mm-cardtop', chip: 'mm-chip', tags: 'mm-tags',
   cardlink: 'mm-cardlink', avatar: 'mm-avatar', evcover: 'mm-evcover', msgs: 'mm-msgs',
@@ -361,7 +361,7 @@ for (const name of SCREENS) {
   // В заглушке обложка пустая нарочно: фотографии ещё нет, и серый
   // прямоугольник .mm-cover — это и есть место под неё. Проверка смотрит
   // только на рабочие карточки, не на списки с aria-hidden.
-  const liveCovers = body.replace(/<ul class="rows" aria-hidden="true">[\s\S]*?<\/ul>/g, '');
+  const liveCovers = body.replace(/<ul class="rows[^"]*" aria-hidden="true">[\s\S]*?<\/ul>/g, '');
   // обложка без снимка: внутри может лежать что угодно, но <img> обязан быть
   for (const m of liveCovers.matchAll(/<span class="(?:mm-)?cover"[^>]*>([\s\S]*?)<\/span>\s*<span class="(?:mm-)?(?:event-)?body"/g)) {
     if (!/<img/.test(m[1])) throw new Error(`${name}: осталась пустая обложка`);

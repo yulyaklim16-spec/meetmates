@@ -372,6 +372,14 @@ section.stretch { flex: 1; min-height: 0; }
 }
 .ico.lg { width: 24px; height: 24px; }
 .ico.sm { width: 14px; height: 14px; border-radius: 3px; }
+/* плитка выдачи: две карточки в ряд */
+.rows.grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); align-items: start; }
+.rows.grid .item.ev { height: auto; }
+.rows.grid .item.ev .cover { height: 96px; }
+.rows.grid .card.compact figure { height: 96px; }
+.rows.grid .item.ev .body { padding: var(--s-2) var(--s-3) 0; }
+.rows.grid .item.ev .acts { padding: var(--s-2) var(--s-3) var(--s-3); }
+
 /* человек в выдаче поиска: та же карточка, что в колоде, но короче */
 .card.compact { height: auto; }
 .card.compact figure { flex: none; height: 132px; }

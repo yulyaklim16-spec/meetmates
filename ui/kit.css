@@ -179,6 +179,9 @@
   /* обложка события идёт во всю ширину карточки; высота фиксирована,
      иначе лента теряет ритм при разных пропорциях снимков */
   --mm-cover-h: 168px;
+  /* в плитке обложка ниже: две карточки в ряд, и высокий снимок
+     съедал бы экран быстрее, чем лента его наполняет */
+  --mm-cover-h-sm: 120px;
   --mm-avatar: 24px;
   --mm-avatar-lg: 56px;
   --mm-avatar-drop: -6px;
@@ -583,6 +586,20 @@
    а не дрожанием. */
 .mm-cover { overflow: hidden; }
 .mm-cover img { transition: transform var(--mm-dur-slow) var(--mm-ease-out); }
+/* Плитка: две карточки в ряд. Так устроена выдача поиска — там важнее
+   охват, а не размер снимка: за экран видно шесть попаданий вместо двух.
+   Карточка та же, меняются высота обложки и отступы; второе действие
+   в такую ширину не помещается и остаётся на карточке события. */
+.mm-list--grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mm-s-3); align-items: start; }
+.mm-list--grid .mm-cover { height: var(--mm-cover-h-sm); }
+.mm-list--grid .mm-person--compact figure { height: var(--mm-cover-h-sm); }
+.mm-list--grid .mm-event-body,
+.mm-list--grid .mm-person-body { padding: var(--mm-s-2) var(--mm-s-3) 0; }
+.mm-list--grid .mm-event-acts { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
+.mm-list--grid .mm-event-head { gap: var(--mm-s-1); flex-wrap: wrap; }
+.mm-list--grid .mm-event-head .mm-meta { margin-left: 0; }
+.mm-list--grid .mm-subhead { font-size: var(--mm-t-body); }
+
 /* Короткий вид карточки человека — для выдачи поиска. Та же карточка,
    что в колоде, но ростом с карточку события: две группы одной выдачи
    не могут быть разного веса. Решают по-прежнему не здесь — тап открывает
