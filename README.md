@@ -129,7 +129,8 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 | [microcopy.md](./microcopy.md) | Перепись всего текста интерфейса: 544 строки с макетов — включая скрытые заголовки, подписи для скринридера и `aria-label`; в ней же история правок текста, «было» и «стало» | сверяется с `wireframes/*.html` в обе стороны скриптом `microcopy-audit.mjs`; на сайте — вкладка «Перепись» раздела 5, по экрану на свёрток |
 
 **Проверки, которые гоняются на каждом проходе:** `node scripts/contrast.mjs` —
-контраст пар из токенов; `node scripts/tokens-audit.mjs` — литералы и расхождение
+контраст пар из токенов; `node scripts/palette-audit.mjs` — различимость цветов,
+ΔE2000 между ролями; `node scripts/tokens-audit.mjs` — литералы и расхождение
 кита с `tokens.css`; `node scripts/microcopy-audit.mjs` — перепись против макетов
 в обе стороны; `node scripts/screens-audit.mjs` — тупики, главное действие, состояния
 из задания, имя экрана в дереве и то, что страница не одевается сама.

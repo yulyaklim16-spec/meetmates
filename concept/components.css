@@ -164,7 +164,7 @@
   flex: none; display: flex; gap: 2px;
   margin: var(--s-2) var(--s-4); padding: 6px;
   border-radius: var(--r-pill);
-  background: var(--panel); 
+  background: var(--surface); 
   box-shadow: var(--shadow-lg), var(--panel-rim);
 }
 /* вкладки делят ширину поровну */
@@ -234,7 +234,7 @@
 .mm-ui .person-hero { text-align: center; padding: var(--s-2) 0 var(--s-4); }
 .mm-ui .person-hero img { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; margin: 0 auto var(--s-3); }
 .mm-ui .person-name { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 0 0 var(--s-1); font: var(--fw-semibold) var(--t-h3)/var(--lh-tight) var(--font); letter-spacing: var(--tr-heading); }
-.mm-ui .person-name svg { width: 20px; height: 20px; color: var(--verified); }
+.mm-ui .person-name svg { width: 20px; height: 20px; color: var(--ink-900); }
 .mm-ui .person-sub { margin: 0; font-size: var(--t-caption); color: var(--ink-600); }
 .mm-ui .facts { background: var(--surface); border-radius: var(--r-lg); padding: var(--s-2) var(--s-4); box-shadow: var(--shadow-sm); margin: 0; }
 .mm-ui .facts div { display: flex; align-items: center; gap: var(--s-3); min-height: 48px; border-top: 1px solid var(--line); font-size: var(--t-body-sm); }
