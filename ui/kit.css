@@ -590,7 +590,12 @@
    охват, а не размер снимка: за экран видно шесть попаданий вместо двух.
    Карточка та же, меняются высота обложки и отступы; второе действие
    в такую ширину не помещается и остаётся на карточке события. */
-.mm-list--grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mm-s-3); align-items: start; }
+/* Соседи по ряду одной высоты, и кнопки стоят на одной линии: заголовок
+   в одну строку против двух иначе уводил действие вниз, и ряд читался
+   кривым. Разницу забирает текстовый блок, а не обложка. */
+.mm-list--grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mm-s-3); align-items: stretch; }
+.mm-list--grid > li { display: grid; }
+.mm-list--grid .mm-event { grid-template-rows: auto 1fr auto; }
 .mm-list--grid .mm-cover { height: var(--mm-cover-h-sm); }
 .mm-list--grid .mm-person--compact figure { height: var(--mm-cover-h-sm); }
 .mm-list--grid .mm-event-body,
