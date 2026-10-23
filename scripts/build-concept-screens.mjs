@@ -439,6 +439,16 @@ for (const name of SCREENS) {
   body = body.replace(/<p class="photo( blur)?"(?: aria-hidden="true")?><\/p>/g,
     (m, blur) => `<p class="photo${blur || ''}"><img src="${portraitFor(name)}" alt="" loading="lazy"></p>`);
 
+  // Портрет в строке выдачи: имя стоит тут же, рядом, — по нему и берём.
+  // Снимки вставляются до перевода классов, но этот же проход зовут
+  // и после него, поэтому ловим оба написания строки.
+  body = body.replace(/<(a|li) class="(?:item person|mm-row mm-row--person)"([\s\S]*?)<\/\1>/g, (row) => {
+    const who = (row.match(/<b>([^,<]+)/) || [])[1] || '';
+    const hit = AVATAR_BY_NAME.find(([n]) => n === who) || [null, FACES.olena];
+    return row.replace(/<span class="(?:face|mm-face)"( aria-hidden="true")?><\/span>/,
+      `<span class="face" aria-hidden="true"><img src="${face(hit[1])}" alt="" loading="lazy"></span>`);
+  });
+
   // кружки рядом с именем
   let avatarTurn = 0;
   body = body.replace(/<(span|p)([^>]*)class="([^"]*\bwho\b[^"]*)"([^>]*)>([\s\S]*?)<\/\1>/g, (block) => {
