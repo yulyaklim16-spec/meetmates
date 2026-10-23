@@ -316,49 +316,41 @@ const sel = (state = '', value = 'Anyone', menu = '', note = '') => `<div class=
         </div>`;
 
 const GROUPS = [
-  grp(1, 'Кнопки', 'Три ступени иерархии — <b>главная</b>, <b>вторичная</b>, <b>третичная</b> — и у каждой четыре состояния: рабочее, наведение, нажатие и отключённая. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Опасное действие ступенью не считается: это та же третья сила, но своим цветом, и стоит оно рядом. Кнопка только с иконкой — та же кнопка, поэтому стоит второй строкой под своей ролью, а не отдельной группой: <code>Primary-Default-Only icon</code> идёт под <code>Primary-Default</code>. Отдельно стоит лишь то, у чего роли нет вовсе, — возврат. Растянутая на всю ширину — тоже та же кнопка, и отдельной клетки ей не нужно. Своего компонента нет и у строки действий <code>.mm-actions</code>: это раскладка, одна-две кнопки в ряд поровну, вида у неё никакого — её видно там, где она работает, в пустых состояниях и на плашке итога. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.', [
+  grp(1, 'Кнопки', 'Три ступени иерархии — <b>главная</b>, <b>вторичная</b>, <b>третичная</b> — и у каждой три состояния: рабочее, наведение и отключённая. Отдельного нажатия нет: наведение берёт его на себя, поэтому клетка так и названа — <code>Hover/Active</code>. Отключённая — та же кнопка в половину силы: роль остаётся видна, видно и то, что нажимать нечего. Опасное действие ступенью не считается: это та же третья сила, но своим цветом, и стоит оно рядом. Кнопка только с иконкой — та же кнопка, поэтому стоит второй строкой под своей ролью, а не отдельной группой: <code>Primary-Default-Only icon</code> идёт под <code>Primary-Default</code>. Отдельно стоит лишь то, у чего роли нет вовсе, — возврат. Растянутая на всю ширину — тоже та же кнопка, и отдельной клетки ей не нужно. Своего компонента нет и у строки действий <code>.mm-actions</code>: это раскладка, одна-две кнопки в ряд поровну, вида у неё никакого — её видно там, где она работает, в пустых состояниях и на плашке итога. Фокуса в матрице нет: он приходит от клавиатуры, а не от мыши, и рядом с наведением его не разглядывают — <code>:focus-visible</code> при этом остаётся в ките и обязателен.', [
     comp('Главная', '.mm-btn--primary · .mm-head-btn--primary', [
       cell('Primary-Default', btn(' mm-btn--primary', '', 'Ask to join')),
-      cell('Primary-Hover', btn(' mm-btn--primary', ' is-hover', 'Ask to join')),
-      cell('Primary-Pressed', btn(' mm-btn--primary', ' is-pressed', 'Ask to join')),
+      cell('Primary-Hover/Active', btn(' mm-btn--primary', ' is-hover', 'Ask to join')),
       cell('Primary-Disabled', '<button class="mm-btn mm-btn--primary" type="button" disabled>Verify to send</button>'),
       cell('Primary-Default-Only icon', `<button class="mm-head-btn mm-head-btn--primary" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`, 'kit-cell--nl'),
-      cell('Primary-Hover-Only icon', `<button class="mm-head-btn mm-head-btn--primary is-hover" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
-      cell('Primary-Pressed-Only icon', `<button class="mm-head-btn mm-head-btn--primary is-pressed" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
+      cell('Primary-Hover/Active-Only icon', `<button class="mm-head-btn mm-head-btn--primary is-hover" type="button" aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
       cell('Primary-Disabled-Only icon', `<button class="mm-head-btn mm-head-btn--primary" type="button" disabled aria-label="Post an event">${ico('post')}<span class="mm-vh">Post</span></button>`),
     ], 'Главная на экране одна. Отключённая — та же кнопка в половину силы: роль видно по-прежнему, видно и то, что она сейчас не работает. Надпись при этом говорит, что сделать: <code>Verify to send</code> — это гейт §7.3, и она называет условие. Вторая строка — та же роль в шапке, где места на слово нет: заливка та же, круг вместо пилюли, подпись уходит в <code>aria-label</code>. Состояния у неё те же четыре и стоят в тех же колонках.'),
 
     comp('Вторичная', '.mm-btn--quiet', [
       cell('Secondary-Default', btn(' mm-btn--quiet', '', 'Invite together')),
-      cell('Secondary-Hover', btn(' mm-btn--quiet', ' is-hover', 'Invite together')),
-      cell('Secondary-Pressed', btn(' mm-btn--quiet', ' is-pressed', 'Invite together')),
+      cell('Secondary-Hover/Active', btn(' mm-btn--quiet', ' is-hover', 'Invite together')),
       cell('Secondary-Disabled', '<button class="mm-btn mm-btn--quiet" type="button" disabled>Invite together</button>'),
     ], 'Сиреневая подложка без обводки. Отключённая остаётся сиреневой — приглушается, но роли не теряет. Строки «только иконка» у неё нет: в шапке вторичная не встречается ни на одном экране.'),
 
     comp('Третичная', '.mm-btn · .mm-head-btn', [
       cell('Tertiary-Default', btn('', '', 'Skip')),
-      cell('Tertiary-Hover', btn('', ' is-hover', 'Skip')),
-      cell('Tertiary-Pressed', btn('', ' is-pressed', 'Skip')),
+      cell('Tertiary-Hover/Active', btn('', ' is-hover', 'Skip')),
       cell('Tertiary-Disabled', '<button class="mm-btn" type="button" disabled>Skip</button>'),
       cell('Tertiary-Default-Only icon', `<button class="mm-head-btn" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`, 'kit-cell--nl'),
-      cell('Tertiary-Hover-Only icon', `<button class="mm-head-btn is-hover" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
-      cell('Tertiary-Pressed-Only icon', `<button class="mm-head-btn is-pressed" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
+      cell('Tertiary-Hover/Active-Only icon', `<button class="mm-head-btn is-hover" type="button">${ico('filters')}<span class="mm-vh">Filters</span></button>`),
       cell('Tertiary-Disabled-Only icon', `<button class="mm-head-btn" type="button" disabled>${ico('filters')}<span class="mm-vh">Filters</span></button>`),
     ], 'Ровная белая: это <code>Skip</code> рядом с залитым <code>Like</code>. Третья ступень иерархии — заливки нет, есть обводка и тень. Вторая строка — та же роль в шапке: белый кружок с тенью, подпись скрыта для скринридера, смысл берётся из места. Третья — подсказка в пустом чате: заливка, обводка и наведение те же, своё только выравнивание и вес, и по ним видно, что это предложенная фраза, а не кнопка рядом с главной. Отключённой подсказка не бывает: её либо предлагают, либо не показывают вовсе. Ширина состоянием не считается — на экране такая строка идёт во всю ширину, и площадка здесь показана широкой только затем, чтобы левый край надписи было видно.'),
 
     comp('Опасное действие', '.mm-danger-link · .mm-head-btn--danger', [
       cell('Danger-Default', `<button class="mm-danger-link" type="button">${ico('report')}Report or block</button>`),
-      cell('Danger-Hover', `<button class="mm-danger-link is-hover" type="button">${ico('report')}Report or block</button>`),
-      cell('Danger-Pressed', `<button class="mm-danger-link is-pressed" type="button">${ico('report')}Report or block</button>`),
+      cell('Danger-Hover/Active', `<button class="mm-danger-link is-hover" type="button">${ico('report')}Report or block</button>`),
       cell('Danger-Default-In header', `<button class="mm-head-btn mm-head-btn--danger" type="button">${ico('report')}Report</button>`, 'kit-cell--nl'),
-      cell('Danger-Hover-In header', `<button class="mm-head-btn mm-head-btn--danger is-hover" type="button">${ico('report')}Report</button>`),
-      cell('Danger-Pressed-In header', `<button class="mm-head-btn mm-head-btn--danger is-pressed" type="button">${ico('report')}Report</button>`),
+      cell('Danger-Hover/Active-In header', `<button class="mm-head-btn mm-head-btn--danger is-hover" type="button">${ico('report')}Report</button>`),
     ], 'Названа по роли, а не по экрану: это не «кнопка Report», а опасное действие — туда же встанут <code>Block</code> и удаление, когда понадобятся. Не заливка, а строка с иконкой: <code>--mm-danger</code> в продукте носит только опасное. Вторая строка — она же в шапке: мельче и со словом, потому что флажок сам по себе не читается, а угадывать действие безопасности нельзя. Отключённой она не бывает нигде: пожаловаться можно всегда.'),
 
     comp('Без заливки', '.mm-head-btn--back', [
       cell('No filling-Default-Only icon', '<a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
-      cell('No filling-Hover-Only icon', '<a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
-      cell('No filling-Pressed-Only icon', '<a class="mm-head-btn mm-head-btn--back is-pressed" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
+      cell('No filling-Hover/Active-Only icon', '<a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>'),
     ], 'Возврат: стрелка без круга и без заливки. Роли взяться не из чего, поэтому на её месте в имени стоит <code>No filling</code>. Направление обязано читаться без цвета — отсюда и голая стрелка. Отключённой она не бывает: уйти с экрана можно всегда.'),
   ]),
 
@@ -677,9 +669,9 @@ const kit = `<!doctype html>
   другой индекс полосы, другая ширина заглушки, другой размер кружка — тот же
   компонент, и ему место в одной клетке, а не в пяти.
 
-  Наведение и нажатие живут в браузере и рядом не ставятся — их рисуют классы
-  .is-hover и .is-pressed. Это не копия правил: в ui/kit.css они перечислены через
-  запятую с псевдоклассами, описание одно на двоих.
+  Наведение живёт в браузере и рядом не ставится — его рисует класс
+  .is-hover. Это не копия правил: в ui/kit.css он перечислен через запятую
+  с псевдоклассом, описание одно на двоих.
 
   Фокуса на витрине нет: он приходит от клавиатуры, его не разглядывают рядом
   с наведением. В ui/kit.css :focus-visible остаётся — без него тот, кто ходит

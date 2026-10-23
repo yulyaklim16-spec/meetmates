@@ -44,7 +44,7 @@
 :root {
   /* ── цвет ─────────────────────────────────────────────────────── */
   --mm-action: #0B051D;
-  --mm-action-hover: #1B1233;
+  --mm-action-hover: #2A1C4D;
   --mm-ink-on-action: #FFFFFF;
   --mm-label: #D9F56F;
   --mm-ink-on-label: #1A1026;
@@ -159,7 +159,6 @@
   /* Пружинной кривой в ките нет: ею возвращается свайп-карточка, а свайпа
      в ките не бывает — карточка стоит в клетке, её не тянут. Значение живёт
      в tokens/tokens.css (--ease-spring), оттуда его возьмёт прототип. */
-  --mm-press: scale(.98);
   /* наведение на карточку со снимком: обложка приближается */
   --mm-zoom-hover: 1.06;
   /* недоступный орган: тот же вид в половину силы */
@@ -343,12 +342,11 @@
 }
 .mm-head-btn:hover, .mm-head-btn.is-hover { background: var(--mm-surface-2); }
 /* нажатие то же, что у кнопки с текстом: это та же кнопка, просто в шапке */
-.mm-head-btn:active, .mm-head-btn.is-pressed { transform: var(--mm-press); }
 .mm-head-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
 .mm-head-btn svg { width: var(--mm-icon-md); height: var(--mm-icon-md); }
 /* создание — тёмная: в строке с фильтрами видно, какая из двух главная */
 .mm-head-btn--primary { order: 1; background: var(--mm-ink-900); color: var(--mm-surface); box-shadow: none; }
-.mm-head-btn--primary:hover, .mm-head-btn--primary.is-hover { background: var(--mm-ink-900); opacity: .9; }
+.mm-head-btn--primary:hover, .mm-head-btn--primary.is-hover { background: var(--mm-action-hover); }
 /* возврат: стоит только там, куда пришли с другого экрана. Стрелка, а не круг —
    направление должно читаться без цвета; отрицательный отступ возвращает её
    на край строки. Площадь нажатия те же 44px (так он размечен в вайрфрейме) */
@@ -418,8 +416,8 @@
 
 /* ═══ Кнопки ═══ */
 
-/* Нарисованные состояния. :hover и :active живут в браузере, и на витрине их
-   не поставить рядом. Классы .is-hover и .is-pressed дают тот же вид — и не копией,
+/* Нарисованное состояние. :hover живёт в браузере, и на витрине его
+   не поставить. Класс .is-hover даёт тот же вид — и не копией,
    а тем же правилом: селекторы перечислены через запятую, описание одно.
    В экране продукта этих классов нет, они для витрины.
 
@@ -447,7 +445,6 @@
   transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
 }
 .mm-btn:hover, .mm-btn.is-hover { background: var(--mm-surface-2); }
-.mm-btn:active, .mm-btn.is-pressed { transform: var(--mm-press); }
 .mm-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
 .mm-btn svg { width: var(--mm-icon-btn); height: var(--mm-icon-btn); }
 
@@ -489,7 +486,6 @@
   transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
 }
 .mm-danger-link:hover, .mm-danger-link.is-hover { background: var(--mm-surface-2); }
-.mm-danger-link:active, .mm-danger-link.is-pressed { transform: var(--mm-press); }
 .mm-danger-link svg { width: var(--mm-icon-btn); height: var(--mm-icon-btn); }
 
 /* строка действий: одна-две кнопки в ряд, поровну */
@@ -598,10 +594,49 @@
    а не дрожанием. */
 .mm-cover { overflow: hidden; }
 .mm-cover img { transition: transform var(--mm-dur-slow) var(--mm-ease-out); }
-/* Плитка: две карточки в ряд. Так устроена выдача поиска — там важнее
-   охват, а не размер снимка: за экран видно шесть попаданий вместо двух.
-   Карточка та же, меняются высота обложки и отступы; второе действие
-   в такую ширину не помещается и остаётся на карточке события. */
+a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
+.mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: scale(var(--mm-zoom-hover)); }
+.mm-event-acts { grid-column: 1 / -1; display: flex; gap: var(--mm-s-2); padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
+.mm-event-acts > .mm-btn { flex: 1; padding: 0 var(--mm-s-2); }
+.mm-event-acts > .mm-btn:first-child { flex: 1.6; }
+
+/* карточка человека: фото сверху, факты под ним, тап по всей площади — профиль */
+.mm-person {
+  position: relative;
+  flex: none;
+  height: var(--mm-card-h);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--mm-r-lg);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-md);
+  overflow: hidden;
+}
+/* Карточка держит свою высоту и в растягивающейся секции: токен --mm-card-h
+   одинаков везде (DESIGN.md). Прежде здесь стояло flex: 1 и height: auto —
+   карточка забирала остаток секции и менялась от того, что стоит рядом:
+   строка статуса в загрузке ужимала её на три десятка пикселей. */
+.mm-stretch > .mm-person { flex: none; }
+.mm-person figure { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; margin: 0; }
+.mm-photo { flex: 1; min-height: 0; margin: 0; background: var(--mm-surface-2); }
+.mm-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* фото дошло не целиком — показываем размытым и доводим по мере прихода (D-51) */
+.mm-photo--blur img { filter: blur(var(--mm-blur)); transform: scale(1.06); }
+/* подпись на самом снимке: так подписан видоискатель на верификации */
+.mm-photo-cap {
+  position: absolute;
+  left: var(--mm-s-3);
+  bottom: var(--mm-s-3);
+  margin: 0;
+  padding: var(--mm-s-hair) var(--mm-s-2);
+  border-radius: var(--mm-r-pill);
+  background: var(--mm-surface);
+  box-shadow: var(--mm-shadow-sm);
+  font-size: var(--mm-t-micro);
+  color: var(--mm-ink-600);
+}
+.mm-person-body { flex: none; display: flex; flex-direction: column; gap: var(--mm-s-1); padding: var(--mm-s-3) var(--mm-s-4) var(--mm-s-4); }
+.mm-person-body > p:last-child { margin: 0; }
 
 
 /* Заголовок группы и дверь на одной строке: группа едет вбок, и список
@@ -1232,5 +1267,4 @@
   .mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: none; }
   /* нажатие снимается у всего, что его показывает, а не у одной кнопки:
      раньше здесь стоял только .mm-btn, и кнопка шапки продолжала уезжать */
-  .mm-btn:active, .mm-head-btn:active, .mm-danger-link:active { transform: none; }
 }
