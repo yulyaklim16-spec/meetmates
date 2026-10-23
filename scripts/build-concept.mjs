@@ -39,7 +39,7 @@ const tok = (name) => {
 
 const PALETTE = [
   { title: 'Действие — один цвет на экран', names: ['--action', '--ink-on-action'] },
-  { title: 'Статусы', names: ['--verified', '--success', '--warn', '--danger'] },
+  { title: 'Статусы', names: ['--label', '--success', '--warn', '--danger'] },
   { title: 'Текст', names: ['--ink-900', '--ink-600', '--ink-400'] },
   { title: 'Поверхности', names: ['--bg', '--surface', '--surface-2', '--line'] },
 ];
@@ -54,7 +54,7 @@ ${g.names.map((n) => {
           </ul>
         </div>`).join('\n');
 
-const SCALE = ['--t-display', '--t-h1', '--t-h2', '--t-h3', '--t-body', '--t-body-sm', '--t-caption', '--t-micro'];
+const SCALE = ['--t-display', '--t-h1', '--t-h2', '--t-h3', '--t-body', '--t-body-sm', '--t-caption'];
 const scaleHtml = SCALE.map((n) => {
   const t = tok(n);
   const heading = /display|h1|h2/.test(n);

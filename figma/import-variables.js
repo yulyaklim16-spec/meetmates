@@ -169,34 +169,10 @@ const PRIMITIVE = [
     "css": "rose-300"
   },
   {
-    "path": "gradient/skeleton",
-    "type": "STRING",
-    "value": "linear-gradient(90deg, var(--lilac-50) 0%, var(--lilac-100) 50%, var(--lilac-50) 100%)",
-    "css": "gradient-skeleton"
-  },
-  {
     "path": "gradient/page-wash",
     "type": "STRING",
     "value": "radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)",
     "css": "gradient-page-wash"
-  },
-  {
-    "path": "effect/shadow-1",
-    "type": "STRING",
-    "value": "0 0 0 1px var(--gray-100), 0 1px 2px rgba(17, 17, 17, .04)",
-    "css": "shadow-1"
-  },
-  {
-    "path": "effect/shadow-2",
-    "type": "STRING",
-    "value": "0 0 0 1px var(--gray-100), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06)",
-    "css": "shadow-2"
-  },
-  {
-    "path": "effect/shadow-3",
-    "type": "STRING",
-    "value": "0 0 0 1px var(--gray-100), 0 2px 10px rgba(17, 17, 17, .07)",
-    "css": "shadow-3"
   },
   {
     "path": "effect/shadow-dot",
@@ -205,34 +181,10 @@ const PRIMITIVE = [
     "css": "shadow-dot"
   },
   {
-    "path": "effect/ring-hairline",
-    "type": "STRING",
-    "value": "0 0 0 1px var(--gray-100)",
-    "css": "ring-hairline"
-  },
-  {
-    "path": "effect/ring-hairline-inset",
-    "type": "STRING",
-    "value": "inset 0 0 0 1px var(--gray-100)",
-    "css": "ring-hairline-inset"
-  },
-  {
     "path": "effect/ring-dot",
     "type": "STRING",
     "value": "inset 0 0 0 1px var(--white)",
     "css": "ring-dot"
-  },
-  {
-    "path": "effect/ring-focus",
-    "type": "STRING",
-    "value": "0 0 0 1px var(--plum-400)",
-    "css": "ring-focus"
-  },
-  {
-    "path": "effect/ring-error",
-    "type": "STRING",
-    "value": "0 0 0 1px var(--crimson-600)",
-    "css": "ring-error"
   },
   {
     "path": "misc/font-sans",
@@ -738,52 +690,103 @@ const SEMANTIC = [
     "path": "border/hairline",
     "alias": "color/gray-100",
     "css": "border-hairline"
+  },
+  {
+    "path": "bg/hover",
+    "alias": "color/lilac-100",
+    "css": "bg-hover"
+  },
+  {
+    "path": "bg/selected",
+    "alias": "color/lilac-300",
+    "css": "bg-selected"
+  },
+  {
+    "path": "text/on-selected",
+    "alias": "color/plum-900",
+    "css": "text-on-selected"
+  },
+  {
+    "path": "color/action-hover",
+    "alias": "color/plum-800",
+    "css": "color-action-hover"
+  },
+  {
+    "path": "border/focus",
+    "alias": "color/plum-400",
+    "css": "border-focus"
+  },
+  {
+    "path": "bg/mine",
+    "alias": "color/lilac-200",
+    "css": "bg-mine"
+  },
+  {
+    "path": "bg/undelivered",
+    "alias": "color/rose-300",
+    "css": "bg-undelivered"
+  },
+  {
+    "path": "color/shadow-1",
+    "type": "STRING",
+    "value": "0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04)",
+    "css": "shadow-1"
+  },
+  {
+    "path": "color/shadow-2",
+    "type": "STRING",
+    "value": "0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06)",
+    "css": "shadow-2"
+  },
+  {
+    "path": "color/shadow-3",
+    "type": "STRING",
+    "value": "0 0 0 1px var(--border-hairline), 0 2px 10px rgba(17, 17, 17, .07)",
+    "css": "shadow-3"
+  },
+  {
+    "path": "color/ring-hairline",
+    "type": "STRING",
+    "value": "0 0 0 1px var(--border-hairline)",
+    "css": "ring-hairline"
+  },
+  {
+    "path": "color/ring-hairline-inset",
+    "type": "STRING",
+    "value": "inset 0 0 0 1px var(--border-hairline)",
+    "css": "ring-hairline-inset"
+  },
+  {
+    "path": "color/ring-focus",
+    "type": "STRING",
+    "value": "0 0 0 1px var(--border-focus)",
+    "css": "ring-focus"
+  },
+  {
+    "path": "color/ring-error",
+    "type": "STRING",
+    "value": "0 0 0 1px var(--color-danger)",
+    "css": "ring-error"
+  },
+  {
+    "path": "bg/skeleton",
+    "type": "STRING",
+    "value": "linear-gradient(90deg, var(--bg-nested) 0%, var(--bg-hover) 50%, var(--bg-nested) 100%)",
+    "css": "bg-skeleton"
   }
 ];
 
 const EFFECTS = [
   {
-    "name": "shadow-1",
-    "value": "0 0 0 1px var(--gray-100), 0 1px 2px rgba(17, 17, 17, .04)"
-  },
-  {
-    "name": "shadow-2",
-    "value": "0 0 0 1px var(--gray-100), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06)"
-  },
-  {
-    "name": "shadow-3",
-    "value": "0 0 0 1px var(--gray-100), 0 2px 10px rgba(17, 17, 17, .07)"
-  },
-  {
     "name": "shadow-dot",
     "value": "0 1px 3px rgba(11, 5, 29, .45)"
   },
   {
-    "name": "ring-hairline",
-    "value": "0 0 0 1px var(--gray-100)"
-  },
-  {
-    "name": "ring-hairline-inset",
-    "value": "inset 0 0 0 1px var(--gray-100)"
-  },
-  {
     "name": "ring-dot",
     "value": "inset 0 0 0 1px var(--white)"
-  },
-  {
-    "name": "ring-focus",
-    "value": "0 0 0 1px var(--plum-400)"
-  },
-  {
-    "name": "ring-error",
-    "value": "0 0 0 1px var(--crimson-600)"
   }
 ];
 const GRADIENTS = [
-  {
-    "name": "gradient-skeleton",
-    "value": "linear-gradient(90deg, var(--lilac-50) 0%, var(--lilac-100) 50%, var(--lilac-50) 100%)"
-  },
   {
     "name": "gradient-page-wash",
     "value": "radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)"
