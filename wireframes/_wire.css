@@ -375,7 +375,7 @@ section.stretch { flex: 1; min-height: 0; }
 .ico.sm { width: 14px; height: 14px; border-radius: 3px; }
 /* лента выдачи: ряд едет вбок, две карточки целиком и третья краем */
 .rows.rail {
-  display: flex; gap: var(--s-3); align-items: stretch;
+  display: flex; flex-direction: row; gap: var(--s-3); align-items: stretch;
   overflow-x: auto; scroll-snap-type: x proximity;
   margin: 0 calc(var(--s-4) * -1); padding: 0 var(--s-4) var(--s-2);
   scrollbar-width: none;
