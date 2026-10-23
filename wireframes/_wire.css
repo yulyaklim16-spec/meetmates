@@ -392,6 +392,9 @@ section.stretch { flex: 1; min-height: 0; }
 .card.compact figure { position: relative; inset: auto; flex: none; height: 132px; }
 .card.compact .photo { height: 100%; }
 .card.compact .body { position: static; }
+a.card.compact { text-decoration: none; color: inherit; }
+/* в 170px сигналы не встают в строку — идут друг под другом */
+.rows.grid .signals { flex-direction: column; align-items: flex-start; }
 
 .avatar {
   display: inline-block;
