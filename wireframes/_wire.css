@@ -351,6 +351,7 @@ section.stretch { flex: 1; min-height: 0; }
 .tags { display: flex; flex-wrap: wrap; gap: var(--s-2); color: var(--w-ink-2); font-size: 14px; }
 .tags li + li::before { content: "·"; margin-right: var(--s-2); }
 .signals { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.signals b { font-weight: 700; color: var(--w-ink); }
 .signals li {
   display: inline-flex; align-items: center; gap: var(--s-2);
   border: 1px solid var(--w-line);

@@ -783,6 +783,9 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   color: var(--mm-ink-600);
 }
 .mm-signals li { display: inline-flex; align-items: center; gap: var(--mm-s-1); }
+/* Дата тяжелее времени и на карточке события тоже (D-63): по числу решают,
+   час его только уточняет. */
+.mm-signals b { font-weight: var(--mm-fw-semibold); color: var(--mm-ink-900); }
 .mm-signals li + li::before { content: "\00B7"; margin-right: var(--mm-s-1); color: var(--mm-ink-400); }
 /* один факт пересчитывается — на его месте заглушка, остальные стоят текстом.
    Форма та же, что у полосы текста: высота ниже строки, поэтому ряд не растёт
