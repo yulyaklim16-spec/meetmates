@@ -18,11 +18,10 @@ colors:
   hover: "#E9E1F1"
   selected: "#E0D6EE"
   mine: "#E3DAEF"
+  success: "#1C7A4E"   # только стенд стиля: поле прошло тест D-23
   danger: "#C01F4A"
   danger-ink: "#96123A"
   danger-soft: "#F59BAF"
-  success: "#1C7A4E"   # объявлен палитрой, на экранах не используется
-  warn: "#8A5200"      # то же
 typography:
   display:
     fontFamily: "Figtree, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif"
