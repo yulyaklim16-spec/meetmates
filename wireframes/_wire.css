@@ -383,31 +383,29 @@ section.stretch { flex: 1; min-height: 0; }
 }
 .rows.rail::-webkit-scrollbar { width: 0; height: 0; }
 .rows.rail > li { flex: 0 0 150px; scroll-snap-align: start; }
-.rows.rail .item.ev { grid-template-rows: auto 1fr; }
-/* на мелком кадре лейба сжимается до галочки: слово остаётся в разметке */
-.rows.rail .verified { gap: 0; padding: 2px; font-size: 0; }
-.rows.rail .cardtop { gap: 4px; }
+/* короткий вид объявлен на самой карточке и на самой лейбе, а не «внутри ленты» */
+.item.ev.compact { grid-template-rows: auto 1fr; }
+.item.ev.compact .cover { height: 96px; }
+.item.ev.compact .body { padding: var(--s-2) var(--s-3) var(--s-3); }
+.item.ev.compact .top { flex-direction: column; align-items: flex-start; gap: 4px; }
+.item.ev.compact .top b { flex: none; }
+.item.ev.compact .top .when { margin-left: 0; }
+.verified.compact { gap: 0; padding: 2px; }
+.item.ev.compact .cardtop, .card.compact .cardtop { gap: 4px; }
 .grouphead { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); }
 .grouphead h3 { margin: 0; }
 .more { flex: none; display: inline-flex; align-items: center; gap: 4px; font-size: 14px; }
-.rows.rail .item.ev { height: auto; }
-.rows.rail .item.ev .cover { height: 96px; }
-.rows.rail .card.compact figure { height: 96px; }
-.rows.rail .item.ev .body { padding: var(--s-2) var(--s-3) var(--s-3); }
-.rows.rail .item.ev .top { flex-direction: column; align-items: flex-start; gap: 4px; }
-.rows.rail .item.ev .top b { flex: none; }
-.rows.rail .item.ev .top .when { margin-left: 0; }
 
 /* человек в выдаче поиска: та же карточка, что в колоде, но короче.
    В колоде фото лежит на всей карточке, а текст подложкой поверх него;
    здесь карточка стопкой — снимок сверху, факты под ним */
 .card.compact { height: auto; display: flex; flex-direction: column; }
-.card.compact figure { position: relative; inset: auto; flex: none; height: 132px; }
+.card.compact figure { position: relative; inset: auto; flex: none; height: 96px; }
 .card.compact .photo { height: 100%; }
 .card.compact .body { position: static; }
 a.card.compact { text-decoration: none; color: inherit; }
+.card.compact .signals { flex-direction: column; align-items: flex-start; }
 /* в 170px сигналы не встают в строку — идут друг под другом */
-.rows.rail .signals { flex-direction: column; align-items: flex-start; }
 
 .avatar {
   display: inline-block;

@@ -593,8 +593,10 @@
    Карточка та же, меняются высота обложки и отступы; второе действие
    в такую ширину не помещается и остаётся на карточке события. */
 /* Лента выдачи: ряд едет вбок, две карточки целиком и третья краем.
-   Соседи по ряду одной высоты — заголовок в одну строку против двух иначе
-   делал ряд кривым; разницу забирает текстовый блок, а не обложка. */
+   Лента только раскладывает — вид карточки она не трогает: короткий вид
+   карточка объявляет сама классом --compact. Иначе компонент переставал бы
+   отвечать за свой вид, а правило «внутри ленты выгляди иначе» не переносится
+   ни в один фреймворк. */
 .mm-list--rail {
   display: flex; flex-direction: row; gap: var(--mm-s-3); align-items: stretch;
   overflow-x: auto; scroll-snap-type: x proximity; scroll-padding: 0 var(--mm-s-4);
@@ -603,22 +605,18 @@
 }
 .mm-list--rail::-webkit-scrollbar { width: 0; height: 0; }
 .mm-list--rail > li { flex: 0 0 var(--mm-rail-card); scroll-snap-align: start; }
-.mm-list--rail .mm-event { grid-template-rows: auto 1fr; }
-.mm-list--rail .mm-cover { height: var(--mm-cover-h-sm); }
-/* Мелкая карточка — та же карточка, уменьшенная: знаки стоят там же,
-   в правом верхнем углу, и выглядят так же. Лицо освобождает размер,
-   а не перестановка — на кадре 154×120 лейба сжимается до галочки.
-   Слово остаётся в разметке: его читает скринридер, и перепись его видит. */
-.mm-list--rail .mm-verified { gap: 0; padding: var(--mm-s-1); font-size: 0; }
-.mm-list--rail .mm-cardtop { top: var(--mm-s-2); right: var(--mm-s-2); gap: var(--mm-s-1); }
-.mm-list--rail .mm-event-body { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
-/* В плитку заголовок и «когда» в одну строку не встают: дата вклинивалась
-   в середину названия. Поэтому здесь они столбиком — сначала занятие,
-   под ним день и час. Порядок чтения тот же, что в ленте (D-63). */
-.mm-list--rail .mm-event-head { flex-direction: column; align-items: flex-start; gap: var(--mm-s-1); }
-.mm-list--rail .mm-event-head > b { flex: none; }
-.mm-list--rail .mm-event-head .mm-meta { margin-left: 0; }
-.mm-list--rail .mm-subhead { font-size: var(--mm-t-body); }
+
+/* Короткий вид карточки события: обложка ниже, текст плотнее, действия нет.
+   Заголовок и «когда» встают столбиком — в одну строку дата вклинивалась
+   в середину названия. Порядок чтения тот же, что в ленте (D-63). */
+.mm-event--compact { grid-template-rows: auto 1fr; }
+.mm-event--compact .mm-cardtop,
+.mm-person--compact .mm-cardtop { top: var(--mm-s-2); right: var(--mm-s-2); gap: var(--mm-s-1); }
+.mm-event--compact .mm-cover { height: var(--mm-cover-h-sm); }
+.mm-event--compact .mm-event-body { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
+.mm-event--compact .mm-event-head { flex-direction: column; align-items: flex-start; gap: var(--mm-s-1); }
+.mm-event--compact .mm-event-head > b { flex: none; }
+.mm-event--compact .mm-event-head .mm-meta { margin-left: 0; }
 
 a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
 .mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: scale(var(--mm-zoom-hover)); }
@@ -668,20 +666,18 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
    не могут быть разного веса. Решают по-прежнему не здесь — тап открывает
    профиль, где стоят Skip и Like, поэтому кнопки на ней нет. */
 .mm-person--compact { height: auto; }
-.mm-person--compact figure { flex: none; height: var(--mm-cover-h); }
+.mm-person--compact figure { flex: none; height: var(--mm-cover-h-sm); }
 /* Коротким видом карточка стала ссылкой целиком — тап открывает профиль.
    Подчёркивание с неё снимается: подчёркнуты были бы и имя, и интересы,
    и сигналы. Кнопки на ней нет: в выдаче не решают (D-67). */
 a.mm-person { text-decoration: none; color: inherit; }
 
-/* Короткий вид в плитке: обложка ещё ниже, поля уже — две карточки в ряд. */
-.mm-list--rail .mm-person--compact figure { height: var(--mm-cover-h-sm); }
-.mm-list--rail .mm-person-body { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
-/* В 170px сигналы не встают в строку: точка-разделитель оставалась висеть
-   в начале второй строки. В плитке они идут друг под другом, и разделитель
-   не нужен — его место занимает перенос. */
-.mm-list--rail .mm-signals { flex-direction: column; align-items: flex-start; gap: var(--mm-s-hair); }
-.mm-list--rail .mm-signals li + li::before { content: none; margin: 0; }
+/* Сигналы в короткой карточке идут друг под другом: в 154px они не встают
+   в строку, и точка-разделитель оставалась висеть в начале второй. */
+.mm-person--compact .mm-person-body { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
+.mm-person--compact .mm-subhead { font-size: var(--mm-t-body); }
+.mm-person--compact .mm-signals { flex-direction: column; align-items: flex-start; gap: var(--mm-s-hair); }
+.mm-person--compact .mm-signals li + li::before { content: none; margin: 0; }
 
 /* Заголовок группы и дверь на одной строке: группа едет вбок, и список
    кончается не концом, а краем экрана — дверь под ним осталась бы незамеченной.
@@ -831,6 +827,10 @@ a.mm-person { text-decoration: none; color: inherit; }
   font-weight: var(--mm-fw-semibold);
 }
 .mm-verified svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
+/* Короткий вид лейбы — одна галочка: слово на кадр 154×120 не помещается
+   и в разметке уходит в скрытую подпись. Это модификатор самой лейбы,
+   а не правило «внутри ленты»: вид компонента задаёт компонент. */
+.mm-verified--compact { gap: 0; padding: var(--mm-s-1); }
 
 /* ═══ Формы ═══ */
 

@@ -437,6 +437,7 @@ const GROUPS = [
       cell('Event-Default', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join') }), 'kit-cell--wide'),
       cell('Event-Hover', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join'), cardState: ' is-hover' }), 'kit-cell--wide'),
       cell('Event-Default-Two actions', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join') + btn(' mm-btn--quiet', '', 'Invite') }, 'run', 'Morning run along the embankment', 'No date yet', 'Podil &middot; ~1 km', '1 going &middot; 2 spots left'), 'kit-cell--wide'),
+      cell('Event-Default-Compact', evCard({ html: '' }).replace('mm-event"', 'mm-event mm-event--compact"'), 'kit-cell--card'),
       cell('Event-Default-No spots', evCard({ html: '<button class="mm-btn mm-btn--primary" type="button" disabled>No spots left</button>' }, 'coffee', 'Coffee and a walk in Podil', 'Sun 11:00', 'Podil &middot; ~2 km', 'No spots left &middot; Women only'), 'kit-cell--wide'),
     ], 'Три уровня чтения (<code>D-55</code>…<code>D-58</code>): что и когда · где · сколько мест. Обложка идёт во всю ширину сверху — прежняя полоса в 104px слева снимок обозначала, а не показывала. На снимке один знак — округлённое расстояние: отметка проверки на снимок события не ставится (<code>D-66</code>), её место там, где виден человек. В тексте под снимком остаются занятие с датой, площадка и счётчик. Дата стоит рядом с временем и тяжелее его: по ней решают. Где мест два и больше, появляется второе действие — <code>Invite</code>. Заполненное событие пишется словом, а не нулём (<code>D-60</code>).'),
 
@@ -465,6 +466,7 @@ const GROUPS = [
   grp(5, 'Отметки и факты', 'Всё, чем карточка подтверждает себя: проверка, расстояние, интересы, сигналы доверия. Состояний у них нет — есть присутствие и отсутствие: нет данных, нет и строки.', [
     comp('Отметка проверки', '.mm-verified', [
       cell('Verified-Default', `<span class="mm-verified">${I.verified}Verified</span>`),
+      cell('Verified-Default-Compact', `<span class="mm-verified mm-verified--compact">${I.verified}<span class="mm-vh">Verified</span></span>`),
     ], 'Одна на весь продукт: слово с галочкой на лаймовой лейбе. Стоит и сама по себе — в превью события от автора остаётся один <code>Verified</code> (<code>D-57</code>), — и первой строкой в сигналах доверия, поэтому у неё своя клетка. Пустой <code>--mm-label</code> выключает подложку, и слово возвращается к цвету текста.'),
 
     comp('Сигналы доверия', '.mm-signals', [

@@ -230,8 +230,8 @@ function dressInKit(body, name) {
       `<a class="mm-tab${/aria-current/.test(attrs) ? ' is-current' : ''}" ${attrs}>`)}</nav>`);
 
   // 3. карточка события
-  s = s.replace(/<li class="item ev">([\s\S]*?)<\/li>/g, (li, inner) =>
-    `<li class="mm-event">${inner
+  s = s.replace(/<li class="item ev( compact)?">([\s\S]*?)<\/li>/g, (li, mod, inner) =>
+    `<li class="mm-event${mod ? ' mm-event--compact' : ''}">${inner
       .replace(/<span class="cover"/, '<span class="mm-cover"')
       .replace(/<span class="body">/, '<span class="mm-event-body">')
       .replace(/<(a|span) class="top"/, '<$1 class="mm-event-head"')
@@ -247,6 +247,7 @@ function dressInKit(body, name) {
   // короткий вид карточки человека в выдаче поиска — ссылкой целиком:
   // в выдаче не решают, тап открывает профиль, где стоят Skip и Like
   s = s.replace(/<a class="card compact"/g, '<a class="mm-person mm-person--compact"');
+  s = s.replace(/<span class="verified compact"/g, '<span class="mm-verified mm-verified--compact"');
   s = s.replace(/<section class="body skeleton"/g, '<section class="mm-person-body"');
   s = s.replace(/<section class="body"/g, '<section class="mm-person-body"');
   s = s.replace(/<p class="photo blur"/g, '<p class="mm-photo mm-photo--blur"');
@@ -348,7 +349,7 @@ for (const name of SCREENS) {
   let body = src.slice(from, to);
 
   // 3. фото в обложки
-  body = body.replace(/<li class="item ev">([\s\S]*?)<\/li>/g, (li, inner) => {
+  body = body.replace(/<li class="item ev(?: compact)?">([\s\S]*?)<\/li>/g, (li, inner) => {
     const t = (inner.match(/<b>([^<]*)<\/b>/) || [])[1] || '';
     // карточка-заглушка: названия нет, потому что данные ещё не пришли —
     // обложка остаётся серым прямоугольником, местом под фотографию
@@ -369,11 +370,12 @@ for (const name of SCREENS) {
     if (!/<img/.test(m[1])) throw new Error(`${name}: осталась пустая обложка`);
   }
 
-  // 4. иконки по подписи
-  body = body.replace(/<span class="ico( lg| sm)?" aria-hidden="true"><\/span>([A-Za-z]+)/g, (m, size, label) => {
+  // 4. иконки по подписи. Подпись бывает обёрнута в скрытую: в коротком виде
+  // лейбы слово не показывается, но иконку выбирает по-прежнему оно
+  body = body.replace(/<span class="ico( lg| sm)?" aria-hidden="true"><\/span>(<span class="vh">)?([A-Za-z]+)/g, (m, size, vh, label) => {
     const icon = ICON_BY_LABEL[label];
     if (!icon) throw new Error(`${name}: нет иконки для «${label}»`);
-    return `<span class="ico${size || ''}" aria-hidden="true">${svg(icon)}</span>${label}`;
+    return `<span class="ico${size || ''}" aria-hidden="true">${svg(icon)}</span>${vh || ''}${label}`;
   });
   for (const [re, icon, dir] of ICON_BY_PLACE) {
     body = body.replace(new RegExp(re.source, 'g'), (m) =>
