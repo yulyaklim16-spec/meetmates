@@ -42,7 +42,7 @@
    на роль, а не на другое значение. */
 
 /* активная — на сиренево-серой пилюле, иконка залитая и тёмная */
-.mm-tab.is-current { background: var(--lilac-300); color: var(--text-primary); box-shadow: var(--ring-hairline-inset), var(--shadow-1); }
+.mm-tab.is-current { background: var(--bg-selected); color: var(--text-on-selected); box-shadow: var(--ring-hairline-inset), var(--shadow-1); }
 
 /* Фокус у всего остального, что нажимается. Раньше его носили только кнопки
    и поле, а вкладка, строка списка, заголовок события и карточка-ссылка

@@ -17,7 +17,7 @@
   display: block;
   margin: 0;
   border-radius: var(--radius-sm);
-  background: var(--gradient-skeleton);
+  background: var(--bg-skeleton);
   background-size: 200% 100%;
   animation: mm-skel var(--duration-skeleton) var(--ease-out) infinite;
 }

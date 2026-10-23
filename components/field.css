@@ -143,7 +143,7 @@
    ещё нет — их назовут на уроке 9, и тогда var() здесь сменится
    на роль, а не на другое значение. */
 
-.mm-field:hover, .mm-field.is-hover { background: var(--lilac-100); }
+.mm-field:hover, .mm-field.is-hover { background: var(--bg-hover); }
 
 .mm-field:focus-within, .mm-field.is-focus { background: var(--bg-surface); box-shadow: var(--ring-focus); }
 
@@ -162,6 +162,6 @@
 
 .mm-field-btn:focus-visible { outline: none; box-shadow: var(--ring-focus); border-radius: var(--radius-pill); }
 
-.mm-menu a:hover, .mm-menu a.is-hover { background: var(--lilac-100); }
+.mm-menu a:hover, .mm-menu a.is-hover { background: var(--bg-hover); }
 
-.mm-menu a.is-current { background: var(--lilac-300); font-weight: var(--weight-600); }
+.mm-menu a.is-current { background: var(--bg-selected); font-weight: var(--weight-600); }
