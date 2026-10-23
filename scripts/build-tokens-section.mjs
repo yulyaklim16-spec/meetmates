@@ -147,7 +147,10 @@ const group = (rows, re) => rows.filter((r) => re.test(r.name));
 const num = (v) => { const m = String(v).match(/-?\d*\.?\d+/); return m ? parseFloat(m[0]) : -Infinity; };
 const desc = (rows) => [...rows].sort((a, b) => num(b.value) - num(a.value));
 
-const colorGroups = [...new Set(prim.filter((r) => isColor(r.value) || /gradient|shadow|ring/.test(r.name)).map((r) => r.group))];
+// Группы отбираются по имени группы, а не по именам токенов внутри:
+// --size-dot-ring затягивал в таблицу цвета весь «размер», и она двоилась.
+const colorGroups = [...new Set(prim.map((r) => r.group))]
+  .filter((g) => /^цвет|тень и кольцо/.test(g));
 const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
 const colorHtml = colorGroups.map((g) => `      <h3>${esc(cap(g))}</h3>\n${colorTable(prim.filter((r) => r.group === g))}`).join('\n\n');
 
@@ -160,7 +163,22 @@ const spaceHtml = scaleTable(desc(group(prim, /^--space/)), (r) =>
   `<i class="bar" style="width:${/px/.test(r.value) ? r.value : '8px'}"></i>`);
 const radiusHtml = scaleTable(desc(group(prim, /^--radius/)), (r) =>
   `<i class="sw sw--radius" style="border-radius:${r.value}"></i>`);
-const sizeHtml = scaleTable(desc(group(prim, /^--size|^--width|^--measure/)), () => '<i class="sw sw--none"></i>');
+// Образец размера — полоса настоящей длины, сжатая общим масштабом: 844px
+// в клетку не влезает, но рядом с 16px должно быть видно, что это разные
+// порядки. Проценты и ch меряются не в пикселях — у них полосы нет.
+const sizeRows = desc(group(prim, /^--size|^--width|^--measure/));
+const maxPx = Math.max(...sizeRows.map((r) => (/px$/.test(r.value) ? Math.abs(parseFloat(r.value)) : 0)));
+const sizeHtml = scaleTable(sizeRows, (r) => {
+  // проценты меряются от родителя, а не от экрана: их полоса своя,
+  // в долю от той же сотни двадцати, и видно, что это доля, а не пиксели
+  if (/%$/.test(r.value)) {
+    const w = Math.max(2, Math.round((parseFloat(r.value) / 100) * 120));
+    return `<i class="bar bar--part" style="width:${w}px"></i>`;
+  }
+  if (!/px$/.test(r.value)) return '<span class="dim">—</span>';
+  const w = Math.max(2, Math.round((Math.abs(parseFloat(r.value)) / maxPx) * 120));
+  return `<i class="bar bar--size" style="width:${w}px"></i>`;
+});
 
 // ── текст раздела ─────────────────────────────────────────────────────
 function blocks(text) {
@@ -230,6 +248,9 @@ ${TABS_CSS}
 .sw--none { background: repeating-linear-gradient(45deg, var(--surface-2) 0 4px, transparent 4px 8px); }
 .type { display: inline-block; line-height: 1; color: var(--ink-900); }
 .bar { display: inline-block; height: 12px; border-radius: 2px; background: var(--brand-a); vertical-align: middle; }
+.bar--size { height: 8px; background: var(--ink-400); }
+.bar--part { height: 8px; background: repeating-linear-gradient(90deg, var(--ink-400) 0 6px, transparent 6px 9px); }
+.tok .c-sw { width: 136px; }
 #info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 `;
 
@@ -246,6 +267,8 @@ ${aside}
       <p class="eyebrow">Раздел 08</p>
       <h1>Дизайн-токены</h1>
       <p class="lede">Два слоя: <b>примитив</b> — значение само по себе, <b>роль</b> — ответственность.
+        Это и есть слои <code>PRIMITIVE</code> и <code>SEMANTIC</code> в <a href="../tokens.css">tokens.css</a>:
+        «роль» и «семантический токен» — одно и то же.
         Компонент берёт цвет только ролью, геометрию — только примитивом. Таблицы ниже собраны
         из <a href="../tokens.css">tokens.css</a> при сборке страницы, поэтому отстать не могут.</p>
       <div class="chips">
@@ -264,14 +287,14 @@ ${infoHtml}
       <h1 class="vh">Дизайн-токены: набор</h1>
 
       <section id="prim-color">
-        <h2>Примитивы: цвет и составные значения</h2>
+        <h2>Примитивы (<code>PRIMITIVE</code>): цвет и составные значения</h2>
         <p class="intro">Имя говорит, <b>что это</b>, и молчит о месте. Компонент к ним
           за цветом не обращается — только роль.</p>
 ${colorHtml}
       </section>
 
       <section id="roles">
-        <h2>Роли</h2>
+        <h2>Роли (<code>SEMANTIC</code>)</h2>
         <p class="intro">Каждая показывает на примитив и ни на что больше. Третья колонка —
           во что роль упирается сейчас; четвёртая — из какого употребления она выросла.</p>
 ${semHtml}

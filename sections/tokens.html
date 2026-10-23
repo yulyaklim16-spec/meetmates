@@ -362,6 +362,9 @@ footer p { max-width: 72ch; }
 .sw--none { background: repeating-linear-gradient(45deg, var(--surface-2) 0 4px, transparent 4px 8px); }
 .type { display: inline-block; line-height: 1; color: var(--ink-900); }
 .bar { display: inline-block; height: 12px; border-radius: 2px; background: var(--brand-a); vertical-align: middle; }
+.bar--size { height: 8px; background: var(--ink-400); }
+.bar--part { height: 8px; background: repeating-linear-gradient(90deg, var(--ink-400) 0 6px, transparent 6px 9px); }
+.tok .c-sw { width: 136px; }
 #info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 </style>
 </head>
@@ -402,6 +405,8 @@ footer p { max-width: 72ch; }
       <p class="eyebrow">Раздел 08</p>
       <h1>Дизайн-токены</h1>
       <p class="lede">Два слоя: <b>примитив</b> — значение само по себе, <b>роль</b> — ответственность.
+        Это и есть слои <code>PRIMITIVE</code> и <code>SEMANTIC</code> в <a href="../tokens.css">tokens.css</a>:
+        «роль» и «семантический токен» — одно и то же.
         Компонент берёт цвет только ролью, геометрию — только примитивом. Таблицы ниже собраны
         из <a href="../tokens.css">tokens.css</a> при сборке страницы, поэтому отстать не могут.</p>
       <div class="chips">
@@ -418,6 +423,7 @@ footer p { max-width: 72ch; }
 
       <section id="два-слоя-и-граница-между-ними-жёсткая">
         <h2>Два слоя, и граница между ними жёсткая</h2>
+<p>Слои названы в самом файле: <code>PRIMITIVE</code> и <code>SEMANTIC</code>. <strong>«Роль» и «семантический токен» — одно и то же слово о разном</strong>: первое говорит, что элемент делает, второе — в каком слое он лежит. В Figma это коллекции <code>Primitive</code> и <code>Semantic</code>.</p>
 <p><strong>Примитив — это значение.</strong> <code>--plum-900: #1A1026</code>, <code>--space-16: 16px</code>, <code>--radius-lg: 26px</code>. Имя говорит, <strong>что это</strong>, и ничего не говорит о месте: сливовый 900 остаётся сливовым 900, где бы ни стоял.</p>
 <p><strong>Роль — это ответственность.</strong> <code>--bg-surface</code>, <code>--text-muted</code>, <code>--color-action</code>, <code>--border-hairline</code>. Имя говорит, <strong>за что отвечает</strong>, а значение — всегда <code>var()</code> на примитив. Своего числа у роли не бывает.</p>
 <p>Разделение отвечает на два разных вопроса, которые в одном слое склеиваются. «Поменяй оттенок сиреневого» — правка примитива, и она разойдётся всюду сама. «Фон карточки теперь не белый» — правка роли, и она не тронет остальные белые места. Пока слой был один, эти правки были неразличимы, а имена давались по месту: <code>--card-ring</code>, <code>--tab-current</code>, <code>--glass-strong</code>. Такое имя перестаёт отвечать на вопрос «куда это ставить», как только компонент переезжает.</p>
@@ -456,7 +462,7 @@ footer p { max-width: 72ch; }
       <h1 class="vh">Дизайн-токены: набор</h1>
 
       <section id="prim-color">
-        <h2>Примитивы: цвет и составные значения</h2>
+        <h2>Примитивы (<code>PRIMITIVE</code>): цвет и составные значения</h2>
         <p class="intro">Имя говорит, <b>что это</b>, и молчит о месте. Компонент к ним
           за цветом не обращается — только роль.</p>
       <h3>Цвет: нейтральное</h3>
@@ -519,52 +525,10 @@ footer p { max-width: 72ch; }
     <tr><td><i class="sw sw--shadow" style="box-shadow:inset 0 0 0 1px var(--white)"></i></td><td><code>--ring-dot</code></td><td class="val"><code>inset 0 0 0 1px var(--white)</code></td><td class="tnote">—</td></tr>
   </tbody>
 </table>
-
-      <h3>Размер</h3>
-<table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
-  <tbody>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-screen-h</code></td><td class="val"><code>844px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-card</code></td><td class="val"><code>400px</code></td><td class="tnote">карточка человека</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-screen-w</code></td><td class="val"><code>390px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar</code></td><td class="val"><code>340px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-cover</code></td><td class="val"><code>168px</code></td><td class="tnote">обложка события</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-textarea</code></td><td class="val"><code>96px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-state-icon</code></td><td class="val"><code>64px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-thumb</code></td><td class="val"><code>56px</code></td><td class="tnote">миниатюра в строке выдачи</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-control</code></td><td class="val"><code>44px</code></td><td class="tnote">минимальный тач-таргет</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-lg</code></td><td class="val"><code>32px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-md</code></td><td class="val"><code>24px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-avatar</code></td><td class="val"><code>24px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-button</code></td><td class="val"><code>20px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-sm</code></td><td class="val"><code>16px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-scroll-gutter</code></td><td class="val"><code>10px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-avatar-drop</code></td><td class="val"><code>-6px</code></td><td class="tnote">посадка кружка на базовую линию</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-5</code></td><td class="val"><code>300px</code></td><td class="tnote">Пять колец радара. Числа лежат здесь, а координаты снимков на кольцах — в components/radar.css и остаются числами: это рисунок, а не шкала.</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-4</code></td><td class="val"><code>250px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-3</code></td><td class="val"><code>200px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-2</code></td><td class="val"><code>150px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-1</code></td><td class="val"><code>100px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-count</code></td><td class="val"><code>80px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-lg</code></td><td class="val"><code>72px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot</code></td><td class="val"><code>56px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-sm</code></td><td class="val"><code>40px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-pill</code></td><td class="val"><code>20px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-blur-photo</code></td><td class="val"><code>14px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-line</code></td><td class="val"><code>12px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-pager-dot</code></td><td class="val"><code>6px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-ring</code></td><td class="val"><code>4px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-hairline</code></td><td class="val"><code>1px</code></td><td class="tnote">физический пиксель: клип скрытой подписи</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--width-bubble</code></td><td class="val"><code>80%</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--width-l</code></td><td class="val"><code>62%</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--width-m</code></td><td class="val"><code>44%</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--width-s</code></td><td class="val"><code>28%</code></td><td class="tnote">—</td></tr>
-  </tbody>
-</table>
       </section>
 
       <section id="roles">
-        <h2>Роли</h2>
+        <h2>Роли (<code>SEMANTIC</code>)</h2>
         <p class="intro">Каждая показывает на примитив и ни на что больше. Третья колонка —
           во что роль упирается сейчас; четвёртая — из какого употребления она выросла.</p>
       <h3>Прочее</h3>
@@ -681,42 +645,42 @@ footer p { max-width: 72ch; }
 <table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-screen-h</code></td><td class="val"><code>844px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-card</code></td><td class="val"><code>400px</code></td><td class="tnote">карточка человека</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-screen-w</code></td><td class="val"><code>390px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar</code></td><td class="val"><code>340px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-5</code></td><td class="val"><code>300px</code></td><td class="tnote">Пять колец радара. Числа лежат здесь, а координаты снимков на кольцах — в components/radar.css и остаются числами: это рисунок, а не шкала.</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-4</code></td><td class="val"><code>250px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-3</code></td><td class="val"><code>200px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-cover</code></td><td class="val"><code>168px</code></td><td class="tnote">обложка события</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-2</code></td><td class="val"><code>150px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-1</code></td><td class="val"><code>100px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-textarea</code></td><td class="val"><code>96px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-count</code></td><td class="val"><code>80px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--width-bubble</code></td><td class="val"><code>80%</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-lg</code></td><td class="val"><code>72px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-state-icon</code></td><td class="val"><code>64px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--width-l</code></td><td class="val"><code>62%</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-thumb</code></td><td class="val"><code>56px</code></td><td class="tnote">миниатюра в строке выдачи</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot</code></td><td class="val"><code>56px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-control</code></td><td class="val"><code>44px</code></td><td class="tnote">минимальный тач-таргет</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--width-m</code></td><td class="val"><code>44%</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-sm</code></td><td class="val"><code>40px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-lg</code></td><td class="val"><code>32px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--measure-text</code></td><td class="val"><code>30ch</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--width-s</code></td><td class="val"><code>28%</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-md</code></td><td class="val"><code>24px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-avatar</code></td><td class="val"><code>24px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-button</code></td><td class="val"><code>20px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-pill</code></td><td class="val"><code>20px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-sm</code></td><td class="val"><code>16px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-blur-photo</code></td><td class="val"><code>14px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-line</code></td><td class="val"><code>12px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-scroll-gutter</code></td><td class="val"><code>10px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-pager-dot</code></td><td class="val"><code>6px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-ring</code></td><td class="val"><code>4px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-hairline</code></td><td class="val"><code>1px</code></td><td class="tnote">физический пиксель: клип скрытой подписи</td></tr>
-    <tr><td><i class="sw sw--none"></i></td><td><code>--size-avatar-drop</code></td><td class="val"><code>-6px</code></td><td class="tnote">посадка кружка на базовую линию</td></tr>
+    <tr><td><i class="bar bar--size" style="width:120px"></i></td><td><code>--size-screen-h</code></td><td class="val"><code>844px</code></td><td class="tnote">высота мокапа — iPhone 14/15</td></tr>
+    <tr><td><i class="bar bar--size" style="width:57px"></i></td><td><code>--size-card</code></td><td class="val"><code>400px</code></td><td class="tnote">карточка человека</td></tr>
+    <tr><td><i class="bar bar--size" style="width:55px"></i></td><td><code>--size-screen-w</code></td><td class="val"><code>390px</code></td><td class="tnote">ширина мокапа; поля экрана задаёт --space-16</td></tr>
+    <tr><td><i class="bar bar--size" style="width:48px"></i></td><td><code>--size-radar</code></td><td class="val"><code>340px</code></td><td class="tnote">поле радара на онбординге</td></tr>
+    <tr><td><i class="bar bar--size" style="width:43px"></i></td><td><code>--size-radar-5</code></td><td class="val"><code>300px</code></td><td class="tnote">Пять колец радара. Числа лежат здесь, а координаты снимков на кольцах — в components/radar.css и остаются числами: это рисунок, а не шкала.</td></tr>
+    <tr><td><i class="bar bar--size" style="width:36px"></i></td><td><code>--size-radar-4</code></td><td class="val"><code>250px</code></td><td class="tnote">второе кольцо радара</td></tr>
+    <tr><td><i class="bar bar--size" style="width:28px"></i></td><td><code>--size-radar-3</code></td><td class="val"><code>200px</code></td><td class="tnote">третье кольцо радара</td></tr>
+    <tr><td><i class="bar bar--size" style="width:24px"></i></td><td><code>--size-cover</code></td><td class="val"><code>168px</code></td><td class="tnote">обложка события</td></tr>
+    <tr><td><i class="bar bar--size" style="width:21px"></i></td><td><code>--size-radar-2</code></td><td class="val"><code>150px</code></td><td class="tnote">четвёртое кольцо радара</td></tr>
+    <tr><td><i class="bar bar--size" style="width:14px"></i></td><td><code>--size-radar-1</code></td><td class="val"><code>100px</code></td><td class="tnote">внутреннее кольцо радара</td></tr>
+    <tr><td><i class="bar bar--size" style="width:14px"></i></td><td><code>--size-textarea</code></td><td class="val"><code>96px</code></td><td class="tnote">поле на несколько строк: описание события</td></tr>
+    <tr><td><i class="bar bar--size" style="width:11px"></i></td><td><code>--size-skel-count</code></td><td class="val"><code>80px</code></td><td class="tnote">заглушка под счётчик встреч</td></tr>
+    <tr><td><i class="bar bar--part" style="width:96px"></i></td><td><code>--width-bubble</code></td><td class="val"><code>80%</code></td><td class="tnote">предел ширины реплики в диалоге</td></tr>
+    <tr><td><i class="bar bar--size" style="width:10px"></i></td><td><code>--size-dot-lg</code></td><td class="val"><code>72px</code></td><td class="tnote">снимок на внешнем кольце радара</td></tr>
+    <tr><td><i class="bar bar--size" style="width:9px"></i></td><td><code>--size-state-icon</code></td><td class="val"><code>64px</code></td><td class="tnote">кружок с иконкой в карточке состояния</td></tr>
+    <tr><td><i class="bar bar--part" style="width:74px"></i></td><td><code>--width-l</code></td><td class="val"><code>62%</code></td><td class="tnote">длинная полоса-заглушка</td></tr>
+    <tr><td><i class="bar bar--size" style="width:8px"></i></td><td><code>--size-thumb</code></td><td class="val"><code>56px</code></td><td class="tnote">миниатюра в строке выдачи</td></tr>
+    <tr><td><i class="bar bar--size" style="width:8px"></i></td><td><code>--size-dot</code></td><td class="val"><code>56px</code></td><td class="tnote">снимок на среднем кольце радара</td></tr>
+    <tr><td><i class="bar bar--size" style="width:6px"></i></td><td><code>--size-control</code></td><td class="val"><code>44px</code></td><td class="tnote">минимальный тач-таргет</td></tr>
+    <tr><td><i class="bar bar--part" style="width:53px"></i></td><td><code>--width-m</code></td><td class="val"><code>44%</code></td><td class="tnote">средняя полоса-заглушка</td></tr>
+    <tr><td><i class="bar bar--size" style="width:6px"></i></td><td><code>--size-dot-sm</code></td><td class="val"><code>40px</code></td><td class="tnote">снимок на внутреннем кольце радара</td></tr>
+    <tr><td><i class="bar bar--size" style="width:5px"></i></td><td><code>--size-icon-lg</code></td><td class="val"><code>32px</code></td><td class="tnote">иконка в карточке состояния</td></tr>
+    <tr><td><span class="dim">—</span></td><td><code>--measure-text</code></td><td class="val"><code>30ch</code></td><td class="tnote">предел строки в карточке состояния</td></tr>
+    <tr><td><i class="bar bar--part" style="width:34px"></i></td><td><code>--width-s</code></td><td class="val"><code>28%</code></td><td class="tnote">короткая полоса-заглушка</td></tr>
+    <tr><td><i class="bar bar--size" style="width:3px"></i></td><td><code>--size-icon-md</code></td><td class="val"><code>24px</code></td><td class="tnote">иконка в шапке, в поле, во вкладке</td></tr>
+    <tr><td><i class="bar bar--size" style="width:3px"></i></td><td><code>--size-avatar</code></td><td class="val"><code>24px</code></td><td class="tnote">аватар в строке автора</td></tr>
+    <tr><td><i class="bar bar--size" style="width:3px"></i></td><td><code>--size-icon-button</code></td><td class="val"><code>20px</code></td><td class="tnote">иконка в кнопке-ссылке: Report</td></tr>
+    <tr><td><i class="bar bar--size" style="width:3px"></i></td><td><code>--size-skel-pill</code></td><td class="val"><code>20px</code></td><td class="tnote">высота заглушки-пилюли</td></tr>
+    <tr><td><i class="bar bar--size" style="width:2px"></i></td><td><code>--size-icon-sm</code></td><td class="val"><code>16px</code></td><td class="tnote">галочка на лейбе, иконка в строке фактов</td></tr>
+    <tr><td><i class="bar bar--size" style="width:2px"></i></td><td><code>--size-blur-photo</code></td><td class="val"><code>14px</code></td><td class="tnote">размытие фотографии, дошедшей не целиком</td></tr>
+    <tr><td><i class="bar bar--size" style="width:2px"></i></td><td><code>--size-skel-line</code></td><td class="val"><code>12px</code></td><td class="tnote">высота полосы-заглушки</td></tr>
+    <tr><td><i class="bar bar--size" style="width:2px"></i></td><td><code>--size-scroll-gutter</code></td><td class="val"><code>10px</code></td><td class="tnote">жёлоб полосы прокрутки, вычитается из правого поля</td></tr>
+    <tr><td><i class="bar bar--size" style="width:2px"></i></td><td><code>--size-pager-dot</code></td><td class="val"><code>6px</code></td><td class="tnote">кружок пагинации на снимке</td></tr>
+    <tr><td><i class="bar bar--size" style="width:2px"></i></td><td><code>--size-dot-ring</code></td><td class="val"><code>4px</code></td><td class="tnote">обводка снимка на кольце радара</td></tr>
+    <tr><td><i class="bar bar--size" style="width:2px"></i></td><td><code>--size-hairline</code></td><td class="val"><code>1px</code></td><td class="tnote">физический пиксель: клип скрытой подписи</td></tr>
+    <tr><td><i class="bar bar--size" style="width:2px"></i></td><td><code>--size-avatar-drop</code></td><td class="val"><code>-6px</code></td><td class="tnote">посадка кружка на базовую линию</td></tr>
   </tbody>
 </table>
       </section>
