@@ -49,14 +49,6 @@
 
 .mm-field input::placeholder { color: var(--text-muted); }
 
-/* недоступное — то же поле в половину силы, как и кнопка */
-.mm-field:has(input:disabled), .mm-field:has(textarea:disabled), .mm-field.is-disabled {
-  opacity: var(--opacity-off);
-  cursor: not-allowed;
-  background: var(--bg-surface);
-  box-shadow: var(--shadow-1);
-}
-
 /* кнопка внутри поля: очистить поиск, показать пароль. Круга и заливки
  нет — она часть поля, а не второе действие рядом с ним */
 .mm-field-btn {
@@ -154,6 +146,14 @@
 .mm-field:hover, .mm-field.is-hover { background: var(--lilac-100); }
 
 .mm-field:focus-within, .mm-field.is-focus { background: var(--bg-surface); box-shadow: var(--ring-focus); }
+
+/* недоступное — то же поле в половину силы, как и кнопка */
+.mm-field:has(input:disabled), .mm-field:has(textarea:disabled), .mm-field.is-disabled {
+  opacity: var(--opacity-off);
+  cursor: not-allowed;
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-1);
+}
 
 /* не приняло ввод: обводка красная, но текст человек не теряет */
 .mm-field--error, .mm-field--error:hover, .mm-field--error.is-hover { box-shadow: var(--ring-error); }
