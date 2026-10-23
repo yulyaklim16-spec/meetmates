@@ -28,6 +28,10 @@
   .lede code, .note code { font-family: ui-monospace, monospace; font-size: 12px; }
   .wrap { display: flex; gap: var(--s-6); align-items: flex-start; flex-wrap: wrap; }
   .stage { width: 390px; flex: none; padding: var(--s-4); border-radius: var(--r-lg); background: var(--bg-wash) var(--bg); background-size: cover; }
+  .cap { margin: 0 0 var(--s-2); font: var(--fw-semibold) var(--t-body-sm)/var(--lh-heading) var(--font); letter-spacing: var(--tr-heading); }
+  /* второй вид: «когда» собрано в одном месте, справа от заголовка */
+  .head .when { flex: none; font-size: var(--t-caption); color: var(--ink-600); white-space: nowrap; }
+  .head .when .date { font-weight: var(--fw-semibold); color: var(--ink-900); }
   .stage ul { display: flex; flex-direction: column; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
   .notes { max-width: 52ch; }
   .notes h2 { margin: 0 0 var(--s-2); font: var(--fw-semibold) var(--t-h3)/var(--lh-heading) var(--font); letter-spacing: var(--tr-heading); }
@@ -65,13 +69,21 @@
   на том же фоне, что экраны.</p>
 
 <div class="wrap">
-  <div class="stage"><ul id="feed"></ul></div>
+  <div>
+    <p class="cap">A · дата в строке площадки</p>
+    <div class="stage"><ul id="feed"></ul></div>
+  </div>
+  <div>
+    <p class="cap">B · дата рядом с временем, в правом углу</p>
+    <div class="stage"><ul id="feed-b"></ul></div>
+  </div>
   <div class="notes">
     <h2>Что изменилось</h2>
     <p class="note"><b>Лейбы на снимке.</b> <code>Verified</code> сверху, расстояние под ним, обе в правом
       верхнем углу обложки. Текстовая строка под заголовком освободилась от перечисления через точку:
       раньше там шло «место · расстояние», а сигнал доверия висел в третьей строке.</p>
-    <p class="note"><b>Дата перед площадкой, жирным.</b> <code>26&nbsp;Sep | Kyiv Games Club · Podil</code> —
+    <p class="note"><b>Два вида рядом.</b> <b>A</b> — дата первой в строке площадки, время справа; <b>B</b> — «когда» собрано в одном месте, в правом углу: <code>26&nbsp;Sep · 18:00</code>, а снизу остаётся одна площадка. В B строка под заголовком короче и читается с одного взгляда, зато дата уходит в угол, где текст мельче; в A дата тяжелее, но живёт в строке с местом.</p>
+    <p class="note"><b>Дата жирная в обоих.</b> <code>26&nbsp;Sep | Kyiv Games Club · Podil</code> —
       по дате решают, поэтому она первой и тяжелее; площадка уточняет. Время осталось справа
       от заголовка: день и час разведены, и строка не растёт.</p>
     <p class="note"><b>Счётчик не тронут.</b> <code>2 going · 1 spot left</code> — в тех же словах
@@ -116,19 +128,32 @@ const where = (e) => (e.date
   ? `<span class="date">${e.date}</span><span class="sep">|</span>${e.venue}`
   : e.venue);
 
-document.getElementById('feed').innerHTML = EVENTS.map((e) => `
+const card = (e, right, below) => `
   <li class="ev">
     <a class="pic" href="screens/plan.html">
       <img src="${e.img}" alt="" loading="lazy">
       <span class="tags">${VERIFIED}<span class="mm-chip">${PIN}${e.far}</span></span>
     </a>
     <div class="body">
-      <span class="head"><b>${e.title}</b><time${e.dt ? ` datetime="${e.dt}"` : ''}>${e.time}</time></span>
-      <p class="where">${where(e)}</p>
+      <span class="head"><b>${e.title}</b>${right}</span>
+      <p class="where">${below}</p>
       <p class="spots">${e.spots}</p>
     </div>
     <div class="acts">${e.acts}</div>
-  </li>`).join('');
+  </li>`;
+
+// A: справа время, дата — первой в строке площадки
+document.getElementById('feed').innerHTML = EVENTS.map((e) => card(e,
+  `<time${e.dt ? ` datetime="${e.dt}"` : ''}>${e.time}</time>`,
+  where(e))).join('');
+
+// B: «когда» целиком справа — дата жирной, время за ней; снизу одна площадка
+document.getElementById('feed-b').innerHTML = EVENTS.map((e) => card(e,
+  e.date
+    ? `<span class="when"><span class="date">${e.date}</span> · ${e.time.replace(/^\w{3} /, '')}</span>`
+    : `<span class="when">${e.time}</span>`,
+  e.venue)).join('');
+
 </script>
 </body>
 </html>
