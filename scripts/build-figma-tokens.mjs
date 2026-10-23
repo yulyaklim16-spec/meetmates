@@ -122,6 +122,9 @@ const semEntries = sem.map(({ name, value }) => {
   return { path, alias: `${pg}/${leaf(ref[1], pg)}`, css: name };
 });
 
+const EFFECT_LIST = prim.filter(({ value }) => kind(value) === 'shadow').map(({ name, value }) => ({ name, value }));
+const GRADIENT_LIST = prim.filter(({ value }) => kind(value) === 'gradient').map(({ name, value }) => ({ name, value }));
+
 const code = `// MeetMates → Figma: переменные и стили одним прогоном.
 // Сгенерировано scripts/build-figma-tokens.mjs из tokens.css — руками не править.
 //
@@ -134,10 +137,8 @@ const code = `// MeetMates → Figma: переменные и стили одн�
 const PRIMITIVE = ${JSON.stringify(primEntries, null, 2)};
 const SEMANTIC = ${JSON.stringify(semEntries, null, 2)};
 
-const EFFECTS = ${JSON.stringify(
-  prim.filter(({ value }) => kind(value) === 'shadow').map(({ name, value }) => ({ name, value })), null, 2)};
-const GRADIENTS = ${JSON.stringify(
-  prim.filter(({ value }) => kind(value) === 'gradient').map(({ name, value }) => ({ name, value })), null, 2)};
+const EFFECTS = ${JSON.stringify(EFFECT_LIST, null, 2)};
+const GRADIENTS = ${JSON.stringify(GRADIENT_LIST, null, 2)};
 
 async function run() {
   const collections = await figma.variables.getLocalVariableCollectionsAsync();
@@ -194,6 +195,13 @@ async function run() {
 run();
 `;
 writeFileSync(join(ROOT, 'figma/import-variables.js'), code, 'utf8');
+
+// ── 3. машинный набор для короткого скрипта ──────────────────────────
+// Тот же состав, но без кода: его забирает по ссылке figma/import-from-url.js,
+// чтобы в плагин нужно было вставить два десятка строк, а не тысячу
+writeFileSync(join(ROOT, 'figma/variables.json'),
+  `${JSON.stringify({ primitive: primEntries, semantic: semEntries, effects: EFFECT_LIST, gradients: GRADIENT_LIST }, null, 2)}
+`, 'utf8');
 
 console.log(
   `figma/tokens.json: примитивов ${prim.length}, ролей ${sem.length}\n` +
