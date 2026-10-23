@@ -183,7 +183,6 @@
      съедал бы экран быстрее, чем лента его наполняет */
   --mm-cover-h-sm: 120px;
   --mm-avatar: 24px;
-  --mm-avatar-lg: 56px;
   --mm-avatar-drop: -6px;
   --mm-dot-pager: 6px;
   --mm-skel-line: 12px;
@@ -748,7 +747,6 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   vertical-align: var(--mm-avatar-drop);
 }
 .mm-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.mm-avatar--lg { width: var(--mm-avatar-lg); height: var(--mm-avatar-lg); vertical-align: 0; }
 
 /* ═══ Строки фактов ═══ */
 
@@ -1057,7 +1055,6 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
 /* ряд заглушек отбит от того, что над ним: это отдельная строка, а не продолжение */
 .mm-skelrow { display: flex; flex-wrap: wrap; gap: var(--mm-s-2); margin: var(--mm-s-3) 0 0; }
 /* кружок в ряду заглушек — место под фотографию, а не подпись рядом с именем */
-.mm-skelrow .mm-avatar { width: var(--mm-avatar-lg); height: var(--mm-avatar-lg); vertical-align: 0; }
 
 @keyframes mm-skel {
   from { background-position: 100% 0; }

@@ -445,7 +445,7 @@ const GROUPS = [
       cell('Row-Hover', `<ul class="mm-list"><li><a class="mm-row is-hover" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true">${face('olena')}</span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul>`, 'kit-cell--wide'),
       cell('Row-Default-No link', '<ul class="mm-list"><li class="mm-row"><span class="mm-row-head"><b>Location</b><span class="mm-meta">On &middot; rounded</span></span></li></ul>', 'kit-cell--wide'),
       cell('Row-Default-One line', '<ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>My events</b><span class="mm-meta">1 request</span></span></a></li></ul>', 'kit-cell--wide'),
-    ], 'Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка со снимком на наведении приближает обложку; строка без снимка и строка без ссылки не отзываются вовсе. Человек в выдаче поиска — та же строка с портретом 56px слева: это список попаданий, а не колода, где решают, но рядом с карточкой события значок в 24px превращал человека в сноску.'),
+    ], 'Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка со снимком на наведении приближает обложку; строка без снимка и строка без ссылки не отзываются вовсе. Человека эта строка больше не несёт: в выдаче поиска он стоит карточкой, равной по весу карточке события (<code>D-64</code>).'),
 
     comp('Карточка человека', '.mm-person', [
       cell('Person-Default', person(), 'kit-cell--card'),
@@ -483,8 +483,8 @@ const GROUPS = [
     ], 'Перечисление под числом общих интересов (<code>D-13</code>). Выбранного состояния у тега нет: в колоде он не фильтр, а факт.'),
 
     comp('Аватар', '.mm-avatar', [
-      cell('Avatar-Sizes', `<span class="mm-avatar" aria-hidden="true">${face('andrii')}</span> <span class="mm-avatar mm-avatar--lg" aria-hidden="true">${face('dasha', 112)}</span>`, 'kit-cell--wide'),
-    ], 'У каждого имени своё лицо: три одинаковых кружка в одной строке читаются как ошибка данных. В ряду заглушек кружок крупнее — это место под фотографию, а не подпись рядом с именем.'),
+      cell('Avatar-Default', `<span class="mm-avatar" aria-hidden="true">${face('andrii')}</span>`),
+    ], 'У каждого имени своё лицо: три одинаковых кружка в одной строке читаются как ошибка данных. Размер один — 24px, подпись рядом с именем; крупный портрет в 56px жил в строке человека в выдаче поиска, а с тех пор как человек стал там карточкой (<code>D-64</code>), его нет ни на одном экране, и правило снято из кита.'),
 
     comp('Строки фактов', '.mm-facts · .mm-meta · .mm-note', [
       cell('Facts-Default', '<p class="mm-facts">Kyiv Games Club &middot; Podil &middot; ~3 km</p>', 'kit-cell--wide'),

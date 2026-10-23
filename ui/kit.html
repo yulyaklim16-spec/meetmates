@@ -762,7 +762,7 @@
         <figcaption>Row-Default-One line</figcaption>
       </figure>
     </div>
-    <p class="kit-note">Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка со снимком на наведении приближает обложку; строка без снимка и строка без ссылки не отзываются вовсе. Человек в выдаче поиска — та же строка с портретом 56px слева: это список попаданий, а не колода, где решают, но рядом с карточкой события значок в 24px превращал человека в сноску.</p>
+    <p class="kit-note">Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка со снимком на наведении приближает обложку; строка без снимка и строка без ссылки не отзываются вовсе. Человека эта строка больше не несёт: в выдаче поиска он стоит карточкой, равной по весу карточке события (<code>D-64</code>).</p>
   </section>
   <section class="kit-case">
     <p class="kit-h"><b>Карточка человека</b><code>.mm-person</code></p>
@@ -913,12 +913,12 @@
   <section class="kit-case">
     <p class="kit-h"><b>Аватар</b><code>.mm-avatar</code></p>
     <div class="kit-matrix">
-      <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><span class="mm-avatar" aria-hidden="true"><img src="img/andrii-48.jpg" alt="" loading="lazy"></span> <span class="mm-avatar mm-avatar--lg" aria-hidden="true"><img src="img/dasha-112.jpg" alt="" loading="lazy"></span></div>
-        <figcaption>Avatar-Sizes</figcaption>
+      <figure class="kit-cell">
+        <div class="kit-stage"><span class="mm-avatar" aria-hidden="true"><img src="img/andrii-48.jpg" alt="" loading="lazy"></span></div>
+        <figcaption>Avatar-Default</figcaption>
       </figure>
     </div>
-    <p class="kit-note">У каждого имени своё лицо: три одинаковых кружка в одной строке читаются как ошибка данных. В ряду заглушек кружок крупнее — это место под фотографию, а не подпись рядом с именем.</p>
+    <p class="kit-note">У каждого имени своё лицо: три одинаковых кружка в одной строке читаются как ошибка данных. Размер один — 24px, подпись рядом с именем; крупный портрет в 56px жил в строке человека в выдаче поиска, а с тех пор как человек стал там карточкой (<code>D-64</code>), его нет ни на одном экране, и правило снято из кита.</p>
   </section>
   <section class="kit-case">
     <p class="kit-h"><b>Строки фактов</b><code>.mm-facts · .mm-meta · .mm-note</code></p>
