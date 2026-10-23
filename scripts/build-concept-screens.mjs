@@ -173,7 +173,7 @@ const KIT = new Set([
   'my-events', 'my-events-empty', 'my-events-error', 'my-events-loading',
   'plan', 'plan-error', 'plan-loading', 'plan-success', 'plan-waiting',
   // 6. Поиск
-  'search', 'search-empty', 'search-error', 'search-loading',
+  'search', 'search-start', 'search-empty', 'search-error', 'search-loading',
 ]);
 
 // имена, которые переводятся один в один
@@ -196,7 +196,7 @@ const CLASS_MAP = {
 
 // мокап телефона и подписи зон — обвязка страницы макета, а не продукт
 const CHROME = new Set(['device', 'statusbar', 'browserbar', 'homebar', 'fold', 'anns', 'ann',
-  'wfstates', 'wfbar', 'wfdev', 'wfkind', 'meta', 'now', 't', 'bare']);
+  'wfstates', 'wfbar', 'wfdev', 'wfkind', 'meta', 'now', 't', 'bare', 'stub']);
 // кольца радара и места снимков на них — часть компонента, имена те же
 const RADAR_PARTS = new Set(['near', 'mid', 'far', 'in', 'r5', 'r3', 'r1',
   'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']);

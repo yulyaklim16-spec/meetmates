@@ -49,7 +49,9 @@ function screens() {
   const rows = [...tablesOnly.matchAll(/^\| \*\*([IVX]+\.\d+)\*\* ([^|]+?) \| `([a-z-]+)` \| (.+?) \|\s*$/gm)];
   if (rows.length < 8) throw new Error(`в _screens.md найдено ${rows.length} экранов, ожидалось не меньше восьми`);
   // экраны с ожиданием — отдельная таблица D-42
-  const waitBlock = screensMd.slice(screensMd.indexOf('### Пятое состояние'), screensMd.indexOf('### Почему так'));
+  // конец блока — следующая таблица, а не раздел «Почему так»: между ними
+  // лежат состояния сверх четвёрки, и упоминание экрана там — не ожидание
+  const waitBlock = screensMd.slice(screensMd.indexOf('### Пятое состояние'), screensMd.indexOf('### Состояния сверх четвёрки'));
   const waits = new Set([...waitBlock.matchAll(/\*\*([IVX]+\.\d+)\*\*/g)].map((m) => m[1]));
   const extraBlock = screensMd.slice(screensMd.indexOf('### Состояния сверх четвёрки'), screensMd.indexOf('### Почему так'));
   const extra = [...extraBlock.matchAll(/^\| \*\*([IVX]+\.\d+)\*\* [^|]+\| `([a-z-]+)` \| (.+?) \|\s*$/gm)]
