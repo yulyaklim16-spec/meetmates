@@ -376,7 +376,7 @@ section.stretch { flex: 1; min-height: 0; }
 /* лента выдачи: ряд едет вбок, две карточки целиком и третья краем */
 .rows.rail {
   display: flex; flex-direction: row; gap: var(--s-3); align-items: stretch;
-  overflow-x: auto; scroll-snap-type: x proximity;
+  overflow-x: auto; scroll-snap-type: x proximity; scroll-padding: 0 var(--s-4);
   margin: 0 calc(var(--s-4) * -1); padding: 0 var(--s-4) var(--s-2);
   scrollbar-width: none;
 }

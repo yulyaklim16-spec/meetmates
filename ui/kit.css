@@ -597,7 +597,7 @@
    делал ряд кривым; разницу забирает текстовый блок, а не обложка. */
 .mm-list--rail {
   display: flex; flex-direction: row; gap: var(--mm-s-3); align-items: stretch;
-  overflow-x: auto; scroll-snap-type: x proximity;
+  overflow-x: auto; scroll-snap-type: x proximity; scroll-padding: 0 var(--mm-s-4);
   margin: 0 calc(var(--mm-s-4) * -1); padding: 0 var(--mm-s-4) var(--mm-s-2);
   scrollbar-width: none;
 }
