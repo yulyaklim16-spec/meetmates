@@ -43,6 +43,7 @@ const img = (file) => `../img/${file}`;
 // стоит первым, иначе «Board games evening at home» ушло бы в «Board games»
 const PHOTOS = [
   ['Board games evening', 'ev-home'],   // настолка крупным планом
+  ['Board games in the park', 'ev-park'], // компания в парке
   ['Board games', 'ev-games'],          // настольные игры во дворе
   ['Morning run', 'ev-run'],            // бегуны на набережной
   ['Coffee and a walk', 'ev-coffee'],   // две девушки с кофе на прогулке
@@ -178,7 +179,7 @@ const KIT = new Set([
 // имена, которые переводятся один в один
 const CLASS_MAP = {
   app: 'mm-app', pane: 'mm-pane', scrolly: 'mm-scrolly', stretch: 'mm-stretch', pin: 'mm-pin',
-  rows: 'mm-list', grid: 'mm-list--grid', exit: 'mm-btn', who: 'mm-facts', when: 'mm-meta', note: 'mm-note',
+  rows: 'mm-list', rail: 'mm-list--rail', grouphead: 'mm-grouphead', more: 'mm-more', exit: 'mm-btn', who: 'mm-facts', when: 'mm-meta', note: 'mm-note',
   common: 'mm-common', distance: 'mm-distance', signals: 'mm-signals', verified: 'mm-verified',
   photo: 'mm-photo', pager: 'mm-pager', cardtop: 'mm-cardtop', chip: 'mm-chip', tags: 'mm-tags',
   cardlink: 'mm-cardlink', avatar: 'mm-avatar', evcover: 'mm-evcover', msgs: 'mm-msgs',
@@ -434,6 +435,15 @@ for (const name of SCREENS) {
     if (!hit) throw new Error(`${name}: нет обложки для события «${t}»`);
     // на карточке события снимок идёт во всю ширину — берём широкий кадр
     return `${head}<p class="photo"><img src="${img(hit[1] + '-wide.jpg')}" alt="" loading="lazy"></p>`;
+  });
+  // в выдаче поиска людей несколько, и портрет берётся по имени на карточке:
+  // три одинаковых лица в ряд читались бы как ошибка данных
+  body = body.replace(/<a class="card compact"([^>]*)>([\s\S]*?)<\/a>/g, (card, attrs, inner) => {
+    const who = (attrs.match(/aria-label="([A-Za-z]+)/) || [])[1] || '';
+    const hit = AVATAR_BY_NAME.find(([n]) => n === who);
+    if (!hit) return card;
+    return `<a class="card compact"${attrs}>${inner.replace(/<p class="photo"(?: aria-hidden="true")?><\/p>/,
+      `<p class="photo"><img src="${face(hit[1], true)}" alt="" loading="lazy"></p>`)}</a>`;
   });
   body = body.replace(/<p class="photo( blur)?"(?: aria-hidden="true")?><\/p>/g,
     (m, blur) => `<p class="photo${blur || ''}"><img src="${portraitFor(name)}" alt="" loading="lazy"></p>`);
