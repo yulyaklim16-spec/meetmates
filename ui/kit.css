@@ -54,8 +54,13 @@
   --mm-bg: #FFFFFF;
   --mm-surface: #FFFFFF;
   --mm-surface-2: #F2EDF6;
-  --mm-line: #E8E1F1;
-  --mm-card-ring: #ECECEC;
+  /* Одна волосяная граница на продукт: карточка, аватар, панель вкладок,
+     дорожка переключателя и кольца радара. Прежде роль была записана дважды —
+     нейтральным #ECECEC в тенях и сиреневым #E8E1F1 на дорожке и кольцах. */
+  --mm-line: #ECECEC;
+  /* Фон наведения отдельно от второй поверхности: пока они совпадали,
+     вторичная кнопка в покое выглядела как третичная под курсором. */
+  --mm-hover: #E9E1F1;
   /* тихая обводка: видно, что предмет отозвался на курсор, но она не спорит
      с содержимым. Порога у наведения нет — курсор и так виден */
   --mm-tab-current: #EDE7F4;
@@ -85,7 +90,7 @@
   --mm-bg-wash-top: #E4DAEA;
 
   /* бегущая полоса скелета */
-  --mm-skel-wash: linear-gradient(90deg, var(--mm-surface-2) 0%, var(--mm-line) 50%, var(--mm-surface-2) 100%);
+  --mm-skel-wash: linear-gradient(90deg, var(--mm-surface-2) 0%, var(--mm-hover) 50%, var(--mm-surface-2) 100%);
 
   /* ── шрифт ────────────────────────────────────────────────────── */
   --mm-font: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -134,11 +139,11 @@
   --mm-label-pad: 2px 8px;
 
   /* ── тени: обводка плюс почти незаметная тень, цветных нет ─────── */
-  --mm-shadow-sm: 0 0 0 1px var(--mm-card-ring), 0 1px 2px rgba(17, 17, 17, .04);
-  --mm-shadow-md: 0 0 0 1px var(--mm-card-ring), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06);
-  --mm-shadow-lg: 0 0 0 1px var(--mm-card-ring), 0 2px 10px rgba(17, 17, 17, .07);
-  --mm-ring-avatar: 0 0 0 1px var(--mm-card-ring);
-  --mm-ring-inset: inset 0 0 0 1px var(--mm-card-ring);
+  --mm-shadow-sm: 0 0 0 1px var(--mm-line), 0 1px 2px rgba(17, 17, 17, .04);
+  --mm-shadow-md: 0 0 0 1px var(--mm-line), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06);
+  --mm-shadow-lg: 0 0 0 1px var(--mm-line), 0 2px 10px rgba(17, 17, 17, .07);
+  --mm-ring-avatar: 0 0 0 1px var(--mm-line);
+  --mm-ring-inset: inset 0 0 0 1px var(--mm-line);
   /* кольцо фокуса — волосяное и серое. Светлее по цвету нельзя: --mm-ink-400
      это самый светлый серый, который ещё держит 3:1 с белым полем (3.77)
      и с сиреневым (3.27), а фокус WCAG индикатором считает (1.4.11). Поэтому
@@ -340,7 +345,7 @@
   cursor: pointer;
   transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
 }
-.mm-head-btn:hover, .mm-head-btn.is-hover { background: var(--mm-surface-2); }
+.mm-head-btn:hover, .mm-head-btn.is-hover { background: var(--mm-hover); }
 /* нажатие то же, что у кнопки с текстом: это та же кнопка, просто в шапке */
 .mm-head-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
 .mm-head-btn svg { width: var(--mm-icon-md); height: var(--mm-icon-md); }
@@ -359,7 +364,7 @@
   font-size: var(--mm-t-back);
   line-height: var(--mm-lh-flat);
 }
-.mm-head-btn--back:hover, .mm-head-btn--back.is-hover { background: var(--mm-surface-2); }
+.mm-head-btn--back:hover, .mm-head-btn--back.is-hover { background: var(--mm-hover); }
 /* Опасное действие в шапке: единственная кнопка шапки со словом. Флажок сам
    не читается, а угадывать действие безопасности нельзя. Заливки нет, круга нет,
    иконка меньше, площадь нажатия те же 44px.
@@ -379,7 +384,7 @@
   color: var(--mm-danger-ink);
   font: var(--mm-fw-semibold) var(--mm-t-micro) / var(--mm-lh-flat) var(--mm-font);
 }
-.mm-head-btn--danger:hover, .mm-head-btn--danger.is-hover { background: var(--mm-surface-2); }
+.mm-head-btn--danger:hover, .mm-head-btn--danger.is-hover { background: var(--mm-hover); }
 .mm-head-btn--danger svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
 
 /* нижнее меню: белая панель во всю ширину содержимого, пять равных вкладок */
@@ -444,7 +449,7 @@
   cursor: pointer;
   transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
 }
-.mm-btn:hover, .mm-btn.is-hover { background: var(--mm-surface-2); }
+.mm-btn:hover, .mm-btn.is-hover { background: var(--mm-hover); }
 .mm-btn:focus-visible { outline: none; box-shadow: var(--mm-ring-focus); }
 .mm-btn svg { width: var(--mm-icon-btn); height: var(--mm-icon-btn); }
 
@@ -453,7 +458,7 @@
 .mm-btn--primary:hover, .mm-btn--primary.is-hover { background: var(--mm-action-hover); }
 /* тихая — сиреневая подложка без обводки */
 .mm-btn--quiet { background: var(--mm-surface-2); box-shadow: none; }
-.mm-btn--quiet:hover, .mm-btn--quiet.is-hover { background: var(--mm-line); }
+.mm-btn--quiet:hover, .mm-btn--quiet.is-hover { background: var(--mm-hover); }
 /* Недоступна — это та же кнопка в половину силы, а не третий вид: роль видно
    по-прежнему, видно и то, что сейчас она не работает. Отдельная серая заливка
    путала: главная, вторичная и без роли выключались в одно и то же пятно,
@@ -485,7 +490,7 @@
   cursor: pointer;
   transition: background var(--mm-dur-fast) var(--mm-ease-out), transform var(--mm-dur-fast) var(--mm-ease-out);
 }
-.mm-danger-link:hover, .mm-danger-link.is-hover { background: var(--mm-surface-2); }
+.mm-danger-link:hover, .mm-danger-link.is-hover { background: var(--mm-hover); }
 .mm-danger-link svg { width: var(--mm-icon-btn); height: var(--mm-icon-btn); }
 
 /* строка действий: одна-две кнопки в ряд, поровну */
@@ -500,7 +505,7 @@
   margin: 0;
   padding: var(--mm-s-1);
   border-radius: var(--mm-r-pill);
-  background: var(--mm-line);
+  background: var(--mm-surface-2);
 }
 .mm-segmented > * { flex: 1; }
 .mm-segmented .mm-btn { background: transparent; box-shadow: none; font-weight: var(--mm-fw-medium); }
@@ -829,7 +834,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   color: var(--mm-ink-900);
 }
 .mm-field input::placeholder { color: var(--mm-ink-600); }
-.mm-field:hover, .mm-field.is-hover { background: var(--mm-surface-2); }
+.mm-field:hover, .mm-field.is-hover { background: var(--mm-hover); }
 .mm-field:focus-within, .mm-field.is-focus { background: var(--mm-surface); box-shadow: var(--mm-ring-focus); }
 /* недоступное — то же поле в половину силы, как и кнопка */
 .mm-field:has(input:disabled), .mm-field:has(textarea:disabled), .mm-field.is-disabled {
@@ -945,7 +950,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
   font: var(--mm-fw-regular) var(--mm-t-body-sm) / var(--mm-lh-heading) var(--mm-font);
   text-decoration: none;
 }
-.mm-menu a:hover, .mm-menu a.is-hover { background: var(--mm-surface-2); }
+.mm-menu a:hover, .mm-menu a.is-hover { background: var(--mm-hover); }
 .mm-menu a.is-current { background: var(--mm-surface-2); font-weight: var(--mm-fw-semibold); }
 
 /* дата рождения: три поля в ряд, а не одно с маской. Маску не видно,

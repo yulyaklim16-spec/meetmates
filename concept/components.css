@@ -43,7 +43,7 @@
   box-shadow: var(--shadow-sm); cursor: pointer;
   transition: background var(--dur-fast) var(--ease-out);
 }
-.mm-ui header button:hover { background: var(--surface-2); }
+.mm-ui header button:hover { background: var(--hover); }
 .mm-ui header button.primary { order: 1; background: var(--ink-900); color: var(--surface); box-shadow: none; }
 .mm-ui header button.primary:hover { background: var(--ink-900); opacity: .9; }
 .mm-ui header .ico svg { width: var(--icon-md); height: var(--icon-md); }
@@ -58,7 +58,7 @@
   background: none; box-shadow: none; color: var(--danger-ink);
   font: var(--fw-semibold) var(--t-micro)/var(--lh-flat) var(--font);
 }
-.mm-ui header button.report:hover { background: var(--surface-2); }
+.mm-ui header button.report:hover { background: var(--hover); }
 .mm-ui header button.report .ico svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--danger-ink); }
 .mm-ui header button.report .label { position: static; width: auto; height: auto; margin: 0; clip-path: none; white-space: nowrap; }
 
@@ -75,7 +75,7 @@
 .mm-ui :is(.btn, button).primary:not(header *):hover { background: var(--action-hover); }
 .mm-ui :is(.btn, button).primary:not(header *):active { transform: scale(.98); }
 .mm-ui :is(.btn, button).quiet:not(header *) { background: var(--surface-2); color: var(--ink-900); }
-.mm-ui :is(.btn, button).quiet:not(header *):hover { background: var(--line); }
+.mm-ui :is(.btn, button).quiet:not(header *):hover { background: var(--hover); }
 .mm-ui .btn svg { width: 20px; height: 20px; }
 /* недоступна: надпись говорит, что сделать (гейт §7.3), а не «disabled» */
 .mm-ui .btn[disabled] { background: var(--surface-2); color: var(--ink-600); cursor: not-allowed; transform: none; }
@@ -149,7 +149,7 @@
 .mm-ui .note { margin: 0; font-size: var(--t-body-sm); color: var(--ink-600); }
 .mm-ui .skel {
   display: block; border-radius: var(--r-sm);
-  background: linear-gradient(90deg, var(--surface-2) 0%, var(--line) 50%, var(--surface-2) 100%);
+  background: linear-gradient(90deg, var(--surface-2) 0%, var(--hover) 50%, var(--surface-2) 100%);
   background-size: 200% 100%;
   animation: mm-skel 1.4s var(--ease-out) infinite;
 }
@@ -295,7 +295,7 @@
 
 /* ── кружок с лицом рядом с именем ── */
 .mm-ui .avatar { flex: none; display: inline-block; width: 24px; height: 24px; border-radius: 50%;
-  overflow: hidden; background: var(--surface-2); box-shadow: 0 0 0 1px var(--card-ring); vertical-align: -6px; }
+  overflow: hidden; background: var(--surface-2); box-shadow: 0 0 0 1px var(--line); vertical-align: -6px; }
 .mm-ui .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .mm-ui .skelrow .avatar { width: 56px; height: 56px; vertical-align: 0; }
 
@@ -347,7 +347,7 @@
   justify-content: flex-start; background: var(--surface); color: var(--ink-900);
   box-shadow: var(--shadow-sm); font-weight: var(--fw-regular);
 }
-.mm-ui p.rows > .btn.quiet:hover { background: var(--surface-2); }
+.mm-ui p.rows > .btn.quiet:hover { background: var(--hover); }
 
 /* строка списка — ссылка целиком: подчёркивание тут шум, цвет берётся от текста */
 .mm-ui a.item { text-decoration: none; color: inherit; }

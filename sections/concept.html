@@ -441,7 +441,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
         <span><b>11</b> направлений в четырёх раундах</span>
         <span><b>1</b> выбрано — R «Сирень»</span>
         <span><b>56</b> страниц концепта</span>
-        <span><b>29</b> пар цвета проверены</span>
+        <span><b>32</b> пар цвета проверены</span>
       </div>
       <!--PUBLIC-NOTE-->
     </div>
@@ -480,7 +480,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
             <li><i style="background:#FFFFFF"></i><b>--bg</b><code>#FFFFFF</code><span>экран ниже размытия — чистый белый</span></li>
             <li><i style="background:#FFFFFF"></i><b>--surface</b><code>#FFFFFF</code><span></span></li>
             <li><i style="background:#F2EDF6"></i><b>--surface-2</b><code>#F2EDF6</code><span>производный: поля ввода, чипы фильтров; --ink-600 на нём 8.4:1</span></li>
-            <li><i style="background:#E8E1F1"></i><b>--line</b><code>#E8E1F1</code><span>дорожка переключателя и разделители — подкрашены, нейтральный серый читался чужим</span></li>
+            <li><i style="background:#ECECEC"></i><b>--line</b><code>#ECECEC</code><span>волосяная граница: одна на карточку, аватар, панель, дорожку и кольца радара</span></li>
           </ul>
         </div>
 
@@ -524,7 +524,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
         </div>
 
         <details class="src">
-          <summary>Контраст — 29 пар, порог 4.5:1 для текста и 3:1 для иконок</summary>
+          <summary>Контраст — 32 пар, порог 4.5:1 для текста и 3:1 для иконок</summary>
 <blockquote><p>Сгенерировано <code>node scripts/contrast.mjs</code> из <code>tokens/tokens.css</code>. Руками не править. Порог: текст 4.5:1, иконки 3:1. Фон экрана — градиент, поэтому текст на нём считается по <code>--bg-wash-top</code>, самому тёмному месту размытия.</p></blockquote>
 <div class="tw"><table><thead><tr><th>Где</th><th>Текст</th><th>Фон</th><th>Коэффициент</th><th>Порог</th><th>Проходит</th></tr></thead><tbody>
 <tr><td>Основной текст на фоне экрана</td><td><code>--ink-900</code> #1A1026</td><td><code>--bg</code> #FFFFFF</td><td><strong>18.32:1</strong></td><td>4.5:1</td><td>да</td></tr>
@@ -549,7 +549,10 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
 <tr><td>Успех под полем на карточке</td><td><code>--success</code> #1C7A4E</td><td><code>--surface</code> #FFFFFF</td><td><strong>5.33:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Предупреждение на фоне экрана</td><td><code>--warn</code> #8A5200</td><td><code>--bg</code> #FFFFFF</td><td><strong>6.39:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Текст на тёмной кнопке шапки, выбранный чип</td><td><code>--surface</code> #FFFFFF</td><td><code>--ink-900</code> #1A1026</td><td><strong>18.32:1</strong></td><td>4.5:1</td><td>да</td></tr>
-<tr><td>Сегмент Mine на дорожке переключателя</td><td><code>--ink-900</code> #1A1026</td><td><code>--line</code> #E8E1F1</td><td><strong>14.37:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Сегмент Mine на дорожке переключателя</td><td><code>--ink-900</code> #1A1026</td><td><code>--surface-2</code> #F2EDF6</td><td><strong>15.9:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Подпись кнопки под курсором</td><td><code>--ink-900</code> #1A1026</td><td><code>--hover</code> #E9E1F1</td><td><strong>14.4:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Опасное словом под курсором</td><td><code>--danger-ink</code> #96123A</td><td><code>--hover</code> #E9E1F1</td><td><strong>6.75:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Вторичный текст в поле под курсором</td><td><code>--ink-600</code> #4C3F59</td><td><code>--hover</code> #E9E1F1</td><td><strong>7.63:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Подпись вкладки на стекле меню</td><td><code>--ink-600</code> #4C3F59</td><td><code>стекло (расчёт)</code> #FFFFFF</td><td><strong>9.71:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Подпись выбранной вкладки</td><td><code>--ink-900</code> #1A1026</td><td><code>стекло (расчёт)</code> #EDE7F4</td><td><strong>15.13:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Системные панели: адрес, сгиб</td><td><code>--ink-600</code> #4C3F59</td><td><code>--surface-2</code> #F2EDF6</td><td><strong>8.43:1</strong></td><td>4.5:1</td><td>да</td></tr>
