@@ -545,7 +545,7 @@ a.lk.in .ar { color: var(--accent); }
         <a class="mat" href="voice.html"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>готово</i></span></a>
         <a class="mat" href="concept.html"><span class="n">06</span><span class="t">Концепт<i>готово</i></span></a>
         <a class="mat" href="kit.html"><span class="n">07</span><span class="t">Сборка UI<i>готово</i></span></a>
-        <a class="mat soon" href="?section=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
+        <a class="mat" href="tokens.html"><span class="n">08</span><span class="t">Дизайн-токены<i>готово</i></span></a>
         <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
         <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
         <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
@@ -974,7 +974,7 @@ a.lk.in .ar { color: var(--accent); }
       <article class="flow" id="flow-m1">
         <h3>M1 — компания для планов и продолжение</h3>
         <blockquote><p>Когда мне есть куда пойти, но не с кем, я хочу, чтобы у моих планов была компания, а у компании — продолжение.</p></blockquote>
-<p><strong>Кто:</strong> Даша, primary. <strong>Основной путь — через чат</strong> <code class="dcode">D-37</code>: колода → взаимный свайп → диалог → договорились. <strong>Второй путь</strong> — лента запросов: он не зависит от взаимности и потому не убран в глубину. Считается от <strong>пустой колоды</strong>: на старте она увидит именно её (<code class="dcode">D-22</code>). Радар <code class="dcode">D-47</code> в поток не входит: он показывается один раз в онбординге и данными продукта не управляет.</p>
+<p><strong>Кто:</strong> Даша, primary. <strong>Основной путь — через чат</strong> <code class="dcode">D-37</code>: колода → взаимный свайп → диалог → договорились. <strong>Второй путь</strong> — лента запросов: он не зависит от взаимности и потому не убран в глубину. Считается от <strong>пустой колоды</strong>: на старте она увидит именно её (<code class="dcode">D-22</code>). <strong>Поиск — не третий путь, а короткий ход по второму</strong> <code class="dcode">D-77</code>: он отвечает на «что нашлось по моему слову», а решают всё равно в объекте — на карточке события или в профиле (<code class="dcode">D-67</code>). В поток он входит от ленты, хотя открывается вкладкой с любого экрана: место на схеме выбрано по тому, какой job он обслуживает (G3 «компания под конкретное хобби»), а не по тому, откуда до него дотянуться. Радар <code class="dcode">D-47</code> в поток не входит: он показывается один раз в онбординге и данными продукта не управляет.</p>
 <div class="diagram"><pre class="mermaid">flowchart TD
     Start([Открыла приложение после онбординга]) --&gt; Deck[Колода]
     Deck --&gt; DeckLoad[&quot;Loading: грузим людей рядом&quot;]
@@ -1074,6 +1074,18 @@ a.lk.in .ar { color: var(--accent); }
     Extend --&gt;|нет| BackToFeed([Вернулась в ленту])
     AnyResponse --&gt;|да| Confirm[&quot;Отклики: подтвердить или отклонить&quot;]
     Confirm --&gt; Dialog
+
+    Feed --&gt; Search[Поиск людей и планов]
+    Search --&gt; SearchStart[&quot;Поиск: начало — недавние запросы и интересы&quot;]
+    SearchStart --&gt; Query{Ввела запрос или выбрала интерес?}
+    Query --&gt; SearchLoad[&quot;Loading: ищем людей и планы&quot;]
+    SearchLoad --&gt; Found{Нашлось?}
+    Found --&gt;|сбой| SearchErr[&quot;Error: поиск не отработал&quot;]
+    SearchErr --&gt; Search
+    Found --&gt;|нет| SearchEmpty[&quot;Empty: ничего не нашлось — ослабить запрос или смотреть ленту&quot;]
+    SearchEmpty --&gt; Feed
+    Found --&gt;|событие| PlanCard
+    Found --&gt;|человек| Person
 
     PlanCard --&gt; Ask[&quot;Карточка запроса: отклик отправлен&quot;]
     Ask --&gt; Sent{Отклик ушёл?}
@@ -1189,6 +1201,18 @@ a.lk.in .ar { color: var(--accent); }
     Extend --&gt;|нет| BackToFeed([Вернулась в ленту])
     AnyResponse --&gt;|да| Confirm[&quot;Отклики: подтвердить или отклонить&quot;]
     Confirm --&gt; Dialog
+
+    Feed --&gt; Search[Поиск людей и планов]
+    Search --&gt; SearchStart[&quot;Поиск: начало — недавние запросы и интересы&quot;]
+    SearchStart --&gt; Query{Ввела запрос или выбрала интерес?}
+    Query --&gt; SearchLoad[&quot;Loading: ищем людей и планы&quot;]
+    SearchLoad --&gt; Found{Нашлось?}
+    Found --&gt;|сбой| SearchErr[&quot;Error: поиск не отработал&quot;]
+    SearchErr --&gt; Search
+    Found --&gt;|нет| SearchEmpty[&quot;Empty: ничего не нашлось — ослабить запрос или смотреть ленту&quot;]
+    SearchEmpty --&gt; Feed
+    Found --&gt;|событие| PlanCard
+    Found --&gt;|человек| Person
 
     PlanCard --&gt; Ask[&quot;Карточка запроса: отклик отправлен&quot;]
     Ask --&gt; Sent{Отклик ушёл?}

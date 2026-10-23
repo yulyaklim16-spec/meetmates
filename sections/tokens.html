@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дизайн-токены · MeetMates</title>
+<meta name="description" content="Два слоя токенов: примитив — значение, роль — ответственность. Правила, тёмная тема как проверка слоя и весь набор таблицами из самого файла.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<!-- Единственный источник правды по цвету, радиусам, шкалам и движению -->
+<link rel="stylesheet" href="../tokens/site.css">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Итоги исследования. Все значения — из tokens/site.css:
+   собственных цветов и радиусов здесь нет (Рабочие соглашения, п. 2).
+   Тёмная тема вне объёма v1 (§10), страница осознанно светлая.
+   Градиент — только на акцентах (§8).
+   ───────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-family: var(--font);
+  font-size: var(--t-body-sm);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip {
+  position: absolute; left: -9999px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface); border-radius: var(--r-sm);
+  font-weight: var(--fw-medium);
+}
+.skip:focus { left: var(--s-4); top: var(--s-4); z-index: 50; outline: 2px solid var(--brand-a); }
+
+.shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  gap: var(--s-7);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  align-items: start;
+}
+
+/* ── Боковая колонка ───────────────────────────────────────── */
+.side {
+  position: sticky; top: 0;
+  max-height: 100vh; overflow-y: auto;
+  padding: var(--s-6) 0 var(--s-6);
+}
+.side .brand {
+  display: flex; align-items: center; gap: var(--s-3);
+  margin-bottom: var(--s-2);
+}
+.side .dot {
+  width: 26px; height: 26px; border-radius: var(--r-pill);
+  background: var(--brand-gradient); flex: none; box-shadow: var(--shadow-sm);
+}
+.side .brand b { font-size: var(--t-body); letter-spacing: -0.01em; }
+.side .stage { font-size: var(--t-caption); color: var(--ink-600); margin: 0 0 var(--s-5); }
+
+.side .lbl {
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-600); margin: 0 0 var(--s-3);
+}
+
+.matlist { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--s-6); }
+.mat {
+  display: flex; gap: var(--s-3); align-items: baseline;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  text-decoration: none; color: var(--ink-900);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.mat:hover, .mat:focus-visible { background: var(--surface-2); }
+.mat:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.mat .n {
+  font-size: var(--t-micro); color: var(--ink-600);
+  font-variant-numeric: tabular-nums; flex: none; min-width: 2ch;
+}
+.mat .t { font-size: var(--t-caption); line-height: 1.45; }
+.mat .t i { display: block; font-style: normal; color: var(--ink-600); font-size: var(--t-micro); }
+.mat.current { background: var(--surface-2); }
+.mat.current .t { font-weight: var(--fw-medium); }
+.mat.soon .t { color: var(--ink-600); }
+.mat.soon .n { color: var(--line); }
+
+.anchors {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: var(--s-4); border-top: 1px solid var(--line);
+}
+.anchors a {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--t-caption);
+  text-decoration: none; color: var(--ink-600);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.anchors a:hover, .anchors a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
+.anchors a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+
+/* ── Основная колонка ──────────────────────────────────────── */
+main { padding: var(--s-7) 0 var(--s-7); min-width: 0; }
+
+.masthead { padding-bottom: var(--s-6); }
+h1 {
+  font-size: var(--t-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+  margin: 0 0 var(--s-4);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.lede { font-size: var(--t-body); color: var(--ink-600); max-width: 60ch; margin: 0 0 var(--s-5); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+.chips span { font-size: var(--t-caption); color: var(--ink-600); }
+.chips b { font-weight: var(--fw-bold); color: var(--ink-900); font-variant-numeric: tabular-nums; }
+.chips a { color: var(--brand-a); }
+
+/* ── Секции ────────────────────────────────────────────────── */
+section { padding-top: var(--s-7); scroll-margin-top: var(--s-4); }
+section > h2 {
+  font-size: var(--t-h1); font-weight: var(--fw-black);
+  letter-spacing: -0.02em; margin: 0 0 var(--s-3);
+  padding-bottom: var(--s-3); border-bottom: 1px solid var(--line);
+}
+section > .intro { font-size: var(--t-body-sm); color: var(--ink-600); max-width: 66ch; margin: 0 0 var(--s-5); }
+
+h3 {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.01em; margin: var(--s-6) 0 var(--s-3);
+}
+h4 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(--s-5) 0 var(--s-2); }
+p { margin: 0 0 var(--s-3); max-width: 72ch; }
+a { color: var(--brand-a); text-underline-offset: 3px; }
+strong { font-weight: var(--fw-bold); }
+
+ul { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+li { margin-bottom: var(--s-2); }
+ol { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+
+/* ── Пара колонок «что видели / что решили» ────────────────── */
+.duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+.duo > div { border-top: 2px solid var(--ink-900); padding-top: var(--s-4); }
+.duo h3 { margin: 0 0 var(--s-3); font-size: var(--t-body); }
+.duo ul { margin: 0; }
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+
+/* ── Таблицы ───────────────────────────────────────────────── */
+.tw {
+  overflow-x: auto; margin: 0 0 var(--s-4);
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+}
+table { border-collapse: collapse; width: 100%; font-size: var(--t-caption); }
+caption {
+  caption-side: bottom; text-align: left;
+  padding: var(--s-3) var(--s-4) 0;
+  font-size: var(--t-micro); color: var(--ink-600); line-height: 1.6;
+}
+th, td {
+  text-align: left; vertical-align: top;
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+thead th {
+  background: var(--surface-2);
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600);
+  white-space: nowrap;
+}
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+tbody th { font-weight: var(--fw-bold); font-size: var(--t-caption); white-space: nowrap; }
+td .lbl-cell { display: none; }
+.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+/* ── Чипы источников ───────────────────────────────────────── */
+.src {
+  display: inline-block;
+  font-size: var(--t-micro); line-height: 1.6;
+  padding: 1px var(--s-2); border-radius: var(--r-sm);
+  background: var(--surface-2); color: var(--ink-600);
+  white-space: nowrap;
+}
+.src.own { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.src.none { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+
+/* ── Выноски ───────────────────────────────────────────────── */
+.note {
+  border-left: 3px solid var(--brand-a);
+  padding: var(--s-2) 0 var(--s-2) var(--s-4);
+  margin: 0 0 var(--s-4); max-width: 72ch;
+  color: var(--ink-600);
+}
+.note.warn { border-left-color: var(--warn); }
+.note p:last-child, .note ul:last-child { margin-bottom: 0; }
+
+.panel {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5);
+  margin: 0 0 var(--s-4); max-width: 80ch;
+}
+.panel h4 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child, .panel ol:last-child { margin-bottom: 0; }
+
+.scores { display: grid; gap: var(--s-1); margin: 0 0 var(--s-4); max-width: 620px; }
+.srow { display: grid; grid-template-columns: 108px 1fr 34px; align-items: center; gap: var(--s-3); }
+.srow .nm { font-size: var(--t-caption); color: var(--ink-600); }
+.srow .bar { height: 16px; border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--brand-a); }
+.srow .v { font-size: var(--t-caption); font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-600); }
+.srow.us .nm, .srow.us .v { color: var(--ink-900); font-weight: var(--fw-bold); }
+.srow.us .bar { background: var(--brand-gradient); }
+.srow.bg .nm, .srow.bg .v { color: var(--ink-600); }
+.srow.bg .bar { background: var(--surface-2); border: 1px solid var(--line); }
+
+/* ── Скриншоты ─────────────────────────────────────────────── */
+.gallery {
+  display: grid; gap: var(--s-5);
+  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+}
+figure { margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+figure a {
+  display: block; border: 1px solid var(--line); border-radius: var(--r-md);
+  overflow: hidden; background: var(--surface-2); line-height: 0;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+figure a:hover, figure a:focus-visible { border-color: var(--brand-a); box-shadow: var(--shadow-md); }
+figure a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 3px; }
+figure img { width: 100%; height: 268px; object-fit: cover; object-position: top center; display: block; }
+figcaption { font-size: var(--t-caption); color: var(--ink-600); line-height: 1.5; }
+figcaption b { display: block; color: var(--ink-900); font-weight: var(--fw-bold); margin-bottom: 2px; }
+figcaption .fn { display: block; margin-top: var(--s-2); font-size: var(--t-micro); color: var(--ink-600); word-break: break-all; }
+
+.wide-shot { grid-column: 1 / -1; }
+.wide-shot .frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2); line-height: 0; }
+.wide-shot img { height: 260px; width: auto; max-width: none; object-fit: fill; }
+
+.section-nav {
+  display: flex; justify-content: space-between; gap: var(--s-4);
+  margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--line);
+  font-weight: var(--fw-medium);
+}
+.section-nav a { text-decoration: none; }
+footer {
+  margin-top: var(--s-6); padding: var(--s-5) 0 var(--s-7);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-caption); color: var(--ink-600);
+}
+footer a { color: var(--brand-a); }
+footer p { max-width: 72ch; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; gap: 0; }
+  .side { position: static; max-height: none; padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
+  .matlist { display: none; }
+  .side .stage { margin-bottom: var(--s-3); }
+  .anchors { flex-direction: row; flex-wrap: wrap; border-top: none; padding-top: 0; }
+}
+
+/* ── Персоны ───────────────────────────────────────────────── */
+.persona {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5); margin: 0 0 var(--s-5);
+}
+.persona.primary { border-color: var(--brand-a); box-shadow: var(--shadow-sm); }
+.persona.supply { border-style: dashed; }
+.phead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s-4); }
+.phead h3 { margin: 0 0 var(--s-1); }
+.pscene { margin: 0; color: var(--ink-600); font-size: var(--t-caption); max-width: 60ch; }
+.pneed { margin: var(--s-4) 0; padding: var(--s-3) var(--s-4); background: var(--surface-2); border-radius: var(--r-sm); font-size: var(--t-caption); max-width: none; }
+.pgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4) var(--s-5); }
+.pgrid h4 { margin: 0 0 var(--s-2); font-size: var(--t-micro); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-600); }
+.pgrid ul { margin: 0; padding-left: var(--s-4); font-size: var(--t-caption); }
+.pgrid li { margin-bottom: var(--s-1); }
+.pquote {
+  margin: var(--s-5) 0 0; padding: var(--s-4) var(--s-5);
+  border-left: 3px solid var(--brand-a); background: var(--surface-2); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-body-sm); line-height: 1.5;
+}
+.pquote cite { display: block; margin-top: var(--s-2); font-style: normal; font-size: var(--t-micro); color: var(--ink-600); }
+.pnote { margin: var(--s-4) 0 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+@media (max-width: 760px) { .pgrid { grid-template-columns: 1fr; } .phead { flex-direction: column; } }
+
+/* ── Пилюли статуса (как на хабе) ─────────────────────────── */
+.pill { flex: none; font-size: var(--t-micro); font-weight: var(--fw-medium); padding: 3px 10px; border-radius: var(--r-pill); letter-spacing: 0.02em; white-space: nowrap; }
+.pill.ready { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.pill.rules { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+.pill.empty { background: var(--surface-2); color: var(--ink-600); }
+
+/* ── Jobs ──────────────────────────────────────────────────── */
+.job { margin: 0 0 var(--s-4); padding: var(--s-4) var(--s-5); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.job.main { border-color: var(--brand-a); }
+.jcode { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-a); margin-bottom: var(--s-2); }
+.job blockquote { margin: 0 0 var(--s-2); font-size: var(--t-body-sm); font-weight: var(--fw-medium); line-height: 1.5; }
+.job.main blockquote { font-size: var(--t-body); }
+.jmeta { margin: 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+.jlist li { margin-bottom: var(--s-2); }
+.section-nav .soon { color: var(--ink-600); }
+
+/* ── Раздел 08: дизайн-токены ───────────────────────────────── */
+
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ── Что показывать в разделе: подпункты в самом дереве ───── */
+.subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
+.subtabs a { position: relative; padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
+.subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
+.subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+/* Выбранный подпункт — жирный и с точкой слева, а не залитый: заливка занята
+   самим разделом, и два залитых пятна в колонке спорят друг с другом */
+.subtabs a[aria-current="true"] { color: var(--ink-900); font-weight: var(--fw-bold); }
+.subtabs a[aria-current="true"]::before {
+  content: ""; position: absolute; left: calc(var(--s-3) * -1 - 1px); top: 50%;
+  width: 5px; height: 5px; margin-top: -2px; border-radius: 50%; background: var(--ink-900);
+}
+
+/* Нажат любой подпункт — разделы сжимаются до номеров.
+   Сами подпункты остаются: иначе, нажав первый, человек в нём запрётся */
+.shell[data-collapsed] { grid-template-columns: 124px minmax(0, 1fr); gap: var(--s-5); }
+.shell[data-collapsed] .side .stage,
+.shell[data-collapsed] .side .lbl,
+.shell[data-collapsed] .side .brand b,
+.shell[data-collapsed] .side .mat .t { display: none; }
+.shell[data-collapsed] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
+.shell[data-collapsed] .side .mat { justify-content: center; padding: var(--s-3) 0; }
+.shell[data-collapsed] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
+.shell[data-collapsed] .side .mat.current .n { color: var(--ink-900); font-weight: var(--fw-medium); }
+.shell[data-collapsed] .side .subtabs { margin-left: 0; padding-left: var(--s-2); border-left-color: var(--line); }
+.shell[data-collapsed] .side .subtabs a { font-size: var(--t-micro); padding: var(--s-2); }
+@media (max-width: 900px) {
+  .shell[data-collapsed] { grid-template-columns: minmax(0, 1fr); }
+}
+.tok { width: 100%; border-collapse: collapse; margin: 0 0 var(--s-5); font-size: var(--t-caption); }
+.tok th { text-align: left; font-weight: var(--fw-semibold); color: var(--ink-600); padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); }
+.tok td { padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); vertical-align: top; }
+.tok tr:last-child td { border-bottom: 0; }
+.tok .c-sw { width: 56px; }
+.tok .val { white-space: nowrap; }
+.tok .tnote { color: var(--ink-600); max-width: 48ch; }
+.tok .dim { color: var(--ink-600); }
+.tok code { font-size: var(--t-caption); white-space: nowrap; }
+/* Имя токена не переносится: «--bg-page-wash» в две строки читается как два
+   разных имени. Столбцу имён отдана фиксированная ширина, длинные значения
+   сокращаются в самой сборке. */
+.tok--dark td:first-child { width: 22ch; }
+.tok--dark .dim code { white-space: nowrap; }
+/* Образец показывает само значение: цвет заливкой, тень — тенью, радиус —
+   своим углом. Подписи под ним нет — имя стоит в соседней клетке. */
+.sw { display: inline-block; width: 36px; height: 24px; border-radius: var(--r-sm); border: 1px solid var(--line); vertical-align: middle; }
+.sw--sm { width: 16px; height: 16px; margin-right: var(--s-2); }
+.sw--wide { width: 56px; }
+.sw--shadow { background: var(--surface); }
+.sw--radius { background: var(--surface-2); }
+.sw--none { background: repeating-linear-gradient(45deg, var(--surface-2) 0 4px, transparent 4px 8px); }
+.type { display: inline-block; line-height: 1; color: var(--ink-900); }
+.bar { display: inline-block; height: 12px; border-radius: 2px; background: var(--brand-a); vertical-align: middle; }
+#info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">К содержимому</a>
+
+<div class="shell">
+<aside class="side">
+    <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
+    <p class="stage">Разделы проекта</p>
+
+    <nav aria-label="Разделы">
+      <p class="lbl">Разделы</p>
+      <div class="matlist">
+        <a class="mat" href="../research/research.html"><span class="n">01</span><span class="t">Ресерч и бенчмарк<i>готово</i></span></a>
+        <a class="mat" href="../research/persones.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>готово</i></span></a>
+        <a class="mat" href="ia.html"><span class="n">03</span><span class="t">Информационная архитектура<i>готово</i></span></a>
+        <a class="mat" href="wireframes.html"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>готово</i></span></a>
+        <a class="mat" href="voice.html"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>готово</i></span></a>
+        <a class="mat" href="concept.html"><span class="n">06</span><span class="t">Концепт<i>готово</i></span></a>
+        <a class="mat" href="kit.html"><span class="n">07</span><span class="t">Сборка UI<i>готово</i></span></a>
+        <a class="mat current" href="tokens.html" aria-current="page"><span class="n">08</span><span class="t">Дизайн-токены<i>текущий раздел</i></span></a>
+        <nav class="subtabs" aria-label="Что показывать в разделе">
+          <a href="#info" data-tab="info" aria-current="true">Информация</a>
+          <a href="#set" data-tab="set">Набор</a>
+        </nav>
+        <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
+      </div>
+    </nav>
+
+  </aside>
+
+  <main id="content">
+    <div class="masthead">
+      <p class="eyebrow">Раздел 08</p>
+      <h1>Дизайн-токены</h1>
+      <p class="lede">Два слоя: <b>примитив</b> — значение само по себе, <b>роль</b> — ответственность.
+        Компонент берёт цвет только ролью, геометрию — только примитивом. Таблицы ниже собраны
+        из <a href="../tokens.css">tokens.css</a> при сборке страницы, поэтому отстать не могут.</p>
+      <div class="chips">
+        <span>97 примитивов</span>
+        <span>29 ролей</span>
+        <span>19 переопределений в тёмной</span>
+        <span>ноль значений в компонентах</span>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="info">
+      <h1 class="vh">Дизайн-токены: информация</h1>
+<blockquote><p>Из чего собран цвет, размер и форма продукта. Значения живут в <a href="../tokens.css"><code>tokens.css</code></a>; эта страница объясняет, <strong>почему их два слоя</strong> и кто какой имеет право читать.</p>
+<p>Таблицы во вкладке «Набор» собираются из самого файла: числа здесь не переписываются руками и отстать не могут.</p></blockquote>
+
+      <section id="два-слоя-и-граница-между-ними-жёсткая">
+        <h2>Два слоя, и граница между ними жёсткая</h2>
+<p><strong>Примитив — это значение.</strong> <code>--plum-900: #1A1026</code>, <code>--space-16: 16px</code>, <code>--radius-lg: 26px</code>. Имя говорит, <strong>что это</strong>, и ничего не говорит о месте: сливовый 900 остаётся сливовым 900, где бы ни стоял.</p>
+<p><strong>Роль — это ответственность.</strong> <code>--bg-surface</code>, <code>--text-muted</code>, <code>--color-action</code>, <code>--border-hairline</code>. Имя говорит, <strong>за что отвечает</strong>, а значение — всегда <code>var()</code> на примитив. Своего числа у роли не бывает.</p>
+<p>Разделение отвечает на два разных вопроса, которые в одном слое склеиваются. «Поменяй оттенок сиреневого» — правка примитива, и она разойдётся всюду сама. «Фон карточки теперь не белый» — правка роли, и она не тронет остальные белые места. Пока слой был один, эти правки были неразличимы, а имена давались по месту: <code>--card-ring</code>, <code>--tab-current</code>, <code>--glass-strong</code>. Такое имя перестаёт отвечать на вопрос «куда это ставить», как только компонент переезжает.</p>
+      </section>
+
+      <section id="четыре-правила">
+        <h2>Четыре правила</h2>
+<p><strong>1. Цвет компонент берёт только ролью.</strong> <code>var(--plum-800)</code> в <code>components/</code> — ошибка. Нужен цвет, роли у которого нет, — роль заводится, а не одалживается у соседа.</p>
+<p><strong>2. Геометрию компонент берёт примитивом, и ролей у неё нет.</strong> Отступ и радиус одинаковы в любой теме; роль здесь была бы вторым именем без второго смысла.</p>
+<p><strong>3. Цвет, не стоящий нигде, в палитре не висит.</strong> <code>--warn</code> сняли, когда оказалось, что он не красит ни одного экрана; <code>--radius-xl</code> — когда выяснилось, что bottom sheet, под который он заведён, не нарисован. Значение уходит в журнал решений и возвращается вместе с экраном, которому понадобится.</p>
+<p><strong>4. Слово на цветной подложке берёт свою роль, а не наследует соседнюю.</strong> <code>--text-on-action</code>, <code>--text-on-selected</code>, <code>--text-on-verified</code>. Наследование выглядит экономией ровно до второй темы: лаймовая лейба <code>Verified</code> наследовала основной текст и в тёмной теме стала белой на лайме — 1,22:1.</p>
+      </section>
+
+      <section id="тёмная-тема-проверка-а-не-фича">
+        <h2>Тёмная тема — проверка, а не фича</h2>
+<p>Блок <code>[data-theme=&quot;dark&quot;]</code> в том же файле переопределяет <strong>19 ролей и ни одного примитива</strong>: новых значений в нём нет, роли просто показывают на другие ступени той же сливовой шкалы.</p>
+<p>Смысл не в том, чтобы продукт умел темнеть, — <strong>в продукт тёмная тема не принята</strong>. Смысл в вопросе, который нельзя задать иначе: если тему не удаётся занести ролями, значит где-то компонент читает значение напрямую. Первый же прогон нашёл <strong>пятнадцать таких мест</strong> и девять составных рецептов с зашитым цветом; второй — лейбу без своих чернил и подписи, красившиеся старым набором.</p>
+      </section>
+
+      <section id="что-проверяют-скрипты">
+        <h2>Что проверяют скрипты</h2>
+<div class="tw"><table><thead><tr><th>Скрипт</th><th>Что ловит</th></tr></thead><tbody>
+<tr><td><code>node scripts/contrast.mjs</code></td><td>Контраст пар из токенов: текст 4.5:1, не-текст 3:1</td></tr>
+<tr><td><code>node scripts/palette-audit.mjs</code></td><td>Различимость: ΔE2000 между ролями, порог ступени 3,5. Одно значение под двумя именами разрешено только с записанной причиной</td></tr>
+<tr><td><code>node scripts/tokens-audit.mjs</code></td><td>Литералы цвета и шрифта в <code>components/</code>, переменные без объявления, расхождение корневого <code>tokens.css</code> с <code>tokens/tokens.css</code></td></tr>
+<tr><td><code>node scripts/build-figma-tokens.mjs</code></td><td>Собирает набор для Figma из того же файла — руками его не правят</td></tr>
+</tbody></table></div>
+      </section>
+
+      <section id="что-уезжает-в-figma">
+        <h2>Что уезжает в Figma</h2>
+<p><a href="../figma/"><code>figma/</code></a> — переменные двумя коллекциями: <code>Primitive</code> и <code>Semantic</code>, роли ссылками на примитивы. Тени, размытие и проценты переменными в Figma не держатся и переносятся стилями и строками. Тёмная тема в набор не идёт: это те же имена с другими значениями, и без режимов коллекции они затёрли бы светлые.</p>
+      </section>
+
+      <section id="чего-в-наборе-нет-нарочно">
+        <h2>Чего в наборе нет нарочно</h2>
+<p>Ролей под то, что ещё не нарисовано. Предупреждение о приватном адресе, поле, прошедшее проверку в создании события, bottom sheet фильтров — экраны отложены, и цвета под них ждут в журнале решений, а не в палитре.</p>
+      </section>
+    </div>
+
+    <div class="tabpanel" id="set">
+      <h1 class="vh">Дизайн-токены: набор</h1>
+
+      <section id="prim-color">
+        <h2>Примитивы: цвет и составные значения</h2>
+        <p class="intro">Имя говорит, <b>что это</b>, и молчит о месте. Компонент к ним
+          за цветом не обращается — только роль.</p>
+      <h3>Цвет: нейтральное</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--white</code></td><td class="val"><code>#FFFFFF</code></td><td class="tnote">Сведённый дрейф A3: белый жил под четырьмя именами — --bg, --surface, роли, которые им пользуются, перечислены в SEMANTIC.</td></tr>
+    <tr><td><i class="sw" style="background:#ECECEC"></i></td><td><code>--gray-100</code></td><td class="val"><code>#ECECEC</code></td><td class="tnote">Сведённый дрейф A1: волосяная граница была записана дважды — нейтральным #ECECEC в тенях и сиреневым #E8E1F1 на дорожке переключателя и кольцах радара. Остался нейтральный.</td></tr>
+  </tbody>
+</table>
+
+      <h3>Цвет: сливовое, от самого тёмного</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#0B051D"></i></td><td><code>--plum-950</code></td><td class="val"><code>#0B051D</code></td><td class="tnote">заливка действия</td></tr>
+    <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--plum-900</code></td><td class="val"><code>#1A1026</code></td><td class="tnote">Сведённый дрейф A2: #1A1026 носил три имени — --ink-900, --ink-on-label и --verified. Значение одно.</td></tr>
+    <tr><td><i class="sw" style="background:#2A1C4D"></i></td><td><code>--plum-800</code></td><td class="val"><code>#2A1C4D</code></td><td class="tnote">наведение действия; роли у него здесь нет</td></tr>
+    <tr><td><i class="sw" style="background:#4C3F59"></i></td><td><code>--plum-600</code></td><td class="val"><code>#4C3F59</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#8C7E9B"></i></td><td><code>--plum-400</code></td><td class="val"><code>#8C7E9B</code></td><td class="tnote">Одно значение на две будущие роли: контурная иконка и кольцо фокуса (--ink-400 и --focus в ките). Фокус сюда не выведен.</td></tr>
+  </tbody>
+</table>
+
+      <h3>Цвет: сиреневое, лестницей от светлого к тёмному</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#F2EDF6"></i></td><td><code>--lilac-50</code></td><td class="val"><code>#F2EDF6</code></td><td class="tnote">вложенная поверхность</td></tr>
+    <tr><td><i class="sw" style="background:#E9E1F1"></i></td><td><code>--lilac-100</code></td><td class="val"><code>#E9E1F1</code></td><td class="tnote">наведение; роли здесь нет</td></tr>
+    <tr><td><i class="sw" style="background:#E4DAEA"></i></td><td><code>--lilac-150</code></td><td class="val"><code>#E4DAEA</code></td><td class="tnote">самое тёмное место размытия — по нему считается контраст</td></tr>
+    <tr><td><i class="sw" style="background:#E3DAEF"></i></td><td><code>--lilac-200</code></td><td class="val"><code>#E3DAEF</code></td><td class="tnote">своя реплика в чате — см. «Критику шага 06»</td></tr>
+    <tr><td><i class="sw" style="background:#E0D6EE"></i></td><td><code>--lilac-300</code></td><td class="val"><code>#E0D6EE</code></td><td class="tnote">выбранное; роли здесь нет</td></tr>
+  </tbody>
+</table>
+
+      <h3>Цвет: лайм, малиновое, розовое</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#D9F56F"></i></td><td><code>--lime-300</code></td><td class="val"><code>#D9F56F</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#C01F4A"></i></td><td><code>--crimson-600</code></td><td class="val"><code>#C01F4A</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#96123A"></i></td><td><code>--crimson-700</code></td><td class="val"><code>#96123A</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#F59BAF"></i></td><td><code>--rose-300</code></td><td class="val"><code>#F59BAF</code></td><td class="tnote">реплика, которая не ушла — см. «Критику шага 06»</td></tr>
+  </tbody>
+</table>
+
+      <h3>Цвет: составное</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw sw--wide" style="background-image:radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)"></i></td><td><code>--gradient-page-wash</code></td><td class="val"><code>radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)</code></td><td class="tnote">Размытие экрана: два пятна поверх вертикальной рампы. Одиннадцать стопов рампы оставлены значениями нарочно — это одна картинка, а не одиннадцать ролей; первый стоп вынесен примитивом --lilac-150, потому что по нему считается контраст.</td></tr>
+  </tbody>
+</table>
+
+      <h3>Тень и кольцо: рецепты, собранные из примитивов</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 1px 3px rgba(11, 5, 29, .45)"></i></td><td><code>--shadow-dot</code></td><td class="val"><code>0 1px 3px rgba(11, 5, 29, .45)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:inset 0 0 0 1px var(--white)"></i></td><td><code>--ring-dot</code></td><td class="val"><code>inset 0 0 0 1px var(--white)</code></td><td class="tnote">—</td></tr>
+  </tbody>
+</table>
+
+      <h3>Размер</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-control</code></td><td class="val"><code>44px</code></td><td class="tnote">минимальный тач-таргет</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-screen-w</code></td><td class="val"><code>390px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-screen-h</code></td><td class="val"><code>844px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-sm</code></td><td class="val"><code>16px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-md</code></td><td class="val"><code>24px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-lg</code></td><td class="val"><code>32px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-button</code></td><td class="val"><code>20px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-avatar</code></td><td class="val"><code>24px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-avatar-drop</code></td><td class="val"><code>-6px</code></td><td class="tnote">посадка кружка на базовую линию</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-thumb</code></td><td class="val"><code>56px</code></td><td class="tnote">миниатюра в строке выдачи</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-cover</code></td><td class="val"><code>168px</code></td><td class="tnote">обложка события</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-card</code></td><td class="val"><code>400px</code></td><td class="tnote">карточка человека</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-state-icon</code></td><td class="val"><code>64px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-textarea</code></td><td class="val"><code>96px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-scroll-gutter</code></td><td class="val"><code>10px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar</code></td><td class="val"><code>340px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-5</code></td><td class="val"><code>300px</code></td><td class="tnote">Пять колец радара. Числа лежат здесь, а координаты снимков на кольцах — в components/radar.css и остаются числами: это рисунок, а не шкала.</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-4</code></td><td class="val"><code>250px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-3</code></td><td class="val"><code>200px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-2</code></td><td class="val"><code>150px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-1</code></td><td class="val"><code>100px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot</code></td><td class="val"><code>56px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-sm</code></td><td class="val"><code>40px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-lg</code></td><td class="val"><code>72px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-ring</code></td><td class="val"><code>4px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-hairline</code></td><td class="val"><code>1px</code></td><td class="tnote">физический пиксель: клип скрытой подписи</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-pager-dot</code></td><td class="val"><code>6px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-line</code></td><td class="val"><code>12px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-pill</code></td><td class="val"><code>20px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-count</code></td><td class="val"><code>80px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-blur-photo</code></td><td class="val"><code>14px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--width-s</code></td><td class="val"><code>28%</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--width-m</code></td><td class="val"><code>44%</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--width-l</code></td><td class="val"><code>62%</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--width-bubble</code></td><td class="val"><code>80%</code></td><td class="tnote">—</td></tr>
+  </tbody>
+</table>
+      </section>
+
+      <section id="roles">
+        <h2>Роли</h2>
+        <p class="intro">Каждая показывает на примитив и ни на что больше. Третья колонка —
+          во что роль упирается сейчас; четвёртая — из какого употребления она выросла.</p>
+      <h3>Прочее</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Роль</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--bg-page</code></td><td class="val"><code>--white</code> <span class="dim">#FFFFFF</span></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--wide" style="background-image:radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)"></i></td><td><code>--bg-page-wash</code></td><td class="val"><code>--gradient-page-wash</code> <span class="dim">radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)</span></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--bg-surface</code></td><td class="val"><code>--white</code> <span class="dim">#FFFFFF</span></td><td class="tnote">Выросла из 18 употреблений: .mm-event, .mm-person, .mm-row, .mm-banner, поверх размытия (§5 «Фон карточки»). То же значение, что у --bg-page: роли разные и в тёмной теме разойдутся.</td></tr>
+    <tr><td><i class="sw" style="background:#F2EDF6"></i></td><td><code>--bg-nested</code></td><td class="val"><code>--lilac-50</code> <span class="dim">#F2EDF6</span></td><td class="tnote">Выросла из 19 употреблений: .mm-cover, .mm-photo, .mm-thumb, .mm-avatar, карточки (§5 «Фон вложенного»). Имя не «вторая поверхность» — уровень здесь не номер, а отношение «внутри карточки».</td></tr>
+  </tbody>
+</table>
+
+      <h3>Текст и иконка</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Роль</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--text-primary</code></td><td class="val"><code>--plum-900</code> <span class="dim">#1A1026</span></td><td class="tnote">Выросла из 19 цветовых употреблений: .mm (корень), .mm-subhead, Ею же пишется слово на лаймовой лейбе — прежняя --ink-on-label.</td></tr>
+    <tr><td><i class="sw" style="background:#4C3F59"></i></td><td><code>--text-muted</code></td><td class="val"><code>--plum-600</code> <span class="dim">#4C3F59</span></td><td class="tnote">Выросла из 17 употреблений: .mm-facts, .mm-meta, .mm-distance, (§5 «Текст второстепенный»).</td></tr>
+    <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--text-on-action</code></td><td class="val"><code>--white</code> <span class="dim">#FFFFFF</span></td><td class="tnote">Выросла из двух: .mm-btn--primary и .mm-band — текст на тёмной заливке (§5 «Действие»). Значение белое, но роль своя: в тёмной теме она разойдётся с фоном страницы.</td></tr>
+    <tr><td><i class="sw" style="background:#96123A"></i></td><td><code>--text-danger</code></td><td class="val"><code>--crimson-700</code> <span class="dim">#96123A</span></td><td class="tnote">Выросла из трёх: .mm-head-btn--danger, .mm-danger-link, от заливки, потому что на размытии заливке контраста хватает, а слову нет (§8 брифа).</td></tr>
+    <tr><td><i class="sw" style="background:#8C7E9B"></i></td><td><code>--icon-muted</code></td><td class="val"><code>--plum-400</code> <span class="dim">#8C7E9B</span></td><td class="tnote">Выросла из .mm-tab svg, .mm-field svg, .mm-field-btn и разделителя-точки в .mm-signals (§5 «Текст служебный / иконка»). Названа иконкой нарочно: по правилу §8 брифа этим серым нельзя писать текст.</td></tr>
+  </tbody>
+</table>
+
+      <h3>Действие, доверие, опасность, граница</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Роль</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#0B051D"></i></td><td><code>--color-action</code></td><td class="val"><code>--plum-950</code> <span class="dim">#0B051D</span></td><td class="tnote">Выросла из .mm-btn--primary (заливка), .mm-head-btn--primary и .mm-band, а тёмный акцент: роль шире имени, и это записано в разборе.</td></tr>
+    <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--text-on-verified</code></td><td class="val"><code>--plum-900</code> <span class="dim">#1A1026</span></td><td class="tnote">Выросла из .mm-verified и .mm-promise mark: слово на лайме. Раньше цвет наследовался от --text-primary, и в тёмной теме лейба получала белое слово на светлом лайме — 1,22:1. У лейбы свой носитель и свои чернила.</td></tr>
+    <tr><td><i class="sw" style="background:#D9F56F"></i></td><td><code>--color-verified</code></td><td class="val"><code>--lime-300</code> <span class="dim">#D9F56F</span></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#C01F4A"></i></td><td><code>--color-danger</code></td><td class="val"><code>--crimson-600</code> <span class="dim">#C01F4A</span></td><td class="tnote">Выросла из кольца поля с ошибкой и иконки состояния-тревоги (§5 «Опасность»). Заливка и обводка опасного — здесь; слово — выше, в --text-danger.</td></tr>
+    <tr><td><i class="sw" style="background:#ECECEC"></i></td><td><code>--border-hairline</code></td><td class="val"><code>--gray-100</code> <span class="dim">#ECECEC</span></td><td class="tnote">Выросла из пяти рецептов: три тени, кольцо аватара и обводка панели (§5 «Граница»). Единственная волосяная линия продукта — после того как A1 свёл два значения в одно.</td></tr>
+  </tbody>
+</table>
+
+      <h3>Роли состояний</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Роль</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#E9E1F1"></i></td><td><code>--bg-hover</code></td><td class="val"><code>--lilac-100</code> <span class="dim">#E9E1F1</span></td><td class="tnote">Выросла из наведения пяти органов: .mm-btn, .mm-head-btn и его видов, .mm-field, .mm-menu a, .mm-danger-link (§5, разбор B1).</td></tr>
+    <tr><td><i class="sw" style="background:#E0D6EE"></i></td><td><code>--bg-selected</code></td><td class="val"><code>--lilac-300</code> <span class="dim">#E0D6EE</span></td><td class="tnote">Выросла из .mm-tab.is-current и .mm-menu a.is-current — выбранное (§5, разбор A4).</td></tr>
+    <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--text-on-selected</code></td><td class="val"><code>--plum-900</code> <span class="dim">#1A1026</span></td><td class="tnote">Текст на выбранном: пара к --bg-selected, как --text-on-action к действию. В светлой теме совпадает с основным текстом, в тёмной расходится.</td></tr>
+    <tr><td><i class="sw" style="background:#2A1C4D"></i></td><td><code>--color-action-hover</code></td><td class="val"><code>--plum-800</code> <span class="dim">#2A1C4D</span></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#8C7E9B"></i></td><td><code>--border-focus</code></td><td class="val"><code>--plum-400</code> <span class="dim">#8C7E9B</span></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#E3DAEF"></i></td><td><code>--bg-mine</code></td><td class="val"><code>--lilac-200</code> <span class="dim">#E3DAEF</span></td><td class="tnote">Выросла из .mm-bubble--mine — своё в разговоре (§6, одиночная роль, подтвердилась темой: в тёмной она переопределяется отдельно).</td></tr>
+    <tr><td><i class="sw" style="background:#F59BAF"></i></td><td><code>--bg-undelivered</code></td><td class="val"><code>--rose-300</code> <span class="dim">#F59BAF</span></td><td class="tnote">—</td></tr>
+  </tbody>
+</table>
+
+      <h3>Составные роли: тень, кольцо, блик</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Роль</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04)"></i></td><td><code>--shadow-1</code></td><td class="val"><code>0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06)"></i></td><td><code>--shadow-2</code></td><td class="val"><code>0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline), 0 2px 10px rgba(17, 17, 17, .07)"></i></td><td><code>--shadow-3</code></td><td class="val"><code>0 0 0 1px var(--border-hairline), 0 2px 10px rgba(17, 17, 17, .07)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline)"></i></td><td><code>--ring-hairline</code></td><td class="val"><code>0 0 0 1px var(--border-hairline)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:inset 0 0 0 1px var(--border-hairline)"></i></td><td><code>--ring-hairline-inset</code></td><td class="val"><code>inset 0 0 0 1px var(--border-hairline)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-focus)"></i></td><td><code>--ring-focus</code></td><td class="val"><code>0 0 0 1px var(--border-focus)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--color-danger)"></i></td><td><code>--ring-error</code></td><td class="val"><code>0 0 0 1px var(--color-danger)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--wide" style="background-image:linear-gradient(90deg, var(--bg-nested) 0%, var(--bg-hover) 50%, var(--bg-nested) 100%)"></i></td><td><code>--bg-skeleton</code></td><td class="val"><code>linear-gradient(90deg, var(--bg-nested) 0%, var(--bg-hover) 50%, var(--bg-nested) 100%)</code></td><td class="tnote">—</td></tr>
+  </tbody>
+</table>
+      </section>
+
+      <section id="scales">
+        <h2>Шкалы</h2>
+        <p class="intro">Геометрия и шрифт ролей не получают: отступ и радиус одинаковы
+          в любой теме, и второе имя добавило бы слово, а не смысл.</p>
+        <h3>Кегль</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><span class="type" style="font-size:34px">Aa</span></td><td><code>--text-34</code></td><td class="val"><code>34px</code></td><td class="tnote">—</td></tr>
+    <tr><td><span class="type" style="font-size:28px">Aa</span></td><td><code>--text-28</code></td><td class="val"><code>28px</code></td><td class="tnote">—</td></tr>
+    <tr><td><span class="type" style="font-size:22px">Aa</span></td><td><code>--text-22</code></td><td class="val"><code>22px</code></td><td class="tnote">—</td></tr>
+    <tr><td><span class="type" style="font-size:20px">Aa</span></td><td><code>--text-20</code></td><td class="val"><code>20px</code></td><td class="tnote">стрелка возврата — знак, а не текст</td></tr>
+    <tr><td><span class="type" style="font-size:18px">Aa</span></td><td><code>--text-18</code></td><td class="val"><code>18px</code></td><td class="tnote">—</td></tr>
+    <tr><td><span class="type" style="font-size:16px">Aa</span></td><td><code>--text-16</code></td><td class="val"><code>16px</code></td><td class="tnote">—</td></tr>
+    <tr><td><span class="type" style="font-size:14px">Aa</span></td><td><code>--text-14</code></td><td class="val"><code>14px</code></td><td class="tnote">—</td></tr>
+    <tr><td><span class="type" style="font-size:12px">Aa</span></td><td><code>--text-12</code></td><td class="val"><code>12px</code></td><td class="tnote">—</td></tr>
+  </tbody>
+</table>
+        <h3>Шаг</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><i class="bar" style="width:2px"></i></td><td><code>--space-2</code></td><td class="val"><code>2px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="bar" style="width:4px"></i></td><td><code>--space-4</code></td><td class="val"><code>4px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="bar" style="width:6px"></i></td><td><code>--space-6</code></td><td class="val"><code>6px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="bar" style="width:8px"></i></td><td><code>--space-8</code></td><td class="val"><code>8px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="bar" style="width:12px"></i></td><td><code>--space-12</code></td><td class="val"><code>12px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="bar" style="width:16px"></i></td><td><code>--space-16</code></td><td class="val"><code>16px</code></td><td class="tnote">поле экрана</td></tr>
+    <tr><td><i class="bar" style="width:24px"></i></td><td><code>--space-24</code></td><td class="val"><code>24px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="bar" style="width:32px"></i></td><td><code>--space-32</code></td><td class="val"><code>32px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="bar" style="width:48px"></i></td><td><code>--space-48</code></td><td class="val"><code>48px</code></td><td class="tnote">ступень шкалы; компонента с этим шагом пока нет</td></tr>
+    <tr><td><i class="bar" style="width:2px 8px"></i></td><td><code>--space-label</code></td><td class="val"><code>2px 8px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="bar" style="width:8px"></i></td><td><code>--space-mark</code></td><td class="val"><code>.02em .12em</code></td><td class="tnote">—</td></tr>
+  </tbody>
+</table>
+        <h3>Радиус</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw sw--radius" style="border-radius:14px"></i></td><td><code>--radius-sm</code></td><td class="val"><code>14px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--radius" style="border-radius:18px"></i></td><td><code>--radius-md</code></td><td class="val"><code>18px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--radius" style="border-radius:26px"></i></td><td><code>--radius-lg</code></td><td class="val"><code>26px</code></td><td class="tnote">карточка</td></tr>
+    <tr><td><i class="sw sw--radius" style="border-radius:999px"></i></td><td><code>--radius-pill</code></td><td class="val"><code>999px</code></td><td class="tnote">—</td></tr>
+  </tbody>
+</table>
+        <h3>Размер</h3>
+<table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--measure-text</code></td><td class="val"><code>30ch</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-control</code></td><td class="val"><code>44px</code></td><td class="tnote">минимальный тач-таргет</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-screen-w</code></td><td class="val"><code>390px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-screen-h</code></td><td class="val"><code>844px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-sm</code></td><td class="val"><code>16px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-md</code></td><td class="val"><code>24px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-lg</code></td><td class="val"><code>32px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-icon-button</code></td><td class="val"><code>20px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-avatar</code></td><td class="val"><code>24px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-avatar-drop</code></td><td class="val"><code>-6px</code></td><td class="tnote">посадка кружка на базовую линию</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-thumb</code></td><td class="val"><code>56px</code></td><td class="tnote">миниатюра в строке выдачи</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-cover</code></td><td class="val"><code>168px</code></td><td class="tnote">обложка события</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-card</code></td><td class="val"><code>400px</code></td><td class="tnote">карточка человека</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-state-icon</code></td><td class="val"><code>64px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-textarea</code></td><td class="val"><code>96px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-scroll-gutter</code></td><td class="val"><code>10px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar</code></td><td class="val"><code>340px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-5</code></td><td class="val"><code>300px</code></td><td class="tnote">Пять колец радара. Числа лежат здесь, а координаты снимков на кольцах — в components/radar.css и остаются числами: это рисунок, а не шкала.</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-4</code></td><td class="val"><code>250px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-3</code></td><td class="val"><code>200px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-2</code></td><td class="val"><code>150px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-radar-1</code></td><td class="val"><code>100px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot</code></td><td class="val"><code>56px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-sm</code></td><td class="val"><code>40px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-lg</code></td><td class="val"><code>72px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-dot-ring</code></td><td class="val"><code>4px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-hairline</code></td><td class="val"><code>1px</code></td><td class="tnote">физический пиксель: клип скрытой подписи</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-pager-dot</code></td><td class="val"><code>6px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-line</code></td><td class="val"><code>12px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-pill</code></td><td class="val"><code>20px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-skel-count</code></td><td class="val"><code>80px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--size-blur-photo</code></td><td class="val"><code>14px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--width-s</code></td><td class="val"><code>28%</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--width-m</code></td><td class="val"><code>44%</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--width-l</code></td><td class="val"><code>62%</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--none"></i></td><td><code>--width-bubble</code></td><td class="val"><code>80%</code></td><td class="tnote">—</td></tr>
+  </tbody>
+</table>
+      </section>
+
+      <section id="dark">
+        <h2>Тёмная тема: та же роль, другая ступень</h2>
+        <p class="intro">В продукт не принята — это проверка слоя. Переопределяются
+          только роли: примитивы не тронуты, новых значений нет. Контраст считается там,
+          где роль лежит: текст — на своей поверхности, слово на кнопке — на самой кнопке.
+          Прочерк значит, что роль сама и есть поверхность.</p>
+<table class="tok tok--dark">
+  <thead><tr><th>Роль</th><th>Светлая</th><th>Тёмная</th><th>Контраст, светлая → тёмная</th></tr></thead>
+  <tbody>
+    <tr><td><code>--bg-page</code></td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><span class="dim">#FFFFFF</span></td><td><i class="sw sw--sm" style="background:#0B051D"></i><span class="dim">#0B051D</span></td><td class="val">—</td></tr>
+    <tr><td><code>--bg-page-wash</code></td><td><span class="dim">рампа и два пятна</span></td><td><span class="dim">none</span></td><td class="val">—</td></tr>
+    <tr><td><code>--bg-surface</code></td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><span class="dim">#FFFFFF</span></td><td><i class="sw sw--sm" style="background:#2A1C4D"></i><span class="dim">#2A1C4D</span></td><td class="val">—</td></tr>
+    <tr><td><code>--bg-nested</code></td><td><i class="sw sw--sm" style="background:#F2EDF6"></i><span class="dim">#F2EDF6</span></td><td><i class="sw sw--sm" style="background:#1A1026"></i><span class="dim">#1A1026</span></td><td class="val">—</td></tr>
+    <tr><td><code>--text-primary</code></td><td><i class="sw sw--sm" style="background:#1A1026"></i><span class="dim">#1A1026</span></td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><span class="dim">#FFFFFF</span></td><td class="val">18,32:1 → 15,31:1 <span class="dim">на <code>--bg-surface</code></span></td></tr>
+    <tr><td><code>--text-muted</code></td><td><i class="sw sw--sm" style="background:#4C3F59"></i><span class="dim">#4C3F59</span></td><td><i class="sw sw--sm" style="background:#E0D6EE"></i><span class="dim">#E0D6EE</span></td><td class="val">9,71:1 → 10,95:1 <span class="dim">на <code>--bg-surface</code></span></td></tr>
+    <tr><td><code>--icon-muted</code></td><td><i class="sw sw--sm" style="background:#8C7E9B"></i><span class="dim">#8C7E9B</span></td><td><i class="sw sw--sm" style="background:#8C7E9B"></i><span class="dim">#8C7E9B</span></td><td class="val">3,77:1 → 4,06:1 <span class="dim">на <code>--bg-surface</code></span></td></tr>
+    <tr><td><code>--color-action</code></td><td><i class="sw sw--sm" style="background:#0B051D"></i><span class="dim">#0B051D</span></td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><span class="dim">#FFFFFF</span></td><td class="val">—</td></tr>
+    <tr><td><code>--text-on-action</code></td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><span class="dim">#FFFFFF</span></td><td><i class="sw sw--sm" style="background:#0B051D"></i><span class="dim">#0B051D</span></td><td class="val">19,93:1 → 19,93:1 <span class="dim">на <code>--color-action</code></span></td></tr>
+    <tr><td><code>--color-action-hover</code></td><td><i class="sw sw--sm" style="background:#2A1C4D"></i><span class="dim">#2A1C4D</span></td><td><i class="sw sw--sm" style="background:#F2EDF6"></i><span class="dim">#F2EDF6</span></td><td class="val">—</td></tr>
+    <tr><td><code>--color-danger</code></td><td><i class="sw sw--sm" style="background:#C01F4A"></i><span class="dim">#C01F4A</span></td><td><i class="sw sw--sm" style="background:#F59BAF"></i><span class="dim">#F59BAF</span></td><td class="val">5,94:1 → 7,43:1 <span class="dim">на <code>--bg-surface</code></span></td></tr>
+    <tr><td><code>--text-danger</code></td><td><i class="sw sw--sm" style="background:#96123A"></i><span class="dim">#96123A</span></td><td><i class="sw sw--sm" style="background:#F59BAF"></i><span class="dim">#F59BAF</span></td><td class="val">8,59:1 → 7,43:1 <span class="dim">на <code>--bg-surface</code></span></td></tr>
+    <tr><td><code>--border-hairline</code></td><td><i class="sw sw--sm" style="background:#ECECEC"></i><span class="dim">#ECECEC</span></td><td><i class="sw sw--sm" style="background:#8C7E9B"></i><span class="dim">#8C7E9B</span></td><td class="val">1,18:1 → 4,06:1 <span class="dim">на <code>--bg-surface</code></span></td></tr>
+    <tr><td><code>--border-focus</code></td><td><i class="sw sw--sm" style="background:#8C7E9B"></i><span class="dim">#8C7E9B</span></td><td><i class="sw sw--sm" style="background:#E0D6EE"></i><span class="dim">#E0D6EE</span></td><td class="val">3,77:1 → 10,95:1 <span class="dim">на <code>--bg-surface</code></span></td></tr>
+    <tr><td><code>--bg-hover</code></td><td><i class="sw sw--sm" style="background:#E9E1F1"></i><span class="dim">#E9E1F1</span></td><td><i class="sw sw--sm" style="background:#4C3F59"></i><span class="dim">#4C3F59</span></td><td class="val">—</td></tr>
+    <tr><td><code>--bg-selected</code></td><td><i class="sw sw--sm" style="background:#E0D6EE"></i><span class="dim">#E0D6EE</span></td><td><i class="sw sw--sm" style="background:#8C7E9B"></i><span class="dim">#8C7E9B</span></td><td class="val">—</td></tr>
+    <tr><td><code>--text-on-selected</code></td><td><i class="sw sw--sm" style="background:#1A1026"></i><span class="dim">#1A1026</span></td><td><i class="sw sw--sm" style="background:#0B051D"></i><span class="dim">#0B051D</span></td><td class="val">13,11:1 → 5,29:1 <span class="dim">на <code>--bg-selected</code></span></td></tr>
+    <tr><td><code>--bg-mine</code></td><td><i class="sw sw--sm" style="background:#E3DAEF"></i><span class="dim">#E3DAEF</span></td><td><i class="sw sw--sm" style="background:#4C3F59"></i><span class="dim">#4C3F59</span></td><td class="val">—</td></tr>
+    <tr><td><code>--bg-undelivered</code></td><td><i class="sw sw--sm" style="background:#F59BAF"></i><span class="dim">#F59BAF</span></td><td><i class="sw sw--sm" style="background:#96123A"></i><span class="dim">#96123A</span></td><td class="val">—</td></tr>
+  </tbody>
+</table>
+        <p class="tnote">Волосяная граница в светлой теме даёт 1,18:1 и порога не-текста
+          не держит — это принятая цена: карточку отрывает от фона не линия в одиночку,
+          а линия вместе с почти прозрачной тенью (<a href="../DESIGN.md">DESIGN.md</a>,
+          правило линии вместо облака). В тёмной у той же роли 4,06:1.</p>
+      </section>
+    </div>
+
+    <footer>
+      <p>Раздел 8 из 12 · Дизайн-токены. Текст — <a href="../tokens.md">tokens.md</a>,
+        значения — <a href="../tokens.css">tokens.css</a>, применение —
+        <a href="../DESIGN.md">DESIGN.md</a>, набор для Figma — <a href="../figma/">figma/</a>.</p>
+      <nav class="section-nav"><a href="kit.html">← Раздел 7 · Сборка UI</a></nav>
+    </footer>
+  </main>
+</div>
+
+<script>
+// Подпункты текущего раздела в дереве. Нажат любой — дерево сжимается до номеров,
+// вернуть его целиком можно нажатием на сам номер раздела. Без скрипта — якоря.
+(function () {
+  var ids = ["info","set"];
+  var shell = document.querySelector('.shell');
+  var subtabs = document.querySelector('.subtabs');
+  if (!shell || !subtabs) return;
+  var panels = {};
+  for (var i = 0; i < ids.length; i++) panels[ids[i]] = document.getElementById(ids[i]);
+  var links = subtabs.querySelectorAll('a[data-tab]');
+
+  function show(name, collapsed, push) {
+    shell.setAttribute('data-tab', name);
+    if (collapsed) shell.setAttribute('data-collapsed', '');
+    else shell.removeAttribute('data-collapsed');
+    for (var k in panels) if (panels[k]) panels[k].hidden = (k !== name);
+    for (var j = 0; j < links.length; j++) {
+      if (links[j].getAttribute('data-tab') === name) links[j].setAttribute('aria-current', 'true');
+      else links[j].removeAttribute('aria-current');
+    }
+    if (push) history.replaceState(null, '', '#' + name);
+  }
+
+  subtabs.addEventListener('click', function (e) {
+    var a = e.target.closest('a[data-tab]');
+    if (!a) return;
+    e.preventDefault();
+    show(a.getAttribute('data-tab'), true, true);
+  });
+
+  // номер раздела возвращает дерево целиком, не трогая показанное
+  var cur = document.querySelector('.side .mat.current');
+  if (cur) cur.addEventListener('click', function (e) {
+    if (shell.hasAttribute('data-collapsed')) {
+      e.preventDefault();
+      show(shell.getAttribute('data-tab'), false, false);
+    }
+  });
+
+  // переход по якорю внутри той же страницы (и кнопки «назад»/«вперёд»)
+  // не перезагружает её — вкладку переключаем сами
+  window.addEventListener('hashchange', function () {
+    var n = location.hash.slice(1);
+    if (ids.indexOf(n) > -1) show(n, true, false);
+  });
+
+  var h = location.hash.slice(1);
+  var known = ids.indexOf(h) > -1;
+  show(known ? h : ids[0], known, false);
+})();
+</script>
+
+</body>
+</html>

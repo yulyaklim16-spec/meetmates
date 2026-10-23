@@ -39,7 +39,9 @@ const tok = (name) => {
 
 const PALETTE = [
   { title: 'Действие — один цвет на экран', names: ['--action', '--ink-on-action'] },
-  { title: 'Статусы', names: ['--label', '--success', '--warn', '--danger'] },
+    // --warn снят D-78: он не красил ни одного экрана. Вернётся вместе
+  // с предупреждением о приватном адресе — тогда и встанет обратно в ряд.
+  { title: 'Статусы', names: ['--label', '--success', '--danger'] },
   { title: 'Текст', names: ['--ink-900', '--ink-600', '--ink-400'] },
   { title: 'Поверхности', names: ['--bg', '--surface', '--surface-2', '--line'] },
 ];

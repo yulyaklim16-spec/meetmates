@@ -120,6 +120,7 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 | [research/](./research/) | 🟡 разборы готовы, интервью TBD | Конкуренты, бенчмарк доверия, паттерны, люди, jobs |
 | [wireframes/](./wireframes/) | ✅ 50 страниц из 50, разбор пройден | 13 экранов и все состояния из таблицы [`_screens.md`](./wireframes/_screens.md), в мокапе телефона, связаны по рёбрам `flows.md`. Что проверялось и что починено — [`_critique.md`](./wireframes/_critique.md) |
 | [concept/](./concept/) | 🟡 направление выбрано | R «Сирень» `D-62`: стенд стиля, лента событий и профиль во всех состояниях, одиннадцать направлений четырёх раундов. Прежнее D «Стекло» `D-61` снято 2026-10-09 и сохранено значениями на доске [skins.html](./concept/skins.html). Текст — [concept.md](./concept/concept.md), раздел 6 сайта собирается из него |
+| [tokens.css](./tokens.css) + [tokens.md](./tokens.md) | ✅ два слоя, раздел 08 собран | 97 примитивов и 29 ролей, тёмная тема проверкой слоя; страница раздела — [sections/tokens.html](./sections/tokens.html) |
 | [tokens/](./tokens/) | ✅ базовый набор | [tokens.css](./tokens/tokens.css) + [tokens.json](./tokens/tokens.json) |
 | [ui/](./ui/) | ✅ набор собран: `tokens.css` + `components/`, надет на все 50 экранов | **Сборка UI:** 126 переменных в [tokens.css](./tokens.css) двумя уровнями и 100 классов в [components/](./components/), оболочка разметкой [shell.html](./ui/shell.html), витрина [kit.html](./ui/kit.html) — 33 компонента, 119 клеток, у каждой имя «роль-состояние-вид». Снят с окрашенных экранов, а не нарисован заново: расходится кит с экраном — прав экран. Текст — [kit.md](./ui/kit.md), состав и порог отбора — [inventory.md](./ui/inventory.md) |
 | [design-system/](./design-system/) | 🟡 инварианты зафиксированы | Правила применения, копирайт-гайд |
@@ -148,6 +149,11 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 **Тёмная тема** (`D-76`) живёт блоком `[data-theme="dark"]` в том же файле и переопределяет
 **19 ролей, ни одного примитива**. В продукт она не принята: это проверка слоя — если тему
 нельзя занести ролями, значит компонент где-то читает значение напрямую.
+
+**Весь набор таблицами** — раздел 08 сайта: [sections/tokens.html](./sections/tokens.html)
+(образцы цвета, роли со ссылкой на примитив, шкалы, светлая против тёмной).
+Текст раздела — [tokens.md](./tokens.md), страница собирается
+`node scripts/build-tokens-section.mjs` прямо из `tokens.css`.
 
 Те же токены уезжают в Figma — [`figma/`](./figma/), собирается
 `node scripts/build-figma-tokens.mjs`; руками набор не правят.

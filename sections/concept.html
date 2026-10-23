@@ -422,7 +422,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
           <a href="../concept/screens/radar.html">Экраны</a>
         </nav>
         <a class="mat" href="kit.html"><span class="n">07</span><span class="t">Сборка UI<i>готово</i></span></a>
-        <a class="mat soon" href="?section=8"><span class="n">08</span><span class="t">Design Tokens<i>скоро</i></span></a>
+        <a class="mat" href="tokens.html"><span class="n">08</span><span class="t">Дизайн-токены<i>готово</i></span></a>
         <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
         <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
         <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
@@ -441,7 +441,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
         <span><b>11</b> направлений в четырёх раундах</span>
         <span><b>1</b> выбрано — R «Сирень»</span>
         <span><b>56</b> страниц концепта</span>
-        <span><b>32</b> пар цвета проверены</span>
+        <span><b>30</b> пар цвета проверены</span>
       </div>
       <!--PUBLIC-NOTE-->
     </div>
@@ -461,8 +461,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
           <h3>Статусы</h3>
           <ul class="sw">
             <li><i style="background:#D9F56F"></i><b>--label</b><code>#D9F56F</code><span>подложка лейбы Verified</span></li>
-            <li><i style="background:#1C7A4E"></i><b>--success</b><code>#1C7A4E</code><span>успех: Joined, confirmed, поле прошло проверку; 5.3:1 на --bg</span></li>
-            <li><i style="background:#8A5200"></i><b>--warn</b><code>#8A5200</code><span>производный: текст предупреждения, 6.4:1 на --bg</span></li>
+            <li><i style="background:#1C7A4E"></i><b>--success</b><code>#1C7A4E</code><span></span></li>
             <li><i style="background:#C01F4A"></i><b>--danger</b><code>#C01F4A</code><span>заливка и обводка опасного: 5.9:1 на --bg</span></li>
           </ul>
         </div>
@@ -520,7 +519,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
         </div>
 
         <details class="src">
-          <summary>Контраст — 32 пар, порог 4.5:1 для текста и 3:1 для иконок</summary>
+          <summary>Контраст — 30 пар, порог 4.5:1 для текста и 3:1 для иконок</summary>
 <blockquote><p>Сгенерировано <code>node scripts/contrast.mjs</code> из <code>tokens/tokens.css</code>. Руками не править. Порог: текст 4.5:1, иконки 3:1. Фон экрана — градиент, поэтому текст на нём считается по <code>--bg-wash-top</code>, самому тёмному месту размытия.</p></blockquote>
 <div class="tw"><table><thead><tr><th>Где</th><th>Текст</th><th>Фон</th><th>Коэффициент</th><th>Порог</th><th>Проходит</th></tr></thead><tbody>
 <tr><td>Основной текст на фоне экрана</td><td><code>--ink-900</code> #1A1026</td><td><code>--bg</code> #FFFFFF</td><td><strong>18.32:1</strong></td><td>4.5:1</td><td>да</td></tr>
@@ -541,9 +540,7 @@ details.src summary { cursor: pointer; font-size: var(--t-caption); color: var(-
 <tr><td>Обводка непринятого поля (не текст)</td><td><code>--danger</code> #C01F4A</td><td><code>--bg-wash-top</code> #E4DAEA</td><td><strong>4.39:1</strong></td><td>3:1</td><td>да</td></tr>
 <tr><td>Ошибка под полем на карточке</td><td><code>--danger-ink</code> #96123A</td><td><code>--surface</code> #FFFFFF</td><td><strong>8.59:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Отказ под полем, Report на размытии</td><td><code>--danger-ink</code> #96123A</td><td><code>--bg-wash-top</code> #E4DAEA</td><td><strong>6.35:1</strong></td><td>4.5:1</td><td>да</td></tr>
-<tr><td>Успех на фоне экрана</td><td><code>--success</code> #1C7A4E</td><td><code>--bg</code> #FFFFFF</td><td><strong>5.33:1</strong></td><td>4.5:1</td><td>да</td></tr>
-<tr><td>Успех под полем на карточке</td><td><code>--success</code> #1C7A4E</td><td><code>--surface</code> #FFFFFF</td><td><strong>5.33:1</strong></td><td>4.5:1</td><td>да</td></tr>
-<tr><td>Предупреждение на фоне экрана</td><td><code>--warn</code> #8A5200</td><td><code>--bg</code> #FFFFFF</td><td><strong>6.39:1</strong></td><td>4.5:1</td><td>да</td></tr>
+<tr><td>Принятое поле на карточке</td><td><code>--success</code> #1C7A4E</td><td><code>--surface</code> #FFFFFF</td><td><strong>5.33:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Текст на тёмной кнопке шапки, выбранный чип</td><td><code>--surface</code> #FFFFFF</td><td><code>--ink-900</code> #1A1026</td><td><strong>18.32:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Сегмент Mine на дорожке переключателя</td><td><code>--ink-900</code> #1A1026</td><td><code>--surface-2</code> #F2EDF6</td><td><strong>15.9:1</strong></td><td>4.5:1</td><td>да</td></tr>
 <tr><td>Подпись кнопки под курсором</td><td><code>--ink-900</code> #1A1026</td><td><code>--hover</code> #E9E1F1</td><td><strong>14.4:1</strong></td><td>4.5:1</td><td>да</td></tr>
