@@ -675,34 +675,34 @@ a { color: var(--w-ink); }
 /* высота превью фиксирована: лента держит ритм, и что помещается в строку —
    известно заранее. Заголовок — максимум две строки, дальше карточка события */
 .item.ev {
-  display: grid; grid-template-columns: 104px 1fr;
-  /* свободная высота уходит в первую строку, иначе обложка не дотягивается донизу */
-  grid-template-rows: 1fr auto;
-  column-gap: var(--s-3); row-gap: 0;
-  /* отступ снизу равен верхнему — его задаёт сам .item; обложка кончается выше кнопки */
-  height: 176px; overflow: hidden;
+  /* обложка во всю ширину сверху, под ней текст и действие */
+  display: grid; grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  row-gap: 0;
+  padding: 0; overflow: hidden;
 }
-.item.ev:not(:has(.acts)) { height: 116px; }
 .item.ev .cover {
-  /* обложка занимает всю высоту строки: под ней не остаётся пустоты, а карточка
-     читается двумя блоками — картинка и текст с действием  D-58 */
-  /* обложка стоит только над строкой действий: кнопка идёт во всю ширину карточки */
-  grid-row: 1;
-  align-self: stretch;
-  /* min-height у обложки держал бы строку сетки и выдавливал кнопку за отступ */
-  width: 104px; min-height: 0;
+  /* обложка во всю ширину и фиксированной высоты: лента держит ритм
+     при любых пропорциях снимка  D-58 */
+  grid-row: 1; position: relative;
+  width: 100%; height: 132px;
   border: 1px solid var(--w-line);
   border-radius: var(--r-sm);
   background: var(--w-zone);
 }
 /* три строки текста стоят плотно: они об одном событии, а не о разных вещах */
 /* текст может ужаться: иначе он выдавливает кнопку за нижний отступ */
-.item.ev .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; min-height: 0; overflow: hidden; }
-.item.ev .acts { margin-top: var(--s-3); }
+/* обложка уходит в край карточки, поэтому поля достаются тексту и действию */
+.item.ev .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: var(--s-3) var(--s-4) 0; }
+.item.ev .acts { margin: 0; padding: var(--s-3) var(--s-4); }
+/* знаки на снимке: отметка проверки и расстояние, одно под другим */
+.item.ev .cardtop { position: absolute; top: var(--s-2); right: var(--s-2); margin: 0;
+  display: flex; flex-direction: column; align-items: flex-end; gap: var(--s-1); }
 /* действия тянутся во всю ширину правого столбца — до самой обложки.
    Когда их два, вторичное сокращается до `Invite`: в 196px полное имя не влезает,
    а на карточке события кнопка называется целиком */
 .item.ev .acts { grid-column: 1 / -1; }
+.item.ev { padding: 0; }
 .item.ev .acts .btn { flex: 1; white-space: nowrap; padding-left: var(--s-2); padding-right: var(--s-2); }
 /* главное действие шире второго: подпись длиннее, и переносить её нельзя */
 .item.ev .acts .btn:first-child { flex: 1.6; }
@@ -710,6 +710,8 @@ a { color: var(--w-ink); }
    Дата стоит в строке заголовка и звучит тише: она уточняет, а не спорит с ним.
    От автора в превью остаётся один `Verified` D-57 — в строке про места, он про людей */
 .item.ev .top { align-items: baseline; gap: var(--s-2); }
+/* число в «когда» тяжелее времени: по дате решают */
+.item.ev .when b { font-weight: 600; color: var(--w-ink); }
 /* заголовок занимает две строки максимум: дальше — карточка события.
    Высота строки фиксирована, и третьей строке в ней места нет */
 .item.ev .top > b {

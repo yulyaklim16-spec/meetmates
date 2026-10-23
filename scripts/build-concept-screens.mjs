@@ -351,14 +351,19 @@ for (const name of SCREENS) {
     if (!t && /class="skel/.test(inner)) return li;
     const hit = PHOTOS.find(([k]) => t.startsWith(k));
     if (!hit) throw new Error(`${name}: нет фото для события «${t}»`);
-    return li.replace('<span class="cover" aria-hidden="true"></span>',
-      `<span class="cover" aria-hidden="true"><img src="${img(hit[1] + '.jpg')}" alt="" loading="lazy"></span>`);
+    // снимок встаёт первым внутрь обложки: поверх него могут уже лежать
+    // отметка проверки и расстояние, и они должны остаться выше фотографии
+    return li.replace(/<span class="cover"([^>]*)>/,
+      `<span class="cover"$1><img src="${img(hit[1] + '.jpg')}" alt="" loading="lazy">`);
   });
   // В заглушке обложка пустая нарочно: фотографии ещё нет, и серый
   // прямоугольник .mm-cover — это и есть место под неё. Проверка смотрит
   // только на рабочие карточки, не на списки с aria-hidden.
   const liveCovers = body.replace(/<ul class="rows" aria-hidden="true">[\s\S]*?<\/ul>/g, '');
-  if (/<span class="cover"[^>]*><\/span>/.test(liveCovers)) throw new Error(`${name}: осталась пустая обложка`);
+  // обложка без снимка: внутри может лежать что угодно, но <img> обязан быть
+  for (const m of liveCovers.matchAll(/<span class="(?:mm-)?cover"[^>]*>([\s\S]*?)<\/span>\s*<span class="(?:mm-)?(?:event-)?body"/g)) {
+    if (!/<img/.test(m[1])) throw new Error(`${name}: осталась пустая обложка`);
+  }
 
   // 4. иконки по подписи
   body = body.replace(/<span class="ico( lg| sm)?" aria-hidden="true"><\/span>([A-Za-z]+)/g, (m, size, label) => {
