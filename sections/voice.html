@@ -404,8 +404,8 @@ details.inv h3 { font-size: var(--t-body-sm); margin: var(--s-4) 0 var(--s-2); }
       <div class="chips">
         <span><b>5</b> принципов</span>
         <span><b>21</b> слово в словаре</span>
-        <span><b>515</b> строк интерфейса</span>
-        <span><b>100</b> правок текста</span>
+        <span><b>513</b> строк интерфейса</span>
+        <span><b>101</b> правка текста</span>
       </div>
       <!--PUBLIC-NOTE-->
     </div>
@@ -949,9 +949,8 @@ Hang tight! We're working on it 🎉</pre>
 </tbody></table></div>
       </details>
       <details class="inv" id="iv-3-позвать-вдвоём">
-        <summary>IV.3 Позвать вдвоём<span>63 строки</span></summary>
+        <summary>IV.3 Позвать вдвоём<span>62 строки</span></summary>
         <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
-<tr><td><strong>во всех</strong></td><td>События, куда помещаются двое</td><td><code>Verified</code></td><td>подпись</td></tr>
 <tr><td><strong>во всех</strong></td><td>События, куда помещаются двое</td><td><code>~3 km</code></td><td>подпись</td></tr>
 <tr><td><strong>во всех</strong></td><td>События, куда помещаются двое</td><td><code>~1 km</code></td><td>подпись</td></tr>
 <tr><td><strong>во всех</strong></td><td>шапка</td><td><code>Back to the chat</code></td><td>aria-label</td></tr>
@@ -1017,9 +1016,8 @@ Hang tight! We're working on it 🎉</pre>
 </tbody></table></div>
       </details>
       <details class="inv" id="iii-1-лента-событий">
-        <summary>III.1 Лента событий<span>45 строк</span></summary>
+        <summary>III.1 Лента событий<span>44 строки</span></summary>
         <div class="tw"><table><thead><tr><th>Состояние</th><th>Зона</th><th>Строка</th><th>Тип</th></tr></thead><tbody>
-<tr><td><strong>во всех</strong></td><td>Лента</td><td><code>Verified</code></td><td>подпись</td></tr>
 <tr><td>рабочий вид</td><td>Лента</td><td><code>~3 km</code></td><td>подпись</td></tr>
 <tr><td>рабочий вид</td><td>Лента</td><td><code>~1 km</code></td><td>подпись</td></tr>
 <tr><td>рабочий вид</td><td>Лента</td><td><code>~2 km</code></td><td>подпись</td></tr>
@@ -1383,6 +1381,7 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td><code>search</code></td><td>кнопка</td><td>у человека действия не было</td><td><code>Like</code></td><td>У события в той же выдаче действие на карточке есть (<code class="dcode">D-54</code>), у человека не было — хотя короткая карточка показывает ровно то, по чему решают в колоде. <code>Skip</code> не добавлен: отбрасывать нечего, выдача не очередь (<code class="dcode">D-65</code>)</td></tr>
 <tr><td><code>plan</code> · <code>plan-success</code> · <code>plan-waiting</code></td><td>подпись</td><td><code>Saturday, 18:00</code></td><td><code>Sat, 26 Sep · 18:00</code>, число полужирным</td><td>Карточка события догнала превью (<code class="dcode">D-63</code>): по числу решают, час его уточняет. День недели остался — на карточке он помогает, в превью не помещается</td></tr>
 <tr><td><code>plan</code> · <code>plan-success</code> · <code>plan-waiting</code></td><td>подпись</td><td><code>Kyiv Games Club · Podil · ~3 km</code></td><td><code>Kyiv Games Club · Podil</code>, расстояние — чипом на снимке</td><td>Тот же знак, что в превью. В тексте он повторялся бы дважды</td></tr>
+<tr><td><code>feed</code> · <code>invite</code> · <code>invite-waiting</code> · <code>search</code> · <code>profile</code></td><td>подпись</td><td><code>Verified</code> на снимке события</td><td>строки нет</td><td>Проверку проходит человек, а не план (§7.3). Лайм на фотографии настолки читался как «событие проверено» — механики, которая это подтверждала бы, в продукте нет. Знак остался там, где рядом человек: на его снимке и в строке автора на карточке события (<code class="dcode">D-66</code>)</td></tr>
 </tbody></table></div>
 <h3 id="карточка-запроса-и-мои-события-plan-success-my-events-plan-error-16-10">Карточка запроса и мои события: <code>plan-success</code> · <code>my-events</code> · <code>plan-error</code> — 16.10</h3>
 <p>Правка по критике: экраны врали данными и проводкой, а не словами.</p>
@@ -1538,7 +1537,7 @@ Hang tight! We're working on it 🎉</pre>
 <tr><td><code>Post an event →</code></td><td>стрелка ушла вместе с адресом: экран создания вне набора, кнопка никуда не ведёт</td></tr>
 <tr><td><code>board games</code></td><td>строка на месте, не видел её скрипт: запрос поиска стоит в <code>value</code> поля. Чинился скрипт, а не таблица</td></tr>
 </tbody></table></div>
-<p>Инвентарь — <strong>515 строк</strong>, из них 267 различных. Подпись для скринридера стала третьим невидимым типом рядом со скрытым заголовком и <code>aria-label</code>.</p>
+<p>Инвентарь — <strong>513 строк</strong>, из них 267 различных. Подпись для скринридера стала третьим невидимым типом рядом со скрытым заголовком и <code>aria-label</code>.</p>
 <p><strong>Что не дефект, хотя похоже:</strong> <code>Expand search</code> (колода) против <code>Show events further out</code> (лента) — решение по ширине, полное имя в <code>aria-label</code>; <code>Change the day</code> рядом с <code>Suggest a day</code> — другое действие; <code>Meanwhile</code> / <code>What next</code> / <code>Ways out of the chat</code> — имена по типу состояния, а не три имени одной зоны; <code>Open the event</code> рядом с <code>Open the chat</code> — разные объекты.</p>
       </section>
 

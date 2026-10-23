@@ -233,7 +233,7 @@ const btn = (mod, state, text) => `<a class="mm-btn${mod}${state}" href="#">${te
 const evCard = (acts, pic = 'games', head = 'Board games', when = '<b>26 Sep</b> &middot; 18:00', where = 'Kyiv Games Club &middot; Podil', spots = '2 going &middot; 1 spot left') =>
   `<ul class="mm-list">
           <li class="mm-event${acts.cardState || ''}">
-            <span class="mm-cover">${cover(pic)}<span class="mm-cardtop"><span class="mm-verified">${I.verified}Verified</span><span class="mm-chip">${ico('pin')}~3 km</span></span></span>
+            <span class="mm-cover">${cover(pic)}<span class="mm-cardtop"><span class="mm-chip">${ico('pin')}~3 km</span></span></span>
             <span class="mm-event-body">
               <a class="mm-event-head" href="#"><b>${head}</b><span class="mm-meta">${when}</span></a>
               <span class="mm-facts">${where}</span>
@@ -438,7 +438,7 @@ const GROUPS = [
       cell('Event-Hover', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join'), cardState: ' is-hover' }), 'kit-cell--wide'),
       cell('Event-Default-Two actions', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join') + btn(' mm-btn--quiet', '', 'Invite') }, 'run', 'Morning run along the embankment', 'No date yet', 'Podil &middot; ~1 km', '1 going &middot; 2 spots left'), 'kit-cell--wide'),
       cell('Event-Default-No spots', evCard({ html: '<button class="mm-btn mm-btn--primary" type="button" disabled>No spots left</button>' }, 'coffee', 'Coffee and a walk in Podil', 'Sun 11:00', 'Podil &middot; ~2 km', 'No spots left &middot; Women only'), 'kit-cell--wide'),
-    ], 'Три уровня чтения (<code>D-55</code>…<code>D-58</code>): что и когда · где · сколько мест. Обложка идёт во всю ширину сверху — прежняя полоса в 104px слева снимок обозначала, а не показывала. На снимке два знака один под другим: отметка проверки и округлённое расстояние; в тексте под ним остаются занятие с датой, площадка и счётчик. Дата стоит рядом с временем и тяжелее его: по ней решают. Где мест два и больше, появляется второе действие — <code>Invite</code>. Заполненное событие пишется словом, а не нулём (<code>D-60</code>).'),
+    ], 'Три уровня чтения (<code>D-55</code>…<code>D-58</code>): что и когда · где · сколько мест. Обложка идёт во всю ширину сверху — прежняя полоса в 104px слева снимок обозначала, а не показывала. На снимке один знак — округлённое расстояние: отметка проверки на снимок события не ставится (<code>D-66</code>), её место там, где виден человек. В тексте под снимком остаются занятие с датой, площадка и счётчик. Дата стоит рядом с временем и тяжелее его: по ней решают. Где мест два и больше, появляется второе действие — <code>Invite</code>. Заполненное событие пишется словом, а не нулём (<code>D-60</code>).'),
 
     comp('Строка списка', '.mm-row', [
       cell('Row-Default', `<ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true">${face('olena')}</span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul>`, 'kit-cell--wide'),
