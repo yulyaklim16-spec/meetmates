@@ -135,7 +135,7 @@ body:has(#bare:target) .device { margin: 0 auto; }
 }
 .wfstates li a, .wfstates li b {
   display: block; padding: 5px var(--s-2); border-radius: var(--r-pill);
-  font-size: var(--t-micro); text-decoration: none; white-space: nowrap;
+  font-size: var(--t-caption); text-decoration: none; white-space: nowrap;
 }
 .wfstates li a { color: var(--ink-600); font-weight: var(--fw-regular); }
 .wfstates li a:hover { color: var(--ink-900); }
@@ -150,7 +150,7 @@ body:has(#bare:target) .device { margin: 0 auto; }
 }
 .wfkind a, .wfkind b {
   padding: 5px var(--s-3); border-radius: var(--r-pill);
-  font-size: var(--t-micro); font-weight: var(--fw-regular); color: var(--ink-600);
+  font-size: var(--t-caption); font-weight: var(--fw-regular); color: var(--ink-600);
   text-decoration: none; white-space: nowrap;
 }
 .wfkind a:hover { color: var(--ink-900); }
@@ -195,7 +195,7 @@ body:has(#bare:target) .device { margin: 0 auto; }
 :root[data-w="desktop"] .device::after {
   content: "Раскладка под эту ширину не нарисована — раздел 10, Responsive";
   position: absolute; left: 0; right: 0; bottom: calc(var(--s-5) * -1);
-  text-align: center; font-size: var(--t-micro); color: var(--ink-600);
+  text-align: center; font-size: var(--t-caption); color: var(--ink-600);
 }
 /* ── устройство: корпус и экран ───────────────────────────── */
 .device {
@@ -226,7 +226,7 @@ body:not(.kit) .screen {
 .device > .mm-screen { position: relative; border-radius: 34px; }
 
 /* системные зоны: чужие, продукт их не рисует — только тихо обозначает */
-.statusbar, .browserbar { flex: none; display: flex; align-items: center; font-size: var(--t-micro); }
+.statusbar, .browserbar { flex: none; display: flex; align-items: center; font-size: var(--t-caption); }
 .statusbar { height: 47px; padding: 0 var(--s-6); justify-content: space-between; font-weight: var(--fw-semibold); color: var(--ink-900); }
 .browserbar { height: 50px; justify-content: center; background: var(--surface-2); color: var(--ink-600); }
 .homebar { flex: none; height: 34px; display: flex; align-items: center; justify-content: center; background: var(--surface-2); }
@@ -236,7 +236,7 @@ body:not(.kit) .screen {
 .fold { position: absolute; left: 0; right: 0; bottom: 84px; height: 0; text-align: right; }
 .fold span {
   display: inline-block; transform: translateY(2px); margin-right: var(--s-3); padding: 0 var(--s-2);
-  font-size: var(--t-micro); color: var(--ink-600); background: var(--surface-2); border-radius: var(--r-pill);
+  font-size: var(--t-caption); color: var(--ink-600); background: var(--surface-2); border-radius: var(--r-pill);
 }
 
 /* ── содержимое ───────────────────────────────────────────── */

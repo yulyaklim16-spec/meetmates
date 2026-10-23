@@ -33,7 +33,7 @@
 
   .board { display: grid; grid-template-columns: repeat(auto-fill, 390px); gap: var(--s-6) var(--s-5); align-items: start; }
   .col h2 { margin: 0 0 2px; font: var(--fw-semibold) var(--t-h3)/var(--lh-heading) var(--font); letter-spacing: var(--tr-heading); }
-  .col .tag { display: inline-block; margin: 0 0 var(--s-3); padding: 2px 8px; border-radius: var(--r-pill); background: var(--surface-2); font-size: var(--t-micro); color: var(--ink-600); }
+  .col .tag { display: inline-block; margin: 0 0 var(--s-3); padding: 2px 8px; border-radius: var(--r-pill); background: var(--surface-2); font-size: var(--t-caption); color: var(--ink-600); }
   .col .note { margin: var(--s-3) 0 0; font-size: var(--t-caption); color: var(--ink-600); }
   .col .note b { color: var(--ink-900); font-weight: var(--fw-semibold); }
   .stage { padding: var(--s-4); border-radius: var(--r-lg); background: var(--bg-wash) var(--bg); background-size: cover; }
@@ -64,7 +64,7 @@
   .a .tear::after { right: calc(var(--s-5) * -1 - 12px); }
   .a .stub { display: grid; grid-template-columns: auto 1fr; gap: 2px var(--s-3); padding: var(--s-4); }
   .a .big { grid-row: 1 / span 2; font: var(--fw-bold) var(--t-h2)/1 var(--font); letter-spacing: var(--tr-heading); }
-  .a .big small { display: block; font: var(--fw-medium) var(--t-micro)/1.4 var(--font); letter-spacing: .08em; color: var(--ink-600); text-transform: uppercase; }
+  .a .big small { display: block; font: var(--fw-medium) var(--t-caption)/1.4 var(--font); letter-spacing: .08em; color: var(--ink-600); text-transform: uppercase; }
   .a .act { grid-column: 1 / -1; margin-top: var(--s-3); }
 
   /* ── B. Арка ────────────────────────────────────────────────────── */
@@ -82,7 +82,7 @@
     border-radius: var(--r-md); background: var(--action); color: var(--ink-on-action);
     font: var(--fw-bold) var(--t-h2)/1 var(--font); letter-spacing: var(--tr-heading);
   }
-  .c .day small { display: block; margin-top: 2px; font: var(--fw-medium) var(--t-micro)/1.3 var(--font); letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
+  .c .day small { display: block; margin-top: 2px; font: var(--fw-medium) var(--t-caption)/1.3 var(--font); letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
   .c .pic { width: 64px; height: 64px; border-radius: var(--r-sm); overflow: hidden; }
   .c .act { grid-column: 1 / -1; }
 
