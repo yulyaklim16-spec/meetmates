@@ -656,10 +656,18 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
    профиль, где стоят Skip и Like, поэтому кнопки на ней нет. */
 .mm-person--compact { height: auto; }
 .mm-person--compact figure { flex: none; height: var(--mm-cover-h); }
+/* Коротким видом карточка стала ссылкой — тап открывает профиль. Подчёркивание
+   с неё снимается: подчёркнуты были бы и имя, и интересы, и сигналы. */
+a.mm-person { text-decoration: none; color: inherit; }
 
 /* Короткий вид в плитке: обложка ещё ниже, поля уже — две карточки в ряд. */
 .mm-list--grid .mm-person--compact figure { height: var(--mm-cover-h-sm); }
 .mm-list--grid .mm-person-body { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
+/* В 170px сигналы не встают в строку: точка-разделитель оставалась висеть
+   в начале второй строки. В плитке они идут друг под другом, и разделитель
+   не нужен — его место занимает перенос. */
+.mm-list--grid .mm-signals { flex-direction: column; align-items: flex-start; gap: var(--mm-s-hair); }
+.mm-list--grid .mm-signals li + li::before { content: none; margin: 0; }
 
 /* Шаг 22px: заголовок предмета или группы внутри экрана — имя человека
    на карточке, название группы в списке, заголовок состояния. Имя по роли,
