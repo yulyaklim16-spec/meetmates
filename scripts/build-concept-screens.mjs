@@ -179,7 +179,11 @@ const KIT = new Set([
 // имена, которые переводятся один в один
 const CLASS_MAP = {
   app: 'mm-app', pane: 'mm-pane', scrolly: 'mm-scrolly', stretch: 'mm-stretch', pin: 'mm-pin',
-  rows: 'mm-list', rail: 'mm-list--rail', grouphead: 'mm-grouphead', more: 'mm-more', exit: 'mm-btn', who: 'mm-facts', when: 'mm-meta', note: 'mm-note',
+  rows: 'mm-list', item: 'mm-row', media: 'mm-row--media', thumb: 'mm-thumb', round: 'mm-thumb--round',
+  // body к этому месту остаётся только у строки: тело карточки события
+  // и карточки человека переведены выше, каждое своим правилом
+  body: 'mm-row-body',
+  grouphead: 'mm-grouphead', more: 'mm-more', exit: 'mm-btn', who: 'mm-facts', when: 'mm-meta', note: 'mm-note',
   common: 'mm-common', distance: 'mm-distance', signals: 'mm-signals', verified: 'mm-verified',
   photo: 'mm-photo', pager: 'mm-pager', cardtop: 'mm-cardtop', chip: 'mm-chip', tags: 'mm-tags',
   cardlink: 'mm-cardlink', avatar: 'mm-avatar', evcover: 'mm-evcover', msgs: 'mm-msgs',
@@ -230,8 +234,8 @@ function dressInKit(body, name) {
       `<a class="mm-tab${/aria-current/.test(attrs) ? ' is-current' : ''}" ${attrs}>`)}</nav>`);
 
   // 3. карточка события
-  s = s.replace(/<li class="item ev( compact)?">([\s\S]*?)<\/li>/g, (li, mod, inner) =>
-    `<li class="mm-event${mod ? ' mm-event--compact' : ''}">${inner
+  s = s.replace(/<li class="item ev">([\s\S]*?)<\/li>/g, (li, inner) =>
+    `<li class="mm-event">${inner
       .replace(/<span class="cover"/, '<span class="mm-cover"')
       .replace(/<span class="body">/, '<span class="mm-event-body">')
       .replace(/<(a|span) class="top"/, '<$1 class="mm-event-head"')
@@ -244,10 +248,6 @@ function dressInKit(body, name) {
 
   // 5. карточка человека, видоискатель верификации и снимки на радаре
   s = s.replace(/<article class="card"/g, '<article class="mm-person"');
-  // короткий вид карточки человека в выдаче поиска — ссылкой целиком:
-  // в выдаче не решают, тап открывает профиль, где стоят Skip и Like
-  s = s.replace(/<a class="card compact"/g, '<a class="mm-person mm-person--compact"');
-  s = s.replace(/<span class="verified compact"/g, '<span class="mm-verified mm-verified--compact"');
   s = s.replace(/<section class="body skeleton"/g, '<section class="mm-person-body"');
   s = s.replace(/<section class="body"/g, '<section class="mm-person-body"');
   s = s.replace(/<p class="photo blur"/g, '<p class="mm-photo mm-photo--blur"');
@@ -349,7 +349,7 @@ for (const name of SCREENS) {
   let body = src.slice(from, to);
 
   // 3. фото в обложки
-  body = body.replace(/<li class="item ev(?: compact)?">([\s\S]*?)<\/li>/g, (li, inner) => {
+  body = body.replace(/<li class="item ev">([\s\S]*?)<\/li>/g, (li, inner) => {
     const t = (inner.match(/<b>([^<]*)<\/b>/) || [])[1] || '';
     // карточка-заглушка: названия нет, потому что данные ещё не пришли —
     // обложка остаётся серым прямоугольником, местом под фотографию
@@ -361,6 +361,18 @@ for (const name of SCREENS) {
     return li.replace(/<span class="cover"([^>]*)>/,
       `<span class="cover"$1><img src="${img(hit[1] + '.jpg')}" alt="" loading="lazy">`);
   });
+  // миниатюра в строке выдачи: событию — обложка по названию, человеку —
+  // портрет по имени. Заглушки это не трогает: у них нет ни ссылки, ни названия
+  body = body.replace(/<li><a class="item media"([^>]*)>([\s\S]*?)<\/a><\/li>/g, (row, attrs, inner) => {
+    const title = (inner.match(/<b>([^<]*)<\/b>/) || [])[1] || '';
+    const person = AVATAR_BY_NAME.find(([n]) => title.startsWith(n));
+    const photo = PHOTOS.find(([k]) => title.startsWith(k));
+    const src = person ? face(person[1], true) : photo ? img(`${photo[1]}.jpg`) : null;
+    if (!src) throw new Error(`${name}: нет снимка для строки «${title}»`);
+    return row.replace(/<span class="thumb([^"]*)"([^>]*)>/,
+      `<span class="thumb$1"$2><img src="${src}" alt="" loading="lazy">`);
+  });
+
   // В заглушке обложка пустая нарочно: фотографии ещё нет, и серый
   // прямоугольник .mm-cover — это и есть место под неё. Проверка смотрит
   // только на рабочие карточки, не на списки с aria-hidden.

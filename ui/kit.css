@@ -179,12 +179,7 @@
   /* обложка события идёт во всю ширину карточки; высота фиксирована,
      иначе лента теряет ритм при разных пропорциях снимков */
   --mm-cover-h: 168px;
-  /* в плитке обложка ниже: две карточки в ряд, и высокий снимок
-     съедал бы экран быстрее, чем лента его наполняет */
-  --mm-cover-h-sm: 120px;
-  /* ширина карточки в ленте выдачи: две встают целиком, третья выглядывает
-     краем — так видно, что ряд едет вбок, и обещание прокрутки честное */
-  --mm-rail-card: 154px;
+  --mm-thumb: 56px;            /* миниатюра в строке выдачи */
   --mm-avatar: 24px;
   --mm-avatar-drop: -6px;
   --mm-dot-pager: 6px;
@@ -532,6 +527,21 @@
   text-decoration: none;
   color: inherit;
 }
+/* Строка выдачи: миниатюра слева, под ней ничего не меняется — это та же
+   строка, что несёт чат и событие в «Моих событиях». Поиск отвечает «что
+   нашлось», и список строк читается быстрее ряда карточек: за экран видно
+   шесть-восемь попаданий, а не три. */
+.mm-row--media { flex-direction: row; align-items: center; gap: var(--mm-s-3); }
+.mm-row--media > .mm-row-body { display: flex; flex-direction: column; gap: var(--mm-s-1); min-width: 0; }
+.mm-thumb {
+  flex: none; width: var(--mm-thumb); height: var(--mm-thumb);
+  border-radius: var(--mm-r-md); overflow: hidden; background: var(--mm-surface-2);
+}
+/* круг говорит «человек» до того, как прочитано имя: тот же приём, что
+   у аватара в строке фактов */
+.mm-thumb--round { border-radius: 50%; }
+.mm-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
 .mm-row-head { display: flex; align-items: baseline; gap: var(--mm-s-3); width: 100%; }
 .mm-row-head > b { font-size: var(--mm-t-body-sm); font-weight: var(--mm-fw-medium); }
 .mm-row-head .mm-meta { margin-left: auto; }
@@ -592,92 +602,7 @@
    охват, а не размер снимка: за экран видно шесть попаданий вместо двух.
    Карточка та же, меняются высота обложки и отступы; второе действие
    в такую ширину не помещается и остаётся на карточке события. */
-/* Лента выдачи: ряд едет вбок, две карточки целиком и третья краем.
-   Лента только раскладывает — вид карточки она не трогает: короткий вид
-   карточка объявляет сама классом --compact. Иначе компонент переставал бы
-   отвечать за свой вид, а правило «внутри ленты выгляди иначе» не переносится
-   ни в один фреймворк. */
-.mm-list--rail {
-  display: flex; flex-direction: row; gap: var(--mm-s-3); align-items: stretch;
-  overflow-x: auto; scroll-snap-type: x proximity; scroll-padding: 0 var(--mm-s-4);
-  margin: 0 calc(var(--mm-s-4) * -1); padding: 0 var(--mm-s-4) var(--mm-s-2);
-  scrollbar-width: none;
-}
-.mm-list--rail::-webkit-scrollbar { width: 0; height: 0; }
-.mm-list--rail > li { flex: 0 0 var(--mm-rail-card); scroll-snap-align: start; }
 
-/* Короткий вид карточки события: обложка ниже, текст плотнее, действия нет.
-   Заголовок и «когда» встают столбиком — в одну строку дата вклинивалась
-   в середину названия. Порядок чтения тот же, что в ленте (D-63). */
-.mm-event--compact { grid-template-rows: auto 1fr; }
-.mm-event--compact .mm-cardtop,
-.mm-person--compact .mm-cardtop { top: var(--mm-s-2); right: var(--mm-s-2); gap: var(--mm-s-1); }
-.mm-event--compact .mm-cover { height: var(--mm-cover-h-sm); }
-.mm-event--compact .mm-event-body { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
-.mm-event--compact .mm-event-head { flex-direction: column; align-items: flex-start; gap: var(--mm-s-1); }
-.mm-event--compact .mm-event-head > b { flex: none; }
-.mm-event--compact .mm-event-head .mm-meta { margin-left: 0; }
-
-a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
-.mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: scale(var(--mm-zoom-hover)); }
-.mm-event-acts { grid-column: 1 / -1; display: flex; gap: var(--mm-s-2); padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
-.mm-event-acts > .mm-btn { flex: 1; padding: 0 var(--mm-s-2); }
-.mm-event-acts > .mm-btn:first-child { flex: 1.6; }
-
-/* карточка человека: фото сверху, факты под ним, тап по всей площади — профиль */
-.mm-person {
-  position: relative;
-  flex: none;
-  height: var(--mm-card-h);
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--mm-r-lg);
-  background: var(--mm-surface);
-  box-shadow: var(--mm-shadow-md);
-  overflow: hidden;
-}
-/* Карточка держит свою высоту и в растягивающейся секции: токен --mm-card-h
-   одинаков везде (DESIGN.md). Прежде здесь стояло flex: 1 и height: auto —
-   карточка забирала остаток секции и менялась от того, что стоит рядом:
-   строка статуса в загрузке ужимала её на три десятка пикселей. */
-.mm-stretch > .mm-person { flex: none; }
-.mm-person figure { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; margin: 0; }
-.mm-photo { flex: 1; min-height: 0; margin: 0; background: var(--mm-surface-2); }
-.mm-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-/* фото дошло не целиком — показываем размытым и доводим по мере прихода (D-51) */
-.mm-photo--blur img { filter: blur(var(--mm-blur)); transform: scale(1.06); }
-/* подпись на самом снимке: так подписан видоискатель на верификации */
-.mm-photo-cap {
-  position: absolute;
-  left: var(--mm-s-3);
-  bottom: var(--mm-s-3);
-  margin: 0;
-  padding: var(--mm-s-hair) var(--mm-s-2);
-  border-radius: var(--mm-r-pill);
-  background: var(--mm-surface);
-  box-shadow: var(--mm-shadow-sm);
-  font-size: var(--mm-t-micro);
-  color: var(--mm-ink-600);
-}
-.mm-person-body { flex: none; display: flex; flex-direction: column; gap: var(--mm-s-1); padding: var(--mm-s-3) var(--mm-s-4) var(--mm-s-4); }
-.mm-person-body > p:last-child { margin: 0; }
-/* Короткий вид карточки человека — для выдачи поиска. Та же карточка,
-   что в колоде, но ростом с карточку события: две группы одной выдачи
-   не могут быть разного веса. Решают по-прежнему не здесь — тап открывает
-   профиль, где стоят Skip и Like, поэтому кнопки на ней нет. */
-.mm-person--compact { height: auto; }
-.mm-person--compact figure { flex: none; height: var(--mm-cover-h-sm); }
-/* Коротким видом карточка стала ссылкой целиком — тап открывает профиль.
-   Подчёркивание с неё снимается: подчёркнуты были бы и имя, и интересы,
-   и сигналы. Кнопки на ней нет: в выдаче не решают (D-67). */
-a.mm-person { text-decoration: none; color: inherit; }
-
-/* Сигналы в короткой карточке идут друг под другом: в 154px они не встают
-   в строку, и точка-разделитель оставалась висеть в начале второй. */
-.mm-person--compact .mm-person-body { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
-.mm-person--compact .mm-subhead { font-size: var(--mm-t-body); }
-.mm-person--compact .mm-signals { flex-direction: column; align-items: flex-start; gap: var(--mm-s-hair); }
-.mm-person--compact .mm-signals li + li::before { content: none; margin: 0; }
 
 /* Заголовок группы и дверь на одной строке: группа едет вбок, и список
    кончается не концом, а краем экрана — дверь под ним осталась бы незамеченной.
@@ -827,10 +752,6 @@ a.mm-person { text-decoration: none; color: inherit; }
   font-weight: var(--mm-fw-semibold);
 }
 .mm-verified svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); }
-/* Короткий вид лейбы — одна галочка: слово на кадр 154×120 не помещается
-   и в разметке уходит в скрытую подпись. Это модификатор самой лейбы,
-   а не правило «внутри ленты»: вид компонента задаёт компонент. */
-.mm-verified--compact { gap: 0; padding: var(--mm-s-1); }
 
 /* ═══ Формы ═══ */
 

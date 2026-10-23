@@ -432,12 +432,11 @@ const GROUPS = [
 
   ]),
 
-  grp(4, 'Карточки и списки', 'Карточка события, строка списка, карточка человека и обложка с полосами по числу фотографий. У каждой — рабочий вид, наведение и те состояния содержимого, что бывают в данных: нет даты, нет мест, фото ещё не пришло. Плитка (<code>.mm-list--grid</code>) своей клеткой не стоит: две колонки — это раскладка выдачи поиска, а не вид карточки, и в ней меняются только высота обложки и отступы.', [
+  grp(4, 'Карточки и списки', 'Карточка события, строка списка, карточка человека и обложка с полосами по числу фотографий. У каждой — рабочий вид, наведение и те состояния содержимого, что бывают в данных: нет даты, нет мест, фото ещё не пришло.', [
     comp('Карточка события', '.mm-event', [
       cell('Event-Default', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join') }), 'kit-cell--wide'),
       cell('Event-Hover', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join'), cardState: ' is-hover' }), 'kit-cell--wide'),
       cell('Event-Default-Two actions', evCard({ html: btn(' mm-btn--primary', '', 'Ask to join') + btn(' mm-btn--quiet', '', 'Invite') }, 'run', 'Morning run along the embankment', 'No date yet', 'Podil &middot; ~1 km', '1 going &middot; 2 spots left'), 'kit-cell--wide'),
-      cell('Event-Default-Compact', evCard({ html: '' }).replace('mm-event"', 'mm-event mm-event--compact"'), 'kit-cell--card'),
       cell('Event-Default-No spots', evCard({ html: '<button class="mm-btn mm-btn--primary" type="button" disabled>No spots left</button>' }, 'coffee', 'Coffee and a walk in Podil', 'Sun 11:00', 'Podil &middot; ~2 km', 'No spots left &middot; Women only'), 'kit-cell--wide'),
     ], 'Три уровня чтения (<code>D-55</code>…<code>D-58</code>): что и когда · где · сколько мест. Обложка идёт во всю ширину сверху — прежняя полоса в 104px слева снимок обозначала, а не показывала. На снимке один знак — округлённое расстояние: отметка проверки на снимок события не ставится (<code>D-66</code>), её место там, где виден человек. В тексте под снимком остаются занятие с датой, площадка и счётчик. Дата стоит рядом с временем и тяжелее его: по ней решают. Где мест два и больше, появляется второе действие — <code>Invite</code>. Заполненное событие пишется словом, а не нулём (<code>D-60</code>).'),
 
@@ -445,14 +444,15 @@ const GROUPS = [
       cell('Row-Default', `<ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true">${face('olena')}</span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul>`, 'kit-cell--wide'),
       cell('Row-Hover', `<ul class="mm-list"><li><a class="mm-row is-hover" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true">${face('olena')}</span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul>`, 'kit-cell--wide'),
       cell('Row-Default-No link', '<ul class="mm-list"><li class="mm-row"><span class="mm-row-head"><b>Location</b><span class="mm-meta">On &middot; rounded</span></span></li></ul>', 'kit-cell--wide'),
+      cell('Row-Default-With a thumbnail', `<ul class="mm-list"><li><a class="mm-row mm-row--media" href="#"><span class="mm-thumb" aria-hidden="true">${cover('games')}</span><span class="mm-row-body"><span class="mm-row-head"><b>Board games</b></span><span class="mm-facts">26 Sep &middot; 18:00 &middot; Kyiv Games Club &middot; ~3 km &middot; 1 spot left</span></span></a></li></ul>`, 'kit-cell--wide'),
+      cell('Row-Default-With a portrait', `<ul class="mm-list"><li><a class="mm-row mm-row--media" href="#"><span class="mm-thumb mm-thumb--round" aria-hidden="true">${face('olena')}</span><span class="mm-row-body"><span class="mm-row-head"><b>Olena, 26</b></span><span class="mm-facts">3 common interests &middot; Verified &middot; 6 meetups attended &middot; ~2 km</span></span></a></li></ul>`, 'kit-cell--wide'),
       cell('Row-Default-One line', '<ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>My events</b><span class="mm-meta">1 request</span></span></a></li></ul>', 'kit-cell--wide'),
-    ], 'Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка со снимком на наведении приближает обложку; строка без снимка и строка без ссылки не отзываются вовсе. Человека эта строка больше не несёт: в выдаче поиска он стоит карточкой, равной по весу карточке события (<code>D-64</code>).'),
+    ], 'Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка со снимком на наведении приближает обложку; строка без снимка и строка без ссылки не отзываются вовсе. Строка несёт и выдачу поиска: слева миниатюра — у события обложка скруглённым квадратом, у человека портрет кругом, и круг говорит «человек» раньше, чем прочитано имя (<code>D-70</code>).'),
 
     comp('Карточка человека', '.mm-person', [
       cell('Person-Default', person(), 'kit-cell--card'),
       cell('Person-Loading-Photo', person(' mm-photo--blur'), 'kit-cell--card'),
-      cell('Person-Default-Compact', person().replace('mm-person"', 'mm-person mm-person--compact"'), 'kit-cell--card'),
-    ], 'Порядок чтения задан и не произволен (<code>D-13</code>): общие интересы → имя и возраст → сигналы доверия → расстояние. Справа — фото дошло не целиком: показывается заблюренным и становится чётким по мере прихода (<code>D-51</code>); экран при этом рабочий, <code>Skip</code> и <code>Like</code> живые. Короткий вид — тот же компонент ростом с карточку события: он стоит в выдаче поиска, где две группы должны быть равными по весу и где карточки идут по две в ряд (обложка там ниже — 120px). Кнопки на нём нет, и у соседней карточки события в выдаче её тоже нет: там не решают, а смотрят (<code>D-67</code>). Знаки на снимке остаются в том же углу, что на большой карточке, и только лейба сжимается до галочки — слово не помещается на кадр 154×120, но из разметки не уходит (<code>D-69</code>). Решают при этом не в выдаче, а в колоде и в профиле, поэтому кнопки на нём нет.'),
+    ], 'Порядок чтения задан и не произволен (<code>D-13</code>): общие интересы → имя и возраст → сигналы доверия → расстояние. Справа — фото дошло не целиком: показывается заблюренным и становится чётким по мере прихода (<code>D-51</code>); экран при этом рабочий, <code>Skip</code> и <code>Like</code> живые. Решают при этом не в выдаче, а в колоде и в профиле, поэтому кнопки на нём нет.'),
 
     comp('Кружки по числу фотографий', '.mm-pager', [
       cell('Pager-Default', `<div class="kit-block"><figure class="mm-evcover"><p class="mm-photo">${cover('run')}</p><p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p></figure></div>`, 'kit-cell--wide'),
@@ -466,7 +466,6 @@ const GROUPS = [
   grp(5, 'Отметки и факты', 'Всё, чем карточка подтверждает себя: проверка, расстояние, интересы, сигналы доверия. Состояний у них нет — есть присутствие и отсутствие: нет данных, нет и строки.', [
     comp('Отметка проверки', '.mm-verified', [
       cell('Verified-Default', `<span class="mm-verified">${I.verified}Verified</span>`),
-      cell('Verified-Default-Compact', `<span class="mm-verified mm-verified--compact">${I.verified}<span class="mm-vh">Verified</span></span>`),
     ], 'Одна на весь продукт: слово с галочкой на лаймовой лейбе. Стоит и сама по себе — в превью события от автора остаётся один <code>Verified</code> (<code>D-57</code>), — и первой строкой в сигналах доверия, поэтому у неё своя клетка. Пустой <code>--mm-label</code> выключает подложку, и слово возвращается к цвету текста.'),
 
     comp('Сигналы доверия', '.mm-signals', [
