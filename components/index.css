@@ -36,3 +36,17 @@
 }
 @import url("./skeleton.css");
 @import url("./radar.css");
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-skel { animation: none; }
+  /* радар: волна снимается целиком, найденные стоят на месте и видны сразу */
+  .mm-scan { display: none; }
+  .mm-pins li { animation: none; opacity: 1; }
+  .mm-btn, .mm-head-btn, .mm-danger-link { transition: none; }
+  /* приближение обложки на наведении — тоже движение (правило 8) */
+  .mm-cover img { transition: none; }
+  a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
+  .mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: none; }
+  /* нажатие снимается у всего, что его показывает, а не у одной кнопки:
+     раньше здесь стоял только .mm-btn, и кнопка шапки продолжала уезжать */
+}

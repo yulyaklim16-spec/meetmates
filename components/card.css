@@ -132,6 +132,6 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img, .mm-event:hover .
 }
 
 /* приближение обложки на наведении — тоже движение (правило 8) */
-.mm-cover img { transition: none; }
 
-a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img, .mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: none; }
+
+
