@@ -27,16 +27,10 @@ const COMMENT = new RegExp('/\\*[\\s\\S]*?\\*/', 'g');
 const css = raw.replace(COMMENT, (c) => c.replace(new RegExp('[^\\r\\n]', 'g'), ' '));
 
 const semAt = raw.indexOf('SEMANTIC —');
-// тёмная тема в набор не идёт: это те же имена с другими значениями,
-// и без режимов коллекции они бы затёрли светлые. Тема в продукт не принята (D-76):
-// примут — поедет вторым режимом коллекции Semantic, а не вторым набором имён.
-const darkAt = raw.indexOf('[data-theme="dark"]');
-const stop = darkAt === -1 ? css.length : darkAt;
 const decl = /(--[a-z0-9-]+)\s*:\s*([^;]+);/g;
 const prim = [];
 const sem = [];
 for (const m of css.matchAll(decl)) {
-  if (m.index >= stop) continue;
   const name = m[1].slice(2);
   const value = m[2].replace(/\s+/g, ' ').trim();
   (m.index < semAt ? prim : sem).push({ name, value });

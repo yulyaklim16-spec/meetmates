@@ -238,28 +238,10 @@
   try { saved = localStorage.getItem(KEY); } catch (e) {}
   set(saved || 'mobile');
   document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.wfdev:not(.wftheme) button');
+    var b = e.target.closest && e.target.closest('.wfdev button');
     if (b) set(b.dataset.w);
   });
 
-  // тема: та же механика, свой ключ. Светлая — умолчание и остаётся им:
-  // тёмная в продукте не принята, это проверка слоя ролей
-  var TKEY = 'mm-theme';
-  function theme(t) {
-    if (t === 'dark') root.dataset.theme = 'dark';
-    else root.removeAttribute('data-theme');
-    document.querySelectorAll('.wftheme button').forEach(function (b) {
-      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
-    });
-    try { localStorage.setItem(TKEY, t); } catch (e) {}
-  }
-  var savedTheme;
-  try { savedTheme = localStorage.getItem(TKEY); } catch (e) {}
-  theme(savedTheme === 'dark' ? 'dark' : 'light');
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.wftheme button');
-    if (b) theme(b.dataset.themeSet);
-  });
 })();
 </script>
 </body>

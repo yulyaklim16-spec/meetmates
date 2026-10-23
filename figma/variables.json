@@ -233,16 +233,10 @@
       "css": "text-12"
     },
     {
-      "path": "weight/400",
+      "path": "weight/700",
       "type": "FLOAT",
-      "value": 400,
-      "css": "weight-400"
-    },
-    {
-      "path": "weight/500",
-      "type": "FLOAT",
-      "value": 500,
-      "css": "weight-500"
+      "value": 700,
+      "css": "weight-700"
     },
     {
       "path": "weight/600",
@@ -251,34 +245,16 @@
       "css": "weight-600"
     },
     {
-      "path": "weight/700",
+      "path": "weight/500",
       "type": "FLOAT",
-      "value": 700,
-      "css": "weight-700"
+      "value": 500,
+      "css": "weight-500"
     },
     {
-      "path": "leading/100",
+      "path": "weight/400",
       "type": "FLOAT",
-      "value": 1,
-      "css": "leading-100"
-    },
-    {
-      "path": "leading/105",
-      "type": "FLOAT",
-      "value": 1.05,
-      "css": "leading-105"
-    },
-    {
-      "path": "leading/125",
-      "type": "FLOAT",
-      "value": 1.25,
-      "css": "leading-125"
-    },
-    {
-      "path": "leading/145",
-      "type": "FLOAT",
-      "value": 1.45,
-      "css": "leading-145"
+      "value": 400,
+      "css": "weight-400"
     },
     {
       "path": "leading/150",
@@ -287,16 +263,28 @@
       "css": "leading-150"
     },
     {
-      "path": "tracking/display",
-      "type": "STRING",
-      "value": "-0.035em",
-      "css": "tracking-display"
+      "path": "leading/145",
+      "type": "FLOAT",
+      "value": 1.45,
+      "css": "leading-145"
     },
     {
-      "path": "tracking/heading",
-      "type": "STRING",
-      "value": "-0.015em",
-      "css": "tracking-heading"
+      "path": "leading/125",
+      "type": "FLOAT",
+      "value": 1.25,
+      "css": "leading-125"
+    },
+    {
+      "path": "leading/105",
+      "type": "FLOAT",
+      "value": 1.05,
+      "css": "leading-105"
+    },
+    {
+      "path": "leading/100",
+      "type": "FLOAT",
+      "value": 1,
+      "css": "leading-100"
     },
     {
       "path": "tracking/button",
@@ -305,52 +293,28 @@
       "css": "tracking-button"
     },
     {
+      "path": "tracking/heading",
+      "type": "STRING",
+      "value": "-0.015em",
+      "css": "tracking-heading"
+    },
+    {
+      "path": "tracking/display",
+      "type": "STRING",
+      "value": "-0.035em",
+      "css": "tracking-display"
+    },
+    {
       "path": "measure/text",
       "type": "STRING",
       "value": "30ch",
       "css": "measure-text"
     },
     {
-      "path": "space/2",
+      "path": "space/48",
       "type": "FLOAT",
-      "value": 2,
-      "css": "space-2"
-    },
-    {
-      "path": "space/4",
-      "type": "FLOAT",
-      "value": 4,
-      "css": "space-4"
-    },
-    {
-      "path": "space/6",
-      "type": "FLOAT",
-      "value": 6,
-      "css": "space-6"
-    },
-    {
-      "path": "space/8",
-      "type": "FLOAT",
-      "value": 8,
-      "css": "space-8"
-    },
-    {
-      "path": "space/12",
-      "type": "FLOAT",
-      "value": 12,
-      "css": "space-12"
-    },
-    {
-      "path": "space/16",
-      "type": "FLOAT",
-      "value": 16,
-      "css": "space-16"
-    },
-    {
-      "path": "space/24",
-      "type": "FLOAT",
-      "value": 24,
-      "css": "space-24"
+      "value": 48,
+      "css": "space-48"
     },
     {
       "path": "space/32",
@@ -359,10 +323,46 @@
       "css": "space-32"
     },
     {
-      "path": "space/48",
+      "path": "space/24",
       "type": "FLOAT",
-      "value": 48,
-      "css": "space-48"
+      "value": 24,
+      "css": "space-24"
+    },
+    {
+      "path": "space/16",
+      "type": "FLOAT",
+      "value": 16,
+      "css": "space-16"
+    },
+    {
+      "path": "space/12",
+      "type": "FLOAT",
+      "value": 12,
+      "css": "space-12"
+    },
+    {
+      "path": "space/8",
+      "type": "FLOAT",
+      "value": 8,
+      "css": "space-8"
+    },
+    {
+      "path": "space/6",
+      "type": "FLOAT",
+      "value": 6,
+      "css": "space-6"
+    },
+    {
+      "path": "space/4",
+      "type": "FLOAT",
+      "value": 4,
+      "css": "space-4"
+    },
+    {
+      "path": "space/2",
+      "type": "FLOAT",
+      "value": 2,
+      "css": "space-2"
     },
     {
       "path": "space/label",
@@ -377,16 +377,10 @@
       "css": "space-mark"
     },
     {
-      "path": "radius/sm",
+      "path": "radius/pill",
       "type": "FLOAT",
-      "value": 14,
-      "css": "radius-sm"
-    },
-    {
-      "path": "radius/md",
-      "type": "FLOAT",
-      "value": 18,
-      "css": "radius-md"
+      "value": 999,
+      "css": "radius-pill"
     },
     {
       "path": "radius/lg",
@@ -395,22 +389,16 @@
       "css": "radius-lg"
     },
     {
-      "path": "radius/pill",
+      "path": "radius/md",
       "type": "FLOAT",
-      "value": 999,
-      "css": "radius-pill"
+      "value": 18,
+      "css": "radius-md"
     },
     {
-      "path": "size/control",
+      "path": "radius/sm",
       "type": "FLOAT",
-      "value": 44,
-      "css": "size-control"
-    },
-    {
-      "path": "size/screen-w",
-      "type": "FLOAT",
-      "value": 390,
-      "css": "size-screen-w"
+      "value": 14,
+      "css": "radius-sm"
     },
     {
       "path": "size/screen-h",
@@ -419,46 +407,22 @@
       "css": "size-screen-h"
     },
     {
-      "path": "size/icon-sm",
+      "path": "size/card",
       "type": "FLOAT",
-      "value": 16,
-      "css": "size-icon-sm"
+      "value": 400,
+      "css": "size-card"
     },
     {
-      "path": "size/icon-md",
+      "path": "size/screen-w",
       "type": "FLOAT",
-      "value": 24,
-      "css": "size-icon-md"
+      "value": 390,
+      "css": "size-screen-w"
     },
     {
-      "path": "size/icon-lg",
+      "path": "size/radar",
       "type": "FLOAT",
-      "value": 32,
-      "css": "size-icon-lg"
-    },
-    {
-      "path": "size/icon-button",
-      "type": "FLOAT",
-      "value": 20,
-      "css": "size-icon-button"
-    },
-    {
-      "path": "size/avatar",
-      "type": "FLOAT",
-      "value": 24,
-      "css": "size-avatar"
-    },
-    {
-      "path": "size/avatar-drop",
-      "type": "FLOAT",
-      "value": -6,
-      "css": "size-avatar-drop"
-    },
-    {
-      "path": "size/thumb",
-      "type": "FLOAT",
-      "value": 56,
-      "css": "size-thumb"
+      "value": 340,
+      "css": "size-radar"
     },
     {
       "path": "size/cover",
@@ -467,10 +431,10 @@
       "css": "size-cover"
     },
     {
-      "path": "size/card",
+      "path": "size/textarea",
       "type": "FLOAT",
-      "value": 400,
-      "css": "size-card"
+      "value": 96,
+      "css": "size-textarea"
     },
     {
       "path": "size/state-icon",
@@ -479,10 +443,46 @@
       "css": "size-state-icon"
     },
     {
-      "path": "size/textarea",
+      "path": "size/thumb",
       "type": "FLOAT",
-      "value": 96,
-      "css": "size-textarea"
+      "value": 56,
+      "css": "size-thumb"
+    },
+    {
+      "path": "size/control",
+      "type": "FLOAT",
+      "value": 44,
+      "css": "size-control"
+    },
+    {
+      "path": "size/icon-lg",
+      "type": "FLOAT",
+      "value": 32,
+      "css": "size-icon-lg"
+    },
+    {
+      "path": "size/icon-md",
+      "type": "FLOAT",
+      "value": 24,
+      "css": "size-icon-md"
+    },
+    {
+      "path": "size/avatar",
+      "type": "FLOAT",
+      "value": 24,
+      "css": "size-avatar"
+    },
+    {
+      "path": "size/icon-button",
+      "type": "FLOAT",
+      "value": 20,
+      "css": "size-icon-button"
+    },
+    {
+      "path": "size/icon-sm",
+      "type": "FLOAT",
+      "value": 16,
+      "css": "size-icon-sm"
     },
     {
       "path": "size/scroll-gutter",
@@ -491,10 +491,10 @@
       "css": "size-scroll-gutter"
     },
     {
-      "path": "size/radar",
+      "path": "size/avatar-drop",
       "type": "FLOAT",
-      "value": 340,
-      "css": "size-radar"
+      "value": -6,
+      "css": "size-avatar-drop"
     },
     {
       "path": "size/radar-5",
@@ -527,6 +527,18 @@
       "css": "size-radar-1"
     },
     {
+      "path": "size/skel-count",
+      "type": "FLOAT",
+      "value": 80,
+      "css": "size-skel-count"
+    },
+    {
+      "path": "size/dot-lg",
+      "type": "FLOAT",
+      "value": 72,
+      "css": "size-dot-lg"
+    },
+    {
       "path": "size/dot",
       "type": "FLOAT",
       "value": 56,
@@ -539,10 +551,28 @@
       "css": "size-dot-sm"
     },
     {
-      "path": "size/dot-lg",
+      "path": "size/skel-pill",
       "type": "FLOAT",
-      "value": 72,
-      "css": "size-dot-lg"
+      "value": 20,
+      "css": "size-skel-pill"
+    },
+    {
+      "path": "size/blur-photo",
+      "type": "FLOAT",
+      "value": 14,
+      "css": "size-blur-photo"
+    },
+    {
+      "path": "size/skel-line",
+      "type": "FLOAT",
+      "value": 12,
+      "css": "size-skel-line"
+    },
+    {
+      "path": "size/pager-dot",
+      "type": "FLOAT",
+      "value": 6,
+      "css": "size-pager-dot"
     },
     {
       "path": "size/dot-ring",
@@ -557,46 +587,10 @@
       "css": "size-hairline"
     },
     {
-      "path": "size/pager-dot",
-      "type": "FLOAT",
-      "value": 6,
-      "css": "size-pager-dot"
-    },
-    {
-      "path": "size/skel-line",
-      "type": "FLOAT",
-      "value": 12,
-      "css": "size-skel-line"
-    },
-    {
-      "path": "size/skel-pill",
-      "type": "FLOAT",
-      "value": 20,
-      "css": "size-skel-pill"
-    },
-    {
-      "path": "size/skel-count",
-      "type": "FLOAT",
-      "value": 80,
-      "css": "size-skel-count"
-    },
-    {
-      "path": "size/blur-photo",
-      "type": "FLOAT",
-      "value": 14,
-      "css": "size-blur-photo"
-    },
-    {
-      "path": "measure/width-s",
+      "path": "measure/width-bubble",
       "type": "STRING",
-      "value": "28%",
-      "css": "width-s"
-    },
-    {
-      "path": "measure/width-m",
-      "type": "STRING",
-      "value": "44%",
-      "css": "width-m"
+      "value": "80%",
+      "css": "width-bubble"
     },
     {
       "path": "measure/width-l",
@@ -605,22 +599,28 @@
       "css": "width-l"
     },
     {
-      "path": "measure/width-bubble",
+      "path": "measure/width-m",
       "type": "STRING",
-      "value": "80%",
-      "css": "width-bubble"
+      "value": "44%",
+      "css": "width-m"
     },
     {
-      "path": "duration/fast",
+      "path": "measure/width-s",
       "type": "STRING",
-      "value": "200ms",
-      "css": "duration-fast"
+      "value": "28%",
+      "css": "width-s"
     },
     {
       "path": "duration/slow",
       "type": "STRING",
       "value": "300ms",
       "css": "duration-slow"
+    },
+    {
+      "path": "duration/fast",
+      "type": "STRING",
+      "value": "200ms",
+      "css": "duration-fast"
     },
     {
       "path": "duration/skeleton",

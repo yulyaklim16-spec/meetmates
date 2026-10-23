@@ -23,9 +23,7 @@ const shell = read('sections/index.html');
 // Файл читается построчно, потому что нужен не только список имён, но и то,
 // в какой группе имя стоит и что о нём сказано рядом: комментарий — часть
 // токена, а не украшение.
-const DARK_AT = css.indexOf('[data-theme="dark"]');
-const light = css.slice(0, DARK_AT);
-const darkPart = css.slice(DARK_AT);
+const light = css;
 const SEM_AT = light.indexOf('--bg-page');
 
 const parse = (rawText, offset = 0) => {
@@ -82,8 +80,6 @@ const parse = (rawText, offset = 0) => {
 
 const prim = parse(light.slice(0, SEM_AT));
 const sem = parse(light.slice(SEM_AT), 1);
-const dark = parse(darkPart, 1);
-const darkBy = new Map(dark.map((r) => [r.name, r.value]));
 const valueOf = new Map([...prim, ...sem].map((r) => [r.name, r.value]));
 
 // значение роли до самого примитива: роль обязана упираться в примитив
@@ -146,6 +142,10 @@ ${rows.map((r) => `    <tr><td>${sample(r)}</td><td><code>${esc(r.name)}</code><
 </table>`;
 
 const group = (rows, re) => rows.filter((r) => re.test(r.name));
+// Числовые шкалы читаются сверху вниз, от большего к меньшему: так видно
+// потолок шкалы и шаг вниз от него, а не разбег от нуля.
+const num = (v) => { const m = String(v).match(/-?\d*\.?\d+/); return m ? parseFloat(m[0]) : -Infinity; };
+const desc = (rows) => [...rows].sort((a, b) => num(b.value) - num(a.value));
 
 const colorGroups = [...new Set(prim.filter((r) => isColor(r.value) || /gradient|shadow|ring/.test(r.name)).map((r) => r.group))];
 const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
@@ -154,66 +154,13 @@ const colorHtml = colorGroups.map((g) => `      <h3>${esc(cap(g))}</h3>\n${color
 const semGroups = [...new Set(sem.map((r) => r.group))];
 const semHtml = semGroups.map((g) => `      <h3>${esc(cap(g))}</h3>\n${roleTable(sem.filter((r) => r.group === g))}`).join('\n\n');
 
-const typeHtml = scaleTable(group(prim, /^--text-\d/), (r) =>
+const typeHtml = scaleTable(desc(group(prim, /^--text-\d/)), (r) =>
   `<span class="type" style="font-size:${r.value}">Aa</span>`);
-const spaceHtml = scaleTable(group(prim, /^--space/), (r) =>
+const spaceHtml = scaleTable(desc(group(prim, /^--space/)), (r) =>
   `<i class="bar" style="width:${/px/.test(r.value) ? r.value : '8px'}"></i>`);
-const radiusHtml = scaleTable(group(prim, /^--radius/), (r) =>
+const radiusHtml = scaleTable(desc(group(prim, /^--radius/)), (r) =>
   `<i class="sw sw--radius" style="border-radius:${r.value}"></i>`);
-const sizeHtml = scaleTable(group(prim, /^--size|^--width|^--measure/), () => '<i class="sw sw--none"></i>');
-
-// тёмная: та же роль, два значения и контраст на своей поверхности
-const darkRows = dark.map((r) => {
-  const l = resolve(sem.find((s) => s.name === r.name)?.value);
-  const d = resolve(r.value);
-  return { name: r.name, light: l, dark: d };
-});
-// Контраст считается на той поверхности, где роль действительно лежит:
-// «текст на действии» меряется против самого действия, а не против карточки,
-// иначе выходит 1,00:1 — число, которое ничего не значит.
-const AGAINST = {
-  '--text-on-action': '--color-action',
-  '--text-on-selected': '--bg-selected',
-  '--text-on-verified': '--color-verified',
-  '--bg-page': null,
-  '--bg-surface': null,
-  '--bg-nested': null,
-};
-const pairFor = (name) => {
-  if (name in AGAINST) return AGAINST[name];
-  if (/^--(text|icon|border|color-danger|color-verified)/.test(name)) return '--bg-surface';
-  return null;
-};
-const valueIn = (name, theme) => {
-  if (!name) return null;
-  const v = theme === 'dark' && darkBy.has(name) ? darkBy.get(name) : sem.find((s) => s.name === name)?.value;
-  return resolve(v);
-};
-const onPair = (name) => {
-  const bg = pairFor(name);
-  if (!bg) return null;
-  const vals = [valueIn(name, 'light'), valueIn(bg, 'light'), valueIn(name, 'dark'), valueIn(bg, 'dark')];
-  if (!vals.every((x) => /^#[0-9a-fA-F]{6}$/.test(x || ''))) return null;
-  return { light: ratio(vals[0], vals[1]), dark: ratio(vals[2], vals[3]), bg };
-};
-// Градиент в клетку не влезает и влезать не должен: в тёмной теме его нет,
-// а в светлой он описан своей строкой в таблице примитивов.
-const shortValue = (v) => {
-  if (!v) return '—';
-  if (/gradient/.test(v)) return 'рампа и два пятна';
-  return v.length > 28 ? v.slice(0, 26) + '…' : v;
-};
-const darkHtml = `<table class="tok tok--dark">
-  <thead><tr><th>Роль</th><th>Светлая</th><th>Тёмная</th><th>Контраст, светлая → тёмная</th></tr></thead>
-  <tbody>
-${darkRows.map((r) => {
-  const c = onPair(r.name);
-  const cell = c ? `${fmt(c.light)}:1 → ${fmt(c.dark)}:1 <span class="dim">на <code>${esc(c.bg)}</code></span>` : '—';
-  const sw = (v) => (/^#/.test(v || '') ? `<i class="sw sw--sm" style="background:${v}"></i>` : '');
-  return `    <tr><td><code>${esc(r.name)}</code></td><td>${sw(r.light)}<span class="dim">${esc(shortValue(r.light))}</span></td><td>${sw(r.dark)}<span class="dim">${esc(shortValue(r.dark))}</span></td><td class="val">${cell}</td></tr>`;
-}).join('\n')}
-  </tbody>
-</table>`;
+const sizeHtml = scaleTable(desc(group(prim, /^--size|^--width|^--measure/)), () => '<i class="sw sw--none"></i>');
 
 // ── текст раздела ─────────────────────────────────────────────────────
 function blocks(text) {
@@ -254,7 +201,7 @@ const aside = asideSrc.replace(cur, (m, attrs, head) =>
 const head = shell.slice(0, shell.indexOf('</style>'))
   .replace(/<title>[^<]*<\/title>/, '<title>Дизайн-токены · MeetMates</title>')
   .replace(/<meta name="description" content="[^"]*">/,
-    '<meta name="description" content="Два слоя токенов: примитив — значение, роль — ответственность. Правила, тёмная тема как проверка слоя и весь набор таблицами из самого файла.">');
+    '<meta name="description" content="Два слоя токенов: примитив — значение, роль — ответственность. Правила слоя и весь набор таблицами, собранными из самого файла.">');
 
 const extraCss = `
 /* ── Раздел 08: дизайн-токены ───────────────────────────────── */
@@ -304,7 +251,6 @@ ${aside}
       <div class="chips">
         <span>${prim.length} примитивов</span>
         <span>${sem.length} ролей</span>
-        <span>${dark.length} переопределений в тёмной</span>
         <span>ноль значений в компонентах</span>
       </div>
     </div>
@@ -345,18 +291,6 @@ ${radiusHtml}
 ${sizeHtml}
       </section>
 
-      <section id="dark">
-        <h2>Тёмная тема: та же роль, другая ступень</h2>
-        <p class="intro">В продукт не принята — это проверка слоя. Переопределяются
-          только роли: примитивы не тронуты, новых значений нет. Контраст считается там,
-          где роль лежит: текст — на своей поверхности, слово на кнопке — на самой кнопке.
-          Прочерк значит, что роль сама и есть поверхность.</p>
-${darkHtml}
-        <p class="tnote">Волосяная граница в светлой теме даёт 1,18:1 и порога не-текста
-          не держит — это принятая цена: карточку отрывает от фона не линия в одиночку,
-          а линия вместе с почти прозрачной тенью (<a href="../DESIGN.md">DESIGN.md</a>,
-          правило линии вместо облака). В тёмной у той же роли 4,06:1.</p>
-      </section>
     </div>
 
     <footer>
@@ -379,4 +313,4 @@ if (unresolved.size) {
 }
 
 writeFileSync(join(ROOT, 'sections/tokens.html'), page, 'utf8');
-console.log(`sections/tokens.html: ${prim.length} примитивов, ${sem.length} ролей, ${dark.length} в тёмной`);
+console.log(`sections/tokens.html: ${prim.length} примитивов, ${sem.length} ролей`);
