@@ -311,7 +311,8 @@ section.stretch { flex: 1; min-height: 0; }
   display: flex; flex-direction: column; align-items: flex-end; gap: var(--s-1);
 }
 .cardtop .chip {
-  display: inline-flex; align-items: center; gap: 4px;
+  display: inline-flex;
+  white-space: nowrap; align-items: center; gap: 4px;
   padding: 2px var(--s-3);
   border: 1px solid var(--w-line);
   border-radius: var(--r-pill);

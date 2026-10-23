@@ -755,6 +755,7 @@ a.mm-person { text-decoration: none; color: inherit; }
   box-shadow: var(--mm-shadow-sm);
   font: var(--mm-fw-medium) var(--mm-t-micro) / var(--mm-lh-heading) var(--mm-font);
   color: var(--mm-ink-900);
+  white-space: nowrap;
 }
 .mm-chip svg { width: var(--mm-icon-sm); height: var(--mm-icon-sm); color: var(--mm-ink-600); }
 
@@ -822,6 +823,7 @@ a.mm-person { text-decoration: none; color: inherit; }
    Пустой --mm-label выключает подложку, и слово возвращается к цвету текста */
 .mm-verified {
   display: inline-flex;
+  white-space: nowrap;
   align-items: center;
   gap: var(--mm-s-1);
   padding: var(--mm-label-pad);
