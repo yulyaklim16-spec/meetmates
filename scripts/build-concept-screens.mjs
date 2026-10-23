@@ -236,7 +236,11 @@ function dressInKit(body, name) {
       .replace(/<(a|span) class="top"/, '<$1 class="mm-event-head"')
       .replace(/<span class="acts">/, '<span class="mm-event-acts">')}</li>`);
 
-  // 4. строка списка
+  // 4. строка списка; у человека в выдаче поиска — свой вид: портрет слева
+  s = s.replace(/<(a|li) class="item person"([^>]*)>([\s\S]*?)<\/\1>/g, (row, tag, attrs, inner) =>
+    `<${tag} class="mm-row mm-row--person"${attrs}>${inner
+      .replace(/<span class="face"/, '<span class="mm-face"')
+      .replace(/<span class="body">/, '<span class="mm-row-body">')}</${tag}>`);
   s = s.replace(/class="item"/g, 'class="mm-row"');
   s = s.replace(/<span class="top">/g, '<span class="mm-row-head">');
   s = s.replace(/<a class="top"/g, '<a class="mm-event-head"');

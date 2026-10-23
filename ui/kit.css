@@ -583,6 +583,18 @@
    а не дрожанием. */
 .mm-cover { overflow: hidden; }
 .mm-cover img { transition: transform var(--mm-dur-slow) var(--mm-ease-out); }
+/* Человек в выдаче: портрет слева, имя и факты справа. Это по-прежнему
+   строка списка, а не карточка колоды — решают не здесь, а в колоде;
+   но рядом с карточкой события значок в 24px превращал человека
+   в сноску, и две группы выдачи перестали быть равными. */
+.mm-row--person { display: grid; grid-template-columns: var(--mm-avatar-lg) 1fr; gap: var(--mm-s-3); align-items: center; }
+.mm-row--person .mm-face {
+  width: var(--mm-avatar-lg); height: var(--mm-avatar-lg);
+  border-radius: 50%; overflow: hidden; background: var(--mm-surface-2);
+}
+.mm-row--person .mm-face img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mm-row--person .mm-row-body { display: flex; flex-direction: column; gap: var(--mm-s-1); min-width: 0; }
+
 a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
 .mm-event:hover .mm-cover img, .mm-event.is-hover .mm-cover img { transform: scale(var(--mm-zoom-hover)); }
 .mm-event-acts { grid-column: 1 / -1; display: flex; gap: var(--mm-s-2); padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }

@@ -372,6 +372,11 @@ section.stretch { flex: 1; min-height: 0; }
 }
 .ico.lg { width: 24px; height: 24px; }
 .ico.sm { width: 14px; height: 14px; border-radius: 3px; }
+/* человек в выдаче поиска: портрет слева, имя и факты справа */
+.item.person { display: grid; grid-template-columns: 56px 1fr; gap: var(--s-3); align-items: center; }
+.item.person .face { width: 56px; height: 56px; border-radius: 50%; background: var(--w-zone); }
+.item.person .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 0; }
+
 .avatar {
   display: inline-block;
   flex: none;
