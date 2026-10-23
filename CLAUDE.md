@@ -1044,6 +1044,7 @@ prototype/         # кликабельный HTML-прототип (созда�
 | Скрипт | Что ловит |
 |---|---|
 | `node scripts/contrast.mjs` | Контраст пар текст/фон из токенов, порог 4.5:1 (иконки 3:1) |
+| `node scripts/build-figma-tokens.mjs` | Собирает [`figma/tokens.json`](./figma/tokens.json) и [`figma/import-variables.js`](./figma/import-variables.js) из `tokens.css` — набор для Figma не правят руками |
 | `node scripts/palette-audit.mjs` | **Различимость цветов**: ΔE2000 между ролями, порог ступени 3,5; одно значение под двумя именами разрешено только с записанной причиной `D-74` |
 | `node scripts/tokens-audit.mjs` | Литералы цвета, шрифта и размера в ките, переменные без объявления, расхождение кита с `tokens.css` |
 | `node scripts/microcopy-audit.mjs` | Перепись против макетов в обе стороны: строка не записана — ошибка, строка осталась, а с экрана ушла — тоже |
