@@ -60,7 +60,7 @@ const FACES = {
 const PORTRAIT_BY_SCREEN = [
   [/^my-profile/, FACES.dasha],
   [/^verify/, FACES.dasha],
-  [/^(deck|profile|match)/, FACES.olena],
+  [/^(deck|profile|match|search)/, FACES.olena],
 ];
 const portraitFor = (name) =>
   face((PORTRAIT_BY_SCREEN.find(([re]) => re.test(name)) || [null, FACES.dasha])[1], true);
@@ -236,17 +236,15 @@ function dressInKit(body, name) {
       .replace(/<(a|span) class="top"/, '<$1 class="mm-event-head"')
       .replace(/<span class="acts">/, '<span class="mm-event-acts">')}</li>`);
 
-  // 4. строка списка; у человека в выдаче поиска — свой вид: портрет слева
-  s = s.replace(/<(a|li) class="item person"([^>]*)>([\s\S]*?)<\/\1>/g, (row, tag, attrs, inner) =>
-    `<${tag} class="mm-row mm-row--person"${attrs}>${inner
-      .replace(/<span class="face"/, '<span class="mm-face"')
-      .replace(/<span class="body">/, '<span class="mm-row-body">')}</${tag}>`);
+  // 4. строка списка
   s = s.replace(/class="item"/g, 'class="mm-row"');
   s = s.replace(/<span class="top">/g, '<span class="mm-row-head">');
   s = s.replace(/<a class="top"/g, '<a class="mm-event-head"');
 
   // 5. карточка человека, видоискатель верификации и снимки на радаре
   s = s.replace(/<article class="card"/g, '<article class="mm-person"');
+  // короткий вид карточки человека в выдаче поиска — ссылкой целиком
+  s = s.replace(/<a class="card compact"/g, '<a class="mm-person mm-person--compact"');
   s = s.replace(/<section class="body skeleton"/g, '<section class="mm-person-body"');
   s = s.replace(/<section class="body"/g, '<section class="mm-person-body"');
   s = s.replace(/<p class="photo blur"/g, '<p class="mm-photo mm-photo--blur"');
@@ -438,16 +436,6 @@ for (const name of SCREENS) {
   });
   body = body.replace(/<p class="photo( blur)?"(?: aria-hidden="true")?><\/p>/g,
     (m, blur) => `<p class="photo${blur || ''}"><img src="${portraitFor(name)}" alt="" loading="lazy"></p>`);
-
-  // Портрет в строке выдачи: имя стоит тут же, рядом, — по нему и берём.
-  // Снимки вставляются до перевода классов, но этот же проход зовут
-  // и после него, поэтому ловим оба написания строки.
-  body = body.replace(/<(a|li) class="(?:item person|mm-row mm-row--person)"([\s\S]*?)<\/\1>/g, (row) => {
-    const who = (row.match(/<b>([^,<]+)/) || [])[1] || '';
-    const hit = AVATAR_BY_NAME.find(([n]) => n === who) || [null, FACES.olena];
-    return row.replace(/<span class="(?:face|mm-face)"( aria-hidden="true")?><\/span>/,
-      `<span class="face" aria-hidden="true"><img src="${face(hit[1])}" alt="" loading="lazy"></span>`);
-  });
 
   // кружки рядом с именем
   let avatarTurn = 0;
