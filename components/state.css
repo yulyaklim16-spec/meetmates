@@ -89,10 +89,10 @@
 }
 
 .mm-promise mark {
-  padding: .02em .12em;
+  padding: var(--space-mark);
   border-radius: var(--radius-sm);
   background: var(--color-verified);
-  color: var(--text-primary);
+  color: var(--text-on-verified);
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }

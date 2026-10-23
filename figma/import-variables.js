@@ -379,6 +379,12 @@ const PRIMITIVE = [
     "css": "space-label"
   },
   {
+    "path": "space/mark",
+    "type": "STRING",
+    "value": ".02em .12em",
+    "css": "space-mark"
+  },
+  {
     "path": "radius/sm",
     "type": "FLOAT",
     "value": 14,
@@ -497,6 +503,36 @@ const PRIMITIVE = [
     "type": "FLOAT",
     "value": 340,
     "css": "size-radar"
+  },
+  {
+    "path": "size/radar-5",
+    "type": "FLOAT",
+    "value": 300,
+    "css": "size-radar-5"
+  },
+  {
+    "path": "size/radar-4",
+    "type": "FLOAT",
+    "value": 250,
+    "css": "size-radar-4"
+  },
+  {
+    "path": "size/radar-3",
+    "type": "FLOAT",
+    "value": 200,
+    "css": "size-radar-3"
+  },
+  {
+    "path": "size/radar-2",
+    "type": "FLOAT",
+    "value": 150,
+    "css": "size-radar-2"
+  },
+  {
+    "path": "size/radar-1",
+    "type": "FLOAT",
+    "value": 100,
+    "css": "size-radar-1"
   },
   {
     "path": "size/dot",
@@ -669,6 +705,11 @@ const SEMANTIC = [
     "path": "color/action",
     "alias": "color/plum-950",
     "css": "color-action"
+  },
+  {
+    "path": "text/on-verified",
+    "alias": "color/plum-900",
+    "css": "text-on-verified"
   },
   {
     "path": "color/verified",

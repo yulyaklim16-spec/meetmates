@@ -78,7 +78,7 @@
 }
 
 /* отметка проверки — одна на весь продукт: слово с галочкой на лаймовой лейбе.
- Пустой --mm-label выключает подложку, и слово возвращается к цвету текста */
+ Пустой --color-verified выключает подложку, и слово возвращается к цвету текста */
 .mm-verified {
   display: inline-flex;
   white-space: nowrap;
@@ -87,7 +87,7 @@
   padding: var(--space-label);
   border-radius: var(--radius-pill);
   background: var(--color-verified);
-  color: var(--text-primary);
+  color: var(--text-on-verified);
   font-weight: var(--weight-600);
 }
 

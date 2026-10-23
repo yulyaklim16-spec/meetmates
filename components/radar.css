@@ -31,15 +31,15 @@
 
 .mm-rings { width: var(--size-radar); height: var(--size-radar); }
 
-.mm-rings .r5 { width: 300px; height: 300px; }
+.mm-rings .r5 { width: var(--size-radar-5); height: var(--size-radar-5); }
 
-.mm-rings .mid { width: 250px; height: 250px; }
+.mm-rings .mid { width: var(--size-radar-4); height: var(--size-radar-4); }
 
-.mm-rings .r3 { width: 200px; height: 200px; }
+.mm-rings .r3 { width: var(--size-radar-3); height: var(--size-radar-3); }
 
-.mm-rings .in { width: 150px; height: 150px; }
+.mm-rings .in { width: var(--size-radar-2); height: var(--size-radar-2); }
 
-.mm-rings .r1 { width: 100px; height: 100px; }
+.mm-rings .r1 { width: var(--size-radar-1); height: var(--size-radar-1); }
 
 /* подписи колец ложатся поверх снимков — поэтому они на тёмной пилюле:
    белый на ней 19,9:1 вне зависимости от того, что под ней */

@@ -140,7 +140,7 @@
       <!-- Заголовок состояния идёт третьим уровнем — он одинаков на всех
            21 экране с .mm-state, и разметку блока мы не трогаем. Ступень
            добавляет зона: без неё уровень прыгал с h1 на h3. -->
-      <h2 id="st-h" hidden>Status</h2>
+      <h2 id="st-h" class="vh">Status</h2>
       <article class="state">
         <h3>You are all caught up</h3>
         <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
@@ -150,7 +150,7 @@
     <!-- ЗОНА 3: что дальше. Skip / Like ушли — решать нечего.
          Оба действия в одной строке: это две стороны одного вопроса — «почему пусто» -->
     <section aria-labelledby="act-h">
-      <h2 id="act-h" hidden>What next</h2>
+      <h2 id="act-h" class="vh">What next</h2>
       <p class="row">
         <a class="btn primary" href="deck-loading.html" aria-label="Show people further out">Expand search</a>
         <a class="btn quiet" href="deck.html">Reset filters</a>
@@ -160,7 +160,7 @@
     <!-- ЗОНА 4: выход во второй путь. В пустом виде это уже не запасной выход,
          а основной: событие не зависит от взаимности (§4, §2.1 п. 1) -->
     <section aria-labelledby="exit-h">
-      <h2 id="exit-h" hidden>Events</h2>
+      <h2 id="exit-h" class="vh">Events</h2>
       <a class="exit" href="feed.html">
         <span>Look at events</span>
         <span aria-hidden="true">&rarr;</span>
