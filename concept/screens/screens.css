@@ -226,11 +226,14 @@ body:not(.kit) .screen {
 .device > .mm-screen { position: relative; border-radius: 34px; }
 
 /* системные зоны: чужие, продукт их не рисует — только тихо обозначает */
+/* Красятся ролями, а не старым набором: зоны лежат внутри экрана
+   и темнеют вместе с ним. Всё, что снаружи телефона, остаётся светлым
+   и на старых токенах нарочно — страница вокруг мокапа темы не имеет. */
 .statusbar, .browserbar { flex: none; display: flex; align-items: center; font-size: var(--t-caption); }
-.statusbar { height: 47px; padding: 0 var(--s-6); justify-content: space-between; font-weight: var(--fw-semibold); color: var(--ink-900); }
-.browserbar { height: 50px; justify-content: center; background: var(--surface-2); color: var(--ink-600); }
-.homebar { flex: none; height: 34px; display: flex; align-items: center; justify-content: center; background: var(--surface-2); }
-.homebar::after { content: ""; width: 134px; height: 5px; border-radius: var(--r-pill); background: var(--ink-900); }
+.statusbar { height: 47px; padding: 0 var(--s-6); justify-content: space-between; font-weight: var(--fw-semibold); color: var(--text-primary); }
+.browserbar { height: 50px; justify-content: center; background: var(--bg-nested); color: var(--text-muted); }
+.homebar { flex: none; height: 34px; display: flex; align-items: center; justify-content: center; background: var(--bg-nested); }
+.homebar::after { content: ""; width: 134px; height: 5px; border-radius: var(--r-pill); background: var(--text-primary); }
 
 /* сгиб: граница того, чем владеет продукт */
 .fold { position: absolute; left: 0; right: 0; bottom: 84px; height: 0; text-align: right; }
