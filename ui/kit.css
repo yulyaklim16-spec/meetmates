@@ -595,8 +595,7 @@
 .mm-list--grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mm-s-3); align-items: stretch; }
 .mm-list--grid .mm-event { grid-template-rows: auto 1fr auto; }
 .mm-list--grid .mm-cover { height: var(--mm-cover-h-sm); }
-.mm-list--grid .mm-event-body { padding: var(--mm-s-2) var(--mm-s-3) 0; }
-.mm-list--grid .mm-event-acts { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
+.mm-list--grid .mm-event-body { padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
 /* В плитку заголовок и «когда» в одну строку не встают: дата вклинивалась
    в середину названия. Поэтому здесь они столбиком — сначала занятие,
    под ним день и час. Порядок чтения тот же, что в ленте (D-63). */
@@ -654,12 +653,10 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img,
    профиль, где стоят Skip и Like, поэтому кнопки на ней нет. */
 .mm-person--compact { height: auto; }
 .mm-person--compact figure { flex: none; height: var(--mm-cover-h); }
-/* В коротком виде карточка делится надвое: снимок и факты — ссылка в профиль,
-   под ними строка действия. Кнопка в ссылку не вкладывается, поэтому ссылкой
-   стала не вся карточка, а её верх; подчёркивание с него снято. */
-.mm-person-tap { flex: 1; min-height: 0; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-.mm-person-acts { flex: none; display: flex; gap: var(--mm-s-2); padding: var(--mm-s-2) var(--mm-s-3) var(--mm-s-3); }
-.mm-person-acts > .mm-btn { flex: 1; }
+/* Коротким видом карточка стала ссылкой целиком — тап открывает профиль.
+   Подчёркивание с неё снимается: подчёркнуты были бы и имя, и интересы,
+   и сигналы. Кнопки на ней нет: в выдаче не решают (D-67). */
+a.mm-person { text-decoration: none; color: inherit; }
 
 /* Короткий вид в плитке: обложка ещё ниже, поля уже — две карточки в ряд. */
 .mm-list--grid .mm-person--compact figure { height: var(--mm-cover-h-sm); }

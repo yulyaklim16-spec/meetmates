@@ -379,8 +379,7 @@ section.stretch { flex: 1; min-height: 0; }
 .rows.grid .item.ev { height: auto; }
 .rows.grid .item.ev .cover { height: 96px; }
 .rows.grid .card.compact figure { height: 96px; }
-.rows.grid .item.ev .body { padding: var(--s-2) var(--s-3) 0; }
-.rows.grid .item.ev .acts { padding: var(--s-2) var(--s-3) var(--s-3); }
+.rows.grid .item.ev .body { padding: var(--s-2) var(--s-3) var(--s-3); }
 .rows.grid .item.ev .top { flex-direction: column; align-items: flex-start; gap: 4px; }
 .rows.grid .item.ev .top b { flex: none; }
 .rows.grid .item.ev .top .when { margin-left: 0; }
@@ -392,9 +391,7 @@ section.stretch { flex: 1; min-height: 0; }
 .card.compact figure { position: relative; inset: auto; flex: none; height: 132px; }
 .card.compact .photo { height: 100%; }
 .card.compact .body { position: static; }
-.card.compact .cardtap { flex: 1; min-height: 0; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-.card.compact .card-acts { flex: none; display: flex; gap: var(--s-2); padding: var(--s-2) var(--s-3) var(--s-3); }
-.card.compact .card-acts .btn { flex: 1; }
+a.card.compact { text-decoration: none; color: inherit; }
 /* в 170px сигналы не встают в строку — идут друг под другом */
 .rows.grid .signals { flex-direction: column; align-items: flex-start; }
 

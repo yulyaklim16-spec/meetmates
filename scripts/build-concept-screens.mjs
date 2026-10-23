@@ -243,11 +243,9 @@ function dressInKit(body, name) {
 
   // 5. карточка человека, видоискатель верификации и снимки на радаре
   s = s.replace(/<article class="card"/g, '<article class="mm-person"');
-  // короткий вид карточки человека в выдаче поиска: снимок и факты —
-  // ссылка в профиль, действие стоит отдельной строкой под ними
-  s = s.replace(/<li class="card compact">/g, '<li class="mm-person mm-person--compact">');
-  s = s.replace(/<a class="cardtap"/g, '<a class="mm-person-tap"');
-  s = s.replace(/<span class="card-acts">/g, '<span class="mm-person-acts">');
+  // короткий вид карточки человека в выдаче поиска — ссылкой целиком:
+  // в выдаче не решают, тап открывает профиль, где стоят Skip и Like
+  s = s.replace(/<a class="card compact"/g, '<a class="mm-person mm-person--compact"');
   s = s.replace(/<section class="body skeleton"/g, '<section class="mm-person-body"');
   s = s.replace(/<section class="body"/g, '<section class="mm-person-body"');
   s = s.replace(/<p class="photo blur"/g, '<p class="mm-photo mm-photo--blur"');
