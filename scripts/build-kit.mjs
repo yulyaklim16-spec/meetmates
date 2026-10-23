@@ -11,7 +11,7 @@
 //
 // Запуск: node scripts/build-kit.mjs — после правки ui/kit.md или kit.css.
 
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { esc, inline, md } from './lib/markdown.mjs';
 import { subtabsHtml, TABS_CSS, tabsJs } from './lib/tabs.mjs';
@@ -20,7 +20,11 @@ const ROOT = process.cwd();
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
 
 const doc = read('ui/kit.md');
-const kitCss = read('ui/kit.css');
+// кит удалён: счёт берётся из того, чем одеты экраны, — корневого
+// tokens.css и набора components/
+const tokensCss = read('tokens.css');
+const kitCss = readdirSync(join(ROOT, 'components')).filter((f) => f.endsWith('.css')).sort()
+  .map((f) => read(`components/${f}`)).join(String.fromCharCode(10));
 const kitHtml = read('ui/kit.html');
 const shell = read('sections/index.html');
 

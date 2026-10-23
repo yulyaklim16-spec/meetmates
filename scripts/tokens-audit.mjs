@@ -23,17 +23,20 @@
 //
 // Запуск: node scripts/tokens-audit.mjs
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
 
-// declaredIn — где у файла объявлены переменные: кит держит свои сам,
-// окрашенный слой концепта берёт их из tokens/tokens.css
+// declaredIn — где у файла объявлены переменные. Компоненты берут всё
+// из корневого tokens.css; окрашенный слой концепта — из tokens/tokens.css
 const FILES = [
-  // checkSizes — размеры проверяем только в ките: слой концепта больше
-  // не одевает ни одного экрана и доживает свой век под стендом
-  { path: 'ui/kit.css', prefix: '--mm-', declaredIn: ['ui/kit.css'], checkSizes: true },
+  // checkSizes — размеры проверяем в компонентах: ими одеты экраны.
+  // Исключение одно и названо в самом файле: components/radar.css держит
+  // одноразовую геометрию иллюстрации литералами
+  ...readdirSync(join(ROOT, 'components')).filter((f) => f.endsWith('.css') && f !== 'radar.css').sort()
+    .map((f) => ({ path: `components/${f}`, prefix: '--', declaredIn: ['tokens.css'], checkSizes: true })),
+  { path: 'components/radar.css', prefix: '--', declaredIn: ['tokens.css'], checkSizes: false },
   { path: 'concept/components.css', prefix: '--', declaredIn: ['tokens/tokens.css'], checkSizes: false },
 ];
 
@@ -117,7 +120,7 @@ const hex = (css, prefix) =>
     .map((m) => [m[1], m[2].toLowerCase()]));
 
 const prod = hex(readFileSync(join(ROOT, 'tokens/tokens.css'), 'utf8'), '--');
-const kit = hex(readFileSync(join(ROOT, 'ui/kit.css'), 'utf8'), '--mm-');
+const kit = hex(readFileSync(join(ROOT, 'tokens.css'), 'utf8'), '--');
 const drift = Object.keys(kit).filter((k) => prod[k] && prod[k] !== kit[k]);
 
 console.log('## Кит против tokens.css\n');

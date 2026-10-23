@@ -103,12 +103,8 @@ for (const rel of ['tokens/tokens.css', 'concept/tokens.css', 'concept/component
 // ── 2в. кит: стили и снимки, которыми нарисованы его страницы ──
 // Снимки лежат файлами, а не ссылками на Unsplash: витрина не должна гаснуть
 // оттого, что чужой сервис недоступен.
-if (!copyAsset('ui/kit.css')) {
-  console.error('Нет ui/kit.css — страницы кита останутся без стилей');
-  process.exit(1);
-}
-// витрина с 23.10 одета не китом, а компонентами: корневой tokens.css
-// и components/*.css. Сам kit.css пока едет рядом — он нужен для сравнения
+// витрина и экраны одеты корневым tokens.css и набором components/*.css;
+// ui/kit.css удалён 23.10 после посимвольной сверки — git его помнит
 for (const rel of ['tokens.css', ...readdirSync(join(ROOT, 'components')).sort().map((f) => `components/${f}`)]) {
   if (!copyAsset(rel)) {
     console.error(`Нет ${rel} — витрина кита останется без стилей`);

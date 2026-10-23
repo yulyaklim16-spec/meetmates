@@ -121,7 +121,7 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 | [wireframes/](./wireframes/) | ✅ 50 страниц из 50, разбор пройден | 13 экранов и все состояния из таблицы [`_screens.md`](./wireframes/_screens.md), в мокапе телефона, связаны по рёбрам `flows.md`. Что проверялось и что починено — [`_critique.md`](./wireframes/_critique.md) |
 | [concept/](./concept/) | 🟡 направление выбрано | R «Сирень» `D-62`: стенд стиля, лента событий и профиль во всех состояниях, одиннадцать направлений четырёх раундов. Прежнее D «Стекло» `D-61` снято 2026-10-09 и сохранено значениями на доске [skins.html](./concept/skins.html). Текст — [concept.md](./concept/concept.md), раздел 6 сайта собирается из него |
 | [tokens/](./tokens/) | ✅ базовый набор | [tokens.css](./tokens/tokens.css) + [tokens.json](./tokens/tokens.json) |
-| [ui/](./ui/) | ✅ кит собран, надет на все 50 экранов | **Сборка UI:** 108 переменных и 95 классов в [kit.css](./ui/kit.css), оболочка разметкой [shell.html](./ui/shell.html), витрина [kit.html](./ui/kit.html) — 33 компонента, 119 клеток, у каждой имя «роль-состояние-вид». Снят с окрашенных экранов, а не нарисован заново: расходится кит с экраном — прав экран. Текст — [kit.md](./ui/kit.md), состав и порог отбора — [inventory.md](./ui/inventory.md) |
+| [ui/](./ui/) | ✅ набор собран: `tokens.css` + `components/`, надет на все 50 экранов | **Сборка UI:** 113 переменных в [tokens.css](./tokens.css) и 100 классов в [components/](./components/), оболочка разметкой [shell.html](./ui/shell.html), витрина [kit.html](./ui/kit.html) — 33 компонента, 119 клеток, у каждой имя «роль-состояние-вид». Снят с окрашенных экранов, а не нарисован заново: расходится кит с экраном — прав экран. Текст — [kit.md](./ui/kit.md), состав и порог отбора — [inventory.md](./ui/inventory.md) |
 | [design-system/](./design-system/) | 🟡 инварианты зафиксированы | Правила применения, копирайт-гайд |
 | [handoff/](./handoff/) | ⬜ | Спецификации экранов, ассеты, доступность |
 
@@ -130,8 +130,8 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 
 **Проверки, которые гоняются на каждом проходе:** `node scripts/contrast.mjs` —
 контраст пар из токенов; `node scripts/palette-audit.mjs` — различимость цветов,
-ΔE2000 между ролями; `node scripts/tokens-audit.mjs` — литералы и расхождение
-кита с `tokens.css`; `node scripts/microcopy-audit.mjs` — перепись против макетов
+ΔE2000 между ролями; `node scripts/tokens-audit.mjs` — литералы в components/ и расхождение
+корневого `tokens.css` с `tokens/tokens.css`; `node scripts/microcopy-audit.mjs` — перепись против макетов
 в обе стороны; `node scripts/screens-audit.mjs` — тупики, главное действие, состояния
 из задания, имя экрана в дереве и то, что страница не одевается сама.
 
