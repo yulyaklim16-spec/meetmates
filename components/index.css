@@ -29,13 +29,13 @@
 @import url("./field.css");
 @import url("./chat.css");
 @import url("./state.css");
+@import url("./skeleton.css");
+@import url("./radar.css");
 
 @keyframes mm-found {
   from { opacity: 0; transform: translate(-50%, -50%) scale(.55); }
   to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
-@import url("./skeleton.css");
-@import url("./radar.css");
 
 @media (prefers-reduced-motion: reduce) {
   .mm-skel { animation: none; }
