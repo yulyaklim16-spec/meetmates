@@ -393,7 +393,7 @@ footer p { max-width: 72ch; }
 .files a { display: inline-block; padding: var(--s-2) var(--s-3); border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface); font-size: var(--t-caption); text-decoration: none; color: var(--ink-900); }
 .files a:hover, .files a:focus-visible { background: var(--surface-2); }
 
-#overview blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+.block blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 </style>
 </head>
 <body>
@@ -415,14 +415,14 @@ footer p { max-width: 72ch; }
         <a class="mat" href="concept.html"><span class="n">06</span><span class="t">Концепт<i>готово</i></span></a>
         <a class="mat" href="kit.html"><span class="n">07</span><span class="t">Сборка UI<i>готово</i></span></a>
         <a class="mat current" href="tokens.html" aria-current="page"><span class="n">08</span><span class="t">Дизайн-токены<i>текущий раздел</i></span></a>
-        <nav class="subtabs" aria-label="Что показывать в разделе">
-          <a href="#overview" data-tab="overview" aria-current="true">Два уровня</a>
-          <a href="#primitive" data-tab="primitive">Цвет</a>
-          <a href="#scales" data-tab="scales">Геометрия</a>
-          <a href="#semantic" data-tab="semantic">Семантика цвета</a>
-          <a href="#contrast" data-tab="contrast">Контраст</a>
-          <a href="#fixes" data-tab="fixes">Правки</a>
-          <a href="#decision" data-tab="decision">Что открыто</a>
+        <nav class="subtabs" aria-label="Части раздела">
+          <a href="#overview" data-spy="overview" aria-current="true">Два уровня</a>
+          <a href="#primitive" data-spy="primitive">Цвет</a>
+          <a href="#scales" data-spy="scales">Геометрия</a>
+          <a href="#semantic" data-spy="semantic">Семантика цвета</a>
+          <a href="#contrast" data-spy="contrast">Контраст</a>
+          <a href="#fixes" data-spy="fixes">Правки</a>
+          <a href="#decision" data-spy="decision">Что открыто</a>
         </nav>
         <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
         <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
@@ -457,13 +457,11 @@ footer p { max-width: 72ch; }
       </ul>
     </div>
 
-    <div class="tabpanel" id="overview">
-      <h1 class="vh">Дизайн-токены: два уровня</h1>
+    <section class="block" id="overview">
+      <h2>Два уровня</h2>
 <blockquote><p>Из чего собран цвет, размер и форма продукта. Значения живут в <a href="../tokens.css"><code>tokens.css</code></a>; эта страница объясняет, <strong>почему их два уровня</strong> и кто какой имеет право читать.</p>
 <p>Семь подпунктов идут по слоям: сначала граница между уровнями, потом сами значения — цвет, геометрия, семантика, — потом проверка контрастом, потом то, что этот слой починил, и в конце то, что в нём открыто.</p>
 <p>Таблицы собираются из самого файла при сборке страницы: числа здесь не переписываются руками и отстать не могут.</p></blockquote>
-      <section id="два-уровня">
-        <h2>Два уровня</h2>
 <p>Уровни названы в самом файле: <code>PRIMITIVE</code> и <code>SEMANTIC</code>, и так же они называются в Figma — коллекции <code>Primitive</code> и <code>Semantic</code>. <strong>Семантика</strong> — то, что в разговоре называют «ролью» токена; дальше в тексте одно слово, чтобы не держать в голове два.</p>
 <p><strong>Примитив — это значение.</strong> <code>--plum-900: #1A1026</code>, <code>--space-16: 16px</code>, <code>--radius-lg: 26px</code>. Имя говорит, <strong>что это</strong>, и ничего не говорит о месте: сливовый 900 остаётся сливовым 900, где бы ни стоял.</p>
 <p><strong>Семантика — это ответственность.</strong> <code>--bg-surface</code>, <code>--text-muted</code>, <code>--color-action</code>, <code>--border-hairline</code>. Имя говорит, <strong>за что отвечает</strong>, а значение — всегда <code>var()</code> на примитив. Своего числа у семантического токена не бывает.</p>
@@ -483,13 +481,10 @@ footer p { max-width: 72ch; }
 <h3 id="что-уезжает-в-figma">Что уезжает в Figma</h3>
 <p><a href="../figma/"><code>figma/</code></a> — переменные двумя коллекциями: <code>Primitive</code> и <code>Semantic</code>, семантика ссылками на примитивы. Тени, размытие и проценты переменными в Figma не держатся и переносятся стилями и строками.</p>
 
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="primitive">
-      <h1 class="vh">Дизайн-токены: цвет</h1>
-      <section id="цвет">
-        <h2>Цвет</h2>
+    <section class="block" id="primitive">
+      <h2>Примитив: цвет</h2>
 <p>Имя примитива цвета говорит <strong>оттенок и насколько он тёмный</strong>, и только это: <code>--plum-900</code> темнее <code>--plum-600</code>, <code>--lilac-50</code> светлее <code>--lilac-300</code>. Где он стоит, имя не знает нарочно — иначе первый же переезд компонента сделает имя неверным.</p>
 <p><strong>Сиреневые идут лестницей, и каждая ступень видна глазу.</strong> <code>--lilac-50</code> → <code>--lilac-100</code> → <code>--lilac-150</code> → <code>--lilac-200</code> → <code>--lilac-300</code>: между соседями не меньше 3,5 ΔE2000, и это держит <code>palette-audit.mjs</code>, а не глаз. Ступень ниже порога — это два имени у одного цвета, и такое разрешено только с записанной причиной.</p>
 <p><strong>Четыре дубля сведены, и в комментарии сказано какие.</strong> Белый жил под четырьмя именами, <code>#1A1026</code> — под тремя, волосяная граница была записана дважды (нейтральной и сиреневой — осталась нейтральная), 12px носил два имени кегля. Значение в примитивах теперь одно; сколько у него ролей — вопрос следующего уровня.</p>
@@ -593,13 +588,10 @@ footer p { max-width: 72ch; }
     <span class="tk-note"><b>inset 0 0 0 1px var(--white)</b> — белая обводка кружка пагинации: тот же физический пиксель, но поверх снимка</span>
   </div>
 </div>
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="scales">
-      <h1 class="vh">Дизайн-токены: геометрия</h1>
-      <section id="геометрия">
-        <h2>Геометрия</h2>
+    <section class="block" id="scales">
+      <h2>Примитив: геометрия</h2>
 <p><strong>Геометрия и шрифт семантики не получают</strong> (правило 2): их компонент читает прямо из примитива. Поэтому все шкалы ниже — один уровень, и второго имени у <code>16px</code> нет.</p>
 <p><strong>Шкала кратна двум:</strong> кегль 34 · 28 · 22 · 20 · 18 · 16 · 14 · 12, шаг 48 · 32 · 24 · 16 · 12 · 8 · 6 · 4 · 2, радиусы 26 · 18 · 14 и пилюля. <strong>Нечётных значений два, и оба не размеры:</strong> <code>1px</code> — волосяная линия, физический пиксель устройства, и <code>999px</code> у пилюли — признак «скругли до конца», а не мера.</p>
 <p><strong>Числовые шкалы стоят от большего к меньшему</strong> <code class="dcode">D-82</code>. Сверху видно потолок шкалы и шаг вниз от него, а не разбег от двойки. Составные значения (<code>--space-label</code>, <code>--space-mark</code>) порядку не подчиняются: у них нет одного числа, по которому их сравнивать.</p>
@@ -754,13 +746,10 @@ footer p { max-width: 72ch; }
     <tr><td><code>--opacity-off</code></td><td class="c-num">.5</td><td class="c-bar"><i class="tk-dot tk-dot--ink" style="opacity:.5"></i></td><td class="tnote">отключённое — то же в половину силы</td></tr>
   </tbody>
 </table></div>
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="semantic">
-      <h1 class="vh">Дизайн-токены: семантика цвета</h1>
-      <section id="семантика-цвета">
-        <h2>Семантика цвета</h2>
+    <section class="block" id="semantic">
+      <h2>Семантика: цвет</h2>
 <p>Семантический токен отвечает на вопрос <strong>«кто этот цвет на экране»</strong> и ссылается на примитив через <code>var()</code>. В комментарии у каждого сказано, <strong>из какого употребления он вырос</strong>: <code>--bg-surface</code> — из 18 мест, где белое лежит поверх размытия; <code>--text-muted</code> — из 17 строк под именем и под заголовком. Имя без такого происхождения — это имя, придуманное про запас.</p>
 <p><strong>Имена взяты из разбора, а не из чужой системы.</strong> Роль называется так, как она названа в аудите — «фон карточки», «текст второстепенный», «доверие», «опасность», — и ни одного <code>--color-primary</code> или <code>--surface-2</code> здесь нет.</p>
 <p><strong>Две роли на одно значение — не ошибка.</strong> <code>--bg-page</code> и <code>--bg-surface</code> обе белые: совпадение держится на том, что фон экрана сейчас белый, и разойдутся они в первую же правку. Запрещено не совпадение значений, а совпадение, у которого нет причины.</p>
@@ -829,13 +818,10 @@ footer p { max-width: 72ch; }
     <tr><td><code>--bg-skeleton</code></td><td class="val"><code class="dim">linear-gradient(90deg, var(--bg-nested) 0% …</code></td><td class="tnote">—</td></tr>
   </tbody>
 </table></div>
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="contrast">
-      <h1 class="vh">Дизайн-токены: контраст</h1>
-      <section id="контраст">
-        <h2>Контраст</h2>
+    <section class="block" id="contrast">
+      <h2>Контраст по WCAG AA</h2>
 <p><strong>Порог — WCAG 2.1 AA: текст 4.5:1, не-текст 3:1.</strong> Считается не глазом, а <code>node scripts/contrast.mjs</code>, и это гейт: пара ниже порога роняет сборку.</p>
 <p><strong>Фон экрана — градиент, поэтому текст на нём считается по самому тёмному месту размытия</strong> (<code>--lilac-150</code>, <code>#E4DAEA</code>). Если проходит там, проходит везде.</p>
 <p><strong>Белого текста на размытии нет:</strong> белый даёт там 1,35:1. Заголовок экрана и системная строка — тёмные.</p>
@@ -867,13 +853,10 @@ footer p { max-width: 72ch; }
     <tr><td><code>--color-danger</code> на <code>--lilac-150</code><span class="tnote tnote--sub">Заливка и обводка опасного на размытии (не текст)</span></td><td class="c-num">3:1</td><td class="c-check"><span class="tk-pair"><span class="tk-sample" style="color:#C01F4A;background:#E4DAEA">Aa</span><b>4,39:1</b><span class="tk-pass">да</span></span></td></tr>
   </tbody>
 </table></div>
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="fixes">
-      <h1 class="vh">Дизайн-токены: правки</h1>
-      <section id="правки">
-        <h2>Правки</h2>
+    <section class="block" id="fixes">
+      <h2>Что починила проверка</h2>
 <p>Два уровня — не переименование. Перенос значений вида не изменил: вычисленные стили шести страниц сошлись до символа. Изменило вид только то, что проверка нашла по дороге, и ниже оно перечислено целиком.</p>
 <ul><li><strong>Волосяная граница была записана дважды</strong> — нейтральным <code>#ECECEC</code> в тенях и сиреневым <code>#E8E1F1</code> на дорожке переключателя и кольцах радара. Осталась одна, <code>--border-hairline</code>; у наведения появился свой фон <code>--bg-hover</code>, прежде оно красилось второй поверхностью <code class="dcode">D-72</code>.</li>
 <li><strong>Имена давались по месту</strong> — <code>--card-ring</code>, <code>--tab-current</code>, <code>--glass-strong</code>. Стали давать по ответственности, копии значений сняты, выбранное получило свою роль <code>--bg-selected</code> <code class="dcode">D-73</code>.</li>
@@ -885,13 +868,10 @@ footer p { max-width: 72ch; }
 <li><strong>Числовые группы стояли в случайном порядке.</strong> Выстроены от большего к меньшему — и в файле, и в таблицах этого раздела <code class="dcode">D-82</code>.</li></ul>
 <p><strong>Главная находка — четвёртая по счёту, а не первая.</strong> Лейба <code>Verified</code> держалась не на своём цвете, а на том, что основной текст случайно оказывался тёмным. Нашла это проверка тёмной темой: в ней лайм остался лаймом, а текст стал светлым — 1,22:1. Тему потом сняли <code class="dcode">D-82</code>, а починку оставили: она верна и без неё.</p>
 
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="decision">
-      <h1 class="vh">Дизайн-токены: что открыто</h1>
-      <section id="что-открыто">
-        <h2>Что открыто</h2>
+    <section class="block" id="decision">
+      <h2>Что открыто</h2>
 <p><strong>Чего в наборе нет нарочно</strong> — семантики под то, что ещё не нарисовано. Предупреждение о приватном адресе, поле, прошедшее проверку в создании события, bottom sheet фильтров: экраны отложены, и цвета под них ждут в журнале решений, а не в палитре.</p>
 <p><strong>Что открыто по-настоящему:</strong></p>
 <ul><li><strong>Дешёвой проверки уровня больше нет.</strong> Её делала тёмная тема: компонент, читающий примитив мимо семантики, становился виден сразу. Тема отклонена и снята <code class="dcode">D-82</code>, и такую правку теперь не поймает ни гейт, ни глаз.</li>
@@ -900,8 +880,7 @@ footer p { max-width: 72ch; }
 <li><strong>У поля нет своей роли ошибки.</strong> Восемь ролей состояний заведены, а «не приняло» опирается на <code>--color-danger</code> напрямую — роль придёт вместе с экраном создания запроса.</li>
 <li><strong>Роли фокуса и остальных состояний компонентов разберём отдельно</strong> — вместе с экранами, которые их принесут: создание запроса, фильтры, редактирование.</li></ul>
 
-      </section>
-    </div>
+    </section>
 
     <footer>
       <p>Раздел 8 из 12 · Дизайн-токены. Текст — <a href="../tokens.md">tokens.md</a>,
@@ -913,55 +892,32 @@ footer p { max-width: 72ch; }
 </div>
 
 <script>
-// Подпункты текущего раздела в дереве. Нажат любой — дерево сжимается до номеров,
-// вернуть его целиком можно нажатием на сам номер раздела. Без скрипта — якоря.
 (function () {
   var ids = ["overview","primitive","scales","semantic","contrast","fixes","decision"];
-  var shell = document.querySelector('.shell');
-  var subtabs = document.querySelector('.subtabs');
-  if (!shell || !subtabs) return;
-  var panels = {};
-  for (var i = 0; i < ids.length; i++) panels[ids[i]] = document.getElementById(ids[i]);
-  var links = subtabs.querySelectorAll('a[data-tab]');
-
-  function show(name, collapsed, push) {
-    shell.setAttribute('data-tab', name);
-    if (collapsed) shell.setAttribute('data-collapsed', '');
-    else shell.removeAttribute('data-collapsed');
-    for (var k in panels) if (panels[k]) panels[k].hidden = (k !== name);
-    for (var j = 0; j < links.length; j++) {
-      if (links[j].getAttribute('data-tab') === name) links[j].setAttribute('aria-current', 'true');
-      else links[j].removeAttribute('aria-current');
+  var links = {};
+  var all = document.querySelectorAll('.subtabs a[data-spy]');
+  for (var i = 0; i < all.length; i++) links[all[i].getAttribute('data-spy')] = all[i];
+  function mark(id) {
+    for (var k in links) {
+      if (k === id) links[k].setAttribute('aria-current', 'true');
+      else links[k].removeAttribute('aria-current');
     }
-    if (push) history.replaceState(null, '', '#' + name);
   }
-
-  subtabs.addEventListener('click', function (e) {
-    var a = e.target.closest('a[data-tab]');
-    if (!a) return;
-    e.preventDefault();
-    show(a.getAttribute('data-tab'), true, true);
-  });
-
-  // номер раздела возвращает дерево целиком, не трогая показанное
-  var cur = document.querySelector('.side .mat.current');
-  if (cur) cur.addEventListener('click', function (e) {
-    if (shell.hasAttribute('data-collapsed')) {
-      e.preventDefault();
-      show(shell.getAttribute('data-tab'), false, false);
-    }
-  });
-
-  // переход по якорю внутри той же страницы (и кнопки «назад»/«вперёд»)
-  // не перезагружает её — вкладку переключаем сами
-  window.addEventListener('hashchange', function () {
-    var n = location.hash.slice(1);
-    if (ids.indexOf(n) > -1) show(n, true, false);
-  });
-
-  var h = location.hash.slice(1);
-  var known = ids.indexOf(h) > -1;
-  show(known ? h : ids[0], known, false);
+  if (!('IntersectionObserver' in window)) return;
+  var seen = {};
+  var io = new IntersectionObserver(function (entries) {
+    for (var j = 0; j < entries.length; j++) seen[entries[j].target.id] = entries[j].isIntersecting;
+    for (var k = 0; k < ids.length; k++) if (seen[ids[k]]) { mark(ids[k]); return; }
+  }, { rootMargin: '-8% 0px -72% 0px' });
+  for (var n = 0; n < ids.length; n++) {
+    var el = document.getElementById(ids[n]);
+    if (el) io.observe(el);
+  }
+  // Последний блок короче окна и в полосу наблюдения целиком не попадает:
+  // докрутив страницу до конца, человек видел отметку на предпоследнем.
+  window.addEventListener('scroll', function () {
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) mark(ids[ids.length - 1]);
+  }, { passive: true });
 })();
 </script>
 

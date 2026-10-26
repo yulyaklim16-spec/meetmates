@@ -13,7 +13,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { esc, inline, md } from './lib/markdown.mjs';
-import { subtabsHtml, TABS_CSS, tabsJs } from './lib/tabs.mjs';
+import { anchorsHtml, TABS_CSS, spyJs } from './lib/tabs.mjs';
 
 const ROOT = process.cwd();
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -331,7 +331,6 @@ function blocks(text) {
   if (prev) out.push({ title: prev, text: body.slice(lastIndex).trim() });
   return out;
 }
-const slugify = (s) => s.toLowerCase().replace(/[`*]/g, '').replace(/[^a-zа-яё0-9]+/gi, '-').replace(/^-|-$/g, '');
 
 // ссылки tokens.md даны от корня, страница лежит в sections/
 const render = (text) => md(text).replace(/href="\.\/(?!\.)/g, 'href="../');
@@ -340,14 +339,20 @@ const parts = blocks(doc);
 const intro = parts.find((b) => b.title === null);
 const byTitle = new Map(parts.filter((b) => b.title).map((b) => [b.title, b.text]));
 
-// Подпункт — раздел документа плюс свои таблицы. Заголовок документа, которого
+// Блок — раздел документа плюс свои образцы. Заголовок документа, которого
 // здесь нет, роняет сборку: текст не должен пропадать со страницы молча.
+//
+// `nav` — короткое имя в дереве слева, `title` — заголовок самого блока
+// и заголовок раздела в tokens.md. Имена разные нарочно: в колонке дерева
+// «Примитив: геометрия» не помещается, а над блоком короткое «Геометрия»
+// не говорит, какого уровня это значения.
 const TABS = [
-  { id: 'overview', title: 'Два уровня', tables: '' },
-  { id: 'primitive', title: 'Цвет', tables: colorHtml },
+  { id: 'overview', nav: 'Два уровня', title: 'Два уровня', tables: '' },
+  { id: 'primitive', nav: 'Цвет', title: 'Примитив: цвет', tables: colorHtml },
   {
     id: 'scales',
-    title: 'Геометрия',
+    nav: 'Геометрия',
+    title: 'Примитив: геометрия',
     tables: `      <h3>Гарнитура</h3>
 ${faceHtml}
 
@@ -375,10 +380,10 @@ ${sizeHtml}
       <h3>Движение и прозрачность</h3>
 ${motionHtml}`,
   },
-  { id: 'semantic', title: 'Семантика цвета', tables: semHtml },
-  { id: 'contrast', title: 'Контраст', tables: contrastHtml },
-  { id: 'fixes', title: 'Правки', tables: '' },
-  { id: 'decision', title: 'Что открыто', tables: '' },
+  { id: 'semantic', nav: 'Семантика цвета', title: 'Семантика: цвет', tables: semHtml },
+  { id: 'contrast', nav: 'Контраст', title: 'Контраст по WCAG AA', tables: contrastHtml },
+  { id: 'fixes', nav: 'Правки', title: 'Что починила проверка', tables: '' },
+  { id: 'decision', nav: 'Что открыто', title: 'Что открыто', tables: '' },
 ];
 
 const claimed = new Set(TABS.map((t) => t.title));
@@ -393,20 +398,20 @@ if (missing.length) {
   process.exit(1);
 }
 
-const panels = TABS.map((t, i) => `    <div class="tabpanel" id="${t.id}">
-      <h1 class="vh">Дизайн-токены: ${esc(t.title.toLowerCase())}</h1>
-${i === 0 && intro ? render(intro.text) + '\n' : ''}      <section id="${slugify(t.title)}">
-        <h2>${inline(t.title)}</h2>
-${render(byTitle.get(t.title))}
+// Страница одна: блоки идут подряд, а подпункт в дереве — якорь на свой блок
+// и отметка «я сейчас здесь». Прятать соседние незачем — читают их подряд,
+// и в наборе важно видеть, что за цветом идёт геометрия, а за ней семантика.
+const panels = TABS.map((t, i) => `    <section class="block" id="${t.id}">
+      <h2>${inline(t.title)}</h2>
+${i === 0 && intro ? render(intro.text) + '\n' : ''}${render(byTitle.get(t.title))}
 ${t.tables}
-      </section>
-    </div>`).join('\n\n');
+    </section>`).join('\n\n');
 
 // ── боковая колонка ───────────────────────────────────────────────────
 const asideSrc = shell.slice(shell.indexOf('<aside class="side">'), shell.indexOf('</aside>') + '</aside>'.length);
 const cur = /<a class="mat"([^>]*)href="tokens\.html">([\s\S]*?)<i>[^<]*<\/i><\/span><\/a>/;
 if (!cur.test(asideSrc)) throw new Error('в sections/index.html нет пункта 08 со ссылкой на tokens.html — боковая колонка изменилась');
-const subtabs = subtabsHtml(TABS.map((t) => ({ id: t.id, title: t.title })));
+const subtabs = anchorsHtml(TABS.map((t) => ({ id: t.id, title: t.nav })));
 const aside = asideSrc.replace(cur, (m, attrs, head) =>
   `<a class="mat current"${attrs}href="tokens.html" aria-current="page">${head}<i>текущий раздел</i></span></a>${subtabs}`);
 
@@ -473,7 +478,7 @@ ${TABS_CSS}
 .files a { display: inline-block; padding: var(--s-2) var(--s-3); border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface); font-size: var(--t-caption); text-decoration: none; color: var(--ink-900); }
 .files a:hover, .files a:focus-visible { background: var(--surface-2); }
 
-#overview blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+.block blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 `;
 
 const page = `${head}${extraCss}</style>
@@ -518,7 +523,7 @@ ${panels}
     </footer>
   </main>
 </div>
-${tabsJs(TABS.map((t) => t.id))}
+${spyJs(TABS.map((t) => t.id))}
 
 </body>
 </html>

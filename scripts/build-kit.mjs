@@ -13,7 +13,7 @@
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { esc, inline, md } from './lib/markdown.mjs';
-import { subtabsHtml, TABS_CSS, tabsJs } from './lib/tabs.mjs';
+import { anchorsHtml, TABS_CSS, spyJs } from './lib/tabs.mjs';
 
 const ROOT = process.cwd();
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -120,7 +120,6 @@ function blocks(text) {
   if (prev) out.push({ title: prev, text: body.slice(lastIndex).trim() });
   return out;
 }
-const slugify = (s) => s.toLowerCase().replace(/[`*]/g, '').replace(/[^a-zа-яё0-9]+/gi, '-').replace(/^-|-$/g, '');
 
 // ссылки kit.md даны от папки ui/, страница лежит в sections/
 const render = (text) => md(text).replace(/href="\.\/(?!\.)/g, 'href="../ui/');
@@ -175,20 +174,21 @@ if (lost.length) {
   process.exit(1);
 }
 
-const panels = TABS.map((t, i) => `    <div class="tabpanel" id="${t.id}">
-      <h1 class="vh">Сборка UI: ${esc(t.title.toLowerCase())}</h1>
-${i === 0 && intro ? render(intro.text) + '\n' : ''}      <section id="${slugify(t.title)}">
-        <h2>${inline(t.title)}</h2>
-${render(byTitle.get(t.title))}
+// Страница одна: части набора идут подряд, а подпункт в дереве — якорь
+// на свою часть и отметка «я сейчас здесь». Прятать соседние незачем: кит
+// читают подряд, и важно видеть, что за оболочкой идёт навигация, за ней
+// карточки. Рамки грузятся по мере прокрутки — loading="lazy".
+const panels = TABS.map((t, i) => `    <section class="block" id="${t.id}">
+      <h2>${inline(t.title)}</h2>
+${i === 0 && intro ? render(intro.text) + '\n' : ''}${render(byTitle.get(t.title))}
 ${t.html}
-      </section>
-    </div>`).join('\n\n');
+    </section>`).join('\n\n');
 
 // ── боковая колонка ───────────────────────────────────────────────────
 const asideSrc = shell.slice(shell.indexOf('<aside class="side">'), shell.indexOf('</aside>') + '</aside>'.length);
 const cur = /<a class="mat"([^>]*)href="kit\.html">([\s\S]*?)<i>[^<]*<\/i><\/span><\/a>/;
 if (!cur.test(asideSrc)) throw new Error('в sections/index.html нет пункта 07 со ссылкой на kit.html — боковая колонка изменилась');
-const subtabs = subtabsHtml(TABS.map((t) => ({ id: t.id, title: t.title })));
+const subtabs = anchorsHtml(TABS.map((t) => ({ id: t.id, title: t.title })));
 const aside = asideSrc.replace(cur, (m, attrs, head) =>
   `<a class="mat current"${attrs}href="kit.html" aria-current="page">${head}<i>текущий раздел</i></span></a>${subtabs}`);
 
@@ -216,7 +216,7 @@ ${TABS_CSS}
   display: block; width: 100%; height: 86vh; overflow: hidden;
   border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
 }
-.tabpanel blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+.block blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 `;
 
 const page = `${head}${extraCss}</style>
@@ -254,7 +254,7 @@ ${panels}
     </footer>
   </main>
 </div>
-${tabsJs(TABS.map((t) => t.id))}
+${spyJs(TABS.map((t) => t.id))}
 <script>
 // Рамка принимает высоту своей страницы: прокрутки внутри нет, страницу
 // листает общая полоса раздела. Страницы свои, с того же домена, поэтому
@@ -297,13 +297,6 @@ ${tabsJs(TABS.map((t) => t.id))}
   // и по каждому load, и по готовности самой страницы.
   for (var i = 0; i < frames.length; i++) frames[i].addEventListener('load', fitAll);
   window.addEventListener('load', fitAll);
-  // подпункт открывается скрытым: пока панель спрятана, высоту не измерить
-  if (window.MutationObserver) {
-    var panels = document.querySelectorAll('.tabpanel');
-    for (var k = 0; k < panels.length; k++) {
-      new MutationObserver(fitAll).observe(panels[k], { attributes: true, attributeFilter: ['hidden'] });
-    }
-  }
   window.addEventListener('resize', fitAll);
   fitAll();
 })();

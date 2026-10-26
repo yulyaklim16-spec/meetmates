@@ -353,7 +353,7 @@ footer p { max-width: 72ch; }
   display: block; width: 100%; height: 86vh; overflow: hidden;
   border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
 }
-.tabpanel blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+.block blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 </style>
 </head>
 <body>
@@ -374,15 +374,15 @@ footer p { max-width: 72ch; }
         <a class="mat" href="voice.html"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>готово</i></span></a>
         <a class="mat" href="concept.html"><span class="n">06</span><span class="t">Концепт<i>готово</i></span></a>
         <a class="mat current" href="kit.html" aria-current="page"><span class="n">07</span><span class="t">Сборка UI<i>текущий раздел</i></span></a>
-        <nav class="subtabs" aria-label="Что показывать в разделе">
-          <a href="#overview" data-tab="overview" aria-current="true">Кит</a>
-          <a href="#shell" data-tab="shell">Оболочка</a>
-          <a href="#navigation" data-tab="navigation">Навигация</a>
-          <a href="#cards" data-tab="cards">Карточки и списки</a>
-          <a href="#forms" data-tab="forms">Формы</a>
-          <a href="#feedback" data-tab="feedback">Обратная связь</a>
-          <a href="#chat" data-tab="chat">Чат</a>
-          <a href="#gaps" data-tab="gaps">Вне кита</a>
+        <nav class="subtabs" aria-label="Части раздела">
+          <a href="#overview" data-spy="overview" aria-current="true">Кит</a>
+          <a href="#shell" data-spy="shell">Оболочка</a>
+          <a href="#navigation" data-spy="navigation">Навигация</a>
+          <a href="#cards" data-spy="cards">Карточки и списки</a>
+          <a href="#forms" data-spy="forms">Формы</a>
+          <a href="#feedback" data-spy="feedback">Обратная связь</a>
+          <a href="#chat" data-spy="chat">Чат</a>
+          <a href="#gaps" data-spy="gaps">Вне кита</a>
         </nav>
         <a class="mat" href="tokens.html"><span class="n">08</span><span class="t">Дизайн-токены<i>готово</i></span></a>
         <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
@@ -411,14 +411,12 @@ footer p { max-width: 72ch; }
       </div>
     </div>
 
-    <div class="tabpanel" id="overview">
-      <h1 class="vh">Сборка UI: кит</h1>
+    <section class="block" id="overview">
+      <h2>Кит</h2>
 <blockquote><p><strong>Кит: то, из чего собираются экраны.</strong> Классы по файлам компонентов, оболочка разметкой и витрина, где каждый компонент стоит живым со своими состояниями.</p>
 <p>Снят с окрашенных экранов раздела 06 — не нарисован заново. Если компонент в ките выглядит не так, как на экране, прав экран, а кит отстал.</p>
 <p>Восемь подпунктов: сначала кит целиком и его правила, потом витрина по частям — оболочка, навигация, карточки, формы, обратная связь, чат, — и в конце то, чего в ките нет.</p>
 <p>Состав и порог отбора — <a href="../inventory.md"><code>inventory.md</code></a>; вид и правила — <a href="../../DESIGN.md"><code>DESIGN.md</code></a>; значения — <a href="../../tokens.css"><code>tokens.css</code></a>.</p></blockquote>
-      <section id="кит">
-        <h2>Кит</h2>
 <h3 id="три-файла-и-это-всё">Три файла, и это всё</h3>
 <div class="tw"><table><thead><tr><th>Файл</th><th>Что внутри</th></tr></thead><tbody>
 <tr><td><a href="../../components/"><code>../components/</code></a></td><td>16 файлов, 100 классов компонентов — по файлу на компонент; значения — из <a href="../../tokens.css"><code>../tokens.css</code></a>, 126 переменных двумя уровнями</td></tr>
@@ -484,13 +482,10 @@ footer p { max-width: 72ch; }
           <p class="framelink"><a href="../ui/shell.html">Оболочка экрана — открыть страницей &rarr;</a></p>
         </li>
       </ul>
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="shell">
-      <h1 class="vh">Сборка UI: оболочка</h1>
-      <section id="оболочка">
-        <h2>Оболочка</h2>
+    <section class="block" id="shell">
+      <h2>Оболочка</h2>
 <p><strong>Экран целиком: шапка, содержимое, нижнее меню.</strong> Отдана разметкой, а не только стилями, потому что надевать CSS на пустое место не на что — скелет копируют и кладут внутрь своё.</p>
 <p><strong>Шапок три, и различает их не вид, а то, что в них стоит:</strong> заголовок экрана, заголовок с действием справа, возврат с именем объекта. Четвёртой не придумано: экрана, которому нужна своя шапка, в карте нет.</p>
 <p><strong>Поверх оболочки ложатся слои, и в ките они стоят рядом с ней.</strong> Обещание и радар на онбординге (<code class="dcode">D-47</code>), слой совпадения поверх колоды, подпись на снимке в видоискателе верификации. Все разовые — каждый стоит на одном экране, — но без них эти экраны не собрать, и порог «два экрана» для них снят осознанно.</p>
@@ -510,13 +505,10 @@ footer p { max-width: 72ch; }
           <iframe src="../ui/kit.html#b-g10" loading="lazy" scrolling="no" title="Витрина: Онбординг и слои"></iframe>
         </li>
       </ul>
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="navigation">
-      <h1 class="vh">Сборка UI: навигация</h1>
-      <section id="навигация">
-        <h2>Навигация</h2>
+    <section class="block" id="navigation">
+      <h2>Навигация</h2>
 <p><strong>Чем переходят с экрана на экран: нижнее меню и срез вкладки.</strong> У обоих ровно два состояния — выбран или нет; промежуточных не бывает, и выбор всегда один.</p>
 <p><strong>Меню — пять вкладок</strong> (<code class="dcode">D-43</code>): People, Events, Search, Chats, Profile. На 390px это по 78px на вкладку, поэтому подписи короткие, а иконки обязательны. Активная вкладка — иконка Solar <strong>Bold</strong> цветом <code>--text-primary</code> на пилюле <code>--bg-selected</code>; неактивная — <strong>Linear</strong> цветом <code>--icon-muted</code>. Форма у обоих наборов одна, меняется только вес: вкладка не «другая иконка», а та же в другом весе.</p>
 <p><strong>Срез вкладки — сегменты</strong> (<code>Nearby</code> / <code>Mine</code>, <code class="dcode">D-50</code>): дорожка со своим фоном и радиусом, выбранная клавиша белая. Это компонент, а не раскладка — у дорожки свой вид (см. «Граница проходит по виду»).</p>
@@ -527,13 +519,10 @@ footer p { max-width: 72ch; }
           <iframe src="../ui/kit.html#b-g3" loading="lazy" scrolling="no" title="Витрина: Навигация и переключатели"></iframe>
         </li>
       </ul>
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="cards">
-      <h1 class="vh">Сборка UI: карточки и списки</h1>
-      <section id="карточки-и-списки">
-        <h2>Карточки и списки</h2>
+    <section class="block" id="cards">
+      <h2>Карточки и списки</h2>
 <p><strong>Четыре вещи, которыми показывают объект:</strong> карточка события, строка списка, карточка человека и обложка с полосами по числу фотографий.</p>
 <p><strong>У карточки события три уровня чтения</strong> (<code class="dcode">D-55</code>–<code class="dcode">D-58</code>): обложка во всю ширину сверху и на ней один знак — округлённое расстояние; под снимком что и когда, где, сколько мест; действие кнопкой во всю ширину. <strong>Высота фиксирована, заголовок — не больше двух строк:</strong> лента держит ритм, остальное читается на карточке события.</p>
 <p><strong>Состояния у карточек — состояния данных, а не экрана:</strong> нет даты, нет мест (<code>No spots left</code>, а не <code>0 spots left</code> — нуля в продукте не бывает, <code class="dcode">D-60</code>), фото ещё не пришло и показано заблюренным (<code class="dcode">D-51</code>).</p>
@@ -545,13 +534,10 @@ footer p { max-width: 72ch; }
           <iframe src="../ui/kit.html#b-g4" loading="lazy" scrolling="no" title="Витрина: Карточки и списки"></iframe>
         </li>
       </ul>
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="forms">
-      <h1 class="vh">Сборка UI: формы</h1>
-      <section id="формы">
-        <h2>Формы</h2>
+    <section class="block" id="forms">
+      <h2>Формы</h2>
 <p><strong>Форма — это поле и кнопка, которая его отправляет</strong>, поэтому обе матрицы стоят здесь рядом.</p>
 <p><strong>Кнопок три ступени</strong> — главная, вторичная, третичная, — и у каждой три состояния: рабочее, наведение, отключённая. <strong>Отключённая — та же кнопка в половину силы</strong> (<code>--opacity-off</code>), а не серая заливка: роль остаётся видна, видно и то, что нажимать нечего. Опасное действие ступенью не считается — это та же третья сила своим цветом. Кнопка только с иконкой стоит второй строкой под своей ролью, а не отдельной группой: в шапке места на слово нет, подпись уходит в <code>aria-label</code>.</p>
 <p><strong>Полей шесть видов, и состояний у каждого шесть:</strong> рабочее, наведение, ввод, заполненное, недоступное и «не приняло». Разметка у всех одна — <code>.mm-field</code> плюс то, что внутри; вид задаёт содержимое, а не отдельный компонент.</p>
@@ -568,13 +554,10 @@ footer p { max-width: 72ch; }
           <iframe src="../ui/kit.html#b-g2" loading="lazy" scrolling="no" title="Витрина: Поля"></iframe>
         </li>
       </ul>
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="feedback">
-      <h1 class="vh">Сборка UI: обратная связь</h1>
-      <section id="обратная-связь">
-        <h2>Обратная связь</h2>
+    <section class="block" id="feedback">
+      <h2>Обратная связь</h2>
 <p><strong>Всё, чем продукт отвечает человеку:</strong> отметка, состояние экрана и заглушка загрузки.</p>
 <p><strong>Отметки и факты — то, чем карточка подтверждает себя:</strong> проверка, расстояние, интересы, сигналы доверия. <strong>Состояний у них нет — есть присутствие и отсутствие: нет данных, нет и строки.</strong> Так устроены и счётчик встреч, и признак отзывчивости (§5.5): нуля в продукте не бывает, а бейджа без данных не бывает тоже.</p>
 <p><strong>Состояний экрана четыре, и ни одно из них не экран:</strong> пусто, сбой, итог и ожидание — состояния одного и того же экрана. <strong>Ни одно не тупик</strong> (правило 10): у пустого есть ослабление условий, у сбоя — повтор.</p>
@@ -594,13 +577,10 @@ footer p { max-width: 72ch; }
           <iframe src="../ui/kit.html#b-g7" loading="lazy" scrolling="no" title="Витрина: Загрузка"></iframe>
         </li>
       </ul>
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="chat">
-      <h1 class="vh">Сборка UI: чат</h1>
-      <section id="чат">
-        <h2>Чат</h2>
+    <section class="block" id="chat">
+      <h2>Чат</h2>
 <p><strong>По порогу «два экрана» переписка разовая:</strong> она стоит только на экране Диалог. В кит входит потому, что без пузыря чат нечем собрать, а экран этот — <strong>основная дорога к встрече</strong> (<code class="dcode">D-37</code>): провал чата — не молчание, а разговор без даты.</p>
 <p><strong>Пузырей два, своя реплика и чужая</strong>, и различает их не форма, а подложка: <code>--bg-mine</code> у своей, поверхность у чужой. Предел ширины — <code>--width-bubble</code>, 80 % диалога: реплика во всю ширину читается абзацем, а не репликой.</p>
 <p><strong>Сообщение не ушло — состояние реплики, а не экрана</strong> (<code class="dcode">D-52</code>). Помечен сам пузырь (<code>--bg-undelivered</code>), нажатие на него повторяет отправку; отдельного блока об ошибке в диалоге нет.</p>
@@ -611,13 +591,10 @@ footer p { max-width: 72ch; }
           <iframe src="../ui/kit.html#b-g8" loading="lazy" scrolling="no" title="Витрина: Чат"></iframe>
         </li>
       </ul>
-      </section>
-    </div>
+    </section>
 
-    <div class="tabpanel" id="gaps">
-      <h1 class="vh">Сборка UI: вне кита</h1>
-      <section id="вне-кита">
-        <h2>Вне кита</h2>
+    <section class="block" id="gaps">
+      <h2>Вне кита</h2>
 <h3 id="чего-в-ките-нет">Чего в ките нет</h3>
 <ul><li><strong>Своего вида у подсказки в пустом чате</strong> — разобрано в подпункте «Чат».</li>
 <li><strong>Экранов создания, фильтров и редактирования</strong> — их нет в вайрфреймах. Поля для них в ките уже есть (названное исключение в «Формах»), а сами экраны — нет.</li>
@@ -633,8 +610,7 @@ footer p { max-width: 72ch; }
 <h3 id="долг-записанный-отдельно">Долг, записанный отдельно</h3>
 <p><strong>Стенд стиля <code>concept/concept.html</code> — последний слой на старых токенах</strong> <code>--ink-*</code> и <code>--r-*</code>. Экраны концепта одеты китом все пятьдесят, а стенд нет: он показывает облик, а не компоненты, и переодевать его придётся вместе с переводом <code>concept/components.css</code>.</p>
 
-      </section>
-    </div>
+    </section>
 
     <footer>
       <p>Раздел 7 из 12 · Сборка UI. Источник — <a href="../ui/kit.md">ui/kit.md</a>;
@@ -646,55 +622,32 @@ footer p { max-width: 72ch; }
 </div>
 
 <script>
-// Подпункты текущего раздела в дереве. Нажат любой — дерево сжимается до номеров,
-// вернуть его целиком можно нажатием на сам номер раздела. Без скрипта — якоря.
 (function () {
   var ids = ["overview","shell","navigation","cards","forms","feedback","chat","gaps"];
-  var shell = document.querySelector('.shell');
-  var subtabs = document.querySelector('.subtabs');
-  if (!shell || !subtabs) return;
-  var panels = {};
-  for (var i = 0; i < ids.length; i++) panels[ids[i]] = document.getElementById(ids[i]);
-  var links = subtabs.querySelectorAll('a[data-tab]');
-
-  function show(name, collapsed, push) {
-    shell.setAttribute('data-tab', name);
-    if (collapsed) shell.setAttribute('data-collapsed', '');
-    else shell.removeAttribute('data-collapsed');
-    for (var k in panels) if (panels[k]) panels[k].hidden = (k !== name);
-    for (var j = 0; j < links.length; j++) {
-      if (links[j].getAttribute('data-tab') === name) links[j].setAttribute('aria-current', 'true');
-      else links[j].removeAttribute('aria-current');
+  var links = {};
+  var all = document.querySelectorAll('.subtabs a[data-spy]');
+  for (var i = 0; i < all.length; i++) links[all[i].getAttribute('data-spy')] = all[i];
+  function mark(id) {
+    for (var k in links) {
+      if (k === id) links[k].setAttribute('aria-current', 'true');
+      else links[k].removeAttribute('aria-current');
     }
-    if (push) history.replaceState(null, '', '#' + name);
   }
-
-  subtabs.addEventListener('click', function (e) {
-    var a = e.target.closest('a[data-tab]');
-    if (!a) return;
-    e.preventDefault();
-    show(a.getAttribute('data-tab'), true, true);
-  });
-
-  // номер раздела возвращает дерево целиком, не трогая показанное
-  var cur = document.querySelector('.side .mat.current');
-  if (cur) cur.addEventListener('click', function (e) {
-    if (shell.hasAttribute('data-collapsed')) {
-      e.preventDefault();
-      show(shell.getAttribute('data-tab'), false, false);
-    }
-  });
-
-  // переход по якорю внутри той же страницы (и кнопки «назад»/«вперёд»)
-  // не перезагружает её — вкладку переключаем сами
-  window.addEventListener('hashchange', function () {
-    var n = location.hash.slice(1);
-    if (ids.indexOf(n) > -1) show(n, true, false);
-  });
-
-  var h = location.hash.slice(1);
-  var known = ids.indexOf(h) > -1;
-  show(known ? h : ids[0], known, false);
+  if (!('IntersectionObserver' in window)) return;
+  var seen = {};
+  var io = new IntersectionObserver(function (entries) {
+    for (var j = 0; j < entries.length; j++) seen[entries[j].target.id] = entries[j].isIntersecting;
+    for (var k = 0; k < ids.length; k++) if (seen[ids[k]]) { mark(ids[k]); return; }
+  }, { rootMargin: '-8% 0px -72% 0px' });
+  for (var n = 0; n < ids.length; n++) {
+    var el = document.getElementById(ids[n]);
+    if (el) io.observe(el);
+  }
+  // Последний блок короче окна и в полосу наблюдения целиком не попадает:
+  // докрутив страницу до конца, человек видел отметку на предпоследнем.
+  window.addEventListener('scroll', function () {
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) mark(ids[ids.length - 1]);
+  }, { passive: true });
 })();
 </script>
 <script>
@@ -739,13 +692,6 @@ footer p { max-width: 72ch; }
   // и по каждому load, и по готовности самой страницы.
   for (var i = 0; i < frames.length; i++) frames[i].addEventListener('load', fitAll);
   window.addEventListener('load', fitAll);
-  // подпункт открывается скрытым: пока панель спрятана, высоту не измерить
-  if (window.MutationObserver) {
-    var panels = document.querySelectorAll('.tabpanel');
-    for (var k = 0; k < panels.length; k++) {
-      new MutationObserver(fitAll).observe(panels[k], { attributes: true, attributeFilter: ['hidden'] });
-    }
-  }
   window.addEventListener('resize', fitAll);
   fitAll();
 })();

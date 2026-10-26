@@ -24,6 +24,57 @@ ${rows}
 ${indent}</nav>`;
 }
 
+// Подпункты как места в одной ленте, а не как вкладки.
+//
+// Разделы 07 и 08 показывают один набор по частям, и части идут подряд: блок
+// цвета, за ним геометрия, за ней семантика. Прятать соседние незачем — читают
+// их всё равно подряд, а подпункт отвечает на вопрос «где я сейчас» и «куда
+// перейти». Поэтому здесь обычные якоря плюс отметка текущего по тому,
+// что видно на экране. Без скрипта работают и якоря, и сама страница.
+export function anchorsHtml(items, indent = '        ') {
+  const rows = items.map((it, i) =>
+    `${indent}  <a href="#${it.id}" data-spy="${it.id}"${i === 0 ? ' aria-current="true"' : ''}>${it.title}</a>`).join('\n');
+  return `
+${indent}<nav class="subtabs" aria-label="Части раздела">
+${rows}
+${indent}</nav>`;
+}
+
+// Отметка текущей части. Берёт верхнюю из видимых: окно почти всегда захватывает
+// две, и без порядка отметка прыгала бы между ними при каждом пикселе прокрутки.
+export function spyJs(ids) {
+  return `
+<script>
+(function () {
+  var ids = ${JSON.stringify(ids)};
+  var links = {};
+  var all = document.querySelectorAll('.subtabs a[data-spy]');
+  for (var i = 0; i < all.length; i++) links[all[i].getAttribute('data-spy')] = all[i];
+  function mark(id) {
+    for (var k in links) {
+      if (k === id) links[k].setAttribute('aria-current', 'true');
+      else links[k].removeAttribute('aria-current');
+    }
+  }
+  if (!('IntersectionObserver' in window)) return;
+  var seen = {};
+  var io = new IntersectionObserver(function (entries) {
+    for (var j = 0; j < entries.length; j++) seen[entries[j].target.id] = entries[j].isIntersecting;
+    for (var k = 0; k < ids.length; k++) if (seen[ids[k]]) { mark(ids[k]); return; }
+  }, { rootMargin: '-8% 0px -72% 0px' });
+  for (var n = 0; n < ids.length; n++) {
+    var el = document.getElementById(ids[n]);
+    if (el) io.observe(el);
+  }
+  // Последний блок короче окна и в полосу наблюдения целиком не попадает:
+  // докрутив страницу до конца, человек видел отметку на предпоследнем.
+  window.addEventListener('scroll', function () {
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) mark(ids[ids.length - 1]);
+  }, { passive: true });
+})();
+</script>`;
+}
+
 // Общие стили: скрытый заголовок, сами подпункты и сжатая полоса разделов.
 // Колонки сжатого вида задаёт страница: у раздела 04 рядом встаёт второе дерево,
 // у остальных — только содержимое.
