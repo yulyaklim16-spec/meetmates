@@ -23,20 +23,6 @@ const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
 // а слово на нём своими чернилами (D-80). Геометрия от темы не зависит вовсе.
 const SKINS = [
   {
-    id: 'ink',
-    name: 'Чернила',
-    idea: 'Нейтральная тушь с еле заметным фиолетовым подтоном. Фиолет остаётся только в акценте, '
-      + 'фотографии и лайм выглядят ровно так, как сняты. Самый спокойный из пяти.',
-    v: {
-      'bg-page': '#0E0D11', 'bg-surface': '#1A1920', 'bg-nested': '#24232C',
-      'bg-hover': '#2E2D38', 'bg-selected': '#3C3A48', 'bg-mine': '#2E2D38', 'bg-undelivered': '#5E2435',
-      'text-primary': '#F6F5F8', 'text-muted': '#AFABB8', 'text-on-action': '#0E0D11',
-      'text-on-selected': '#F6F5F8', 'text-danger': '#F59BAF', 'icon-muted': '#8C8899',
-      'color-action': '#F6F5F8', 'color-action-hover': '#DCD9E4', 'color-danger': '#F59BAF',
-      'border-hairline': '#35333E', 'border-focus': '#AFABB8',
-    },
-  },
-  {
     id: 'plum',
     name: 'Сливовая ночь',
     accepted: true,
@@ -52,6 +38,37 @@ const SKINS = [
       'text-on-selected': '#1A1026', 'text-danger': '#FBC2CE', 'icon-muted': '#8C7E9B',
       'color-action': '#F2EDF6', 'color-action-hover': '#E0D6EE', 'color-danger': '#FBC2CE',
       'border-hairline': '#0F0B18', 'border-focus': '#D3CAE4',
+    },
+  },
+  {
+    id: 'lavender',
+    name: 'Лаванда на угле',
+    idea: 'Собран по мотивам Phantom: почти нейтральный уголь вместо сливового, а весь цвет '
+      + 'собран в действии — лавандовая кнопка #AB9FF2 вместо белой. Размытия нет вовсе: '
+      + 'верх экрана такой же, как низ. Палитра снята со стилей самого Phantom, '
+      + 'а не подобрана на глаз.',
+    v: {
+      'bg-page': '#0F0F11', 'bg-surface': '#202024', 'bg-nested': '#1A1A1D',
+      'bg-secondary': '#2C2C32',
+      'bg-hover': '#3A3A42', 'bg-selected': '#AB9FF2', 'bg-mine': '#2C2C32', 'bg-undelivered': '#5C2338',
+      'text-primary': '#F5F4F8', 'text-muted': '#B4B2BC', 'text-on-action': '#0F0F11',
+      'text-on-selected': '#0F0F11', 'text-danger': '#FBC2CE', 'icon-muted': '#8B8993',
+      'color-action': '#AB9FF2', 'color-action-hover': '#BFB5F7', 'color-danger': '#FBC2CE',
+      'border-hairline': '#0F0F11', 'border-focus': '#AB9FF2',
+    },
+  },
+  {
+    id: 'ink',
+    name: 'Чернила',
+    idea: 'Нейтральная тушь с еле заметным фиолетовым подтоном. Фиолет остаётся только в акценте, '
+      + 'фотографии и лайм выглядят ровно так, как сняты. Самый спокойный из пяти.',
+    v: {
+      'bg-page': '#0E0D11', 'bg-surface': '#1A1920', 'bg-nested': '#24232C',
+      'bg-hover': '#2E2D38', 'bg-selected': '#3C3A48', 'bg-mine': '#2E2D38', 'bg-undelivered': '#5E2435',
+      'text-primary': '#F6F5F8', 'text-muted': '#AFABB8', 'text-on-action': '#0E0D11',
+      'text-on-selected': '#F6F5F8', 'text-danger': '#F59BAF', 'icon-muted': '#8C8899',
+      'color-action': '#F6F5F8', 'color-action-hover': '#DCD9E4', 'color-danger': '#F59BAF',
+      'border-hairline': '#35333E', 'border-focus': '#AFABB8',
     },
   },
   {
