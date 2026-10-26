@@ -39,6 +39,16 @@ const PRIMITIVE = [
     "css": "plum-950"
   },
   {
+    "path": "color/plum-930",
+    "type": "COLOR",
+    "value": {
+      "r": 0.07058823529411765,
+      "g": 0.054901960784313725,
+      "b": 0.10980392156862745
+    },
+    "css": "plum-930"
+  },
+  {
     "path": "color/plum-900",
     "type": "COLOR",
     "value": {
@@ -49,6 +59,16 @@ const PRIMITIVE = [
     "css": "plum-900"
   },
   {
+    "path": "color/plum-850",
+    "type": "COLOR",
+    "value": {
+      "r": 0.11764705882352941,
+      "g": 0.09411764705882353,
+      "b": 0.18823529411764706
+    },
+    "css": "plum-850"
+  },
+  {
     "path": "color/plum-800",
     "type": "COLOR",
     "value": {
@@ -57,6 +77,16 @@ const PRIMITIVE = [
       "b": 0.30196078431372547
     },
     "css": "plum-800"
+  },
+  {
+    "path": "color/plum-700",
+    "type": "COLOR",
+    "value": {
+      "r": 0.21176470588235294,
+      "g": 0.17254901960784313,
+      "b": 0.3137254901960784
+    },
+    "css": "plum-700"
   },
   {
     "path": "color/plum-600",
@@ -129,6 +159,26 @@ const PRIMITIVE = [
     "css": "lilac-300"
   },
   {
+    "path": "color/lilac-400",
+    "type": "COLOR",
+    "value": {
+      "r": 0.788235294117647,
+      "g": 0.7333333333333333,
+      "b": 0.8862745098039215
+    },
+    "css": "lilac-400"
+  },
+  {
+    "path": "color/lilac-500",
+    "type": "COLOR",
+    "value": {
+      "r": 0.7372549019607844,
+      "g": 0.6901960784313725,
+      "b": 0.8156862745098039
+    },
+    "css": "lilac-500"
+  },
+  {
     "path": "color/lime-300",
     "type": "COLOR",
     "value": {
@@ -157,6 +207,16 @@ const PRIMITIVE = [
       "b": 0.22745098039215686
     },
     "css": "crimson-700"
+  },
+  {
+    "path": "color/crimson-900",
+    "type": "COLOR",
+    "value": {
+      "r": 0.3607843137254902,
+      "g": 0.13725490196078433,
+      "b": 0.2196078431372549
+    },
+    "css": "crimson-900"
   },
   {
     "path": "color/rose-300",
@@ -813,7 +873,7 @@ const SEMANTIC = [
 const SEMANTIC_DARK = [
   {
     "path": "bg/page",
-    "alias": "color/plum-950",
+    "alias": "color/plum-930",
     "css": "bg-page"
   },
   {
@@ -823,7 +883,7 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "bg/surface",
-    "alias": "color/plum-800",
+    "alias": "color/plum-850",
     "css": "bg-surface"
   },
   {
@@ -833,12 +893,12 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "text/primary",
-    "alias": "color/white",
+    "alias": "color/lilac-50",
     "css": "text-primary"
   },
   {
     "path": "text/muted",
-    "alias": "color/lilac-300",
+    "alias": "color/lilac-500",
     "css": "text-muted"
   },
   {
@@ -848,17 +908,17 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "color/action",
-    "alias": "color/white",
+    "alias": "color/lilac-50",
     "css": "color-action"
   },
   {
     "path": "text/on-action",
-    "alias": "color/plum-950",
+    "alias": "color/plum-930",
     "css": "text-on-action"
   },
   {
     "path": "color/action-hover",
-    "alias": "color/lilac-50",
+    "alias": "color/lilac-300",
     "css": "color-action-hover"
   },
   {
@@ -873,37 +933,37 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "border/hairline",
-    "alias": "color/plum-400",
+    "alias": "color/plum-930",
     "css": "border-hairline"
   },
   {
     "path": "border/focus",
-    "alias": "color/lilac-300",
+    "alias": "color/lilac-500",
     "css": "border-focus"
   },
   {
     "path": "bg/hover",
-    "alias": "color/plum-600",
+    "alias": "color/plum-700",
     "css": "bg-hover"
   },
   {
     "path": "bg/selected",
-    "alias": "color/plum-400",
+    "alias": "color/lilac-400",
     "css": "bg-selected"
   },
   {
     "path": "text/on-selected",
-    "alias": "color/plum-950",
+    "alias": "color/plum-900",
     "css": "text-on-selected"
   },
   {
     "path": "bg/mine",
-    "alias": "color/plum-600",
+    "alias": "color/plum-700",
     "css": "bg-mine"
   },
   {
     "path": "bg/undelivered",
-    "alias": "color/crimson-700",
+    "alias": "color/crimson-900",
     "css": "bg-undelivered"
   }
 ];

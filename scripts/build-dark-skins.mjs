@@ -39,15 +39,17 @@ const SKINS = [
   {
     id: 'plum',
     name: 'Сливовая ночь',
+    accepted: true,
     idea: 'Тот же сливовый род, что в светлой теме, но лестницей и мягче: лист, карточка и вложенное '
-      + 'идут тремя различимыми ступенями одного тона. Ближе всего к нынешнему облику.',
+      + 'идут тремя различимыми ступенями одного тона. Обводок нет вовсе — карточку отделяет то, '
+      + 'что она светлее листа.',
     v: {
-      'bg-page': '#120E1C', 'bg-surface': '#1E1830', 'bg-nested': '#2A2240',
+      'bg-page': '#120E1C', 'bg-surface': '#1E1830', 'bg-nested': '#1A1026',
       'bg-hover': '#362C50', 'bg-selected': '#C9BBE2', 'bg-mine': '#362C50', 'bg-undelivered': '#5C2338',
-      'text-primary': '#F4EFFA', 'text-muted': '#BCB0D0', 'text-on-action': '#120E1C',
-      'text-on-selected': '#1A1026', 'text-danger': '#F59BAF', 'icon-muted': '#9388AB',
-      'color-action': '#F4EFFA', 'color-action-hover': '#D9CFEA', 'color-danger': '#F59BAF',
-      'border-hairline': '#3D3458', 'border-focus': '#BCB0D0',
+      'text-primary': '#F2EDF6', 'text-muted': '#BCB0D0', 'text-on-action': '#120E1C',
+      'text-on-selected': '#1A1026', 'text-danger': '#F59BAF', 'icon-muted': '#8C7E9B',
+      'color-action': '#F2EDF6', 'color-action-hover': '#E0D6EE', 'color-danger': '#F59BAF',
+      'border-hairline': '#120E1C', 'border-focus': '#BCB0D0',
     },
   },
   {
@@ -129,7 +131,7 @@ const PAIRS = [
   ['Иконка на карточке', 'icon-muted', 'bg-surface', 3],
   ['Иконка на вложенном', 'icon-muted', 'bg-nested', 3],
   ['Кольцо фокуса на вложенном', 'border-focus', 'bg-nested', 3],
-  ['Граница карточки на экране', 'border-hairline', 'bg-page', 1.5],
+
 ];
 
 const measured = SKINS.map((s) => {
@@ -208,7 +210,7 @@ ${s.rows.map((r) => `    <tr><td>${r.what}</td><td class="n">${String(r.min).rep
 
 const columns = measured.map((s) => `  <section class="skin" data-skin="${s.id}" id="${s.id}">
     <header class="skin-head">
-      <h2>${s.name}</h2>
+      <h2>${s.name}${s.accepted ? ' <i class="ok">принят</i>' : ''}</h2>
       <p class="idea">${s.idea}</p>
       <p class="keys">${['bg-page', 'bg-surface', 'bg-nested', 'color-action'].map((k) =>
         `<span><i style="background:${s.v[k]}"></i>${s.v[k]}</span>`).join('')}</p>
@@ -255,6 +257,10 @@ const page = `<!doctype html>
   .skin { flex: none; width: 390px; }
   .skin-head { margin: 0 0 16px; }
   .skin-head h2 { margin: 0 0 6px; font-size: 20px; letter-spacing: -.02em; }
+  /* принятый облик помечен: доска остаётся журналом выбора, а не черновиком */
+  .skin-head h2 .ok { font-style: normal; font-size: 11px; font-weight: 600; letter-spacing: 0;
+    vertical-align: 4px; padding: 3px 8px; border-radius: 999px; background: #D9F56F; color: #1A1026; }
+  [data-skin]:not([data-skin="plum"]) .shot { opacity: .72; }
   .idea { margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: #ADA6BC; }
   .keys { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; font: 11px/1 ui-monospace, monospace; color: #ADA6BC; }
   .keys span { display: inline-flex; align-items: center; gap: 6px; }

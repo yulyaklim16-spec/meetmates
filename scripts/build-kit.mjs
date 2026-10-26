@@ -29,11 +29,17 @@ const shell = read('sections/index.html');
 
 // ── счёт ──────────────────────────────────────────────────────────────
 // Переменные считаются по уровням: примитив — всё до первой семантической
-// роли, семантика — от неё до конца файла. Граница та же, что в разделе 08.
+// роли, семантика — от неё до блока тёмной темы. Граница та же, что
+// в разделе 08. Тема считается отдельно: это те же имена с другими
+// значениями, и в сумму уровней они не идут — иначе набор «растёт»
+// на девятнадцать переменных, которых не существует.
 const SEM_AT = tokensCss.indexOf('--bg-page');
+const DARK_AT = tokensCss.indexOf('[data-theme="dark"]');
+if (DARK_AT === -1) throw new Error('в tokens.css нет блока тёмной темы — счёт отстал от файла');
 const declsIn = (text) => [...text.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/(--[a-z0-9-]+)\s*:/g)].length;
 const primCount = declsIn(tokensCss.slice(0, SEM_AT));
-const semCount = declsIn(tokensCss.slice(SEM_AT));
+const semCount = declsIn(tokensCss.slice(SEM_AT, DARK_AT));
+const darkCount = declsIn(tokensCss.slice(DARK_AT));
 const varsCount = primCount + semCount;
 const classCount = new Set([...kitCss.matchAll(/\.(mm-[a-z0-9-]+)/g)].map((m) => m[1])).size;
 const caseCount = (kitHtml.match(/class="kit-case"/g) || []).length;
@@ -241,6 +247,7 @@ ${aside}
         <span>${plural(compFiles.length, 'файл', 'файла', 'файлов')} компонентов</span>
         <span>${plural(caseCount, 'компонент', 'компонента', 'компонентов')} в витрине</span>
         <span>${primCount} примитивов и ${semCount} семантических</span>
+        <span>${darkCount} переопределений в тёмной</span>
       </div>
     </div>
 
@@ -307,4 +314,5 @@ ${spyJs(TABS.map((t) => t.id))}
 `;
 
 writeFileSync(join(ROOT, 'sections/kit.html'), page, 'utf8');
-console.log(`sections/kit.html: ${TABS.length} подпунктов, ${classCount} классов в ${compFiles.length} файлах, ${caseCount} компонентов в витрине, ${varsCount} переменных`);
+console.log(`sections/kit.html: ${TABS.length} блоков, ${classCount} классов в ${compFiles.length} файлах, ` +
+  `${caseCount} компонентов в витрине, ${varsCount} переменных, ${darkCount} переопределений темы`);

@@ -28,6 +28,10 @@
   .skin { flex: none; width: 390px; }
   .skin-head { margin: 0 0 16px; }
   .skin-head h2 { margin: 0 0 6px; font-size: 20px; letter-spacing: -.02em; }
+  /* принятый облик помечен: доска остаётся журналом выбора, а не черновиком */
+  .skin-head h2 .ok { font-style: normal; font-size: 11px; font-weight: 600; letter-spacing: 0;
+    vertical-align: 4px; padding: 3px 8px; border-radius: 999px; background: #D9F56F; color: #1A1026; }
+  [data-skin]:not([data-skin="plum"]) .shot { opacity: .72; }
   .idea { margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: #ADA6BC; }
   .keys { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; font: 11px/1 ui-monospace, monospace; color: #ADA6BC; }
   .keys span { display: inline-flex; align-items: center; gap: 6px; }
@@ -71,21 +75,21 @@
 [data-skin="plum"] {
   --bg-page: #120E1C;
   --bg-surface: #1E1830;
-  --bg-nested: #2A2240;
+  --bg-nested: #1A1026;
   --bg-hover: #362C50;
   --bg-selected: #C9BBE2;
   --bg-mine: #362C50;
   --bg-undelivered: #5C2338;
-  --text-primary: #F4EFFA;
+  --text-primary: #F2EDF6;
   --text-muted: #BCB0D0;
   --text-on-action: #120E1C;
   --text-on-selected: #1A1026;
   --text-danger: #F59BAF;
-  --icon-muted: #9388AB;
-  --color-action: #F4EFFA;
-  --color-action-hover: #D9CFEA;
+  --icon-muted: #8C7E9B;
+  --color-action: #F2EDF6;
+  --color-action-hover: #E0D6EE;
   --color-danger: #F59BAF;
-  --border-hairline: #3D3458;
+  --border-hairline: #120E1C;
   --border-focus: #BCB0D0;
   --bg-page-wash: none;
   --color-verified: #D9F56F;
@@ -367,7 +371,7 @@
       <figcaption>Лента событий</figcaption>
     </figure>
     <details class="ct-wrap">
-      <summary>Контраст: 19 пар, все проходят</summary>
+      <summary>Контраст: 18 пар, все проходят</summary>
 <table class="ct">
   <thead><tr><th>Пара</th><th>Порог</th><th>Проверка</th></tr></thead>
   <tbody>
@@ -388,7 +392,6 @@
     <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8C8899;background:#1A1920">Aa</span> <b>5,06:1</b></td></tr>
     <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8C8899;background:#24232C">Aa</span> <b>4,51:1</b></td></tr>
     <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#AFABB8;background:#24232C">Aa</span> <b>6,91:1</b></td></tr>
-    <tr><td>Граница карточки на экране</td><td class="n">1,5:1</td><td class="n"><span class="sw" style="color:#35333E;background:#0E0D11">Aa</span> <b>1,56:1</b></td></tr>
     <tr><td>Слово на лейбе Verified</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#D9F56F">Aa</span> <b>15,04:1</b></td></tr>
   </tbody>
 </table>
@@ -397,9 +400,9 @@
 
   <section class="skin" data-skin="plum" id="plum">
     <header class="skin-head">
-      <h2>Сливовая ночь</h2>
-      <p class="idea">Тот же сливовый род, что в светлой теме, но лестницей и мягче: лист, карточка и вложенное идут тремя различимыми ступенями одного тона. Ближе всего к нынешнему облику.</p>
-      <p class="keys"><span><i style="background:#120E1C"></i>#120E1C</span><span><i style="background:#1E1830"></i>#1E1830</span><span><i style="background:#2A2240"></i>#2A2240</span><span><i style="background:#F4EFFA"></i>#F4EFFA</span></p>
+      <h2>Сливовая ночь <i class="ok">принят</i></h2>
+      <p class="idea">Тот же сливовый род, что в светлой теме, но лестницей и мягче: лист, карточка и вложенное идут тремя различимыми ступенями одного тона. Обводок нет вовсе — карточку отделяет то, что она светлее листа.</p>
+      <p class="keys"><span><i style="background:#120E1C"></i>#120E1C</span><span><i style="background:#1E1830"></i>#1E1830</span><span><i style="background:#1A1026"></i>#1A1026</span><span><i style="background:#F2EDF6"></i>#F2EDF6</span></p>
     </header>
     <figure class="shot">
       <div class="mm mm-screen">
@@ -584,28 +587,27 @@
       <figcaption>Лента событий</figcaption>
     </figure>
     <details class="ct-wrap">
-      <summary>Контраст: 19 пар, все проходят</summary>
+      <summary>Контраст: 18 пар, все проходят</summary>
 <table class="ct">
   <thead><tr><th>Пара</th><th>Порог</th><th>Проверка</th></tr></thead>
   <tbody>
-    <tr><td>Основной текст на экране</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F4EFFA;background:#120E1C">Aa</span> <b>16,80:1</b></td></tr>
-    <tr><td>Основной текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F4EFFA;background:#1E1830">Aa</span> <b>15,12:1</b></td></tr>
-    <tr><td>Основной текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F4EFFA;background:#362C50">Aa</span> <b>11,37:1</b></td></tr>
+    <tr><td>Основной текст на экране</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F2EDF6;background:#120E1C">Aa</span> <b>16,48:1</b></td></tr>
+    <tr><td>Основной текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F2EDF6;background:#1E1830">Aa</span> <b>14,83:1</b></td></tr>
+    <tr><td>Основной текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F2EDF6;background:#362C50">Aa</span> <b>11,16:1</b></td></tr>
     <tr><td>Вторичный текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#BCB0D0;background:#1E1830">Aa</span> <b>8,35:1</b></td></tr>
-    <tr><td>Вторичный текст на вложенном</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#BCB0D0;background:#2A2240">Aa</span> <b>7,32:1</b></td></tr>
+    <tr><td>Вторичный текст на вложенном</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#BCB0D0;background:#1A1026">Aa</span> <b>8,95:1</b></td></tr>
     <tr><td>Вторичный текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#BCB0D0;background:#362C50">Aa</span> <b>6,28:1</b></td></tr>
-    <tr><td>Слово на кнопке действия</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#120E1C;background:#F4EFFA">Aa</span> <b>16,80:1</b></td></tr>
-    <tr><td>Слово на наведённой кнопке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#120E1C;background:#D9CFEA">Aa</span> <b>12,72:1</b></td></tr>
+    <tr><td>Слово на кнопке действия</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#120E1C;background:#F2EDF6">Aa</span> <b>16,48:1</b></td></tr>
+    <tr><td>Слово на наведённой кнопке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#120E1C;background:#E0D6EE">Aa</span> <b>13,59:1</b></td></tr>
     <tr><td>Подпись выбранной вкладки</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#C9BBE2">Aa</span> <b>10,20:1</b></td></tr>
-    <tr><td>Своя реплика в диалоге</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F4EFFA;background:#362C50">Aa</span> <b>11,37:1</b></td></tr>
-    <tr><td>Реплика, которая не ушла</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F4EFFA;background:#5C2338">Aa</span> <b>10,60:1</b></td></tr>
+    <tr><td>Своя реплика в диалоге</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F2EDF6;background:#362C50">Aa</span> <b>11,16:1</b></td></tr>
+    <tr><td>Реплика, которая не ушла</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F2EDF6;background:#5C2338">Aa</span> <b>10,40:1</b></td></tr>
     <tr><td>Опасное словом на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F59BAF;background:#1E1830">Aa</span> <b>8,29:1</b></td></tr>
     <tr><td>Опасное словом под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F59BAF;background:#362C50">Aa</span> <b>6,24:1</b></td></tr>
-    <tr><td>Иконка на экране</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#9388AB;background:#120E1C">Aa</span> <b>5,75:1</b></td></tr>
-    <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#9388AB;background:#1E1830">Aa</span> <b>5,17:1</b></td></tr>
-    <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#9388AB;background:#2A2240">Aa</span> <b>4,53:1</b></td></tr>
-    <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#BCB0D0;background:#2A2240">Aa</span> <b>7,32:1</b></td></tr>
-    <tr><td>Граница карточки на экране</td><td class="n">1,5:1</td><td class="n"><span class="sw" style="color:#3D3458;background:#120E1C">Aa</span> <b>1,66:1</b></td></tr>
+    <tr><td>Иконка на экране</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8C7E9B;background:#120E1C">Aa</span> <b>5,04:1</b></td></tr>
+    <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8C7E9B;background:#1E1830">Aa</span> <b>4,54:1</b></td></tr>
+    <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8C7E9B;background:#1A1026">Aa</span> <b>4,86:1</b></td></tr>
+    <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#BCB0D0;background:#1A1026">Aa</span> <b>8,95:1</b></td></tr>
     <tr><td>Слово на лейбе Verified</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#D9F56F">Aa</span> <b>15,04:1</b></td></tr>
   </tbody>
 </table>
@@ -801,7 +803,7 @@
       <figcaption>Лента событий</figcaption>
     </figure>
     <details class="ct-wrap">
-      <summary>Контраст: 19 пар, все проходят</summary>
+      <summary>Контраст: 18 пар, все проходят</summary>
 <table class="ct">
   <thead><tr><th>Пара</th><th>Порог</th><th>Проверка</th></tr></thead>
   <tbody>
@@ -822,7 +824,6 @@
     <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#9A90AE;background:#241E33">Aa</span> <b>5,33:1</b></td></tr>
     <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#9A90AE;background:#2F2842">Aa</span> <b>4,64:1</b></td></tr>
     <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#C8BEDA;background:#2F2842">Aa</span> <b>7,87:1</b></td></tr>
-    <tr><td>Граница карточки на экране</td><td class="n">1,5:1</td><td class="n"><span class="sw" style="color:#3E3657;background:#171320">Aa</span> <b>1,63:1</b></td></tr>
     <tr><td>Слово на лейбе Verified</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#D9F56F">Aa</span> <b>15,04:1</b></td></tr>
   </tbody>
 </table>
@@ -1018,7 +1019,7 @@
       <figcaption>Лента событий</figcaption>
     </figure>
     <details class="ct-wrap">
-      <summary>Контраст: 19 пар, все проходят</summary>
+      <summary>Контраст: 18 пар, все проходят</summary>
 <table class="ct">
   <thead><tr><th>Пара</th><th>Порог</th><th>Проверка</th></tr></thead>
   <tbody>
@@ -1039,7 +1040,6 @@
     <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8792B3;background:#151B30">Aa</span> <b>5,52:1</b></td></tr>
     <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8792B3;background:#1E2540">Aa</span> <b>4,87:1</b></td></tr>
     <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#AAB4D0;background:#1E2540">Aa</span> <b>7,28:1</b></td></tr>
-    <tr><td>Граница карточки на экране</td><td class="n">1,5:1</td><td class="n"><span class="sw" style="color:#2E3759;background:#0B1020">Aa</span> <b>1,63:1</b></td></tr>
     <tr><td>Слово на лейбе Verified</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#D9F56F">Aa</span> <b>15,04:1</b></td></tr>
   </tbody>
 </table>
@@ -1235,7 +1235,7 @@
       <figcaption>Лента событий</figcaption>
     </figure>
     <details class="ct-wrap">
-      <summary>Контраст: 19 пар, все проходят</summary>
+      <summary>Контраст: 18 пар, все проходят</summary>
 <table class="ct">
   <thead><tr><th>Пара</th><th>Порог</th><th>Проверка</th></tr></thead>
   <tbody>
@@ -1256,7 +1256,6 @@
     <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#938B80;background:#1D1B19">Aa</span> <b>5,11:1</b></td></tr>
     <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#938B80;background:#272421">Aa</span> <b>4,59:1</b></td></tr>
     <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#B6AEA3;background:#272421">Aa</span> <b>7,04:1</b></td></tr>
-    <tr><td>Граница карточки на экране</td><td class="n">1,5:1</td><td class="n"><span class="sw" style="color:#3A3530;background:#121110">Aa</span> <b>1,56:1</b></td></tr>
     <tr><td>Слово на лейбе Verified</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#D9F56F">Aa</span> <b>15,04:1</b></td></tr>
   </tbody>
 </table>
