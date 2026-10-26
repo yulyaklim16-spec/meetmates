@@ -29,6 +29,12 @@ const PRIMITIVE = [
     "css": "gray-100"
   },
   {
+    "path": "misc/clear",
+    "type": "STRING",
+    "value": "transparent",
+    "css": "clear"
+  },
+  {
     "path": "color/plum-950",
     "type": "COLOR",
     "value": {
@@ -142,9 +148,9 @@ const PRIMITIVE = [
     "path": "misc/lavender-700",
     "type": "COLOR",
     "value": {
-      "r": 0.2901960784313726,
-      "g": 0.24705882352941178,
-      "b": 0.5607843137254902
+      "r": 0.3843137254901961,
+      "g": 0.34509803921568627,
+      "b": 0.6235294117647059
     },
     "css": "lavender-700"
   },
@@ -287,7 +293,7 @@ const PRIMITIVE = [
   {
     "path": "gradient/page-wash-dark",
     "type": "STRING",
-    "value": "radial-gradient(82% 34% at 50% -6%, rgba(171, 159, 242, .32) 0%, rgba(171, 159, 242, .10) 52%, rgba(171, 159, 242, 0) 78%), linear-gradient(180deg, #4A3F8F 0%, #423880 8%, #38306B 16%, #2D2754 26%, #221E3C 38%, #19172A 48%, #12121C 56%, #0E0E11 62%, #0E0E11 100%)",
+    "value": "radial-gradient(82% 36% at 50% -8%, rgba(171, 159, 242, .45) 0%, rgba(171, 159, 242, .16) 52%, rgba(171, 159, 242, 0) 78%), linear-gradient(180deg, #62589F 0%, #584F91 8%, #4A437A 16%, #3B3561 26%, #2B2746 38%, #1D1B30 48%, #14131F 56%, #0E0E11 62%, #0E0E11 100%)",
     "css": "gradient-page-wash-dark"
   },
   {
@@ -999,7 +1005,7 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "border/hairline",
-    "alias": "misc/coal-950",
+    "alias": "misc/clear",
     "css": "border-hairline"
   },
   {
@@ -1051,7 +1057,7 @@ const GRADIENTS = [
   },
   {
     "name": "gradient-page-wash-dark",
-    "value": "radial-gradient(82% 34% at 50% -6%, rgba(171, 159, 242, .32) 0%, rgba(171, 159, 242, .10) 52%, rgba(171, 159, 242, 0) 78%), linear-gradient(180deg, #4A3F8F 0%, #423880 8%, #38306B 16%, #2D2754 26%, #221E3C 38%, #19172A 48%, #12121C 56%, #0E0E11 62%, #0E0E11 100%)"
+    "value": "radial-gradient(82% 36% at 50% -8%, rgba(171, 159, 242, .45) 0%, rgba(171, 159, 242, .16) 52%, rgba(171, 159, 242, 0) 78%), linear-gradient(180deg, #62589F 0%, #584F91 8%, #4A437A 16%, #3B3561 26%, #2B2746 38%, #1D1B30 48%, #14131F 56%, #0E0E11 62%, #0E0E11 100%)"
   }
 ];
 
