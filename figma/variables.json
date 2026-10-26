@@ -31,16 +31,6 @@
       "css": "plum-950"
     },
     {
-      "path": "color/plum-960",
-      "type": "COLOR",
-      "value": {
-        "r": 0.058823529411764705,
-        "g": 0.043137254901960784,
-        "b": 0.09411764705882353
-      },
-      "css": "plum-960"
-    },
-    {
       "path": "color/plum-900",
       "type": "COLOR",
       "value": {
@@ -49,26 +39,6 @@
         "b": 0.14901960784313725
       },
       "css": "plum-900"
-    },
-    {
-      "path": "color/plum-880",
-      "type": "COLOR",
-      "value": {
-        "r": 0.11764705882352941,
-        "g": 0.09019607843137255,
-        "b": 0.2
-      },
-      "css": "plum-880"
-    },
-    {
-      "path": "color/plum-780",
-      "type": "COLOR",
-      "value": {
-        "r": 0.20392156862745098,
-        "g": 0.16862745098039217,
-        "b": 0.3215686274509804
-      },
-      "css": "plum-780"
     },
     {
       "path": "color/plum-800",
@@ -81,16 +51,6 @@
       "css": "plum-800"
     },
     {
-      "path": "color/plum-680",
-      "type": "COLOR",
-      "value": {
-        "r": 0.2784313725490196,
-        "g": 0.23137254901960785,
-        "b": 0.43137254901960786
-      },
-      "css": "plum-680"
-    },
-    {
       "path": "color/plum-600",
       "type": "COLOR",
       "value": {
@@ -101,16 +61,6 @@
       "css": "plum-600"
     },
     {
-      "path": "color/plum-580",
-      "type": "COLOR",
-      "value": {
-        "r": 0.35294117647058826,
-        "g": 0.2980392156862745,
-        "b": 0.5411764705882353
-      },
-      "css": "plum-580"
-    },
-    {
       "path": "color/plum-400",
       "type": "COLOR",
       "value": {
@@ -119,6 +69,96 @@
         "b": 0.6078431372549019
       },
       "css": "plum-400"
+    },
+    {
+      "path": "misc/coal-950",
+      "type": "COLOR",
+      "value": {
+        "r": 0.054901960784313725,
+        "g": 0.054901960784313725,
+        "b": 0.06666666666666667
+      },
+      "css": "coal-950"
+    },
+    {
+      "path": "misc/coal-900",
+      "type": "COLOR",
+      "value": {
+        "r": 0.10980392156862745,
+        "g": 0.10980392156862745,
+        "b": 0.12941176470588237
+      },
+      "css": "coal-900"
+    },
+    {
+      "path": "misc/coal-800",
+      "type": "COLOR",
+      "value": {
+        "r": 0.19607843137254902,
+        "g": 0.19607843137254902,
+        "b": 0.23137254901960785
+      },
+      "css": "coal-800"
+    },
+    {
+      "path": "misc/coal-700",
+      "type": "COLOR",
+      "value": {
+        "r": 0.26666666666666666,
+        "g": 0.26666666666666666,
+        "b": 0.30980392156862746
+      },
+      "css": "coal-700"
+    },
+    {
+      "path": "misc/coal-600",
+      "type": "COLOR",
+      "value": {
+        "r": 0.30196078431372547,
+        "g": 0.30196078431372547,
+        "b": 0.3411764705882353
+      },
+      "css": "coal-600"
+    },
+    {
+      "path": "misc/coal-200",
+      "type": "COLOR",
+      "value": {
+        "r": 0.7686274509803922,
+        "g": 0.7607843137254902,
+        "b": 0.8
+      },
+      "css": "coal-200"
+    },
+    {
+      "path": "misc/lavender-700",
+      "type": "COLOR",
+      "value": {
+        "r": 0.2901960784313726,
+        "g": 0.24705882352941178,
+        "b": 0.5607843137254902
+      },
+      "css": "lavender-700"
+    },
+    {
+      "path": "misc/lavender-400",
+      "type": "COLOR",
+      "value": {
+        "r": 0.6705882352941176,
+        "g": 0.6235294117647059,
+        "b": 0.9490196078431372
+      },
+      "css": "lavender-400"
+    },
+    {
+      "path": "misc/lavender-300",
+      "type": "COLOR",
+      "value": {
+        "r": 0.7490196078431373,
+        "g": 0.7098039215686275,
+        "b": 0.9686274509803922
+      },
+      "css": "lavender-300"
     },
     {
       "path": "color/lilac-50",
@@ -169,36 +209,6 @@
         "b": 0.9333333333333333
       },
       "css": "lilac-300"
-    },
-    {
-      "path": "color/lilac-400",
-      "type": "COLOR",
-      "value": {
-        "r": 0.788235294117647,
-        "g": 0.7333333333333333,
-        "b": 0.8862745098039215
-      },
-      "css": "lilac-400"
-    },
-    {
-      "path": "color/lilac-500",
-      "type": "COLOR",
-      "value": {
-        "r": 0.8274509803921568,
-        "g": 0.792156862745098,
-        "b": 0.8941176470588236
-      },
-      "css": "lilac-500"
-    },
-    {
-      "path": "misc/violet-600",
-      "type": "COLOR",
-      "value": {
-        "r": 0.29411764705882354,
-        "g": 0.12941176470588237,
-        "b": 0.6
-      },
-      "css": "violet-600"
     },
     {
       "path": "color/lime-300",
@@ -269,7 +279,7 @@
     {
       "path": "gradient/page-wash-dark",
       "type": "STRING",
-      "value": "radial-gradient(82% 34% at 50% -6%, rgba(123, 61, 214, .55) 0%, rgba(123, 61, 214, .18) 52%, rgba(123, 61, 214, 0) 78%), linear-gradient(180deg, #4B2199 0%, #43208C 8%, #381B74 16%, #2C1659 26%, #20113E 38%, #170D2A 48%, #110C1D 56%, #0F0B18 62%, #0F0B18 100%)",
+      "value": "radial-gradient(82% 34% at 50% -6%, rgba(171, 159, 242, .32) 0%, rgba(171, 159, 242, .10) 52%, rgba(171, 159, 242, 0) 78%), linear-gradient(180deg, #4A3F8F 0%, #423880 8%, #38306B 16%, #2D2754 26%, #221E3C 38%, #19172A 48%, #12121C 56%, #0E0E11 62%, #0E0E11 100%)",
       "css": "gradient-page-wash-dark"
     },
     {
@@ -916,7 +926,7 @@
   "semanticDark": [
     {
       "path": "bg/page",
-      "alias": "color/plum-960",
+      "alias": "misc/coal-950",
       "css": "bg-page"
     },
     {
@@ -926,17 +936,17 @@
     },
     {
       "path": "bg/surface",
-      "alias": "color/plum-780",
+      "alias": "misc/coal-800",
       "css": "bg-surface"
     },
     {
       "path": "bg/nested",
-      "alias": "color/plum-880",
+      "alias": "misc/coal-900",
       "css": "bg-nested"
     },
     {
       "path": "bg/secondary",
-      "alias": "color/plum-680",
+      "alias": "misc/coal-700",
       "css": "bg-secondary"
     },
     {
@@ -946,7 +956,7 @@
     },
     {
       "path": "text/muted",
-      "alias": "color/lilac-500",
+      "alias": "misc/coal-200",
       "css": "text-muted"
     },
     {
@@ -956,17 +966,17 @@
     },
     {
       "path": "color/action",
-      "alias": "color/lilac-50",
+      "alias": "misc/lavender-400",
       "css": "color-action"
     },
     {
       "path": "text/on-action",
-      "alias": "color/plum-960",
+      "alias": "misc/coal-950",
       "css": "text-on-action"
     },
     {
       "path": "color/action-hover",
-      "alias": "color/lilac-300",
+      "alias": "misc/lavender-300",
       "css": "color-action-hover"
     },
     {
@@ -981,32 +991,32 @@
     },
     {
       "path": "border/hairline",
-      "alias": "color/plum-960",
+      "alias": "misc/coal-950",
       "css": "border-hairline"
     },
     {
       "path": "border/focus",
-      "alias": "color/lilac-500",
+      "alias": "misc/lavender-400",
       "css": "border-focus"
     },
     {
       "path": "bg/hover",
-      "alias": "color/plum-580",
+      "alias": "misc/coal-600",
       "css": "bg-hover"
     },
     {
       "path": "bg/selected",
-      "alias": "color/lilac-400",
+      "alias": "misc/lavender-400",
       "css": "bg-selected"
     },
     {
       "path": "text/on-selected",
-      "alias": "color/plum-900",
+      "alias": "misc/coal-950",
       "css": "text-on-selected"
     },
     {
       "path": "bg/mine",
-      "alias": "color/plum-680",
+      "alias": "misc/coal-700",
       "css": "bg-mine"
     },
     {
@@ -1032,7 +1042,7 @@
     },
     {
       "name": "gradient-page-wash-dark",
-      "value": "radial-gradient(82% 34% at 50% -6%, rgba(123, 61, 214, .55) 0%, rgba(123, 61, 214, .18) 52%, rgba(123, 61, 214, 0) 78%), linear-gradient(180deg, #4B2199 0%, #43208C 8%, #381B74 16%, #2C1659 26%, #20113E 38%, #170D2A 48%, #110C1D 56%, #0F0B18 62%, #0F0B18 100%)"
+      "value": "radial-gradient(82% 34% at 50% -6%, rgba(171, 159, 242, .32) 0%, rgba(171, 159, 242, .10) 52%, rgba(171, 159, 242, 0) 78%), linear-gradient(180deg, #4A3F8F 0%, #423880 8%, #38306B 16%, #2D2754 26%, #221E3C 38%, #19172A 48%, #12121C 56%, #0E0E11 62%, #0E0E11 100%)"
     }
   ]
 }

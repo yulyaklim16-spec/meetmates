@@ -25,7 +25,6 @@ const SKINS = [
   {
     id: 'plum',
     name: 'Сливовая ночь',
-    accepted: true,
     idea: 'Тот же сливовый род, что в светлой теме, но лестницей и мягче: лист, карточка и вложенное '
       + 'идут тремя различимыми ступенями одного тона. Обводок нет вовсе — карточку отделяет то, '
       + 'что она светлее листа, а вторичное действие стоит ступенью выше карточки. '
@@ -43,18 +42,19 @@ const SKINS = [
   {
     id: 'lavender',
     name: 'Лаванда на угле',
+    accepted: true,
     idea: 'Собран по мотивам Phantom: почти нейтральный уголь вместо сливового, а весь цвет '
-      + 'собран в действии — лавандовая кнопка #AB9FF2 вместо белой. Размытия нет вовсе: '
-      + 'верх экрана такой же, как низ. Палитра снята со стилей самого Phantom, '
+      + 'собран в действии — лавандовая кнопка #AB9FF2 вместо белой. Обводок нет: карточку '
+      + 'отделяет то, что она светлее листа. Палитра снята со стилей самого Phantom, '
       + 'а не подобрана на глаз.',
     v: {
-      'bg-page': '#0F0F11', 'bg-surface': '#202024', 'bg-nested': '#1A1A1D',
-      'bg-secondary': '#2C2C32',
-      'bg-hover': '#3A3A42', 'bg-selected': '#AB9FF2', 'bg-mine': '#2C2C32', 'bg-undelivered': '#5C2338',
-      'text-primary': '#F5F4F8', 'text-muted': '#B4B2BC', 'text-on-action': '#0F0F11',
-      'text-on-selected': '#0F0F11', 'text-danger': '#FBC2CE', 'icon-muted': '#8B8993',
+      'bg-page': '#0E0E11', 'bg-surface': '#32323B', 'bg-nested': '#1C1C21',
+      'bg-secondary': '#44444F',
+      'bg-hover': '#4D4D57', 'bg-selected': '#AB9FF2', 'bg-mine': '#44444F', 'bg-undelivered': '#5C2338',
+      'text-primary': '#F2EDF6', 'text-muted': '#C4C2CC', 'text-on-action': '#0E0E11',
+      'text-on-selected': '#0E0E11', 'text-danger': '#FBC2CE', 'icon-muted': '#8C7E9B',
       'color-action': '#AB9FF2', 'color-action-hover': '#BFB5F7', 'color-danger': '#FBC2CE',
-      'border-hairline': '#0F0F11', 'border-focus': '#AB9FF2',
+      'border-hairline': '#0E0E11', 'border-focus': '#AB9FF2',
     },
   },
   {
@@ -214,8 +214,8 @@ const vars = (s) => Object.entries(s.v).map(([k, v]) => `  --${k}: ${v};`).join(
 
 // Размытие есть только у принятого облика: кандидаты сравнивались по цвету
 // поверхностей, и картинка поверх них мешала бы сравнению.
-const WASH_DARK = 'radial-gradient(82% 34% at 50% -6%, rgba(123, 61, 214, .55) 0%, rgba(123, 61, 214, .18) 52%, rgba(123, 61, 214, 0) 78%), '
-  + 'linear-gradient(180deg, #4B2199 0%, #43208C 8%, #381B74 16%, #2C1659 26%, #20113E 38%, #170D2A 48%, #110C1D 56%, #0F0B18 62%, #0F0B18 100%)';
+const WASH_DARK = 'radial-gradient(82% 34% at 50% -6%, rgba(171, 159, 242, .32) 0%, rgba(171, 159, 242, .10) 52%, rgba(171, 159, 242, 0) 78%), '
+  + 'linear-gradient(180deg, #4A3F8F 0%, #423880 8%, #38306B 16%, #2D2754 26%, #221E3C 38%, #19172A 48%, #12121C 56%, #0E0E11 62%, #0E0E11 100%)';
 const skinCss = measured.map((s) => `[data-skin="${s.id}"] {
 ${vars(s)}
   --bg-page-wash: ${s.accepted ? WASH_DARK : 'none'};

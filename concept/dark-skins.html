@@ -68,32 +68,32 @@
   --color-danger: #FBC2CE;
   --border-hairline: #0F0B18;
   --border-focus: #D3CAE4;
-  --bg-page-wash: radial-gradient(82% 34% at 50% -6%, rgba(123, 61, 214, .55) 0%, rgba(123, 61, 214, .18) 52%, rgba(123, 61, 214, 0) 78%), linear-gradient(180deg, #4B2199 0%, #43208C 8%, #381B74 16%, #2C1659 26%, #20113E 38%, #170D2A 48%, #110C1D 56%, #0F0B18 62%, #0F0B18 100%);
+  --bg-page-wash: none;
   --color-verified: #D9F56F;
   --text-on-verified: #1A1026;
 }
 
 [data-skin="lavender"] {
-  --bg-page: #0F0F11;
-  --bg-surface: #202024;
-  --bg-nested: #1A1A1D;
-  --bg-secondary: #2C2C32;
-  --bg-hover: #3A3A42;
+  --bg-page: #0E0E11;
+  --bg-surface: #32323B;
+  --bg-nested: #1C1C21;
+  --bg-secondary: #44444F;
+  --bg-hover: #4D4D57;
   --bg-selected: #AB9FF2;
-  --bg-mine: #2C2C32;
+  --bg-mine: #44444F;
   --bg-undelivered: #5C2338;
-  --text-primary: #F5F4F8;
-  --text-muted: #B4B2BC;
-  --text-on-action: #0F0F11;
-  --text-on-selected: #0F0F11;
+  --text-primary: #F2EDF6;
+  --text-muted: #C4C2CC;
+  --text-on-action: #0E0E11;
+  --text-on-selected: #0E0E11;
   --text-danger: #FBC2CE;
-  --icon-muted: #8B8993;
+  --icon-muted: #8C7E9B;
   --color-action: #AB9FF2;
   --color-action-hover: #BFB5F7;
   --color-danger: #FBC2CE;
-  --border-hairline: #0F0F11;
+  --border-hairline: #0E0E11;
   --border-focus: #AB9FF2;
-  --bg-page-wash: none;
+  --bg-page-wash: radial-gradient(82% 34% at 50% -6%, rgba(171, 159, 242, .32) 0%, rgba(171, 159, 242, .10) 52%, rgba(171, 159, 242, 0) 78%), linear-gradient(180deg, #4A3F8F 0%, #423880 8%, #38306B 16%, #2D2754 26%, #221E3C 38%, #19172A 48%, #12121C 56%, #0E0E11 62%, #0E0E11 100%);
   --color-verified: #D9F56F;
   --text-on-verified: #1A1026;
 }
@@ -210,7 +210,7 @@
 <div class="board">
   <section class="skin" data-skin="plum" id="plum">
     <header class="skin-head">
-      <h2>Сливовая ночь <i class="ok">принят</i></h2>
+      <h2>Сливовая ночь</h2>
       <p class="idea">Тот же сливовый род, что в светлой теме, но лестницей и мягче: лист, карточка и вложенное идут тремя различимыми ступенями одного тона. Обводок нет вовсе — карточку отделяет то, что она светлее листа, а вторичное действие стоит ступенью выше карточки. Ступени крупные: от листа до наведения пять различимых шагов.</p>
       <p class="keys"><span><i style="background:#0F0B18"></i>#0F0B18</span><span><i style="background:#342B52"></i>#342B52</span><span><i style="background:#1E1733"></i>#1E1733</span><span><i style="background:#F2EDF6"></i>#F2EDF6</span></p>
     </header>
@@ -426,9 +426,9 @@
 
   <section class="skin" data-skin="lavender" id="lavender">
     <header class="skin-head">
-      <h2>Лаванда на угле</h2>
-      <p class="idea">Собран по мотивам Phantom: почти нейтральный уголь вместо сливового, а весь цвет собран в действии — лавандовая кнопка #AB9FF2 вместо белой. Размытия нет вовсе: верх экрана такой же, как низ. Палитра снята со стилей самого Phantom, а не подобрана на глаз.</p>
-      <p class="keys"><span><i style="background:#0F0F11"></i>#0F0F11</span><span><i style="background:#202024"></i>#202024</span><span><i style="background:#1A1A1D"></i>#1A1A1D</span><span><i style="background:#AB9FF2"></i>#AB9FF2</span></p>
+      <h2>Лаванда на угле <i class="ok">принят</i></h2>
+      <p class="idea">Собран по мотивам Phantom: почти нейтральный уголь вместо сливового, а весь цвет собран в действии — лавандовая кнопка #AB9FF2 вместо белой. Обводок нет: карточку отделяет то, что она светлее листа. Палитра снята со стилей самого Phantom, а не подобрана на глаз.</p>
+      <p class="keys"><span><i style="background:#0E0E11"></i>#0E0E11</span><span><i style="background:#32323B"></i>#32323B</span><span><i style="background:#1C1C21"></i>#1C1C21</span><span><i style="background:#AB9FF2"></i>#AB9FF2</span></p>
     </header>
     <figure class="shot">
       <div class="mm mm-screen">
@@ -617,23 +617,23 @@
 <table class="ct">
   <thead><tr><th>Пара</th><th>Порог</th><th>Проверка</th></tr></thead>
   <tbody>
-    <tr><td>Основной текст на экране</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F5F4F8;background:#0F0F11">Aa</span> <b>17,49:1</b></td></tr>
-    <tr><td>Основной текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F5F4F8;background:#202024">Aa</span> <b>14,83:1</b></td></tr>
-    <tr><td>Основной текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F5F4F8;background:#3A3A42">Aa</span> <b>10,29:1</b></td></tr>
-    <tr><td>Вторичный текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#B4B2BC;background:#202024">Aa</span> <b>7,76:1</b></td></tr>
-    <tr><td>Вторичный текст на вложенном</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#B4B2BC;background:#1A1A1D">Aa</span> <b>8,30:1</b></td></tr>
-    <tr><td>Вторичный текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#B4B2BC;background:#3A3A42">Aa</span> <b>5,38:1</b></td></tr>
-    <tr><td>Слово на кнопке действия</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#0F0F11;background:#AB9FF2">Aa</span> <b>8,18:1</b></td></tr>
-    <tr><td>Слово на наведённой кнопке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#0F0F11;background:#BFB5F7">Aa</span> <b>10,18:1</b></td></tr>
-    <tr><td>Подпись выбранной вкладки</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#0F0F11;background:#AB9FF2">Aa</span> <b>8,18:1</b></td></tr>
-    <tr><td>Своя реплика в диалоге</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F5F4F8;background:#2C2C32">Aa</span> <b>12,67:1</b></td></tr>
-    <tr><td>Реплика, которая не ушла</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F5F4F8;background:#5C2338">Aa</span> <b>10,94:1</b></td></tr>
-    <tr><td>Опасное словом на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#FBC2CE;background:#202024">Aa</span> <b>10,60:1</b></td></tr>
-    <tr><td>Опасное словом под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#FBC2CE;background:#3A3A42">Aa</span> <b>7,36:1</b></td></tr>
-    <tr><td>Иконка на экране</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8B8993;background:#0F0F11">Aa</span> <b>5,56:1</b></td></tr>
-    <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8B8993;background:#202024">Aa</span> <b>4,71:1</b></td></tr>
-    <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8B8993;background:#1A1A1D">Aa</span> <b>5,04:1</b></td></tr>
-    <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#AB9FF2;background:#1A1A1D">Aa</span> <b>7,42:1</b></td></tr>
+    <tr><td>Основной текст на экране</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F2EDF6;background:#0E0E11">Aa</span> <b>16,72:1</b></td></tr>
+    <tr><td>Основной текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F2EDF6;background:#32323B">Aa</span> <b>11,01:1</b></td></tr>
+    <tr><td>Основной текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F2EDF6;background:#4D4D57">Aa</span> <b>7,25:1</b></td></tr>
+    <tr><td>Вторичный текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#C4C2CC;background:#32323B">Aa</span> <b>7,21:1</b></td></tr>
+    <tr><td>Вторичный текст на вложенном</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#C4C2CC;background:#1C1C21">Aa</span> <b>9,65:1</b></td></tr>
+    <tr><td>Вторичный текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#C4C2CC;background:#4D4D57">Aa</span> <b>4,75:1</b></td></tr>
+    <tr><td>Слово на кнопке действия</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#0E0E11;background:#AB9FF2">Aa</span> <b>8,24:1</b></td></tr>
+    <tr><td>Слово на наведённой кнопке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#0E0E11;background:#BFB5F7">Aa</span> <b>10,25:1</b></td></tr>
+    <tr><td>Подпись выбранной вкладки</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#0E0E11;background:#AB9FF2">Aa</span> <b>8,24:1</b></td></tr>
+    <tr><td>Своя реплика в диалоге</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F2EDF6;background:#44444F">Aa</span> <b>8,34:1</b></td></tr>
+    <tr><td>Реплика, которая не ушла</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F2EDF6;background:#5C2338">Aa</span> <b>10,40:1</b></td></tr>
+    <tr><td>Опасное словом на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#FBC2CE;background:#32323B">Aa</span> <b>8,28:1</b></td></tr>
+    <tr><td>Опасное словом под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#FBC2CE;background:#4D4D57">Aa</span> <b>5,45:1</b></td></tr>
+    <tr><td>Иконка на экране</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8C7E9B;background:#0E0E11">Aa</span> <b>5,11:1</b></td></tr>
+    <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8C7E9B;background:#32323B">Aa</span> <b>3,37:1</b></td></tr>
+    <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8C7E9B;background:#1C1C21">Aa</span> <b>4,50:1</b></td></tr>
+    <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#AB9FF2;background:#1C1C21">Aa</span> <b>7,25:1</b></td></tr>
     <tr><td>Слово на лейбе Verified</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#D9F56F">Aa</span> <b>15,04:1</b></td></tr>
   </tbody>
 </table>

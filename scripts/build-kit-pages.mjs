@@ -156,7 +156,7 @@ ${FONT}
   /* Лист оболочки — та же документация, что и у витрины: в тёмной теме
      темнеет вместе с продуктом, иначе белый текст лёг бы на светлый лист. */
   :root { --page: #EFEFF2; }
-  [data-theme="dark"] { --page: var(--plum-900); }
+  [data-theme="dark"] { --page: var(--coal-900); }
   body { margin: 0; padding: 32px 32px 32px 80px; background: var(--page); }
   h1.t { margin: 0 0 4px; font-size: 22px; letter-spacing: -.02em; }
   p.lead { margin: 0 0 28px; max-width: 70ch; color: var(--text-muted); font-size: 14px; line-height: 1.55; }
@@ -735,7 +735,7 @@ ${FONT}
      вместе с ним: иначе белый текст компонента лёг бы на светлый лист.
      Тон листа свой и берётся примитивом: он обязан отличаться от фона экрана
      в клетке, иначе клетка сливается с листом. */
-  [data-theme="dark"] { --page: var(--plum-900); --edge: var(--plum-800); --dim: var(--lilac-300); --paper: var(--plum-800); }
+  [data-theme="dark"] { --page: var(--coal-900); --edge: var(--coal-700); --dim: var(--coal-200); --paper: var(--coal-800); }
   body { margin: 0; background: var(--page); }
   .kit-top { padding: 40px 32px 28px 80px; }
   .kit-top h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -.03em; }
