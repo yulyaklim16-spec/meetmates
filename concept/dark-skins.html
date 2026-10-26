@@ -1,0 +1,1268 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тёмные облики · MeetMates</title>
+<meta name="description" content="Пять наборов значений для тёмной темы на одном экране: выбор облика до того, как он станет токенами.">
+<!--
+  СГЕНЕРИРОВАНО scripts/build-dark-skins.mjs — руками не править.
+  Доска для выбора: пять тёмных обликов на одном и том же экране.
+  Принятый облик уезжает в tokens.css блоком [data-theme="dark"],
+  остальные остаются здесь — как снятое направление на concept/skins.html.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components/index.css">
+<style>
+  /* обвязка доски: к продукту не относится */
+  body { margin: 0; padding: 32px; background: #15131A; color: #EDEAF2;
+    font: 400 14px/1.55 "Figtree", -apple-system, sans-serif; }
+  .top { max-width: 76ch; margin: 0 0 28px; }
+  .top h1 { margin: 0 0 8px; font-size: 28px; letter-spacing: -.03em; }
+  .top p { margin: 0 0 6px; color: #ADA6BC; }
+  .top code { font-family: ui-monospace, monospace; font-size: 12px; }
+  .board { display: flex; gap: 24px; align-items: flex-start; overflow-x: auto; padding-bottom: 24px; }
+  .skin { flex: none; width: 390px; }
+  .skin-head { margin: 0 0 16px; }
+  .skin-head h2 { margin: 0 0 6px; font-size: 20px; letter-spacing: -.02em; }
+  .idea { margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: #ADA6BC; }
+  .keys { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; font: 11px/1 ui-monospace, monospace; color: #ADA6BC; }
+  .keys span { display: inline-flex; align-items: center; gap: 6px; }
+  .keys i { width: 14px; height: 14px; border-radius: 4px; border: 1px solid #332F3D; }
+  .shot { margin: 0 0 16px; }
+  /* Экран стоит в рамке без мокапа телефона: сравниваются цвета, а не корпус */
+  .shot .mm-screen { border-radius: 26px; box-shadow: 0 0 0 1px #332F3D, 0 10px 30px rgba(0, 0, 0, .45); }
+  .shot figcaption { margin-top: 8px; font-size: 12px; color: #8E87A0; }
+  .ct-wrap { border-top: 1px solid #2A2733; padding-top: 10px; }
+  .ct-wrap summary { cursor: pointer; font-size: 12px; color: #ADA6BC; }
+  .ct { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
+  .ct th { text-align: left; font-weight: 600; color: #8E87A0; padding: 4px 6px; border-bottom: 1px solid #2A2733; }
+  .ct td { padding: 4px 6px; border-bottom: 1px solid #2A2733; }
+  .ct .n { text-align: right; white-space: nowrap; }
+  .sw { display: inline-grid; place-items: center; width: 26px; height: 18px; border-radius: 6px; font-size: 10px; }
+
+[data-skin="ink"] {
+  --bg-page: #0E0D11;
+  --bg-surface: #1A1920;
+  --bg-nested: #24232C;
+  --bg-hover: #2E2D38;
+  --bg-selected: #3C3A48;
+  --bg-mine: #2E2D38;
+  --bg-undelivered: #5E2435;
+  --text-primary: #F6F5F8;
+  --text-muted: #AFABB8;
+  --text-on-action: #0E0D11;
+  --text-on-selected: #F6F5F8;
+  --text-danger: #F59BAF;
+  --icon-muted: #8C8899;
+  --color-action: #F6F5F8;
+  --color-action-hover: #DCD9E4;
+  --color-danger: #F59BAF;
+  --border-hairline: #35333E;
+  --border-focus: #AFABB8;
+  --bg-page-wash: none;
+  --color-verified: #D9F56F;
+  --text-on-verified: #1A1026;
+}
+
+[data-skin="plum"] {
+  --bg-page: #120E1C;
+  --bg-surface: #1E1830;
+  --bg-nested: #2A2240;
+  --bg-hover: #362C50;
+  --bg-selected: #C9BBE2;
+  --bg-mine: #362C50;
+  --bg-undelivered: #5C2338;
+  --text-primary: #F4EFFA;
+  --text-muted: #BCB0D0;
+  --text-on-action: #120E1C;
+  --text-on-selected: #1A1026;
+  --text-danger: #F59BAF;
+  --icon-muted: #9388AB;
+  --color-action: #F4EFFA;
+  --color-action-hover: #D9CFEA;
+  --color-danger: #F59BAF;
+  --border-hairline: #3D3458;
+  --border-focus: #BCB0D0;
+  --bg-page-wash: none;
+  --color-verified: #D9F56F;
+  --text-on-verified: #1A1026;
+}
+
+[data-skin="lilac"] {
+  --bg-page: #171320;
+  --bg-surface: #241E33;
+  --bg-nested: #2F2842;
+  --bg-hover: #3B3253;
+  --bg-selected: #B9A8D6;
+  --bg-mine: #3B3253;
+  --bg-undelivered: #632A3F;
+  --text-primary: #FFFFFF;
+  --text-muted: #C8BEDA;
+  --text-on-action: #171320;
+  --text-on-selected: #171320;
+  --text-danger: #F7A8BA;
+  --icon-muted: #9A90AE;
+  --color-action: #E0D6EE;
+  --color-action-hover: #CDBFE4;
+  --color-danger: #F7A8BA;
+  --border-hairline: #3E3657;
+  --border-focus: #C8BEDA;
+  --bg-page-wash: none;
+  --color-verified: #D9F56F;
+  --text-on-verified: #1A1026;
+}
+
+[data-skin="indigo"] {
+  --bg-page: #0B1020;
+  --bg-surface: #151B30;
+  --bg-nested: #1E2540;
+  --bg-hover: #283151;
+  --bg-selected: #A8B6E0;
+  --bg-mine: #283151;
+  --bg-undelivered: #5A2440;
+  --text-primary: #EEF2FC;
+  --text-muted: #AAB4D0;
+  --text-on-action: #0B1020;
+  --text-on-selected: #0B1020;
+  --text-danger: #FFA3B5;
+  --icon-muted: #8792B3;
+  --color-action: #EEF2FC;
+  --color-action-hover: #D5DCF0;
+  --color-danger: #FFA3B5;
+  --border-hairline: #2E3759;
+  --border-focus: #AAB4D0;
+  --bg-page-wash: none;
+  --color-verified: #D9F56F;
+  --text-on-verified: #1A1026;
+}
+
+[data-skin="warm"] {
+  --bg-page: #121110;
+  --bg-surface: #1D1B19;
+  --bg-nested: #272421;
+  --bg-hover: #322E2A;
+  --bg-selected: #443E37;
+  --bg-mine: #322E2A;
+  --bg-undelivered: #5C2B2B;
+  --text-primary: #F7F3EE;
+  --text-muted: #B6AEA3;
+  --text-on-action: #121110;
+  --text-on-selected: #F7F3EE;
+  --text-danger: #F6A6AE;
+  --icon-muted: #938B80;
+  --color-action: #F7F3EE;
+  --color-action-hover: #E2DBD1;
+  --color-danger: #F6A6AE;
+  --border-hairline: #3A3530;
+  --border-focus: #B6AEA3;
+  --bg-page-wash: none;
+  --color-verified: #D9F56F;
+  --text-on-verified: #1A1026;
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>Тёмные облики — пять наборов на выбор</h1>
+  <p>Один и тот же экран пять раз. Меняются только значения тёмной темы: девятнадцать
+  семантических имён, ни одного правила в <code>components/</code>. Лайм доверия
+  не меняется ни в одном — он читается на любом тёмном фоне, и слово на нём своими чернилами.</p>
+  <p>Контраст каждой пары посчитан при сборке; облик, у которого пара не проходит AA,
+  на доску не попадает. Принятый уедет в <code>tokens.css</code>, остальные останутся здесь —
+  так же, как снятое направление «Стекло» осталось на доске обликов.</p>
+</div>
+
+<div class="board">
+  <section class="skin" data-skin="ink" id="ink">
+    <header class="skin-head">
+      <h2>Чернила</h2>
+      <p class="idea">Нейтральная тушь с еле заметным фиолетовым подтоном. Фиолет остаётся только в акценте, фотографии и лайм выглядят ровно так, как сняты. Самый спокойный из пяти.</p>
+      <p class="keys"><span><i style="background:#0E0D11"></i>#0E0D11</span><span><i style="background:#1A1920"></i>#1A1920</span><span><i style="background:#24232C"></i>#24232C</span><span><i style="background:#F6F5F8"></i>#F6F5F8</span></p>
+    </header>
+    <figure class="shot">
+      <div class="mm mm-screen">
+<!-- зона системы: safe-area сверху, 47px -->
+  
+
+  <!-- ЗОНА 1: шапка. Главное действие — сузить выдачу фильтрами -->
+<header class="mm-head">
+  <h1 class="mm-head-title" id="deck-h">People nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
+</header>
+
+  <main class="mm-app">
+  <div class="mm-pane">
+    <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком -->
+    <section class="mm-stretch" aria-labelledby="who-h">
+      <!-- Зона названа своим заголовком, а не заголовком экрана: имя на карточке
+           идёт третьим уровнем, и без второго уровень прыгал через ступень.
+           Так же названа эта зона на profile.html. -->
+      <h2 id="who-h" class="mm-vh">Who</h2>
+
+      <article class="mm-person">
+        <figure>
+          <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
+          <figcaption class="mm-vh">Photo 1 of 4</figcaption>
+          <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
+          <p class="mm-cardtop">
+            <span class="mm-verified"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg></span>Verified</span>
+            <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
+          </p>
+        </figure>
+
+        <section class="mm-person-body" aria-label="Olena, 26">
+          <!-- 1. Общие интересы — первой строкой, D-13 -->
+          <p class="mm-common">3 common interests</p>
+          <ul class="mm-tags">
+            <li>Hiking</li>
+            <li>Board games</li>
+            <li>Coffee</li>
+          </ul>
+
+          <!-- 2. Имя и возраст — идентификация, не решение -->
+          <h3 class="mm-subhead">Olena, 26</h3>
+
+          <!-- 3. Сигналы доверия. Ступеней профиля нет вовсе D-49: репутация
+               стоит на проверяемых фактах — встречи и отзывчивость -->
+          <ul class="mm-signals">
+                <li>6 meetups attended</li>
+            <li>Replies quickly</li>
+          </ul>
+
+        </section>
+        <a class="mm-cardlink" href="profile.html" aria-label="Olena, 26 — open profile"></a>
+      </article>
+    </section>
+
+    <!-- ЗОНА 3: решение по карточке. Главное действие — Like -->
+    <section class="mm-section" aria-labelledby="act-h">
+      <h2 id="act-h" class="mm-vh">Decision</h2>
+      <p class="mm-actions">
+        <a class="mm-btn" href="deck.html">Skip</a>
+        <a class="mm-btn mm-btn--primary" href="match.html">Like</a>
+      </p>
+    </section>
+
+    <!-- ЗОНА 4: выход во второй путь. Обязателен всегда, а не только в пустом виде (§4, D-10) -->
+    <section class="mm-section" aria-labelledby="exit-h">
+      <h2 id="exit-h" class="mm-vh">Events</h2>
+      <a class="mm-btn" href="feed.html">
+        <span>Look at events</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
+</main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav class="mm-tabs" aria-label="Main navigation">
+    <a class="mm-tab is-current" href="deck.html" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.00098 13.001C12.867 13.001 16.001 14.7918 16.001 17.001C16.001 19.2101 12.867 21.001 9.00098 21.001C5.13498 21.001 2.00098 19.2101 2.00098 17.001C2.00098 14.7918 5.13498 13.001 9.00098 13.001Z"/><path d="M16.4766 14.001C18.9615 14.0011 20.9996 15.3434 21 17C21 18.6569 18.9638 20 16.4785 20C17.2107 19.1997 17.7148 18.1955 17.7148 17.002C17.7148 15.8071 17.2099 14.8017 16.4766 14.001Z"/><path d="M9.00098 2C11.2101 2 13.001 3.79086 13.001 6C13.001 8.20914 11.2101 10 9.00098 10C6.79184 10 5.00098 8.20914 5.00098 6C5.00098 3.79086 6.79184 2 9.00098 2Z"/><path d="M15 3.00098C16.6567 3.00118 18 4.34425 18 6.00098C17.9999 7.6576 16.6566 9.00078 15 9.00098C14.6388 9.00098 14.2924 8.93633 13.9717 8.81934C14.4445 7.98748 14.7148 7.02523 14.7148 6C14.7148 4.97534 14.4449 4.0132 13.9727 3.18164C14.2931 3.06489 14.6392 3.00098 15 3.00098Z"/></g></svg></span>People</a>
+    <a class="mm-tab" href="feed.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg></span>Events</a>
+    <a class="mm-tab" href="search.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+    <a class="mm-tab" href="chats.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
+    <a class="mm-tab" href="my-profile.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+  </nav>
+
+  
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+      </div>
+      <figcaption>Колода</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="mm mm-screen">
+<!-- зона системы: safe-area сверху, 47px -->
+  
+
+<header class="mm-head">
+  <h1 class="mm-head-title" id="fd-h">Events nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
+  <button type="button" class="mm-head-btn mm-head-btn--primary" aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button>
+</header>
+  <main class="mm-app">
+  <div class="mm-pane">
+    <!-- ЗОНА 2: срез вкладки. «Рядом» и «мои» — один объект, два среза -->
+    <section class="mm-section" aria-labelledby="seg-h">
+      <h2 id="seg-h" class="mm-vh">Which events</h2>
+      <p class="mm-segmented">
+        <a class="mm-btn is-current" href="feed.html">Nearby</a>
+        <a class="mm-btn" href="my-events.html">Mine</a>
+      </p>
+    </section>
+
+    <!-- ЗОНА 3: лента. Датированные и бессрочные вперемешку — одно намерение -->
+    <section class="mm-scrolly" aria-labelledby="fd-h">
+      <ul class="mm-list">
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-games.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~3 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Board games</b><time class="mm-meta" datetime="2026-09-26T18:00"><b>26 Sep</b> &middot; 18:00</time></a>
+            <span class="mm-facts">Kyiv Games Club &middot; Podil</span>
+            <span class="mm-facts">2 going &middot; 1 spot left</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-run.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~1 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Morning run along the embankment</b><span class="mm-meta">No date yet</span></a>
+            <span class="mm-facts">Podil</span>
+            <span class="mm-facts">1 going &middot; 2 spots left</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a><a class="mm-btn mm-btn--quiet" href="invite.html">Invite</a></span>
+        </li>
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-coffee.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Coffee and a walk in Podil</b><time class="mm-meta" datetime="2026-09-27T11:00"><b>27 Sep</b> &middot; 11:00</time></a>
+            <span class="mm-facts">Podil</span>
+            <span class="mm-facts">1 spot left &middot; Women only</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ЗОНА 4: выход в первый путь. Симметрия с колодой (§4) -->
+    <section class="mm-section" aria-labelledby="ex-h">
+      <h2 id="ex-h" class="mm-vh">People</h2>
+      <a class="mm-btn" href="deck.html">
+        <span>See people</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
+  </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav class="mm-tabs" aria-label="Main navigation">
+    <a class="mm-tab" href="deck.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="9" cy="6" r="4"/><path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"/><ellipse cx="9" cy="17" rx="7" ry="4"/><path d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"/></g></svg></span>People</a>
+    <a class="mm-tab is-current" href="feed.html" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>Events</a>
+    <a class="mm-tab" href="search.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+    <a class="mm-tab" href="chats.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
+    <a class="mm-tab" href="my-profile.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+  </nav>
+
+  
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+      </div>
+      <figcaption>Лента событий</figcaption>
+    </figure>
+    <details class="ct-wrap">
+      <summary>Контраст: 19 пар, все проходят</summary>
+<table class="ct">
+  <thead><tr><th>Пара</th><th>Порог</th><th>Проверка</th></tr></thead>
+  <tbody>
+    <tr><td>Основной текст на экране</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F6F5F8;background:#0E0D11">Aa</span> <b>17,83:1</b></td></tr>
+    <tr><td>Основной текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F6F5F8;background:#1A1920">Aa</span> <b>16,06:1</b></td></tr>
+    <tr><td>Основной текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F6F5F8;background:#2E2D38">Aa</span> <b>12,49:1</b></td></tr>
+    <tr><td>Вторичный текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#AFABB8;background:#1A1920">Aa</span> <b>7,76:1</b></td></tr>
+    <tr><td>Вторичный текст на вложенном</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#AFABB8;background:#24232C">Aa</span> <b>6,91:1</b></td></tr>
+    <tr><td>Вторичный текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#AFABB8;background:#2E2D38">Aa</span> <b>6,03:1</b></td></tr>
+    <tr><td>Слово на кнопке действия</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#0E0D11;background:#F6F5F8">Aa</span> <b>17,83:1</b></td></tr>
+    <tr><td>Слово на наведённой кнопке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#0E0D11;background:#DCD9E4">Aa</span> <b>13,92:1</b></td></tr>
+    <tr><td>Подпись выбранной вкладки</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F6F5F8;background:#3C3A48">Aa</span> <b>10,23:1</b></td></tr>
+    <tr><td>Своя реплика в диалоге</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F6F5F8;background:#2E2D38">Aa</span> <b>12,49:1</b></td></tr>
+    <tr><td>Реплика, которая не ушла</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F6F5F8;background:#5E2435">Aa</span> <b>10,86:1</b></td></tr>
+    <tr><td>Опасное словом на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F59BAF;background:#1A1920">Aa</span> <b>8,46:1</b></td></tr>
+    <tr><td>Опасное словом под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F59BAF;background:#2E2D38">Aa</span> <b>6,58:1</b></td></tr>
+    <tr><td>Иконка на экране</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8C8899;background:#0E0D11">Aa</span> <b>5,62:1</b></td></tr>
+    <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8C8899;background:#1A1920">Aa</span> <b>5,06:1</b></td></tr>
+    <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8C8899;background:#24232C">Aa</span> <b>4,51:1</b></td></tr>
+    <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#AFABB8;background:#24232C">Aa</span> <b>6,91:1</b></td></tr>
+    <tr><td>Граница карточки на экране</td><td class="n">1,5:1</td><td class="n"><span class="sw" style="color:#35333E;background:#0E0D11">Aa</span> <b>1,56:1</b></td></tr>
+    <tr><td>Слово на лейбе Verified</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#D9F56F">Aa</span> <b>15,04:1</b></td></tr>
+  </tbody>
+</table>
+    </details>
+  </section>
+
+  <section class="skin" data-skin="plum" id="plum">
+    <header class="skin-head">
+      <h2>Сливовая ночь</h2>
+      <p class="idea">Тот же сливовый род, что в светлой теме, но лестницей и мягче: лист, карточка и вложенное идут тремя различимыми ступенями одного тона. Ближе всего к нынешнему облику.</p>
+      <p class="keys"><span><i style="background:#120E1C"></i>#120E1C</span><span><i style="background:#1E1830"></i>#1E1830</span><span><i style="background:#2A2240"></i>#2A2240</span><span><i style="background:#F4EFFA"></i>#F4EFFA</span></p>
+    </header>
+    <figure class="shot">
+      <div class="mm mm-screen">
+<!-- зона системы: safe-area сверху, 47px -->
+  
+
+  <!-- ЗОНА 1: шапка. Главное действие — сузить выдачу фильтрами -->
+<header class="mm-head">
+  <h1 class="mm-head-title" id="deck-h">People nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
+</header>
+
+  <main class="mm-app">
+  <div class="mm-pane">
+    <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком -->
+    <section class="mm-stretch" aria-labelledby="who-h">
+      <!-- Зона названа своим заголовком, а не заголовком экрана: имя на карточке
+           идёт третьим уровнем, и без второго уровень прыгал через ступень.
+           Так же названа эта зона на profile.html. -->
+      <h2 id="who-h" class="mm-vh">Who</h2>
+
+      <article class="mm-person">
+        <figure>
+          <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
+          <figcaption class="mm-vh">Photo 1 of 4</figcaption>
+          <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
+          <p class="mm-cardtop">
+            <span class="mm-verified"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg></span>Verified</span>
+            <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
+          </p>
+        </figure>
+
+        <section class="mm-person-body" aria-label="Olena, 26">
+          <!-- 1. Общие интересы — первой строкой, D-13 -->
+          <p class="mm-common">3 common interests</p>
+          <ul class="mm-tags">
+            <li>Hiking</li>
+            <li>Board games</li>
+            <li>Coffee</li>
+          </ul>
+
+          <!-- 2. Имя и возраст — идентификация, не решение -->
+          <h3 class="mm-subhead">Olena, 26</h3>
+
+          <!-- 3. Сигналы доверия. Ступеней профиля нет вовсе D-49: репутация
+               стоит на проверяемых фактах — встречи и отзывчивость -->
+          <ul class="mm-signals">
+                <li>6 meetups attended</li>
+            <li>Replies quickly</li>
+          </ul>
+
+        </section>
+        <a class="mm-cardlink" href="profile.html" aria-label="Olena, 26 — open profile"></a>
+      </article>
+    </section>
+
+    <!-- ЗОНА 3: решение по карточке. Главное действие — Like -->
+    <section class="mm-section" aria-labelledby="act-h">
+      <h2 id="act-h" class="mm-vh">Decision</h2>
+      <p class="mm-actions">
+        <a class="mm-btn" href="deck.html">Skip</a>
+        <a class="mm-btn mm-btn--primary" href="match.html">Like</a>
+      </p>
+    </section>
+
+    <!-- ЗОНА 4: выход во второй путь. Обязателен всегда, а не только в пустом виде (§4, D-10) -->
+    <section class="mm-section" aria-labelledby="exit-h">
+      <h2 id="exit-h" class="mm-vh">Events</h2>
+      <a class="mm-btn" href="feed.html">
+        <span>Look at events</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
+</main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav class="mm-tabs" aria-label="Main navigation">
+    <a class="mm-tab is-current" href="deck.html" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.00098 13.001C12.867 13.001 16.001 14.7918 16.001 17.001C16.001 19.2101 12.867 21.001 9.00098 21.001C5.13498 21.001 2.00098 19.2101 2.00098 17.001C2.00098 14.7918 5.13498 13.001 9.00098 13.001Z"/><path d="M16.4766 14.001C18.9615 14.0011 20.9996 15.3434 21 17C21 18.6569 18.9638 20 16.4785 20C17.2107 19.1997 17.7148 18.1955 17.7148 17.002C17.7148 15.8071 17.2099 14.8017 16.4766 14.001Z"/><path d="M9.00098 2C11.2101 2 13.001 3.79086 13.001 6C13.001 8.20914 11.2101 10 9.00098 10C6.79184 10 5.00098 8.20914 5.00098 6C5.00098 3.79086 6.79184 2 9.00098 2Z"/><path d="M15 3.00098C16.6567 3.00118 18 4.34425 18 6.00098C17.9999 7.6576 16.6566 9.00078 15 9.00098C14.6388 9.00098 14.2924 8.93633 13.9717 8.81934C14.4445 7.98748 14.7148 7.02523 14.7148 6C14.7148 4.97534 14.4449 4.0132 13.9727 3.18164C14.2931 3.06489 14.6392 3.00098 15 3.00098Z"/></g></svg></span>People</a>
+    <a class="mm-tab" href="feed.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg></span>Events</a>
+    <a class="mm-tab" href="search.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+    <a class="mm-tab" href="chats.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
+    <a class="mm-tab" href="my-profile.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+  </nav>
+
+  
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+      </div>
+      <figcaption>Колода</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="mm mm-screen">
+<!-- зона системы: safe-area сверху, 47px -->
+  
+
+<header class="mm-head">
+  <h1 class="mm-head-title" id="fd-h">Events nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
+  <button type="button" class="mm-head-btn mm-head-btn--primary" aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button>
+</header>
+  <main class="mm-app">
+  <div class="mm-pane">
+    <!-- ЗОНА 2: срез вкладки. «Рядом» и «мои» — один объект, два среза -->
+    <section class="mm-section" aria-labelledby="seg-h">
+      <h2 id="seg-h" class="mm-vh">Which events</h2>
+      <p class="mm-segmented">
+        <a class="mm-btn is-current" href="feed.html">Nearby</a>
+        <a class="mm-btn" href="my-events.html">Mine</a>
+      </p>
+    </section>
+
+    <!-- ЗОНА 3: лента. Датированные и бессрочные вперемешку — одно намерение -->
+    <section class="mm-scrolly" aria-labelledby="fd-h">
+      <ul class="mm-list">
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-games.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~3 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Board games</b><time class="mm-meta" datetime="2026-09-26T18:00"><b>26 Sep</b> &middot; 18:00</time></a>
+            <span class="mm-facts">Kyiv Games Club &middot; Podil</span>
+            <span class="mm-facts">2 going &middot; 1 spot left</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-run.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~1 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Morning run along the embankment</b><span class="mm-meta">No date yet</span></a>
+            <span class="mm-facts">Podil</span>
+            <span class="mm-facts">1 going &middot; 2 spots left</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a><a class="mm-btn mm-btn--quiet" href="invite.html">Invite</a></span>
+        </li>
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-coffee.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Coffee and a walk in Podil</b><time class="mm-meta" datetime="2026-09-27T11:00"><b>27 Sep</b> &middot; 11:00</time></a>
+            <span class="mm-facts">Podil</span>
+            <span class="mm-facts">1 spot left &middot; Women only</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ЗОНА 4: выход в первый путь. Симметрия с колодой (§4) -->
+    <section class="mm-section" aria-labelledby="ex-h">
+      <h2 id="ex-h" class="mm-vh">People</h2>
+      <a class="mm-btn" href="deck.html">
+        <span>See people</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
+  </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav class="mm-tabs" aria-label="Main navigation">
+    <a class="mm-tab" href="deck.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="9" cy="6" r="4"/><path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"/><ellipse cx="9" cy="17" rx="7" ry="4"/><path d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"/></g></svg></span>People</a>
+    <a class="mm-tab is-current" href="feed.html" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>Events</a>
+    <a class="mm-tab" href="search.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+    <a class="mm-tab" href="chats.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
+    <a class="mm-tab" href="my-profile.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+  </nav>
+
+  
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+      </div>
+      <figcaption>Лента событий</figcaption>
+    </figure>
+    <details class="ct-wrap">
+      <summary>Контраст: 19 пар, все проходят</summary>
+<table class="ct">
+  <thead><tr><th>Пара</th><th>Порог</th><th>Проверка</th></tr></thead>
+  <tbody>
+    <tr><td>Основной текст на экране</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F4EFFA;background:#120E1C">Aa</span> <b>16,80:1</b></td></tr>
+    <tr><td>Основной текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F4EFFA;background:#1E1830">Aa</span> <b>15,12:1</b></td></tr>
+    <tr><td>Основной текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F4EFFA;background:#362C50">Aa</span> <b>11,37:1</b></td></tr>
+    <tr><td>Вторичный текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#BCB0D0;background:#1E1830">Aa</span> <b>8,35:1</b></td></tr>
+    <tr><td>Вторичный текст на вложенном</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#BCB0D0;background:#2A2240">Aa</span> <b>7,32:1</b></td></tr>
+    <tr><td>Вторичный текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#BCB0D0;background:#362C50">Aa</span> <b>6,28:1</b></td></tr>
+    <tr><td>Слово на кнопке действия</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#120E1C;background:#F4EFFA">Aa</span> <b>16,80:1</b></td></tr>
+    <tr><td>Слово на наведённой кнопке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#120E1C;background:#D9CFEA">Aa</span> <b>12,72:1</b></td></tr>
+    <tr><td>Подпись выбранной вкладки</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#C9BBE2">Aa</span> <b>10,20:1</b></td></tr>
+    <tr><td>Своя реплика в диалоге</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F4EFFA;background:#362C50">Aa</span> <b>11,37:1</b></td></tr>
+    <tr><td>Реплика, которая не ушла</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F4EFFA;background:#5C2338">Aa</span> <b>10,60:1</b></td></tr>
+    <tr><td>Опасное словом на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F59BAF;background:#1E1830">Aa</span> <b>8,29:1</b></td></tr>
+    <tr><td>Опасное словом под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F59BAF;background:#362C50">Aa</span> <b>6,24:1</b></td></tr>
+    <tr><td>Иконка на экране</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#9388AB;background:#120E1C">Aa</span> <b>5,75:1</b></td></tr>
+    <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#9388AB;background:#1E1830">Aa</span> <b>5,17:1</b></td></tr>
+    <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#9388AB;background:#2A2240">Aa</span> <b>4,53:1</b></td></tr>
+    <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#BCB0D0;background:#2A2240">Aa</span> <b>7,32:1</b></td></tr>
+    <tr><td>Граница карточки на экране</td><td class="n">1,5:1</td><td class="n"><span class="sw" style="color:#3D3458;background:#120E1C">Aa</span> <b>1,66:1</b></td></tr>
+    <tr><td>Слово на лейбе Verified</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#D9F56F">Aa</span> <b>15,04:1</b></td></tr>
+  </tbody>
+</table>
+    </details>
+  </section>
+
+  <section class="skin" data-skin="lilac" id="lilac">
+    <header class="skin-head">
+      <h2>Сирень на угле</h2>
+      <p class="idea">Карточка заметно выше листа, действие — светлая сирень вместо белого. Самый «сиреневый» из пяти и самый мягкий по контрасту кнопки.</p>
+      <p class="keys"><span><i style="background:#171320"></i>#171320</span><span><i style="background:#241E33"></i>#241E33</span><span><i style="background:#2F2842"></i>#2F2842</span><span><i style="background:#E0D6EE"></i>#E0D6EE</span></p>
+    </header>
+    <figure class="shot">
+      <div class="mm mm-screen">
+<!-- зона системы: safe-area сверху, 47px -->
+  
+
+  <!-- ЗОНА 1: шапка. Главное действие — сузить выдачу фильтрами -->
+<header class="mm-head">
+  <h1 class="mm-head-title" id="deck-h">People nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
+</header>
+
+  <main class="mm-app">
+  <div class="mm-pane">
+    <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком -->
+    <section class="mm-stretch" aria-labelledby="who-h">
+      <!-- Зона названа своим заголовком, а не заголовком экрана: имя на карточке
+           идёт третьим уровнем, и без второго уровень прыгал через ступень.
+           Так же названа эта зона на profile.html. -->
+      <h2 id="who-h" class="mm-vh">Who</h2>
+
+      <article class="mm-person">
+        <figure>
+          <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
+          <figcaption class="mm-vh">Photo 1 of 4</figcaption>
+          <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
+          <p class="mm-cardtop">
+            <span class="mm-verified"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg></span>Verified</span>
+            <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
+          </p>
+        </figure>
+
+        <section class="mm-person-body" aria-label="Olena, 26">
+          <!-- 1. Общие интересы — первой строкой, D-13 -->
+          <p class="mm-common">3 common interests</p>
+          <ul class="mm-tags">
+            <li>Hiking</li>
+            <li>Board games</li>
+            <li>Coffee</li>
+          </ul>
+
+          <!-- 2. Имя и возраст — идентификация, не решение -->
+          <h3 class="mm-subhead">Olena, 26</h3>
+
+          <!-- 3. Сигналы доверия. Ступеней профиля нет вовсе D-49: репутация
+               стоит на проверяемых фактах — встречи и отзывчивость -->
+          <ul class="mm-signals">
+                <li>6 meetups attended</li>
+            <li>Replies quickly</li>
+          </ul>
+
+        </section>
+        <a class="mm-cardlink" href="profile.html" aria-label="Olena, 26 — open profile"></a>
+      </article>
+    </section>
+
+    <!-- ЗОНА 3: решение по карточке. Главное действие — Like -->
+    <section class="mm-section" aria-labelledby="act-h">
+      <h2 id="act-h" class="mm-vh">Decision</h2>
+      <p class="mm-actions">
+        <a class="mm-btn" href="deck.html">Skip</a>
+        <a class="mm-btn mm-btn--primary" href="match.html">Like</a>
+      </p>
+    </section>
+
+    <!-- ЗОНА 4: выход во второй путь. Обязателен всегда, а не только в пустом виде (§4, D-10) -->
+    <section class="mm-section" aria-labelledby="exit-h">
+      <h2 id="exit-h" class="mm-vh">Events</h2>
+      <a class="mm-btn" href="feed.html">
+        <span>Look at events</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
+</main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav class="mm-tabs" aria-label="Main navigation">
+    <a class="mm-tab is-current" href="deck.html" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.00098 13.001C12.867 13.001 16.001 14.7918 16.001 17.001C16.001 19.2101 12.867 21.001 9.00098 21.001C5.13498 21.001 2.00098 19.2101 2.00098 17.001C2.00098 14.7918 5.13498 13.001 9.00098 13.001Z"/><path d="M16.4766 14.001C18.9615 14.0011 20.9996 15.3434 21 17C21 18.6569 18.9638 20 16.4785 20C17.2107 19.1997 17.7148 18.1955 17.7148 17.002C17.7148 15.8071 17.2099 14.8017 16.4766 14.001Z"/><path d="M9.00098 2C11.2101 2 13.001 3.79086 13.001 6C13.001 8.20914 11.2101 10 9.00098 10C6.79184 10 5.00098 8.20914 5.00098 6C5.00098 3.79086 6.79184 2 9.00098 2Z"/><path d="M15 3.00098C16.6567 3.00118 18 4.34425 18 6.00098C17.9999 7.6576 16.6566 9.00078 15 9.00098C14.6388 9.00098 14.2924 8.93633 13.9717 8.81934C14.4445 7.98748 14.7148 7.02523 14.7148 6C14.7148 4.97534 14.4449 4.0132 13.9727 3.18164C14.2931 3.06489 14.6392 3.00098 15 3.00098Z"/></g></svg></span>People</a>
+    <a class="mm-tab" href="feed.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg></span>Events</a>
+    <a class="mm-tab" href="search.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+    <a class="mm-tab" href="chats.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
+    <a class="mm-tab" href="my-profile.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+  </nav>
+
+  
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+      </div>
+      <figcaption>Колода</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="mm mm-screen">
+<!-- зона системы: safe-area сверху, 47px -->
+  
+
+<header class="mm-head">
+  <h1 class="mm-head-title" id="fd-h">Events nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
+  <button type="button" class="mm-head-btn mm-head-btn--primary" aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button>
+</header>
+  <main class="mm-app">
+  <div class="mm-pane">
+    <!-- ЗОНА 2: срез вкладки. «Рядом» и «мои» — один объект, два среза -->
+    <section class="mm-section" aria-labelledby="seg-h">
+      <h2 id="seg-h" class="mm-vh">Which events</h2>
+      <p class="mm-segmented">
+        <a class="mm-btn is-current" href="feed.html">Nearby</a>
+        <a class="mm-btn" href="my-events.html">Mine</a>
+      </p>
+    </section>
+
+    <!-- ЗОНА 3: лента. Датированные и бессрочные вперемешку — одно намерение -->
+    <section class="mm-scrolly" aria-labelledby="fd-h">
+      <ul class="mm-list">
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-games.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~3 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Board games</b><time class="mm-meta" datetime="2026-09-26T18:00"><b>26 Sep</b> &middot; 18:00</time></a>
+            <span class="mm-facts">Kyiv Games Club &middot; Podil</span>
+            <span class="mm-facts">2 going &middot; 1 spot left</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-run.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~1 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Morning run along the embankment</b><span class="mm-meta">No date yet</span></a>
+            <span class="mm-facts">Podil</span>
+            <span class="mm-facts">1 going &middot; 2 spots left</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a><a class="mm-btn mm-btn--quiet" href="invite.html">Invite</a></span>
+        </li>
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-coffee.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Coffee and a walk in Podil</b><time class="mm-meta" datetime="2026-09-27T11:00"><b>27 Sep</b> &middot; 11:00</time></a>
+            <span class="mm-facts">Podil</span>
+            <span class="mm-facts">1 spot left &middot; Women only</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ЗОНА 4: выход в первый путь. Симметрия с колодой (§4) -->
+    <section class="mm-section" aria-labelledby="ex-h">
+      <h2 id="ex-h" class="mm-vh">People</h2>
+      <a class="mm-btn" href="deck.html">
+        <span>See people</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
+  </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav class="mm-tabs" aria-label="Main navigation">
+    <a class="mm-tab" href="deck.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="9" cy="6" r="4"/><path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"/><ellipse cx="9" cy="17" rx="7" ry="4"/><path d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"/></g></svg></span>People</a>
+    <a class="mm-tab is-current" href="feed.html" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>Events</a>
+    <a class="mm-tab" href="search.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+    <a class="mm-tab" href="chats.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
+    <a class="mm-tab" href="my-profile.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+  </nav>
+
+  
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+      </div>
+      <figcaption>Лента событий</figcaption>
+    </figure>
+    <details class="ct-wrap">
+      <summary>Контраст: 19 пар, все проходят</summary>
+<table class="ct">
+  <thead><tr><th>Пара</th><th>Порог</th><th>Проверка</th></tr></thead>
+  <tbody>
+    <tr><td>Основной текст на экране</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#FFFFFF;background:#171320">Aa</span> <b>18,25:1</b></td></tr>
+    <tr><td>Основной текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#FFFFFF;background:#241E33">Aa</span> <b>16,05:1</b></td></tr>
+    <tr><td>Основной текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#FFFFFF;background:#3B3253">Aa</span> <b>11,88:1</b></td></tr>
+    <tr><td>Вторичный текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#C8BEDA;background:#241E33">Aa</span> <b>9,04:1</b></td></tr>
+    <tr><td>Вторичный текст на вложенном</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#C8BEDA;background:#2F2842">Aa</span> <b>7,87:1</b></td></tr>
+    <tr><td>Вторичный текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#C8BEDA;background:#3B3253">Aa</span> <b>6,70:1</b></td></tr>
+    <tr><td>Слово на кнопке действия</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#171320;background:#E0D6EE">Aa</span> <b>13,06:1</b></td></tr>
+    <tr><td>Слово на наведённой кнопке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#171320;background:#CDBFE4">Aa</span> <b>10,58:1</b></td></tr>
+    <tr><td>Подпись выбранной вкладки</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#171320;background:#B9A8D6">Aa</span> <b>8,38:1</b></td></tr>
+    <tr><td>Своя реплика в диалоге</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#FFFFFF;background:#3B3253">Aa</span> <b>11,88:1</b></td></tr>
+    <tr><td>Реплика, которая не ушла</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#FFFFFF;background:#632A3F">Aa</span> <b>10,86:1</b></td></tr>
+    <tr><td>Опасное словом на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F7A8BA;background:#241E33">Aa</span> <b>8,61:1</b></td></tr>
+    <tr><td>Опасное словом под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F7A8BA;background:#3B3253">Aa</span> <b>6,37:1</b></td></tr>
+    <tr><td>Иконка на экране</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#9A90AE;background:#171320">Aa</span> <b>6,06:1</b></td></tr>
+    <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#9A90AE;background:#241E33">Aa</span> <b>5,33:1</b></td></tr>
+    <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#9A90AE;background:#2F2842">Aa</span> <b>4,64:1</b></td></tr>
+    <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#C8BEDA;background:#2F2842">Aa</span> <b>7,87:1</b></td></tr>
+    <tr><td>Граница карточки на экране</td><td class="n">1,5:1</td><td class="n"><span class="sw" style="color:#3E3657;background:#171320">Aa</span> <b>1,63:1</b></td></tr>
+    <tr><td>Слово на лейбе Verified</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#D9F56F">Aa</span> <b>15,04:1</b></td></tr>
+  </tbody>
+</table>
+    </details>
+  </section>
+
+  <section class="skin" data-skin="indigo" id="indigo">
+    <header class="skin-head">
+      <h2>Полночный индиго</h2>
+      <p class="idea">Синий вместо фиолетового: холодный лист, холодная карточка. Лайм доверия на синем звучит громче всего — это и плюс, и цена.</p>
+      <p class="keys"><span><i style="background:#0B1020"></i>#0B1020</span><span><i style="background:#151B30"></i>#151B30</span><span><i style="background:#1E2540"></i>#1E2540</span><span><i style="background:#EEF2FC"></i>#EEF2FC</span></p>
+    </header>
+    <figure class="shot">
+      <div class="mm mm-screen">
+<!-- зона системы: safe-area сверху, 47px -->
+  
+
+  <!-- ЗОНА 1: шапка. Главное действие — сузить выдачу фильтрами -->
+<header class="mm-head">
+  <h1 class="mm-head-title" id="deck-h">People nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
+</header>
+
+  <main class="mm-app">
+  <div class="mm-pane">
+    <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком -->
+    <section class="mm-stretch" aria-labelledby="who-h">
+      <!-- Зона названа своим заголовком, а не заголовком экрана: имя на карточке
+           идёт третьим уровнем, и без второго уровень прыгал через ступень.
+           Так же названа эта зона на profile.html. -->
+      <h2 id="who-h" class="mm-vh">Who</h2>
+
+      <article class="mm-person">
+        <figure>
+          <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
+          <figcaption class="mm-vh">Photo 1 of 4</figcaption>
+          <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
+          <p class="mm-cardtop">
+            <span class="mm-verified"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg></span>Verified</span>
+            <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
+          </p>
+        </figure>
+
+        <section class="mm-person-body" aria-label="Olena, 26">
+          <!-- 1. Общие интересы — первой строкой, D-13 -->
+          <p class="mm-common">3 common interests</p>
+          <ul class="mm-tags">
+            <li>Hiking</li>
+            <li>Board games</li>
+            <li>Coffee</li>
+          </ul>
+
+          <!-- 2. Имя и возраст — идентификация, не решение -->
+          <h3 class="mm-subhead">Olena, 26</h3>
+
+          <!-- 3. Сигналы доверия. Ступеней профиля нет вовсе D-49: репутация
+               стоит на проверяемых фактах — встречи и отзывчивость -->
+          <ul class="mm-signals">
+                <li>6 meetups attended</li>
+            <li>Replies quickly</li>
+          </ul>
+
+        </section>
+        <a class="mm-cardlink" href="profile.html" aria-label="Olena, 26 — open profile"></a>
+      </article>
+    </section>
+
+    <!-- ЗОНА 3: решение по карточке. Главное действие — Like -->
+    <section class="mm-section" aria-labelledby="act-h">
+      <h2 id="act-h" class="mm-vh">Decision</h2>
+      <p class="mm-actions">
+        <a class="mm-btn" href="deck.html">Skip</a>
+        <a class="mm-btn mm-btn--primary" href="match.html">Like</a>
+      </p>
+    </section>
+
+    <!-- ЗОНА 4: выход во второй путь. Обязателен всегда, а не только в пустом виде (§4, D-10) -->
+    <section class="mm-section" aria-labelledby="exit-h">
+      <h2 id="exit-h" class="mm-vh">Events</h2>
+      <a class="mm-btn" href="feed.html">
+        <span>Look at events</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
+</main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav class="mm-tabs" aria-label="Main navigation">
+    <a class="mm-tab is-current" href="deck.html" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.00098 13.001C12.867 13.001 16.001 14.7918 16.001 17.001C16.001 19.2101 12.867 21.001 9.00098 21.001C5.13498 21.001 2.00098 19.2101 2.00098 17.001C2.00098 14.7918 5.13498 13.001 9.00098 13.001Z"/><path d="M16.4766 14.001C18.9615 14.0011 20.9996 15.3434 21 17C21 18.6569 18.9638 20 16.4785 20C17.2107 19.1997 17.7148 18.1955 17.7148 17.002C17.7148 15.8071 17.2099 14.8017 16.4766 14.001Z"/><path d="M9.00098 2C11.2101 2 13.001 3.79086 13.001 6C13.001 8.20914 11.2101 10 9.00098 10C6.79184 10 5.00098 8.20914 5.00098 6C5.00098 3.79086 6.79184 2 9.00098 2Z"/><path d="M15 3.00098C16.6567 3.00118 18 4.34425 18 6.00098C17.9999 7.6576 16.6566 9.00078 15 9.00098C14.6388 9.00098 14.2924 8.93633 13.9717 8.81934C14.4445 7.98748 14.7148 7.02523 14.7148 6C14.7148 4.97534 14.4449 4.0132 13.9727 3.18164C14.2931 3.06489 14.6392 3.00098 15 3.00098Z"/></g></svg></span>People</a>
+    <a class="mm-tab" href="feed.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg></span>Events</a>
+    <a class="mm-tab" href="search.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+    <a class="mm-tab" href="chats.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
+    <a class="mm-tab" href="my-profile.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+  </nav>
+
+  
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+      </div>
+      <figcaption>Колода</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="mm mm-screen">
+<!-- зона системы: safe-area сверху, 47px -->
+  
+
+<header class="mm-head">
+  <h1 class="mm-head-title" id="fd-h">Events nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
+  <button type="button" class="mm-head-btn mm-head-btn--primary" aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button>
+</header>
+  <main class="mm-app">
+  <div class="mm-pane">
+    <!-- ЗОНА 2: срез вкладки. «Рядом» и «мои» — один объект, два среза -->
+    <section class="mm-section" aria-labelledby="seg-h">
+      <h2 id="seg-h" class="mm-vh">Which events</h2>
+      <p class="mm-segmented">
+        <a class="mm-btn is-current" href="feed.html">Nearby</a>
+        <a class="mm-btn" href="my-events.html">Mine</a>
+      </p>
+    </section>
+
+    <!-- ЗОНА 3: лента. Датированные и бессрочные вперемешку — одно намерение -->
+    <section class="mm-scrolly" aria-labelledby="fd-h">
+      <ul class="mm-list">
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-games.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~3 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Board games</b><time class="mm-meta" datetime="2026-09-26T18:00"><b>26 Sep</b> &middot; 18:00</time></a>
+            <span class="mm-facts">Kyiv Games Club &middot; Podil</span>
+            <span class="mm-facts">2 going &middot; 1 spot left</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-run.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~1 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Morning run along the embankment</b><span class="mm-meta">No date yet</span></a>
+            <span class="mm-facts">Podil</span>
+            <span class="mm-facts">1 going &middot; 2 spots left</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a><a class="mm-btn mm-btn--quiet" href="invite.html">Invite</a></span>
+        </li>
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-coffee.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Coffee and a walk in Podil</b><time class="mm-meta" datetime="2026-09-27T11:00"><b>27 Sep</b> &middot; 11:00</time></a>
+            <span class="mm-facts">Podil</span>
+            <span class="mm-facts">1 spot left &middot; Women only</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ЗОНА 4: выход в первый путь. Симметрия с колодой (§4) -->
+    <section class="mm-section" aria-labelledby="ex-h">
+      <h2 id="ex-h" class="mm-vh">People</h2>
+      <a class="mm-btn" href="deck.html">
+        <span>See people</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
+  </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav class="mm-tabs" aria-label="Main navigation">
+    <a class="mm-tab" href="deck.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="9" cy="6" r="4"/><path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"/><ellipse cx="9" cy="17" rx="7" ry="4"/><path d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"/></g></svg></span>People</a>
+    <a class="mm-tab is-current" href="feed.html" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>Events</a>
+    <a class="mm-tab" href="search.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+    <a class="mm-tab" href="chats.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
+    <a class="mm-tab" href="my-profile.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+  </nav>
+
+  
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+      </div>
+      <figcaption>Лента событий</figcaption>
+    </figure>
+    <details class="ct-wrap">
+      <summary>Контраст: 19 пар, все проходят</summary>
+<table class="ct">
+  <thead><tr><th>Пара</th><th>Порог</th><th>Проверка</th></tr></thead>
+  <tbody>
+    <tr><td>Основной текст на экране</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#EEF2FC;background:#0B1020">Aa</span> <b>16,90:1</b></td></tr>
+    <tr><td>Основной текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#EEF2FC;background:#151B30">Aa</span> <b>15,22:1</b></td></tr>
+    <tr><td>Основной текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#EEF2FC;background:#283151">Aa</span> <b>11,37:1</b></td></tr>
+    <tr><td>Вторичный текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#AAB4D0;background:#151B30">Aa</span> <b>8,24:1</b></td></tr>
+    <tr><td>Вторичный текст на вложенном</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#AAB4D0;background:#1E2540">Aa</span> <b>7,28:1</b></td></tr>
+    <tr><td>Вторичный текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#AAB4D0;background:#283151">Aa</span> <b>6,16:1</b></td></tr>
+    <tr><td>Слово на кнопке действия</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#0B1020;background:#EEF2FC">Aa</span> <b>16,90:1</b></td></tr>
+    <tr><td>Слово на наведённой кнопке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#0B1020;background:#D5DCF0">Aa</span> <b>13,82:1</b></td></tr>
+    <tr><td>Подпись выбранной вкладки</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#0B1020;background:#A8B6E0">Aa</span> <b>9,41:1</b></td></tr>
+    <tr><td>Своя реплика в диалоге</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#EEF2FC;background:#283151">Aa</span> <b>11,37:1</b></td></tr>
+    <tr><td>Реплика, которая не ушла</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#EEF2FC;background:#5A2440">Aa</span> <b>10,64:1</b></td></tr>
+    <tr><td>Опасное словом на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#FFA3B5;background:#151B30">Aa</span> <b>9,06:1</b></td></tr>
+    <tr><td>Опасное словом под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#FFA3B5;background:#283151">Aa</span> <b>6,77:1</b></td></tr>
+    <tr><td>Иконка на экране</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8792B3;background:#0B1020">Aa</span> <b>6,12:1</b></td></tr>
+    <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8792B3;background:#151B30">Aa</span> <b>5,52:1</b></td></tr>
+    <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#8792B3;background:#1E2540">Aa</span> <b>4,87:1</b></td></tr>
+    <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#AAB4D0;background:#1E2540">Aa</span> <b>7,28:1</b></td></tr>
+    <tr><td>Граница карточки на экране</td><td class="n">1,5:1</td><td class="n"><span class="sw" style="color:#2E3759;background:#0B1020">Aa</span> <b>1,63:1</b></td></tr>
+    <tr><td>Слово на лейбе Verified</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#D9F56F">Aa</span> <b>15,04:1</b></td></tr>
+  </tbody>
+</table>
+    </details>
+  </section>
+
+  <section class="skin" data-skin="warm" id="warm">
+    <header class="skin-head">
+      <h2>Тёплый уголь</h2>
+      <p class="idea">Нейтрально-тёплый: лист уходит в коричневый, а не в синий. Кожа на фотографиях не синеет, лайм садится спокойнее всего. Фиолетового в теме не остаётся вовсе.</p>
+      <p class="keys"><span><i style="background:#121110"></i>#121110</span><span><i style="background:#1D1B19"></i>#1D1B19</span><span><i style="background:#272421"></i>#272421</span><span><i style="background:#F7F3EE"></i>#F7F3EE</span></p>
+    </header>
+    <figure class="shot">
+      <div class="mm mm-screen">
+<!-- зона системы: safe-area сверху, 47px -->
+  
+
+  <!-- ЗОНА 1: шапка. Главное действие — сузить выдачу фильтрами -->
+<header class="mm-head">
+  <h1 class="mm-head-title" id="deck-h">People nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
+</header>
+
+  <main class="mm-app">
+  <div class="mm-pane">
+    <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком -->
+    <section class="mm-stretch" aria-labelledby="who-h">
+      <!-- Зона названа своим заголовком, а не заголовком экрана: имя на карточке
+           идёт третьим уровнем, и без второго уровень прыгал через ступень.
+           Так же названа эта зона на profile.html. -->
+      <h2 id="who-h" class="mm-vh">Who</h2>
+
+      <article class="mm-person">
+        <figure>
+          <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
+          <figcaption class="mm-vh">Photo 1 of 4</figcaption>
+          <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
+          <p class="mm-cardtop">
+            <span class="mm-verified"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg></span>Verified</span>
+            <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
+          </p>
+        </figure>
+
+        <section class="mm-person-body" aria-label="Olena, 26">
+          <!-- 1. Общие интересы — первой строкой, D-13 -->
+          <p class="mm-common">3 common interests</p>
+          <ul class="mm-tags">
+            <li>Hiking</li>
+            <li>Board games</li>
+            <li>Coffee</li>
+          </ul>
+
+          <!-- 2. Имя и возраст — идентификация, не решение -->
+          <h3 class="mm-subhead">Olena, 26</h3>
+
+          <!-- 3. Сигналы доверия. Ступеней профиля нет вовсе D-49: репутация
+               стоит на проверяемых фактах — встречи и отзывчивость -->
+          <ul class="mm-signals">
+                <li>6 meetups attended</li>
+            <li>Replies quickly</li>
+          </ul>
+
+        </section>
+        <a class="mm-cardlink" href="profile.html" aria-label="Olena, 26 — open profile"></a>
+      </article>
+    </section>
+
+    <!-- ЗОНА 3: решение по карточке. Главное действие — Like -->
+    <section class="mm-section" aria-labelledby="act-h">
+      <h2 id="act-h" class="mm-vh">Decision</h2>
+      <p class="mm-actions">
+        <a class="mm-btn" href="deck.html">Skip</a>
+        <a class="mm-btn mm-btn--primary" href="match.html">Like</a>
+      </p>
+    </section>
+
+    <!-- ЗОНА 4: выход во второй путь. Обязателен всегда, а не только в пустом виде (§4, D-10) -->
+    <section class="mm-section" aria-labelledby="exit-h">
+      <h2 id="exit-h" class="mm-vh">Events</h2>
+      <a class="mm-btn" href="feed.html">
+        <span>Look at events</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
+</main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav class="mm-tabs" aria-label="Main navigation">
+    <a class="mm-tab is-current" href="deck.html" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.00098 13.001C12.867 13.001 16.001 14.7918 16.001 17.001C16.001 19.2101 12.867 21.001 9.00098 21.001C5.13498 21.001 2.00098 19.2101 2.00098 17.001C2.00098 14.7918 5.13498 13.001 9.00098 13.001Z"/><path d="M16.4766 14.001C18.9615 14.0011 20.9996 15.3434 21 17C21 18.6569 18.9638 20 16.4785 20C17.2107 19.1997 17.7148 18.1955 17.7148 17.002C17.7148 15.8071 17.2099 14.8017 16.4766 14.001Z"/><path d="M9.00098 2C11.2101 2 13.001 3.79086 13.001 6C13.001 8.20914 11.2101 10 9.00098 10C6.79184 10 5.00098 8.20914 5.00098 6C5.00098 3.79086 6.79184 2 9.00098 2Z"/><path d="M15 3.00098C16.6567 3.00118 18 4.34425 18 6.00098C17.9999 7.6576 16.6566 9.00078 15 9.00098C14.6388 9.00098 14.2924 8.93633 13.9717 8.81934C14.4445 7.98748 14.7148 7.02523 14.7148 6C14.7148 4.97534 14.4449 4.0132 13.9727 3.18164C14.2931 3.06489 14.6392 3.00098 15 3.00098Z"/></g></svg></span>People</a>
+    <a class="mm-tab" href="feed.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></svg></span>Events</a>
+    <a class="mm-tab" href="search.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+    <a class="mm-tab" href="chats.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
+    <a class="mm-tab" href="my-profile.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+  </nav>
+
+  
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+      </div>
+      <figcaption>Колода</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="mm mm-screen">
+<!-- зона системы: safe-area сверху, 47px -->
+  
+
+<header class="mm-head">
+  <h1 class="mm-head-title" id="fd-h">Events nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
+  <button type="button" class="mm-head-btn mm-head-btn--primary" aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button>
+</header>
+  <main class="mm-app">
+  <div class="mm-pane">
+    <!-- ЗОНА 2: срез вкладки. «Рядом» и «мои» — один объект, два среза -->
+    <section class="mm-section" aria-labelledby="seg-h">
+      <h2 id="seg-h" class="mm-vh">Which events</h2>
+      <p class="mm-segmented">
+        <a class="mm-btn is-current" href="feed.html">Nearby</a>
+        <a class="mm-btn" href="my-events.html">Mine</a>
+      </p>
+    </section>
+
+    <!-- ЗОНА 3: лента. Датированные и бессрочные вперемешку — одно намерение -->
+    <section class="mm-scrolly" aria-labelledby="fd-h">
+      <ul class="mm-list">
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-games.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~3 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Board games</b><time class="mm-meta" datetime="2026-09-26T18:00"><b>26 Sep</b> &middot; 18:00</time></a>
+            <span class="mm-facts">Kyiv Games Club &middot; Podil</span>
+            <span class="mm-facts">2 going &middot; 1 spot left</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-run.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~1 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Morning run along the embankment</b><span class="mm-meta">No date yet</span></a>
+            <span class="mm-facts">Podil</span>
+            <span class="mm-facts">1 going &middot; 2 spots left</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a><a class="mm-btn mm-btn--quiet" href="invite.html">Invite</a></span>
+        </li>
+        <li class="mm-event">
+          <span class="mm-cover"><img src="img/ev-coffee.jpg" alt="" loading="lazy">
+            <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></span>
+          </span>
+          <span class="mm-event-body">
+            <a class="mm-event-head" href="plan.html"><b>Coffee and a walk in Podil</b><time class="mm-meta" datetime="2026-09-27T11:00"><b>27 Sep</b> &middot; 11:00</time></a>
+            <span class="mm-facts">Podil</span>
+            <span class="mm-facts">1 spot left &middot; Women only</span>
+          </span>
+          <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ЗОНА 4: выход в первый путь. Симметрия с колодой (§4) -->
+    <section class="mm-section" aria-labelledby="ex-h">
+      <h2 id="ex-h" class="mm-vh">People</h2>
+      <a class="mm-btn" href="deck.html">
+        <span>See people</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
+  </main>
+  <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
+  <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
+  <nav class="mm-tabs" aria-label="Main navigation">
+    <a class="mm-tab" href="deck.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="9" cy="6" r="4"/><path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"/><ellipse cx="9" cy="17" rx="7" ry="4"/><path d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"/></g></svg></span>People</a>
+    <a class="mm-tab is-current" href="feed.html" aria-current="page"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.0079 19.0029L14.0137 17C14.0137 16.4477 14.4625 16 15.0162 16C15.5698 16 16.0187 16.4477 16.0187 17V18.9765C16.0187 19.458 16.0187 19.6988 16.1731 19.8464C16.3275 19.9941 16.5637 19.984 17.0362 19.964C18.8991 19.8852 20.0437 19.6332 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8745 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8745 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.9727 4.29604 18.6952 4.0748 16.5278 4.0189C16.2482 4.01169 16.0187 4.23718 16.0187 4.51618V7C16.0187 7.55228 15.5698 8 15.0162 8C14.4625 8 14.0137 7.55228 14.0137 7L14.0064 4.49855C14.0056 4.22298 13.7814 4 13.5052 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21438 20 9.99502 20H13.0054C13.4767 20 13.7124 20 13.8591 19.8541C14.0058 19.7081 14.0065 19.4731 14.0079 19.0029ZM16.0187 13V11C16.0187 10.4477 15.5698 10 15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14C15.5698 14 16.0187 13.5523 16.0187 13Z" clip-rule="evenodd"/></svg></span>Events</a>
+    <a class="mm-tab" href="search.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span>Search</a>
+    <a class="mm-tab" href="chats.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z"/><path stroke-linejoin="round" d="M8 12H8.009M11.991 12H12M15.991 12H16"/></g></svg></span>Chats</a>
+    <a class="mm-tab" href="my-profile.html"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></svg></span>Profile</a>
+  </nav>
+
+  
+
+  <!-- зона браузера: в Safari iOS панель снизу, прямо под нашим таб-баром -->
+  
+  <!-- зона системы: safe-area снизу, 34px -->
+  <p class="homebar" aria-hidden="true"></p>
+      </div>
+      <figcaption>Лента событий</figcaption>
+    </figure>
+    <details class="ct-wrap">
+      <summary>Контраст: 19 пар, все проходят</summary>
+<table class="ct">
+  <thead><tr><th>Пара</th><th>Порог</th><th>Проверка</th></tr></thead>
+  <tbody>
+    <tr><td>Основной текст на экране</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F7F3EE;background:#121110">Aa</span> <b>17,07:1</b></td></tr>
+    <tr><td>Основной текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F7F3EE;background:#1D1B19">Aa</span> <b>15,54:1</b></td></tr>
+    <tr><td>Основной текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F7F3EE;background:#322E2A">Aa</span> <b>12,19:1</b></td></tr>
+    <tr><td>Вторичный текст на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#B6AEA3;background:#1D1B19">Aa</span> <b>7,83:1</b></td></tr>
+    <tr><td>Вторичный текст на вложенном</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#B6AEA3;background:#272421">Aa</span> <b>7,04:1</b></td></tr>
+    <tr><td>Вторичный текст под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#B6AEA3;background:#322E2A">Aa</span> <b>6,14:1</b></td></tr>
+    <tr><td>Слово на кнопке действия</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#121110;background:#F7F3EE">Aa</span> <b>17,07:1</b></td></tr>
+    <tr><td>Слово на наведённой кнопке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#121110;background:#E2DBD1">Aa</span> <b>13,73:1</b></td></tr>
+    <tr><td>Подпись выбранной вкладки</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F7F3EE;background:#443E37">Aa</span> <b>9,55:1</b></td></tr>
+    <tr><td>Своя реплика в диалоге</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F7F3EE;background:#322E2A">Aa</span> <b>12,19:1</b></td></tr>
+    <tr><td>Реплика, которая не ушла</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F7F3EE;background:#5C2B2B">Aa</span> <b>10,36:1</b></td></tr>
+    <tr><td>Опасное словом на карточке</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F6A6AE;background:#1D1B19">Aa</span> <b>8,98:1</b></td></tr>
+    <tr><td>Опасное словом под курсором</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#F6A6AE;background:#322E2A">Aa</span> <b>7,04:1</b></td></tr>
+    <tr><td>Иконка на экране</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#938B80;background:#121110">Aa</span> <b>5,61:1</b></td></tr>
+    <tr><td>Иконка на карточке</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#938B80;background:#1D1B19">Aa</span> <b>5,11:1</b></td></tr>
+    <tr><td>Иконка на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#938B80;background:#272421">Aa</span> <b>4,59:1</b></td></tr>
+    <tr><td>Кольцо фокуса на вложенном</td><td class="n">3:1</td><td class="n"><span class="sw" style="color:#B6AEA3;background:#272421">Aa</span> <b>7,04:1</b></td></tr>
+    <tr><td>Граница карточки на экране</td><td class="n">1,5:1</td><td class="n"><span class="sw" style="color:#3A3530;background:#121110">Aa</span> <b>1,56:1</b></td></tr>
+    <tr><td>Слово на лейбе Verified</td><td class="n">4,5:1</td><td class="n"><span class="sw" style="color:#1A1026;background:#D9F56F">Aa</span> <b>15,04:1</b></td></tr>
+  </tbody>
+</table>
+    </details>
+  </section>
+</div>
+
+</body>
+</html>
