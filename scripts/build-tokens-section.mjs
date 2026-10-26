@@ -55,17 +55,22 @@ const parse = (rawText, offset = 0) => {
   const rows = [];
   let group = null;
   let pending = [];
+  let inComment = false;
   for (const line of text.split('\n')) {
     const head = line.match(/\/\* ── (.+?) ─+/);
     if (head) { group = head[1].trim(); pending = []; continue; }
-    const open = line.match(/^\s*\/\*\s?(.*)$/);
-    if (open && !line.includes('*/')) { pending = [open[1].trim()]; continue; }
-    if (pending.length && !line.includes('*/') && /^\s*(\*|[А-Яа-яA-Za-z(—])/.test(line) && !/^\s*--/.test(line)) {
-      pending.push(line.replace(/^\s*\*?\s?/, '').trim());
+    // Комментарий над токеном — часть токена: в нём сказано, где цвет стоит
+    // и из чего роль выросла. Пока блок не закрыт, в него идёт каждая строка:
+    // прежняя проверка «строка начинается с буквы» выбрасывала продолжение,
+    // начинавшееся с имени класса (`.mm-state, .mm-tabs — всё, что…`).
+    if (!inComment && /^\s*\/\*/.test(line)) {
+      pending = [line.replace(/^\s*\/\*\s?/, '').replace(/\*\/.*$/, '').trim()];
+      inComment = !line.includes('*/');
       continue;
     }
-    if (pending.length && line.includes('*/')) {
+    if (inComment) {
       pending.push(line.replace(/\*\/.*$/, '').replace(/^\s*\*?\s?/, '').trim());
+      if (line.includes('*/')) inComment = false;
       continue;
     }
     const decl = line.match(/^\s*(--[a-z0-9-]+)\s*:\s*([^;]+);\s*(?:\/\*\s*(.*?)\s*\*\/)?/);
@@ -122,39 +127,73 @@ const plural = (n, one, few, many) => {
   return `${n} ${many}`;
 };
 
-// ── таблицы ───────────────────────────────────────────────────────────
-const swatch = (v) => {
+// ── блоки раздела ─────────────────────────────────────────────────────
+// Цвет и радиус показываются плиткой, а не строкой таблицы: их узнают глазом,
+// и образец в плитке больше строки в шесть раз. Геометрия наоборот — таблицей
+// со шкалой и настоящей строкой интерфейса: там сравнивают числа.
+
+const chipOf = (v) => {
   const r = resolve(v);
-  if (/^#/.test(r)) return `<i class="sw" style="background:${r}"></i>`;
-  if (/gradient/.test(r)) return `<i class="sw sw--wide" style="background-image:${r}"></i>`;
-  if (/^(0|inset)/.test(r)) return `<i class="sw sw--shadow" style="box-shadow:${r}"></i>`;
-  return '<i class="sw sw--none"></i>';
+  if (/^#/.test(r)) return `<i class="tk-chip" style="background:${r}"></i>`;
+  if (/gradient/.test(r)) return `<i class="tk-chip" style="background-image:${r}"></i>`;
+  if (/^(0|inset)/.test(r)) return `<i class="tk-chip tk-chip--recipe" style="box-shadow:${r}"></i>`;
+  return '<i class="tk-chip tk-chip--none"></i>';
 };
+// Размытие экрана — три слоя в одной строке: целиком оно занимает пол-листа,
+// поэтому в плитке стоит его начало, а целиком значение лежит в самом файле.
+const short = (v) => (v.length > 56 ? v.slice(0, 53).replace(/,[^,]*$/, '') + ' …' : v);
 
-const colorTable = (rows) => `<div class="tokw"><table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+const swatchGrid = (rows) => `<div class="tk-grid">
+${rows.map((r) => `  <div class="tk-swatch">${chipOf(r.value)}
+    <code class="tk-name">${esc(r.name)}</code>
+    <span class="tk-note"><b>${esc(short(r.value))}</b>${r.note ? ' — ' + inline(r.note) : ''}</span>
+  </div>`).join('\n')}
+</div>`;
+
+// Угол видно только на углу: числом радиус не читается.
+const radiusGrid = (rows) => `<div class="tk-grid tk-grid--sm">
+${rows.map((r) => `  <div class="tk-swatch"><i class="tk-box" style="border-radius:${r.value}"></i>
+    <code class="tk-name">${esc(r.name)}</code>
+    <span class="tk-note"><b>${esc(r.value)}</b>${r.note ? ' — ' + inline(r.note) : ''}</span>
+  </div>`).join('\n')}
+</div>`;
+
+const tokTable = (head, rows) => `<div class="tokw"><table class="tok">
+  <thead><tr>${head}</tr></thead>
   <tbody>
-${rows.map((r) => `    <tr><td>${swatch(r.value)}</td><td><code>${esc(r.name)}</code></td><td class="val"><code>${esc(r.value)}</code></td><td class="tnote">${inline(r.note || '—')}</td></tr>`).join('\n')}
+${rows.join('\n')}
   </tbody>
 </table></div>`;
 
-const roleTable = (rows) => `<div class="tokw"><table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
-  <tbody>
-${rows.map((r) => {
-  const to = r.value.match(/^var\((--[a-z0-9-]+)\)$/);
-  const target = to ? `<code>${esc(to[1])}</code> <span class="dim">${esc(resolve(r.value))}</span>` : `<code>${esc(r.value)}</code>`;
-  return `    <tr><td>${swatch(r.value)}</td><td><code>${esc(r.name)}</code></td><td class="val">${target}</td><td class="tnote">${inline(r.note || '—')}</td></tr>`;
-}).join('\n')}
-  </tbody>
-</table></div>`;
+// Шкала — полоса настоящей длины. Полоса отвечает на «насколько больше»,
+// число рядом — на «сколько именно».
+const barTable = (rows, bar) => tokTable(
+  '<th>Токен</th><th class="c-num">Значение</th><th class="c-bar">Шкала</th><th>Где стоит</th>',
+  rows.map((r) => `    <tr><td><code>${esc(r.name)}</code></td><td class="c-num">${esc(r.value)}</td>`
+    + `<td class="c-bar">${bar(r)}</td><td class="tnote">${inline(r.note || '—')}</td></tr>`));
 
-const scaleTable = (rows, sample) => `<div class="tokw"><table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
-  <tbody>
-${rows.map((r) => `    <tr><td>${sample(r)}</td><td><code>${esc(r.name)}</code></td><td class="val"><code>${esc(r.value)}</code></td><td class="tnote">${inline(r.note || '—')}</td></tr>`).join('\n')}
-  </tbody>
-</table></div>`;
+// Образец — настоящая строка интерфейса, а не «Aa»: кегль проверяется
+// на той фразе, которую он понесёт.
+const sampleTable = (rows, sample) => tokTable(
+  '<th>Токен</th><th class="c-num">Значение</th><th>Образец</th><th>Где стоит</th>',
+  rows.map((r) => `    <tr><td><code>${esc(r.name)}</code></td><td class="c-num">${esc(r.value)}</td>`
+    + `<td class="c-sample">${sample(r)}</td><td class="tnote">${inline(r.note || '—')}</td></tr>`));
+
+const roleTable = (rows) => tokTable(
+  '<th>Семантика</th><th>Показывает на</th><th>За что отвечает</th>',
+  rows.map((r) => {
+    const to = r.value.match(/^var\((--[a-z0-9-]+)\)$/);
+    const done = resolve(r.value);
+    const hex = /^#/.test(done);
+    // Значение показывается рядом с именем только тогда, когда оно короткое.
+    // Размытие экрана разворачивается в три слоя на пол-листа: в клетке
+    // с nowrap оно растягивало таблицу втрое шире страницы.
+    const target = to
+      ? `<span class="tk-pair">${hex ? `<i class="tk-dot" style="background:${done}"></i>` : ''}` +
+        `<code>${esc(to[1])}</code>${hex ? ` <span class="dim">${esc(done)}</span>` : ''}</span>`
+      : `<code class="dim">${esc(short(r.value))}</code>`;
+    return `    <tr><td><code>${esc(r.name)}</code></td><td class="val">${target}</td><td class="tnote">${inline(r.note || '—')}</td></tr>`;
+  }));
 
 const group = (rows, re) => rows.filter((r) => re.test(r.name));
 // Числовые шкалы читаются сверху вниз, от большего к меньшему: так видно
@@ -167,43 +206,48 @@ const desc = (rows) => [...rows].sort((a, b) => num(b.value) - num(a.value));
 const colorGroups = [...new Set(prim.map((r) => r.group))]
   .filter((g) => /^цвет|тень и кольцо/.test(g));
 const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
-const colorHtml = colorGroups.map((g) => `      <h3>${esc(cap(g))}</h3>\n${colorTable(prim.filter((r) => r.group === g))}`).join('\n\n');
+const colorHtml = colorGroups.map((g) => `      <h3>${esc(cap(g))}</h3>\n${swatchGrid(prim.filter((r) => r.group === g))}`).join('\n\n');
 
 const semGroups = [...new Set(sem.map((r) => r.group))];
 const semHtml = semGroups.map((g) => `      <h3>${esc(cap(g))}</h3>\n${roleTable(sem.filter((r) => r.group === g))}`).join('\n\n');
 
 // ── шкалы ─────────────────────────────────────────────────────────────
-const faceHtml = scaleTable(group(prim, /^--font-/), () =>
-  '<span class="type" style="font-size:20px">Aa</span>');
-const typeHtml = scaleTable(desc(group(prim, /^--text-\d/)), (r) =>
-  `<span class="type" style="font-size:${r.value}">Aa</span>`);
-const weightHtml = scaleTable(desc(group(prim, /^--weight/)), (r) =>
-  `<span class="type" style="font-size:20px;font-weight:${r.value}">Aa</span>`);
-// Межстрочное видно только на двух строках: одна строка показывает кегль,
+// Строки взяты из интерфейса: обещание первого экрана (D-47) и текст пустой
+// ленты. На выдуманной строке кегль проверять нечем — она другой длины
+// и другого ритма.
+const LINE = 'Meet mates · Enjoy the events';
+const PARA = 'Events here are posted by people like you — and yours would be the first one nearby.';
+
+const faceHtml = sampleTable(group(prim, /^--font-/), () =>
+  `<span class="type" style="font-size:18px">${LINE}</span>`);
+const typeHtml = sampleTable(desc(group(prim, /^--text-\d/)), (r) =>
+  `<span class="type" style="font-size:${r.value}">${LINE}</span>`);
+const weightHtml = sampleTable(desc(group(prim, /^--weight/)), (r) =>
+  `<span class="type" style="font-size:16px;font-weight:${r.value}">${LINE}</span>`);
+// Межстрочное видно только на нескольких строках: одна показывает кегль,
 // а не расстояние между строками.
-const leadingHtml = scaleTable(desc(group(prim, /^--leading/)), (r) =>
-  `<span class="lead" style="line-height:${r.value}">Aa<br>Aa</span>`);
+const leadingHtml = sampleTable(desc(group(prim, /^--leading/)), (r) =>
+  `<span class="type type--para" style="line-height:${r.value}">${PARA}</span>`);
 // Трекинг меряется на слове, а не на двух буквах: −0,035em на «Aa» не видно.
-const trackingHtml = scaleTable(desc(group(prim, /^--tracking/)), (r) =>
-  `<span class="type" style="font-size:16px;letter-spacing:${r.value}">Meet</span>`);
-const spaceHtml = scaleTable(desc(group(prim, /^--space/)), (r) =>
-  `<i class="bar" style="width:${/px/.test(r.value) ? r.value : '8px'}"></i>`);
-const radiusHtml = scaleTable(desc(group(prim, /^--radius/)), (r) =>
-  `<i class="sw sw--radius" style="border-radius:${r.value}"></i>`);
-// Образец размера — полоса настоящей длины, сжатая общим масштабом: 844px
-// в клетку не влезает, но рядом с 16px должно быть видно, что это разные
-// порядки. Проценты и ch меряются не в пикселях — у них полосы нет.
+const trackingHtml = sampleTable(desc(group(prim, /^--tracking/)), (r) =>
+  `<span class="type" style="font-size:22px;letter-spacing:${r.value}">${LINE}</span>`);
+// Шаг показывается полосой настоящей ширины: 48px рядом с 2px — это то,
+// чего не увидеть в столбце чисел.
+const spaceHtml = barTable(desc(group(prim, /^--space/)), (r) =>
+  (/^\d+px$/.test(r.value) ? `<i class="bar" style="width:${r.value}"></i>` : '<span class="dim">—</span>'));
+const radiusHtml = radiusGrid(desc(group(prim, /^--radius/)));
+// Размер сжат общим масштабом: 844px в клетку не влезает, но рядом с 16px
+// должно быть видно, что это разные порядки. Проценты меряются от родителя,
+// а не от экрана: у них полоса своя, штриховая, в долю от той же ширины.
 const sizeRows = desc(group(prim, /^--size|^--width|^--measure/));
 const maxPx = Math.max(...sizeRows.map((r) => (/px$/.test(r.value) ? Math.abs(parseFloat(r.value)) : 0)));
-const sizeHtml = scaleTable(sizeRows, (r) => {
-  // проценты меряются от родителя, а не от экрана: их полоса своя,
-  // в долю от той же сотни двадцати, и видно, что это доля, а не пиксели
+const sizeHtml = barTable(sizeRows, (r) => {
   if (/%$/.test(r.value)) {
-    const w = Math.max(2, Math.round((parseFloat(r.value) / 100) * 120));
+    const w = Math.max(2, Math.round((parseFloat(r.value) / 100) * 160));
     return `<i class="bar bar--part" style="width:${w}px"></i>`;
   }
   if (!/px$/.test(r.value)) return '<span class="dim">—</span>';
-  const w = Math.max(2, Math.round((Math.abs(parseFloat(r.value)) / maxPx) * 120));
+  const w = Math.max(2, Math.round((Math.abs(parseFloat(r.value)) / maxPx) * 160));
   return `<i class="bar bar--size" style="width:${w}px"></i>`;
 });
 // Длительность — полоса в долю от самой долгой; прозрачность — та же плашка
@@ -214,10 +258,10 @@ const msOf = (v) => (/ms$/.test(v) ? parseFloat(v) : /s$/.test(v) ? parseFloat(v
 // файла, а не убывание, — иначе 1.4s вставало бы между 200ms и кривой.
 const motionRows = group(prim, /^--duration|^--ease|^--zoom|^--opacity/);
 const maxMs = Math.max(...motionRows.map((r) => msOf(r.value)));
-const motionHtml = scaleTable(motionRows, (r) => {
-  if (msOf(r.value)) return `<i class="bar bar--size" style="width:${Math.max(2, Math.round((msOf(r.value) / maxMs) * 120))}px"></i>`;
-  if (/^--opacity/.test(r.name)) return `<i class="sw sw--ink" style="opacity:${r.value}"></i>`;
-  if (/^--zoom/.test(r.name)) return `<span class="type" style="font-size:16px;display:inline-block;transform:scale(${r.value})">Aa</span>`;
+const motionHtml = barTable(motionRows, (r) => {
+  if (msOf(r.value)) return `<i class="bar bar--size" style="width:${Math.max(2, Math.round((msOf(r.value) / maxMs) * 160))}px"></i>`;
+  if (/^--opacity/.test(r.name)) return `<i class="tk-dot tk-dot--ink" style="opacity:${r.value}"></i>`;
+  if (/^--zoom/.test(r.name)) return `<span class="type" style="font-size:14px;display:inline-block;transform:scale(${r.value})">${LINE}</span>`;
   return '<span class="dim">—</span>';
 });
 
@@ -260,15 +304,17 @@ const pairRows = PAIRS.map(([what, fg, bg, min]) => {
   const r = f && b ? ratio(f, b) : 0;
   return { what, fg, bg, f, b, r, min, ok: r >= min };
 });
-const contrastHtml = `<div class="tokw"><table class="tok tok--pairs">
-  <thead><tr><th>Где</th><th>Текст или знак</th><th>Фон</th><th class="c-num">Коэффициент</th><th class="c-num">Порог</th></tr></thead>
-  <tbody>
-${pairRows.map((x) => `    <tr><td>${esc(x.what)}</td>` +
-  `<td><i class="sw sw--sm" style="background:${x.f}"></i><code>${esc(x.fg)}</code></td>` +
-  `<td><i class="sw sw--sm" style="background:${x.b}"></i><code>${esc(x.bg)}</code></td>` +
-  `<td class="c-num"><b>${fmt(x.r)}:1</b></td><td class="c-num">${String(x.min).replace('.', ',')}:1</td></tr>`).join('\n')}
-  </tbody>
-</table></div>`;
+// Проба — те же два токена, надетые друг на друга: число говорит, сколько
+// получилось, а буквы рядом — как это выглядит. Без пробы таблица контраста
+// рассказывает о читаемости, ничего не показывая.
+const contrastHtml = tokTable(
+  '<th>Пара</th><th class="c-num">Порог</th><th class="c-check">Проверка</th>',
+  pairRows.map((x) => `    <tr><td><code>${esc(x.fg)}</code> на <code>${esc(x.bg)}</code>` +
+    `<span class="tnote tnote--sub">${esc(x.what)}</span></td>` +
+    `<td class="c-num">${String(x.min).replace('.', ',')}:1</td>` +
+    `<td class="c-check"><span class="tk-pair">` +
+    `<span class="tk-sample" style="color:${x.f};background:${x.b}">Aa</span>` +
+    `<b>${fmt(x.r)}:1</b><span class="${x.ok ? 'tk-pass">да' : 'tk-fail">нет'}</span></span></td></tr>`));
 
 // ── текст раздела: один `## ` на подпункт ─────────────────────────────
 function blocks(text) {
@@ -379,30 +425,54 @@ ${TABS_CSS}
 .tok th { text-align: left; font-weight: var(--fw-semibold); color: var(--ink-600); padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); }
 .tok td { padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); vertical-align: top; }
 .tok tr:last-child td { border-bottom: 0; }
-.tok .c-sw { width: 136px; }
-.tok .c-num { text-align: right; white-space: nowrap; }
+.tok .c-num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tok .c-bar { width: 34%; }
+.tok .c-sample { width: 40%; }
+.tok .c-check { width: 30%; }
 .tok .val { white-space: nowrap; }
 .tok .tnote { color: var(--ink-600); max-width: 48ch; }
+/* Подпись под именем пары: что это за место на экране. Отдельной колонкой
+   она растягивала таблицу, а без неё имена ничего не говорят. */
+.tok .tnote--sub { display: block; margin-top: var(--s-1); }
 .tok .dim { color: var(--ink-600); }
 .tok code { font-size: var(--t-caption); white-space: nowrap; }
-/* Пары контраста: первая колонка держит фразу, остальные — имя с образцом.
-   Коэффициент выровнен по правому краю, чтобы числа читались столбиком. */
-.tok--pairs td:first-child { max-width: 36ch; }
-.tok--pairs .sw--sm { vertical-align: -3px; }
-/* Образец показывает само значение: цвет заливкой, тень — тенью, радиус —
-   своим углом. Подписи под ним нет — имя стоит в соседней клетке. */
-.sw { display: inline-block; width: 36px; height: 24px; border-radius: var(--r-sm); border: 1px solid var(--line); vertical-align: middle; }
-.sw--sm { width: 14px; height: 14px; border-radius: 4px; margin-right: var(--s-2); }
-.sw--wide { width: 56px; }
-.sw--shadow { background: var(--surface); }
-.sw--radius { background: var(--surface-2); }
-.sw--ink { background: var(--ink-900); border-color: transparent; }
-.sw--none { background: repeating-linear-gradient(45deg, var(--surface-2) 0 4px, transparent 4px 8px); }
-.type { display: inline-block; line-height: 1; color: var(--ink-900); }
-.lead { display: inline-block; font-size: var(--t-caption); color: var(--ink-900); }
+
+/* ── Плитка цвета: сам цвет сверху, под ним имя и строка «значение — где стоит».
+   Цвет узнают глазом, и в плитке образец больше строки таблицы в шесть раз. */
+.tk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr)); gap: var(--s-3); margin: 0 0 var(--s-5); }
+.tk-grid--sm { grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); }
+.tk-swatch { padding: var(--s-3); border-radius: var(--r-lg); background: var(--surface-2); }
+.tk-chip { display: block; height: 56px; border-radius: var(--r-md); border: 1px solid var(--line); background: var(--surface); }
+/* Рецепт показывает себя тенью, а не заливкой; у значения без образца —
+   штриховка: клетка не пустая, но и цвета в ней нет */
+.tk-chip--recipe { background: var(--surface); }
+.tk-chip--none { background: repeating-linear-gradient(45deg, var(--surface) 0 5px, transparent 5px 10px); }
+.tk-box { display: block; height: 56px; background: var(--surface); border: 1px solid var(--line); }
+.tk-name { display: block; margin: var(--s-3) 0 var(--s-1); font-size: var(--t-caption); color: var(--ink-900); white-space: nowrap; }
+.tk-note { display: block; font-size: var(--t-micro); line-height: 1.5; color: var(--ink-600); }
+.tk-note b { color: var(--ink-900); font-weight: var(--fw-medium); font-variant-numeric: tabular-nums; }
+
+/* ── Проба и метки ──────────────────────────────────────────── */
+.tk-pair { display: inline-flex; align-items: center; gap: var(--s-2); }
+.tk-dot { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--line); flex: none; }
+.tk-dot--ink { background: var(--ink-900); border-color: transparent; }
+.tk-sample { display: inline-grid; place-items: center; width: 34px; height: 24px; border-radius: var(--r-sm); font-size: var(--t-caption); flex: none; }
+.tk-pass { color: var(--ink-600); }
+.tk-fail { color: #96123A; font-weight: var(--fw-bold); }
+
+/* Образец набран настоящей строкой интерфейса: длинная строка сжимается
+   до клетки, абзац межстрочного держит ширину в строках, а не в пикселях */
+.type { display: block; line-height: 1.1; color: var(--ink-900); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.type--para { max-width: 38ch; white-space: normal; font-size: var(--t-caption); }
 .bar { display: inline-block; height: 12px; border-radius: 2px; background: var(--brand-a); vertical-align: middle; }
 .bar--size { height: 8px; background: var(--ink-400); }
 .bar--part { height: 8px; background: repeating-linear-gradient(90deg, var(--ink-400) 0 6px, transparent 6px 9px); }
+
+/* Строка файлов под шапкой: куда идти за самим значением */
+.files { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-4) 0 0; padding: 0; list-style: none; }
+.files a { display: inline-block; padding: var(--s-2) var(--s-3); border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface); font-size: var(--t-caption); text-decoration: none; color: var(--ink-900); }
+.files a:hover, .files a:focus-visible { background: var(--surface-2); }
+
 #overview blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 `;
 
@@ -428,6 +498,14 @@ ${aside}
         <span>${plural(pairRows.length, 'пара', 'пары', 'пар')} контраста</span>
         <span>ноль значений в компонентах</span>
       </div>
+      <ul class="files">
+        <li><a href="../tokens.css">tokens.css</a></li>
+        <li><a href="../tokens.md">tokens.md</a></li>
+        <li><a href="../components/">components/</a></li>
+        <li><a href="../DESIGN.md">DESIGN.md</a></li>
+        <li><a href="../figma/">figma/</a></li>
+        <li><a href="kit.html">Раздел 07 · Сборка UI</a></li>
+      </ul>
     </div>
 
 ${panels}
