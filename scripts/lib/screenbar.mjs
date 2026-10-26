@@ -48,6 +48,52 @@ ${items}
 </nav>`;
 }
 
+// ── переключатель темы ───────────────────────────────────────────
+// Стоит рядом с шириной: и то и другое — условия показа, а не продукт.
+// Тёмная тема принята `D-84`, и переключать её можно только здесь:
+// кнопка ставит data-theme на корень, а дальше работает семантика
+// в tokens.css — ни одного правила в components/ она не трогает.
+export function themeBar() {
+  return `<nav class="wfdev wftheme" aria-label="Тема">
+    <button type="button" data-theme-set="light" aria-pressed="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"/></svg>
+      <span class="vh">Светлая тема</span>
+    </button>
+    <button type="button" data-theme-set="dark" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      <span class="vh">Тёмная тема</span>
+    </button>
+</nav>`;
+}
+
+// Тот же переключатель без выбора ширины: витрина и оболочка не меняют
+// ширину, а тему показывать обязаны — иначе тёмный вид компонента негде
+// увидеть целиком. Ключ общий со страницами макетов: выбрал тему на экране —
+// она же стоит в витрине.
+export function themeJs() {
+  return `<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'mm-theme';
+  function theme(t) {
+    if (t === 'dark') root.dataset.theme = 'dark';
+    else root.removeAttribute('data-theme');
+    document.querySelectorAll('.wftheme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
+    });
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+  }
+  var saved;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  theme(saved === 'dark' ? 'dark' : 'light');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.wftheme button');
+    if (b) theme(b.dataset.themeSet);
+  });
+})();
+</script>`;
+}
+
 // ── скрипт: выбор ширины ──────────────────────────────────────────────
 // Выбор держится между страницами — состояния экрана лежат по соседним
 // адресам, и терять ширину на каждом переходе нельзя. В голом виде (#bare)
@@ -69,10 +115,28 @@ export function deviceJs() {
   try { saved = localStorage.getItem(KEY); } catch (e) {}
   set(saved || 'mobile');
   document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.wfdev button');
+    var b = e.target.closest && e.target.closest('.wfdev:not(.wftheme) button');
     if (b) set(b.dataset.w);
   });
 
+  // тема: та же механика, свой ключ. Светлая остаётся умолчанием — тёмную
+  // выбирает человек, и выбор держится между страницами так же, как ширина
+  var TKEY = 'mm-theme';
+  function theme(t) {
+    if (t === 'dark') root.dataset.theme = 'dark';
+    else root.removeAttribute('data-theme');
+    document.querySelectorAll('.wftheme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
+    });
+    try { localStorage.setItem(TKEY, t); } catch (e) {}
+  }
+  var savedTheme;
+  try { savedTheme = localStorage.getItem(TKEY); } catch (e) {}
+  theme(savedTheme === 'dark' ? 'dark' : 'light');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.wftheme button');
+    if (b) theme(b.dataset.themeSet);
+  });
 })();
 </script>`;
 }

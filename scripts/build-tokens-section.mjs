@@ -90,21 +90,34 @@ const parse = (rawText, offset = 0) => {
   return rows;
 };
 
+// Тёмная тема живёт отдельным блоком и переопределяет только семантику:
+// светлый разбор обязан остановиться на нём, иначе те же имена придут
+// вторым комплектом и таблица семантики удвоится.
+const DARK_AT = light.lastIndexOf('/*', light.indexOf('ТЁМНАЯ ТЕМА'));
+if (DARK_AT < 0) throw new Error('в tokens.css не нашёлся блок тёмной темы — разбор отстал от файла');
+
 const prim = parse(light.slice(0, SEM_AT));
-const sem = parse(light.slice(SEM_AT), 1);
+const sem = parse(light.slice(SEM_AT, DARK_AT), 1);
+const dark = new Map(parse(light.slice(DARK_AT), 1).map((r) => [r.name, r.value]));
 const valueOf = new Map([...prim, ...sem].map((r) => [r.name, r.value]));
+// Значение в тёмной теме: переопределено — своё, нет — светлое.
+const darkValueOf = new Map([...valueOf, ...dark]);
 
 // значение роли до самого примитива: роль обязана упираться в примитив
 const unresolved = new Set();
-const resolve = (v, depth = 0) => {
+const resolveIn = (map) => function step(v, depth = 0) {
   const m = typeof v === 'string' && v.match(/^var\((--[a-z0-9-]+)\)$/);
   if (!m || depth > 6) return v;
-  const next = valueOf.get(m[1]);
+  const next = map.get(m[1]);
   // имя, которого нет в файле, — разбор отстал от tokens.css, и это ошибка
   // сборки, а не пустая клетка на странице
   if (next === undefined) { unresolved.add(m[1]); return v; }
-  return resolve(next, depth + 1);
+  return step(next, depth + 1);
 };
+const resolve = resolveIn(valueOf);
+// В тёмной теме роль разворачивается по тёмной карте: примитивы у обеих тем
+// одни и те же, разная только семантика, и раскрывать её надо своей картой.
+const resolveDark = resolveIn(darkValueOf);
 
 // ── контраст: тот же расчёт, что в гейте, но в именах семантики ────────
 const lum = (hex) => {
@@ -181,20 +194,29 @@ const sampleTable = (rows, sample) => tokTable(
     + `<td class="${r.value.length > 22 ? 'c-wrap' : 'c-num'}"><code>${esc(r.value)}</code></td>`
     + `<td class="c-sample">${sample(r)}</td><td class="tnote">${inline(r.note || '—')}</td></tr>`));
 
+// Клетка «на что показывает»: точка цветом, имя примитива и его значение.
+// Значение разворачивается только когда оно короткое: размытие экрана — три
+// слоя на пол-листа, и в клетке с nowrap оно растягивало таблицу втрое
+// шире страницы.
+const refCell = (value, done) => {
+  const to = value.match(/^var\((--[a-z0-9-]+)\)$/);
+  const hex = /^#/.test(done);
+  if (!to) return `<code class="dim">${esc(short(value))}</code>`;
+  return `<span class="tk-pair">${hex ? `<i class="tk-dot" style="background:${done}"></i>` : ''}` +
+    `<code>${esc(to[1])}</code>${hex ? ` <span class="dim">${esc(done)}</span>` : ''}</span>`;
+};
+
+// Пустая клетка в колонке «Тёмная» значит, что значение то же, что в светлой.
+// Так видно главное: тема переопределяет девятнадцать имён из двадцати девяти,
+// а не весь набор.
 const roleTable = (rows) => tokTable(
-  '<th>Семантика</th><th class="c-ref">Показывает на</th><th>За что отвечает</th>',
+  '<th>Семантика</th><th class="c-ref">Светлая</th><th class="c-ref">Тёмная</th><th>За что отвечает</th>',
   rows.map((r) => {
-    const to = r.value.match(/^var\((--[a-z0-9-]+)\)$/);
-    const done = resolve(r.value);
-    const hex = /^#/.test(done);
-    // Значение показывается рядом с именем только тогда, когда оно короткое.
-    // Размытие экрана разворачивается в три слоя на пол-листа: в клетке
-    // с nowrap оно растягивало таблицу втрое шире страницы.
-    const target = to
-      ? `<span class="tk-pair">${hex ? `<i class="tk-dot" style="background:${done}"></i>` : ''}` +
-        `<code>${esc(to[1])}</code>${hex ? ` <span class="dim">${esc(done)}</span>` : ''}</span>`
-      : `<code class="dim">${esc(short(r.value))}</code>`;
-    return `    <tr><td><code>${esc(r.name)}</code></td><td class="val">${target}</td><td class="tnote">${inline(r.note || '—')}</td></tr>`;
+    const d = dark.get(r.name);
+    return `    <tr><td><code>${esc(r.name)}</code></td>` +
+      `<td class="val">${refCell(r.value, resolve(r.value))}</td>` +
+      `<td class="val">${d ? refCell(d, resolveDark(d)) : '<span class="dim">то же</span>'}</td>` +
+      `<td class="tnote">${inline(r.note || '—')}</td></tr>`;
   }));
 
 const group = (rows, re) => rows.filter((r) => re.test(r.name));
@@ -304,28 +326,44 @@ const PAIRS = [
   ['Заливка и обводка опасного на размытии (не текст)', '--color-danger', '--lilac-150', 3],
 ];
 
-const hexOf = (name) => {
-  const v = valueOf.get(name);
+const hexIn = (map, res) => (name) => {
+  const v = map.get(name);
   if (v === undefined) { unresolved.add(name); return null; }
-  const r = resolve(v);
+  const r = res(v);
   return /^#[0-9a-fA-F]{6}$/.test(r) ? r.toUpperCase() : null;
 };
-const pairRows = PAIRS.map(([what, fg, bg, min]) => {
-  const f = hexOf(fg); const b = hexOf(bg);
+const hexOf = hexIn(valueOf, resolve);
+const hexDark = hexIn(darkValueOf, resolveDark);
+
+// Размытие экрана — светлая картинка: в тёмной теме его нет вовсе
+// (`--bg-page-wash: none`), и пары «на размытии» там не существует.
+// Прочерк в колонке честнее нуля: пара не провалилась, её просто нет.
+const LIGHT_ONLY = '--lilac-150';
+const measure = (fg, bg, min, hex) => {
+  const f = hex(fg); const b = hex(bg);
   const r = f && b ? ratio(f, b) : 0;
-  return { what, fg, bg, f, b, r, min, ok: r >= min };
-});
+  return { f, b, r, ok: r >= min };
+};
+const pairRows = PAIRS.map(([what, fg, bg, min]) => ({
+  what, fg, bg, min,
+  light: measure(fg, bg, min, hexOf),
+  dark: bg === LIGHT_ONLY || fg === LIGHT_ONLY ? null : measure(fg, bg, min, hexDark),
+}));
+
 // Проба — те же два токена, надетые друг на друга: число говорит, сколько
 // получилось, а буквы рядом — как это выглядит. Без пробы таблица контраста
 // рассказывает о читаемости, ничего не показывая.
+const check = (m) => (m
+  ? `<span class="tk-pair"><span class="tk-sample" style="color:${m.f};background:${m.b}">Aa</span>`
+    + `<b>${fmt(m.r)}:1</b><span class="${m.ok ? 'tk-pass">да' : 'tk-fail">нет'}</span></span>`
+  : '<span class="dim">—</span>');
 const contrastHtml = tokTable(
-  '<th class="c-pair">Пара</th><th class="c-num">Порог</th><th class="c-check">Проверка</th>',
-  pairRows.map((x) => `    <tr><td><code>${esc(x.fg)}</code> на <code>${esc(x.bg)}</code>` +
-    `<span class="tnote tnote--sub">${esc(x.what)}</span></td>` +
-    `<td class="c-num">${String(x.min).replace('.', ',')}:1</td>` +
-    `<td class="c-check"><span class="tk-pair">` +
-    `<span class="tk-sample" style="color:${x.f};background:${x.b}">Aa</span>` +
-    `<b>${fmt(x.r)}:1</b><span class="${x.ok ? 'tk-pass">да' : 'tk-fail">нет'}</span></span></td></tr>`));
+  '<th class="c-pair">Пара</th><th class="c-num">Порог</th><th class="c-check">Светлая</th><th class="c-check">Тёмная</th>',
+  pairRows.map((x) => `    <tr><td><code>${esc(x.fg)}</code> на <code>${esc(x.bg)}</code>`
+    + `<span class="tnote tnote--sub">${esc(x.what)}</span></td>`
+    + `<td class="c-num">${String(x.min).replace('.', ',')}:1</td>`
+    + `<td class="c-check">${check(x.light)}</td>`
+    + `<td class="c-check">${check(x.dark)}</td></tr>`));
 
 // ── текст раздела: один `## ` на подпункт ─────────────────────────────
 function blocks(text) {
@@ -529,7 +567,8 @@ ${aside}
       <div class="chips">
         <span>${prim.length} примитивов</span>
         <span>${sem.length} семантических</span>
-        <span>${plural(pairRows.length, 'пара', 'пары', 'пар')} контраста</span>
+        <span>${dark.size} переопределений в тёмной</span>
+        <span>${plural(pairRows.length, 'пара', 'пары', 'пар')} контраста в двух темах</span>
         <span>ноль значений в компонентах</span>
       </div>
       <ul class="files">
@@ -565,12 +604,19 @@ if (unresolved.size) {
 
 // Таблица контраста — не картинка, а проверка: пара ниже порога роняет сборку
 // так же, как гейт contrast.mjs. Иначе страница рассказывала бы о доступности,
-// показывая непроходные числа.
-const bad = pairRows.filter((x) => !x.ok);
+// показывая непроходные числа. Тёмная тема проверяется здесь же и теми же
+// парами: `contrast.mjs` считает по `tokens/tokens.css`, где темы нет.
+const bad = [];
+for (const x of pairRows) {
+  if (!x.light.ok) bad.push({ ...x, theme: 'светлой', m: x.light });
+  if (x.dark && !x.dark.ok) bad.push({ ...x, theme: 'тёмной', m: x.dark });
+}
 if (bad.length) {
-  console.error('Пары ниже порога:\n' + bad.map((x) => `  ${x.what}: ${fmt(x.r)}:1 < ${x.min}:1 (${x.fg} на ${x.bg})`).join('\n'));
+  console.error('Пары ниже порога:\n' + bad.map((x) =>
+    `  в ${x.theme}: ${x.what} — ${fmt(x.m.r)}:1 < ${x.min}:1 (${x.fg} на ${x.bg})`).join('\n'));
   process.exit(1);
 }
 
 writeFileSync(join(ROOT, 'sections/tokens.html'), page, 'utf8');
-console.log(`sections/tokens.html: ${TABS.length} подпунктов, ${prim.length} примитивов, ${sem.length} семантических, ${plural(pairRows.length, 'пара', 'пары', 'пар')} контраста`);
+console.log(`sections/tokens.html: ${TABS.length} блоков, ${prim.length} примитивов, ${sem.length} семантических, ` +
+  `${dark.size} переопределений в тёмной, ${plural(pairRows.length, 'пара', 'пары', 'пар')} контраста в двух темах`);

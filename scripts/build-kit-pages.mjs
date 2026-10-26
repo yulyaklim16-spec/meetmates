@@ -13,6 +13,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { rail } from './lib/chrome.mjs';
+import { themeBar, themeJs } from './lib/screenbar.mjs';
 
 const ROOT = process.cwd();
 const OUT = join(ROOT, 'ui');
@@ -152,7 +153,11 @@ ${FONT}
 <link rel="stylesheet" href="../components/index.css">
 <style>
   /* обвязка этой страницы: к продукту не относится */
-  body { margin: 0; padding: 32px 32px 32px 80px; background: #EFEFF2; }
+  /* Лист оболочки — та же документация, что и у витрины: в тёмной теме
+     темнеет вместе с продуктом, иначе белый текст лёг бы на светлый лист. */
+  :root { --page: #EFEFF2; }
+  [data-theme="dark"] { --page: var(--plum-900); }
+  body { margin: 0; padding: 32px 32px 32px 80px; background: var(--page); }
   h1.t { margin: 0 0 4px; font-size: 22px; letter-spacing: -.02em; }
   p.lead { margin: 0 0 28px; max-width: 70ch; color: var(--text-muted); font-size: 14px; line-height: 1.55; }
   .shelves { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
@@ -176,16 +181,28 @@ ${FONT}
     .wfrail { position: static; flex-direction: row; flex-wrap: wrap; margin: 0 0 16px; }
     body { padding: 32px; }
   }
+  /* Переключатель темы: тема принята (D-84), и обе страницы обязаны показывать
+     оба вида — иначе тёмный компонент негде увидеть целиком. Сам переключатель
+     к продукту не относится: это условие показа, как ширина экрана на макетах. */
+  .wftheme { position: fixed; top: 24px; right: 24px; z-index: 5; display: flex; gap: 2px; padding: 2px;
+    border-radius: 999px; background: #fff; box-shadow: 0 0 0 1px #DCD6E4; }
+  .wftheme button { display: grid; place-items: center; width: 32px; height: 32px; padding: 0;
+    border: 0; border-radius: 999px; background: none; color: #4C3F59; cursor: pointer; }
+  .wftheme button svg { width: 18px; height: 18px; }
+  .wftheme button[aria-pressed="true"] { background: #E8E1F1; color: #1A1026; }
+  .wftheme .vh { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   /* ── Голый вид: адрес с #bare ───────────────────────────────────
      Та же причина, что на витрине: встроенной странице вторая полоса
      разделов не нужна, слева уже стоит дерево сайта. */
-  body:has(#bare:target) .wfrail { display: none; }
+  body:has(#bare:target) .wfrail,
+  body:has(#bare:target) .wftheme { display: none; }
   body:has(#bare:target) { padding-left: 32px; }
 </style>
 </head>
 <body class="mm">
 <i id="bare" hidden></i>
 ${rail({ prefix: '../', current: '07' })}
+${themeBar()}
 <h1 class="t">Оболочка экрана</h1>
 <p class="lead">Три шапки на выбор и одно нижнее меню. Серый экран берёт отсюда каркас:
 копируется <code>.mm-screen</code>, внутрь <code>.mm-pane</code> кладётся содержимое.
@@ -195,6 +212,7 @@ ${shellPage(headPlain, 'Events', 'Шапка в одну строку: заго�
 ${shellPage(headStack, 'Search', 'Двухуровневая шапка: заголовок строкой, под ним поле и фильтры. Второй уровень — <code>.mm-head-line</code>.')}
 ${shellPage(headBack, 'People', 'Шапка экрана, куда пришли с другого: стрелка возврата слева, <code>Report</code> справа — единственная кнопка шапки со словом.')}
 </div>
+${themeJs()}
 </body>
 </html>
 `;
@@ -669,6 +687,7 @@ const KIT_TOC = GRP_LIST.map((g) => `    <li><a href="#g${g.n}">${g.n} &middot; 
 // и скрипта на странице по-прежнему нет.
 const KIT_SOLO_ANCHORS = GRP_LIST.map((g) => `<i id="b-g${g.n}" hidden></i>`).join('');
 const KIT_SOLO_CSS = GRP_LIST.map((g) => `  body:has(#b-g${g.n}:target) .wfrail,
+  body:has(#b-g${g.n}:target) .wftheme,
   body:has(#b-g${g.n}:target) .kit-top { display: none; }
   body:has(#b-g${g.n}:target) .kit-grp:not(#g${g.n}) { display: none; }
   body:has(#b-g${g.n}:target) .kit-lead { display: none; }
@@ -711,23 +730,28 @@ ${FONT}
 <link rel="stylesheet" href="../components/index.css">
 <style>
   /* обвязка витрины: к продукту не относится */
-  :root { --page: #EFEFF2; --edge: #DCD6E4; --dim: #4C3F59; }
+  :root { --page: #EFEFF2; --edge: #DCD6E4; --dim: #4C3F59; --paper: #fff; }
+  /* Страница витрины — документация, а не продукт, но в тёмной теме темнеет
+     вместе с ним: иначе белый текст компонента лёг бы на светлый лист.
+     Тон листа свой и берётся примитивом: он обязан отличаться от фона экрана
+     в клетке, иначе клетка сливается с листом. */
+  [data-theme="dark"] { --page: var(--plum-900); --edge: var(--plum-800); --dim: var(--lilac-300); --paper: var(--plum-800); }
   body { margin: 0; background: var(--page); }
   .kit-top { padding: 40px 32px 28px 80px; }
   .kit-top h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -.03em; }
   .kit-top p { margin: 0 0 6px; max-width: 76ch; font-size: 14px; line-height: 1.55; color: var(--dim); }
   .kit-toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
-  .kit-toc a { padding: 6px 12px; border-radius: 999px; background: #fff; box-shadow: 0 0 0 1px var(--edge);
-    font-size: 12px; font-weight: 600; text-decoration: none; color: #1A1026; }
+  .kit-toc a { padding: 6px 12px; border-radius: 999px; background: var(--paper); box-shadow: 0 0 0 1px var(--edge);
+    font-size: 12px; font-weight: 600; text-decoration: none; color: var(--text-primary); }
   .kit-grp { padding: 28px 32px 8px 80px; }
   .kit-grp-h { display: flex; align-items: center; gap: 10px; margin: 0 0 4px; font-size: 20px; letter-spacing: -.02em; }
   .kit-n { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 999px;
-    background: #1A1026; color: #fff; font-size: 12px; font-weight: 700; }
+    background: var(--color-action); color: var(--text-on-action); font-size: 12px; font-weight: 700; }
   .kit-lead { margin: 0 0 20px; max-width: 76ch; font-size: 14px; line-height: 1.55; color: var(--dim); }
   .kit-case { margin: 0 0 28px; }
   .kit-h { display: flex; align-items: baseline; gap: 10px; margin: 0 0 10px; font-size: 14px; }
   .kit-h code { font: 12px/1 ui-monospace, monospace; padding: 4px 8px; border-radius: 999px;
-    background: #fff; box-shadow: 0 0 0 1px var(--edge); color: var(--dim); }
+    background: var(--paper); box-shadow: 0 0 0 1px var(--edge); color: var(--dim); }
   .kit-note { margin: 10px 0 0; max-width: 90ch; font-size: 12px; line-height: 1.5; color: var(--dim); }
 
   /* Матрица состояний: клетка — образец и его имя. Фон площадки тот же, что
@@ -794,11 +818,22 @@ ${FONT}
     .wfrail { position: static; flex-direction: row; flex-wrap: wrap; margin: 0 0 16px; }
     .kit-top, .kit-grp { padding-left: 32px; }
   }
+  /* Переключатель темы: тема принята (D-84), и обе страницы обязаны показывать
+     оба вида — иначе тёмный компонент негде увидеть целиком. Сам переключатель
+     к продукту не относится: это условие показа, как ширина экрана на макетах. */
+  .wftheme { position: fixed; top: 24px; right: 24px; z-index: 5; display: flex; gap: 2px; padding: 2px;
+    border-radius: 999px; background: #fff; box-shadow: 0 0 0 1px #DCD6E4; }
+  .wftheme button { display: grid; place-items: center; width: 32px; height: 32px; padding: 0;
+    border: 0; border-radius: 999px; background: none; color: #4C3F59; cursor: pointer; }
+  .wftheme button svg { width: 18px; height: 18px; }
+  .wftheme button[aria-pressed="true"] { background: #E8E1F1; color: #1A1026; }
+  .wftheme .vh { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   /* ── Голый вид: адрес с #bare ───────────────────────────────────
      Страница встроена в раздел 07, а там слева уже стоит дерево сайта:
      вторая такая же полоса рядом не нужна. Переключает :target,
      скрипта на странице нет — тот же приём, что у экранов концепта. */
-  body:has(#bare:target) .wfrail { display: none; }
+  body:has(#bare:target) .wfrail,
+  body:has(#bare:target) .wftheme { display: none; }
   body:has(#bare:target) .kit-top,
   body:has(#bare:target) .kit-grp { padding-left: 32px; }
 
@@ -816,6 +851,7 @@ ${KIT_SOLO_CSS}
 ${rail({ prefix: '../', current: '07' })}
 
 <div class="kit-top">
+${themeBar()}
   <h1>Витрина компонентов</h1>
   <p>Классы компонентов — шестнадцать файлов в <code>components/</code>, по одному
   на компонент; значения приходят двумя уровнями из <code>tokens.css</code>:
@@ -838,7 +874,7 @@ ${GROUPS.join('\n\n')}
   <code>DESIGN.md</code> · <code>ui/inventory.md</code> · <code>concept/concept.md</code> ·
   <code>microcopy.md</code> · <code>tokens/tokens.css</code>.</p>
 </div>
-
+${themeJs()}
 </body>
 </html>
 `;

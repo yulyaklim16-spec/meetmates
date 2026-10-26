@@ -20,7 +20,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { rail } from './lib/chrome.mjs';
-import { kindBar } from './lib/screenbar.mjs';
+import { kindBar, themeBar } from './lib/screenbar.mjs';
 import { wireframeOrder, flatPages } from './lib/wfnav.mjs';
 import { join } from 'node:path';
 
@@ -196,7 +196,7 @@ const CLASS_MAP = {
 
 // мокап телефона и подписи зон — обвязка страницы макета, а не продукт
 const CHROME = new Set(['device', 'statusbar', 'browserbar', 'homebar', 'fold', 'anns', 'ann',
-  'wfstates', 'wfbar', 'wfdev', 'wfkind', 'meta', 'now', 't', 'bare', 'stub']);
+  'wfstates', 'wfbar', 'wfdev', 'wftheme', 'wfkind', 'meta', 'now', 't', 'bare', 'stub']);
 // кольца радара и места снимков на них — часть компонента, имена те же
 const RADAR_PARTS = new Set(['near', 'mid', 'far', 'in', 'r5', 'r3', 'r1',
   'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']);
@@ -514,6 +514,11 @@ for (const name of SCREENS) {
 
   // 6б. переключатель набора: страница пришла из вайрфрейма, активен там другой
   body = body.replace(/<nav class="wfkind"[\s\S]*?<\/nav>/, kindBar('design', name));
+  // 6в. переключатель темы: только здесь — серому слою темнеть нечем
+  body = body.replace(/<\/nav>\s*(?=<nav class="wfkind")/, `</nav>
+${themeBar()}
+`);
+
   // 7. ссылки: внутри концепта — как есть, остальное — в вайрфреймы
   body = body.replace(/href="([a-z0-9-]+\.html)(#[^"]*)?"/g, (m, file, hash = '') =>
     SCREENS.includes(file.replace('.html', '')) ? m : `href="../../wireframes/${file}${hash}"`);

@@ -802,6 +802,103 @@
       "css": "bg-skeleton"
     }
   ],
+  "semanticDark": [
+    {
+      "path": "bg/page",
+      "alias": "color/plum-950",
+      "css": "bg-page"
+    },
+    {
+      "path": "bg/page-wash",
+      "value": "none",
+      "css": "bg-page-wash"
+    },
+    {
+      "path": "bg/surface",
+      "alias": "color/plum-800",
+      "css": "bg-surface"
+    },
+    {
+      "path": "bg/nested",
+      "alias": "color/plum-900",
+      "css": "bg-nested"
+    },
+    {
+      "path": "text/primary",
+      "alias": "color/white",
+      "css": "text-primary"
+    },
+    {
+      "path": "text/muted",
+      "alias": "color/lilac-300",
+      "css": "text-muted"
+    },
+    {
+      "path": "icon/muted",
+      "alias": "color/plum-400",
+      "css": "icon-muted"
+    },
+    {
+      "path": "color/action",
+      "alias": "color/white",
+      "css": "color-action"
+    },
+    {
+      "path": "text/on-action",
+      "alias": "color/plum-950",
+      "css": "text-on-action"
+    },
+    {
+      "path": "color/action-hover",
+      "alias": "color/lilac-50",
+      "css": "color-action-hover"
+    },
+    {
+      "path": "color/danger",
+      "alias": "color/rose-300",
+      "css": "color-danger"
+    },
+    {
+      "path": "text/danger",
+      "alias": "color/rose-300",
+      "css": "text-danger"
+    },
+    {
+      "path": "border/hairline",
+      "alias": "color/plum-400",
+      "css": "border-hairline"
+    },
+    {
+      "path": "border/focus",
+      "alias": "color/lilac-300",
+      "css": "border-focus"
+    },
+    {
+      "path": "bg/hover",
+      "alias": "color/plum-600",
+      "css": "bg-hover"
+    },
+    {
+      "path": "bg/selected",
+      "alias": "color/plum-400",
+      "css": "bg-selected"
+    },
+    {
+      "path": "text/on-selected",
+      "alias": "color/plum-950",
+      "css": "text-on-selected"
+    },
+    {
+      "path": "bg/mine",
+      "alias": "color/plum-600",
+      "css": "bg-mine"
+    },
+    {
+      "path": "bg/undelivered",
+      "alias": "color/crimson-700",
+      "css": "bg-undelivered"
+    }
+  ],
   "effects": [
     {
       "name": "shadow-dot",

@@ -280,8 +280,13 @@ body:not(.kit) :is(.scrolly, .pane)::-webkit-scrollbar-track { background: trans
 }
 /* Подписи зон лежат внутри экрана и темнеют вместе с ним: цвет ролью,
    иначе в тёмной теме они оказывались тёмными на тёмном (2,05:1). */
-.ann { font-size: var(--t-caption); line-height: 1.45; color: var(--text-muted); padding-left: var(--s-3); border-left: 2px solid var(--line); }
-.ann b { color: var(--text-primary); font-weight: var(--fw-semibold); }
+/* Подписи зон лежат на сером листе рядом с телефоном, а не на экране:
+   темнеть вместе с продуктом они не должны. Поэтому здесь плоские имена
+   из tokens/tokens.css, а не роли из корневого tokens.css — роль
+   в тёмной теме светлеет, и подпись пропала бы на светлом листе.
+   Системные полосы ниже — наоборот: они внутри телефона и тему держат. */
+.ann { font-size: var(--t-caption); line-height: 1.45; color: var(--ink-600); padding-left: var(--s-3); border-left: 2px solid var(--line); }
+.ann b { color: var(--ink-900); font-weight: var(--fw-semibold); }
 /* подписи живут вне экрана: телефон их не обрезает */
 :is(.screen, .mm-screen):has(.anns) { overflow: visible; }
 :is(.screen, .mm-screen):has(.anns) > :is(.statusbar) { border-radius: 34px 34px 0 0; }

@@ -810,6 +810,103 @@ const SEMANTIC = [
     "css": "bg-skeleton"
   }
 ];
+const SEMANTIC_DARK = [
+  {
+    "path": "bg/page",
+    "alias": "color/plum-950",
+    "css": "bg-page"
+  },
+  {
+    "path": "bg/page-wash",
+    "value": "none",
+    "css": "bg-page-wash"
+  },
+  {
+    "path": "bg/surface",
+    "alias": "color/plum-800",
+    "css": "bg-surface"
+  },
+  {
+    "path": "bg/nested",
+    "alias": "color/plum-900",
+    "css": "bg-nested"
+  },
+  {
+    "path": "text/primary",
+    "alias": "color/white",
+    "css": "text-primary"
+  },
+  {
+    "path": "text/muted",
+    "alias": "color/lilac-300",
+    "css": "text-muted"
+  },
+  {
+    "path": "icon/muted",
+    "alias": "color/plum-400",
+    "css": "icon-muted"
+  },
+  {
+    "path": "color/action",
+    "alias": "color/white",
+    "css": "color-action"
+  },
+  {
+    "path": "text/on-action",
+    "alias": "color/plum-950",
+    "css": "text-on-action"
+  },
+  {
+    "path": "color/action-hover",
+    "alias": "color/lilac-50",
+    "css": "color-action-hover"
+  },
+  {
+    "path": "color/danger",
+    "alias": "color/rose-300",
+    "css": "color-danger"
+  },
+  {
+    "path": "text/danger",
+    "alias": "color/rose-300",
+    "css": "text-danger"
+  },
+  {
+    "path": "border/hairline",
+    "alias": "color/plum-400",
+    "css": "border-hairline"
+  },
+  {
+    "path": "border/focus",
+    "alias": "color/lilac-300",
+    "css": "border-focus"
+  },
+  {
+    "path": "bg/hover",
+    "alias": "color/plum-600",
+    "css": "bg-hover"
+  },
+  {
+    "path": "bg/selected",
+    "alias": "color/plum-400",
+    "css": "bg-selected"
+  },
+  {
+    "path": "text/on-selected",
+    "alias": "color/plum-950",
+    "css": "text-on-selected"
+  },
+  {
+    "path": "bg/mine",
+    "alias": "color/plum-600",
+    "css": "bg-mine"
+  },
+  {
+    "path": "bg/undelivered",
+    "alias": "color/crimson-700",
+    "css": "bg-undelivered"
+  }
+];
 
 const EFFECTS = [
   {
@@ -865,6 +962,31 @@ async function run() {
     }
   }
 
+  // тёмная тема — второй режим той же коллекции, а не второй набор имён:
+  // так Figma переключает макет целиком, как продукт переключает data-theme
+  const darkMode = semCol.modes.find((m) => m.name === 'Dark')
+    || { modeId: semCol.addMode('Dark') };
+  const semByPath = new Map();
+  for (const t of SEMANTIC) {
+    const v = byName.get(semCol.id + '|' + t.path);
+    if (v) semByPath.set(t.path, v);
+  }
+  const semVars = await figma.variables.getLocalVariablesAsync();
+  for (const v of semVars) if (v.variableCollectionId === semCol.id) semByPath.set(v.name, v);
+  let darkSet = 0;
+  for (const t of SEMANTIC_DARK) {
+    const v = semByPath.get(t.path);
+    if (!v) { console.warn('нет роли для тёмного режима:', t.path); continue; }
+    if (t.alias) {
+      const target = made.get(t.alias);
+      if (!target) { console.warn('нет примитива для', t.path, '→', t.alias); continue; }
+      v.setValueForMode(darkMode.modeId, figma.variables.createVariableAlias(target));
+    } else {
+      v.setValueForMode(darkMode.modeId, t.value);
+    }
+    darkSet += 1;
+  }
+
   // тени и размытие переменными не держатся — заводим стилями
   const styles = await figma.getLocalEffectStylesAsync();
   for (const e of EFFECTS) {
@@ -876,7 +998,8 @@ async function run() {
 
   figma.notify(
     'Перенесено: ' + PRIMITIVE.length + ' примитивов, ' + SEMANTIC.length +
-    ' ролей (из них ссылками ' + aliased + '), стилей теней ' + EFFECTS.length
+    ' ролей (из них ссылками ' + aliased + '), тёмных значений ' + darkSet +
+    ', стилей теней ' + EFFECTS.length
   );
 }
 
