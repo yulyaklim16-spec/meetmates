@@ -195,9 +195,13 @@ const bodies = SCREENS.map((s) => ({ ...s, html: screenOf(s.file) }));
 // ── страница ──────────────────────────────────────────────────────────
 const vars = (s) => Object.entries(s.v).map(([k, v]) => `  --${k}: ${v};`).join('\n');
 
+// Размытие есть только у принятого облика: кандидаты сравнивались по цвету
+// поверхностей, и картинка поверх них мешала бы сравнению.
+const WASH_DARK = 'radial-gradient(82% 34% at 50% -6%, rgba(123, 61, 214, .55) 0%, rgba(123, 61, 214, .18) 52%, rgba(123, 61, 214, 0) 78%), '
+  + 'linear-gradient(180deg, #4B2199 0%, #43208C 8%, #381B74 16%, #2C1659 26%, #20113E 38%, #170D2A 48%, #110C1D 56%, #0F0B18 62%, #0F0B18 100%)';
 const skinCss = measured.map((s) => `[data-skin="${s.id}"] {
 ${vars(s)}
-  --bg-page-wash: none;
+  --bg-page-wash: ${s.accepted ? WASH_DARK : 'none'};
   --color-verified: ${VERIFIED};
   --text-on-verified: ${ON_VERIFIED};
 }`).join('\n\n');

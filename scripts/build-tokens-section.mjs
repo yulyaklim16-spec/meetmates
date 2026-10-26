@@ -305,11 +305,11 @@ const motionHtml = barTable(motionRows, (r) => {
 const PAIRS = [
   ['Основной текст на фоне экрана', '--text-primary', '--bg-page', 4.5],
   ['Основной текст на карточке', '--text-primary', '--bg-surface', 4.5],
-  ['Заголовок экрана на размытии', '--text-primary', '--lilac-150', 4.5],
+  ['Заголовок экрана на размытии', '--text-primary', '--lilac-150', 4.5, '--violet-600'],
   ['Подпись кнопки под курсором', '--text-primary', '--bg-hover', 4.5],
   ['Вторичный текст на карточке', '--text-muted', '--bg-surface', 4.5],
   ['Вторичный текст на вложенном: поле, чип', '--text-muted', '--bg-nested', 4.5],
-  ['Вторичный текст на размытии', '--text-muted', '--lilac-150', 4.5],
+  ['Вторичный текст на размытии', '--text-muted', '--lilac-150', 4.5, '--violet-600'],
   ['Вторичный текст под курсором', '--text-muted', '--bg-hover', 4.5],
   ['Слово на кнопке действия', '--text-on-action', '--color-action', 4.5],
   ['Слово на лейбе Verified', '--text-on-verified', '--color-verified', 4.5],
@@ -317,13 +317,13 @@ const PAIRS = [
   ['Своя реплика в диалоге', '--text-primary', '--bg-mine', 4.5],
   ['Реплика, которая не ушла', '--text-primary', '--bg-undelivered', 4.5],
   ['Опасное словом на карточке', '--text-danger', '--bg-surface', 4.5],
-  ['Опасное словом на размытии: Report, отказ', '--text-danger', '--lilac-150', 4.5],
+  ['Опасное словом на размытии: Report, отказ', '--text-danger', '--lilac-150', 4.5, '--violet-600'],
   ['Опасное словом под курсором', '--text-danger', '--bg-hover', 4.5],
   ['Иконка на фоне экрана (не текст)', '--icon-muted', '--bg-page', 3],
   ['Иконка на карточке (не текст)', '--icon-muted', '--bg-surface', 3],
   ['Иконка на вложенном (не текст)', '--icon-muted', '--bg-nested', 3],
   ['Кольцо фокуса на вложенном (не текст)', '--border-focus', '--bg-nested', 3],
-  ['Заливка и обводка опасного на размытии (не текст)', '--color-danger', '--lilac-150', 3],
+  ['Заливка и обводка опасного на размытии (не текст)', '--color-danger', '--lilac-150', 3, '--violet-600'],
 ];
 
 const hexIn = (map, res) => (name) => {
@@ -335,19 +335,18 @@ const hexIn = (map, res) => (name) => {
 const hexOf = hexIn(valueOf, resolve);
 const hexDark = hexIn(darkValueOf, resolveDark);
 
-// Размытие экрана — светлая картинка: в тёмной теме его нет вовсе
-// (`--bg-page-wash: none`), и пары «на размытии» там не существует.
-// Прочерк в колонке честнее нуля: пара не провалилась, её просто нет.
-const LIGHT_ONLY = '--lilac-150';
+// У размытия в каждой теме своя картинка и свой самый светлый край: в светлой
+// это --lilac-150, в тёмной --violet-600. Поэтому у таких пар фон в тёмной
+// указан отдельно: считать её по светлому верху значило бы считать не то.
 const measure = (fg, bg, min, hex) => {
   const f = hex(fg); const b = hex(bg);
   const r = f && b ? ratio(f, b) : 0;
   return { f, b, r, ok: r >= min };
 };
-const pairRows = PAIRS.map(([what, fg, bg, min]) => ({
-  what, fg, bg, min,
+const pairRows = PAIRS.map(([what, fg, bg, min, darkBg]) => ({
+  what, fg, bg, min, darkBg,
   light: measure(fg, bg, min, hexOf),
-  dark: bg === LIGHT_ONLY || fg === LIGHT_ONLY ? null : measure(fg, bg, min, hexDark),
+  dark: measure(fg, darkBg || bg, min, hexDark),
 }));
 
 // Проба — те же два токена, надетые друг на друга: число говорит, сколько
@@ -360,7 +359,7 @@ const check = (m) => (m
 const contrastHtml = tokTable(
   '<th class="c-pair">Пара</th><th class="c-num">Порог</th><th class="c-check">Светлая</th><th class="c-check">Тёмная</th>',
   pairRows.map((x) => `    <tr><td><code>${esc(x.fg)}</code> на <code>${esc(x.bg)}</code>`
-    + `<span class="tnote tnote--sub">${esc(x.what)}</span></td>`
+    + `<span class="tnote tnote--sub">${esc(x.what)}${x.darkBg ? ` · в тёмной фон — ${x.darkBg}` : ''}</span></td>`
     + `<td class="c-num">${String(x.min).replace('.', ',')}:1</td>`
     + `<td class="c-check">${check(x.light)}</td>`
     + `<td class="c-check">${check(x.dark)}</td></tr>`));

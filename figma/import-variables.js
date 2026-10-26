@@ -199,6 +199,16 @@ const PRIMITIVE = [
     "css": "lilac-500"
   },
   {
+    "path": "misc/violet-600",
+    "type": "COLOR",
+    "value": {
+      "r": 0.29411764705882354,
+      "g": 0.12941176470588237,
+      "b": 0.6
+    },
+    "css": "violet-600"
+  },
+  {
     "path": "color/lime-300",
     "type": "COLOR",
     "value": {
@@ -263,6 +273,12 @@ const PRIMITIVE = [
     "type": "STRING",
     "value": "radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)",
     "css": "gradient-page-wash"
+  },
+  {
+    "path": "gradient/page-wash-dark",
+    "type": "STRING",
+    "value": "radial-gradient(82% 34% at 50% -6%, rgba(123, 61, 214, .55) 0%, rgba(123, 61, 214, .18) 52%, rgba(123, 61, 214, 0) 78%), linear-gradient(180deg, #4B2199 0%, #43208C 8%, #381B74 16%, #2C1659 26%, #20113E 38%, #170D2A 48%, #110C1D 56%, #0F0B18 62%, #0F0B18 100%)",
+    "css": "gradient-page-wash-dark"
   },
   {
     "path": "effect/shadow-dot",
@@ -913,7 +929,7 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "bg/page-wash",
-    "value": "none",
+    "alias": "gradient/page-wash-dark",
     "css": "bg-page-wash"
   },
   {
@@ -1022,6 +1038,10 @@ const GRADIENTS = [
   {
     "name": "gradient-page-wash",
     "value": "radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)"
+  },
+  {
+    "name": "gradient-page-wash-dark",
+    "value": "radial-gradient(82% 34% at 50% -6%, rgba(123, 61, 214, .55) 0%, rgba(123, 61, 214, .18) 52%, rgba(123, 61, 214, 0) 78%), linear-gradient(180deg, #4B2199 0%, #43208C 8%, #381B74 16%, #2C1659 26%, #20113E 38%, #170D2A 48%, #110C1D 56%, #0F0B18 62%, #0F0B18 100%)"
   }
 ];
 
