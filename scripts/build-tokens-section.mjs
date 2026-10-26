@@ -169,18 +169,20 @@ ${rows.join('\n')}
 // число рядом — на «сколько именно».
 const barTable = (rows, bar) => tokTable(
   '<th>Токен</th><th class="c-num">Значение</th><th class="c-bar">Шкала</th><th>Где стоит</th>',
-  rows.map((r) => `    <tr><td><code>${esc(r.name)}</code></td><td class="c-num">${esc(r.value)}</td>`
+  rows.map((r) => `    <tr><td><code>${esc(r.name)}</code></td>`
+    + `<td class="${r.value.length > 22 ? 'c-wrap' : 'c-num'}"><code>${esc(r.value)}</code></td>`
     + `<td class="c-bar">${bar(r)}</td><td class="tnote">${inline(r.note || '—')}</td></tr>`));
 
 // Образец — настоящая строка интерфейса, а не «Aa»: кегль проверяется
 // на той фразе, которую он понесёт.
 const sampleTable = (rows, sample) => tokTable(
   '<th>Токен</th><th class="c-num">Значение</th><th>Образец</th><th>Где стоит</th>',
-  rows.map((r) => `    <tr><td><code>${esc(r.name)}</code></td><td class="c-num">${esc(r.value)}</td>`
+  rows.map((r) => `    <tr><td><code>${esc(r.name)}</code></td>`
+    + `<td class="${r.value.length > 22 ? 'c-wrap' : 'c-num'}"><code>${esc(r.value)}</code></td>`
     + `<td class="c-sample">${sample(r)}</td><td class="tnote">${inline(r.note || '—')}</td></tr>`));
 
 const roleTable = (rows) => tokTable(
-  '<th>Семантика</th><th>Показывает на</th><th>За что отвечает</th>',
+  '<th>Семантика</th><th class="c-ref">Показывает на</th><th>За что отвечает</th>',
   rows.map((r) => {
     const to = r.value.match(/^var\((--[a-z0-9-]+)\)$/);
     const done = resolve(r.value);
@@ -218,19 +220,28 @@ const semHtml = semGroups.map((g) => `      <h3>${esc(cap(g))}</h3>\n${roleTable
 const LINE = 'Meet mates · Enjoy the events';
 const PARA = 'Events here are posted by people like you — and yours would be the first one nearby.';
 
-const faceHtml = sampleTable(group(prim, /^--font-/), () =>
-  `<span class="type" style="font-size:18px">${LINE}</span>`);
-const typeHtml = sampleTable(desc(group(prim, /^--text-\d/)), (r) =>
-  `<span class="type" style="font-size:${r.value}">${LINE}</span>`);
-const weightHtml = sampleTable(desc(group(prim, /^--weight/)), (r) =>
-  `<span class="type" style="font-size:16px;font-weight:${r.value}">${LINE}</span>`);
-// Межстрочное видно только на нескольких строках: одна показывает кегль,
-// а не расстояние между строками.
-const leadingHtml = sampleTable(desc(group(prim, /^--leading/)), (r) =>
-  `<span class="type type--para" style="line-height:${r.value}">${PARA}</span>`);
-// Трекинг меряется на слове, а не на двух буквах: −0,035em на «Aa» не видно.
-const trackingHtml = sampleTable(desc(group(prim, /^--tracking/)), (r) =>
-  `<span class="type" style="font-size:22px;letter-spacing:${r.value}">${LINE}</span>`);
+// Шрифт идёт одной таблицей, а не четырьмя: гарнитура, кегль и межстрочное —
+// это одно решение о наборе, и смотрят их вместе. Образец у каждой строки свой:
+// кегль показывает себя размером строки, межстрочное — только абзацем,
+// в одной строке его не видно.
+const typeSample = (r) => {
+  if (/^--font-/.test(r.name)) return `<span class="type" style="font-size:18px">${LINE}</span>`;
+  if (/^--text-/.test(r.name)) return `<span class="type" style="font-size:${r.value}">${LINE}</span>`;
+  return `<span class="type type--para" style="line-height:${r.value}">${PARA}</span>`;
+};
+const typeHtml = sampleTable(
+  [...group(prim, /^--font-/), ...desc(group(prim, /^--text-\d/)), ...desc(group(prim, /^--leading/))],
+  typeSample);
+
+// Вес и трекинг — вторая пара решений о наборе: насколько тяжело и насколько
+// плотно. Трекинг меряется на слове, а не на двух буквах: −0,035em на «Aa»
+// не видно вовсе.
+const weightHtml = sampleTable(
+  [...desc(group(prim, /^--weight/)), ...desc(group(prim, /^--tracking/))],
+  (r) => (/^--weight/.test(r.name)
+    ? `<span class="type" style="font-size:16px;font-weight:${r.value}">${LINE}</span>`
+    : `<span class="type" style="font-size:22px;letter-spacing:${r.value}">${LINE}</span>`));
+
 // Шаг показывается полосой настоящей ширины: 48px рядом с 2px — это то,
 // чего не увидеть в столбце чисел.
 const spaceHtml = barTable(desc(group(prim, /^--space/)), (r) =>
@@ -308,7 +319,7 @@ const pairRows = PAIRS.map(([what, fg, bg, min]) => {
 // получилось, а буквы рядом — как это выглядит. Без пробы таблица контраста
 // рассказывает о читаемости, ничего не показывая.
 const contrastHtml = tokTable(
-  '<th>Пара</th><th class="c-num">Порог</th><th class="c-check">Проверка</th>',
+  '<th class="c-pair">Пара</th><th class="c-num">Порог</th><th class="c-check">Проверка</th>',
   pairRows.map((x) => `    <tr><td><code>${esc(x.fg)}</code> на <code>${esc(x.bg)}</code>` +
     `<span class="tnote tnote--sub">${esc(x.what)}</span></td>` +
     `<td class="c-num">${String(x.min).replace('.', ',')}:1</td>` +
@@ -353,28 +364,23 @@ const TABS = [
     id: 'scales',
     nav: 'Геометрия',
     title: 'Примитив: геометрия',
-    tables: `      <h3>Гарнитура</h3>
-${faceHtml}
-
-      <h3>Кегль</h3>
-${typeHtml}
-
-      <h3>Вес</h3>
-${weightHtml}
-
-      <h3>Межстрочное</h3>
-${leadingHtml}
-
-      <h3>Трекинг</h3>
-${trackingHtml}
-
-      <h3>Шаг</h3>
+    // Порядок тот же, что в референсе урока: сначала отступы, потом
+    // прорисованные радиусы, потом набор. Дальше идёт то, чего у референса
+    // нет, а у нас есть, — и идёт теми же двумя видами блоков: полоса
+    // для меры и настоящая строка для шрифта.
+    tables: `      <h3>Отступы</h3>
 ${spaceHtml}
 
-      <h3>Радиус</h3>
+      <h3>Радиусы</h3>
 ${radiusHtml}
 
-      <h3>Размер</h3>
+      <h3>Гарнитура, кегль и межстрочное</h3>
+${typeHtml}
+
+      <h3>Вес и трекинг</h3>
+${weightHtml}
+
+      <h3>Размеры</h3>
 ${sizeHtml}
 
       <h3>Движение и прозрачность</h3>
@@ -426,21 +432,42 @@ ${TABS_CSS}
 /* Узкую страницу таблица не растягивает: её листает своя полоса, а не вся
    страница. Контраст с длинной первой колонкой на телефоне иначе уезжал вбок. */
 .tokw { overflow-x: auto; margin: 0 0 var(--s-5); }
-.tok { width: 100%; border-collapse: collapse; font-size: var(--t-caption); }
+/* Ширины колонок заданы явно, и раскладка таблицы фиксированная: иначе образец
+   кегля в 34px считался «нужной» шириной, таблица уезжала за край страницы,
+   а колонка «где стоит» оказывалась за экраном. */
+.tok { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: var(--t-caption); }
+.tok th:first-child { width: 22%; }
 .tok th { text-align: left; font-weight: var(--fw-semibold); color: var(--ink-600); padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); }
 .tok td { padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); vertical-align: top; }
 .tok tr:last-child td { border-bottom: 0; }
-.tok .c-num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.tok .c-bar { width: 34%; }
-.tok .c-sample { width: 40%; }
-.tok .c-check { width: 30%; }
-.tok .val { white-space: nowrap; }
+.tok .c-num { width: 18%; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tok .c-bar { width: 28%; }
+.tok .c-sample { width: 34%; }
+.tok .c-check { width: 28%; }
+.tok .c-ref { width: 26%; }
+.tok th.c-pair { width: 46%; }
+/* Длинное значение — стопка гарнитуры, кривая движения — переносится
+   и прижимается влево: столбиком чисел оно всё равно не читается. Ширину
+   клетка не меняет: при фиксированной раскладке её задаёт только заголовок. */
+.tok .c-wrap { white-space: normal; text-align: left; }
+/* Стопка гарнитуры ломается по запятым, а не посреди слова: «BlinkMacSystemFont»,
+   разрезанный пополам, читается как два незнакомых имени */
+.tok .c-wrap code { overflow-wrap: break-word; word-break: normal; }
+.tok td { overflow-wrap: anywhere; }
+/* На телефоне доли колонок дают по сорок пикселей на число, и «48px» в них
+   не помещается. Таблица получает нижний предел ширины и листается своей
+   полосой — той же, что у референса урока. */
+@media (max-width: 760px) {
+  .tok { min-width: 800px; }
+}
+.tok .val { overflow-wrap: anywhere; }
 .tok .tnote { color: var(--ink-600); max-width: 48ch; }
 /* Подпись под именем пары: что это за место на экране. Отдельной колонкой
    она растягивала таблицу, а без неё имена ничего не говорят. */
 .tok .tnote--sub { display: block; margin-top: var(--s-1); }
 .tok .dim { color: var(--ink-600); }
-.tok code { font-size: var(--t-caption); white-space: nowrap; }
+.tok code { font-size: var(--t-caption); }
+.tok td:first-child code, .tok .c-num code { white-space: nowrap; }
 
 /* ── Плитка цвета: сам цвет сверху, под ним имя и строка «значение — где стоит».
    Цвет узнают глазом, и в плитке образец больше строки таблицы в шесть раз. */
@@ -452,7 +479,9 @@ ${TABS_CSS}
    штриховка: клетка не пустая, но и цвета в ней нет */
 .tk-chip--recipe { background: var(--surface); }
 .tk-chip--none { background: repeating-linear-gradient(45deg, var(--surface) 0 5px, transparent 5px 10px); }
-.tk-box { display: block; height: 56px; background: var(--surface); border: 1px solid var(--line); }
+/* Радиус показывается на квадрате, а не на полосе: на полосе во всю ширину
+   999px и 26px отличаются краями, которые не сравнить взглядом рядом */
+.tk-box { display: block; width: 48px; height: 48px; background: var(--surface); border: 1px solid var(--line); }
 .tk-name { display: block; margin: var(--s-3) 0 var(--s-1); font-size: var(--t-caption); color: var(--ink-900); white-space: nowrap; }
 .tk-note { display: block; font-size: var(--t-micro); line-height: 1.5; color: var(--ink-600); }
 .tk-note b { color: var(--ink-900); font-weight: var(--fw-medium); font-variant-numeric: tabular-nums; }
