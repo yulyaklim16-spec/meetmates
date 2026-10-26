@@ -266,18 +266,30 @@ const weightHtml = sampleTable(
 const spaceHtml = barTable(desc(group(prim, /^--space/)), (r) =>
   (/^\d+px$/.test(r.value) ? `<i class="bar" style="width:${r.value}"></i>` : '<span class="dim">—</span>'));
 const radiusHtml = radiusGrid(desc(group(prim, /^--radius/)));
-// Длительность — полоса в долю от самой долгой; прозрачность — та же плашка
-// в полсилы; у кривой образца нет: её видно только в движении.
-const msOf = (v) => (/ms$/.test(v) ? parseFloat(v) : /s$/.test(v) ? parseFloat(v) * 1000 : 0);
+// Образец показывает само свойство, а не его долю: длительность — проездом
+// бегунка по дорожке, кривая — тем же проездом рядом с линейным, увеличение —
+// наездом на контур исходного размера, прозрачность — парой одинаковых плашек.
+// Полоса «в долю от самой долгой» стояла здесь раньше и показывала не то:
+// у кривой образца не было вовсе, у увеличения вместо него стояла строка текста.
+//
 // Движение шкалой не является: длительность, кривая, увеличение и прозрачность
 // меряются разным, и общего «больше — меньше» у них нет. Поэтому здесь порядок
 // файла, а не убывание, — иначе 1.4s вставало бы между 200ms и кривой.
 const motionRows = group(prim, /^--duration|^--ease|^--zoom|^--opacity/);
-const maxMs = Math.max(...motionRows.map((r) => msOf(r.value)));
-const motionHtml = barTable(motionRows, (r) => {
-  if (msOf(r.value)) return `<i class="bar bar--size" style="width:${Math.max(2, Math.round((msOf(r.value) / maxMs) * 160))}px"></i>`;
-  if (/^--opacity/.test(r.name)) return `<i class="tk-dot tk-dot--ink" style="opacity:${r.value}"></i>`;
-  if (/^--zoom/.test(r.name)) return `<span class="type" style="font-size:14px;display:inline-block;transform:scale(${r.value})">${LINE}</span>`;
+const motionValue = (re) => (motionRows.find((r) => re.test(r.name)) || {}).value || '';
+// Кривая и длительность в образце — те же, что в продукте: дорожки под строкой
+// --ease-out едут ровно столько же, сколько едет обложка под курсором.
+const EASE = motionValue(/^--ease/);
+const SLOW = motionValue(/^--duration-slow/);
+const motionHtml = sampleTable(motionRows, (r) => {
+  if (/^--duration-skeleton/.test(r.name)) return `<span class="tk-skel" style="--d:${r.value}"></span>`;
+  if (/^--duration/.test(r.name)) return `<span class="tk-track"><i class="tk-run" style="animation-duration:${r.value}"></i></span>`;
+  if (/^--ease/.test(r.name)) return `<span class="tk-rows">
+      <span class="tk-row"><span class="tk-cap">linear</span><span class="tk-track"><i class="tk-run tk-run--linear"></i></span></span>
+      <span class="tk-row"><span class="tk-cap">наша</span><span class="tk-track"><i class="tk-run"></i></span></span>
+    </span>`;
+  if (/^--zoom/.test(r.name)) return `<span class="tk-zoom"><i class="tk-zoom-base"></i><i class="tk-zoom-up" style="transform:scale(${r.value})"></i></span>`;
+  if (/^--opacity/.test(r.name)) return `<span class="tk-fade"><i></i><i style="opacity:${r.value}"></i></span>`;
   return '<span class="dim">—</span>';
 });
 
@@ -524,6 +536,42 @@ ${TABS_CSS}
 .bar { display: inline-block; height: 12px; border-radius: 2px; background: var(--brand-a); vertical-align: middle; }
 .bar--size { height: 8px; background: var(--ink-400); }
 .bar--part { height: 8px; background: repeating-linear-gradient(90deg, var(--ink-400) 0 6px, transparent 6px 9px); }
+
+/* Образец движения показывает само движение. Бегунок проезжает дорожку ровно
+   за свою длительность — так видно, чем 200ms отличается от 300ms, — а кривая
+   стоит рядом с линейной: характер читается только в сравнении. */
+.tk-track { position: relative; display: inline-block; width: 140px; height: 8px; border-radius: 999px; background: var(--surface-2); overflow: hidden; vertical-align: middle; }
+.tk-run { position: absolute; top: 0; left: 0; width: 28px; height: 8px; border-radius: 999px; background: var(--ink-400);
+  animation: tk-run ${SLOW} ${EASE} infinite alternate; }
+.tk-run--linear { background: var(--brand-a); animation-timing-function: linear; }
+@keyframes tk-run { from { transform: translateX(0); } to { transform: translateX(112px); } }
+.tk-rows { display: inline-grid; gap: var(--s-2); }
+.tk-row { display: flex; align-items: center; gap: var(--s-2); }
+.tk-cap { width: 44px; font-size: var(--t-micro); color: var(--ink-600); }
+
+/* Заглушка — не переход, а цикл: блик пробегает её за свою длительность */
+.tk-skel { position: relative; display: inline-block; width: 140px; height: 8px; border-radius: 999px; background: var(--surface-2); overflow: hidden; vertical-align: middle; }
+.tk-skel::after { content: ""; position: absolute; inset: 0; animation: tk-sheen var(--d) linear infinite;
+  background: linear-gradient(90deg, transparent 0%, var(--line) 50%, transparent 100%); }
+@keyframes tk-sheen { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+/* Увеличение показано наездом на контур исходного размера: 6 % в числе
+   не читаются, а вылезающая за пунктир плашка — читается */
+.tk-zoom { position: relative; display: inline-block; width: 72px; height: 44px; }
+.tk-zoom i { position: absolute; inset: 0; border-radius: var(--r-sm); }
+.tk-zoom-base { background: var(--ink-400); }
+.tk-zoom-up { border: 1px dashed var(--ink-900); }
+
+/* Прозрачность — пара одинаковых плашек: отключённое есть то же в полсилы */
+.tk-fade { display: inline-flex; gap: var(--s-2); }
+.tk-fade i { display: block; width: 44px; height: 20px; border-radius: 999px; background: var(--ink-900); }
+
+/* Правило 8: движение в образцах выключается вместе со всем остальным.
+   Бегунок при этом остаётся виден — он просто стоит в конце дорожки. */
+@media (prefers-reduced-motion: reduce) {
+  .tk-run, .tk-skel::after { animation: none; }
+  .tk-run { transform: translateX(112px); }
+}
 
 /* Строка файлов под шапкой: куда идти за самим значением */
 .files { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-4) 0 0; padding: 0; list-style: none; }
