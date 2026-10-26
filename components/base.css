@@ -76,9 +76,9 @@
 /* скрыто для глаз, но не для скринридера: скрытый заголовок — такой же копирайт */
 .mm-vh {
   position: absolute;
-  width: var(--size-hairline);
-  height: var(--size-hairline);
-  margin: calc(var(--size-hairline) * -1);
+  width: 1px;
+  height: 1px;
+  margin: calc(1px * -1);
   padding: 0;
   overflow: hidden;
   clip-path: inset(50%);

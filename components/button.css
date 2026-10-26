@@ -20,7 +20,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-8);
-  min-height: var(--size-control);
+  min-height: 44px;
   padding: 0 var(--space-16);
   border: 0;
   border-radius: var(--radius-pill);
@@ -36,7 +36,7 @@
 }
 
 .mm-btn svg {
-  width: var(--size-icon-button); height: var(--size-icon-button);
+  width: 20px; height: 20px;
 }
 
 /* главная — тёмно-фиолетовая, почти чёрная. На экране одна */
@@ -69,7 +69,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-4);
-  min-height: var(--size-control);
+  min-height: 44px;
   padding: 0 var(--space-4);
   border: 0;
   background: none;
@@ -81,7 +81,7 @@
 }
 
 .mm-danger-link svg {
-  width: var(--size-icon-button); height: var(--size-icon-button);
+  width: 20px; height: 20px;
 }
 
 /* строка действий: одна-две кнопки в ряд, поровну */

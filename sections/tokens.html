@@ -465,7 +465,7 @@ footer p { max-width: 72ch; }
         и так же в Figma. Компонент берёт цвет только семантикой, геометрию — только примитивом. Таблицы в подпунктах
         собраны из <a href="../tokens.css">tokens.css</a> при сборке страницы, поэтому отстать не могут.</p>
       <div class="chips">
-        <span>110 примитивов</span>
+        <span>74 примитивов</span>
         <span>30 семантических</span>
         <span>20 переопределений в тёмной</span>
         <span>21 пара контраста в двух темах</span>
@@ -677,11 +677,11 @@ footer p { max-width: 72ch; }
 
     <section class="block" id="scales">
       <h2>Примитив: геометрия</h2>
-<p>Отступы, радиусы, набор, размеры и движение. <strong>Отдельного семантического уровня в геометрии нет</strong> (правило 2) — компонент читает эти значения напрямую, и второго имени у <code>16px</code> не существует.</p>
+<p>Отступы, радиусы, набор и движение. <strong>Отдельного семантического уровня в геометрии нет</strong> (правило 2) — компонент читает эти значения напрямую, и второго имени у <code>16px</code> не существует. Гарнитура в наборе одна — Figtree, и в таблицах её нет: это не шкала, а одно имя.</p>
 <p><strong>Шкала кратна двум:</strong> кегль 34 · 28 · 22 · 20 · 18 · 16 · 14 · 12, шаг 48 · 32 · 24 · 16 · 12 · 8 · 6 · 4 · 2, радиусы 26 · 18 · 14 и пилюля. <strong>Нечётных значений два, и оба не размеры:</strong> <code>1px</code> — волосяная линия, физический пиксель устройства, и <code>999px</code> у пилюли — признак «скругли до конца», а не мера.</p>
 <p><strong>Числовые шкалы стоят от большего к меньшему</strong> <code class="dcode">D-82</code>. Сверху видно потолок шкалы и шаг вниз от него, а не разбег от двойки. Составные значения (<code>--space-label</code>, <code>--space-mark</code>) порядку не подчиняются: у них нет одного числа, по которому их сравнивать.</p>
-<p><strong>Размерных токенов больше, чем шкальных, и это нормально.</strong> <code>--size-cover: 168px</code> — обложка события, <code>--size-control: 44px</code> — минимальный тач-таргет, <code>--size-screen-h</code> — высота мокапа. Это не ступени одной лестницы, а мерки конкретных мест, и у каждой в комментарии сказано, где она стоит.</p>
-<p><strong>Одно исключение размечено в самом файле.</strong> Координаты снимков на кольцах радара остались числами в <code>components/radar.css</code>: это точки на картинке, а не значения системы — имени у «96px влево от центра» нет и быть не может. Радиусы самих колец при этом токены: <code>--size-radar-1</code> … <code>--size-radar-5</code>.</p>
+<p><strong>Размеров в наборе нет</strong> <code class="dcode">D-87</code>. Их было тридцать шесть — высота карточки, обложка, кольца радара, полосы заглушек, — и каждое имя читалось ровно одним компонентом. Токен оправдан, когда значение повторяется или когда оно правило системы; мерка одной детали — ни то, ни другое, и место ей в самом компоненте. Теперь высота обложки стоит числом в <code>card.css</code>, кольца радара — в <code>radar.css</code>, и правка идёт туда, где деталь нарисована.</p>
+<p><strong>Шкала при этом осталась шкалой.</strong> Шаг и радиус компонент по-прежнему берёт только токеном: ступень повторяется в десятках мест, и правка ступени обязана разойтись сама. Это и проверяет <code>tokens-audit.mjs</code>: отступ и радиус числом — ошибка, ширина и высота числом — норма.</p>
       <h3>Отступы</h3>
 <div class="tokw"><table class="tok">
   <thead><tr><th>Токен</th><th class="c-num">Значение</th><th class="c-bar">Шкала</th><th>Где стоит</th></tr></thead>
@@ -720,11 +720,10 @@ footer p { max-width: 72ch; }
   </div>
 </div>
 
-      <h3>Гарнитура, кегль и межстрочное</h3>
+      <h3>Кегль и интерлиньяж</h3>
 <div class="tokw"><table class="tok">
   <thead><tr><th>Токен</th><th class="c-num">Значение</th><th>Образец</th><th>Где стоит</th></tr></thead>
   <tbody>
-    <tr><td><code>--font-sans</code></td><td class="c-wrap"><code>&quot;Figtree&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif</code></td><td class="c-sample"><span class="type" style="font-size:18px">Meet mates · Enjoy the events</span></td><td class="tnote">—</td></tr>
     <tr><td><code>--text-34</code></td><td class="c-num"><code>34px</code></td><td class="c-sample"><span class="type" style="font-size:34px">Meet mates · Enjoy the events</span></td><td class="tnote">обещание на первом экране</td></tr>
     <tr><td><code>--text-28</code></td><td class="c-num"><code>28px</code></td><td class="c-sample"><span class="type" style="font-size:28px">Meet mates · Enjoy the events</span></td><td class="tnote">заголовок экрана</td></tr>
     <tr><td><code>--text-22</code></td><td class="c-num"><code>22px</code></td><td class="c-sample"><span class="type" style="font-size:22px">Meet mates · Enjoy the events</span></td><td class="tnote">подзаголовок и заголовок состояния</td></tr>
@@ -752,49 +751,6 @@ footer p { max-width: 72ch; }
     <tr><td><code>--tracking-button</code></td><td class="c-num"><code>-0.01em</code></td><td class="c-sample"><span class="type" style="font-size:22px;letter-spacing:-0.01em">Meet mates · Enjoy the events</span></td><td class="tnote">подпись кнопки</td></tr>
     <tr><td><code>--tracking-heading</code></td><td class="c-num"><code>-0.015em</code></td><td class="c-sample"><span class="type" style="font-size:22px;letter-spacing:-0.015em">Meet mates · Enjoy the events</span></td><td class="tnote">заголовки групп и карточек</td></tr>
     <tr><td><code>--tracking-display</code></td><td class="c-num"><code>-0.035em</code></td><td class="c-sample"><span class="type" style="font-size:22px;letter-spacing:-0.035em">Meet mates · Enjoy the events</span></td><td class="tnote">заголовок экрана и обещание</td></tr>
-  </tbody>
-</table></div>
-
-      <h3>Размеры</h3>
-<div class="tokw"><table class="tok">
-  <thead><tr><th>Токен</th><th class="c-num">Значение</th><th class="c-bar">Шкала</th><th>Где стоит</th></tr></thead>
-  <tbody>
-    <tr><td><code>--size-screen-h</code></td><td class="c-num"><code>844px</code></td><td class="c-bar"><i class="bar bar--size" style="width:160px"></i></td><td class="tnote">высота мокапа — iPhone 14/15</td></tr>
-    <tr><td><code>--size-card</code></td><td class="c-num"><code>400px</code></td><td class="c-bar"><i class="bar bar--size" style="width:76px"></i></td><td class="tnote">карточка человека</td></tr>
-    <tr><td><code>--size-screen-w</code></td><td class="c-num"><code>390px</code></td><td class="c-bar"><i class="bar bar--size" style="width:74px"></i></td><td class="tnote">ширина мокапа; поля экрана задаёт --space-16</td></tr>
-    <tr><td><code>--size-radar</code></td><td class="c-num"><code>340px</code></td><td class="c-bar"><i class="bar bar--size" style="width:64px"></i></td><td class="tnote">поле радара на онбординге</td></tr>
-    <tr><td><code>--size-radar-5</code></td><td class="c-num"><code>300px</code></td><td class="c-bar"><i class="bar bar--size" style="width:57px"></i></td><td class="tnote">Пять колец радара. Числа лежат здесь, а координаты снимков на кольцах — в components/radar.css и остаются числами: это рисунок, а не шкала.</td></tr>
-    <tr><td><code>--size-radar-4</code></td><td class="c-num"><code>250px</code></td><td class="c-bar"><i class="bar bar--size" style="width:47px"></i></td><td class="tnote">второе кольцо радара</td></tr>
-    <tr><td><code>--size-radar-3</code></td><td class="c-num"><code>200px</code></td><td class="c-bar"><i class="bar bar--size" style="width:38px"></i></td><td class="tnote">третье кольцо радара</td></tr>
-    <tr><td><code>--size-cover</code></td><td class="c-num"><code>168px</code></td><td class="c-bar"><i class="bar bar--size" style="width:32px"></i></td><td class="tnote">обложка события</td></tr>
-    <tr><td><code>--size-radar-2</code></td><td class="c-num"><code>150px</code></td><td class="c-bar"><i class="bar bar--size" style="width:28px"></i></td><td class="tnote">четвёртое кольцо радара</td></tr>
-    <tr><td><code>--size-radar-1</code></td><td class="c-num"><code>100px</code></td><td class="c-bar"><i class="bar bar--size" style="width:19px"></i></td><td class="tnote">внутреннее кольцо радара</td></tr>
-    <tr><td><code>--size-textarea</code></td><td class="c-num"><code>96px</code></td><td class="c-bar"><i class="bar bar--size" style="width:18px"></i></td><td class="tnote">поле на несколько строк: описание события</td></tr>
-    <tr><td><code>--size-skel-count</code></td><td class="c-num"><code>80px</code></td><td class="c-bar"><i class="bar bar--size" style="width:15px"></i></td><td class="tnote">заглушка под счётчик встреч</td></tr>
-    <tr><td><code>--width-bubble</code></td><td class="c-num"><code>80%</code></td><td class="c-bar"><i class="bar bar--part" style="width:128px"></i></td><td class="tnote">предел ширины реплики в диалоге</td></tr>
-    <tr><td><code>--size-dot-lg</code></td><td class="c-num"><code>72px</code></td><td class="c-bar"><i class="bar bar--size" style="width:14px"></i></td><td class="tnote">снимок на внешнем кольце радара</td></tr>
-    <tr><td><code>--size-state-icon</code></td><td class="c-num"><code>64px</code></td><td class="c-bar"><i class="bar bar--size" style="width:12px"></i></td><td class="tnote">кружок с иконкой в карточке состояния</td></tr>
-    <tr><td><code>--width-l</code></td><td class="c-num"><code>62%</code></td><td class="c-bar"><i class="bar bar--part" style="width:99px"></i></td><td class="tnote">длинная полоса-заглушка</td></tr>
-    <tr><td><code>--size-thumb</code></td><td class="c-num"><code>56px</code></td><td class="c-bar"><i class="bar bar--size" style="width:11px"></i></td><td class="tnote">миниатюра в строке выдачи</td></tr>
-    <tr><td><code>--size-dot</code></td><td class="c-num"><code>56px</code></td><td class="c-bar"><i class="bar bar--size" style="width:11px"></i></td><td class="tnote">снимок на среднем кольце радара</td></tr>
-    <tr><td><code>--size-control</code></td><td class="c-num"><code>44px</code></td><td class="c-bar"><i class="bar bar--size" style="width:8px"></i></td><td class="tnote">минимальный тач-таргет</td></tr>
-    <tr><td><code>--width-m</code></td><td class="c-num"><code>44%</code></td><td class="c-bar"><i class="bar bar--part" style="width:70px"></i></td><td class="tnote">средняя полоса-заглушка</td></tr>
-    <tr><td><code>--size-dot-sm</code></td><td class="c-num"><code>40px</code></td><td class="c-bar"><i class="bar bar--size" style="width:8px"></i></td><td class="tnote">снимок на внутреннем кольце радара</td></tr>
-    <tr><td><code>--size-icon-lg</code></td><td class="c-num"><code>32px</code></td><td class="c-bar"><i class="bar bar--size" style="width:6px"></i></td><td class="tnote">иконка в карточке состояния</td></tr>
-    <tr><td><code>--measure-text</code></td><td class="c-num"><code>30ch</code></td><td class="c-bar"><span class="dim">—</span></td><td class="tnote">предел строки в карточке состояния</td></tr>
-    <tr><td><code>--width-s</code></td><td class="c-num"><code>28%</code></td><td class="c-bar"><i class="bar bar--part" style="width:45px"></i></td><td class="tnote">короткая полоса-заглушка</td></tr>
-    <tr><td><code>--size-icon-md</code></td><td class="c-num"><code>24px</code></td><td class="c-bar"><i class="bar bar--size" style="width:5px"></i></td><td class="tnote">иконка в шапке, в поле, во вкладке</td></tr>
-    <tr><td><code>--size-avatar</code></td><td class="c-num"><code>24px</code></td><td class="c-bar"><i class="bar bar--size" style="width:5px"></i></td><td class="tnote">аватар в строке автора</td></tr>
-    <tr><td><code>--size-icon-button</code></td><td class="c-num"><code>20px</code></td><td class="c-bar"><i class="bar bar--size" style="width:4px"></i></td><td class="tnote">иконка в кнопке-ссылке: Report</td></tr>
-    <tr><td><code>--size-skel-pill</code></td><td class="c-num"><code>20px</code></td><td class="c-bar"><i class="bar bar--size" style="width:4px"></i></td><td class="tnote">высота заглушки-пилюли</td></tr>
-    <tr><td><code>--size-icon-sm</code></td><td class="c-num"><code>16px</code></td><td class="c-bar"><i class="bar bar--size" style="width:3px"></i></td><td class="tnote">галочка на лейбе, иконка в строке фактов</td></tr>
-    <tr><td><code>--size-blur-photo</code></td><td class="c-num"><code>14px</code></td><td class="c-bar"><i class="bar bar--size" style="width:3px"></i></td><td class="tnote">размытие фотографии, дошедшей не целиком</td></tr>
-    <tr><td><code>--size-skel-line</code></td><td class="c-num"><code>12px</code></td><td class="c-bar"><i class="bar bar--size" style="width:2px"></i></td><td class="tnote">высота полосы-заглушки</td></tr>
-    <tr><td><code>--size-scroll-gutter</code></td><td class="c-num"><code>10px</code></td><td class="c-bar"><i class="bar bar--size" style="width:2px"></i></td><td class="tnote">жёлоб полосы прокрутки, вычитается из правого поля</td></tr>
-    <tr><td><code>--size-pager-dot</code></td><td class="c-num"><code>6px</code></td><td class="c-bar"><i class="bar bar--size" style="width:2px"></i></td><td class="tnote">кружок пагинации на снимке</td></tr>
-    <tr><td><code>--size-dot-ring</code></td><td class="c-num"><code>4px</code></td><td class="c-bar"><i class="bar bar--size" style="width:2px"></i></td><td class="tnote">обводка снимка на кольце радара</td></tr>
-    <tr><td><code>--size-hairline</code></td><td class="c-num"><code>1px</code></td><td class="c-bar"><i class="bar bar--size" style="width:2px"></i></td><td class="tnote">физический пиксель: клип скрытой подписи</td></tr>
-    <tr><td><code>--size-avatar-drop</code></td><td class="c-num"><code>-6px</code></td><td class="c-bar"><i class="bar bar--size" style="width:2px"></i></td><td class="tnote">посадка кружка на базовую линию</td></tr>
   </tbody>
 </table></div>
 

@@ -225,8 +225,8 @@ const group = (rows, re) => rows.filter((r) => re.test(r.name));
 const num = (v) => { const m = String(v).match(/-?\d*\.?\d+/); return m ? parseFloat(m[0]) : -Infinity; };
 const desc = (rows) => [...rows].sort((a, b) => num(b.value) - num(a.value));
 
-// Группы отбираются по имени группы, а не по именам токенов внутри:
-// --size-dot-ring затягивал в таблицу цвета весь «размер», и она двоилась.
+// Группы отбираются по имени группы, а не по именам токенов внутри: имя
+// вроде --radius-pill иначе затягивает в таблицу соседнюю шкалу целиком.
 const colorGroups = [...new Set(prim.map((r) => r.group))]
   .filter((g) => /^цвет|тень и кольцо/.test(g));
 const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
@@ -241,18 +241,15 @@ const semHtml = semGroups.map((g) => `      <h3>${esc(cap(g))}</h3>\n${roleTable
 // и другого ритма.
 const LINE = 'Meet mates · Enjoy the events';
 const PARA = 'Events here are posted by people like you — and yours would be the first one nearby.';
-
-// Шрифт идёт одной таблицей, а не четырьмя: гарнитура, кегль и межстрочное —
-// это одно решение о наборе, и смотрят их вместе. Образец у каждой строки свой:
-// кегль показывает себя размером строки, межстрочное — только абзацем,
-// в одной строке его не видно.
-const typeSample = (r) => {
-  if (/^--font-/.test(r.name)) return `<span class="type" style="font-size:18px">${LINE}</span>`;
-  if (/^--text-/.test(r.name)) return `<span class="type" style="font-size:${r.value}">${LINE}</span>`;
-  return `<span class="type type--para" style="line-height:${r.value}">${PARA}</span>`;
-};
+// Кегль и интерлиньяж — одна таблица: это одно решение о наборе, и смотрят их
+// вместе. Образец у каждой строки свой: кегль показывает себя размером строки,
+// интерлиньяж — только абзацем, в одной строке его не видно. Гарнитура в таблицу
+// не идёт: это не шкала, а одно имя, и оно названо в тексте блока.
+const typeSample = (r) => (/^--text-/.test(r.name)
+  ? `<span class="type" style="font-size:${r.value}">${LINE}</span>`
+  : `<span class="type type--para" style="line-height:${r.value}">${PARA}</span>`);
 const typeHtml = sampleTable(
-  [...group(prim, /^--font-/), ...desc(group(prim, /^--text-\d/)), ...desc(group(prim, /^--leading/))],
+  [...desc(group(prim, /^--text-\d/)), ...desc(group(prim, /^--leading/))],
   typeSample);
 
 // Вес и трекинг — вторая пара решений о наборе: насколько тяжело и насколько
@@ -269,20 +266,6 @@ const weightHtml = sampleTable(
 const spaceHtml = barTable(desc(group(prim, /^--space/)), (r) =>
   (/^\d+px$/.test(r.value) ? `<i class="bar" style="width:${r.value}"></i>` : '<span class="dim">—</span>'));
 const radiusHtml = radiusGrid(desc(group(prim, /^--radius/)));
-// Размер сжат общим масштабом: 844px в клетку не влезает, но рядом с 16px
-// должно быть видно, что это разные порядки. Проценты меряются от родителя,
-// а не от экрана: у них полоса своя, штриховая, в долю от той же ширины.
-const sizeRows = desc(group(prim, /^--size|^--width|^--measure/));
-const maxPx = Math.max(...sizeRows.map((r) => (/px$/.test(r.value) ? Math.abs(parseFloat(r.value)) : 0)));
-const sizeHtml = barTable(sizeRows, (r) => {
-  if (/%$/.test(r.value)) {
-    const w = Math.max(2, Math.round((parseFloat(r.value) / 100) * 160));
-    return `<i class="bar bar--part" style="width:${w}px"></i>`;
-  }
-  if (!/px$/.test(r.value)) return '<span class="dim">—</span>';
-  const w = Math.max(2, Math.round((Math.abs(parseFloat(r.value)) / maxPx) * 160));
-  return `<i class="bar bar--size" style="width:${w}px"></i>`;
-});
 // Длительность — полоса в долю от самой долгой; прозрачность — та же плашка
 // в полсилы; у кривой образца нет: её видно только в движении.
 const msOf = (v) => (/ms$/.test(v) ? parseFloat(v) : /s$/.test(v) ? parseFloat(v) * 1000 : 0);
@@ -417,14 +400,11 @@ ${spaceHtml}
       <h3>Радиусы</h3>
 ${radiusHtml}
 
-      <h3>Гарнитура, кегль и межстрочное</h3>
+      <h3>Кегль и интерлиньяж</h3>
 ${typeHtml}
 
       <h3>Вес и трекинг</h3>
 ${weightHtml}
-
-      <h3>Размеры</h3>
-${sizeHtml}
 
       <h3>Движение и прозрачность</h3>
 ${motionHtml}`,

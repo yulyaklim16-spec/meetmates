@@ -29,17 +29,17 @@
   box-shadow: 0 0 0 var(--space-2) var(--border-hairline);
 }
 
-.mm-rings { width: var(--size-radar); height: var(--size-radar); }
+.mm-rings { width: 340px; height: 340px; }
 
-.mm-rings .r5 { width: var(--size-radar-5); height: var(--size-radar-5); }
+.mm-rings .r5 { width: 300px; height: 300px; }
 
-.mm-rings .mid { width: var(--size-radar-4); height: var(--size-radar-4); }
+.mm-rings .mid { width: 250px; height: 250px; }
 
-.mm-rings .r3 { width: var(--size-radar-3); height: var(--size-radar-3); }
+.mm-rings .r3 { width: 200px; height: 200px; }
 
-.mm-rings .in { width: var(--size-radar-2); height: var(--size-radar-2); }
+.mm-rings .in { width: 150px; height: 150px; }
 
-.mm-rings .r1 { width: var(--size-radar-1); height: var(--size-radar-1); }
+.mm-rings .r1 { width: 100px; height: 100px; }
 
 /* подписи колец ложатся поверх снимков — поэтому они на тёмной пилюле:
    белый на ней 19,9:1 вне зависимости от того, что под ней */
@@ -67,27 +67,27 @@
 
 .mm-dot {
   display: block;
-  width: var(--size-dot);
-  height: var(--size-dot);
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   overflow: hidden;
   background: var(--bg-nested);
-  box-shadow: 0 0 0 var(--size-dot-ring) var(--bg-surface), var(--shadow-2);
+  box-shadow: 0 0 0 4px var(--bg-surface), var(--shadow-2);
 }
 
 .mm-dot img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-.mm-dot--sm { width: var(--size-dot-sm); height: var(--size-dot-sm); }
+.mm-dot--sm { width: 40px; height: 40px; }
 
-.mm-dot--lg { width: var(--size-dot-lg); height: var(--size-dot-lg); }
+.mm-dot--lg { width: 72px; height: 72px; }
 
 /* волна идёт из центра наружу; кольца при этом не едут — они подписаны */
 .mm-scan {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: var(--size-radar);
-  height: var(--size-radar);
+  width: 340px;
+  height: 340px;
   margin: 0;
   border-radius: 50%;
   box-shadow: 0 0 0 var(--space-2) var(--color-action);

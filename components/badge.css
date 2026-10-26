@@ -20,7 +20,7 @@
 }
 
 .mm-chip svg {
-  width: var(--size-icon-sm); height: var(--size-icon-sm); color: var(--text-muted);
+  width: 16px; height: 16px; color: var(--text-muted);
 }
 
 /* теги интересов: перечисление под числом общих (D-13) */
@@ -36,13 +36,13 @@
 .mm-avatar {
   flex: none;
   display: inline-block;
-  width: var(--size-avatar);
-  height: var(--size-avatar);
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   overflow: hidden;
   background: var(--bg-nested);
   box-shadow: var(--ring-hairline);
-  vertical-align: var(--size-avatar-drop);
+  vertical-align: -6px;
 }
 
 .mm-avatar img {
@@ -92,7 +92,7 @@
 }
 
 .mm-verified svg {
-  width: var(--size-icon-sm); height: var(--size-icon-sm);
+  width: 16px; height: 16px;
 }
 
 /* подпись над полем: в анкете она видимая. В поиске и в диалоге смысл

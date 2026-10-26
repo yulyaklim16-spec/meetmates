@@ -264,15 +264,15 @@ body:not(.kit) section.stretch { flex: 1; min-height: 0; }
 /* Жёлоб под полосу прокрутки вычитается из правого отступа, иначе содержимое
    прокручиваемой секции стоит на 10px левее, чем в соседней непрокручиваемой:
    полоса съедала ширину контента. Теперь полоса живёт в поле экрана, а блоки
-   везде на одинаковом расстоянии от края. Значение равно ширине тонкой полосы
-   и берётся из --size-scroll-gutter: второго объявления с тем же числом здесь нет. */
+   везде на одинаковом расстоянии от края. Значение равно ширине тонкой
+   полосы и стоит числом: мерка одного места — не шкала набора (D-87). */
 body:not(.kit) .scrolly { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; margin: 0 calc(var(--s-4) * -1);
-  padding: 0 calc(var(--s-4) - var(--size-scroll-gutter)) var(--s-2) var(--s-4); }
+  padding: 0 calc(var(--s-4) - 10px) var(--s-2) var(--s-4); }
 /* то же для экранов, где прокручивается сама панель (колода, профиль, селфи) */
 /* нижний отступ такой же, как у .scrolly: без него последний блок упирается
    в границу панели и его обводку срезает overflow */
 body:not(.kit) .pane:has(.card) { margin: 0 calc(var(--s-4) * -1);
-  padding: 0 calc(var(--s-4) - var(--size-scroll-gutter)) var(--s-2) var(--s-4); }
+  padding: 0 calc(var(--s-4) - 10px) var(--s-2) var(--s-4); }
 /* внутри такой панели секция уже не прокручивается — поля отдаёт панель */
 body:not(.kit) .pane:has(.card) > .scrolly { margin: 0; padding-left: 0; padding-right: 0; }
 body:not(.kit) :is(.scrolly, .pane) { scrollbar-width: thin; scrollbar-color: var(--ink-400) transparent; scrollbar-gutter: stable; }

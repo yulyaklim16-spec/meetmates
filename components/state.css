@@ -32,15 +32,15 @@
   flex: none;
   display: grid;
   place-items: center;
-  width: var(--size-state-icon);
-  height: var(--size-state-icon);
+  width: 64px;
+  height: 64px;
   border-radius: var(--radius-pill);
   background: var(--bg-nested);
   color: var(--text-primary);
 }
 
 .mm-state-ico svg {
-  width: var(--size-icon-lg); height: var(--size-icon-lg);
+  width: 32px; height: 32px;
 }
 
 .mm-state :is(h1, h2, h3) {
@@ -48,7 +48,7 @@
 }
 
 .mm-state p {
-  margin: 0; max-width: var(--measure-text); color: var(--text-muted); font-size: var(--text-14);
+  margin: 0; max-width: 30ch; color: var(--text-muted); font-size: var(--text-14);
 }
 
 /* сбой: красным только иконка. Текст говорит, что данные целы */

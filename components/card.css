@@ -22,7 +22,7 @@
 }
 
 .mm-cover {
-  grid-row: 1; position: relative; height: var(--size-cover); background: var(--bg-nested);
+  grid-row: 1; position: relative; height: 168px; background: var(--bg-nested);
 }
 
 .mm-cover img {
@@ -39,7 +39,7 @@
 /* Ссылка, а не просто строка: высота добита до тач-таргета 44px (§8).
    Было 42 — на два пикселя ниже порога, и это ловится только замером. */
 .mm-event-head {
-  min-height: var(--size-control);
+  min-height: 44px;
   display: flex;
   align-items: baseline;
   gap: var(--space-8);
@@ -117,7 +117,7 @@ a.mm-row:hover .mm-cover img, a.mm-row.is-hover .mm-cover img, .mm-event:hover .
  видимой и на светлом кадре. */
 .mm-pager span {
   flex: none;
-  width: var(--size-pager-dot); height: var(--size-pager-dot);
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: transparent;
   box-shadow: var(--ring-dot), var(--shadow-dot);

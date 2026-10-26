@@ -9,7 +9,7 @@
 /* один факт пересчитывается — на его месте заглушка, остальные стоят текстом.
    Форма та же, что у полосы текста: высота ниже строки, поэтому ряд не растёт
    и карточка не меняет размер, когда число пришло */
-.mm-signals .mm-skel { width: var(--size-skel-count); }
+.mm-signals .mm-skel { width: 80px; }
 
 /* загрузка: заглушки держат раскладку и показывают, что именно грузится.
    Спиннер не делает ни того, ни другого */
@@ -22,23 +22,23 @@
   animation: mm-skel var(--duration-skeleton) var(--ease-out) infinite;
 }
 
-.mm-skel--line { height: var(--size-skel-line); }
+.mm-skel--line { height: 12px; }
 
-.mm-skel--pill { height: var(--size-skel-pill); border-radius: var(--radius-pill); }
+.mm-skel--pill { height: 20px; border-radius: var(--radius-pill); }
 
 /* на месте кнопки: пилюля ростом с саму кнопку. Прежняя --pill стоит за чип
    и бейдж, она вдвое ниже — заглушка на её месте не держала бы высоту строки
    действий, и карточка подскакивала бы при приходе данных */
-.mm-skel--btn { height: var(--size-control); border-radius: var(--radius-pill); }
+.mm-skel--btn { height: 44px; border-radius: var(--radius-pill); }
 
-.mm-skel--w-l { width: var(--width-l); }
+.mm-skel--w-l { width: 62%; }
 
-.mm-skel--w-m { width: var(--width-m); }
+.mm-skel--w-m { width: 44%; }
 
-.mm-skel--w-s { width: var(--width-s); }
+.mm-skel--w-s { width: 28%; }
 
 /* миниатюра: место под фотографию, которой ещё нет */
-.mm-skel--thumb { flex: 1; height: var(--size-thumb); }
+.mm-skel--thumb { flex: 1; height: 56px; }
 
 /* ряд заглушек отбит от того, что над ним: это отдельная строка, а не продолжение */
 .mm-skelrow { display: flex; flex-wrap: wrap; gap: var(--space-8); margin: var(--space-12) 0 0; }
@@ -46,7 +46,7 @@
 /* Пузырь, в котором лежит заглушка, берёт свою полную ширину: полосы заданы
    процентом, а пузырь сам по содержимому — процент считался от нуля, и три
    реплики выходили тремя точками. Рабочий пузырь по-прежнему по содержимому. */
-.mm-bubble:has(> .mm-skel) { width: var(--width-bubble); }
+.mm-bubble:has(> .mm-skel) { width: 80%; }
 
 @keyframes mm-skel {
   from { background-position: 100% 0; }

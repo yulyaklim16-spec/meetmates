@@ -29,12 +29,6 @@ const PRIMITIVE = [
     "css": "gray-100"
   },
   {
-    "path": "misc/clear",
-    "type": "STRING",
-    "value": "transparent",
-    "css": "clear"
-  },
-  {
     "path": "color/plum-950",
     "type": "COLOR",
     "value": {
@@ -133,6 +127,16 @@ const PRIMITIVE = [
       "b": 0.3411764705882353
     },
     "css": "coal-600"
+  },
+  {
+    "path": "misc/coal-500",
+    "type": "COLOR",
+    "value": {
+      "r": 0.35294117647058826,
+      "g": 0.35294117647058826,
+      "b": 0.4
+    },
+    "css": "coal-500"
   },
   {
     "path": "misc/coal-200",
@@ -435,12 +439,6 @@ const PRIMITIVE = [
     "css": "tracking-display"
   },
   {
-    "path": "measure/text",
-    "type": "STRING",
-    "value": "30ch",
-    "css": "measure-text"
-  },
-  {
     "path": "space/48",
     "type": "FLOAT",
     "value": 48,
@@ -529,216 +527,6 @@ const PRIMITIVE = [
     "type": "FLOAT",
     "value": 14,
     "css": "radius-sm"
-  },
-  {
-    "path": "size/screen-h",
-    "type": "FLOAT",
-    "value": 844,
-    "css": "size-screen-h"
-  },
-  {
-    "path": "size/card",
-    "type": "FLOAT",
-    "value": 400,
-    "css": "size-card"
-  },
-  {
-    "path": "size/screen-w",
-    "type": "FLOAT",
-    "value": 390,
-    "css": "size-screen-w"
-  },
-  {
-    "path": "size/radar",
-    "type": "FLOAT",
-    "value": 340,
-    "css": "size-radar"
-  },
-  {
-    "path": "size/cover",
-    "type": "FLOAT",
-    "value": 168,
-    "css": "size-cover"
-  },
-  {
-    "path": "size/textarea",
-    "type": "FLOAT",
-    "value": 96,
-    "css": "size-textarea"
-  },
-  {
-    "path": "size/state-icon",
-    "type": "FLOAT",
-    "value": 64,
-    "css": "size-state-icon"
-  },
-  {
-    "path": "size/thumb",
-    "type": "FLOAT",
-    "value": 56,
-    "css": "size-thumb"
-  },
-  {
-    "path": "size/control",
-    "type": "FLOAT",
-    "value": 44,
-    "css": "size-control"
-  },
-  {
-    "path": "size/icon-lg",
-    "type": "FLOAT",
-    "value": 32,
-    "css": "size-icon-lg"
-  },
-  {
-    "path": "size/icon-md",
-    "type": "FLOAT",
-    "value": 24,
-    "css": "size-icon-md"
-  },
-  {
-    "path": "size/avatar",
-    "type": "FLOAT",
-    "value": 24,
-    "css": "size-avatar"
-  },
-  {
-    "path": "size/icon-button",
-    "type": "FLOAT",
-    "value": 20,
-    "css": "size-icon-button"
-  },
-  {
-    "path": "size/icon-sm",
-    "type": "FLOAT",
-    "value": 16,
-    "css": "size-icon-sm"
-  },
-  {
-    "path": "size/scroll-gutter",
-    "type": "FLOAT",
-    "value": 10,
-    "css": "size-scroll-gutter"
-  },
-  {
-    "path": "size/avatar-drop",
-    "type": "FLOAT",
-    "value": -6,
-    "css": "size-avatar-drop"
-  },
-  {
-    "path": "size/radar-5",
-    "type": "FLOAT",
-    "value": 300,
-    "css": "size-radar-5"
-  },
-  {
-    "path": "size/radar-4",
-    "type": "FLOAT",
-    "value": 250,
-    "css": "size-radar-4"
-  },
-  {
-    "path": "size/radar-3",
-    "type": "FLOAT",
-    "value": 200,
-    "css": "size-radar-3"
-  },
-  {
-    "path": "size/radar-2",
-    "type": "FLOAT",
-    "value": 150,
-    "css": "size-radar-2"
-  },
-  {
-    "path": "size/radar-1",
-    "type": "FLOAT",
-    "value": 100,
-    "css": "size-radar-1"
-  },
-  {
-    "path": "size/skel-count",
-    "type": "FLOAT",
-    "value": 80,
-    "css": "size-skel-count"
-  },
-  {
-    "path": "size/dot-lg",
-    "type": "FLOAT",
-    "value": 72,
-    "css": "size-dot-lg"
-  },
-  {
-    "path": "size/dot",
-    "type": "FLOAT",
-    "value": 56,
-    "css": "size-dot"
-  },
-  {
-    "path": "size/dot-sm",
-    "type": "FLOAT",
-    "value": 40,
-    "css": "size-dot-sm"
-  },
-  {
-    "path": "size/skel-pill",
-    "type": "FLOAT",
-    "value": 20,
-    "css": "size-skel-pill"
-  },
-  {
-    "path": "size/blur-photo",
-    "type": "FLOAT",
-    "value": 14,
-    "css": "size-blur-photo"
-  },
-  {
-    "path": "size/skel-line",
-    "type": "FLOAT",
-    "value": 12,
-    "css": "size-skel-line"
-  },
-  {
-    "path": "size/pager-dot",
-    "type": "FLOAT",
-    "value": 6,
-    "css": "size-pager-dot"
-  },
-  {
-    "path": "size/dot-ring",
-    "type": "FLOAT",
-    "value": 4,
-    "css": "size-dot-ring"
-  },
-  {
-    "path": "size/hairline",
-    "type": "FLOAT",
-    "value": 1,
-    "css": "size-hairline"
-  },
-  {
-    "path": "measure/width-bubble",
-    "type": "STRING",
-    "value": "80%",
-    "css": "width-bubble"
-  },
-  {
-    "path": "measure/width-l",
-    "type": "STRING",
-    "value": "62%",
-    "css": "width-l"
-  },
-  {
-    "path": "measure/width-m",
-    "type": "STRING",
-    "value": "44%",
-    "css": "width-m"
-  },
-  {
-    "path": "measure/width-s",
-    "type": "STRING",
-    "value": "28%",
-    "css": "width-s"
   },
   {
     "path": "duration/slow",
@@ -1005,7 +793,7 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "border/hairline",
-    "alias": "misc/clear",
+    "alias": "misc/coal-500",
     "css": "border-hairline"
   },
   {

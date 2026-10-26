@@ -38,7 +38,7 @@
 }
 
 .mm-thumb {
-  flex: none; width: var(--size-thumb); height: var(--size-thumb);
+  flex: none; width: 56px; height: 56px;
   border-radius: var(--radius-md); overflow: hidden; background: var(--bg-nested);
 }
 
@@ -73,7 +73,7 @@
 /* Дверь группы — ссылка в шапке списка. Высота строки 21px, поэтому
    тач-таргет добирается невидимым полем, а не кеглем. */
 .mm-more {
-  min-height: var(--size-control);
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   flex: none; display: inline-flex; align-items: center; gap: var(--space-4);

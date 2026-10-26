@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-8);
-  height: var(--size-control);
+  height: 44px;
   padding: 0 var(--space-12);
   border-radius: var(--radius-pill);
   background: var(--bg-surface);
@@ -29,7 +29,7 @@
 }
 
 .mm-field svg {
-  flex: none; width: var(--size-icon-md); height: var(--size-icon-md); color: var(--icon-muted);
+  flex: none; width: 24px; height: 24px; color: var(--icon-muted);
 }
 
 /* Ввод во всю высоту пилюли. Был по высоте строки, и у поля, обёрнутого
@@ -55,8 +55,8 @@
   flex: none;
   display: inline-grid;
   place-items: center;
-  width: var(--size-icon-md);
-  height: var(--size-icon-md);
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: 0;
   background: none;
@@ -91,7 +91,7 @@
 .mm-field--multi textarea {
   display: block;
   width: 100%;
-  height: var(--size-textarea);
+  height: 96px;
   border: 0;
   outline: 0;
   resize: none;

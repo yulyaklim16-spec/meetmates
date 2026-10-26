@@ -32,7 +32,7 @@
 }
 
 .mm-tab svg {
-  width: var(--size-icon-md); height: var(--size-icon-md); color: var(--icon-muted);
+  width: 24px; height: 24px; color: var(--icon-muted);
 }
 
 /* Знак на выбранной вкладке берёт свой токен — тот же, что и слово под ним.

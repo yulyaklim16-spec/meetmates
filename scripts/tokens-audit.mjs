@@ -46,14 +46,19 @@ const COLOR = ['color', 'background', 'background-color', 'border-color', 'borde
   'caret-color', 'scrollbar-color'];
 const TYPE = ['font', 'font-family', 'font-size', 'font-weight', 'line-height',
   'letter-spacing'];
-// размеры: отступы, радиусы, ширины и высоты. Два значения литералом разрешены
-// и названы в ui/kit.md: 1px — волосяная линия, физический пиксель устройства,
-// и 999px — признак «скругли до конца», а не мера.
+// Шаг и радиус — шкала набора, и в компоненте они только токеном: ступень
+// повторяется в десятках мест, и правка ступени обязана разойтись сама.
+//
+// Ширина и высота проверку не проходят с `D-87`: мерка одного компонента —
+// не решение набора, а размер этой детали, и место ей в самом компоненте.
+// Токенами они были, и список рос до тридцати шести имён, которые читались
+// по одному разу каждое.
+//
+// Два значения литералом разрешены и названы в ui/kit.md: 1px — волосяная
+// линия, физический пиксель устройства, и 999px — признак «скругли до конца».
 const SIZE = ['margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
   'padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
-  'gap', 'row-gap', 'column-gap', 'width', 'height', 'min-width', 'min-height',
-  'max-width', 'max-height', 'border-radius', 'top', 'right', 'bottom', 'left',
-  'inset', 'flex-basis'];
+  'gap', 'row-gap', 'column-gap', 'border-radius'];
 const SIZE_OK = /^(?:0|1|999)$/;
 
 // значения, которые переменной не требуют: они не цвет и не размер, а отсутствие
@@ -91,7 +96,11 @@ for (const { path, prefix, declaredIn, checkSizes } of FILES) {
     const rest = val.replace(/var\(--[a-z0-9-]+\)/g, '').replace(NEUTRAL, '');
     if (COLOR.includes(prop) && LITERAL_COLOR.test(rest)) colors.push(`${prop}: ${val}`);
     if (TYPE.includes(prop) && rest.replace(/[\s/,]/g, '')) types.push(`${prop}: ${val}`);
-    if (checkSizes && SIZE.includes(prop)) {
+    // calc, собранный из токена и мерки, — норма: поле экрана минус жёлоб
+    // прокрутки или место под иконку в поле. Ступень здесь из токена, а число
+    // рядом с ней — та самая мерка, которой токен не нужен.
+    const fromToken = val.includes('calc(') && val.includes('var(--');
+    if (checkSizes && SIZE.includes(prop) && !fromToken) {
       for (const px of rest.matchAll(/(\d+)px/g)) {
         if (!SIZE_OK.test(px[1])) sizes.push(`${prop}: ${val}`);
       }

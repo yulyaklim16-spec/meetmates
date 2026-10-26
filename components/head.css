@@ -40,8 +40,8 @@
   flex: none;
   display: inline-grid;
   place-items: center;
-  width: var(--size-control);
-  height: var(--size-control);
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: 0;
   border-radius: var(--radius-pill);
@@ -54,7 +54,7 @@
 }
 
 .mm-head-btn svg {
-  width: var(--size-icon-md); height: var(--size-icon-md);
+  width: 24px; height: 24px;
 }
 
 /* создание — тёмная: в строке с фильтрами видно, какая из двух главная */
@@ -67,7 +67,7 @@
  на край строки. Площадь нажатия те же 44px (так он размечен в вайрфрейме) */
 .mm-head-btn--back {
   order: 0;
-  width: var(--size-control);
+  width: 44px;
   margin-left: calc(var(--space-12) * -1);
   background: none;
   box-shadow: none;
@@ -86,7 +86,7 @@
   align-items: center;
   justify-content: center;
   width: auto;
-  height: var(--size-control);
+  height: 44px;
   padding: 0 var(--space-8);
   gap: var(--space-4);
   background: none;
@@ -96,7 +96,7 @@
 }
 
 .mm-head-btn--danger svg {
-  width: var(--size-icon-sm); height: var(--size-icon-sm);
+  width: 16px; height: 16px;
 }
 
 /* Цвет состояния читается примитивом: ролей для наведение, наведение действия в tokens.css

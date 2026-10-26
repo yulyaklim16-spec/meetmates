@@ -10,7 +10,7 @@
 .mm-person {
   position: relative;
   flex: none;
-  height: var(--size-card);
+  height: 400px;
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-lg);
@@ -33,7 +33,7 @@
 
 /* фото дошло не целиком — показываем размытым и доводим по мере прихода (D-51) */
 .mm-photo--blur img {
-  filter: blur(var(--size-blur-photo)); transform: scale(1.06);
+  filter: blur(14px); transform: scale(1.06);
 }
 
 /* подпись на самом снимке: так подписан видоискатель на верификации */
