@@ -127,10 +127,67 @@
   body:has(#bare:target) .wfrail { display: none; }
   body:has(#bare:target) .kit-top,
   body:has(#bare:target) .kit-grp { padding-left: 32px; }
+
+  /* ── Одна группа: адрес с #b-gN ─────────────────────────────────
+     Подпункт раздела 07 показывает не всю витрину, а свою часть: кнопки
+     и поля в «Формах», карточки в «Карточках и списках». Разбор группы
+     при этом скрыт: на странице раздела над рамкой уже стоит свой текст,
+     и два одинаковых абзаца подряд читались бы как ошибка. На самой
+     витрине разбор остаётся — там он единственный. */
+  body:has(#b-g1:target) .wfrail,
+  body:has(#b-g1:target) .kit-top { display: none; }
+  body:has(#b-g1:target) .kit-grp:not(#g1) { display: none; }
+  body:has(#b-g1:target) .kit-lead { display: none; }
+  body:has(#b-g1:target) .kit-grp { padding: 4px 32px 0; }
+  body:has(#b-g2:target) .wfrail,
+  body:has(#b-g2:target) .kit-top { display: none; }
+  body:has(#b-g2:target) .kit-grp:not(#g2) { display: none; }
+  body:has(#b-g2:target) .kit-lead { display: none; }
+  body:has(#b-g2:target) .kit-grp { padding: 4px 32px 0; }
+  body:has(#b-g3:target) .wfrail,
+  body:has(#b-g3:target) .kit-top { display: none; }
+  body:has(#b-g3:target) .kit-grp:not(#g3) { display: none; }
+  body:has(#b-g3:target) .kit-lead { display: none; }
+  body:has(#b-g3:target) .kit-grp { padding: 4px 32px 0; }
+  body:has(#b-g4:target) .wfrail,
+  body:has(#b-g4:target) .kit-top { display: none; }
+  body:has(#b-g4:target) .kit-grp:not(#g4) { display: none; }
+  body:has(#b-g4:target) .kit-lead { display: none; }
+  body:has(#b-g4:target) .kit-grp { padding: 4px 32px 0; }
+  body:has(#b-g5:target) .wfrail,
+  body:has(#b-g5:target) .kit-top { display: none; }
+  body:has(#b-g5:target) .kit-grp:not(#g5) { display: none; }
+  body:has(#b-g5:target) .kit-lead { display: none; }
+  body:has(#b-g5:target) .kit-grp { padding: 4px 32px 0; }
+  body:has(#b-g6:target) .wfrail,
+  body:has(#b-g6:target) .kit-top { display: none; }
+  body:has(#b-g6:target) .kit-grp:not(#g6) { display: none; }
+  body:has(#b-g6:target) .kit-lead { display: none; }
+  body:has(#b-g6:target) .kit-grp { padding: 4px 32px 0; }
+  body:has(#b-g7:target) .wfrail,
+  body:has(#b-g7:target) .kit-top { display: none; }
+  body:has(#b-g7:target) .kit-grp:not(#g7) { display: none; }
+  body:has(#b-g7:target) .kit-lead { display: none; }
+  body:has(#b-g7:target) .kit-grp { padding: 4px 32px 0; }
+  body:has(#b-g8:target) .wfrail,
+  body:has(#b-g8:target) .kit-top { display: none; }
+  body:has(#b-g8:target) .kit-grp:not(#g8) { display: none; }
+  body:has(#b-g8:target) .kit-lead { display: none; }
+  body:has(#b-g8:target) .kit-grp { padding: 4px 32px 0; }
+  body:has(#b-g9:target) .wfrail,
+  body:has(#b-g9:target) .kit-top { display: none; }
+  body:has(#b-g9:target) .kit-grp:not(#g9) { display: none; }
+  body:has(#b-g9:target) .kit-lead { display: none; }
+  body:has(#b-g9:target) .kit-grp { padding: 4px 32px 0; }
+  body:has(#b-g10:target) .wfrail,
+  body:has(#b-g10:target) .kit-top { display: none; }
+  body:has(#b-g10:target) .kit-grp:not(#g10) { display: none; }
+  body:has(#b-g10:target) .kit-lead { display: none; }
+  body:has(#b-g10:target) .kit-grp { padding: 4px 32px 0; }
 </style>
 </head>
 <body class="mm">
-<i id="bare" hidden></i>
+<i id="bare" hidden></i><i id="b-g1" hidden></i><i id="b-g2" hidden></i><i id="b-g3" hidden></i><i id="b-g4" hidden></i><i id="b-g5" hidden></i><i id="b-g6" hidden></i><i id="b-g7" hidden></i><i id="b-g8" hidden></i><i id="b-g9" hidden></i><i id="b-g10" hidden></i>
 <nav class="wfrail" aria-label="Разделы проекта">
   <a class="home" href="../sections/index.html" aria-label="MeetMates — все разделы">MM</a>
   <a href="../research/research.html" aria-label="Раздел 01 — Ресерч и бенчмарк" title="Ресерч и бенчмарк">01</a>
@@ -144,24 +201,26 @@
 
 <div class="kit-top">
   <h1>Витрина компонентов</h1>
-  <p>Один файл стилей — <code>ui/kit.css</code>: переменные в <code>:root</code> и классы
-  компонентов, без второго уровня токенов. Оболочка как разметка — <code>ui/shell.html</code>.
-  Состав и порог «два экрана» — <code>ui/inventory.md</code>, вид — <code>DESIGN.md</code>.</p>
+  <p>Классы компонентов — шестнадцать файлов в <code>components/</code>, по одному
+  на компонент; значения приходят двумя уровнями из <code>tokens.css</code>:
+  примитив — значение, семантика — ответственность. Оболочка как разметка —
+  <code>ui/shell.html</code>. Состав и порог «два экрана» — <code>ui/inventory.md</code>,
+  вид — <code>DESIGN.md</code>.</p>
   <p>У каждого компонента нарисовано каждое состояние, которое у него есть, и у каждого
   есть имя: вариант-состояние, а где нужно — и вид содержимого. Состояний, которых
   в ките нет, здесь не появляется. Ширина, размер и порядковый номер состоянием
   не считаются: это тот же компонент, и он стоит в одной клетке.</p>
   <ul class="kit-toc">
-    <li><a href="#g1">1 · Кнопки</a></li>
-    <li><a href="#g2">2 · Поля</a></li>
-    <li><a href="#g3">3 · Вкладки и переключатели</a></li>
-    <li><a href="#g4">4 · Карточки и списки</a></li>
-    <li><a href="#g5">5 · Отметки и факты</a></li>
-    <li><a href="#g6">6 · Состояния экрана</a></li>
-    <li><a href="#g7">7 · Загрузка</a></li>
-    <li><a href="#g8">8 · Чат</a></li>
-    <li><a href="#g9">9 · Оболочка</a></li>
-    <li><a href="#g10">10 · Онбординг и слои</a></li>
+    <li><a href="#g1">1 &middot; Кнопки</a></li>
+    <li><a href="#g2">2 &middot; Поля</a></li>
+    <li><a href="#g3">3 &middot; Навигация и переключатели</a></li>
+    <li><a href="#g4">4 &middot; Карточки и списки</a></li>
+    <li><a href="#g5">5 &middot; Отметки и факты</a></li>
+    <li><a href="#g6">6 &middot; Состояния экрана</a></li>
+    <li><a href="#g7">7 &middot; Загрузка</a></li>
+    <li><a href="#g8">8 &middot; Чат</a></li>
+    <li><a href="#g9">9 &middot; Оболочка</a></li>
+    <li><a href="#g10">10 &middot; Онбординг и слои</a></li>
   </ul>
 </div>
 

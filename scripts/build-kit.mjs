@@ -1,15 +1,14 @@
 // Сборка раздела 07 «Сборка UI» — sections/kit.html.
 //
-// Источник текста — ui/kit.md: что такое кит, из чего собран, какой дрейф имён
-// он свёл и чего в нём нет. Страница собирается из документа целиком; правим
-// документ, а не страницу.
+// Восемь подпунктов: кит целиком, потом витрина по частям — оболочка, навигация,
+// карточки, формы, обратная связь, чат, — и в конце то, чего в ките нет.
+// Текст каждого — свой раздел `## ` в ui/kit.md; живые компоненты — рамкой
+// на ту же витрину с адресом #b-gN, который показывает одну группу.
 //
-// Вторая вкладка — сами страницы кита: витрина и оболочка. Они открываются
-// своими страницами, во всю ширину: нарисованы ui/kit.css, то есть значениями
-// продукта, а не этого сайта. Так же решено у разделов 04 и 06 — фрейм внутри
-// раздела заставлял бы скроллить дважды.
+// Соответствие подпункта и раздела документа жёсткое: заголовок, которого нет
+// в TABS, роняет сборку. Иначе текст молча пропал бы со страницы.
 //
-// Запуск: node scripts/build-kit.mjs — после правки ui/kit.md или kit.css.
+// Запуск: node scripts/build-kit.mjs — после правки ui/kit.md или components/.
 
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -20,38 +19,41 @@ const ROOT = process.cwd();
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
 
 const doc = read('ui/kit.md');
-// кит удалён: счёт берётся из того, чем одеты экраны, — корневого
-// tokens.css и набора components/
+// Счёт берётся из того, чем одеты экраны: корневого tokens.css и components/.
+// Руками эти числа не переписываются — они уже дважды отставали.
 const tokensCss = read('tokens.css');
-const kitCss = readdirSync(join(ROOT, 'components')).filter((f) => f.endsWith('.css')).sort()
-  .map((f) => read(`components/${f}`)).join(String.fromCharCode(10));
+const compFiles = readdirSync(join(ROOT, 'components')).filter((f) => f.endsWith('.css')).sort();
+const kitCss = compFiles.map((f) => read(`components/${f}`)).join('\n');
 const kitHtml = read('ui/kit.html');
 const shell = read('sections/index.html');
 
-// ── счёт берём из самих файлов ────────────────────────────────────────
-// Числа в тексте раздела уже дважды отставали в других разделах, поэтому
-// здесь они не переписываются руками: посчитали — вставили.
-const root = kitCss.slice(kitCss.indexOf(':root'), kitCss.indexOf('\n}', kitCss.indexOf(':root')));
-const varsCount = [...root.matchAll(/^\s*(--mm-[a-z0-9-]+)\s*:/gm)].length;
+// ── счёт ──────────────────────────────────────────────────────────────
+// Переменные считаются по уровням: примитив — всё до первой семантической
+// роли, семантика — от неё до конца файла. Граница та же, что в разделе 08.
+const SEM_AT = tokensCss.indexOf('--bg-page');
+const declsIn = (text) => [...text.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/(--[a-z0-9-]+)\s*:/g)].length;
+const primCount = declsIn(tokensCss.slice(0, SEM_AT));
+const semCount = declsIn(tokensCss.slice(SEM_AT));
+const varsCount = primCount + semCount;
 const classCount = new Set([...kitCss.matchAll(/\.(mm-[a-z0-9-]+)/g)].map((m) => m[1])).size;
 const caseCount = (kitHtml.match(/class="kit-case"/g) || []).length;
-const groupCount = (kitHtml.match(/class="kit-grp"/g) || []).length;
 
-// ── проверка: в ките нет значения вне :root ───────────────────────────
-// Это главное правило файла, и оно должно падать сборкой, а не обнаруживаться
+// ── проверка: в компонентах нет значения мимо токена ──────────────────
+// Главное правило набора, и оно должно падать сборкой, а не обнаруживаться
 // через месяц. Нечётных значений допускается два: волосяная линия и пилюля.
 {
-  const body = kitCss.slice(kitCss.indexOf('\n}', kitCss.indexOf(':root')));
   const bad = [];
-  for (const line of body.split('\n')) {
-    if (/^\s*(\/\*|\*)/.test(line)) continue;
-    for (const m of line.matchAll(/(-?\d+(?:\.\d+)?)px/g)) {
-      const n = Math.abs(parseFloat(m[1]));
-      if (n && n !== 1 && n !== 999 && n % 2) bad.push(line.trim());
+  for (const f of compFiles) {
+    for (const line of read(`components/${f}`).split('\n')) {
+      if (/^\s*(\/\*|\*)/.test(line)) continue;
+      for (const m of line.matchAll(/(-?\d+(?:\.\d+)?)px/g)) {
+        const n = Math.abs(parseFloat(m[1]));
+        if (n && n !== 1 && n !== 999 && n % 2) bad.push(`${f}: ${line.trim()}`);
+      }
     }
   }
   if (bad.length) {
-    console.error('В ui/kit.css есть значения не кратные двум:\n  ' + [...new Set(bad)].join('\n  '));
+    console.error('В components/ есть значения не кратные двум:\n  ' + [...new Set(bad)].join('\n  '));
     process.exit(1);
   }
 }
@@ -66,33 +68,42 @@ const plural = (n, one, few, many) => {
   return `${n} ${many}`;
 };
 
-// ── страницы кита ─────────────────────────────────────────────────────
+// ── группы витрины ────────────────────────────────────────────────────
+// Разбираются из самой витрины: подпункт показывает группу рамкой, и имя
+// группы для ссылки берётся оттуда же, где стоит её заголовок.
+const GRP = new Map([...kitHtml.matchAll(
+  /<section class="kit-grp" id="g(\d+)">\s*<h2 class="kit-grp-h"><span class="kit-n">\d+<\/span>([^<]+)<\/h2>/g)]
+  .map((m) => [`g${m[1]}`, m[2].trim()]));
+if (!GRP.size) throw new Error('в ui/kit.html не нашлось ни одной группы — разметка витрины изменилась');
+
+// Страницы кита: открываются и отдельно, ссылкой из подпункта «Кит».
 const PAGES = [
-  {
-    file: 'ui/kit.html',
-    title: 'Витрина компонентов',
-    note: `${plural(groupCount, 'раздел', 'раздела', 'разделов')} по ролям, ${plural(caseCount, 'случай', 'случая', 'случаев')}. Каждый компонент живой, со своими состояниями; текст настоящий, из интерфейса`,
-  },
-  {
-    file: 'ui/shell.html',
-    title: 'Оболочка экрана',
-    note: 'Три шапки и нижнее меню разметкой. Отсюда её берёт экран, у которого ещё нет каркаса',
-  },
+  { file: 'ui/kit.html', title: 'Витрина компонентов' },
+  { file: 'ui/shell.html', title: 'Оболочка экрана' },
 ];
 for (const p of PAGES) {
   if (!existsSync(join(ROOT, p.file))) throw new Error(`нет страницы ${p.file} — список раздела отстал`);
 }
 
-// Страницы стоят открытыми, а не миниатюрами: витрину смотрят подолгу,
-// и уходить ради этого со страницы раздела незачем. Порядок — из PAGES:
-// витрина сверху, оболочка под ней. Карточек-ссылок рядом больше нет —
-// ссылка стоит в заголовке каждой страницы, две двери в одно место
-// рядом не нужны.
-const liveHtml = PAGES.map((p) => `        <li>
-          <h3>${esc(p.title)} <a href="../${p.file}">открыть страницей &rarr;</a></h3>
-          <p class="cap">${esc(p.note)}</p>
-          <iframe src="../${p.file}#bare" loading="lazy" scrolling="no" title="${esc(p.title)}"></iframe>
-        </li>`).join('\n');
+// Рамка с одной группой витрины. Заголовок и разбор группа несёт в себе —
+// второй раз их писать не надо, иначе страница расходится с витриной.
+const grpFrame = (id) => {
+  const title = GRP.get(id);
+  if (!title) throw new Error(`в витрине нет группы ${id} — подпункт раздела отстал`);
+  return `        <li>
+          <p class="framelink"><a href="../ui/kit.html#${id}">${esc(title)} — открыть в витрине &rarr;</a></p>
+          <iframe src="../ui/kit.html#b-${id}" loading="lazy" scrolling="no" title="Витрина: ${esc(title)}"></iframe>
+        </li>`;
+};
+// Рамка со целой страницей кита: так стоит оболочка — она короткая, и резать
+// её на части нечего.
+const pageFrame = (file, title, note) => `        <li>
+          <p class="framelink"><a href="../${file}">${esc(title)} — открыть страницей &rarr;</a></p>
+          <p class="cap">${esc(note)}</p>
+          <iframe src="../${file}#bare" loading="lazy" scrolling="no" title="${esc(title)}"></iframe>
+        </li>`;
+
+const live = (items) => `      <ul class="live">\n${items.join('\n')}\n      </ul>`;
 
 // ── разбор документа на разделы `## ` ─────────────────────────────────
 function blocks(text) {
@@ -109,25 +120,75 @@ function blocks(text) {
   if (prev) out.push({ title: prev, text: body.slice(lastIndex).trim() });
   return out;
 }
-
 const slugify = (s) => s.toLowerCase().replace(/[`*]/g, '').replace(/[^a-zа-яё0-9]+/gi, '-').replace(/^-|-$/g, '');
 
 // ссылки kit.md даны от папки ui/, страница лежит в sections/
-const infoHtml = blocks(doc).map((b) => {
-  const html = md(b.text).replace(/href="\.\/(?!\.)/g, 'href="../ui/');
-  return b.title
-    ? `      <section id="${slugify(b.title)}">\n        <h2>${inline(b.title)}</h2>\n${html}\n      </section>`
-    : html;
-}).join('\n\n');
+const render = (text) => md(text).replace(/href="\.\/(?!\.)/g, 'href="../ui/');
+
+const parts = blocks(doc);
+const intro = parts.find((b) => b.title === null);
+const byTitle = new Map(parts.filter((b) => b.title).map((b) => [b.title, b.text]));
+
+// Подпункт — раздел документа плюс живые компоненты из витрины.
+const TABS = [
+  {
+    id: 'overview',
+    title: 'Кит',
+    html: live(PAGES.map((p) => `        <li>
+          <p class="framelink"><a href="../${p.file}">${esc(p.title)} — открыть страницей &rarr;</a></p>
+        </li>`)),
+  },
+  {
+    id: 'shell',
+    title: 'Оболочка',
+    html: live([
+      pageFrame('ui/shell.html', 'Оболочка экрана', 'Три шапки и нижнее меню разметкой. Отсюда её берёт экран, у которого ещё нет каркаса'),
+      grpFrame('g9'),
+      grpFrame('g10'),
+    ]),
+  },
+  { id: 'navigation', title: 'Навигация', html: live([grpFrame('g3')]) },
+  { id: 'cards', title: 'Карточки и списки', html: live([grpFrame('g4')]) },
+  { id: 'forms', title: 'Формы', html: live([grpFrame('g1'), grpFrame('g2')]) },
+  { id: 'feedback', title: 'Обратная связь', html: live([grpFrame('g5'), grpFrame('g6'), grpFrame('g7')]) },
+  { id: 'chat', title: 'Чат', html: live([grpFrame('g8')]) },
+  { id: 'gaps', title: 'Вне кита', html: '' },
+];
+
+const claimed = new Set(TABS.map((t) => t.title));
+const orphan = [...byTitle.keys()].filter((t) => !claimed.has(t));
+if (orphan.length) {
+  console.error('В ui/kit.md есть разделы, которым нет подпункта: ' + orphan.join(', '));
+  process.exit(1);
+}
+const missing = TABS.filter((t) => !byTitle.has(t.title)).map((t) => t.title);
+if (missing.length) {
+  console.error('В ui/kit.md нет разделов под подпункты: ' + missing.join(', '));
+  process.exit(1);
+}
+// Каждая группа витрины обязана стоять хоть в одном подпункте: иначе компонент
+// есть, а показать его негде.
+const shown = new Set(TABS.flatMap((t) => [...t.html.matchAll(/#b-(g\d+)/g)].map((m) => m[1])));
+const lost = [...GRP.keys()].filter((g) => !shown.has(g));
+if (lost.length) {
+  console.error('Группы витрины не попали ни в один подпункт: ' + lost.map((g) => `${g} «${GRP.get(g)}»`).join(', '));
+  process.exit(1);
+}
+
+const panels = TABS.map((t, i) => `    <div class="tabpanel" id="${t.id}">
+      <h1 class="vh">Сборка UI: ${esc(t.title.toLowerCase())}</h1>
+${i === 0 && intro ? render(intro.text) + '\n' : ''}      <section id="${slugify(t.title)}">
+        <h2>${inline(t.title)}</h2>
+${render(byTitle.get(t.title))}
+${t.html}
+      </section>
+    </div>`).join('\n\n');
 
 // ── боковая колонка ───────────────────────────────────────────────────
 const asideSrc = shell.slice(shell.indexOf('<aside class="side">'), shell.indexOf('</aside>') + '</aside>'.length);
 const cur = /<a class="mat"([^>]*)href="kit\.html">([\s\S]*?)<i>[^<]*<\/i><\/span><\/a>/;
 if (!cur.test(asideSrc)) throw new Error('в sections/index.html нет пункта 07 со ссылкой на kit.html — боковая колонка изменилась');
-const subtabs = subtabsHtml([
-  { id: 'info', title: 'Информация' },
-  { id: 'pages', title: 'Страницы' },
-]);
+const subtabs = subtabsHtml(TABS.map((t) => ({ id: t.id, title: t.title })));
 const aside = asideSrc.replace(cur, (m, attrs, head) =>
   `<a class="mat current"${attrs}href="kit.html" aria-current="page">${head}<i>текущий раздел</i></span></a>${subtabs}`);
 
@@ -135,29 +196,27 @@ const aside = asideSrc.replace(cur, (m, attrs, head) =>
 const head = shell.slice(0, shell.indexOf('</style>'))
   .replace(/<title>[^<]*<\/title>/, '<title>Сборка UI · MeetMates</title>')
   .replace(/<meta name="description" content="[^"]*">/,
-    '<meta name="description" content="Кит: один файл стилей, оболочка разметкой и витрина компонентов. Снят с окрашенных экранов, свёл разошедшиеся имена в один набор.">');
+    '<meta name="description" content="Кит: классы по файлам компонентов, оболочка разметкой и витрина, где каждое состояние нарисовано и названо. Восемь подпунктов по частям набора.">');
 
 const extraCss = `
 /* ── Раздел 07: сборка UI ───────────────────────────────────── */
 ${TABS_CSS}
 .grp { margin: 0 0 var(--s-6); }
-/* Страницы кита стоят открытыми во всю свою длину: витрина сверху, оболочка
-   под ней. Своей прокрутки у рамки нет — страница внутри не обрезана, и листает
-   её общая полоса раздела. Высоту рамке задаёт скрипт внизу: пока он не отработал,
-   держится запас, иначе страница прыгала бы с нуля. */
+/* Компоненты стоят живыми, рамкой на саму витрину: подпункт открывает её
+   адресом #b-gN и видит одну группу — со своим заголовком и своим разбором.
+   Своей прокрутки у рамки нет, высоту ей задаёт скрипт внизу; пока он
+   не отработал, держится запас, иначе страница прыгала бы с нуля. */
 .live { list-style: none; margin: var(--s-4) 0 0; padding: 0; max-width: none; }
 .live > li { margin: 0 0 var(--s-6); }
-.live h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-3); margin: 0 0 var(--s-1); font-size: var(--t-body); }
-.live h3 a { font-size: var(--t-caption); font-weight: var(--fw-regular); }
-/* подпись под заголовком — не выноска: .note на этой странице носит
-   лиловую полосу слева и читается цитатой, а это просто строка о странице */
+.live .framelink { margin: 0 0 var(--s-2); font-size: var(--t-caption); }
+/* подпись под ссылкой — не выноска: .note на этой странице носит лиловую
+   полосу слева и читается цитатой, а это просто строка о странице */
 .live .cap { font-size: var(--t-caption); color: var(--ink-600); max-width: 72ch; margin: 0 0 var(--s-3); }
 .live iframe {
   display: block; width: 100%; height: 86vh; overflow: hidden;
   border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
 }
-
-#info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+.tabpanel blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 `;
 
 const page = `${head}${extraCss}</style>
@@ -172,46 +231,30 @@ ${aside}
     <div class="masthead">
       <p class="eyebrow">Раздел 07</p>
       <h1>Сборка UI</h1>
-      <p class="lede">Кит: один файл стилей на ${plural(varsCount, 'переменную', 'переменные', 'переменных')}
-        и ${plural(classCount, 'класс', 'класса', 'классов')},
-        оболочка разметкой и витрина, где каждый компонент стоит живым со своими состояниями.
-        Снят с окрашенных экранов раздела 06 — не нарисован заново.</p>
+      <p class="lede">Кит: ${plural(classCount, 'класс', 'класса', 'классов')}
+        в ${plural(compFiles.length, 'файле', 'файлах', 'файлах')} <a href="../components/">components/</a>,
+        значения — ${plural(varsCount, 'переменная', 'переменные', 'переменных')} двумя уровнями
+        из <a href="../tokens.css">tokens.css</a>, оболочка разметкой и витрина, где каждый компонент стоит
+        живым со своими состояниями. Снят с окрашенных экранов раздела 06 — не нарисован заново.</p>
       <div class="chips">
-        <span>${plural(varsCount, 'переменная', 'переменные', 'переменных')}</span>
         <span>${plural(classCount, 'класс', 'класса', 'классов')}</span>
+        <span>${plural(compFiles.length, 'файл', 'файла', 'файлов')} компонентов</span>
         <span>${plural(caseCount, 'компонент', 'компонента', 'компонентов')} в витрине</span>
-        <span>один уровень токенов</span>
+        <span>${primCount} примитивов и ${semCount} семантических</span>
       </div>
     </div>
 
-    <div class="tabpanel" id="info">
-      <h1 class="vh">Сборка UI: информация</h1>
-${infoHtml}
-    </div>
-
-    <div class="tabpanel" id="pages">
-      <h1 class="vh">Сборка UI: страницы</h1>
-      <section>
-        <h2>Страницы кита</h2>
-        <p class="intro">Стоят открытыми, а не снимками: обе нарисованы
-          <a href="../ui/kit.css">ui/kit.css</a>, то есть значениями продукта, а не этого сайта.
-          Витрина высокая и листается внутри рамки; оболочка короткая, и рамка ужата по ней.</p>
-
-        <ul class="live">
-${liveHtml}
-        </ul>
-      </section>
-    </div>
+${panels}
 
     <footer>
       <p>Раздел 7 из 12 · Сборка UI. Источник — <a href="../ui/kit.md">ui/kit.md</a>;
         состав — <a href="../ui/inventory.md">inventory.md</a>, вид — <a href="../DESIGN.md">DESIGN.md</a>,
-        значения — <a href="../tokens/tokens.css">tokens.css</a>.</p>
+        значения — <a href="../tokens.css">tokens.css</a> и раздел <a href="tokens.html">08</a>.</p>
       <nav class="section-nav"><a href="concept.html">← Раздел 6 · Концепт</a></nav>
     </footer>
   </main>
 </div>
-${tabsJs(['info', 'pages'])}
+${tabsJs(TABS.map((t) => t.id))}
 <script>
 // Рамка принимает высоту своей страницы: прокрутки внутри нет, страницу
 // листает общая полоса раздела. Страницы свои, с того же домена, поэтому
@@ -219,38 +262,47 @@ ${tabsJs(['info', 'pages'])}
 // останется с запасом высоты из стилей, а не схлопнется.
 (function () {
   var frames = document.querySelectorAll('.live iframe');
+  var busy = false;
   function fit(f) {
+    if (busy) return;
+    busy = true;
     try {
       var d = f.contentDocument;
-      if (!d) return;
-      var h = Math.max(d.documentElement.scrollHeight, d.body ? d.body.scrollHeight : 0);
-      if (!h) return;
-      f.style.height = h + 'px';
-      // рамка считает высоту вместе со своими бортами: без добавки последние
-      // два пикселя страницы оказывались срезаны
-      var edges = h - f.clientHeight;
-      if (edges > 0) f.style.height = (h + edges) + 'px';
+      if (d && d.readyState !== 'loading') {
+        // Высота берётся по body, а не по documentElement: корень растянут
+        // на саму рамку, и короткая группа оставалась бы с полуэкраном
+        // пустоты внизу. Поля у body в обеих страницах нулевые.
+        var h = d.body ? Math.max(d.body.scrollHeight, d.body.offsetHeight) : 0;
+        if (!h) h = d.documentElement.scrollHeight;
+        if (h) {
+          f.style.height = h + 'px';
+          // рамка считает высоту вместе со своими бортами: без добавки последние
+          // два пикселя страницы оказывались срезаны
+          var edges = h - f.clientHeight;
+          if (edges > 0) f.style.height = (h + edges) + 'px';
+        }
+        // Наблюдатель ставится один раз и только на готовую страницу:
+        // содержимое меняет высоту и после загрузки — доезжают снимки,
+        // текст перетекает при смене ширины окна.
+        if (!f.getAttribute('data-watched') && window.ResizeObserver) {
+          f.setAttribute('data-watched', '1');
+          new ResizeObserver(function () { fit(f); }).observe(d.documentElement);
+        }
+      }
     } catch (e) {}
+    busy = false;
   }
   function fitAll() { for (var i = 0; i < frames.length; i++) fit(frames[i]); }
-  for (var i = 0; i < frames.length; i++) {
-    (function (f) {
-      f.addEventListener('load', function () {
-        fit(f);
-        // содержимое меняет высоту и после загрузки: доезжают снимки,
-        // текст перетекает при смене ширины окна
-        try {
-          if (window.ResizeObserver && f.contentDocument) {
-            new ResizeObserver(function () { fit(f); }).observe(f.contentDocument.documentElement);
-          }
-        } catch (e) {}
-      });
-    })(frames[i]);
-  }
-  // вкладка открывается скрытой: пока она спрятана, высоту не измерить
-  var panel = document.getElementById('pages');
-  if (panel && window.MutationObserver) {
-    new MutationObserver(fitAll).observe(panel, { attributes: true, attributeFilter: ['hidden'] });
+  // Событие load у рамки могло пройти до этого скрипта — поэтому мерим и сразу,
+  // и по каждому load, и по готовности самой страницы.
+  for (var i = 0; i < frames.length; i++) frames[i].addEventListener('load', fitAll);
+  window.addEventListener('load', fitAll);
+  // подпункт открывается скрытым: пока панель спрятана, высоту не измерить
+  if (window.MutationObserver) {
+    var panels = document.querySelectorAll('.tabpanel');
+    for (var k = 0; k < panels.length; k++) {
+      new MutationObserver(fitAll).observe(panels[k], { attributes: true, attributeFilter: ['hidden'] });
+    }
   }
   window.addEventListener('resize', fitAll);
   fitAll();
@@ -262,4 +314,4 @@ ${tabsJs(['info', 'pages'])}
 `;
 
 writeFileSync(join(ROOT, 'sections/kit.html'), page, 'utf8');
-console.log(`sections/kit.html: ${varsCount} переменных, ${classCount} классов, ${caseCount} компонентов в витрине`);
+console.log(`sections/kit.html: ${TABS.length} подпунктов, ${classCount} классов в ${compFiles.length} файлах, ${caseCount} компонентов в витрине, ${varsCount} переменных`);

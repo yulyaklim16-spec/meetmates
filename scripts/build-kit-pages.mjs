@@ -653,6 +653,27 @@ const GROUPS = [
   ]),
 ];
 
+// ── список групп: один источник на оглавление, якоря и стили ──────────
+// Разбирается из самой витрины, а не держится вторым списком рядом: оглавление
+// уже один раз отстало от заголовка — в нём стояли «Вкладки и переключатели»,
+// а в группе «Навигация и переключатели». Отстать ему больше не от чего.
+const GRP_LIST = [...GROUPS.join('\n').matchAll(
+  /<section class="kit-grp" id="g(\d+)">\s*<h2 class="kit-grp-h"><span class="kit-n">\d+<\/span>([^<]+)<\/h2>/g)]
+  .map((m) => ({ n: +m[1], title: m[2].trim() }));
+if (GRP_LIST.length !== GROUPS.length) {
+  throw new Error(`разбор групп витрины дал ${GRP_LIST.length} из ${GROUPS.length} — разметка группы изменилась`);
+}
+const KIT_TOC = GRP_LIST.map((g) => `    <li><a href="#g${g.n}">${g.n} &middot; ${g.title}</a></li>`).join('\n');
+// Якоря одной группы. Подпункт раздела 07 открывает витрину адресом #b-gN
+// и видит только свою группу: тот же приём :target, что у голого вида,
+// и скрипта на странице по-прежнему нет.
+const KIT_SOLO_ANCHORS = GRP_LIST.map((g) => `<i id="b-g${g.n}" hidden></i>`).join('');
+const KIT_SOLO_CSS = GRP_LIST.map((g) => `  body:has(#b-g${g.n}:target) .wfrail,
+  body:has(#b-g${g.n}:target) .kit-top { display: none; }
+  body:has(#b-g${g.n}:target) .kit-grp:not(#g${g.n}) { display: none; }
+  body:has(#b-g${g.n}:target) .kit-lead { display: none; }
+  body:has(#b-g${g.n}:target) .kit-grp { padding: 4px 32px 0; }`).join('\n');
+
 const kit = `<!doctype html>
 <html lang="ru">
 <head>
@@ -780,32 +801,33 @@ ${FONT}
   body:has(#bare:target) .wfrail { display: none; }
   body:has(#bare:target) .kit-top,
   body:has(#bare:target) .kit-grp { padding-left: 32px; }
+
+  /* ── Одна группа: адрес с #b-gN ─────────────────────────────────
+     Подпункт раздела 07 показывает не всю витрину, а свою часть: кнопки
+     и поля в «Формах», карточки в «Карточках и списках». Разбор группы
+     при этом скрыт: на странице раздела над рамкой уже стоит свой текст,
+     и два одинаковых абзаца подряд читались бы как ошибка. На самой
+     витрине разбор остаётся — там он единственный. */
+${KIT_SOLO_CSS}
 </style>
 </head>
 <body class="mm">
-<i id="bare" hidden></i>
+<i id="bare" hidden></i>${KIT_SOLO_ANCHORS}
 ${rail({ prefix: '../', current: '07' })}
 
 <div class="kit-top">
   <h1>Витрина компонентов</h1>
-  <p>Один файл стилей — <code>ui/kit.css</code>: переменные в <code>:root</code> и классы
-  компонентов, без второго уровня токенов. Оболочка как разметка — <code>ui/shell.html</code>.
-  Состав и порог «два экрана» — <code>ui/inventory.md</code>, вид — <code>DESIGN.md</code>.</p>
+  <p>Классы компонентов — шестнадцать файлов в <code>components/</code>, по одному
+  на компонент; значения приходят двумя уровнями из <code>tokens.css</code>:
+  примитив — значение, семантика — ответственность. Оболочка как разметка —
+  <code>ui/shell.html</code>. Состав и порог «два экрана» — <code>ui/inventory.md</code>,
+  вид — <code>DESIGN.md</code>.</p>
   <p>У каждого компонента нарисовано каждое состояние, которое у него есть, и у каждого
   есть имя: вариант-состояние, а где нужно — и вид содержимого. Состояний, которых
   в ките нет, здесь не появляется. Ширина, размер и порядковый номер состоянием
   не считаются: это тот же компонент, и он стоит в одной клетке.</p>
   <ul class="kit-toc">
-    <li><a href="#g1">1 · Кнопки</a></li>
-    <li><a href="#g2">2 · Поля</a></li>
-    <li><a href="#g3">3 · Вкладки и переключатели</a></li>
-    <li><a href="#g4">4 · Карточки и списки</a></li>
-    <li><a href="#g5">5 · Отметки и факты</a></li>
-    <li><a href="#g6">6 · Состояния экрана</a></li>
-    <li><a href="#g7">7 · Загрузка</a></li>
-    <li><a href="#g8">8 · Чат</a></li>
-    <li><a href="#g9">9 · Оболочка</a></li>
-    <li><a href="#g10">10 · Онбординг и слои</a></li>
+${KIT_TOC}
   </ul>
 </div>
 

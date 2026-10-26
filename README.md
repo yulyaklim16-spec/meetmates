@@ -120,9 +120,9 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 | [research/](./research/) | 🟡 разборы готовы, интервью TBD | Конкуренты, бенчмарк доверия, паттерны, люди, jobs |
 | [wireframes/](./wireframes/) | ✅ 50 страниц из 50, разбор пройден | 13 экранов и все состояния из таблицы [`_screens.md`](./wireframes/_screens.md), в мокапе телефона, связаны по рёбрам `flows.md`. Что проверялось и что починено — [`_critique.md`](./wireframes/_critique.md) |
 | [concept/](./concept/) | 🟡 направление выбрано | R «Сирень» `D-62`: стенд стиля, лента событий и профиль во всех состояниях, одиннадцать направлений четырёх раундов. Прежнее D «Стекло» `D-61` снято 2026-10-09 и сохранено значениями на доске [skins.html](./concept/skins.html). Текст — [concept.md](./concept/concept.md), раздел 6 сайта собирается из него |
-| [tokens.css](./tokens.css) + [tokens.md](./tokens.md) | ✅ два слоя, раздел 08 собран | 97 примитивов и 29 семантических токенов; страница раздела — [sections/tokens.html](./sections/tokens.html) |
+| [tokens.css](./tokens.css) + [tokens.md](./tokens.md) | ✅ два слоя, раздел 08 собран | 97 примитивов и 29 семантических токенов; страница раздела — [sections/tokens.html](./sections/tokens.html), семь подпунктов: два уровня, цвет, геометрия, семантика, контраст, правки, что открыто |
 | [tokens/](./tokens/) | ✅ базовый набор | [tokens.css](./tokens/tokens.css) + [tokens.json](./tokens/tokens.json) |
-| [ui/](./ui/) | ✅ набор собран: `tokens.css` + `components/`, надет на все 50 экранов | **Сборка UI:** 126 переменных в [tokens.css](./tokens.css) двумя уровнями и 100 классов в [components/](./components/), оболочка разметкой [shell.html](./ui/shell.html), витрина [kit.html](./ui/kit.html) — 33 компонента, 119 клеток, у каждой имя «роль-состояние-вид». Снят с окрашенных экранов, а не нарисован заново: расходится кит с экраном — прав экран. Текст — [kit.md](./ui/kit.md), состав и порог отбора — [inventory.md](./ui/inventory.md) |
+| [ui/](./ui/) | ✅ набор собран: `tokens.css` + `components/`, надет на все 50 экранов | **Сборка UI:** 126 переменных в [tokens.css](./tokens.css) двумя уровнями и 100 классов в [components/](./components/), оболочка разметкой [shell.html](./ui/shell.html), витрина [kit.html](./ui/kit.html) — 33 компонента, 119 клеток, у каждой имя «роль-состояние-вид». Снят с окрашенных экранов, а не нарисован заново: расходится кит с экраном — прав экран. Текст — [kit.md](./ui/kit.md), состав и порог отбора — [inventory.md](./ui/inventory.md). Раздел 07 — восемь подпунктов: кит, оболочка, навигация, карточки и списки, формы, обратная связь, чат, вне кита |
 | [design-system/](./design-system/) | 🟡 инварианты зафиксированы | Правила применения, копирайт-гайд |
 | [handoff/](./handoff/) | ⬜ | Спецификации экранов, ассеты, доступность |
 
@@ -146,10 +146,11 @@ research  →  wireframes  →  concept  →  tokens + components  →  design-s
 Цвет, не стоящий нигде, из палитры снимается — значение уходит в журнал
 и возвращается вместе с экраном, которому понадобится.
 
-**Весь набор таблицами** — раздел 08 сайта: [sections/tokens.html](./sections/tokens.html)
-(образцы цвета, семантика со ссылкой на примитив, шкалы).
-Текст раздела — [tokens.md](./tokens.md), страница собирается
-`node scripts/build-tokens-section.mjs` прямо из `tokens.css`.
+**Весь набор таблицами** — раздел 08 сайта: [sections/tokens.html](./sections/tokens.html),
+семь подпунктов — два уровня, цвет, геометрия, семантика цвета, контраст, правки,
+что открыто. Текст раздела — [tokens.md](./tokens.md), страница собирается
+`node scripts/build-tokens-section.mjs` прямо из `tokens.css`; таблица контраста
+считается там же, и пара ниже порога роняет сборку.
 
 Те же токены уезжают в Figma — [`figma/`](./figma/), собирается
 `node scripts/build-figma-tokens.mjs`; руками набор не правят.

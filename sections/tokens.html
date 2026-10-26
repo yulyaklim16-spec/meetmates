@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Дизайн-токены · MeetMates</title>
-<meta name="description" content="Два слоя токенов: примитив — значение, семантика — ответственность. Правила слоя и весь набор таблицами, собранными из самого файла.">
+<meta name="description" content="Два уровня токенов: примитив — значение, семантика — ответственность. Цвет, геометрия, контраст и весь набор таблицами, собранными из самого файла.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
@@ -338,34 +338,38 @@ footer p { max-width: 72ch; }
 @media (max-width: 900px) {
   .shell[data-collapsed] { grid-template-columns: minmax(0, 1fr); }
 }
-.tok { width: 100%; border-collapse: collapse; margin: 0 0 var(--s-5); font-size: var(--t-caption); }
+/* Узкую страницу таблица не растягивает: её листает своя полоса, а не вся
+   страница. Контраст с длинной первой колонкой на телефоне иначе уезжал вбок. */
+.tokw { overflow-x: auto; margin: 0 0 var(--s-5); }
+.tok { width: 100%; border-collapse: collapse; font-size: var(--t-caption); }
 .tok th { text-align: left; font-weight: var(--fw-semibold); color: var(--ink-600); padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); }
 .tok td { padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); vertical-align: top; }
 .tok tr:last-child td { border-bottom: 0; }
-.tok .c-sw { width: 56px; }
+.tok .c-sw { width: 136px; }
+.tok .c-num { text-align: right; white-space: nowrap; }
 .tok .val { white-space: nowrap; }
 .tok .tnote { color: var(--ink-600); max-width: 48ch; }
 .tok .dim { color: var(--ink-600); }
 .tok code { font-size: var(--t-caption); white-space: nowrap; }
-/* Имя токена не переносится: «--bg-page-wash» в две строки читается как два
-   разных имени. Столбцу имён отдана фиксированная ширина, длинные значения
-   сокращаются в самой сборке. */
-.tok--dark td:first-child { width: 22ch; }
-.tok--dark .dim code { white-space: nowrap; }
+/* Пары контраста: первая колонка держит фразу, остальные — имя с образцом.
+   Коэффициент выровнен по правому краю, чтобы числа читались столбиком. */
+.tok--pairs td:first-child { max-width: 36ch; }
+.tok--pairs .sw--sm { vertical-align: -3px; }
 /* Образец показывает само значение: цвет заливкой, тень — тенью, радиус —
    своим углом. Подписи под ним нет — имя стоит в соседней клетке. */
 .sw { display: inline-block; width: 36px; height: 24px; border-radius: var(--r-sm); border: 1px solid var(--line); vertical-align: middle; }
-.sw--sm { width: 16px; height: 16px; margin-right: var(--s-2); }
+.sw--sm { width: 14px; height: 14px; border-radius: 4px; margin-right: var(--s-2); }
 .sw--wide { width: 56px; }
 .sw--shadow { background: var(--surface); }
 .sw--radius { background: var(--surface-2); }
+.sw--ink { background: var(--ink-900); border-color: transparent; }
 .sw--none { background: repeating-linear-gradient(45deg, var(--surface-2) 0 4px, transparent 4px 8px); }
 .type { display: inline-block; line-height: 1; color: var(--ink-900); }
+.lead { display: inline-block; font-size: var(--t-caption); color: var(--ink-900); }
 .bar { display: inline-block; height: 12px; border-radius: 2px; background: var(--brand-a); vertical-align: middle; }
 .bar--size { height: 8px; background: var(--ink-400); }
 .bar--part { height: 8px; background: repeating-linear-gradient(90deg, var(--ink-400) 0 6px, transparent 6px 9px); }
-.tok .c-sw { width: 136px; }
-#info blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
+#overview blockquote { margin: 0 0 var(--s-5); padding-left: var(--s-4); border-left: 2px solid var(--line); color: var(--ink-600); }
 </style>
 </head>
 <body>
@@ -388,8 +392,13 @@ footer p { max-width: 72ch; }
         <a class="mat" href="kit.html"><span class="n">07</span><span class="t">Сборка UI<i>готово</i></span></a>
         <a class="mat current" href="tokens.html" aria-current="page"><span class="n">08</span><span class="t">Дизайн-токены<i>текущий раздел</i></span></a>
         <nav class="subtabs" aria-label="Что показывать в разделе">
-          <a href="#info" data-tab="info" aria-current="true">Информация</a>
-          <a href="#set" data-tab="set">Набор</a>
+          <a href="#overview" data-tab="overview" aria-current="true">Два уровня</a>
+          <a href="#primitive" data-tab="primitive">Цвет</a>
+          <a href="#scales" data-tab="scales">Геометрия</a>
+          <a href="#semantic" data-tab="semantic">Семантика цвета</a>
+          <a href="#contrast" data-tab="contrast">Контраст</a>
+          <a href="#fixes" data-tab="fixes">Правки</a>
+          <a href="#decision" data-tab="decision">Что открыто</a>
         </nav>
         <a class="mat soon" href="?section=9"><span class="n">09</span><span class="t">Дизайн-система<i>скоро</i></span></a>
         <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
@@ -404,77 +413,66 @@ footer p { max-width: 72ch; }
     <div class="masthead">
       <p class="eyebrow">Раздел 08</p>
       <h1>Дизайн-токены</h1>
-      <p class="lede">Два слоя: <b>примитив</b> — значение само по себе, <b>семантика</b> — ответственность.
+      <p class="lede">Два уровня: <b>примитив</b> — значение само по себе, <b>семантика</b> — ответственность.
         Так они и названы в <a href="../tokens.css">tokens.css</a> — <code>PRIMITIVE</code> и <code>SEMANTIC</code>,
-        и так же в Figma. Компонент берёт цвет только семантикой, геометрию — только примитивом. Таблицы ниже собраны
-        из <a href="../tokens.css">tokens.css</a> при сборке страницы, поэтому отстать не могут.</p>
+        и так же в Figma. Компонент берёт цвет только семантикой, геометрию — только примитивом. Таблицы в подпунктах
+        собраны из <a href="../tokens.css">tokens.css</a> при сборке страницы, поэтому отстать не могут.</p>
       <div class="chips">
         <span>97 примитивов</span>
         <span>29 семантических</span>
+        <span>21 пара контраста</span>
         <span>ноль значений в компонентах</span>
       </div>
     </div>
 
-    <div class="tabpanel" id="info">
-      <h1 class="vh">Дизайн-токены: информация</h1>
-<blockquote><p>Из чего собран цвет, размер и форма продукта. Значения живут в <a href="../tokens.css"><code>tokens.css</code></a>; эта страница объясняет, <strong>почему их два слоя</strong> и кто какой имеет право читать.</p>
-<p>Таблицы во вкладке «Набор» собираются из самого файла: числа здесь не переписываются руками и отстать не могут.</p></blockquote>
-
-      <section id="два-слоя-и-граница-между-ними-жёсткая">
-        <h2>Два слоя, и граница между ними жёсткая</h2>
-<p>Слои названы в самом файле: <code>PRIMITIVE</code> и <code>SEMANTIC</code>, и так же они называются в Figma — коллекции <code>Primitive</code> и <code>Semantic</code>. <strong>Семантика</strong> — то, что в разговоре называют «ролью» токена; дальше в тексте одно слово, чтобы не держать в голове два.</p>
+    <div class="tabpanel" id="overview">
+      <h1 class="vh">Дизайн-токены: два уровня</h1>
+<blockquote><p>Из чего собран цвет, размер и форма продукта. Значения живут в <a href="../tokens.css"><code>tokens.css</code></a>; эта страница объясняет, <strong>почему их два уровня</strong> и кто какой имеет право читать.</p>
+<p>Семь подпунктов идут по слоям: сначала граница между уровнями, потом сами значения — цвет, геометрия, семантика, — потом проверка контрастом, потом то, что этот слой починил, и в конце то, что в нём открыто.</p>
+<p>Таблицы собираются из самого файла при сборке страницы: числа здесь не переписываются руками и отстать не могут.</p></blockquote>
+      <section id="два-уровня">
+        <h2>Два уровня</h2>
+<p>Уровни названы в самом файле: <code>PRIMITIVE</code> и <code>SEMANTIC</code>, и так же они называются в Figma — коллекции <code>Primitive</code> и <code>Semantic</code>. <strong>Семантика</strong> — то, что в разговоре называют «ролью» токена; дальше в тексте одно слово, чтобы не держать в голове два.</p>
 <p><strong>Примитив — это значение.</strong> <code>--plum-900: #1A1026</code>, <code>--space-16: 16px</code>, <code>--radius-lg: 26px</code>. Имя говорит, <strong>что это</strong>, и ничего не говорит о месте: сливовый 900 остаётся сливовым 900, где бы ни стоял.</p>
 <p><strong>Семантика — это ответственность.</strong> <code>--bg-surface</code>, <code>--text-muted</code>, <code>--color-action</code>, <code>--border-hairline</code>. Имя говорит, <strong>за что отвечает</strong>, а значение — всегда <code>var()</code> на примитив. Своего числа у семантического токена не бывает.</p>
-<p>Разделение отвечает на два разных вопроса, которые в одном слое склеиваются. «Поменяй оттенок сиреневого» — правка примитива, и она разойдётся всюду сама. «Фон карточки теперь не белый» — правка семантики, и она не тронет остальные белые места. Пока слой был один, эти правки были неразличимы, а имена давались по месту: <code>--card-ring</code>, <code>--tab-current</code>, <code>--glass-strong</code>. Такое имя перестаёт отвечать на вопрос «куда это ставить», как только компонент переезжает.</p>
-      </section>
-
-      <section id="четыре-правила">
-        <h2>Четыре правила</h2>
+<p>Разделение отвечает на два разных вопроса, которые в одном уровне склеиваются. «Поменяй оттенок сиреневого» — правка примитива, и она разойдётся всюду сама. «Фон карточки теперь не белый» — правка семантики, и она не тронет остальные белые места. Пока уровень был один, эти правки были неразличимы, а имена давались по месту: <code>--card-ring</code>, <code>--tab-current</code>, <code>--glass-strong</code>. Такое имя перестаёт отвечать на вопрос «куда это ставить», как только компонент переезжает.</p>
+<h3 id="четыре-правила">Четыре правила</h3>
 <p><strong>1. Цвет компонент берёт только семантикой.</strong> <code>var(--plum-800)</code> в <code>components/</code> — ошибка. Нужен цвет, семантики у которого нет, — она заводится, а не одалживается у соседа.</p>
 <p><strong>2. Геометрию компонент берёт примитивом, и семантики у неё нет.</strong> Отступ и радиус одинаковы везде; второе имя добавило бы слово, а не смысл.</p>
 <p><strong>3. Цвет, не стоящий нигде, в палитре не висит.</strong> <code>--warn</code> сняли, когда оказалось, что он не красит ни одного экрана; <code>--radius-xl</code> — когда выяснилось, что bottom sheet, под который он заведён, не нарисован. Значение уходит в журнал решений и возвращается вместе с экраном, которому понадобится.</p>
 <p><strong>4. Слово на цветной подложке берёт свой токен, а не наследует соседний.</strong> <code>--text-on-action</code>, <code>--text-on-selected</code>, <code>--text-on-verified</code>. Наследование выглядит экономией ровно до первой правки: поменяется цвет основного текста — и слово на лейбе, на кнопке и на выбранной вкладке поедет за ним, хотя подложка под ним прежняя. Лаймовая лейба <code>Verified</code> на этом и попалась: пока у неё не было своих чернил, она держалась только тем, что основной текст случайно оказывался тёмным.</p>
-      </section>
-
-      <section id="что-проверяют-скрипты">
-        <h2>Что проверяют скрипты</h2>
+<h3 id="что-проверяют-скрипты">Что проверяют скрипты</h3>
 <div class="tw"><table><thead><tr><th>Скрипт</th><th>Что ловит</th></tr></thead><tbody>
 <tr><td><code>node scripts/contrast.mjs</code></td><td>Контраст пар из токенов: текст 4.5:1, не-текст 3:1</td></tr>
 <tr><td><code>node scripts/palette-audit.mjs</code></td><td>Различимость: ΔE2000 между семантическими токенами, порог ступени 3,5. Одно значение под двумя именами разрешено только с записанной причиной</td></tr>
 <tr><td><code>node scripts/tokens-audit.mjs</code></td><td>Литералы цвета и шрифта в <code>components/</code>, переменные без объявления, расхождение корневого <code>tokens.css</code> с <code>tokens/tokens.css</code></td></tr>
 <tr><td><code>node scripts/build-figma-tokens.mjs</code></td><td>Собирает набор для Figma из того же файла — руками его не правят</td></tr>
 </tbody></table></div>
-      </section>
-
-      <section id="что-уезжает-в-figma">
-        <h2>Что уезжает в Figma</h2>
+<h3 id="что-уезжает-в-figma">Что уезжает в Figma</h3>
 <p><a href="../figma/"><code>figma/</code></a> — переменные двумя коллекциями: <code>Primitive</code> и <code>Semantic</code>, семантика ссылками на примитивы. Тени, размытие и проценты переменными в Figma не держатся и переносятся стилями и строками.</p>
-      </section>
 
-      <section id="чего-в-наборе-нет-нарочно">
-        <h2>Чего в наборе нет нарочно</h2>
-<p>Семантики под то, что ещё не нарисовано. Предупреждение о приватном адресе, поле, прошедшее проверку в создании события, bottom sheet фильтров — экраны отложены, и цвета под них ждут в журнале решений, а не в палитре.</p>
       </section>
     </div>
 
-    <div class="tabpanel" id="set">
-      <h1 class="vh">Дизайн-токены: набор</h1>
-
-      <section id="prim-color">
-        <h2>Примитивы (<code>PRIMITIVE</code>): цвет и составные значения</h2>
-        <p class="intro">Имя говорит, <b>что это</b>, и молчит о месте. Компонент к ним
-          за цветом не обращается — только через семантику.</p>
+    <div class="tabpanel" id="primitive">
+      <h1 class="vh">Дизайн-токены: цвет</h1>
+      <section id="цвет">
+        <h2>Цвет</h2>
+<p>Имя примитива цвета говорит <strong>оттенок и насколько он тёмный</strong>, и только это: <code>--plum-900</code> темнее <code>--plum-600</code>, <code>--lilac-50</code> светлее <code>--lilac-300</code>. Где он стоит, имя не знает нарочно — иначе первый же переезд компонента сделает имя неверным.</p>
+<p><strong>Сиреневые идут лестницей, и каждая ступень видна глазу.</strong> <code>--lilac-50</code> → <code>--lilac-100</code> → <code>--lilac-150</code> → <code>--lilac-200</code> → <code>--lilac-300</code>: между соседями не меньше 3,5 ΔE2000, и это держит <code>palette-audit.mjs</code>, а не глаз. Ступень ниже порога — это два имени у одного цвета, и такое разрешено только с записанной причиной.</p>
+<p><strong>Четыре дубля сведены, и в комментарии сказано какие.</strong> Белый жил под четырьмя именами, <code>#1A1026</code> — под тремя, волосяная граница была записана дважды (нейтральной и сиреневой — осталась нейтральная), 12px носил два имени кегля. Значение в примитивах теперь одно; сколько у него ролей — вопрос следующего уровня.</p>
+<p><strong>Составное — тоже примитив, если у него нет роли.</strong> Размытие экрана (<code>--gradient-page-wash</code>) — два пятна поверх вертикальной рампы, и одиннадцать стопов рампы оставлены значениями нарочно: это одна картинка, а не одиннадцать токенов. Первый стоп вынесен примитивом <code>--lilac-150</code> — по нему считается контраст.</p>
       <h3>Цвет: нейтральное</h3>
-<table class="tok">
+<div class="tokw"><table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
     <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--white</code></td><td class="val"><code>#FFFFFF</code></td><td class="tnote">Сведённый дрейф A3: белый жил под четырьмя именами — --bg, --surface, роли, которые им пользуются, перечислены в SEMANTIC.</td></tr>
     <tr><td><i class="sw" style="background:#ECECEC"></i></td><td><code>--gray-100</code></td><td class="val"><code>#ECECEC</code></td><td class="tnote">Сведённый дрейф A1: волосяная граница была записана дважды — нейтральным #ECECEC в тенях и сиреневым #E8E1F1 на дорожке переключателя и кольцах радара. Остался нейтральный.</td></tr>
   </tbody>
-</table>
+</table></div>
 
       <h3>Цвет: сливовое, от самого тёмного</h3>
-<table class="tok">
+<div class="tokw"><table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
     <tr><td><i class="sw" style="background:#0B051D"></i></td><td><code>--plum-950</code></td><td class="val"><code>#0B051D</code></td><td class="tnote">заливка действия</td></tr>
@@ -483,10 +481,10 @@ footer p { max-width: 72ch; }
     <tr><td><i class="sw" style="background:#4C3F59"></i></td><td><code>--plum-600</code></td><td class="val"><code>#4C3F59</code></td><td class="tnote">—</td></tr>
     <tr><td><i class="sw" style="background:#8C7E9B"></i></td><td><code>--plum-400</code></td><td class="val"><code>#8C7E9B</code></td><td class="tnote">Одно значение на две будущие роли: контурная иконка и кольцо фокуса (--ink-400 и --focus в ките). Фокус сюда не выведен.</td></tr>
   </tbody>
-</table>
+</table></div>
 
       <h3>Цвет: сиреневое, лестницей от светлого к тёмному</h3>
-<table class="tok">
+<div class="tokw"><table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
     <tr><td><i class="sw" style="background:#F2EDF6"></i></td><td><code>--lilac-50</code></td><td class="val"><code>#F2EDF6</code></td><td class="tnote">вложенная поверхность</td></tr>
@@ -495,10 +493,10 @@ footer p { max-width: 72ch; }
     <tr><td><i class="sw" style="background:#E3DAEF"></i></td><td><code>--lilac-200</code></td><td class="val"><code>#E3DAEF</code></td><td class="tnote">своя реплика в чате — см. «Критику шага 06»</td></tr>
     <tr><td><i class="sw" style="background:#E0D6EE"></i></td><td><code>--lilac-300</code></td><td class="val"><code>#E0D6EE</code></td><td class="tnote">выбранное; роли здесь нет</td></tr>
   </tbody>
-</table>
+</table></div>
 
       <h3>Цвет: лайм, малиновое, розовое</h3>
-<table class="tok">
+<div class="tokw"><table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
     <tr><td><i class="sw" style="background:#D9F56F"></i></td><td><code>--lime-300</code></td><td class="val"><code>#D9F56F</code></td><td class="tnote">—</td></tr>
@@ -506,142 +504,123 @@ footer p { max-width: 72ch; }
     <tr><td><i class="sw" style="background:#96123A"></i></td><td><code>--crimson-700</code></td><td class="val"><code>#96123A</code></td><td class="tnote">—</td></tr>
     <tr><td><i class="sw" style="background:#F59BAF"></i></td><td><code>--rose-300</code></td><td class="val"><code>#F59BAF</code></td><td class="tnote">реплика, которая не ушла — см. «Критику шага 06»</td></tr>
   </tbody>
-</table>
+</table></div>
 
       <h3>Цвет: составное</h3>
-<table class="tok">
+<div class="tokw"><table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
     <tr><td><i class="sw sw--wide" style="background-image:radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)"></i></td><td><code>--gradient-page-wash</code></td><td class="val"><code>radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)</code></td><td class="tnote">Размытие экрана: два пятна поверх вертикальной рампы. Одиннадцать стопов рампы оставлены значениями нарочно — это одна картинка, а не одиннадцать токенов; первый стоп вынесен примитивом --lilac-150, потому что по нему считается контраст.</td></tr>
   </tbody>
-</table>
+</table></div>
 
       <h3>Тень и кольцо: рецепты, собранные из примитивов</h3>
-<table class="tok">
+<div class="tokw"><table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
     <tr><td><i class="sw sw--shadow" style="box-shadow:0 1px 3px rgba(11, 5, 29, .45)"></i></td><td><code>--shadow-dot</code></td><td class="val"><code>0 1px 3px rgba(11, 5, 29, .45)</code></td><td class="tnote">—</td></tr>
     <tr><td><i class="sw sw--shadow" style="box-shadow:inset 0 0 0 1px var(--white)"></i></td><td><code>--ring-dot</code></td><td class="val"><code>inset 0 0 0 1px var(--white)</code></td><td class="tnote">—</td></tr>
   </tbody>
-</table>
+</table></div>
       </section>
+    </div>
 
-      <section id="roles">
-        <h2>Семантика (<code>SEMANTIC</code>)</h2>
-        <p class="intro">Каждый токен показывает на примитив и ни на что больше. Третья колонка —
-          во что токен упирается сейчас; четвёртая — из какого употребления он вырос.</p>
-      <h3>Прочее</h3>
-<table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
-  <tbody>
-    <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--bg-page</code></td><td class="val"><code>--white</code> <span class="dim">#FFFFFF</span></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--wide" style="background-image:radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)"></i></td><td><code>--bg-page-wash</code></td><td class="val"><code>--gradient-page-wash</code> <span class="dim">radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)</span></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--bg-surface</code></td><td class="val"><code>--white</code> <span class="dim">#FFFFFF</span></td><td class="tnote">Выросла из 18 употреблений: .mm-event, .mm-person, .mm-row, .mm-banner, поверх размытия (§5 «Фон карточки»). То же значение, что у --bg-page: роли разные, и совпадение держится на том, что фон экрана сейчас белый.</td></tr>
-    <tr><td><i class="sw" style="background:#F2EDF6"></i></td><td><code>--bg-nested</code></td><td class="val"><code>--lilac-50</code> <span class="dim">#F2EDF6</span></td><td class="tnote">Выросла из 19 употреблений: .mm-cover, .mm-photo, .mm-thumb, .mm-avatar, карточки (§5 «Фон вложенного»). Имя не «вторая поверхность» — уровень здесь не номер, а отношение «внутри карточки».</td></tr>
-  </tbody>
-</table>
-
-      <h3>Текст и иконка</h3>
-<table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
-  <tbody>
-    <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--text-primary</code></td><td class="val"><code>--plum-900</code> <span class="dim">#1A1026</span></td><td class="tnote">Выросла из 19 цветовых употреблений: .mm (корень), .mm-subhead, Ею же пишется слово на лаймовой лейбе — прежняя --ink-on-label.</td></tr>
-    <tr><td><i class="sw" style="background:#4C3F59"></i></td><td><code>--text-muted</code></td><td class="val"><code>--plum-600</code> <span class="dim">#4C3F59</span></td><td class="tnote">Выросла из 17 употреблений: .mm-facts, .mm-meta, .mm-distance, (§5 «Текст второстепенный»).</td></tr>
-    <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--text-on-action</code></td><td class="val"><code>--white</code> <span class="dim">#FFFFFF</span></td><td class="tnote">Выросла из двух: .mm-btn--primary и .mm-band — текст на тёмной заливке (§5 «Действие»). Значение белое, но роль своя: это слово на действии, а не поверхность, и менять их придётся порознь.</td></tr>
-    <tr><td><i class="sw" style="background:#96123A"></i></td><td><code>--text-danger</code></td><td class="val"><code>--crimson-700</code> <span class="dim">#96123A</span></td><td class="tnote">Выросла из трёх: .mm-head-btn--danger, .mm-danger-link, от заливки, потому что на размытии заливке контраста хватает, а слову нет (§8 брифа).</td></tr>
-    <tr><td><i class="sw" style="background:#8C7E9B"></i></td><td><code>--icon-muted</code></td><td class="val"><code>--plum-400</code> <span class="dim">#8C7E9B</span></td><td class="tnote">Выросла из .mm-tab svg, .mm-field svg, .mm-field-btn и разделителя-точки в .mm-signals (§5 «Текст служебный / иконка»). Названа иконкой нарочно: по правилу §8 брифа этим серым нельзя писать текст.</td></tr>
-  </tbody>
-</table>
-
-      <h3>Действие, доверие, опасность, граница</h3>
-<table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
-  <tbody>
-    <tr><td><i class="sw" style="background:#0B051D"></i></td><td><code>--color-action</code></td><td class="val"><code>--plum-950</code> <span class="dim">#0B051D</span></td><td class="tnote">Выросла из .mm-btn--primary (заливка), .mm-head-btn--primary и .mm-band, а тёмный акцент: роль шире имени, и это записано в разборе.</td></tr>
-    <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--text-on-verified</code></td><td class="val"><code>--plum-900</code> <span class="dim">#1A1026</span></td><td class="tnote">Выросла из .mm-verified и .mm-promise mark: слово на лайме. Раньше цвет наследовался от --text-primary — и слово на лейбе ехало за основным текстом, хотя подложка под ним своя. У лейбы свои чернила (D-80).</td></tr>
-    <tr><td><i class="sw" style="background:#D9F56F"></i></td><td><code>--color-verified</code></td><td class="val"><code>--lime-300</code> <span class="dim">#D9F56F</span></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw" style="background:#C01F4A"></i></td><td><code>--color-danger</code></td><td class="val"><code>--crimson-600</code> <span class="dim">#C01F4A</span></td><td class="tnote">Выросла из кольца поля с ошибкой и иконки состояния-тревоги (§5 «Опасность»). Заливка и обводка опасного — здесь; слово — выше, в --text-danger.</td></tr>
-    <tr><td><i class="sw" style="background:#ECECEC"></i></td><td><code>--border-hairline</code></td><td class="val"><code>--gray-100</code> <span class="dim">#ECECEC</span></td><td class="tnote">Выросла из пяти рецептов: три тени, кольцо аватара и обводка панели (§5 «Граница»). Единственная волосяная линия продукта — после того как A1 свёл два значения в одно.</td></tr>
-  </tbody>
-</table>
-
-      <h3>Семантика состояний</h3>
-<table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
-  <tbody>
-    <tr><td><i class="sw" style="background:#E9E1F1"></i></td><td><code>--bg-hover</code></td><td class="val"><code>--lilac-100</code> <span class="dim">#E9E1F1</span></td><td class="tnote">Выросла из наведения пяти органов: .mm-btn, .mm-head-btn и его видов, .mm-field, .mm-menu a, .mm-danger-link (§5, разбор B1).</td></tr>
-    <tr><td><i class="sw" style="background:#E0D6EE"></i></td><td><code>--bg-selected</code></td><td class="val"><code>--lilac-300</code> <span class="dim">#E0D6EE</span></td><td class="tnote">Выросла из .mm-tab.is-current и .mm-menu a.is-current — выбранное (§5, разбор A4).</td></tr>
-    <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--text-on-selected</code></td><td class="val"><code>--plum-900</code> <span class="dim">#1A1026</span></td><td class="tnote">Текст на выбранном: пара к --bg-selected, как --text-on-action к действию. Значение совпадает с основным текстом, но отвечает за другое.</td></tr>
-    <tr><td><i class="sw" style="background:#2A1C4D"></i></td><td><code>--color-action-hover</code></td><td class="val"><code>--plum-800</code> <span class="dim">#2A1C4D</span></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw" style="background:#8C7E9B"></i></td><td><code>--border-focus</code></td><td class="val"><code>--plum-400</code> <span class="dim">#8C7E9B</span></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw" style="background:#E3DAEF"></i></td><td><code>--bg-mine</code></td><td class="val"><code>--lilac-200</code> <span class="dim">#E3DAEF</span></td><td class="tnote">Выросла из .mm-bubble--mine — своё в разговоре (§6). Роль одиночная: реплика — ни кнопка, ни поверхность, и тон у неё свой.</td></tr>
-    <tr><td><i class="sw" style="background:#F59BAF"></i></td><td><code>--bg-undelivered</code></td><td class="val"><code>--rose-300</code> <span class="dim">#F59BAF</span></td><td class="tnote">—</td></tr>
-  </tbody>
-</table>
-
-      <h3>Составная семантика: тень, кольцо, блик</h3>
-<table class="tok">
-  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
-  <tbody>
-    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04)"></i></td><td><code>--shadow-1</code></td><td class="val"><code>0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04)</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06)"></i></td><td><code>--shadow-2</code></td><td class="val"><code>0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06)</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline), 0 2px 10px rgba(17, 17, 17, .07)"></i></td><td><code>--shadow-3</code></td><td class="val"><code>0 0 0 1px var(--border-hairline), 0 2px 10px rgba(17, 17, 17, .07)</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline)"></i></td><td><code>--ring-hairline</code></td><td class="val"><code>0 0 0 1px var(--border-hairline)</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--shadow" style="box-shadow:inset 0 0 0 1px var(--border-hairline)"></i></td><td><code>--ring-hairline-inset</code></td><td class="val"><code>inset 0 0 0 1px var(--border-hairline)</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-focus)"></i></td><td><code>--ring-focus</code></td><td class="val"><code>0 0 0 1px var(--border-focus)</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--color-danger)"></i></td><td><code>--ring-error</code></td><td class="val"><code>0 0 0 1px var(--color-danger)</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--wide" style="background-image:linear-gradient(90deg, var(--bg-nested) 0%, var(--bg-hover) 50%, var(--bg-nested) 100%)"></i></td><td><code>--bg-skeleton</code></td><td class="val"><code>linear-gradient(90deg, var(--bg-nested) 0%, var(--bg-hover) 50%, var(--bg-nested) 100%)</code></td><td class="tnote">—</td></tr>
-  </tbody>
-</table>
-      </section>
-
-      <section id="scales">
-        <h2>Шкалы</h2>
-        <p class="intro">Геометрия и шрифт семантики не получают: отступ и радиус одинаковы
-          в любой теме, и второе имя добавило бы слово, а не смысл.</p>
-        <h3>Кегль</h3>
-<table class="tok">
+    <div class="tabpanel" id="scales">
+      <h1 class="vh">Дизайн-токены: геометрия</h1>
+      <section id="геометрия">
+        <h2>Геометрия</h2>
+<p><strong>Геометрия и шрифт семантики не получают</strong> (правило 2): их компонент читает прямо из примитива. Поэтому все шкалы ниже — один уровень, и второго имени у <code>16px</code> нет.</p>
+<p><strong>Шкала кратна двум:</strong> кегль 34 · 28 · 22 · 20 · 18 · 16 · 14 · 12, шаг 48 · 32 · 24 · 16 · 12 · 8 · 6 · 4 · 2, радиусы 26 · 18 · 14 и пилюля. <strong>Нечётных значений два, и оба не размеры:</strong> <code>1px</code> — волосяная линия, физический пиксель устройства, и <code>999px</code> у пилюли — признак «скругли до конца», а не мера.</p>
+<p><strong>Числовые шкалы стоят от большего к меньшему</strong> <code class="dcode">D-82</code>. Сверху видно потолок шкалы и шаг вниз от него, а не разбег от двойки. Составные значения (<code>--space-label</code>, <code>--space-mark</code>) порядку не подчиняются: у них нет одного числа, по которому их сравнивать.</p>
+<p><strong>Размерных токенов больше, чем шкальных, и это нормально.</strong> <code>--size-cover: 168px</code> — обложка события, <code>--size-control: 44px</code> — минимальный тач-таргет, <code>--size-screen-h</code> — высота мокапа. Это не ступени одной лестницы, а мерки конкретных мест, и у каждой в комментарии сказано, где она стоит.</p>
+<p><strong>Одно исключение размечено в самом файле.</strong> Координаты снимков на кольцах радара остались числами в <code>components/radar.css</code>: это точки на картинке, а не значения системы — имени у «96px влево от центра» нет и быть не может. Радиусы самих колец при этом токены: <code>--size-radar-1</code> … <code>--size-radar-5</code>.</p>
+      <h3>Гарнитура</h3>
+<div class="tokw"><table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
-    <tr><td><span class="type" style="font-size:34px">Aa</span></td><td><code>--text-34</code></td><td class="val"><code>34px</code></td><td class="tnote">—</td></tr>
-    <tr><td><span class="type" style="font-size:28px">Aa</span></td><td><code>--text-28</code></td><td class="val"><code>28px</code></td><td class="tnote">—</td></tr>
-    <tr><td><span class="type" style="font-size:22px">Aa</span></td><td><code>--text-22</code></td><td class="val"><code>22px</code></td><td class="tnote">—</td></tr>
-    <tr><td><span class="type" style="font-size:20px">Aa</span></td><td><code>--text-20</code></td><td class="val"><code>20px</code></td><td class="tnote">стрелка возврата — знак, а не текст</td></tr>
-    <tr><td><span class="type" style="font-size:18px">Aa</span></td><td><code>--text-18</code></td><td class="val"><code>18px</code></td><td class="tnote">—</td></tr>
-    <tr><td><span class="type" style="font-size:16px">Aa</span></td><td><code>--text-16</code></td><td class="val"><code>16px</code></td><td class="tnote">—</td></tr>
-    <tr><td><span class="type" style="font-size:14px">Aa</span></td><td><code>--text-14</code></td><td class="val"><code>14px</code></td><td class="tnote">—</td></tr>
-    <tr><td><span class="type" style="font-size:12px">Aa</span></td><td><code>--text-12</code></td><td class="val"><code>12px</code></td><td class="tnote">—</td></tr>
+    <tr><td><span class="type" style="font-size:20px">Aa</span></td><td><code>--font-sans</code></td><td class="val"><code>&quot;Figtree&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif</code></td><td class="tnote">—</td></tr>
   </tbody>
-</table>
-        <h3>Шаг</h3>
-<table class="tok">
+</table></div>
+
+      <h3>Кегль</h3>
+<div class="tokw"><table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><span class="type" style="font-size:34px">Aa</span></td><td><code>--text-34</code></td><td class="val"><code>34px</code></td><td class="tnote">обещание на первом экране</td></tr>
+    <tr><td><span class="type" style="font-size:28px">Aa</span></td><td><code>--text-28</code></td><td class="val"><code>28px</code></td><td class="tnote">заголовок экрана</td></tr>
+    <tr><td><span class="type" style="font-size:22px">Aa</span></td><td><code>--text-22</code></td><td class="val"><code>22px</code></td><td class="tnote">подзаголовок и заголовок состояния</td></tr>
+    <tr><td><span class="type" style="font-size:20px">Aa</span></td><td><code>--text-20</code></td><td class="val"><code>20px</code></td><td class="tnote">стрелка возврата — знак, а не текст</td></tr>
+    <tr><td><span class="type" style="font-size:18px">Aa</span></td><td><code>--text-18</code></td><td class="val"><code>18px</code></td><td class="tnote">заголовок группы</td></tr>
+    <tr><td><span class="type" style="font-size:16px">Aa</span></td><td><code>--text-16</code></td><td class="val"><code>16px</code></td><td class="tnote">основной текст экрана</td></tr>
+    <tr><td><span class="type" style="font-size:14px">Aa</span></td><td><code>--text-14</code></td><td class="val"><code>14px</code></td><td class="tnote">кнопка, реплика, заголовок события</td></tr>
+    <tr><td><span class="type" style="font-size:12px">Aa</span></td><td><code>--text-12</code></td><td class="val"><code>12px</code></td><td class="tnote">Чип, тег, факты, лейба. Сведённый дрейф A5: 12px носил два имени кегля — --t-caption и --t-micro</td></tr>
+  </tbody>
+</table></div>
+
+      <h3>Вес</h3>
+<div class="tokw"><table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><span class="type" style="font-size:20px;font-weight:700">Aa</span></td><td><code>--weight-700</code></td><td class="val"><code>700</code></td><td class="tnote">заголовок экрана и обещание</td></tr>
+    <tr><td><span class="type" style="font-size:20px;font-weight:600">Aa</span></td><td><code>--weight-600</code></td><td class="val"><code>600</code></td><td class="tnote">кнопка, подзаголовок, Verified</td></tr>
+    <tr><td><span class="type" style="font-size:20px;font-weight:500">Aa</span></td><td><code>--weight-500</code></td><td class="val"><code>500</code></td><td class="tnote">чип, лейба, заголовок события</td></tr>
+    <tr><td><span class="type" style="font-size:20px;font-weight:400">Aa</span></td><td><code>--weight-400</code></td><td class="val"><code>400</code></td><td class="tnote">основной текст и поля</td></tr>
+  </tbody>
+</table></div>
+
+      <h3>Межстрочное</h3>
+<div class="tokw"><table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><span class="lead" style="line-height:1.5">Aa<br>Aa</span></td><td><code>--leading-150</code></td><td class="val"><code>1.5</code></td><td class="tnote">текст абзацем и поля ввода</td></tr>
+    <tr><td><span class="lead" style="line-height:1.45">Aa<br>Aa</span></td><td><code>--leading-145</code></td><td class="val"><code>1.45</code></td><td class="tnote">обещание на онбординге</td></tr>
+    <tr><td><span class="lead" style="line-height:1.25">Aa<br>Aa</span></td><td><code>--leading-125</code></td><td class="val"><code>1.25</code></td><td class="tnote">заголовки, чип, лейба</td></tr>
+    <tr><td><span class="lead" style="line-height:1.05">Aa<br>Aa</span></td><td><code>--leading-105</code></td><td class="val"><code>1.05</code></td><td class="tnote">заголовок экрана</td></tr>
+    <tr><td><span class="lead" style="line-height:1">Aa<br>Aa</span></td><td><code>--leading-100</code></td><td class="val"><code>1</code></td><td class="tnote">однострочный орган: кнопка, чип, лейба</td></tr>
+  </tbody>
+</table></div>
+
+      <h3>Трекинг</h3>
+<div class="tokw"><table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><span class="type" style="font-size:16px;letter-spacing:-0.01em">Meet</span></td><td><code>--tracking-button</code></td><td class="val"><code>-0.01em</code></td><td class="tnote">подпись кнопки</td></tr>
+    <tr><td><span class="type" style="font-size:16px;letter-spacing:-0.015em">Meet</span></td><td><code>--tracking-heading</code></td><td class="val"><code>-0.015em</code></td><td class="tnote">заголовки групп и карточек</td></tr>
+    <tr><td><span class="type" style="font-size:16px;letter-spacing:-0.035em">Meet</span></td><td><code>--tracking-display</code></td><td class="val"><code>-0.035em</code></td><td class="tnote">заголовок экрана и обещание</td></tr>
+  </tbody>
+</table></div>
+
+      <h3>Шаг</h3>
+<div class="tokw"><table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
     <tr><td><i class="bar" style="width:48px"></i></td><td><code>--space-48</code></td><td class="val"><code>48px</code></td><td class="tnote">ступень шкалы; компонента с этим шагом пока нет</td></tr>
-    <tr><td><i class="bar" style="width:32px"></i></td><td><code>--space-32</code></td><td class="val"><code>32px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="bar" style="width:24px"></i></td><td><code>--space-24</code></td><td class="val"><code>24px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="bar" style="width:32px"></i></td><td><code>--space-32</code></td><td class="val"><code>32px</code></td><td class="tnote">поля карточки состояния</td></tr>
+    <tr><td><i class="bar" style="width:24px"></i></td><td><code>--space-24</code></td><td class="val"><code>24px</code></td><td class="tnote">отбивка под иконкой состояния</td></tr>
     <tr><td><i class="bar" style="width:16px"></i></td><td><code>--space-16</code></td><td class="val"><code>16px</code></td><td class="tnote">поле экрана</td></tr>
-    <tr><td><i class="bar" style="width:12px"></i></td><td><code>--space-12</code></td><td class="val"><code>12px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="bar" style="width:8px"></i></td><td><code>--space-8</code></td><td class="val"><code>8px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="bar" style="width:6px"></i></td><td><code>--space-6</code></td><td class="val"><code>6px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="bar" style="width:4px"></i></td><td><code>--space-4</code></td><td class="val"><code>4px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="bar" style="width:2px"></i></td><td><code>--space-2</code></td><td class="val"><code>2px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="bar" style="width:2px 8px"></i></td><td><code>--space-label</code></td><td class="val"><code>2px 8px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="bar" style="width:12px"></i></td><td><code>--space-12</code></td><td class="val"><code>12px</code></td><td class="tnote">шаг между блоками экрана</td></tr>
+    <tr><td><i class="bar" style="width:8px"></i></td><td><code>--space-8</code></td><td class="val"><code>8px</code></td><td class="tnote">шаг внутри блока: чип, тег, строка</td></tr>
+    <tr><td><i class="bar" style="width:6px"></i></td><td><code>--space-6</code></td><td class="val"><code>6px</code></td><td class="tnote">поля нижнего меню и вкладки</td></tr>
+    <tr><td><i class="bar" style="width:4px"></i></td><td><code>--space-4</code></td><td class="val"><code>4px</code></td><td class="tnote">воздух у знака: галочка, точка, аватар</td></tr>
+    <tr><td><i class="bar" style="width:2px"></i></td><td><code>--space-2</code></td><td class="val"><code>2px</code></td><td class="tnote">самый мелкий шаг: время, подпись, тег</td></tr>
+    <tr><td><i class="bar" style="width:2px 8px"></i></td><td><code>--space-label</code></td><td class="val"><code>2px 8px</code></td><td class="tnote">поля лаймовой лейбы Verified</td></tr>
     <tr><td><i class="bar" style="width:8px"></i></td><td><code>--space-mark</code></td><td class="val"><code>.02em .12em</code></td><td class="tnote">—</td></tr>
   </tbody>
-</table>
-        <h3>Радиус</h3>
-<table class="tok">
+</table></div>
+
+      <h3>Радиус</h3>
+<div class="tokw"><table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
-    <tr><td><i class="sw sw--radius" style="border-radius:999px"></i></td><td><code>--radius-pill</code></td><td class="val"><code>999px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--radius" style="border-radius:999px"></i></td><td><code>--radius-pill</code></td><td class="val"><code>999px</code></td><td class="tnote">кнопка, чип, вкладка, полоса прокрутки</td></tr>
     <tr><td><i class="sw sw--radius" style="border-radius:26px"></i></td><td><code>--radius-lg</code></td><td class="val"><code>26px</code></td><td class="tnote">карточка</td></tr>
-    <tr><td><i class="sw sw--radius" style="border-radius:18px"></i></td><td><code>--radius-md</code></td><td class="val"><code>18px</code></td><td class="tnote">—</td></tr>
-    <tr><td><i class="sw sw--radius" style="border-radius:14px"></i></td><td><code>--radius-sm</code></td><td class="val"><code>14px</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--radius" style="border-radius:18px"></i></td><td><code>--radius-md</code></td><td class="val"><code>18px</code></td><td class="tnote">реплика, меню, миниатюра</td></tr>
+    <tr><td><i class="sw sw--radius" style="border-radius:14px"></i></td><td><code>--radius-sm</code></td><td class="val"><code>14px</code></td><td class="tnote">угол реплики у хвоста, пункт меню, заглушка</td></tr>
   </tbody>
-</table>
-        <h3>Размер</h3>
-<table class="tok">
+</table></div>
+
+      <h3>Размер</h3>
+<div class="tokw"><table class="tok">
   <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
   <tbody>
     <tr><td><i class="bar bar--size" style="width:120px"></i></td><td><code>--size-screen-h</code></td><td class="val"><code>844px</code></td><td class="tnote">высота мокапа — iPhone 14/15</td></tr>
@@ -681,9 +660,170 @@ footer p { max-width: 72ch; }
     <tr><td><i class="bar bar--size" style="width:2px"></i></td><td><code>--size-hairline</code></td><td class="val"><code>1px</code></td><td class="tnote">физический пиксель: клип скрытой подписи</td></tr>
     <tr><td><i class="bar bar--size" style="width:2px"></i></td><td><code>--size-avatar-drop</code></td><td class="val"><code>-6px</code></td><td class="tnote">посадка кружка на базовую линию</td></tr>
   </tbody>
-</table>
-      </section>
+</table></div>
 
+      <h3>Движение и прозрачность</h3>
+<div class="tokw"><table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Имя</th><th>Значение</th><th>Где стоит</th></tr></thead>
+  <tbody>
+    <tr><td><i class="bar bar--size" style="width:26px"></i></td><td><code>--duration-slow</code></td><td class="val"><code>300ms</code></td><td class="tnote">наезд обложки под курсором</td></tr>
+    <tr><td><i class="bar bar--size" style="width:17px"></i></td><td><code>--duration-fast</code></td><td class="val"><code>200ms</code></td><td class="tnote">наведение кнопки, поля, ссылки</td></tr>
+    <tr><td><i class="bar bar--size" style="width:120px"></i></td><td><code>--duration-skeleton</code></td><td class="val"><code>1.4s</code></td><td class="tnote">пробег блика по заглушке</td></tr>
+    <tr><td><span class="dim">—</span></td><td><code>--ease-out</code></td><td class="val"><code>cubic-bezier(0.16, 1, 0.3, 1)</code></td><td class="tnote">одна кривая на все переходы</td></tr>
+    <tr><td><span class="type" style="font-size:16px;display:inline-block;transform:scale(1.06)">Aa</span></td><td><code>--zoom-hover</code></td><td class="val"><code>1.06</code></td><td class="tnote">обложка под курсором</td></tr>
+    <tr><td><i class="sw sw--ink" style="opacity:.5"></i></td><td><code>--opacity-off</code></td><td class="val"><code>.5</code></td><td class="tnote">отключённое — то же в половину силы</td></tr>
+  </tbody>
+</table></div>
+      </section>
+    </div>
+
+    <div class="tabpanel" id="semantic">
+      <h1 class="vh">Дизайн-токены: семантика цвета</h1>
+      <section id="семантика-цвета">
+        <h2>Семантика цвета</h2>
+<p>Семантический токен отвечает на вопрос <strong>«кто этот цвет на экране»</strong> и ссылается на примитив через <code>var()</code>. В комментарии у каждого сказано, <strong>из какого употребления он вырос</strong>: <code>--bg-surface</code> — из 18 мест, где белое лежит поверх размытия; <code>--text-muted</code> — из 17 строк под именем и под заголовком. Имя без такого происхождения — это имя, придуманное про запас.</p>
+<p><strong>Имена взяты из разбора, а не из чужой системы.</strong> Роль называется так, как она названа в аудите — «фон карточки», «текст второстепенный», «доверие», «опасность», — и ни одного <code>--color-primary</code> или <code>--surface-2</code> здесь нет.</p>
+<p><strong>Две роли на одно значение — не ошибка.</strong> <code>--bg-page</code> и <code>--bg-surface</code> обе белые: совпадение держится на том, что фон экрана сейчас белый, и разойдутся они в первую же правку. Запрещено не совпадение значений, а совпадение, у которого нет причины.</p>
+<p><strong>Восемь ролей состояний жили примитивами прямо в компонентах</strong> и стали семантикой отдельным проходом: наведение, выбранное, слово на выбранном, наведение действия, кольцо фокуса, своя реплика, реплика, которая не ушла. Пока значение стоит в компоненте, переопределить его нельзя — проверка это и вскрыла.</p>
+<p><strong>Составные рецепты собраны из ролей, а не из примитивов.</strong> В <code>--shadow-1</code>, <code>--ring-hairline</code> и <code>--bg-skeleton</code> цвет приходит ролью: прежде он был зашит примитивом, и правка границы обходила тени стороной — они расходились с карточкой.</p>
+      <h3>Фон</h3>
+<div class="tokw"><table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--bg-page</code></td><td class="val"><code>--white</code> <span class="dim">#FFFFFF</span></td><td class="tnote">Роль видна из единственного места: .mm-screen красится цветом, а поверх него ложится размытие (tokens-audit.md, §5 «Фон страницы»).</td></tr>
+    <tr><td><i class="sw sw--wide" style="background-image:radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)"></i></td><td><code>--bg-page-wash</code></td><td class="val"><code>--gradient-page-wash</code> <span class="dim">radial-gradient(70% 40% at 100% 0%, rgba(246, 222, 235, .5) 0%, rgba(248, 228, 238, .32) 38%, rgba(250, 234, 241, 0) 80%), radial-gradient(88% 26% at 46% -6%, rgba(206, 216, 240, .46) 0%, rgba(212, 221, 242, 0) 60%), linear-gradient(180deg, #E4DAEA 0%, #EADBE8 9%, #EDDBE6 15%, #ECDBE4 20%, #EDDEE7 27%, #F0E4EB 32%, #F3EAEF 37%, #F4F0F3 42%, #F7F4F6 48%, #FAFAFB 53%, #FFFFFF 57%, #FFFFFF 100%)</span></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--bg-surface</code></td><td class="val"><code>--white</code> <span class="dim">#FFFFFF</span></td><td class="tnote">Выросла из 18 употреблений: .mm-event, .mm-person, .mm-row, .mm-banner, поверх размытия (§5 «Фон карточки»). То же значение, что у --bg-page: роли разные, и совпадение держится на том, что фон экрана сейчас белый.</td></tr>
+    <tr><td><i class="sw" style="background:#F2EDF6"></i></td><td><code>--bg-nested</code></td><td class="val"><code>--lilac-50</code> <span class="dim">#F2EDF6</span></td><td class="tnote">Выросла из 19 употреблений: .mm-cover, .mm-photo, .mm-thumb, .mm-avatar, карточки (§5 «Фон вложенного»). Имя не «вторая поверхность» — уровень здесь не номер, а отношение «внутри карточки».</td></tr>
+  </tbody>
+</table></div>
+
+      <h3>Текст и иконка</h3>
+<div class="tokw"><table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--text-primary</code></td><td class="val"><code>--plum-900</code> <span class="dim">#1A1026</span></td><td class="tnote">Выросла из 19 цветовых употреблений: .mm (корень), .mm-subhead, Ею же пишется слово на лаймовой лейбе — прежняя --ink-on-label.</td></tr>
+    <tr><td><i class="sw" style="background:#4C3F59"></i></td><td><code>--text-muted</code></td><td class="val"><code>--plum-600</code> <span class="dim">#4C3F59</span></td><td class="tnote">Выросла из 17 употреблений: .mm-facts, .mm-meta, .mm-distance, (§5 «Текст второстепенный»).</td></tr>
+    <tr><td><i class="sw" style="background:#FFFFFF"></i></td><td><code>--text-on-action</code></td><td class="val"><code>--white</code> <span class="dim">#FFFFFF</span></td><td class="tnote">Выросла из двух: .mm-btn--primary и .mm-band — текст на тёмной заливке (§5 «Действие»). Значение белое, но роль своя: это слово на действии, а не поверхность, и менять их придётся порознь.</td></tr>
+    <tr><td><i class="sw" style="background:#96123A"></i></td><td><code>--text-danger</code></td><td class="val"><code>--crimson-700</code> <span class="dim">#96123A</span></td><td class="tnote">Выросла из трёх: .mm-head-btn--danger, .mm-danger-link, от заливки, потому что на размытии заливке контраста хватает, а слову нет (§8 брифа).</td></tr>
+    <tr><td><i class="sw" style="background:#8C7E9B"></i></td><td><code>--icon-muted</code></td><td class="val"><code>--plum-400</code> <span class="dim">#8C7E9B</span></td><td class="tnote">Выросла из .mm-tab svg, .mm-field svg, .mm-field-btn и разделителя-точки в .mm-signals (§5 «Текст служебный / иконка»). Названа иконкой нарочно: по правилу §8 брифа этим серым нельзя писать текст.</td></tr>
+  </tbody>
+</table></div>
+
+      <h3>Действие, доверие, опасность, граница</h3>
+<div class="tokw"><table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#0B051D"></i></td><td><code>--color-action</code></td><td class="val"><code>--plum-950</code> <span class="dim">#0B051D</span></td><td class="tnote">Выросла из .mm-btn--primary (заливка), .mm-head-btn--primary и .mm-band, а тёмный акцент: роль шире имени, и это записано в разборе.</td></tr>
+    <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--text-on-verified</code></td><td class="val"><code>--plum-900</code> <span class="dim">#1A1026</span></td><td class="tnote">Выросла из .mm-verified и .mm-promise mark: слово на лайме. Раньше цвет наследовался от --text-primary — и слово на лейбе ехало за основным текстом, хотя подложка под ним своя. У лейбы свои чернила (D-80).</td></tr>
+    <tr><td><i class="sw" style="background:#D9F56F"></i></td><td><code>--color-verified</code></td><td class="val"><code>--lime-300</code> <span class="dim">#D9F56F</span></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#C01F4A"></i></td><td><code>--color-danger</code></td><td class="val"><code>--crimson-600</code> <span class="dim">#C01F4A</span></td><td class="tnote">Выросла из кольца поля с ошибкой и иконки состояния-тревоги (§5 «Опасность»). Заливка и обводка опасного — здесь; слово — выше, в --text-danger.</td></tr>
+    <tr><td><i class="sw" style="background:#ECECEC"></i></td><td><code>--border-hairline</code></td><td class="val"><code>--gray-100</code> <span class="dim">#ECECEC</span></td><td class="tnote">Выросла из пяти рецептов: три тени, кольцо аватара и обводка панели (§5 «Граница»). Единственная волосяная линия продукта — после того как A1 свёл два значения в одно.</td></tr>
+  </tbody>
+</table></div>
+
+      <h3>Семантика состояний</h3>
+<div class="tokw"><table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw" style="background:#E9E1F1"></i></td><td><code>--bg-hover</code></td><td class="val"><code>--lilac-100</code> <span class="dim">#E9E1F1</span></td><td class="tnote">Выросла из наведения пяти органов: .mm-btn, .mm-head-btn и его видов, .mm-field, .mm-menu a, .mm-danger-link (§5, разбор B1).</td></tr>
+    <tr><td><i class="sw" style="background:#E0D6EE"></i></td><td><code>--bg-selected</code></td><td class="val"><code>--lilac-300</code> <span class="dim">#E0D6EE</span></td><td class="tnote">Выросла из .mm-tab.is-current и .mm-menu a.is-current — выбранное (§5, разбор A4).</td></tr>
+    <tr><td><i class="sw" style="background:#1A1026"></i></td><td><code>--text-on-selected</code></td><td class="val"><code>--plum-900</code> <span class="dim">#1A1026</span></td><td class="tnote">Текст на выбранном: пара к --bg-selected, как --text-on-action к действию. Значение совпадает с основным текстом, но отвечает за другое.</td></tr>
+    <tr><td><i class="sw" style="background:#2A1C4D"></i></td><td><code>--color-action-hover</code></td><td class="val"><code>--plum-800</code> <span class="dim">#2A1C4D</span></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#8C7E9B"></i></td><td><code>--border-focus</code></td><td class="val"><code>--plum-400</code> <span class="dim">#8C7E9B</span></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw" style="background:#E3DAEF"></i></td><td><code>--bg-mine</code></td><td class="val"><code>--lilac-200</code> <span class="dim">#E3DAEF</span></td><td class="tnote">Выросла из .mm-bubble--mine — своё в разговоре (§6). Роль одиночная: реплика — ни кнопка, ни поверхность, и тон у неё свой.</td></tr>
+    <tr><td><i class="sw" style="background:#F59BAF"></i></td><td><code>--bg-undelivered</code></td><td class="val"><code>--rose-300</code> <span class="dim">#F59BAF</span></td><td class="tnote">—</td></tr>
+  </tbody>
+</table></div>
+
+      <h3>Составная семантика: тень, кольцо, блик</h3>
+<div class="tokw"><table class="tok">
+  <thead><tr><th class="c-sw"><span class="vh">Образец</span></th><th>Семантика</th><th>Показывает на</th><th>За что отвечает</th></tr></thead>
+  <tbody>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04)"></i></td><td><code>--shadow-1</code></td><td class="val"><code>0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06)"></i></td><td><code>--shadow-2</code></td><td class="val"><code>0 0 0 1px var(--border-hairline), 0 1px 2px rgba(17, 17, 17, .04), 0 2px 8px rgba(17, 17, 17, .06)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline), 0 2px 10px rgba(17, 17, 17, .07)"></i></td><td><code>--shadow-3</code></td><td class="val"><code>0 0 0 1px var(--border-hairline), 0 2px 10px rgba(17, 17, 17, .07)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-hairline)"></i></td><td><code>--ring-hairline</code></td><td class="val"><code>0 0 0 1px var(--border-hairline)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:inset 0 0 0 1px var(--border-hairline)"></i></td><td><code>--ring-hairline-inset</code></td><td class="val"><code>inset 0 0 0 1px var(--border-hairline)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--border-focus)"></i></td><td><code>--ring-focus</code></td><td class="val"><code>0 0 0 1px var(--border-focus)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--shadow" style="box-shadow:0 0 0 1px var(--color-danger)"></i></td><td><code>--ring-error</code></td><td class="val"><code>0 0 0 1px var(--color-danger)</code></td><td class="tnote">—</td></tr>
+    <tr><td><i class="sw sw--wide" style="background-image:linear-gradient(90deg, var(--bg-nested) 0%, var(--bg-hover) 50%, var(--bg-nested) 100%)"></i></td><td><code>--bg-skeleton</code></td><td class="val"><code>linear-gradient(90deg, var(--bg-nested) 0%, var(--bg-hover) 50%, var(--bg-nested) 100%)</code></td><td class="tnote">—</td></tr>
+  </tbody>
+</table></div>
+      </section>
+    </div>
+
+    <div class="tabpanel" id="contrast">
+      <h1 class="vh">Дизайн-токены: контраст</h1>
+      <section id="контраст">
+        <h2>Контраст</h2>
+<p><strong>Порог — WCAG 2.1 AA: текст 4.5:1, не-текст 3:1.</strong> Считается не глазом, а <code>node scripts/contrast.mjs</code>, и это гейт: пара ниже порога роняет сборку.</p>
+<p><strong>Фон экрана — градиент, поэтому текст на нём считается по самому тёмному месту размытия</strong> (<code>--lilac-150</code>, <code>#E4DAEA</code>). Если проходит там, проходит везде.</p>
+<p><strong>Белого текста на размытии нет:</strong> белый даёт там 1,35:1. Заголовок экрана и системная строка — тёмные.</p>
+<p><strong>Отсюда же разделение заливки и слова у опасного.</strong> <code>--color-danger</code> даёт на размытии 4,39:1: заливке и обводке этого хватает (порог 3:1), слову — нет. Поэтому слово опасного пишется своим токеном <code>--text-danger</code>, темнее заливки.</p>
+<p><strong>Серым нельзя писать текст, и это сказано в имени.</strong> <code>--icon-muted</code> названа иконкой нарочно: 3,77:1 на белом — проходной порог для не-текста и непроходной для буквы.</p>
+<div class="tokw"><table class="tok tok--pairs">
+  <thead><tr><th>Где</th><th>Текст или знак</th><th>Фон</th><th class="c-num">Коэффициент</th><th class="c-num">Порог</th></tr></thead>
+  <tbody>
+    <tr><td>Основной текст на фоне экрана</td><td><i class="sw sw--sm" style="background:#1A1026"></i><code>--text-primary</code></td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><code>--bg-page</code></td><td class="c-num"><b>18,32:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Основной текст на карточке</td><td><i class="sw sw--sm" style="background:#1A1026"></i><code>--text-primary</code></td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><code>--bg-surface</code></td><td class="c-num"><b>18,32:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Заголовок экрана на размытии</td><td><i class="sw sw--sm" style="background:#1A1026"></i><code>--text-primary</code></td><td><i class="sw sw--sm" style="background:#E4DAEA"></i><code>--lilac-150</code></td><td class="c-num"><b>13,54:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Подпись кнопки под курсором</td><td><i class="sw sw--sm" style="background:#1A1026"></i><code>--text-primary</code></td><td><i class="sw sw--sm" style="background:#E9E1F1"></i><code>--bg-hover</code></td><td class="c-num"><b>14,40:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Вторичный текст на карточке</td><td><i class="sw sw--sm" style="background:#4C3F59"></i><code>--text-muted</code></td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><code>--bg-surface</code></td><td class="c-num"><b>9,71:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Вторичный текст на вложенном: поле, чип</td><td><i class="sw sw--sm" style="background:#4C3F59"></i><code>--text-muted</code></td><td><i class="sw sw--sm" style="background:#F2EDF6"></i><code>--bg-nested</code></td><td class="c-num"><b>8,43:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Вторичный текст на размытии</td><td><i class="sw sw--sm" style="background:#4C3F59"></i><code>--text-muted</code></td><td><i class="sw sw--sm" style="background:#E4DAEA"></i><code>--lilac-150</code></td><td class="c-num"><b>7,17:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Вторичный текст под курсором</td><td><i class="sw sw--sm" style="background:#4C3F59"></i><code>--text-muted</code></td><td><i class="sw sw--sm" style="background:#E9E1F1"></i><code>--bg-hover</code></td><td class="c-num"><b>7,63:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Слово на кнопке действия</td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><code>--text-on-action</code></td><td><i class="sw sw--sm" style="background:#0B051D"></i><code>--color-action</code></td><td class="c-num"><b>19,93:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Слово на лейбе Verified</td><td><i class="sw sw--sm" style="background:#1A1026"></i><code>--text-on-verified</code></td><td><i class="sw sw--sm" style="background:#D9F56F"></i><code>--color-verified</code></td><td class="c-num"><b>15,04:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Подпись выбранной вкладки</td><td><i class="sw sw--sm" style="background:#1A1026"></i><code>--text-on-selected</code></td><td><i class="sw sw--sm" style="background:#E0D6EE"></i><code>--bg-selected</code></td><td class="c-num"><b>13,11:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Своя реплика в диалоге</td><td><i class="sw sw--sm" style="background:#1A1026"></i><code>--text-primary</code></td><td><i class="sw sw--sm" style="background:#E3DAEF"></i><code>--bg-mine</code></td><td class="c-num"><b>13,56:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Реплика, которая не ушла</td><td><i class="sw sw--sm" style="background:#1A1026"></i><code>--text-primary</code></td><td><i class="sw sw--sm" style="background:#F59BAF"></i><code>--bg-undelivered</code></td><td class="c-num"><b>8,89:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Опасное словом на карточке</td><td><i class="sw sw--sm" style="background:#96123A"></i><code>--text-danger</code></td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><code>--bg-surface</code></td><td class="c-num"><b>8,59:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Опасное словом на размытии: Report, отказ</td><td><i class="sw sw--sm" style="background:#96123A"></i><code>--text-danger</code></td><td><i class="sw sw--sm" style="background:#E4DAEA"></i><code>--lilac-150</code></td><td class="c-num"><b>6,35:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Опасное словом под курсором</td><td><i class="sw sw--sm" style="background:#96123A"></i><code>--text-danger</code></td><td><i class="sw sw--sm" style="background:#E9E1F1"></i><code>--bg-hover</code></td><td class="c-num"><b>6,75:1</b></td><td class="c-num">4,5:1</td></tr>
+    <tr><td>Иконка на фоне экрана (не текст)</td><td><i class="sw sw--sm" style="background:#8C7E9B"></i><code>--icon-muted</code></td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><code>--bg-page</code></td><td class="c-num"><b>3,77:1</b></td><td class="c-num">3:1</td></tr>
+    <tr><td>Иконка на карточке (не текст)</td><td><i class="sw sw--sm" style="background:#8C7E9B"></i><code>--icon-muted</code></td><td><i class="sw sw--sm" style="background:#FFFFFF"></i><code>--bg-surface</code></td><td class="c-num"><b>3,77:1</b></td><td class="c-num">3:1</td></tr>
+    <tr><td>Иконка на вложенном (не текст)</td><td><i class="sw sw--sm" style="background:#8C7E9B"></i><code>--icon-muted</code></td><td><i class="sw sw--sm" style="background:#F2EDF6"></i><code>--bg-nested</code></td><td class="c-num"><b>3,27:1</b></td><td class="c-num">3:1</td></tr>
+    <tr><td>Кольцо фокуса на вложенном (не текст)</td><td><i class="sw sw--sm" style="background:#8C7E9B"></i><code>--border-focus</code></td><td><i class="sw sw--sm" style="background:#F2EDF6"></i><code>--bg-nested</code></td><td class="c-num"><b>3,27:1</b></td><td class="c-num">3:1</td></tr>
+    <tr><td>Заливка и обводка опасного на размытии (не текст)</td><td><i class="sw sw--sm" style="background:#C01F4A"></i><code>--color-danger</code></td><td><i class="sw sw--sm" style="background:#E4DAEA"></i><code>--lilac-150</code></td><td class="c-num"><b>4,39:1</b></td><td class="c-num">3:1</td></tr>
+  </tbody>
+</table></div>
+      </section>
+    </div>
+
+    <div class="tabpanel" id="fixes">
+      <h1 class="vh">Дизайн-токены: правки</h1>
+      <section id="правки">
+        <h2>Правки</h2>
+<p>Два уровня — не переименование. Ниже то, что слой починил, в порядке решений.</p>
+<div class="tw"><table><thead><tr><th>Решение</th><th>Что было</th><th>Что стало</th></tr></thead><tbody>
+<tr><td><code class="dcode">D-72</code></td><td>Волосяная граница записана дважды — нейтральным и сиреневым; наведение красилось второй поверхностью</td><td>Одна граница <code>--border-hairline</code>; у наведения свой фон <code>--bg-hover</code></td></tr>
+<tr><td><code class="dcode">D-73</code></td><td>Имена по месту: <code>--card-ring</code>, <code>--tab-current</code>, <code>--glass-strong</code>; копии значений под разными именами</td><td>Имена по ответственности; копии сняты, выбранное получило свою роль <code>--bg-selected</code></td></tr>
+<tr><td><code class="dcode">D-74</code></td><td>«Ступень видна» проверялось глазом</td><td>Порог 3,5 ΔE2000 и <code>palette-audit.mjs</code>; одно значение под двумя именами — только с причиной</td></tr>
+<tr><td><code class="dcode">D-75</code></td><td>Один уровень и один файл стилей на весь кит</td><td>Два уровня в <code>tokens.css</code>, классы — 16 файлами в <code>components/</code></td></tr>
+<tr><td><code class="dcode">D-78</code></td><td><code>--warn</code> не красил ни одного экрана, <code>--success</code> красил ровно одно место</td><td>Цвет без места снят, цвет с местом назван по месту</td></tr>
+<tr><td><code class="dcode">D-79</code></td><td>Радиус 30px под bottom sheet, которого нет</td><td><code>--radius-xl</code> снят, карточке оставлен 26px</td></tr>
+<tr><td><code class="dcode">D-80</code></td><td>Лаймовая лейба брала чернила у основного текста; геометрия радара числами в классе; 121 скрытый заголовок вне дерева доступности</td><td>Своя роль <code>--text-on-verified</code>; кольца радара токенами; заголовки на <code>.vh</code></td></tr>
+<tr><td><code class="dcode">D-82</code></td><td>Блок тёмной темы в токенах; числовые группы в случайном порядке</td><td>Тема снята отовсюду; шкалы — от большего к меньшему</td></tr>
+</tbody></table></div>
+<p><strong>Главная находка — четвёртая по счёту, а не первая.</strong> Лейба <code>Verified</code> держалась не на своём цвете, а на том, что основной текст случайно оказывался тёмным. Нашла это проверка тёмной темой: в ней лайм остался лаймом, а текст стал светлым — 1,22:1. Тему потом сняли <code class="dcode">D-82</code>, а починку оставили: она верна и без неё.</p>
+
+      </section>
+    </div>
+
+    <div class="tabpanel" id="decision">
+      <h1 class="vh">Дизайн-токены: что открыто</h1>
+      <section id="что-открыто">
+        <h2>Что открыто</h2>
+<p><strong>Чего в наборе нет нарочно</strong> — семантики под то, что ещё не нарисовано. Предупреждение о приватном адресе, поле, прошедшее проверку в создании события, bottom sheet фильтров: экраны отложены, и цвета под них ждут в журнале решений, а не в палитре.</p>
+<p><strong>Что открыто по-настоящему:</strong></p>
+<div class="tw"><table><thead><tr><th>Вопрос</th><th>Почему висит</th></tr></thead><tbody>
+<tr><td><strong>Дешёвой проверки уровня больше нет</strong></td><td>Её делала тёмная тема: компонент, читающий примитив мимо семантики, становился виден сразу. Тема снята <code class="dcode">D-82</code>, и такую правку теперь не поймает ни гейт, ни глаз</td></tr>
+<tr><td><strong>Стенд стиля <code>concept/concept.html</code> на старых токенах</strong></td><td>Последний слой на <code>--ink-*</code> и <code>--r-*</code>. Там же живёт <code>--success</code> — единственное место, где он стоит</td></tr>
+<tr><td><strong>Расхождение двух источников значений</strong></td><td>Правда по значениям — <code>tokens/tokens.css</code> плюс <code>tokens.json</code>; корневой <code>tokens.css</code> повторяет их двумя уровнями. Сверяет <code>tokens-audit.mjs</code>, но одного файла вместо двух пока нет</td></tr>
+<tr><td><strong>Семантика состояний у полей</strong></td><td>Восемь ролей состояний заведены; «не приняло» у поля опирается на <code>--color-danger</code> напрямую, своей роли ошибки у поля нет — она придёт вместе с экраном создания запроса</td></tr>
+</tbody></table></div>
+
+      </section>
     </div>
 
     <footer>
@@ -699,7 +839,7 @@ footer p { max-width: 72ch; }
 // Подпункты текущего раздела в дереве. Нажат любой — дерево сжимается до номеров,
 // вернуть его целиком можно нажатием на сам номер раздела. Без скрипта — якоря.
 (function () {
-  var ids = ["info","set"];
+  var ids = ["overview","primitive","scales","semantic","contrast","fixes","decision"];
   var shell = document.querySelector('.shell');
   var subtabs = document.querySelector('.subtabs');
   if (!shell || !subtabs) return;
