@@ -59,14 +59,14 @@ const PRIMITIVE = [
     "css": "plum-900"
   },
   {
-    "path": "color/plum-850",
+    "path": "color/plum-860",
     "type": "COLOR",
     "value": {
-      "r": 0.11764705882352941,
-      "g": 0.09411764705882353,
-      "b": 0.18823529411764706
+      "r": 0.1411764705882353,
+      "g": 0.11372549019607843,
+      "b": 0.23529411764705882
     },
-    "css": "plum-850"
+    "css": "plum-860"
   },
   {
     "path": "color/plum-800",
@@ -87,6 +87,16 @@ const PRIMITIVE = [
       "b": 0.3137254901960784
     },
     "css": "plum-700"
+  },
+  {
+    "path": "color/plum-650",
+    "type": "COLOR",
+    "value": {
+      "r": 0.2901960784313726,
+      "g": 0.24313725490196078,
+      "b": 0.43137254901960786
+    },
+    "css": "plum-650"
   },
   {
     "path": "color/plum-600",
@@ -732,6 +742,11 @@ const SEMANTIC = [
     "css": "bg-surface"
   },
   {
+    "path": "bg/secondary",
+    "alias": "color/lilac-50",
+    "css": "bg-secondary"
+  },
+  {
     "path": "bg/nested",
     "alias": "color/lilac-50",
     "css": "bg-nested"
@@ -883,13 +898,18 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "bg/surface",
-    "alias": "color/plum-850",
+    "alias": "color/plum-860",
     "css": "bg-surface"
   },
   {
     "path": "bg/nested",
     "alias": "color/plum-900",
     "css": "bg-nested"
+  },
+  {
+    "path": "bg/secondary",
+    "alias": "color/plum-700",
+    "css": "bg-secondary"
   },
   {
     "path": "text/primary",
@@ -943,7 +963,7 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "bg/hover",
-    "alias": "color/plum-700",
+    "alias": "color/plum-650",
     "css": "bg-hover"
   },
   {

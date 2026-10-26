@@ -46,7 +46,7 @@
 
 /* тихая — сиреневая подложка без обводки */
 .mm-btn--quiet {
-  background: var(--bg-nested); box-shadow: none;
+  background: var(--bg-secondary); box-shadow: none;
 }
 
 /* Недоступна — это та же кнопка в половину силы, а не третий вид: роль видно

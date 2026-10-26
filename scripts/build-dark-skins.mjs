@@ -42,10 +42,11 @@ const SKINS = [
     accepted: true,
     idea: 'Тот же сливовый род, что в светлой теме, но лестницей и мягче: лист, карточка и вложенное '
       + 'идут тремя различимыми ступенями одного тона. Обводок нет вовсе — карточку отделяет то, '
-      + 'что она светлее листа.',
+      + 'что она светлее листа, а вторичное действие стоит ступенью выше карточки.',
     v: {
-      'bg-page': '#120E1C', 'bg-surface': '#1E1830', 'bg-nested': '#1A1026',
-      'bg-hover': '#362C50', 'bg-selected': '#C9BBE2', 'bg-mine': '#362C50', 'bg-undelivered': '#5C2338',
+      'bg-page': '#120E1C', 'bg-surface': '#241D3C', 'bg-nested': '#1A1026',
+      'bg-secondary': '#362C50',
+      'bg-hover': '#4A3E6E', 'bg-selected': '#C9BBE2', 'bg-mine': '#362C50', 'bg-undelivered': '#5C2338',
       'text-primary': '#F2EDF6', 'text-muted': '#BCB0D0', 'text-on-action': '#120E1C',
       'text-on-selected': '#1A1026', 'text-danger': '#F59BAF', 'icon-muted': '#8C7E9B',
       'color-action': '#F2EDF6', 'color-action-hover': '#E0D6EE', 'color-danger': '#F59BAF',
