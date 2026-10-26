@@ -39,14 +39,14 @@ const PRIMITIVE = [
     "css": "plum-950"
   },
   {
-    "path": "color/plum-930",
+    "path": "color/plum-960",
     "type": "COLOR",
     "value": {
-      "r": 0.07058823529411765,
-      "g": 0.054901960784313725,
-      "b": 0.10980392156862745
+      "r": 0.058823529411764705,
+      "g": 0.043137254901960784,
+      "b": 0.09411764705882353
     },
-    "css": "plum-930"
+    "css": "plum-960"
   },
   {
     "path": "color/plum-900",
@@ -59,14 +59,24 @@ const PRIMITIVE = [
     "css": "plum-900"
   },
   {
-    "path": "color/plum-860",
+    "path": "color/plum-880",
     "type": "COLOR",
     "value": {
-      "r": 0.1411764705882353,
-      "g": 0.11372549019607843,
-      "b": 0.23529411764705882
+      "r": 0.11764705882352941,
+      "g": 0.09019607843137255,
+      "b": 0.2
     },
-    "css": "plum-860"
+    "css": "plum-880"
+  },
+  {
+    "path": "color/plum-780",
+    "type": "COLOR",
+    "value": {
+      "r": 0.20392156862745098,
+      "g": 0.16862745098039217,
+      "b": 0.3215686274509804
+    },
+    "css": "plum-780"
   },
   {
     "path": "color/plum-800",
@@ -79,24 +89,14 @@ const PRIMITIVE = [
     "css": "plum-800"
   },
   {
-    "path": "color/plum-700",
+    "path": "color/plum-680",
     "type": "COLOR",
     "value": {
-      "r": 0.21176470588235294,
-      "g": 0.17254901960784313,
-      "b": 0.3137254901960784
-    },
-    "css": "plum-700"
-  },
-  {
-    "path": "color/plum-650",
-    "type": "COLOR",
-    "value": {
-      "r": 0.2901960784313726,
-      "g": 0.24313725490196078,
+      "r": 0.2784313725490196,
+      "g": 0.23137254901960785,
       "b": 0.43137254901960786
     },
-    "css": "plum-650"
+    "css": "plum-680"
   },
   {
     "path": "color/plum-600",
@@ -107,6 +107,16 @@ const PRIMITIVE = [
       "b": 0.34901960784313724
     },
     "css": "plum-600"
+  },
+  {
+    "path": "color/plum-580",
+    "type": "COLOR",
+    "value": {
+      "r": 0.35294117647058826,
+      "g": 0.2980392156862745,
+      "b": 0.5411764705882353
+    },
+    "css": "plum-580"
   },
   {
     "path": "color/plum-400",
@@ -182,9 +192,9 @@ const PRIMITIVE = [
     "path": "color/lilac-500",
     "type": "COLOR",
     "value": {
-      "r": 0.7372549019607844,
-      "g": 0.6901960784313725,
-      "b": 0.8156862745098039
+      "r": 0.8274509803921568,
+      "g": 0.792156862745098,
+      "b": 0.8941176470588236
     },
     "css": "lilac-500"
   },
@@ -227,6 +237,16 @@ const PRIMITIVE = [
       "b": 0.2196078431372549
     },
     "css": "crimson-900"
+  },
+  {
+    "path": "color/rose-200",
+    "type": "COLOR",
+    "value": {
+      "r": 0.984313725490196,
+      "g": 0.7607843137254902,
+      "b": 0.807843137254902
+    },
+    "css": "rose-200"
   },
   {
     "path": "color/rose-300",
@@ -888,7 +908,7 @@ const SEMANTIC = [
 const SEMANTIC_DARK = [
   {
     "path": "bg/page",
-    "alias": "color/plum-930",
+    "alias": "color/plum-960",
     "css": "bg-page"
   },
   {
@@ -898,17 +918,17 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "bg/surface",
-    "alias": "color/plum-860",
+    "alias": "color/plum-780",
     "css": "bg-surface"
   },
   {
     "path": "bg/nested",
-    "alias": "color/plum-900",
+    "alias": "color/plum-880",
     "css": "bg-nested"
   },
   {
     "path": "bg/secondary",
-    "alias": "color/plum-700",
+    "alias": "color/plum-680",
     "css": "bg-secondary"
   },
   {
@@ -933,7 +953,7 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "text/on-action",
-    "alias": "color/plum-930",
+    "alias": "color/plum-960",
     "css": "text-on-action"
   },
   {
@@ -943,17 +963,17 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "color/danger",
-    "alias": "color/rose-300",
+    "alias": "color/rose-200",
     "css": "color-danger"
   },
   {
     "path": "text/danger",
-    "alias": "color/rose-300",
+    "alias": "color/rose-200",
     "css": "text-danger"
   },
   {
     "path": "border/hairline",
-    "alias": "color/plum-930",
+    "alias": "color/plum-960",
     "css": "border-hairline"
   },
   {
@@ -963,7 +983,7 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "bg/hover",
-    "alias": "color/plum-650",
+    "alias": "color/plum-580",
     "css": "bg-hover"
   },
   {
@@ -978,7 +998,7 @@ const SEMANTIC_DARK = [
   },
   {
     "path": "bg/mine",
-    "alias": "color/plum-700",
+    "alias": "color/plum-680",
     "css": "bg-mine"
   },
   {

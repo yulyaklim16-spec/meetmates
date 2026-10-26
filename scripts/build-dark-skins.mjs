@@ -42,15 +42,16 @@ const SKINS = [
     accepted: true,
     idea: 'Тот же сливовый род, что в светлой теме, но лестницей и мягче: лист, карточка и вложенное '
       + 'идут тремя различимыми ступенями одного тона. Обводок нет вовсе — карточку отделяет то, '
-      + 'что она светлее листа, а вторичное действие стоит ступенью выше карточки.',
+      + 'что она светлее листа, а вторичное действие стоит ступенью выше карточки. '
+      + 'Ступени крупные: от листа до наведения пять различимых шагов.',
     v: {
-      'bg-page': '#120E1C', 'bg-surface': '#241D3C', 'bg-nested': '#1A1026',
-      'bg-secondary': '#362C50',
-      'bg-hover': '#4A3E6E', 'bg-selected': '#C9BBE2', 'bg-mine': '#362C50', 'bg-undelivered': '#5C2338',
-      'text-primary': '#F2EDF6', 'text-muted': '#BCB0D0', 'text-on-action': '#120E1C',
-      'text-on-selected': '#1A1026', 'text-danger': '#F59BAF', 'icon-muted': '#8C7E9B',
-      'color-action': '#F2EDF6', 'color-action-hover': '#E0D6EE', 'color-danger': '#F59BAF',
-      'border-hairline': '#120E1C', 'border-focus': '#BCB0D0',
+      'bg-page': '#0F0B18', 'bg-surface': '#342B52', 'bg-nested': '#1E1733',
+      'bg-secondary': '#473B6E',
+      'bg-hover': '#5A4C8A', 'bg-selected': '#C9BBE2', 'bg-mine': '#473B6E', 'bg-undelivered': '#5C2338',
+      'text-primary': '#F2EDF6', 'text-muted': '#D3CAE4', 'text-on-action': '#0F0B18',
+      'text-on-selected': '#1A1026', 'text-danger': '#FBC2CE', 'icon-muted': '#8C7E9B',
+      'color-action': '#F2EDF6', 'color-action-hover': '#E0D6EE', 'color-danger': '#FBC2CE',
+      'border-hairline': '#0F0B18', 'border-focus': '#D3CAE4',
     },
   },
   {
