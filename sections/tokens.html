@@ -524,10 +524,6 @@ footer p { max-width: 72ch; }
     <code class="tk-name">--gray-100</code>
     <span class="tk-note"><b>#ECECEC</b> — Сведённый дрейф A1: волосяная граница была записана дважды — нейтральным #ECECEC в тенях и сиреневым #E8E1F1 на дорожке переключателя и кольцах радара. Остался нейтральный.</span>
   </div>
-  <div class="tk-swatch"><i class="tk-chip tk-chip--none"></i>
-    <code class="tk-name">--clear</code>
-    <span class="tk-note"><b>transparent</b> — Прозрачное — тоже значение, и у него есть место: в тёмной теме границы нет вовсе, а рецепты теней и колец собраны из роли и должны куда-то упираться.</span>
-  </div>
 </div>
 
       <h3>Цвет: сливовое, от самого тёмного</h3>
@@ -575,6 +571,10 @@ footer p { max-width: 72ch; }
   <div class="tk-swatch"><i class="tk-chip" style="background:#4D4D57"></i>
     <code class="tk-name">--coal-600</code>
     <span class="tk-note"><b>#4D4D57</b> — наведение</span>
+  </div>
+  <div class="tk-swatch"><i class="tk-chip" style="background:#5A5A66"></i>
+    <code class="tk-name">--coal-500</code>
+    <span class="tk-note"><b>#5A5A66</b> — волосяная граница: светлее карточки, темнее лаванды</span>
   </div>
   <div class="tk-swatch"><i class="tk-chip" style="background:#C4C2CC"></i>
     <code class="tk-name">--coal-200</code>
@@ -852,7 +852,7 @@ footer p { max-width: 72ch; }
     <tr><td><code>--text-on-verified</code></td><td class="val"><span class="tk-pair"><i class="tk-dot" style="background:#1A1026"></i><code>--plum-900</code> <span class="dim">#1A1026</span></span></td><td class="val"><span class="dim">то же</span></td><td class="tnote">Выросла из .mm-verified и .mm-promise mark: слово на лайме. Раньше цвет наследовался от --text-primary — и слово на лейбе ехало за основным текстом, хотя подложка под ним своя. У лейбы свои чернила (D-80).</td></tr>
     <tr><td><code>--color-verified</code></td><td class="val"><span class="tk-pair"><i class="tk-dot" style="background:#D9F56F"></i><code>--lime-300</code> <span class="dim">#D9F56F</span></span></td><td class="val"><span class="dim">то же</span></td><td class="tnote">—</td></tr>
     <tr><td><code>--color-danger</code></td><td class="val"><span class="tk-pair"><i class="tk-dot" style="background:#C01F4A"></i><code>--crimson-600</code> <span class="dim">#C01F4A</span></span></td><td class="val"><span class="tk-pair"><i class="tk-dot" style="background:#FBC2CE"></i><code>--rose-200</code> <span class="dim">#FBC2CE</span></span></td><td class="tnote">Выросла из кольца поля с ошибкой и иконки состояния-тревоги (§5 «Опасность»). Заливка и обводка опасного — здесь; слово — выше, в --text-danger.</td></tr>
-    <tr><td><code>--border-hairline</code></td><td class="val"><span class="tk-pair"><i class="tk-dot" style="background:#ECECEC"></i><code>--gray-100</code> <span class="dim">#ECECEC</span></span></td><td class="val"><span class="tk-pair"><code>--clear</code></span></td><td class="tnote">Выросла из пяти рецептов: три тени, кольцо аватара и обводка панели (§5 «Граница»). Единственная волосяная линия продукта — после того как A1 свёл два значения в одно.</td></tr>
+    <tr><td><code>--border-hairline</code></td><td class="val"><span class="tk-pair"><i class="tk-dot" style="background:#ECECEC"></i><code>--gray-100</code> <span class="dim">#ECECEC</span></span></td><td class="val"><span class="tk-pair"><i class="tk-dot" style="background:#5A5A66"></i><code>--coal-500</code> <span class="dim">#5A5A66</span></span></td><td class="tnote">Выросла из пяти рецептов: три тени, кольцо аватара и обводка панели (§5 «Граница»). Единственная волосяная линия продукта — после того как A1 свёл два значения в одно.</td></tr>
   </tbody>
 </table></div>
 
@@ -889,7 +889,7 @@ footer p { max-width: 72ch; }
     <section class="block" id="contrast">
       <h2>Контраст по WCAG AA</h2>
 <p><strong>Порог — WCAG 2.1 AA: текст 4.5:1, не-текст 3:1.</strong> Считается не глазом, а <code>node scripts/contrast.mjs</code>, и это гейт: пара ниже порога роняет сборку.</p>
-<p><strong>Считается в обеих темах, и обе обязаны пройти.</strong> У размытия в каждой теме своя картинка и свой самый светлый край — <code>--lilac-150</code> в светлой, <code>--lavender-700</code> в тёмной <code class="dcode">D-86</code>, — поэтому у пар «на размытии» фон в тёмной указан отдельно. Считать их по светлому верху значило бы считать не то.</p>
+<p><strong>Считается в обеих темах, и обе обязаны пройти.</strong> У размытия в каждой теме своя картинка и свой самый светлый край — <code>--lilac-150</code> в светлой, <code>--lavender-700</code> в тёмной <code class="dcode">D-86</code>, — поэтому у пар «на размытии» фон в тёмной указан отдельно. <strong>Две пары из трёх в тёмной теме помечены прочерком:</strong> ни второстепенного текста, ни слова опасного прямо на размытии нет ни на одном из пятидесяти экранов — это проверено браузерным проходом, а не на глаз. Считать пару, которой нет, значило бы мерить выдуманное. Считать их по светлому верху значило бы считать не то.</p>
 <p><strong>Фон экрана — градиент, поэтому текст на нём считается по самому тёмному месту размытия</strong> (<code>--lilac-150</code>, <code>#E4DAEA</code>). Если проходит там, проходит везде.</p>
 <p><strong>Белого текста на размытии нет:</strong> белый даёт там 1,35:1. Заголовок экрана и системная строка — тёмные.</p>
 <p><strong>Отсюда же разделение заливки и слова у опасного.</strong> <code>--color-danger</code> даёт на размытии 4,39:1: заливке и обводке этого хватает (порог 3:1), слову — нет. Поэтому слово опасного пишется своим токеном <code>--text-danger</code>, темнее заливки.</p>
