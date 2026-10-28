@@ -121,6 +121,57 @@
     </table>
   </section>
 
+  <section class="sec" id="states">
+    <h2>Состояния</h2>
+    <p class="sec-lead">Три состояния у всего, что нажимается, и оба вида рядом: кольцо фокуса
+    обязано быть видно и в светлой теме, и в тёмной.</p>
+    <div class="states">
+      <div class="states-head">
+        <p class="states-theme"></p>
+        <div class="states-cell"><b>Наведение и нажатие</b><span>Меняется фон — и только он: элемент не едет и не растёт</span></div>
+        <div class="states-cell"><b>Фокус с клавиатуры</b><span>Кольцо <code>--color-focus</code>: 3:1 к фону в обеих темах</span></div>
+        <div class="states-cell"><b>Отключённое</b><span>То же в половину силы через <code>--opacity-disabled</code>, курсор «нельзя»</span></div>
+      </div>
+      <div class="states-row">
+        <p class="states-theme">Светлая</p>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select is-hover"><span class="mm-select-value">Anyone</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select is-focus"><span class="mm-select-value">Anyone</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select is-disabled"><span class="mm-select-value">Anyone</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span></div>
+          
+        </div></div></div>
+      </div>
+      <div class="states-row" data-theme="dark">
+        <p class="states-theme">Тёмная</p>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select is-hover"><span class="mm-select-value">Anyone</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select is-focus"><span class="mm-select-value">Anyone</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Who can join</span>
+          <div class="mm-field mm-select is-disabled"><span class="mm-select-value">Anyone</span><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9L12 15L5 9"/></svg></span></div>
+          
+        </div></div></div>
+      </div>
+    </div>
+
+  </section>
+
   <section class="sec" id="when">
     <h2>Когда употреблять</h2>
     <p>Выбор из закрытого списка: «кто может откликнуться» — <code>Anyone</code> ·

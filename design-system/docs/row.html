@@ -96,6 +96,33 @@
     </table>
   </section>
 
+  <section class="sec" id="states">
+    <h2>Состояния</h2>
+    <p class="sec-lead">Три состояния у всего, что нажимается, и оба вида рядом: кольцо фокуса
+    обязано быть видно и в светлой теме, и в тёмной.</p>
+    <div class="states">
+      <div class="states-head">
+        <p class="states-theme"></p>
+        <div class="states-cell"><b>Наведение и нажатие</b><span>Меняется фон — и только он: элемент не едет и не растёт</span></div>
+        <div class="states-cell"><b>Фокус с клавиатуры</b><span>Кольцо <code>--color-focus</code>: 3:1 к фону в обеих темах</span></div>
+        <div class="states-cell"><b>Отключённое</b><span>То же в половину силы через <code>--opacity-disabled</code>, курсор «нельзя»</span></div>
+      </div>
+      <div class="states-row">
+        <p class="states-theme">Светлая</p>
+        <div class="states-cell"><div class="kit-stage"><ul class="mm-list"><li><a class="mm-row is-hover" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul></div></div>
+        <div class="states-cell"><div class="kit-stage"><ul class="mm-list"><li><a class="mm-row is-focus" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul></div></div>
+        <div class="states-cell"><div class="kit-stage"><ul class="mm-list"><li><a aria-disabled="true" class="mm-row is-disabled" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul></div></div>
+      </div>
+      <div class="states-row" data-theme="dark">
+        <p class="states-theme">Тёмная</p>
+        <div class="states-cell"><div class="kit-stage"><ul class="mm-list"><li><a class="mm-row is-hover" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul></div></div>
+        <div class="states-cell"><div class="kit-stage"><ul class="mm-list"><li><a class="mm-row is-focus" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul></div></div>
+        <div class="states-cell"><div class="kit-stage"><ul class="mm-list"><li><a aria-disabled="true" class="mm-row is-disabled" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul></div></div>
+      </div>
+    </div>
+    <p class="states-note">Строка — ссылка целиком, поэтому состояния на ней самой. Там, где у строки есть снимок, наведение приближает его; где снимка нет, не меняется ничего.</p>
+  </section>
+
   <section class="sec" id="when">
     <h2>Когда употреблять</h2>
     <p>Список чатов, «Мои события», выдача поиска, группы на профиле. Карточка —

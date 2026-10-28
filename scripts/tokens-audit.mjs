@@ -123,6 +123,39 @@ for (const { path, prefix, declaredIn, checkSizes } of FILES) {
   console.log('');
 }
 
+// ── набор сам на себя: ссылка внутри tokens.css ──────────────────────
+// Составные роли — тени, кольца, блик заглушки — собраны из других ролей.
+// Если имя внутри var() переименовали, а ссылку не поправили, свойство
+// становится невалидным и просто исчезает: кольцо фокуса пропадает во всём
+// продукте, а гейты остаются зелёными. Поэтому набор проверяется сам на себя.
+{
+  const tokens = readFileSync(join(ROOT, 'design-system/tokens.css'), 'utf8');
+  const bare = tokens.replace(/\/\*[\s\S]*?\*\//g, '');
+  const declared = new Set([...bare.matchAll(/(--[a-z0-9-]+)\s*:/g)].map((m) => m[1]));
+  const used = new Set([...bare.matchAll(/var\((--[a-z0-9-]+)/g)].map((m) => m[1]));
+  const dangling = [...used].filter((t) => !declared.has(t)).sort();
+
+  console.log('## Набор сам на себя\n');
+  say(!dangling.length, `ссылки на необъявленное в tokens.css: ${dangling.join(' · ') || 'нет'}`);
+
+  // Составная роль вычисляется там, где объявлена: var() внутри подставляется
+  // ролями того же места и наследуется вниз уже подставленным. Объявлённая
+  // только на :root, она приносит светлые значения в любое поддерево с темой.
+  const darkAt = bare.indexOf('[data-theme="dark"]');
+  const light = bare.slice(0, darkAt);
+  const dark = bare.slice(darkAt);
+  const themed = new Set([...dark.matchAll(/(--[a-z0-9-]+)\s*:/g)].map((m) => m[1]));
+  const frozen = [];
+  for (const m of light.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/g)) {
+    const [, name, value] = m;
+    if (themed.has(name)) continue;
+    const refs = [...value.matchAll(/var\((--[a-z0-9-]+)/g)].map((x) => x[1]).filter((r) => themed.has(r));
+    if (refs.length) frozen.push(`${name} ← ${[...new Set(refs)].join(', ')}`);
+  }
+  say(!frozen.length, `составные роли без значения в тёмной: ${frozen.join(' · ') || 'нет'}`);
+  console.log('');
+}
+
 // один токен — одно значение в обоих файлах
 const hex = (css, prefix) =>
   Object.fromEntries([...css.matchAll(new RegExp(`${prefix}([a-z0-9-]+):\\s*(#[0-9A-Fa-f]{6}|[0-9.]+(?:em)?);`, 'g'))]

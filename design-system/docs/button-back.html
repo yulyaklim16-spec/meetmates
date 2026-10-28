@@ -77,6 +77,33 @@
     </table>
   </section>
 
+  <section class="sec" id="states">
+    <h2>Состояния</h2>
+    <p class="sec-lead">Три состояния у всего, что нажимается, и оба вида рядом: кольцо фокуса
+    обязано быть видно и в светлой теме, и в тёмной.</p>
+    <div class="states">
+      <div class="states-head">
+        <p class="states-theme"></p>
+        <div class="states-cell"><b>Наведение и нажатие</b><span>Меняется фон — и только он: элемент не едет и не растёт</span></div>
+        <div class="states-cell"><b>Фокус с клавиатуры</b><span>Кольцо <code>--color-focus</code>: 3:1 к фону в обеих темах</span></div>
+        <div class="states-cell"><b>Отключённое</b><span>То же в половину силы через <code>--opacity-disabled</code>, курсор «нельзя»</span></div>
+      </div>
+      <div class="states-row">
+        <p class="states-theme">Светлая</p>
+        <div class="states-cell"><div class="kit-stage"><a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div></div>
+        <div class="states-cell"><div class="kit-stage"><a class="mm-head-btn mm-head-btn--back is-focus" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div></div>
+        <div class="states-cell"><div class="kit-stage"><a aria-disabled="true" class="mm-head-btn mm-head-btn--back is-disabled" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div></div>
+      </div>
+      <div class="states-row" data-theme="dark">
+        <p class="states-theme">Тёмная</p>
+        <div class="states-cell"><div class="kit-stage"><a class="mm-head-btn mm-head-btn--back is-hover" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div></div>
+        <div class="states-cell"><div class="kit-stage"><a class="mm-head-btn mm-head-btn--back is-focus" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div></div>
+        <div class="states-cell"><div class="kit-stage"><a aria-disabled="true" class="mm-head-btn mm-head-btn--back is-disabled" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a></div></div>
+      </div>
+    </div>
+    <p class="states-note">Возврат отключённым не бывает: уйти с экрана можно всегда.</p>
+  </section>
+
   <section class="sec" id="when">
     <h2>Когда употреблять</h2>
     <p>Возврат с экрана, на который пришли из другого: диалог, карточка события, профиль

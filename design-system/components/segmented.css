@@ -24,7 +24,9 @@
   background: transparent; box-shadow: none; font-weight: var(--weight-500);
 }
 
-.mm-segmented .mm-btn:hover, .mm-segmented .mm-btn.is-hover { background: transparent; }
+/* Невыбранный сегмент под курсором не красится: дорожка одна, и подсветка
+   половины дорожки читалась бы вторым выбранным `D-93`. */
+.mm-segmented .mm-btn:hover, .mm-segmented .mm-btn:active, .mm-segmented .mm-btn.is-hover { background: transparent; }
 
 .mm-segmented .mm-btn.is-current {
   background: var(--bg-surface); box-shadow: var(--shadow-1); font-weight: var(--weight-600);

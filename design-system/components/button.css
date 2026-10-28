@@ -59,7 +59,7 @@
  неактивные органы из-под правила, а приглушённость и есть признак того,
  что нажимать нечего. */
 :is(.mm-btn, .mm-head-btn)[disabled], :is(.mm-btn, .mm-head-btn).is-disabled {
-  opacity: var(--opacity-off);
+  opacity: var(--opacity-disabled);
   cursor: not-allowed;
   transform: none;
 }
@@ -93,16 +93,16 @@
 
 
 
-/* Цвет состояния читается примитивом: ролей для наведение, наведение действия в tokens.css
-   ещё нет — их назовут на уроке 9, и тогда var() здесь сменится
-   на роль, а не на другое значение. */
+/* Цвет состояния приходит ролью: --bg-hover у наведения, --color-focus
+   в кольце, --opacity-disabled у отключённого `D-93`. У каждой есть значение
+   в обеих темах — роль, объявленная в одной, в другой даёт невидимый фокус. */
 
-.mm-btn:hover, .mm-btn.is-hover { background: var(--bg-hover); }
+.mm-btn:hover, .mm-btn:active, .mm-btn.is-hover { background: var(--bg-hover); }
 
 .mm-btn:focus-visible { outline: none; box-shadow: var(--ring-focus); }
 
-.mm-btn--primary:hover, .mm-btn--primary.is-hover { background: var(--color-action-hover); }
+.mm-btn--primary:hover, .mm-btn--primary:active, .mm-btn--primary.is-hover { background: var(--color-action-hover); }
 
-.mm-btn--quiet:hover, .mm-btn--quiet.is-hover { background: var(--bg-hover); }
+.mm-btn--quiet:hover, .mm-btn--quiet:active, .mm-btn--quiet.is-hover { background: var(--bg-hover); }
 
-.mm-danger-link:hover, .mm-danger-link.is-hover { background: var(--bg-hover); }
+.mm-danger-link:hover, .mm-danger-link:active, .mm-danger-link.is-hover { background: var(--bg-hover); }

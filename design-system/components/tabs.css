@@ -48,11 +48,8 @@
 /* активная — на пилюле выбранного, знак и слово на ней одного цвета */
 .mm-tab.is-current { background: var(--bg-selected); color: var(--text-on-selected); box-shadow: var(--ring-hairline-inset), var(--shadow-1); }
 
-/* Фокус у всего остального, что нажимается. Раньше его носили только кнопки
-   и поле, а вкладка, строка списка, заголовок события и карточка-ссылка
-   обходились правилом страницы макета — в прототип оно не поедет, и тот,
-   кто ходит табом, остался бы без индикатора (WCAG 2.4.7, уровень AA). */
-.mm-tab:focus-visible, .mm-row:focus-visible, .mm-event-head:focus-visible, .mm-cardlink:focus-visible, .mm-menu a:focus-visible {
-  outline: none;
-  box-shadow: var(--ring-focus);
-}
+/* Наведение на вкладку, которая не выбрана: фон, и только фон. У выбранной
+   наведения нет — она уже на своей пилюле, и менять ей тон незачем `D-93`.
+   Фокус и отключённое приходят общим блоком из base.css. */
+.mm-tab:not(.is-current):hover, .mm-tab:not(.is-current):active,
+.mm-tab:not(.is-current).is-hover { background: var(--bg-hover); }

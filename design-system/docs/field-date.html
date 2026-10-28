@@ -120,6 +120,57 @@
     </table>
   </section>
 
+  <section class="sec" id="states">
+    <h2>Состояния</h2>
+    <p class="sec-lead">Три состояния у всего, что нажимается, и оба вида рядом: кольцо фокуса
+    обязано быть видно и в светлой теме, и в тёмной.</p>
+    <div class="states">
+      <div class="states-head">
+        <p class="states-theme"></p>
+        <div class="states-cell"><b>Наведение и нажатие</b><span>Меняется фон — и только он: элемент не едет и не растёт</span></div>
+        <div class="states-cell"><b>Фокус с клавиатуры</b><span>Кольцо <code>--color-focus</code>: 3:1 к фону в обеих темах</span></div>
+        <div class="states-cell"><b>Отключённое</b><span>То же в половину силы через <code>--opacity-disabled</code>, курсор «нельзя»</span></div>
+      </div>
+      <div class="states-row">
+        <p class="states-theme">Светлая</p>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field is-hover"><input id="f25" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f25">DD</label></div><div class="mm-field"><input id="f26" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f26">MM</label></div><div class="mm-field"><input id="f27" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f27">YYYY</label></div></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field is-focus"><input id="f25" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f25">DD</label></div><div class="mm-field"><input id="f26" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f26">MM</label></div><div class="mm-field"><input id="f27" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f27">YYYY</label></div></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field is-disabled"><input disabled id="f25" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f25">DD</label></div><div class="mm-field"><input disabled id="f26" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f26">MM</label></div><div class="mm-field"><input disabled id="f27" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f27">YYYY</label></div></div>
+          
+        </div></div></div>
+      </div>
+      <div class="states-row" data-theme="dark">
+        <p class="states-theme">Тёмная</p>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field is-hover"><input id="f25" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f25">DD</label></div><div class="mm-field"><input id="f26" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f26">MM</label></div><div class="mm-field"><input id="f27" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f27">YYYY</label></div></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field is-focus"><input id="f25" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f25">DD</label></div><div class="mm-field"><input id="f26" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f26">MM</label></div><div class="mm-field"><input id="f27" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f27">YYYY</label></div></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field is-disabled"><input disabled id="f25" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f25">DD</label></div><div class="mm-field"><input disabled id="f26" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f26">MM</label></div><div class="mm-field"><input disabled id="f27" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f27">YYYY</label></div></div>
+          
+        </div></div></div>
+      </div>
+    </div>
+    <p class="states-note">Состояние у всех трёх полей общее: их заполняют подряд, и гасить одно в отрыве от других незачем.</p>
+  </section>
+
   <section class="sec" id="when">
     <h2>Когда употреблять</h2>
     <p>Возраст спрашивается один раз и здесь: гейт 18+ стоит на настройке профиля,

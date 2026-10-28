@@ -64,7 +64,7 @@
   cursor: pointer;
 }
 
-.mm-field-btn:hover, .mm-field-btn.is-hover { color: var(--text-primary); }
+.mm-field-btn:hover, .mm-field-btn:active, .mm-field-btn.is-hover { color: var(--text-primary); }
 
 /* строка под полем: требование до ввода, причина отказа после. Один
  элемент на оба случая — иначе при ошибке прыгает высота */
@@ -143,25 +143,27 @@
    ещё нет — их назовут на уроке 9, и тогда var() здесь сменится
    на роль, а не на другое значение. */
 
-.mm-field:hover, .mm-field.is-hover { background: var(--bg-hover); }
+.mm-field:hover, .mm-field:active, .mm-field.is-hover { background: var(--bg-hover); }
 
 .mm-field:focus-within, .mm-field.is-focus { background: var(--bg-surface); box-shadow: var(--ring-focus); }
 
 /* недоступное — то же поле в половину силы, как и кнопка */
 .mm-field:has(input:disabled), .mm-field:has(textarea:disabled), .mm-field.is-disabled {
-  opacity: var(--opacity-off);
+  opacity: var(--opacity-disabled);
   cursor: not-allowed;
   background: var(--bg-surface);
   box-shadow: var(--shadow-1);
 }
 
 /* не приняло ввод: обводка красная, но текст человек не теряет */
-.mm-field--error, .mm-field--error:hover, .mm-field--error.is-hover { box-shadow: var(--ring-error); }
+.mm-field--error, .mm-field--error:hover, .mm-field--error:active, .mm-field--error.is-hover { box-shadow: var(--ring-error); }
 
 .mm-field--error:focus-within, .mm-field--error.is-focus { box-shadow: var(--ring-focus); }
 
-.mm-field-btn:focus-visible { outline: none; box-shadow: var(--ring-focus); border-radius: var(--radius-pill); }
+/* У кнопки в поле кольцо круглое: само поле — пилюля, и прямоугольное
+   кольцо внутри него читалось бы чужой фигурой. Остальное — из base.css. */
+.mm-field-btn:focus-visible { border-radius: var(--radius-pill); }
 
-.mm-menu a:hover, .mm-menu a.is-hover { background: var(--bg-hover); }
+.mm-menu a:hover, .mm-menu a:active, .mm-menu a.is-hover { background: var(--bg-hover); }
 
 .mm-menu a.is-current { background: var(--bg-selected); font-weight: var(--weight-600); }

@@ -117,10 +117,60 @@
       <tr><td>Высота</td><td><code class="dim">.mm-field</code></td><td><code>44px</code></td></tr>
       <tr><td>Скругление</td><td><code class="dim">.mm-field</code></td><td><code>--radius-pill</code> <span class="dim">999px</span></td></tr>
       <tr><td>Поля</td><td><code class="dim">.mm-field</code></td><td><code>0 var(--space-12)</code></td></tr>
-      <tr><td>Кольцо фокуса</td><td><code class="dim">.mm-field.is-focus</code></td><td><code>--ring-focus</code> <span class="dim">кольцо от клавиатуры (§5 «Текст служебный»). */
-  --border-focus: var(--plum-400)</span></td></tr>
+      <tr><td>Кольцо фокуса</td><td><code class="dim">.mm-field.is-focus</code></td><td><code>--ring-focus</code> <span class="dim">0 0 0 1px var(--color-focus)</span></td></tr>
       </tbody>
     </table>
+  </section>
+
+  <section class="sec" id="states">
+    <h2>Состояния</h2>
+    <p class="sec-lead">Три состояния у всего, что нажимается, и оба вида рядом: кольцо фокуса
+    обязано быть видно и в светлой теме, и в тёмной.</p>
+    <div class="states">
+      <div class="states-head">
+        <p class="states-theme"></p>
+        <div class="states-cell"><b>Наведение и нажатие</b><span>Меняется фон — и только он: элемент не едет и не растёт</span></div>
+        <div class="states-cell"><b>Фокус с клавиатуры</b><span>Кольцо <code>--color-focus</code>: 3:1 к фону в обеих темах</span></div>
+        <div class="states-cell"><b>Отключённое</b><span>То же в половину силы через <code>--opacity-disabled</code>, курсор «нельзя»</span></div>
+      </div>
+      <div class="states-row">
+        <p class="states-theme">Светлая</p>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f1">Email</label>
+          <div class="mm-field is-hover"><input id="f1" type="email" placeholder="name@example.com"></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f1">Email</label>
+          <div class="mm-field is-focus"><input id="f1" type="email" placeholder="name@example.com"></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f1">Email</label>
+          <div class="mm-field is-disabled"><input disabled id="f1" type="email" placeholder="name@example.com"></div>
+          
+        </div></div></div>
+      </div>
+      <div class="states-row" data-theme="dark">
+        <p class="states-theme">Тёмная</p>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f1">Email</label>
+          <div class="mm-field is-hover"><input id="f1" type="email" placeholder="name@example.com"></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f1">Email</label>
+          <div class="mm-field is-focus"><input id="f1" type="email" placeholder="name@example.com"></div>
+          
+        </div></div></div>
+        <div class="states-cell"><div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f1">Email</label>
+          <div class="mm-field is-disabled"><input disabled id="f1" type="email" placeholder="name@example.com"></div>
+          
+        </div></div></div>
+      </div>
+    </div>
+
   </section>
 
   <section class="sec" id="when">

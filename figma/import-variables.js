@@ -559,6 +559,12 @@ const PRIMITIVE = [
     "css": "zoom-hover"
   },
   {
+    "path": "misc/opacity-dim",
+    "type": "FLOAT",
+    "value": 0.65,
+    "css": "opacity-dim"
+  },
+  {
     "path": "misc/opacity-off",
     "type": "FLOAT",
     "value": 0.5,
@@ -662,9 +668,9 @@ const SEMANTIC = [
     "css": "color-action-hover"
   },
   {
-    "path": "border/focus",
+    "path": "color/focus",
     "alias": "color/plum-400",
-    "css": "border-focus"
+    "css": "color-focus"
   },
   {
     "path": "bg/mine",
@@ -675,6 +681,11 @@ const SEMANTIC = [
     "path": "bg/undelivered",
     "alias": "color/rose-300",
     "css": "bg-undelivered"
+  },
+  {
+    "path": "color/opacity-disabled",
+    "alias": "misc/opacity-off",
+    "css": "opacity-disabled"
   },
   {
     "path": "color/shadow-1",
@@ -709,7 +720,7 @@ const SEMANTIC = [
   {
     "path": "color/ring-focus",
     "type": "STRING",
-    "value": "0 0 0 1px var(--border-focus)",
+    "value": "0 0 0 1px var(--color-focus)",
     "css": "ring-focus"
   },
   {
@@ -797,9 +808,9 @@ const SEMANTIC_DARK = [
     "css": "border-hairline"
   },
   {
-    "path": "border/focus",
+    "path": "color/focus",
     "alias": "misc/lavender-400",
-    "css": "border-focus"
+    "css": "color-focus"
   },
   {
     "path": "bg/hover",
@@ -825,6 +836,51 @@ const SEMANTIC_DARK = [
     "path": "bg/undelivered",
     "alias": "color/crimson-900",
     "css": "bg-undelivered"
+  },
+  {
+    "path": "color/opacity-disabled",
+    "alias": "misc/opacity-dim",
+    "css": "opacity-disabled"
+  },
+  {
+    "path": "color/shadow-1",
+    "value": "0 0 0 1px var(--border-hairline), 0 1px 2px rgba(0, 0, 0, .25)",
+    "css": "shadow-1"
+  },
+  {
+    "path": "color/shadow-2",
+    "value": "0 0 0 1px var(--border-hairline), 0 1px 2px rgba(0, 0, 0, .25), 0 2px 8px rgba(0, 0, 0, .3)",
+    "css": "shadow-2"
+  },
+  {
+    "path": "color/shadow-3",
+    "value": "0 0 0 1px var(--border-hairline), 0 2px 10px rgba(0, 0, 0, .35)",
+    "css": "shadow-3"
+  },
+  {
+    "path": "color/ring-hairline",
+    "value": "0 0 0 1px var(--border-hairline)",
+    "css": "ring-hairline"
+  },
+  {
+    "path": "color/ring-hairline-inset",
+    "value": "inset 0 0 0 1px var(--border-hairline)",
+    "css": "ring-hairline-inset"
+  },
+  {
+    "path": "color/ring-focus",
+    "value": "0 0 0 1px var(--color-focus)",
+    "css": "ring-focus"
+  },
+  {
+    "path": "color/ring-error",
+    "value": "0 0 0 1px var(--color-danger)",
+    "css": "ring-error"
+  },
+  {
+    "path": "bg/skeleton",
+    "value": "linear-gradient(90deg, var(--bg-nested) 0%, var(--bg-hover) 50%, var(--bg-nested) 100%)",
+    "css": "bg-skeleton"
   }
 ];
 

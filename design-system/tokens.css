@@ -174,6 +174,7 @@
   --duration-skeleton: 1.4s;     /* пробег блика по заглушке */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);   /* одна кривая на все переходы */
   --zoom-hover: 1.06;            /* обложка под курсором */
+  --opacity-dim: .65;            /* отключённое на тёмном: половины силы там мало */
   --opacity-off: .5;             /* отключённое — то же в половину силы */
 
 
@@ -282,8 +283,10 @@
   /* Выросла из .mm-btn--primary:hover и .mm-head-btn--primary:hover. */
   --color-action-hover: var(--plum-800);
 
-  /* Выросла из --ring-focus: кольцо от клавиатуры (§5 «Текст служебный»). */
-  --border-focus: var(--plum-400);
+  /* Кольцо от клавиатуры: цвет, а не граница — рисуется тенью `D-93`.
+     Держит 3:1 к поверхности в обеих темах, как требует WCAG 1.4.11
+     к нетекстовому индикатору; проверяется contrast.mjs. */
+  --color-focus: var(--plum-400);
 
   /* Выросла из .mm-bubble--mine — своё в разговоре (§6). Роль одиночная:
      реплика — ни кнопка, ни поверхность, и тон у неё свой. */
@@ -291,6 +294,11 @@
 
   /* Выросла из .mm-bubble--failed — реплика, которая не ушла. */
   --bg-undelivered: var(--rose-300);
+
+  /* Отключённое — то же в половину силы `D-93`: гасится прозрачностью,
+     а не перекрашивается. Своё значение в тёмной теме: там элемент гасится
+     в сторону тёмного листа, и половины силы мало — он пропадает. */
+  --opacity-disabled: var(--opacity-off);
 
   /* ── составная семантика: тень, кольцо, блик ──────────────────────────
      Цвет внутри них — роль, а не примитив. Прежде он был зашит примитивом:
@@ -300,7 +308,7 @@
   --shadow-3: 0 0 0 1px var(--border-hairline), 0 2px 10px rgba(17, 17, 17, .07);
   --ring-hairline: 0 0 0 1px var(--border-hairline);
   --ring-hairline-inset: inset 0 0 0 1px var(--border-hairline);
-  --ring-focus: 0 0 0 1px var(--border-focus);
+  --ring-focus: 0 0 0 1px var(--color-focus);
   --ring-error: 0 0 0 1px var(--color-danger);
   --bg-skeleton: linear-gradient(90deg, var(--bg-nested) 0%, var(--bg-hover) 50%, var(--bg-nested) 100%);
 }
@@ -353,7 +361,7 @@
      на карточке она светлее фона, на лавандовой пилюле — темнее, и в обоих
      местах читается линией, а не рамкой. */
   --border-hairline: var(--coal-500);
-  --border-focus: var(--lavender-400);
+  --color-focus: var(--lavender-400);
 
   /* состояния. Наведение и своя реплика садятся на соседние ступени
      одной лестницы: на угле разводить их тоном незачем */
@@ -362,4 +370,24 @@
   --text-on-selected: var(--coal-950);
   --bg-mine: var(--coal-700);
   --bg-undelivered: var(--crimson-900);
+
+  /* Отключённое в тёмной гасится слабее: половина силы на угле уводит
+     элемент в лист, и «нажимать нечего» превращается в «ничего нет». */
+  --opacity-disabled: var(--opacity-dim);
+
+  /* ── составные роли: те же рецепты, собранные заново `D-93` ──────────
+     Значение составной роли вычисляется там, где она объявлена, и var()
+     внутри подставляется ролями того же места. Объявлённая только на :root,
+     она приносит в тёмную тему светлую границу и светлое кольцо — незаметно,
+     пока тема стоит на <html>, и в полный рост, когда она стоит на контейнере.
+     Тени при этом темнее: на угле чёрная тень не видна, и держит карточку
+     не она, а то, что карточка светлее листа. */
+  --shadow-1: 0 0 0 1px var(--border-hairline), 0 1px 2px rgba(0, 0, 0, .25);
+  --shadow-2: 0 0 0 1px var(--border-hairline), 0 1px 2px rgba(0, 0, 0, .25), 0 2px 8px rgba(0, 0, 0, .3);
+  --shadow-3: 0 0 0 1px var(--border-hairline), 0 2px 10px rgba(0, 0, 0, .35);
+  --ring-hairline: 0 0 0 1px var(--border-hairline);
+  --ring-hairline-inset: inset 0 0 0 1px var(--border-hairline);
+  --ring-focus: 0 0 0 1px var(--color-focus);
+  --ring-error: 0 0 0 1px var(--color-danger);
+  --bg-skeleton: linear-gradient(90deg, var(--bg-nested) 0%, var(--bg-hover) 50%, var(--bg-nested) 100%);
 }

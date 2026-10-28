@@ -87,3 +87,38 @@
 }
 
 .mm-ico { display: inline-flex; }
+
+/* ── состояния: три на всё, что нажимается `D-93` ─────────────────────
+ *
+ * Наведение и нажатие — одно состояние: нажатие ничего не добавляет
+ * к тому, что уже сказало наведение, и отдельного вида у него нет (D-71).
+ * Отсюда :hover и :active всегда стоят рядом, а .is-hover даёт тот же вид
+ * в витрине, где мышь не поставить.
+ *
+ * Правило наведения: меняются фон, цвет и обводка — и ничего больше.
+ * Элемент не едет и не растёт: сдвиг под курсором сбивает прицел, а рост
+ * толкает соседей. Единственное исключение записано в DESIGN.md и осталось:
+ * на карточке и строке приближается сам снимок внутри своей рамки, габариты
+ * карточки при этом не меняются.
+ *
+ * Фокус приходит от клавиатуры, и он обязан быть виден: WCAG 2.4.7 (AA).
+ * Кольцо рисуется тенью, а не обводкой, — чтобы не сдвигать содержимое.
+ *
+ * Отключённое глушится прозрачностью и меняет курсор. Перекрашивать его
+ * руками нельзя: серая заливка — это новый вид, а не тот же в половину силы. */
+
+:is(.mm-btn, .mm-head-btn, .mm-danger-link, .mm-field-btn, .mm-tab, .mm-row,
+    .mm-event-head, .mm-cardlink, .mm-more, .mm-menu a):focus-visible,
+:is(.mm-btn, .mm-head-btn, .mm-danger-link, .mm-field-btn, .mm-tab, .mm-row,
+    .mm-event-head, .mm-cardlink, .mm-more, .mm-menu a).is-focus {
+  outline: none;
+  box-shadow: var(--ring-focus);
+}
+
+:is(.mm-btn, .mm-head-btn, .mm-danger-link, .mm-field-btn, .mm-tab, .mm-row,
+    .mm-event-head, .mm-cardlink, .mm-more, .mm-menu a):is([disabled], [aria-disabled="true"], .is-disabled) {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  transform: none;
+  pointer-events: none;
+}

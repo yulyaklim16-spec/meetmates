@@ -81,4 +81,4 @@
   font: var(--weight-500) var(--text-14) / var(--leading-150) var(--font-sans);
 }
 
-.mm-more:hover { color: var(--text-primary); }
+.mm-more:hover, .mm-more:active { color: var(--text-primary); }

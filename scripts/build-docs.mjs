@@ -90,6 +90,7 @@ const slugOf = (name) => DOCS.find((d) => d.name === name)?.slug;
 // rule / anti: живой пример берётся клеткой витрины, а не рисуется заново.
 const DOCS = [
   {
+    states: { target: 'mm-btn', tag: 'a' },
     name: 'Главная', slug: 'button-primary', file: 'button.css',
     demo: ['Главная', 'Primary-Default'],
     parts: [
@@ -114,6 +115,7 @@ const DOCS = [
     anti: { pick: ['Вторичная', 'Secondary-Default'], instead: 'Вторичная', text: 'Второе действие рядом с главным залитым не делают: двух одинаково громких решений на экране не бывает. Это работа вторичной кнопки.' },
   },
   {
+    states: { target: 'mm-btn', tag: 'a' },
     name: 'Вторичная', slug: 'button-secondary', file: 'button.css',
     demo: ['Вторичная', 'Secondary-Default'],
     parts: [
@@ -133,6 +135,7 @@ const DOCS = [
     anti: { pick: ['Главная', 'Primary-Default'], instead: 'Главная', text: 'Если это и есть решение экрана, тихая заливка его прячет. Главное действие заливается действием.' },
   },
   {
+    states: { target: 'mm-btn', tag: 'a' },
     name: 'Третичная', slug: 'button-tertiary', file: 'button.css',
     demo: ['Третичная', 'Tertiary-Default'],
     parts: [
@@ -152,6 +155,7 @@ const DOCS = [
     anti: { pick: ['Опасное действие', 'Danger-Default'], instead: 'Опасное действие', text: 'Жалоба и блокировка третичной кнопкой не делаются: у опасного своя роль и свой цвет, и спутать их с «пропустить» нельзя.' },
   },
   {
+    states: { target: 'mm-danger-link', tag: 'button', note: 'Отключённой жалоба в продукте не бывает: пожаловаться можно всегда. Вид показан затем, что правило общее для всех нажимаемых — и если кнопку когда-нибудь отключат, она погаснет так же, как все.' },
     name: 'Опасное действие', slug: 'button-danger', file: 'button.css',
     demo: ['Опасное действие', 'Danger-Default'],
     parts: [
@@ -172,6 +176,7 @@ const DOCS = [
     anti: { pick: ['Главная', 'Primary-Default'], instead: 'Главная', text: 'Залитым опасное не делают: красная кнопка во всю ширину зовёт нажать, а жалоба — не то действие, к которому подталкивают.' },
   },
   {
+    states: { target: 'mm-head-btn', tag: 'a', note: 'Возврат отключённым не бывает: уйти с экрана можно всегда.' },
     name: 'Без заливки', slug: 'button-back', file: 'button.css',
     demo: ['Без заливки', 'No filling-Default-Only icon'],
     parts: [
@@ -193,6 +198,7 @@ const DOCS = [
   },
 
   {
+    states: { target: 'mm-field' },
     name: 'Текстовое', slug: 'field-text', file: 'field.css',
     demo: ['Текстовое', 'Field-Default'],
     parts: [
@@ -213,6 +219,7 @@ const DOCS = [
     anti: { pick: ['Многострочное', 'Multi-Default'], instead: 'Многострочное', text: 'Био и описание события в пилюлю не помещаются: там абзац, и форма должна об этом говорить.' },
   },
   {
+    states: { target: 'mm-field' },
     name: 'Поиск', slug: 'field-search', file: 'field.css',
     demo: ['Поиск', 'Search-Default'],
     parts: [
@@ -233,6 +240,7 @@ const DOCS = [
     anti: { pick: ['Текстовое', 'Field-Default'], instead: 'Текстовое', text: 'В анкете подпись не прячут: там полей несколько подряд, и место за них не говорит.' },
   },
   {
+    states: { target: 'mm-field' },
     name: 'Пароль', slug: 'field-password', file: 'field.css',
     demo: ['Пароль', 'Pass-Default'],
     parts: [
@@ -253,6 +261,7 @@ const DOCS = [
     anti: { pick: ['Текстовое', 'Field-Default'], instead: 'Текстовое', text: 'Поле без глаза для пароля не берут: исправить опечатку в точках нечем.' },
   },
   {
+    states: { target: 'mm-field' },
     name: 'Многострочное', slug: 'field-multiline', file: 'field.css',
     demo: ['Многострочное', 'Multi-Default'],
     parts: [
@@ -272,6 +281,7 @@ const DOCS = [
     anti: { pick: ['Текстовое', 'Field-Default'], instead: 'Текстовое', text: 'Имя, город и почта — одна строка: высокая коробка под них обещает абзац, которого не ждут.' },
   },
   {
+    states: { target: 'mm-field', note: 'Состояние у всех трёх полей общее: их заполняют подряд, и гасить одно в отрыве от других незачем.' },
     name: 'Дата рождения', slug: 'field-date', file: 'field.css',
     demo: ['Дата рождения', 'Date-Default'],
     parts: [
@@ -289,6 +299,7 @@ const DOCS = [
     anti: { pick: ['Текстовое', 'Field-Default'], instead: 'Текстовое', text: 'Одно поле с маской не берут: маску не видно, пока в неё не попал.' },
   },
   {
+    states: { target: 'mm-field' },
     name: 'Выпадающий список', slug: 'field-select', file: 'field.css',
     demo: ['Выпадающий список', 'Select-Default'],
     parts: [
@@ -310,6 +321,7 @@ const DOCS = [
   },
 
   {
+    states: { target: 'mm-tab', note: 'У выбранной вкладки наведения нет: она уже на своей пилюле, и второй тон ей добавить нечем.' },
     name: 'Вкладка нижнего меню', slug: 'tab', file: 'tabs.css',
     demo: ['Вкладка нижнего меню', 'Tab-Current'],
     parts: [
@@ -331,6 +343,7 @@ const DOCS = [
     anti: { pick: ['Срез вкладки', 'Segment-Current-Whole control'], instead: 'Срез вкладки', text: 'Переключение среза внутри вкладки — не навигация: <code>Nearby</code> и <code>Mine</code> не уводят с экрана, и в нижнее меню они не попадают.' },
   },
   {
+    states: { target: 'mm-btn', note: 'Невыбранный сегмент под курсором не красится: дорожка одна, и подсветка половины читалась бы вторым выбранным.' },
     name: 'Срез вкладки', slug: 'segmented', file: 'segmented.css',
     demo: ['Срез вкладки', 'Segment-Current-Whole control'],
     parts: [
@@ -352,6 +365,7 @@ const DOCS = [
   },
 
   {
+    states: { target: 'mm-event-head', note: 'Состояния несут две вещи внутри карточки: заголовок-ссылка и кнопка под обложкой. Сама карточка под курсором приближает снимок — внутри своей рамки, габаритов не меняя.' },
     name: 'Карточка события', slug: 'event-card', file: 'card.css',
     demo: ['Карточка события', 'Event-Default'],
     parts: [
@@ -378,6 +392,7 @@ const DOCS = [
     anti: { pick: ['Строка списка', 'Row-Default-With a thumbnail'], instead: 'Строка списка', text: 'В выдаче поиска карточку не ставят: там отвечают на «что нашлось», и строка с миниатюрой отвечает быстрее (<code>D-70</code>).' },
   },
   {
+    states: { target: 'mm-row', note: 'Строка — ссылка целиком, поэтому состояния на ней самой. Там, где у строки есть снимок, наведение приближает его; где снимка нет, не меняется ничего.' },
     name: 'Строка списка', slug: 'row', file: 'row.css',
     demo: ['Строка списка', 'Row-Default'],
     parts: [
@@ -400,6 +415,7 @@ const DOCS = [
     anti: { pick: ['Карточка события', 'Event-Default'], instead: 'Карточка события', text: 'В ленте строку не ставят: лента отвечает на «куда пойти», и снимок там решает, а не уточняет.' },
   },
   {
+    states: { target: 'mm-cardlink', note: 'Нажимается не карточка, а ссылка на профиль внутри неё: решение в колоде принимают кнопками Skip и Like, а не касанием по фотографии.' },
     name: 'Карточка человека', slug: 'person-card', file: 'person.css',
     demo: ['Карточка человека', 'Person-Default'],
     parts: [
@@ -425,6 +441,7 @@ const DOCS = [
     anti: { pick: ['Строка списка', 'Row-Default-With a portrait'], instead: 'Строка списка', text: 'В списке человека показывают строкой: карточка во весь экран нужна там, где по ней принимают решение.' },
   },
   {
+    states: { none: 'Кружки считают, а не нажимаются: листают саму фотографию.' },
     name: 'Кружки по числу фотографий', slug: 'pager', file: 'card.css',
     demo: ['Кружки по числу фотографий', 'Pager-Default'],
     parts: [
@@ -443,6 +460,7 @@ const DOCS = [
     anti: { pick: ['Обложка на карточке события', 'Cover-Default'], instead: 'Обложка на карточке события', text: 'У одного снимка кружков не бывает: один кружок ничего не считает и обещает несуществующий второй кадр.' },
   },
   {
+    states: { none: 'Галерея показывает снимки; нажимаемое на карточке события — заголовок и кнопка.' },
     name: 'Обложка на карточке события', slug: 'evcover', file: 'card.css',
     demo: ['Обложка на карточке события', 'Cover-Default'],
     parts: [
@@ -463,6 +481,7 @@ const DOCS = [
   },
 
   {
+    states: { none: 'Лейба — факт, а не кнопка. Нажать на неё нельзя, и фокус ей не нужен.' },
     name: 'Отметка проверки', slug: 'verified', file: 'badge.css',
     demo: ['Отметка проверки', 'Verified-Default'],
     parts: [
@@ -483,6 +502,7 @@ const DOCS = [
     anti: { pick: ['Карточка события', 'Event-Default'], instead: 'Карточка события', text: 'На снимок события отметку не ставят: проверку проходит человек, а в превью человека нет. Там остаётся один знак — расстояние.' },
   },
   {
+    states: { none: 'Строка проверяемых фактов. Ни один из них не ведёт никуда.' },
     name: 'Сигналы доверия', slug: 'signals', file: 'badge.css',
     demo: ['Сигналы доверия', 'Signals-Full'],
     parts: [
@@ -503,6 +523,7 @@ const DOCS = [
     anti: { pick: ['Теги интересов', 'Tags-Default'], instead: 'Теги интересов', text: 'Интересы в сигналы не ставят: это то, что человек о себе сказал, а не то, что проверено.' },
   },
   {
+    states: { none: 'Расстояние — надпись на снимке. Карты за ней нет и не будет (§7.1).' },
     name: 'Чип расстояния', slug: 'chip', file: 'badge.css',
     demo: ['Чип расстояния', 'Chip-Default'],
     parts: [
@@ -523,6 +544,7 @@ const DOCS = [
     anti: { pick: ['Теги интересов', 'Tags-Default'], instead: 'Теги интересов', text: 'Чип — факт о месте, тег — интерес человека. Общего у них только форма пилюли.' },
   },
   {
+    states: { none: 'В профиле теги показывают, а выбирают их на онбординге — там это поле, а не теги.' },
     name: 'Теги интересов', slug: 'tags', file: 'badge.css',
     demo: ['Теги интересов', 'Tags-Default'],
     parts: [
@@ -540,6 +562,7 @@ const DOCS = [
     anti: { pick: ['Сигналы доверия', 'Signals-Full'], instead: 'Сигналы доверия', text: 'Проверенные факты тегами не показывают: <code>Verified</code> и счётчик встреч — другая строка и другой вес.' },
   },
   {
+    states: { none: 'Аватар стоит внутри строки или шапки, и нажимается то, внутри чего он стоит.' },
     name: 'Аватар', slug: 'avatar', file: 'badge.css',
     demo: ['Аватар', 'Avatar-Default'],
     parts: [
@@ -558,6 +581,7 @@ const DOCS = [
     anti: { pick: ['Карточка человека', 'Person-Default'], instead: 'Карточка человека', text: 'Там, где по человеку принимают решение, кружка мало: в колоде стоит карточка с фото на всю площадь.' },
   },
   {
+    states: { none: 'Факты, дата и примечание — текст. Нажимаемого в них нет.' },
     name: 'Строки фактов', slug: 'facts', file: 'card.css',
     demo: ['Строки фактов', 'Facts-Default'],
     parts: [
@@ -579,6 +603,7 @@ const DOCS = [
   },
 
   {
+    states: { target: 'mm-btn', note: 'Состояния несёт кнопка выхода: сам блок — текст и иконка.' },
     name: 'Пусто и сбой', slug: 'state', file: 'state.css',
     demo: ['Пусто и сбой', 'State-Empty'],
     parts: [
@@ -600,6 +625,7 @@ const DOCS = [
     anti: { pick: ['Заглушка', 'Skel-Line'], instead: 'Заглушка', text: 'Пока данные идут, состояние не показывают: это загрузка, и у неё свой вид.' },
   },
   {
+    states: { target: 'mm-btn', note: 'То же: нажимается действие на плашке, а не плашка.' },
     name: 'Плашка итога', slug: 'banner', file: 'state.css',
     demo: ['Плашка итога', 'Banner-Success'],
     parts: [
@@ -619,6 +645,7 @@ const DOCS = [
     anti: { pick: ['Пусто и сбой', 'State-Empty'], instead: 'Пусто и сбой', text: 'Когда на экране нет содержимого вовсе, плашки мало: нужен блок, который займёт место и выведет наружу.' },
   },
   {
+    states: { none: 'Заглушка показывает, что данные идут. Нажимать в ней нечего — под ней ещё ничего нет.' },
     name: 'Заглушка', slug: 'skeleton', file: 'skeleton.css',
     demo: ['Заглушка', 'Skel-Line'],
     parts: [
@@ -641,6 +668,7 @@ const DOCS = [
   },
 
   {
+    states: { none: 'Реплику не нажимают. Исключение одно: неотправленная чинится касанием по себе — это повтор отправки, и отдельного вида у него нет.' },
     name: 'Реплика', slug: 'bubble', file: 'chat.css',
     demo: ['Реплика', 'Bubble-Other'],
     parts: [
@@ -664,6 +692,7 @@ const DOCS = [
   },
 
   {
+    states: { none: 'Оболочка: состояния живут у того, что в ней стоит — у кнопок шапки, вкладок меню, карточек и строк.' },
     name: 'Экран', slug: 'screen', file: 'app.css',
     demo: ['Экран', 'Screen-Feed'],
     parts: [
@@ -689,6 +718,7 @@ const DOCS = [
   },
 
   {
+    states: { none: 'Две строки текста на входе. Нажимаемого в них нет.' },
     name: 'Обещание', slug: 'promise', file: 'app.css',
     demo: ['Обещание', 'Promise-Default'],
     parts: [
@@ -708,6 +738,7 @@ const DOCS = [
     anti: { pick: ['Экран', 'Screen-Feed'], instead: 'Экран', text: 'На рабочем экране сверху стоит заголовок — <code>Events nearby</code>: он говорит, где человек и что за выборка перед ним.' },
   },
   {
+    states: { none: 'Иллюстрация онбординга: снимки на кольцах показывают, а не открывают.' },
     name: 'Радар', slug: 'radar', file: 'radar.css',
     demo: ['Радар', 'Radar-Default'],
     parts: [
@@ -732,6 +763,7 @@ const DOCS = [
     anti: { pick: ['Экран', 'Screen-Deck'], instead: 'Экран', text: 'Приёмы радара на продуктовые экраны не переносят: там действует одно залитое действие и один лайм.' },
   },
   {
+    states: { target: 'mm-btn', note: 'Нажимаются две кнопки слоя; сам слой закрывается ими же.' },
     name: 'Слой поверх экрана', slug: 'layer', file: 'app.css',
     demo: ['Слой поверх экрана', 'Layer-Match'],
     parts: [
@@ -752,6 +784,7 @@ const DOCS = [
     anti: { pick: ['Пусто и сбой', 'State-Empty'], instead: 'Пусто и сбой', text: 'Если на экране просто нечего показать, слой не нужен: это состояние самого экрана.' },
   },
   {
+    states: { none: 'Подпись объясняет кадр видоискателя. Нажимаемого в ней нет.' },
     name: 'Подпись на снимке', slug: 'photo-cap', file: 'card.css',
     demo: ['Подпись на снимке', 'Viewfinder-Default'],
     parts: [
@@ -892,6 +925,57 @@ const sizeRows = (rows) => rows.map(([file, sel, name, label]) => {
   return `      <tr><td>${esc(label)}</td><td><code class="dim">${esc(sel)}</code></td><td>${value}</td></tr>`;
 }).join('\n');
 
+// Состояние ставится классом — тем же правилом, что и живое: .is-hover
+// и .is-focus объявлены в base.css рядом с :hover и :focus-visible, а не
+// копией их вида. Отключённое ставится атрибутом там, где элемент его
+// принимает, и классом там, где нет.
+const withState = (html, target, state) => {
+  const re = new RegExp(`class="([^"]*\\b${target}\\b[^"]*)"`);
+  if (!re.test(html)) throw new Error(`в образце нет .${target} — блок состояний отстал от компонента`);
+  let out = html.replace(re, (m, cls) => `class="${cls} is-${state}"`);
+  if (state === 'disabled') {
+    out = out.replace(/<button(?![^>]*disabled)/, '<button disabled')
+      .replace(/<(input|textarea)(?![^>]*disabled)/g, '<$1 disabled')
+      .replace(/<a /, '<a aria-disabled="true" ');
+  }
+  return out;
+};
+
+const STATE_LABELS = [
+  ['hover', 'Наведение и нажатие', 'Меняется фон — и только он: элемент не едет и не растёт'],
+  ['focus', 'Фокус с клавиатуры', 'Кольцо <code>--color-focus</code>: 3:1 к фону в обеих темах'],
+  ['disabled', 'Отключённое', 'То же в половину силы через <code>--opacity-disabled</code>, курсор «нельзя»'],
+];
+
+const statesBlock = (d) => {
+  if (!d.states) throw new Error(`${d.name}: не сказано, что у него с состояниями`);
+  if (d.states.none) {
+    return `  <section class="sec" id="states">
+    <h2>Состояния</h2>
+    <p class="states-none"><b>Нажимать нечего — состояний нет.</b> ${d.states.none}</p>
+  </section>`;
+  }
+  const demo = pick(...d.demo);
+  const row = (theme) => `      <div class="states-row"${theme === 'dark' ? ' data-theme="dark"' : ''}>
+        <p class="states-theme">${theme === 'dark' ? 'Тёмная' : 'Светлая'}</p>
+${STATE_LABELS.map(([state]) => `        <div class="states-cell"><div class="kit-stage">${withState(demo, d.states.target, state)}</div></div>`).join('\n')}
+      </div>`;
+  return `  <section class="sec" id="states">
+    <h2>Состояния</h2>
+    <p class="sec-lead">Три состояния у всего, что нажимается, и оба вида рядом: кольцо фокуса
+    обязано быть видно и в светлой теме, и в тёмной.</p>
+    <div class="states">
+      <div class="states-head">
+        <p class="states-theme"></p>
+${STATE_LABELS.map(([, label, what]) => `        <div class="states-cell"><b>${label}</b><span>${what}</span></div>`).join('\n')}
+      </div>
+${row('light')}
+${row('dark')}
+    </div>
+${d.states.note ? `    <p class="states-note">${d.states.note}</p>` : ''}
+  </section>`;
+};
+
 const compPage = (d) => {
   const g = groupOf(d.name);
   const c0 = BY_NAME.get(d.name);
@@ -929,6 +1013,8 @@ ${sizeRows(d.sizes)}
       </tbody>
     </table>
   </section>
+
+${statesBlock(d)}
 
   <section class="sec" id="when">
     <h2>Когда употреблять</h2>
@@ -1219,6 +1305,27 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .sizes th { text-align: left; font-weight: 600; color: var(--dim); font-size: 13px; padding: 6px 10px; border-bottom: 1px solid var(--edge); }
 .sizes td { padding: 8px 10px; border-bottom: 1px solid var(--edge); vertical-align: top; }
 .sizes td:first-child { width: 34%; }
+
+/* Состояния: три колонки и две строки — по строке на тему. Тёмная половина
+   стоит в [data-theme="dark"], и это настоящий вид, а не снимок. */
+.states { display: grid; gap: 2px; margin: 0 0 16px; }
+.states-head, .states-row { display: grid; grid-template-columns: 92px repeat(3, 1fr); gap: var(--gap); align-items: center; }
+.states-row { padding: 12px; border-radius: 14px; }
+.states-row[data-theme="dark"] { background: var(--bg-page); }
+.states-theme { margin: 0; font-size: 12px; color: var(--dim); }
+.states-row[data-theme="dark"] .states-theme { color: var(--text-muted); }
+.states-head .states-cell { display: grid; gap: 2px; }
+.states-head b { font-size: 13px; }
+.states-head span { font-size: 12px; color: var(--dim); }
+.states-row .kit-stage { min-height: 84px; }
+.states-row[data-theme="dark"] .kit-stage { background: var(--bg-surface); border-color: var(--border-hairline); }
+.states-none { padding: 12px 16px; border-left: 2px solid var(--edge); color: var(--dim); }
+.states-none b { color: var(--ink); }
+.states-note { margin-top: 12px; font-size: 14px; color: var(--dim); }
+@media (max-width: 760px) {
+  .states-head { display: none; }
+  .states-row { grid-template-columns: 1fr; }
+}
 
 .kit-origin { margin-top: 16px; padding: 12px 16px; border-left: 2px solid var(--edge); color: var(--dim); font-size: 14px; }
 
