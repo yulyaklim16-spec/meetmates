@@ -18,7 +18,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
-const raw = readFileSync(join(ROOT, 'tokens.css'), 'utf8');
+const raw = readFileSync(join(ROOT, 'design-system/tokens.css'), 'utf8');
 // комментарии гасим до разбора: в них попадаются имена с двоеточием
 // («То же значение, что у --bg-page: роли разные…»), и без этого
 // объявление читалось бы из пояснения. Длину сохраняем, чтобы

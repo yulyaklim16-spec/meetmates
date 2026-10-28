@@ -19,7 +19,7 @@ const ROOT = process.cwd();
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
 
 const doc = read('tokens.md');
-const css = read('tokens.css');
+const css = read('design-system/tokens.css');
 const shell = read('sections/index.html');
 
 // ── разбор tokens.css ─────────────────────────────────────────────────
@@ -594,9 +594,9 @@ ${aside}
       <p class="eyebrow">Раздел 08</p>
       <h1>Дизайн-токены</h1>
       <p class="lede">Два уровня: <b>примитив</b> — значение само по себе, <b>семантика</b> — ответственность.
-        Так они и названы в <a href="../tokens.css">tokens.css</a> — <code>PRIMITIVE</code> и <code>SEMANTIC</code>,
+        Так они и названы в <a href="../design-system/tokens.css">tokens.css</a> — <code>PRIMITIVE</code> и <code>SEMANTIC</code>,
         и так же в Figma. Компонент берёт цвет только семантикой, геометрию — только примитивом. Таблицы в подпунктах
-        собраны из <a href="../tokens.css">tokens.css</a> при сборке страницы, поэтому отстать не могут.</p>
+        собраны из <a href="../design-system/tokens.css">tokens.css</a> при сборке страницы, поэтому отстать не могут.</p>
       <div class="chips">
         <span>${prim.length} примитивов</span>
         <span>${sem.length} семантических</span>
@@ -605,9 +605,9 @@ ${aside}
         <span>ноль значений в компонентах</span>
       </div>
       <ul class="files">
-        <li><a href="../tokens.css">tokens.css</a></li>
+        <li><a href="../design-system/tokens.css">tokens.css</a></li>
         <li><a href="../tokens.md">tokens.md</a></li>
-        <li><a href="../components/">components/</a></li>
+        <li><a href="../design-system/components/">design-system/components/</a></li>
         <li><a href="../DESIGN.md">DESIGN.md</a></li>
         <li><a href="../figma/">figma/</a></li>
         <li><a href="kit.html">Раздел 07 · Сборка UI</a></li>
@@ -618,7 +618,7 @@ ${panels}
 
     <footer>
       <p>Раздел 8 из 12 · Дизайн-токены. Текст — <a href="../tokens.md">tokens.md</a>,
-        значения — <a href="../tokens.css">tokens.css</a>, применение —
+        значения — <a href="../design-system/tokens.css">tokens.css</a>, применение —
         <a href="../DESIGN.md">DESIGN.md</a>, набор для Figma — <a href="../figma/">figma/</a>.</p>
       <nav class="section-nav"><a href="kit.html">← Раздел 7 · Сборка UI</a></nav>
     </footer>

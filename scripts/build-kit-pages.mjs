@@ -144,13 +144,12 @@ const shell = `<!doctype html>
   и индикатор жеста — чужие зоны, продукт ими не владеет; их рисует
   страница макета, а не оболочка.
 
-  Вид — ../tokens.css и ../components/index.css. В самой странице ни одного
+  Вид — ../design-system/index.css, система одним пакетом. В самой странице ни одного
   стиля продукта, только обвязка
   самой страницы (классы без префикса mm-).
 -->
 ${FONT}
-<link rel="stylesheet" href="../tokens.css">
-<link rel="stylesheet" href="../components/index.css">
+<link rel="stylesheet" href="../design-system/index.css">
 <style>
   /* обвязка этой страницы: к продукту не относится */
   /* Лист оболочки — та же документация, что и у витрины: в тёмной теме
@@ -726,8 +725,7 @@ const kit = `<!doctype html>
   Порядок групп — роли из ui/inventory.md.
 -->
 ${FONT}
-<link rel="stylesheet" href="../tokens.css">
-<link rel="stylesheet" href="../components/index.css">
+<link rel="stylesheet" href="../design-system/index.css">
 <style>
   /* обвязка витрины: к продукту не относится */
   :root { --page: #EFEFF2; --edge: #DCD6E4; --dim: #4C3F59; --paper: #fff; }
@@ -853,7 +851,7 @@ ${rail({ prefix: '../', current: '07' })}
 <div class="kit-top">
 ${themeBar()}
   <h1>Витрина компонентов</h1>
-  <p>Классы компонентов — шестнадцать файлов в <code>components/</code>, по одному
+  <p>Классы компонентов — шестнадцать файлов в <code>design-system/components/</code>, по одному
   на компонент; значения приходят двумя уровнями из <code>tokens.css</code>:
   примитив — значение, семантика — ответственность. Оболочка как разметка —
   <code>ui/shell.html</code>. Состав и порог «два экрана» — <code>ui/inventory.md</code>,

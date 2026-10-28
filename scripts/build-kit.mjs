@@ -21,9 +21,9 @@ const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
 const doc = read('ui/kit.md');
 // Счёт берётся из того, чем одеты экраны: корневого tokens.css и components/.
 // Руками эти числа не переписываются — они уже дважды отставали.
-const tokensCss = read('tokens.css');
-const compFiles = readdirSync(join(ROOT, 'components')).filter((f) => f.endsWith('.css')).sort();
-const kitCss = compFiles.map((f) => read(`components/${f}`)).join('\n');
+const tokensCss = read('design-system/tokens.css');
+const compFiles = readdirSync(join(ROOT, 'design-system/components')).filter((f) => f.endsWith('.css')).sort();
+const kitCss = compFiles.map((f) => read(`design-system/components/${f}`)).join('\n');
 const kitHtml = read('ui/kit.html');
 const shell = read('sections/index.html');
 
@@ -50,7 +50,7 @@ const caseCount = (kitHtml.match(/class="kit-case"/g) || []).length;
 {
   const bad = [];
   for (const f of compFiles) {
-    for (const line of read(`components/${f}`).split('\n')) {
+    for (const line of read(`design-system/components/${f}`).split('\n')) {
       if (/^\s*(\/\*|\*)/.test(line)) continue;
       for (const m of line.matchAll(/(-?\d+(?:\.\d+)?)px/g)) {
         const n = Math.abs(parseFloat(m[1]));
@@ -238,9 +238,9 @@ ${aside}
       <p class="eyebrow">Раздел 07</p>
       <h1>Сборка UI</h1>
       <p class="lede">Кит: ${plural(classCount, 'класс', 'класса', 'классов')}
-        в ${plural(compFiles.length, 'файле', 'файлах', 'файлах')} <a href="../components/">components/</a>,
+        в ${plural(compFiles.length, 'файле', 'файлах', 'файлах')} <a href="../design-system/components/">design-system/components/</a>,
         значения — ${plural(varsCount, 'переменная', 'переменные', 'переменных')} двумя уровнями
-        из <a href="../tokens.css">tokens.css</a>, оболочка разметкой и витрина, где каждый компонент стоит
+        из <a href="../design-system/tokens.css">tokens.css</a>, оболочка разметкой и витрина, где каждый компонент стоит
         живым со своими состояниями. Снят с окрашенных экранов раздела 06 — не нарисован заново.</p>
       <div class="chips">
         <span>${plural(classCount, 'класс', 'класса', 'классов')}</span>
@@ -256,7 +256,7 @@ ${panels}
     <footer>
       <p>Раздел 7 из 12 · Сборка UI. Источник — <a href="../ui/kit.md">ui/kit.md</a>;
         состав — <a href="../ui/inventory.md">inventory.md</a>, вид — <a href="../DESIGN.md">DESIGN.md</a>,
-        значения — <a href="../tokens.css">tokens.css</a> и раздел <a href="tokens.html">08</a>.</p>
+        значения — <a href="../design-system/tokens.css">tokens.css</a> и раздел <a href="tokens.html">08</a>.</p>
       <nav class="section-nav"><a href="concept.html">← Раздел 6 · Концепт</a></nav>
     </footer>
   </main>

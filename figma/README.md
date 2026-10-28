@@ -1,6 +1,6 @@
 # Токены в Figma
 
-Два файла, оба собираются из корневого [`tokens.css`](../tokens.css)
+Два файла, оба собираются из корневого [`tokens.css`](../design-system/tokens.css)
 скриптом `node scripts/build-figma-tokens.mjs`. **Руками их не правят** —
 правят `tokens.css` и пересобирают, иначе Figma и продукт разойдутся.
 

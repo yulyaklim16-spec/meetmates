@@ -542,7 +542,7 @@ ${docComment}
      и все они показывали системный запасной шрифт. -->
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="screens.css">
-${kit ? '<link rel="stylesheet" href="../../tokens.css">\n<link rel="stylesheet" href="../../components/index.css">\n' : ''}</head>
+${kit ? '<link rel="stylesheet" href="../../design-system/index.css">\n' : ''}</head>
 <body class="${kit ? 'kit' : 'mm-ui'}">
 <i id="bare" hidden></i>
 ${rail({ prefix: '../../', current: '06' })}

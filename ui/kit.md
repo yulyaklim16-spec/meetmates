@@ -11,7 +11,7 @@
 > чего в ките нет.
 >
 > Состав и порог отбора — [`inventory.md`](./inventory.md); вид и правила —
-> [`DESIGN.md`](../DESIGN.md); значения — [`tokens.css`](../tokens.css).
+> [`DESIGN.md`](../DESIGN.md); значения — [`tokens.css`](../design-system/tokens.css).
 
 ---
 
@@ -21,7 +21,7 @@
 
 | Файл | Что внутри |
 |---|---|
-| [`../components/`](../components/) | 16 файлов, 100 классов компонентов — по файлу на компонент; значения — из [`../tokens.css`](../tokens.css), 140 переменных двумя уровнями и 20 переопределений тёмной темы |
+| [`design-system/components/`](../design-system/components/) | 16 файлов, 100 классов компонентов — по файлу на компонент; значения — из [`design-system/tokens.css`](../design-system/tokens.css), 104 переменные двумя уровнями и 20 переопределений тёмной темы |
 | [`shell.html`](./shell.html) | Оболочка разметкой: три шапки и нижнее меню. Отсюда её берёт экран, у которого ещё нет каркаса |
 | [`kit.html`](./kit.html) | Витрина: каждый компонент и каждое его состояние, с именем у каждого |
 
@@ -160,7 +160,7 @@
 
 - [`inventory.md`](./inventory.md) — состав и порог «два экрана».
 - [`DESIGN.md`](../DESIGN.md) — вид, правила и язык направления.
-- [`tokens.css`](../tokens.css) — значения двумя уровнями, раздел 08.
+- [`tokens.css`](../design-system/tokens.css) — значения двумя уровнями, раздел 08.
 - [`concept/concept.md`](../concept/concept.md) — направление R «Сирень» и его цена.
 - [`microcopy.md`](../microcopy.md) — строки, которыми набрана витрина.
 
