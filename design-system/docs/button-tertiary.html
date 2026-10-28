@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="docs.css">
 </head>
 <body>
+<i id="bare" hidden></i>
 <a class="skip" href="#content">К содержимому</a>
 
 <header class="top">
@@ -141,7 +142,11 @@
     });
     try { localStorage.setItem(KEY, t); } catch (e) {}
   }
-  var saved; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  // В рамке (раздел 09) тема приходит от страницы раздела, а не из памяти:
+  // тёмный островок посреди светлой страницы читается как чужой экран.
+  var inFrame = window.top !== window.self;
+  var saved;
+  if (!inFrame) { try { saved = localStorage.getItem(KEY); } catch (e) {} }
   theme(saved === 'dark' ? 'dark' : 'light');
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('.theme button');

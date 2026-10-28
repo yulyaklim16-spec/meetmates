@@ -810,6 +810,7 @@ const page = ({ title, lead, body, here }) => `<!doctype html>
 <link rel="stylesheet" href="docs.css">
 </head>
 <body>
+<i id="bare" hidden></i>
 <a class="skip" href="#content">К содержимому</a>
 
 <header class="top">
@@ -850,7 +851,11 @@ ${body}
     });
     try { localStorage.setItem(KEY, t); } catch (e) {}
   }
-  var saved; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  // В рамке (раздел 09) тема приходит от страницы раздела, а не из памяти:
+  // тёмный островок посреди светлой страницы читается как чужой экран.
+  var inFrame = window.top !== window.self;
+  var saved;
+  if (!inFrame) { try { saved = localStorage.getItem(KEY); } catch (e) {} }
   theme(saved === 'dark' ? 'dark' : 'light');
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('.theme button');
@@ -1255,6 +1260,14 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .why-item p { margin: 10px 0 0; font-size: 13px; color: var(--dim); }
 
 .foot { border-top: 1px solid var(--edge); padding: 24px; color: var(--dim); font-size: 13px; }
+
+/* Голый вид: страница показана рамкой в разделе 09, и своя шапка ей там
+   не нужна — она была бы вторым этажом навигации. Скрипта для этого нет,
+   работает :target по адресу #bare. */
+body:has(#bare:target) .top,
+body:has(#bare:target) .foot,
+body:has(#bare:target) .skip { display: none; }
+body:has(#bare:target) .doc { padding-top: 24px; }
 .foot p { max-width: 80ch; margin: 0 0 8px; }
 
 @media (max-width: 760px) {

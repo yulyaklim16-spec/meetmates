@@ -16,7 +16,7 @@ const ROOT = process.cwd();
 const OUT = join(ROOT, 'dist');
 
 // страницы сайта относительно корня репозитория
-const PAGES = ['research/research.html', 'research/persones.html', 'sections/index.html', 'sections/ia.html', 'sections/wireframes.html', 'sections/voice.html', 'sections/concept.html', 'sections/kit.html', 'sections/tokens.html'];
+const PAGES = ['research/research.html', 'research/persones.html', 'sections/index.html', 'sections/ia.html', 'sections/wireframes.html', 'sections/voice.html', 'sections/concept.html', 'sections/kit.html', 'sections/tokens.html', 'sections/system.html'];
 // Кит: раздел 07 показывает витрину и оболочку своими страницами, во всю ширину —
 // значит они такие же страницы сайта, как макеты вайрфреймов.
 PAGES.push('ui/kit.html', 'ui/shell.html');

@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дизайн-система · MeetMates</title>
+<meta name="description" content="Система одним пакетом: страница на каждый компонент — анатомия, варианты, когда употреблять, правило и антиправило, — и «Почему так».">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<!-- Единственный источник правды по цвету, радиусам, шкалам и движению -->
+<link rel="stylesheet" href="../tokens/site.css">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Итоги исследования. Все значения — из tokens/site.css:
+   собственных цветов и радиусов здесь нет (Рабочие соглашения, п. 2).
+   Тёмная тема вне объёма v1 (§10), страница осознанно светлая.
+   Градиент — только на акцентах (§8).
+   ───────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-family: var(--font);
+  font-size: var(--t-body-sm);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip {
+  position: absolute; left: -9999px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface); border-radius: var(--r-sm);
+  font-weight: var(--fw-medium);
+}
+.skip:focus { left: var(--s-4); top: var(--s-4); z-index: 50; outline: 2px solid var(--brand-a); }
+
+.shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  gap: var(--s-7);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  align-items: start;
+}
+
+/* ── Боковая колонка ───────────────────────────────────────── */
+.side {
+  position: sticky; top: 0;
+  max-height: 100vh; overflow-y: auto;
+  padding: var(--s-6) 0 var(--s-6);
+}
+.side .brand {
+  display: flex; align-items: center; gap: var(--s-3);
+  margin-bottom: var(--s-2);
+}
+.side .dot {
+  width: 26px; height: 26px; border-radius: var(--r-pill);
+  background: var(--brand-gradient); flex: none; box-shadow: var(--shadow-sm);
+}
+.side .brand b { font-size: var(--t-body); letter-spacing: -0.01em; }
+.side .stage { font-size: var(--t-caption); color: var(--ink-600); margin: 0 0 var(--s-5); }
+
+.side .lbl {
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-600); margin: 0 0 var(--s-3);
+}
+
+.matlist { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--s-6); }
+.mat {
+  display: flex; gap: var(--s-3); align-items: baseline;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  text-decoration: none; color: var(--ink-900);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.mat:hover, .mat:focus-visible { background: var(--surface-2); }
+.mat:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.mat .n {
+  font-size: var(--t-micro); color: var(--ink-600);
+  font-variant-numeric: tabular-nums; flex: none; min-width: 2ch;
+}
+.mat .t { font-size: var(--t-caption); line-height: 1.45; }
+.mat .t i { display: block; font-style: normal; color: var(--ink-600); font-size: var(--t-micro); }
+.mat.current { background: var(--surface-2); }
+.mat.current .t { font-weight: var(--fw-medium); }
+.mat.soon .t { color: var(--ink-600); }
+.mat.soon .n { color: var(--line); }
+
+.anchors {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: var(--s-4); border-top: 1px solid var(--line);
+}
+.anchors a {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--t-caption);
+  text-decoration: none; color: var(--ink-600);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.anchors a:hover, .anchors a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
+.anchors a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+
+/* ── Основная колонка ──────────────────────────────────────── */
+main { padding: var(--s-7) 0 var(--s-7); min-width: 0; }
+
+.masthead { padding-bottom: var(--s-6); }
+h1 {
+  font-size: var(--t-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+  margin: 0 0 var(--s-4);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.lede { font-size: var(--t-body); color: var(--ink-600); max-width: 60ch; margin: 0 0 var(--s-5); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+.chips span { font-size: var(--t-caption); color: var(--ink-600); }
+.chips b { font-weight: var(--fw-bold); color: var(--ink-900); font-variant-numeric: tabular-nums; }
+.chips a { color: var(--brand-a); }
+
+/* ── Секции ────────────────────────────────────────────────── */
+section { padding-top: var(--s-7); scroll-margin-top: var(--s-4); }
+section > h2 {
+  font-size: var(--t-h1); font-weight: var(--fw-black);
+  letter-spacing: -0.02em; margin: 0 0 var(--s-3);
+  padding-bottom: var(--s-3); border-bottom: 1px solid var(--line);
+}
+section > .intro { font-size: var(--t-body-sm); color: var(--ink-600); max-width: 66ch; margin: 0 0 var(--s-5); }
+
+h3 {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.01em; margin: var(--s-6) 0 var(--s-3);
+}
+h4 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(--s-5) 0 var(--s-2); }
+p { margin: 0 0 var(--s-3); max-width: 72ch; }
+a { color: var(--brand-a); text-underline-offset: 3px; }
+strong { font-weight: var(--fw-bold); }
+
+ul { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+li { margin-bottom: var(--s-2); }
+ol { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+
+/* ── Пара колонок «что видели / что решили» ────────────────── */
+.duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+.duo > div { border-top: 2px solid var(--ink-900); padding-top: var(--s-4); }
+.duo h3 { margin: 0 0 var(--s-3); font-size: var(--t-body); }
+.duo ul { margin: 0; }
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+
+/* ── Таблицы ───────────────────────────────────────────────── */
+.tw {
+  overflow-x: auto; margin: 0 0 var(--s-4);
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+}
+table { border-collapse: collapse; width: 100%; font-size: var(--t-caption); }
+caption {
+  caption-side: bottom; text-align: left;
+  padding: var(--s-3) var(--s-4) 0;
+  font-size: var(--t-micro); color: var(--ink-600); line-height: 1.6;
+}
+th, td {
+  text-align: left; vertical-align: top;
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+thead th {
+  background: var(--surface-2);
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600);
+  white-space: nowrap;
+}
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+tbody th { font-weight: var(--fw-bold); font-size: var(--t-caption); white-space: nowrap; }
+td .lbl-cell { display: none; }
+.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+/* ── Чипы источников ───────────────────────────────────────── */
+.src {
+  display: inline-block;
+  font-size: var(--t-micro); line-height: 1.6;
+  padding: 1px var(--s-2); border-radius: var(--r-sm);
+  background: var(--surface-2); color: var(--ink-600);
+  white-space: nowrap;
+}
+.src.own { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.src.none { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+
+/* ── Выноски ───────────────────────────────────────────────── */
+.note {
+  border-left: 3px solid var(--brand-a);
+  padding: var(--s-2) 0 var(--s-2) var(--s-4);
+  margin: 0 0 var(--s-4); max-width: 72ch;
+  color: var(--ink-600);
+}
+.note.warn { border-left-color: var(--warn); }
+.note p:last-child, .note ul:last-child { margin-bottom: 0; }
+
+.panel {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5);
+  margin: 0 0 var(--s-4); max-width: 80ch;
+}
+.panel h4 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child, .panel ol:last-child { margin-bottom: 0; }
+
+.scores { display: grid; gap: var(--s-1); margin: 0 0 var(--s-4); max-width: 620px; }
+.srow { display: grid; grid-template-columns: 108px 1fr 34px; align-items: center; gap: var(--s-3); }
+.srow .nm { font-size: var(--t-caption); color: var(--ink-600); }
+.srow .bar { height: 16px; border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--brand-a); }
+.srow .v { font-size: var(--t-caption); font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-600); }
+.srow.us .nm, .srow.us .v { color: var(--ink-900); font-weight: var(--fw-bold); }
+.srow.us .bar { background: var(--brand-gradient); }
+.srow.bg .nm, .srow.bg .v { color: var(--ink-600); }
+.srow.bg .bar { background: var(--surface-2); border: 1px solid var(--line); }
+
+/* ── Скриншоты ─────────────────────────────────────────────── */
+.gallery {
+  display: grid; gap: var(--s-5);
+  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+}
+figure { margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+figure a {
+  display: block; border: 1px solid var(--line); border-radius: var(--r-md);
+  overflow: hidden; background: var(--surface-2); line-height: 0;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+figure a:hover, figure a:focus-visible { border-color: var(--brand-a); box-shadow: var(--shadow-md); }
+figure a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 3px; }
+figure img { width: 100%; height: 268px; object-fit: cover; object-position: top center; display: block; }
+figcaption { font-size: var(--t-caption); color: var(--ink-600); line-height: 1.5; }
+figcaption b { display: block; color: var(--ink-900); font-weight: var(--fw-bold); margin-bottom: 2px; }
+figcaption .fn { display: block; margin-top: var(--s-2); font-size: var(--t-micro); color: var(--ink-600); word-break: break-all; }
+
+.wide-shot { grid-column: 1 / -1; }
+.wide-shot .frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2); line-height: 0; }
+.wide-shot img { height: 260px; width: auto; max-width: none; object-fit: fill; }
+
+.section-nav {
+  display: flex; justify-content: space-between; gap: var(--s-4);
+  margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--line);
+  font-weight: var(--fw-medium);
+}
+.section-nav a { text-decoration: none; }
+footer {
+  margin-top: var(--s-6); padding: var(--s-5) 0 var(--s-7);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-caption); color: var(--ink-600);
+}
+footer a { color: var(--brand-a); }
+footer p { max-width: 72ch; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; gap: 0; }
+  .side { position: static; max-height: none; padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
+  .matlist { display: none; }
+  .side .stage { margin-bottom: var(--s-3); }
+  .anchors { flex-direction: row; flex-wrap: wrap; border-top: none; padding-top: 0; }
+}
+
+/* ── Персоны ───────────────────────────────────────────────── */
+.persona {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5); margin: 0 0 var(--s-5);
+}
+.persona.primary { border-color: var(--brand-a); box-shadow: var(--shadow-sm); }
+.persona.supply { border-style: dashed; }
+.phead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s-4); }
+.phead h3 { margin: 0 0 var(--s-1); }
+.pscene { margin: 0; color: var(--ink-600); font-size: var(--t-caption); max-width: 60ch; }
+.pneed { margin: var(--s-4) 0; padding: var(--s-3) var(--s-4); background: var(--surface-2); border-radius: var(--r-sm); font-size: var(--t-caption); max-width: none; }
+.pgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4) var(--s-5); }
+.pgrid h4 { margin: 0 0 var(--s-2); font-size: var(--t-micro); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-600); }
+.pgrid ul { margin: 0; padding-left: var(--s-4); font-size: var(--t-caption); }
+.pgrid li { margin-bottom: var(--s-1); }
+.pquote {
+  margin: var(--s-5) 0 0; padding: var(--s-4) var(--s-5);
+  border-left: 3px solid var(--brand-a); background: var(--surface-2); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-body-sm); line-height: 1.5;
+}
+.pquote cite { display: block; margin-top: var(--s-2); font-style: normal; font-size: var(--t-micro); color: var(--ink-600); }
+.pnote { margin: var(--s-4) 0 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+@media (max-width: 760px) { .pgrid { grid-template-columns: 1fr; } .phead { flex-direction: column; } }
+
+/* ── Пилюли статуса (как на хабе) ─────────────────────────── */
+.pill { flex: none; font-size: var(--t-micro); font-weight: var(--fw-medium); padding: 3px 10px; border-radius: var(--r-pill); letter-spacing: 0.02em; white-space: nowrap; }
+.pill.ready { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.pill.rules { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+.pill.empty { background: var(--surface-2); color: var(--ink-600); }
+
+/* ── Jobs ──────────────────────────────────────────────────── */
+.job { margin: 0 0 var(--s-4); padding: var(--s-4) var(--s-5); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.job.main { border-color: var(--brand-a); }
+.jcode { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-a); margin-bottom: var(--s-2); }
+.job blockquote { margin: 0 0 var(--s-2); font-size: var(--t-body-sm); font-weight: var(--fw-medium); line-height: 1.5; }
+.job.main blockquote { font-size: var(--t-body); }
+.jmeta { margin: 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+.jlist li { margin-bottom: var(--s-2); }
+.section-nav .soon { color: var(--ink-600); }
+
+/* ── Раздел 09: дизайн-система ──────────────────────────────── */
+
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ── Что показывать в разделе: подпункты в самом дереве ───── */
+.subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
+.subtabs a { position: relative; padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
+.subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
+.subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+/* Выбранный подпункт — жирный и с точкой слева, а не залитый: заливка занята
+   самим разделом, и два залитых пятна в колонке спорят друг с другом */
+.subtabs a[aria-current="true"] { color: var(--ink-900); font-weight: var(--fw-bold); }
+.subtabs a[aria-current="true"]::before {
+  content: ""; position: absolute; left: calc(var(--s-3) * -1 - 1px); top: 50%;
+  width: 5px; height: 5px; margin-top: -2px; border-radius: 50%; background: var(--ink-900);
+}
+
+/* Нажат любой подпункт — разделы сжимаются до номеров.
+   Сами подпункты остаются: иначе, нажав первый, человек в нём запрётся */
+.shell[data-collapsed] { grid-template-columns: 124px minmax(0, 1fr); gap: var(--s-5); }
+.shell[data-collapsed] .side .stage,
+.shell[data-collapsed] .side .lbl,
+.shell[data-collapsed] .side .brand b,
+.shell[data-collapsed] .side .mat .t { display: none; }
+.shell[data-collapsed] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
+.shell[data-collapsed] .side .mat { justify-content: center; padding: var(--s-3) 0; }
+.shell[data-collapsed] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
+.shell[data-collapsed] .side .mat.current .n { color: var(--ink-900); font-weight: var(--fw-medium); }
+.shell[data-collapsed] .side .subtabs { margin-left: 0; padding-left: var(--s-2); border-left-color: var(--line); }
+.shell[data-collapsed] .side .subtabs a { font-size: var(--t-micro); padding: var(--s-2); }
+@media (max-width: 900px) {
+  .shell[data-collapsed] { grid-template-columns: minmax(0, 1fr); }
+}
+/* Страницы документации стоят живыми, рамкой на самих себя: адрес #bare
+   убирает их шапку, навигация раздела уже стоит слева. Своей прокрутки
+   у рамки нет — высоту задаёт скрипт внизу, до него держится запас. */
+.live { margin: var(--s-5) 0 0; padding: 0; list-style: none; display: grid; gap: var(--s-6); }
+.live iframe { width: 100%; min-height: 560px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); display: block; }
+.framelink { margin: 0 0 var(--s-2); font-size: var(--t-caption); }
+.cap { margin: 0 0 var(--s-3); font-size: var(--t-caption); color: var(--ink-600); }
+/* Список страниц: отсюда уходят в любой компонент, не листая showcase */
+.pagelist { margin: var(--s-5) 0 0; padding: 0; list-style: none; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--s-2) var(--s-4); }
+.pagelist li { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: baseline; font-size: var(--t-caption); }
+.pagelist code { color: var(--ink-600); font-size: var(--t-micro); }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">К содержимому</a>
+
+<div class="shell">
+<aside class="side">
+    <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
+    <p class="stage">Разделы проекта</p>
+
+    <nav aria-label="Разделы">
+      <p class="lbl">Разделы</p>
+      <div class="matlist">
+        <a class="mat" href="../research/research.html"><span class="n">01</span><span class="t">Ресерч и бенчмарк<i>готово</i></span></a>
+        <a class="mat" href="../research/persones.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>готово</i></span></a>
+        <a class="mat" href="ia.html"><span class="n">03</span><span class="t">Информационная архитектура<i>готово</i></span></a>
+        <a class="mat" href="wireframes.html"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>готово</i></span></a>
+        <a class="mat" href="voice.html"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>готово</i></span></a>
+        <a class="mat" href="concept.html"><span class="n">06</span><span class="t">Концепт<i>готово</i></span></a>
+        <a class="mat" href="kit.html"><span class="n">07</span><span class="t">Сборка UI<i>готово</i></span></a>
+        <a class="mat" href="tokens.html"><span class="n">08</span><span class="t">Дизайн-токены<i>готово</i></span></a>
+        <a class="mat current" href="system.html" aria-current="page"><span class="n">09</span><span class="t">Дизайн-система<i>текущий раздел</i></span></a>
+        <nav class="subtabs" aria-label="Части раздела">
+          <a href="#package" data-spy="package" aria-current="true">Пакет</a>
+          <a href="#components" data-spy="components">Компоненты</a>
+          <a href="#page" data-spy="page">Страница компонента</a>
+          <a href="#why" data-spy="why">Почему так</a>
+          <a href="#rules" data-spy="rules">Правила, которые держат систему</a>
+          <a href="#checks" data-spy="checks">Что проверяют скрипты</a>
+          <a href="#open" data-spy="open">Что открыто</a>
+        </nav>
+        <a class="mat soon" href="?section=10"><span class="n">10</span><span class="t">Responsive<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
+      </div>
+    </nav>
+
+  </aside>
+
+  <main id="content">
+    <div class="masthead">
+      <p class="eyebrow">Раздел 09</p>
+      <h1>Дизайн-система</h1>
+      <p class="lede">Система одним пакетом: 100 классов в 16 файлах компонентов,
+        104 переменных двумя уровнями и одна дверь — <a href="../design-system/index.css">index.css</a>.
+        У каждого компонента своя страница: анатомия с подписями частей, варианты и размеры,
+        когда употреблять и пара «правило — антиправило». Страницы живые: они одеты той же
+        системой, что и продукт.</p>
+      <div class="chips">
+        <span>33 страниц компонентов</span>
+        <span>100 классов</span>
+        <span>74 примитивов и 30 ролей</span>
+        <span>одна точка входа</span>
+      </div>
+    </div>
+
+    <section class="block" id="package">
+      <h2>Пакет</h2>
+<blockquote><p>Раздел 09. Система — это не папка со стилями, а <strong>договор</strong>: откуда берутся значения, из чего собираются экраны и как понять, какой компонент брать. Здесь всё это собрано в одном месте и показано живым — страницы ниже одеты той же системой, что и продукт.</p></blockquote>
+<p><strong>Система подключается одним файлом</strong> <code class="dcode">D-88</code> — <a href="../design-system/index.css"><code>design-system/index.css</code></a>. Он импортирует токены, затем компоненты: порядок значим — токены объявляют переменные, компоненты их читают, — и теперь этот порядок свойство системы, а не привычка автора страницы.</p>
+<p>Экран, витрина, оболочка и эти самые страницы документации не знают, что внутри пакета два уровня значений и шестнадцать файлов классов. Отдельных ссылок на <code>tokens.css</code> и <code>components/index.css</code> в разметке нет нигде.</p>
+<div class="tw"><table><thead><tr><th>Что лежит в пакете</th><th>Зачем</th></tr></thead><tbody>
+<tr><td><code>index.css</code></td><td>Единственная дверь: импортирует токены и компоненты</td></tr>
+<tr><td><code>tokens.css</code></td><td>104 переменные двумя уровнями: 74 примитива и 30 ролей, плюс 20 переопределений тёмной темы</td></tr>
+<tr><td><code>components/</code></td><td>100 классов в 16 файлах, по одному на компонент</td></tr>
+<tr><td><code>docs/</code></td><td>Страница на каждый компонент и «Почему так» <code class="dcode">D-91</code></td></tr>
+<tr><td><code>patterns/</code>, <code>examples/</code></td><td>Пусто. Место названо до того, как в нём что-то появится</td></tr>
+</tbody></table></div>
+<p><strong>Источник правды по значениям остаётся снаружи</strong> — <a href="../tokens/"><code>tokens/</code></a>: <code>tokens.css</code> и <code>tokens.json</code> правятся вместе, одним коммитом, а <code>design-system/tokens.css</code> повторяет их двумя уровнями. Расхождение ловит <code>node scripts/tokens-audit.mjs</code>.</p>
+
+    </section>
+
+    <section class="block" id="components">
+      <h2>Компоненты</h2>
+<p><strong>Тридцать три компонента, из которых собраны все пятьдесят экранов концепта.</strong> У каждого своя страница из четырёх частей: <strong>анатомия</strong> с подписями частей, <strong>варианты и размеры</strong>, <strong>когда употреблять</strong> и <strong>правило с антиправилом</strong>.</p>
+<p>Showcase ниже живой: это не скриншоты и не копии кода, а те же классы в том же файле. Поменяется компонент — поменяется и страница.</p>
+      <ul class="live">
+        <li>
+          <p class="framelink"><a href="../design-system/docs/index.html">Showcase компонентов — открыть страницей &rarr;</a></p>
+          <p class="cap">Тридцать три компонента живыми — те же классы и тот же файл стилей, что в продукте</p>
+          <iframe src="../design-system/docs/index.html#bare" loading="lazy" scrolling="no" title="Showcase компонентов"></iframe>
+        </li>
+      </ul>
+      <ul class="pagelist">
+        <li><a href="../design-system/docs/avatar.html">Аватар</a> <code>.mm-avatar</code></li>
+        <li><a href="../design-system/docs/banner.html">Плашка итога</a> <code>.mm-banner</code></li>
+        <li><a href="../design-system/docs/bubble.html">Реплика</a> <code>.mm-bubble</code></li>
+        <li><a href="../design-system/docs/button-back.html">Без заливки</a> <code>.mm-head-btn--back</code></li>
+        <li><a href="../design-system/docs/button-danger.html">Опасное действие</a> <code>.mm-danger-link · .mm-head-btn--danger</code></li>
+        <li><a href="../design-system/docs/button-primary.html">Главная</a> <code>.mm-btn--primary · .mm-head-btn--primary</code></li>
+        <li><a href="../design-system/docs/button-secondary.html">Вторичная</a> <code>.mm-btn--quiet</code></li>
+        <li><a href="../design-system/docs/button-tertiary.html">Третичная</a> <code>.mm-btn · .mm-head-btn</code></li>
+        <li><a href="../design-system/docs/chip.html">Чип расстояния</a> <code>.mm-chip</code></li>
+        <li><a href="../design-system/docs/evcover.html">Обложка на карточке события</a> <code>.mm-evcover</code></li>
+        <li><a href="../design-system/docs/event-card.html">Карточка события</a> <code>.mm-event</code></li>
+        <li><a href="../design-system/docs/facts.html">Строки фактов</a> <code>.mm-facts · .mm-meta · .mm-note</code></li>
+        <li><a href="../design-system/docs/field-date.html">Дата рождения</a> <code>.mm-dates</code></li>
+        <li><a href="../design-system/docs/field-multiline.html">Многострочное</a> <code>.mm-field--multi</code></li>
+        <li><a href="../design-system/docs/field-password.html">Пароль</a> <code>.mm-field</code></li>
+        <li><a href="../design-system/docs/field-search.html">Поиск</a> <code>.mm-field</code></li>
+        <li><a href="../design-system/docs/field-select.html">Выпадающий список</a> <code>.mm-select · .mm-menu</code></li>
+        <li><a href="../design-system/docs/field-text.html">Текстовое</a> <code>.mm-field</code></li>
+        <li><a href="../design-system/docs/layer.html">Слой поверх экрана</a> <code>.mm-layer</code></li>
+        <li><a href="../design-system/docs/pager.html">Кружки по числу фотографий</a> <code>.mm-pager</code></li>
+        <li><a href="../design-system/docs/person-card.html">Карточка человека</a> <code>.mm-person</code></li>
+        <li><a href="../design-system/docs/photo-cap.html">Подпись на снимке</a> <code>.mm-photo-cap</code></li>
+        <li><a href="../design-system/docs/promise.html">Обещание</a> <code>.mm-promise</code></li>
+        <li><a href="../design-system/docs/radar.html">Радар</a> <code>.mm-radar · .mm-rings · .mm-pins · .mm-scan</code></li>
+        <li><a href="../design-system/docs/row.html">Строка списка</a> <code>.mm-row</code></li>
+        <li><a href="../design-system/docs/screen.html">Экран</a> <code>.mm-screen · .mm-head · .mm-app · .mm-tabs</code></li>
+        <li><a href="../design-system/docs/segmented.html">Срез вкладки</a> <code>.mm-segmented</code></li>
+        <li><a href="../design-system/docs/signals.html">Сигналы доверия</a> <code>.mm-signals</code></li>
+        <li><a href="../design-system/docs/skeleton.html">Заглушка</a> <code>.mm-skel</code></li>
+        <li><a href="../design-system/docs/state.html">Пусто и сбой</a> <code>.mm-state · .mm-state--alert</code></li>
+        <li><a href="../design-system/docs/tab.html">Вкладка нижнего меню</a> <code>.mm-tab</code></li>
+        <li><a href="../design-system/docs/tags.html">Теги интересов</a> <code>.mm-tags</code></li>
+        <li><a href="../design-system/docs/verified.html">Отметка проверки</a> <code>.mm-verified</code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="page">
+      <h2>Страница компонента</h2>
+<p>Четыре части отвечают на четыре разных вопроса, и порядок у них не случайный.</p>
+<div class="tw"><table><thead><tr><th>Часть</th><th>На что отвечает</th><th>Откуда берётся</th></tr></thead><tbody>
+<tr><td><strong>Анатомия</strong></td><td>Из чего это состоит и как части называются</td><td>Разметка образца; часть, которой в нём нет, роняет сборку</td></tr>
+<tr><td><strong>Варианты и размеры</strong></td><td>В каких состояниях бывает и какого размера</td><td>Матрица витрины и <code>components/*.css</code> — число читается из файла</td></tr>
+<tr><td><strong>Когда употреблять</strong></td><td>Какую роль играет в продукте</td><td><code>DESIGN.md</code>, <code>voice.md</code>, <code>ui/inventory.md</code>, журнал решений</td></tr>
+<tr><td><strong>Правило и антиправило</strong></td><td>Когда брать — и когда взять другой</td><td>Живые примеры из той же витрины, со ссылкой на замену</td></tr>
+</tbody></table></div>
+<p><strong>Антиправило — не запрет, а перевод стрелки.</strong> Оно всегда показывает компонент, который надо взять вместо этого, и ведёт на его страницу: «в выдаче поиска карточку не ставят — там строка», «если действие не главное, это вторичная кнопка».</p>
+      <ul class="live">
+        <li>
+          <p class="framelink"><a href="../design-system/docs/event-card.html">Карточка события — открыть страницей &rarr;</a></p>
+          <p class="cap">Пример страницы: анатомия, варианты и размеры, когда употреблять, правило и антиправило</p>
+          <iframe src="../design-system/docs/event-card.html#bare" loading="lazy" scrolling="no" title="Карточка события"></iframe>
+        </li>
+      </ul>
+    </section>
+
+    <section class="block" id="why">
+      <h2>Почему так</h2>
+<p>Первый вопрос нового человека — не «как собрать кнопку», а «почему оно так выглядит». Ответ отдельной страницей: пять пар атрибутов с источником у каждой, откуда взяты приёмы, направление R «Сирень» живыми образцами, чем за него заплачено и что отвергнуто навсегда.</p>
+<p>У каждой пары честно помечено, <strong>на чём она держится</strong> — на данных или на догадке. Догадка не брак: она проверяется первой, и спорить с ней можно.</p>
+      <ul class="live">
+        <li>
+          <p class="framelink"><a href="../design-system/docs/why.html">Почему система такова — открыть страницей &rarr;</a></p>
+          <p class="cap">Пять пар атрибутов с источником, откуда приёмы, направление R «Сирень» и его цена</p>
+          <iframe src="../design-system/docs/why.html#bare" loading="lazy" scrolling="no" title="Почему система такова"></iframe>
+        </li>
+      </ul>
+    </section>
+
+    <section class="block" id="rules">
+      <h2>Правила, которые держат систему</h2>
+<p>Четыре правила про значения <code class="dcode">D-78</code>, <code class="dcode">D-80</code>:</p>
+<ol><li><strong>Цвет в компоненте — только семантикой.</strong> <code>var(--plum-800)</code> в <code>components/</code> — ошибка; нужен цвет без роли — роль заводится, а не одалживается. Иначе в тёмной теме он не изменится.</li>
+<li><strong>Геометрия семантики не получает.</strong> Отступ и радиус одинаковы везде, второе имя добавило бы слово, а не смысл.</li>
+<li><strong>Цвет, не встречающийся нигде, в палитре не висит.</strong> Значение уходит в журнал и возвращается вместе с экраном, которому понадобится.</li>
+<li><strong>Слово на цветной подложке берёт свой токен</strong>, а не наследует соседний: <code>--text-on-action</code>, <code>--text-on-selected</code>, <code>--text-on-verified</code>.</li></ol>
+<p>И одно правило про работу — <strong>правка идёт в набор, а не в экран</strong> (правило 14 брифа). Значение — в <code>tokens.css</code>, правило компонента — в <code>components/</code>, разметка — в витрину и на все экраны, причина — в <code>DESIGN.md</code>. Правка на одном экране живёт до следующей пересборки: экраны генерируются, руками их не правят.</p>
+
+    </section>
+
+    <section class="block" id="checks">
+      <h2>Что проверяют скрипты</h2>
+<p>Глазами здесь не проверяется ничего — всё, что можно посчитать, считает сборка.</p>
+<div class="tw"><table><thead><tr><th>Скрипт</th><th>Что ловит</th></tr></thead><tbody>
+<tr><td><code>node scripts/contrast.mjs</code></td><td>30 пар текст/фон, порог 4.5:1 (иконки 3:1)</td></tr>
+<tr><td><code>node scripts/palette-audit.mjs</code></td><td>Различимость цветов: ΔE2000 между ролями, порог ступени 3,5</td></tr>
+<tr><td><code>node scripts/tokens-audit.mjs</code></td><td>Литералы цвета, шрифта и размера в компонентах; переменные без объявления; расхождение с <code>tokens/tokens.css</code></td></tr>
+<tr><td><code>node scripts/build-docs.mjs</code></td><td>Собирает эти страницы. Размер, которого нет в CSS, и часть анатомии, которой нет в образце, роняют сборку</td></tr>
+<tr><td>Сборка раздела 08</td><td>Контраст в <strong>обеих темах</strong>: непроходная пара роняет сборку</td></tr>
+</tbody></table></div>
+
+    </section>
+
+    <section class="block" id="open">
+      <h2>Что открыто</h2>
+<ul><li><strong><code>patterns/</code> и <code>examples/</code> пусты.</strong> Шаблоны появятся, когда одна и та же сборка из нескольких компонентов встретится на двух экранах — тот же порог «два экрана», по которому собран инвентарь.</li>
+<li><strong>Текст «когда употреблять» скрипт проверить не умеет.</strong> Числа и части он держит, слова — нет: их обновляют руками, когда компонент меняет роль.</li>
+<li><strong>Данные витрины стали публичным интерфейсом</strong> <code class="dcode">D-91</code>: переименование клетки ломает не только витрину, но и страницу, которая на неё ссылается. Зато ломает громко, на сборке.</li></ul>
+
+    </section>
+
+    <footer>
+      <p>Раздел 9 из 12 · Дизайн-система. Источник — <a href="../design-system/system.md">design-system/system.md</a>;
+        сами страницы — <a href="../design-system/docs/index.html">docs/</a>, значения — раздел
+        <a href="tokens.html">08</a>, кит — раздел <a href="kit.html">07</a>.</p>
+      <nav class="section-nav"><a href="tokens.html">← Раздел 8 · Дизайн-токены</a></nav>
+    </footer>
+  </main>
+</div>
+
+<script>
+(function () {
+  var ids = ["package","components","page","why","rules","checks","open"];
+  var links = {};
+  var all = document.querySelectorAll('.subtabs a[data-spy]');
+  for (var i = 0; i < all.length; i++) links[all[i].getAttribute('data-spy')] = all[i];
+  function mark(id) {
+    for (var k in links) {
+      if (k === id) links[k].setAttribute('aria-current', 'true');
+      else links[k].removeAttribute('aria-current');
+    }
+  }
+  if (!('IntersectionObserver' in window)) return;
+  var seen = {};
+  var io = new IntersectionObserver(function (entries) {
+    for (var j = 0; j < entries.length; j++) seen[entries[j].target.id] = entries[j].isIntersecting;
+    for (var k = 0; k < ids.length; k++) if (seen[ids[k]]) { mark(ids[k]); return; }
+  }, { rootMargin: '-8% 0px -72% 0px' });
+  for (var n = 0; n < ids.length; n++) {
+    var el = document.getElementById(ids[n]);
+    if (el) io.observe(el);
+  }
+  // Последний блок короче окна и в полосу наблюдения целиком не попадает:
+  // докрутив страницу до конца, человек видел отметку на предпоследнем.
+  window.addEventListener('scroll', function () {
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) mark(ids[ids.length - 1]);
+  }, { passive: true });
+})();
+</script>
+<script>
+// Рамка принимает высоту своей страницы: прокрутки внутри нет, страницу
+// листает общая полоса раздела. Страницы свои, с того же домена, поэтому
+// высота читается напрямую; всё в try — если доступа не будет, рамка
+// останется с запасом высоты из стилей, а не схлопнется.
+(function () {
+  var frames = document.querySelectorAll('.live iframe');
+  function fit(f) {
+    try {
+      var d = f.contentDocument;
+      if (!d || !d.body) return;
+      var h = Math.max(d.body.scrollHeight, d.documentElement.scrollHeight);
+      if (h > 80) f.style.height = h + 'px';
+    } catch (e) {}
+  }
+  frames.forEach(function (f) {
+    f.addEventListener('load', function () { fit(f); setTimeout(function () { fit(f); }, 400); });
+    fit(f);
+  });
+  window.addEventListener('resize', function () { frames.forEach(fit); });
+})();
+</script>
+</body>
+</html>

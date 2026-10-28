@@ -14,6 +14,8 @@ const SECTIONS = [
   { n: '05', href: 'sections/voice.html', title: 'Tone of voice и микрокопи' },
   { n: '06', href: 'sections/concept.html', title: 'Концепт' },
   { n: '07', href: 'sections/kit.html', title: 'Сборка UI' },
+  { n: '08', href: 'sections/tokens.html', title: 'Дизайн-токены' },
+  { n: '09', href: 'sections/system.html', title: 'Дизайн-система' },
 ];
 
 // prefix — путь до корня сайта от страницы: '../' для wireframes/, '../../' для concept/screens/

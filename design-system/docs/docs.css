@@ -131,6 +131,14 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .why-item p { margin: 10px 0 0; font-size: 13px; color: var(--dim); }
 
 .foot { border-top: 1px solid var(--edge); padding: 24px; color: var(--dim); font-size: 13px; }
+
+/* Голый вид: страница показана рамкой в разделе 09, и своя шапка ей там
+   не нужна — она была бы вторым этажом навигации. Скрипта для этого нет,
+   работает :target по адресу #bare. */
+body:has(#bare:target) .top,
+body:has(#bare:target) .foot,
+body:has(#bare:target) .skip { display: none; }
+body:has(#bare:target) .doc { padding-top: 24px; }
 .foot p { max-width: 80ch; margin: 0 0 8px; }
 
 @media (max-width: 760px) {
