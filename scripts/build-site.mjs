@@ -167,19 +167,21 @@ const publish = (html, dirRelativeToRoot) =>
     // это та же страница сайта. Без этого ссылки вида sections/concept.html#screens
     // уводили в репозиторий, то есть полоса разделов не работала на макетах.
     const path = url.split(/[?#]/)[0];
-    // внешние ссылки, якоря, страницы сайта, папки и картинки оставляем как есть
+    // внешние ссылки, якоря, страницы сайта и картинки оставляем как есть
     if (
       /^(https?:|mailto:|#)/.test(url) ||
       path.endsWith('.html') ||
       path.endsWith('.png') ||
-      path === '' ||
-      path.endsWith('/')
+      path === ''
     ) return tag;
 
     if (BLOB) {
       const fromRoot = posix.normalize(posix.join(dirRelativeToRoot, path));
       rewritten.push(fromRoot);
-      const next = attrs.replace(/href="[^"]+"/, `href="${BLOB}${fromRoot}"`);
+      // Папку уводим на дерево, а не на blob `D-89`: на сайте она не листается,
+      // и оставленная относительной ссылка отдавала 404.
+      const base = path.endsWith('/') ? BLOB.replace('/blob/', '/tree/') : BLOB;
+      const next = attrs.replace(/href="[^"]+"/, `href="${base}${fromRoot}"`);
       return `<a${next}${/target=/.test(next) ? '' : ' target="_blank" rel="noopener"'}>`;
     }
     // без известного репозитория ссылку не выдумываем — просто снимаем её

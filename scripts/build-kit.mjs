@@ -128,7 +128,8 @@ function blocks(text) {
 }
 
 // ссылки kit.md даны от папки ui/, страница лежит в sections/
-const render = (text) => md(text).replace(/href="\.\/(?!\.)/g, 'href="../ui/');
+// kit.md лежит в ui/, и ссылки в нём отсчитываются оттуда `D-89`
+const render = (text) => md(text, { base: 'ui' });
 
 const parts = blocks(doc);
 const intro = parts.find((b) => b.title === null);

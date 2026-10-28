@@ -171,7 +171,7 @@ const slugify = (s) => s.toLowerCase().replace(/[`*]/g, '').replace(/[^a-zа-я�
 
 // ссылки concept.md ведут от папки concept/, страница лежит в sections/
 const infoHtml = blocks(concept).map((b) => {
-  const html = md(b.text).replace(/href="\.\.\/(?!\.)/g, 'href="../concept/');
+  const html = md(b.text, { base: 'concept' });
   return b.title
     ? `      <section id="${slugify(b.title)}">\n        <h2>${inline(b.title)}</h2>\n${html}\n      </section>`
     : html;

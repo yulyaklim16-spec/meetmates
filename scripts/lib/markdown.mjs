@@ -1,6 +1,7 @@
 // Разметка markdown → HTML для страниц разделов.
 //
-// Один рендерер на все сборки: build-ia.mjs и build-voice.mjs. Поддерживает
+// Один рендерер на все пять сборок разделов: build-ia, build-voice,
+// build-concept, build-kit и build-tokens-section. Поддерживает
 // ровно то, что встречается в наших документах, — заголовки, абзацы, списки,
 // таблицы, цитаты, блоки кода, строчную разметку и `D-NN` как отдельный код.
 // Чего нет, того в документах быть не должно: лишний синтаксис молча пропадёт.
@@ -8,10 +9,47 @@
 // ── утилиты ────────────────────────────────────────────────────────────
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-// ссылки из markdown ведут от корня репозитория; страница лежит в sections/
+// Ссылка в документе относительна папке самого документа: в ui/kit.md
+// «../DESIGN.md» значит корень, в tokens.md — то же самое пишется «./DESIGN.md».
+// Рендерер приводит её к пути от готовой страницы, а страница лежит в sections/.
+//
+// Пока база не задавалась, всем ссылкам приписывалось «../», будто документ
+// лежит в корне. Для корневых файлов это совпадало с правдой, а ui/kit.md
+// и concept/concept.md давали «../../» — путь выше корня репозитория. Костыли
+// в сборках чинили один случай из двух и были сняты вместе с этой правкой `D-89`.
+let BASE = '';      // папка документа относительно корня: '' — корень, 'ui', 'concept'
+const PAGE = 'sections';  // папка готовой страницы
+
+const setLinkBase = (dir) => { BASE = (dir || '').replace(/^\.\/|\/$/g, ''); };
+
+// Путь складывается вручную: posix.relative в браузерных сборках не нужен,
+// а правила тут простые — убрать «.», свернуть «..», отмерить обратный путь.
+const normalize = (parts) => {
+  const out = [];
+  for (const p of parts) {
+    if (!p || p === '.') continue;
+    if (p === '..') { if (out.length && out[out.length - 1] !== '..') out.pop(); else out.push('..'); }
+    else out.push(p);
+  }
+  return out;
+};
+
 function fixHref(url) {
   if (/^(https?:|mailto:|#)/.test(url)) return url;
-  return '../' + url.replace(/^\.\//, '');
+  const cut = url.search(/[#?]/);
+  const path = cut === -1 ? url : url.slice(0, cut);
+  const tail = cut === -1 ? '' : url.slice(cut);
+  const from = normalize(BASE.split('/'));      // где лежит документ
+  const to = normalize([...from, ...path.split('/')]);  // куда он ссылается
+  const page = normalize(PAGE.split('/'));      // где лежит страница
+  let common = 0;
+  while (common < page.length && common < to.length && page[common] === to[common]) common += 1;
+  const up = Array(page.length - common).fill('..');
+  const rest = to.slice(common);
+  // Конечный слэш — признак папки, и он сохраняется: ссылка на components/
+  // без него читается как файл без расширения.
+  const slash = /\/$/.test(path) && rest.length ? '/' : '';
+  return [...up, ...rest].join('/') + slash + tail;
 }
 
 // строчная разметка: код, жирный, курсив, зачёркнутое, ссылки, D-коды
@@ -36,7 +74,17 @@ function inline(s) {
 }
 
 // блочная разметка: заголовки, абзацы, списки, таблицы, цитаты, код
-function md(text, { hShift = 0 } = {}) {
+function md(text, { hShift = 0, base } = {}) {
+  const prev = BASE;
+  if (base !== undefined) setLinkBase(base);
+  try {
+    return block(text, hShift);
+  } finally {
+    BASE = prev;
+  }
+}
+
+function block(text, hShift) {
   const lines = text.replace(/\r/g, '').split('\n');
   const html = [];
   let i = 0;
@@ -71,7 +119,7 @@ function md(text, { hShift = 0 } = {}) {
       flush();
       const buf = [];
       while (i < lines.length && (lines[i].startsWith('> ') || lines[i] === '>')) buf.push(lines[i++].replace(/^> ?/, ''));
-      html.push(`<blockquote>${md(buf.join('\n'), { hShift })}</blockquote>`);
+      html.push(`<blockquote>${block(buf.join('\n'), hShift)}</blockquote>`);
       continue;
     }
     if (l.startsWith('|')) {
@@ -157,4 +205,4 @@ function section(text, title) {
   return text.slice(start, next === -1 ? undefined : start + next).trim();
 }
 
-export { esc, fixHref, inline, md, slug, splitRow, table, list, section };
+export { esc, fixHref, inline, md, setLinkBase, slug, splitRow, table, list, section };

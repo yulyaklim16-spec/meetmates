@@ -382,7 +382,8 @@ function blocks(text) {
 }
 
 // ссылки tokens.md даны от корня, страница лежит в sections/
-const render = (text) => md(text).replace(/href="\.\/(?!\.)/g, 'href="../');
+// tokens.md лежит в корне: база по умолчанию `D-89`
+const render = (text) => md(text);
 
 const parts = blocks(doc);
 const intro = parts.find((b) => b.title === null);
