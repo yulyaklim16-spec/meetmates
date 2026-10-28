@@ -321,7 +321,7 @@ const DOCS = [
   },
 
   {
-    states: { target: 'mm-tab', note: 'У выбранной вкладки наведения нет: она уже на своей пилюле, и второй тон ей добавить нечем.' },
+    states: { target: 'mm-tab', demo: ['Вкладка нижнего меню', 'Tab-Default'], note: 'У выбранной вкладки наведения нет: она уже на своей пилюле, и второй тон ей добавить нечем.' },
     name: 'Вкладка нижнего меню', slug: 'tab', file: 'tabs.css',
     demo: ['Вкладка нижнего меню', 'Tab-Current'],
     parts: [
@@ -343,7 +343,7 @@ const DOCS = [
     anti: { pick: ['Срез вкладки', 'Segment-Current-Whole control'], instead: 'Срез вкладки', text: 'Переключение среза внутри вкладки — не навигация: <code>Nearby</code> и <code>Mine</code> не уводят с экрана, и в нижнее меню они не попадают.' },
   },
   {
-    states: { target: 'mm-btn', note: 'Невыбранный сегмент под курсором не красится: дорожка одна, и подсветка половины читалась бы вторым выбранным.' },
+    states: { target: 'mm-btn', demo: ['Срез вкладки', 'Segment-Default'], note: 'Невыбранный сегмент под курсором не красится: дорожка одна, и подсветка половины читалась бы вторым выбранным.' },
     name: 'Срез вкладки', slug: 'segmented', file: 'segmented.css',
     demo: ['Срез вкладки', 'Segment-Current-Whole control'],
     parts: [
@@ -955,7 +955,7 @@ const statesBlock = (d) => {
     <p class="states-none"><b>Нажимать нечего — состояний нет.</b> ${d.states.none}</p>
   </section>`;
   }
-  const demo = pick(...d.demo);
+  const demo = pick(...(d.states.demo || d.demo));
   const row = (theme) => `      <div class="states-row"${theme === 'dark' ? ' data-theme="dark"' : ''}>
         <p class="states-theme">${theme === 'dark' ? 'Тёмная' : 'Светлая'}</p>
 ${STATE_LABELS.map(([state]) => `        <div class="states-cell"><div class="kit-stage">${withState(demo, d.states.target, state)}</div></div>`).join('\n')}
