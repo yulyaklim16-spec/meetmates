@@ -200,6 +200,10 @@ const screenOf = (file) => {
     // с доски — нет, она сама лежит в concept/
     .replace(/(src|srcset)="\.\.\/img\//g, '$1="img/')
     .replace(/, \.\.\/img\//g, ', img/')
+    // Ссылки экрана — на соседние экраны: «deck.html» значит «screens/deck.html»,
+    // а «../../sections/x» — на уровень выше, чем нужно доске `D-90`.
+    .replace(/href="(?!https?:|#|\/)([a-z0-9-]+\.html)"/g, 'href="screens/$1"')
+    .replace(/href="\.\.\/\.\.\//g, 'href="../')
     .trim();
 };
 
