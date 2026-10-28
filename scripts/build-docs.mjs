@@ -57,9 +57,10 @@ const prop = (file, selector, name) => {
     }
   }
   if (found === null) throw new Error(`${file}: у ${selector} нет свойства ${name} — страница отстала от компонента`);
-  const ref = found.match(/var\((--[a-z0-9-]+)\)/);
-  const resolved = ref ? tokenValue(ref[1]) : null;
-  return { raw: found, token: ref ? ref[1] : null, resolved };
+  // Имя токена раскрывается, только если им задано всё свойство: в шорткате
+  // (font: var(--weight-600) var(--text-14)/…) первый токен — не значение.
+  const whole = found.match(/^var\((--[a-z0-9-]+)\)$/);
+  return { raw: found, token: whole ? whole[1] : null, resolved: whole ? tokenValue(whole[1]) : null };
 };
 
 // ── карта компонентов витрины: имя → данные ──────────────────────────
