@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Реплика · Дизайн-система MeetMates</title>
+<meta name="description" content="Реплика — анатомия, варианты, когда употреблять, правило и антиправило.">
+<!--
+  СГЕНЕРИРОВАНО scripts/build-docs.mjs — руками не править.
+  Компоненты на странице живые и одеты ../index.css: это сама система,
+  а не её копия. Размеры прочитаны из components/*.css при сборке.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../index.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="skip" href="#content">К содержимому</a>
+
+<header class="top">
+  <p class="top-name"><a href="index.html">Дизайн-система MeetMates</a></p>
+  <nav class="top-nav" aria-label="Разделы документации">
+    <a href="index.html">Компоненты</a>
+    <a href="why.html">Почему так</a>
+    <a href="../../ui/kit.html">Витрина</a>
+    <a href="../../sections/tokens.html">Токены</a>
+  </nav>
+  <div class="theme" role="group" aria-label="Тема">
+    <button type="button" data-theme-set="light" aria-pressed="true">Светлая</button>
+    <button type="button" data-theme-set="dark" aria-pressed="false">Тёмная</button>
+  </div>
+</header>
+
+<main id="content">
+
+<article class="doc">
+  <p class="crumb"><a href="index.html">Компоненты</a> <span aria-hidden="true">/</span> Чат</p>
+  <h1>Реплика</h1>
+  <p class="classes"><code>.mm-bubble</code> <span class="dim">— chat.css</span></p>
+
+  <section class="sec anat" id="anatomy">
+    <h2>Анатомия</h2>
+    <p class="sec-lead">Живой компонент и его части. Наведите на строку — часть подсветится в образце.</p>
+    <div class="anat-grid">
+      <div class="anat-demo kit-stage"><div class="mm-msgs"><p class="mm-bubble">Hi! Saw you&rsquo;re into board games too<span class="mm-bubble-time">Olena &middot; 19:04</span></p></div></div>
+      <ol class="anat-parts">
+        <li data-part="mm-msgs" tabindex="0"><code>.mm-msgs</code><span>Лента реплик: колонка пузырей</span></li>
+        <li data-part="mm-bubble" tabindex="0"><code>.mm-bubble</code><span>Чужая реплика — на поверхности, с обводкой, слева</span></li>
+        <li data-part="mm-bubble-time" tabindex="0"><code>.mm-bubble-time</code><span>Время под текстом, чернилами</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="variants">
+    <h2>Варианты и размеры</h2>
+    <p class="sec-lead">Все состояния, какие у компонента есть, — рядом и с именами. Чего в ките нет, того нет и здесь.</p>
+    <div class="matrix">
+      <figure class="cell">
+        <div class="kit-stage"><div class="mm-msgs"><p class="mm-bubble">Hi! Saw you&rsquo;re into board games too<span class="mm-bubble-time">Olena &middot; 19:04</span></p></div></div>
+        <figcaption>Bubble-Other</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="mm-msgs"><p class="mm-bubble mm-bubble--mine">Yes &mdash; there&rsquo;s a game caf&eacute; on Podil I keep meaning to try<span class="mm-bubble-time">19:06 &middot; Read</span></p></div></div>
+        <figcaption>Bubble-Mine</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="mm-msgs"><a class="mm-bubble mm-bubble--failed" href="#" role="alert" aria-label="Message not sent. Tap to try again">Saturday works &mdash; the caf&eacute; opens at six<span class="mm-bubble-retry" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span><span class="mm-bubble-time">Not sent &middot; tap to try again</span></a></div></div>
+        <figcaption>Bubble-Mine-Failed</figcaption>
+      </figure>
+    </div>
+    <table class="sizes">
+      <caption>Размеры прочитаны из <code>chat.css</code> при сборке</caption>
+      <thead><tr><th>Что</th><th>Селектор</th><th>Значение</th></tr></thead>
+      <tbody>
+      <tr><td>Скругление</td><td><code class="dim">.mm-bubble</code></td><td><code>--radius-md</code> <span class="dim">18px</span></td></tr>
+      <tr><td>Поля</td><td><code class="dim">.mm-bubble</code></td><td><code>--space-8</code> <span class="dim">8px</span></td></tr>
+      <tr><td>Предел ширины</td><td><code class="dim">.mm-bubble</code></td><td><code>80%</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sec" id="when">
+    <h2>Когда употреблять</h2>
+    <p>Чат — <b>основная дорога к встрече</b> (<code>D-37</code>), а не место для переписки.
+      Чужая реплика на поверхности слева, своя — на <code>--bg-mine</code> справа, без обводки:
+      у своей реплики её нет и не будет.</p>
+      <p><b>Сообщение не ушло — состояние реплики, а не экрана</b> (<code>D-52</code>): помечен сам
+      пузырь, нажатие на него повторяет отправку. Краснота несёт подложка, подпись остаётся
+      чернилами.</p>
+    <p class="kit-origin"><b>Из витрины:</b> Своя реплика — не действие, поэтому и не цвет действия: сиреневый тон, отличают её сторона и отсутствие обводки. Не ушло — состояние реплики, а не экрана (<code>D-52</code>): помечен сам пузырь, нажатие повторяет отправку.</p>
+  </section>
+
+  <section class="sec" id="rules">
+    <h2>Правило и антиправило</h2>
+    <div class="rules">
+      <div class="rule rule--do">
+        <p class="rule-h">Так</p>
+        <div class="kit-stage"><div class="mm-msgs"><a class="mm-bubble mm-bubble--failed" href="#" role="alert" aria-label="Message not sent. Tap to try again">Saturday works &mdash; the caf&eacute; opens at six<span class="mm-bubble-retry" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span><span class="mm-bubble-time">Not sent &middot; tap to try again</span></a></div></div>
+        <p>Неотправленная помечена собой и чинится касанием по себе — отдельного блока об ошибке в диалоге нет.</p>
+      </div>
+      <div class="rule rule--dont">
+        <p class="rule-h">Не так — возьмите другой компонент</p>
+        <div class="kit-stage"><article class="mm-banner"><b>It&rsquo;s an event</b><p>Board games at Kyiv Games Club &middot; Saturday, 18:00 &middot; the two of you.</p><p class="mm-actions"><a class="mm-btn mm-btn--primary" href="#">Open the event</a></p></article></div>
+        <p>Итог разговора репликой не изображают: «день назначен» — не чьи-то слова, а состояние плана.</p>
+        <p class="rule-go"><a href="banner.html">Плашка итога &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+</article>
+
+</main>
+
+<footer class="foot">
+  <p>Страницы собраны <code>node scripts/build-docs.mjs</code> из того же набора, что рисует
+  витрину, и одеты <code>design-system/index.css</code>. Размеры прочитаны из
+  <code>design-system/components/*.css</code>: свойство, которого в файле нет, роняет сборку.</p>
+  <p>Источники текста: <code>DESIGN.md</code> · <code>ui/inventory.md</code> ·
+  <code>microcopy.md</code> · <code>voice.md</code> · <code>concept/concept.md</code> ·
+  <code>concept/references.md</code> · <code>CLAUDE.md</code> · <code>DECISIONS.md</code>.</p>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'mm-theme';
+  function theme(t) {
+    if (t === 'dark') root.dataset.theme = 'dark'; else root.removeAttribute('data-theme');
+    document.querySelectorAll('.theme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
+    });
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+  }
+  var saved; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  theme(saved === 'dark' ? 'dark' : 'light');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.theme button');
+    if (b) theme(b.dataset.themeSet);
+  });
+  // Анатомия: наведение на часть подсвечивает её в живом образце.
+  // Без скрипта страница читается по-прежнему — это подсказка, а не способ понять.
+  document.querySelectorAll('.anat').forEach(function (block) {
+    var demo = block.querySelector('.anat-demo');
+    block.querySelectorAll('[data-part]').forEach(function (row) {
+      function mark(on) {
+        var el = demo.querySelector('.' + row.dataset.part);
+        if (el) el.classList.toggle('is-marked', on);
+        row.classList.toggle('is-marked', on);
+      }
+      row.addEventListener('mouseenter', function () { mark(true); });
+      row.addEventListener('mouseleave', function () { mark(false); });
+      row.addEventListener('focusin', function () { mark(true); });
+      row.addEventListener('focusout', function () { mark(false); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

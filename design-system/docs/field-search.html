@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Поиск · Дизайн-система MeetMates</title>
+<meta name="description" content="Поиск — анатомия, варианты, когда употреблять, правило и антиправило.">
+<!--
+  СГЕНЕРИРОВАНО scripts/build-docs.mjs — руками не править.
+  Компоненты на странице живые и одеты ../index.css: это сама система,
+  а не её копия. Размеры прочитаны из components/*.css при сборке.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../index.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="skip" href="#content">К содержимому</a>
+
+<header class="top">
+  <p class="top-name"><a href="index.html">Дизайн-система MeetMates</a></p>
+  <nav class="top-nav" aria-label="Разделы документации">
+    <a href="index.html">Компоненты</a>
+    <a href="why.html">Почему так</a>
+    <a href="../../ui/kit.html">Витрина</a>
+    <a href="../../sections/tokens.html">Токены</a>
+  </nav>
+  <div class="theme" role="group" aria-label="Тема">
+    <button type="button" data-theme-set="light" aria-pressed="true">Светлая</button>
+    <button type="button" data-theme-set="dark" aria-pressed="false">Тёмная</button>
+  </div>
+</header>
+
+<main id="content">
+
+<article class="doc">
+  <p class="crumb"><a href="index.html">Компоненты</a> <span aria-hidden="true">/</span> Поля</p>
+  <h1>Поиск</h1>
+  <p class="classes"><code>.mm-field</code> <span class="dim">— field.css</span></p>
+
+  <section class="sec anat" id="anatomy">
+    <h2>Анатомия</h2>
+    <p class="sec-lead">Живой компонент и его части. Наведите на строку — часть подсветится в образце.</p>
+    <div class="anat-grid">
+      <div class="anat-demo kit-stage"><div class="kit-block">
+          
+          <div class="mm-field"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f7" type="search" placeholder="Search people and events"></div>
+          
+        </div></div>
+      <ol class="anat-parts">
+        <li data-part="mm-field" tabindex="0"><code>.mm-field</code><span>То же поле: вид задаёт содержимое, а не отдельный компонент</span></li>
+        <li data-part="mm-ico" tabindex="0"><code>.mm-ico</code><span>Контурная лупа слева — элемент ждёт ввода, поэтому иконка контурная</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="variants">
+    <h2>Варианты и размеры</h2>
+    <p class="sec-lead">Все состояния, какие у компонента есть, — рядом и с именами. Чего в ките нет, того нет и здесь.</p>
+    <div class="matrix">
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f7" type="search" placeholder="Search people and events"></div>
+          
+        </div></div>
+        <figcaption>Search-Default</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field is-hover"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f8" type="search" placeholder="Search people and events"></div>
+          
+        </div></div>
+        <figcaption>Search-Hover</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field is-focus"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f9" type="search" placeholder="Search people and events"></div>
+          
+        </div></div>
+        <figcaption>Search-Focus</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f10" type="search" placeholder="Search people and events" value="board games"><button class="mm-field-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5"/></g></svg></span><span class="mm-vh">Clear</span></button></div>
+          
+        </div></div>
+        <figcaption>Search-Filled</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f11" type="search" placeholder="Search people and events" disabled></div>
+          
+        </div></div>
+        <figcaption>Search-Disabled</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field mm-field--error"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f12" type="search" placeholder="Search people and events" value="board games"></div>
+          <span class="mm-field-note mm-field-note--error">Couldn&rsquo;t search just now. Tap to try again</span>
+        </div></div>
+        <figcaption>Search-Error</figcaption>
+      </figure>
+    </div>
+    <table class="sizes">
+      <caption>Размеры прочитаны из <code>field.css</code> при сборке</caption>
+      <thead><tr><th>Что</th><th>Селектор</th><th>Значение</th></tr></thead>
+      <tbody>
+      <tr><td>Высота</td><td><code class="dim">.mm-field</code></td><td><code>44px</code></td></tr>
+      <tr><td>Просвет до иконки</td><td><code class="dim">.mm-field</code></td><td><code>--space-8</code> <span class="dim">8px</span></td></tr>
+      <tr><td>Кнопка очистки</td><td><code class="dim">.mm-field-btn</code></td><td><code>24px</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sec" id="when">
+    <h2>Когда употреблять</h2>
+    <p>Стоит в шапке вкладки <code>Search</code>, и подпись у него скрытая: смысл берётся
+      из места (<code>D-59</code>). Крестик появляется только с набранным — у пустого поля
+      стирать нечего.</p>
+      <p>Отказ здесь не про ввод, а про связь, поэтому строка под полем зовёт повторить:
+      <code>Tap to try again</code>.</p>
+    <p class="kit-origin"><b>Из витрины:</b> Подпись скрыта: поле стоит в шапке вкладки <code>Search</code>, и смысл берётся из места. Крестик появляется только с набранным — у пустого поля стирать нечего. Отказ здесь не про ввод, а про связь, поэтому строка под полем зовёт повторить.</p>
+  </section>
+
+  <section class="sec" id="rules">
+    <h2>Правило и антиправило</h2>
+    <div class="rules">
+      <div class="rule rule--do">
+        <p class="rule-h">Так</p>
+        <div class="kit-stage"><div class="kit-block">
+          
+          <div class="mm-field"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.2173 18.2178L21.9999 22.0004"/></g></svg></span><input id="f10" type="search" placeholder="Search people and events" value="board games"><button class="mm-field-btn" type="button"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5"/></g></svg></span><span class="mm-vh">Clear</span></button></div>
+          
+        </div></div>
+        <p>С набранным запросом справа появляется очистка — вернуться к пустому полю одним касанием.</p>
+      </div>
+      <div class="rule rule--dont">
+        <p class="rule-h">Не так — возьмите другой компонент</p>
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f1">Email</label>
+          <div class="mm-field"><input id="f1" type="email" placeholder="name@example.com"></div>
+          
+        </div></div>
+        <p>В анкете подпись не прячут: там полей несколько подряд, и место за них не говорит.</p>
+        <p class="rule-go"><a href="field-text.html">Текстовое &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+</article>
+
+</main>
+
+<footer class="foot">
+  <p>Страницы собраны <code>node scripts/build-docs.mjs</code> из того же набора, что рисует
+  витрину, и одеты <code>design-system/index.css</code>. Размеры прочитаны из
+  <code>design-system/components/*.css</code>: свойство, которого в файле нет, роняет сборку.</p>
+  <p>Источники текста: <code>DESIGN.md</code> · <code>ui/inventory.md</code> ·
+  <code>microcopy.md</code> · <code>voice.md</code> · <code>concept/concept.md</code> ·
+  <code>concept/references.md</code> · <code>CLAUDE.md</code> · <code>DECISIONS.md</code>.</p>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'mm-theme';
+  function theme(t) {
+    if (t === 'dark') root.dataset.theme = 'dark'; else root.removeAttribute('data-theme');
+    document.querySelectorAll('.theme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
+    });
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+  }
+  var saved; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  theme(saved === 'dark' ? 'dark' : 'light');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.theme button');
+    if (b) theme(b.dataset.themeSet);
+  });
+  // Анатомия: наведение на часть подсвечивает её в живом образце.
+  // Без скрипта страница читается по-прежнему — это подсказка, а не способ понять.
+  document.querySelectorAll('.anat').forEach(function (block) {
+    var demo = block.querySelector('.anat-demo');
+    block.querySelectorAll('[data-part]').forEach(function (row) {
+      function mark(on) {
+        var el = demo.querySelector('.' + row.dataset.part);
+        if (el) el.classList.toggle('is-marked', on);
+        row.classList.toggle('is-marked', on);
+      }
+      row.addEventListener('mouseenter', function () { mark(true); });
+      row.addEventListener('mouseleave', function () { mark(false); });
+      row.addEventListener('focusin', function () { mark(true); });
+      row.addEventListener('focusout', function () { mark(false); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

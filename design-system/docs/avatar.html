@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Аватар · Дизайн-система MeetMates</title>
+<meta name="description" content="Аватар — анатомия, варианты, когда употреблять, правило и антиправило.">
+<!--
+  СГЕНЕРИРОВАНО scripts/build-docs.mjs — руками не править.
+  Компоненты на странице живые и одеты ../index.css: это сама система,
+  а не её копия. Размеры прочитаны из components/*.css при сборке.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../index.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="skip" href="#content">К содержимому</a>
+
+<header class="top">
+  <p class="top-name"><a href="index.html">Дизайн-система MeetMates</a></p>
+  <nav class="top-nav" aria-label="Разделы документации">
+    <a href="index.html">Компоненты</a>
+    <a href="why.html">Почему так</a>
+    <a href="../../ui/kit.html">Витрина</a>
+    <a href="../../sections/tokens.html">Токены</a>
+  </nav>
+  <div class="theme" role="group" aria-label="Тема">
+    <button type="button" data-theme-set="light" aria-pressed="true">Светлая</button>
+    <button type="button" data-theme-set="dark" aria-pressed="false">Тёмная</button>
+  </div>
+</header>
+
+<main id="content">
+
+<article class="doc">
+  <p class="crumb"><a href="index.html">Компоненты</a> <span aria-hidden="true">/</span> Отметки и факты</p>
+  <h1>Аватар</h1>
+  <p class="classes"><code>.mm-avatar</code> <span class="dim">— badge.css</span></p>
+
+  <section class="sec anat" id="anatomy">
+    <h2>Анатомия</h2>
+    <p class="sec-lead">Живой компонент и его части. Наведите на строку — часть подсветится в образце.</p>
+    <div class="anat-grid">
+      <div class="anat-demo kit-stage"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/andrii-48.jpg" alt="" loading="lazy"></span></div>
+      <ol class="anat-parts">
+        <li data-part="mm-avatar" tabindex="0"><code>.mm-avatar</code><span>Кружок с портретом рядом с именем</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="variants">
+    <h2>Варианты и размеры</h2>
+    <p class="sec-lead">Все состояния, какие у компонента есть, — рядом и с именами. Чего в ките нет, того нет и здесь.</p>
+    <div class="matrix">
+      <figure class="cell">
+        <div class="kit-stage"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/andrii-48.jpg" alt="" loading="lazy"></span></div>
+        <figcaption>Avatar-Default</figcaption>
+      </figure>
+    </div>
+    <table class="sizes">
+      <caption>Размеры прочитаны из <code>badge.css</code> при сборке</caption>
+      <thead><tr><th>Что</th><th>Селектор</th><th>Значение</th></tr></thead>
+      <tbody>
+      <tr><td>Размер</td><td><code class="dim">.mm-avatar</code></td><td><code>24px</code></td></tr>
+      <tr><td>Форма</td><td><code class="dim">.mm-avatar</code></td><td><code>50%</code></td></tr>
+      <tr><td>Обводка</td><td><code class="dim">.mm-avatar</code></td><td><code>--ring-hairline</code> <span class="dim">0 0 0 1px var(--border-hairline)</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sec" id="when">
+    <h2>Когда употреблять</h2>
+    <p>Список чатов, диалог, строка автора на карточке события, «Позвать вдвоём».
+      Кружок — только у лиц: форма говорит «человек» раньше, чем прочитано имя.</p>
+      <p>Снимок обязателен: профиля без фотографии не существует, поэтому состояния
+      «аватар без фото» в наборе нет.</p>
+    <p class="kit-origin"><b>Из витрины:</b> У каждого имени своё лицо: три одинаковых кружка в одной строке читаются как ошибка данных. Размер один — 24px, подпись рядом с именем; крупный портрет в 56px жил в строке человека в выдаче поиска, а с тех пор как человек стал там карточкой (<code>D-64</code>), его нет ни на одном экране, и правило снято из кита.</p>
+  </section>
+
+  <section class="sec" id="rules">
+    <h2>Правило и антиправило</h2>
+    <div class="rules">
+      <div class="rule rule--do">
+        <p class="rule-h">Так</p>
+        <div class="kit-stage"><ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul></div>
+        <p>В строке чата аватар слева, имя и время — в заголовке строки.</p>
+      </div>
+      <div class="rule rule--dont">
+        <p class="rule-h">Не так — возьмите другой компонент</p>
+        <div class="kit-stage"><article class="mm-person">
+          <figure>
+            <p class="mm-photo"><img src="../../ui/img/olena-720.jpg" alt="" loading="lazy"></p>
+            <figcaption class="mm-vh">Photo 1 of 4</figcaption>
+            <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
+            <p class="mm-cardtop"><span class="mm-verified"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg>Verified</span><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span></p>
+          </figure>
+          <section class="mm-person-body" aria-label="Olena, 26">
+            <p class="mm-common">3 common interests</p>
+            <ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li></ul>
+            <h3 class="mm-subhead">Olena, 26</h3>
+            <ul class="mm-signals">
+              <li>6 meetups attended</li>
+              <li>Replies quickly</li>
+            </ul>
+          </section>
+          <a class="mm-cardlink" href="#" aria-label="Olena, 26 — open profile"></a>
+        </article></div>
+        <p>Там, где по человеку принимают решение, кружка мало: в колоде стоит карточка с фото на всю площадь.</p>
+        <p class="rule-go"><a href="person-card.html">Карточка человека &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+</article>
+
+</main>
+
+<footer class="foot">
+  <p>Страницы собраны <code>node scripts/build-docs.mjs</code> из того же набора, что рисует
+  витрину, и одеты <code>design-system/index.css</code>. Размеры прочитаны из
+  <code>design-system/components/*.css</code>: свойство, которого в файле нет, роняет сборку.</p>
+  <p>Источники текста: <code>DESIGN.md</code> · <code>ui/inventory.md</code> ·
+  <code>microcopy.md</code> · <code>voice.md</code> · <code>concept/concept.md</code> ·
+  <code>concept/references.md</code> · <code>CLAUDE.md</code> · <code>DECISIONS.md</code>.</p>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'mm-theme';
+  function theme(t) {
+    if (t === 'dark') root.dataset.theme = 'dark'; else root.removeAttribute('data-theme');
+    document.querySelectorAll('.theme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
+    });
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+  }
+  var saved; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  theme(saved === 'dark' ? 'dark' : 'light');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.theme button');
+    if (b) theme(b.dataset.themeSet);
+  });
+  // Анатомия: наведение на часть подсвечивает её в живом образце.
+  // Без скрипта страница читается по-прежнему — это подсказка, а не способ понять.
+  document.querySelectorAll('.anat').forEach(function (block) {
+    var demo = block.querySelector('.anat-demo');
+    block.querySelectorAll('[data-part]').forEach(function (row) {
+      function mark(on) {
+        var el = demo.querySelector('.' + row.dataset.part);
+        if (el) el.classList.toggle('is-marked', on);
+        row.classList.toggle('is-marked', on);
+      }
+      row.addEventListener('mouseenter', function () { mark(true); });
+      row.addEventListener('mouseleave', function () { mark(false); });
+      row.addEventListener('focusin', function () { mark(true); });
+      row.addEventListener('focusout', function () { mark(false); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

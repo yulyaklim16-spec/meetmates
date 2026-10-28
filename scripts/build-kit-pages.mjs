@@ -216,7 +216,6 @@ ${themeJs()}
 </html>
 `;
 
-writeFileSync(join(OUT, 'shell.html'), shell, 'utf8');
 
 // ═══════════════════════════ kit.html ═══════════════════════════
 
@@ -226,24 +225,29 @@ writeFileSync(join(OUT, 'shell.html'), shell, 'utf8');
 // («Primary-Default-Only icon»). Состояний, которых в ките нет, на витрине
 // не появляется: придуманное состояние — это обещание, которого экран не держит.
 
-// клетка матрицы: образец и его имя
-const cell = (label, html, cls = '') => `      <figure class="kit-cell${cls ? ' ' + cls : ''}">
-        <div class="kit-stage">${html}</div>
-        <figcaption>${label}</figcaption>
+// Клетка, компонент и группа — данные, а не разметка: тот же набор нужен
+// и витрине, и страницам docs/, а показывают они его по-разному.
+const cell = (label, html, cls = '') => ({ label, html, cls });
+const comp = (name, cls, cells, note = '') => ({ name, cls, cells, note });
+const grp = (n, title, lead, cases) => ({ n, title, lead, cases });
+
+// ── рендер витрины: из тех же данных та же разметка, что была ─────────
+const renderCell = (c) => `      <figure class="kit-cell${c.cls ? ' ' + c.cls : ''}">
+        <div class="kit-stage">${c.html}</div>
+        <figcaption>${c.label}</figcaption>
       </figure>`;
 
-// компонент: имя, классы и матрица его состояний
-const comp = (name, cls, cells, note = '') => `  <section class="kit-case">
-    <p class="kit-h"><b>${name}</b><code>${cls}</code></p>
+const renderComp = (c) => `  <section class="kit-case">
+    <p class="kit-h"><b>${c.name}</b><code>${c.cls}</code></p>
     <div class="kit-matrix">
-${cells.join('\n')}
-    </div>${note ? `\n    <p class="kit-note">${note}</p>` : ''}
+${c.cells.map(renderCell).join('\n')}
+    </div>${c.note ? `\n    <p class="kit-note">${c.note}</p>` : ''}
   </section>`;
 
-const grp = (n, title, lead, cases) => `<section class="kit-grp" id="g${n}">
-  <h2 class="kit-grp-h"><span class="kit-n">${n}</span>${title}</h2>
-  <p class="kit-lead">${lead}</p>
-${cases.join('\n')}
+const renderGroup = (g) => `<section class="kit-grp" id="g${g.n}">
+  <h2 class="kit-grp-h"><span class="kit-n">${g.n}</span>${g.title}</h2>
+  <p class="kit-lead">${g.lead}</p>
+${g.cases.map(renderComp).join('\n')}
 </section>`;
 
 // ── заготовки, которые нужны в нескольких клетках ─────────────────────
@@ -670,16 +674,10 @@ const GROUPS = [
   ]),
 ];
 
-// ── список групп: один источник на оглавление, якоря и стили ──────────
-// Разбирается из самой витрины, а не держится вторым списком рядом: оглавление
-// уже один раз отстало от заголовка — в нём стояли «Вкладки и переключатели»,
-// а в группе «Навигация и переключатели». Отстать ему больше не от чего.
-const GRP_LIST = [...GROUPS.join('\n').matchAll(
-  /<section class="kit-grp" id="g(\d+)">\s*<h2 class="kit-grp-h"><span class="kit-n">\d+<\/span>([^<]+)<\/h2>/g)]
-  .map((m) => ({ n: +m[1], title: m[2].trim() }));
-if (GRP_LIST.length !== GROUPS.length) {
-  throw new Error(`разбор групп витрины дал ${GRP_LIST.length} из ${GROUPS.length} — разметка группы изменилась`);
-}
+// ── список групп: прямо из данных ────────────────────────────────────
+// Прежде он разбирался регуляркой из собранной разметки — потому что данных
+// не было, был готовый HTML. Теперь номер и заголовок лежат в самой группе.
+const GRP_LIST = GROUPS.map((g) => ({ n: g.n, title: g.title }));
 const KIT_TOC = GRP_LIST.map((g) => `    <li><a href="#g${g.n}">${g.n} &middot; ${g.title}</a></li>`).join('\n');
 // Якоря одной группы. Подпункт раздела 07 открывает витрину адресом #b-gN
 // и видит только свою группу: тот же приём :target, что у голого вида,
@@ -865,7 +863,7 @@ ${KIT_TOC}
   </ul>
 </div>
 
-${GROUPS.join('\n\n')}
+${GROUPS.map(renderGroup).join('\n\n')}
 
 <div class="kit-top">
   <p>Источники: окрашенные экраны <code>concept/screens/*.html</code> ·
@@ -877,5 +875,12 @@ ${themeJs()}
 </html>
 `;
 
-writeFileSync(join(OUT, 'kit.html'), kit, 'utf8');
-console.log(`ui/kit.html: ${(kit.match(/class="kit-case"/g) || []).length} компонентов · ui/shell.html: три шапки и меню`);
+// Страницы пишутся, когда скрипт запущен сам. Когда его импортируют
+// за данными — build-docs.mjs, — трогать ui/ он не должен.
+if (process.argv[1] && process.argv[1].endsWith('build-kit-pages.mjs')) {
+  writeFileSync(join(OUT, 'shell.html'), shell, 'utf8');
+  writeFileSync(join(OUT, 'kit.html'), kit, 'utf8');
+  console.log(`ui/kit.html: ${(kit.match(/class="kit-case"/g) || []).length} компонентов · ui/shell.html: три шапки и меню`);
+}
+
+export { GROUPS, I, ico };

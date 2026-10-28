@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Многострочное · Дизайн-система MeetMates</title>
+<meta name="description" content="Многострочное — анатомия, варианты, когда употреблять, правило и антиправило.">
+<!--
+  СГЕНЕРИРОВАНО scripts/build-docs.mjs — руками не править.
+  Компоненты на странице живые и одеты ../index.css: это сама система,
+  а не её копия. Размеры прочитаны из components/*.css при сборке.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../index.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="skip" href="#content">К содержимому</a>
+
+<header class="top">
+  <p class="top-name"><a href="index.html">Дизайн-система MeetMates</a></p>
+  <nav class="top-nav" aria-label="Разделы документации">
+    <a href="index.html">Компоненты</a>
+    <a href="why.html">Почему так</a>
+    <a href="../../ui/kit.html">Витрина</a>
+    <a href="../../sections/tokens.html">Токены</a>
+  </nav>
+  <div class="theme" role="group" aria-label="Тема">
+    <button type="button" data-theme-set="light" aria-pressed="true">Светлая</button>
+    <button type="button" data-theme-set="dark" aria-pressed="false">Тёмная</button>
+  </div>
+</header>
+
+<main id="content">
+
+<article class="doc">
+  <p class="crumb"><a href="index.html">Компоненты</a> <span aria-hidden="true">/</span> Поля</p>
+  <h1>Многострочное</h1>
+  <p class="classes"><code>.mm-field--multi</code> <span class="dim">— field.css</span></p>
+
+  <section class="sec anat" id="anatomy">
+    <h2>Анатомия</h2>
+    <p class="sec-lead">Живой компонент и его части. Наведите на строку — часть подсветится в образце.</p>
+    <div class="anat-grid">
+      <div class="anat-demo kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f19">About you</label>
+          <div class="mm-field mm-field--multi"><textarea id="f19" placeholder="What you&rsquo;d like to do with people here"></textarea></div>
+          
+        </div></div>
+      <ol class="anat-parts">
+        <li data-part="mm-field--multi" tabindex="0"><code>.mm-field--multi</code><span>Коробка, а не пилюля: в неё пишут абзац, и форма об этом говорит</span></li>
+        <li data-part="mm-label" tabindex="0"><code>.mm-label</code><span>Подпись сверху — поле высокое, и без неё непонятно, что внутри</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="variants">
+    <h2>Варианты и размеры</h2>
+    <p class="sec-lead">Все состояния, какие у компонента есть, — рядом и с именами. Чего в ките нет, того нет и здесь.</p>
+    <div class="matrix">
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f19">About you</label>
+          <div class="mm-field mm-field--multi"><textarea id="f19" placeholder="What you&rsquo;d like to do with people here"></textarea></div>
+          
+        </div></div>
+        <figcaption>Multi-Default</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f20">About you</label>
+          <div class="mm-field mm-field--multi is-hover"><textarea id="f20" placeholder="What you&rsquo;d like to do with people here"></textarea></div>
+          
+        </div></div>
+        <figcaption>Multi-Hover</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f21">About you</label>
+          <div class="mm-field mm-field--multi is-focus"><textarea id="f21" placeholder="What you&rsquo;d like to do with people here"></textarea></div>
+          
+        </div></div>
+        <figcaption>Multi-Focus</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f22">About you</label>
+          <div class="mm-field mm-field--multi"><textarea id="f22" placeholder="What you&rsquo;d like to do with people here">Moved to Kyiv in March. Board games, long walks on Podil and coffee at the end of it.</textarea></div>
+          <span class="mm-field-note">65 characters left</span>
+        </div></div>
+        <figcaption>Multi-Filled</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f23">About you</label>
+          <div class="mm-field mm-field--multi"><textarea id="f23" placeholder="What you&rsquo;d like to do with people here" disabled></textarea></div>
+          
+        </div></div>
+        <figcaption>Multi-Disabled</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f24">About you</label>
+          <div class="mm-field mm-field--multi mm-field--error"><textarea id="f24" placeholder="What you&rsquo;d like to do with people here">Moved to Kyiv in March. Board games, long walks on Podil and anything with a decent coffee at the end of it, which is most evenings honestly.</textarea></div>
+          <span class="mm-field-note mm-field-note--error">12 characters over the limit</span>
+        </div></div>
+        <figcaption>Multi-Error</figcaption>
+      </figure>
+    </div>
+    <table class="sizes">
+      <caption>Размеры прочитаны из <code>field.css</code> при сборке</caption>
+      <thead><tr><th>Что</th><th>Селектор</th><th>Значение</th></tr></thead>
+      <tbody>
+      <tr><td>Скругление</td><td><code class="dim">.mm-field--multi</code></td><td><code>--radius-md</code> <span class="dim">18px</span></td></tr>
+      <tr><td>Видимая высота</td><td><code class="dim">.mm-field--multi textarea</code></td><td><code>96px</code></td></tr>
+      <tr><td>Поля</td><td><code class="dim">.mm-field--multi</code></td><td><code>--space-12</code> <span class="dim">12px</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sec" id="when">
+    <h2>Когда употреблять</h2>
+    <p>Био до 150 символов (§5.1) и описание события (§5.4). Видно четыре строки,
+      дальше прокрутка.</p>
+      <p>Счётчик остатка — та же строка под полем, что несёт и отказ: иначе при переборе
+      прыгала бы высота.</p>
+    <p class="kit-origin"><b>Из витрины:</b> Коробка, а не пилюля: в неё пишут абзац, и форма об этом говорит. Видно четыре строки, дальше прокрутка. Счётчик остатка — та же строка под полем, что несёт и отказ: иначе при переборе прыгала бы высота (§5.1, био до 150 символов).</p>
+  </section>
+
+  <section class="sec" id="rules">
+    <h2>Правило и антиправило</h2>
+    <div class="rules">
+      <div class="rule rule--do">
+        <p class="rule-h">Так</p>
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f22">About you</label>
+          <div class="mm-field mm-field--multi"><textarea id="f22" placeholder="What you&rsquo;d like to do with people here">Moved to Kyiv in March. Board games, long walks on Podil and coffee at the end of it.</textarea></div>
+          <span class="mm-field-note">65 characters left</span>
+        </div></div>
+        <p>Пока текст в пределах — строка под полем считает остаток, а не ругается.</p>
+      </div>
+      <div class="rule rule--dont">
+        <p class="rule-h">Не так — возьмите другой компонент</p>
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f1">Email</label>
+          <div class="mm-field"><input id="f1" type="email" placeholder="name@example.com"></div>
+          
+        </div></div>
+        <p>Имя, город и почта — одна строка: высокая коробка под них обещает абзац, которого не ждут.</p>
+        <p class="rule-go"><a href="field-text.html">Текстовое &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+</article>
+
+</main>
+
+<footer class="foot">
+  <p>Страницы собраны <code>node scripts/build-docs.mjs</code> из того же набора, что рисует
+  витрину, и одеты <code>design-system/index.css</code>. Размеры прочитаны из
+  <code>design-system/components/*.css</code>: свойство, которого в файле нет, роняет сборку.</p>
+  <p>Источники текста: <code>DESIGN.md</code> · <code>ui/inventory.md</code> ·
+  <code>microcopy.md</code> · <code>voice.md</code> · <code>concept/concept.md</code> ·
+  <code>concept/references.md</code> · <code>CLAUDE.md</code> · <code>DECISIONS.md</code>.</p>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'mm-theme';
+  function theme(t) {
+    if (t === 'dark') root.dataset.theme = 'dark'; else root.removeAttribute('data-theme');
+    document.querySelectorAll('.theme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
+    });
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+  }
+  var saved; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  theme(saved === 'dark' ? 'dark' : 'light');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.theme button');
+    if (b) theme(b.dataset.themeSet);
+  });
+  // Анатомия: наведение на часть подсвечивает её в живом образце.
+  // Без скрипта страница читается по-прежнему — это подсказка, а не способ понять.
+  document.querySelectorAll('.anat').forEach(function (block) {
+    var demo = block.querySelector('.anat-demo');
+    block.querySelectorAll('[data-part]').forEach(function (row) {
+      function mark(on) {
+        var el = demo.querySelector('.' + row.dataset.part);
+        if (el) el.classList.toggle('is-marked', on);
+        row.classList.toggle('is-marked', on);
+      }
+      row.addEventListener('mouseenter', function () { mark(true); });
+      row.addEventListener('mouseleave', function () { mark(false); });
+      row.addEventListener('focusin', function () { mark(true); });
+      row.addEventListener('focusout', function () { mark(false); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -28,6 +28,12 @@ const CONCEPT = [
 ].sort();
 PAGES.push(...CONCEPT);
 
+// Документация системы: страница на компонент, showcase и «Почему так».
+// Их тоже собирает скрипт (build-docs.mjs), и в сборку они идут целиком.
+const DOCS_PAGES = ls(join(ROOT, 'design-system/docs'))
+  .filter((f) => f.endsWith('.html')).sort().map((f) => `design-system/docs/${f}`);
+PAGES.push(...DOCS_PAGES);
+
 // ── база для ссылок на исходники ───────────────────────────────
 // читаем из git, чтобы адрес репозитория не был зашит в скрипт
 function repoBlobBase() {
@@ -106,7 +112,7 @@ for (const rel of ['tokens/tokens.css', 'concept/tokens.css', 'concept/component
 // витрина и экраны одеты одним файлом — design-system/index.css, который
 // подтягивает tokens.css и components/*.css; все три уезжают в dist;
 // ui/kit.css удалён 23.10 после посимвольной сверки — git его помнит
-for (const rel of ['design-system/index.css', 'design-system/tokens.css',
+for (const rel of ['design-system/index.css', 'design-system/tokens.css', 'design-system/docs/docs.css',
   ...readdirSync(join(ROOT, 'design-system/components')).sort().map((f) => `design-system/components/${f}`)]) {
   if (!copyAsset(rel)) {
     console.error(`Нет ${rel} — витрина кита останется без стилей`);

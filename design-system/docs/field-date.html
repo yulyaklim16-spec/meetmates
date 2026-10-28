@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дата рождения · Дизайн-система MeetMates</title>
+<meta name="description" content="Дата рождения — анатомия, варианты, когда употреблять, правило и антиправило.">
+<!--
+  СГЕНЕРИРОВАНО scripts/build-docs.mjs — руками не править.
+  Компоненты на странице живые и одеты ../index.css: это сама система,
+  а не её копия. Размеры прочитаны из components/*.css при сборке.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../index.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="skip" href="#content">К содержимому</a>
+
+<header class="top">
+  <p class="top-name"><a href="index.html">Дизайн-система MeetMates</a></p>
+  <nav class="top-nav" aria-label="Разделы документации">
+    <a href="index.html">Компоненты</a>
+    <a href="why.html">Почему так</a>
+    <a href="../../ui/kit.html">Витрина</a>
+    <a href="../../sections/tokens.html">Токены</a>
+  </nav>
+  <div class="theme" role="group" aria-label="Тема">
+    <button type="button" data-theme-set="light" aria-pressed="true">Светлая</button>
+    <button type="button" data-theme-set="dark" aria-pressed="false">Тёмная</button>
+  </div>
+</header>
+
+<main id="content">
+
+<article class="doc">
+  <p class="crumb"><a href="index.html">Компоненты</a> <span aria-hidden="true">/</span> Поля</p>
+  <h1>Дата рождения</h1>
+  <p class="classes"><code>.mm-dates</code> <span class="dim">— field.css</span></p>
+
+  <section class="sec anat" id="anatomy">
+    <h2>Анатомия</h2>
+    <p class="sec-lead">Живой компонент и его части. Наведите на строку — часть подсветится в образце.</p>
+    <div class="anat-grid">
+      <div class="anat-demo kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field"><input id="f25" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f25">DD</label></div><div class="mm-field"><input id="f26" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f26">MM</label></div><div class="mm-field"><input id="f27" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f27">YYYY</label></div></div>
+          
+        </div></div>
+      <ol class="anat-parts">
+        <li data-part="mm-dates" tabindex="0"><code>.mm-dates</code><span>Три поля в ряд, а не одно с маской: сразу видно, что и куда</span></li>
+        <li data-part="mm-label" tabindex="0"><code>.mm-label</code><span>Подпись одна на все три</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="variants">
+    <h2>Варианты и размеры</h2>
+    <p class="sec-lead">Все состояния, какие у компонента есть, — рядом и с именами. Чего в ките нет, того нет и здесь.</p>
+    <div class="matrix">
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field"><input id="f25" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f25">DD</label></div><div class="mm-field"><input id="f26" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f26">MM</label></div><div class="mm-field"><input id="f27" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f27">YYYY</label></div></div>
+          
+        </div></div>
+        <figcaption>Date-Default</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field is-hover"><input id="f28" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f28">DD</label></div><div class="mm-field is-hover"><input id="f29" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f29">MM</label></div><div class="mm-field is-hover"><input id="f30" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f30">YYYY</label></div></div>
+          
+        </div></div>
+        <figcaption>Date-Hover</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field is-focus"><input id="f31" type="text" inputmode="numeric" placeholder="DD"><label class="mm-vh" for="f31">DD</label></div><div class="mm-field is-focus"><input id="f32" type="text" inputmode="numeric" placeholder="MM"><label class="mm-vh" for="f32">MM</label></div><div class="mm-field is-focus"><input id="f33" type="text" inputmode="numeric" placeholder="YYYY"><label class="mm-vh" for="f33">YYYY</label></div></div>
+          
+        </div></div>
+        <figcaption>Date-Focus</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field"><input id="f34" type="text" inputmode="numeric" placeholder="DD" value="14"><label class="mm-vh" for="f34">DD</label></div><div class="mm-field"><input id="f35" type="text" inputmode="numeric" placeholder="MM" value="03"><label class="mm-vh" for="f35">MM</label></div><div class="mm-field"><input id="f36" type="text" inputmode="numeric" placeholder="YYYY" value="1998"><label class="mm-vh" for="f36">YYYY</label></div></div>
+          
+        </div></div>
+        <figcaption>Date-Filled</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field"><input id="f37" type="text" inputmode="numeric" placeholder="DD" disabled><label class="mm-vh" for="f37">DD</label></div><div class="mm-field"><input id="f38" type="text" inputmode="numeric" placeholder="MM" disabled><label class="mm-vh" for="f38">MM</label></div><div class="mm-field"><input id="f39" type="text" inputmode="numeric" placeholder="YYYY" disabled><label class="mm-vh" for="f39">YYYY</label></div></div>
+          
+        </div></div>
+        <figcaption>Date-Disabled</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field mm-field--error"><input id="f40" type="text" inputmode="numeric" placeholder="DD" value="14"><label class="mm-vh" for="f40">DD</label></div><div class="mm-field mm-field--error"><input id="f41" type="text" inputmode="numeric" placeholder="MM" value="03"><label class="mm-vh" for="f41">MM</label></div><div class="mm-field mm-field--error"><input id="f42" type="text" inputmode="numeric" placeholder="YYYY" value="2012"><label class="mm-vh" for="f42">YYYY</label></div></div>
+          <span class="mm-field-note mm-field-note--error">You need to be 18 or older</span>
+        </div></div>
+        <figcaption>Date-Error</figcaption>
+      </figure>
+    </div>
+    <table class="sizes">
+      <caption>Размеры прочитаны из <code>field.css</code> при сборке</caption>
+      <thead><tr><th>Что</th><th>Селектор</th><th>Значение</th></tr></thead>
+      <tbody>
+      <tr><td>Просвет между полями</td><td><code class="dim">.mm-dates</code></td><td><code>--space-8</code> <span class="dim">8px</span></td></tr>
+      <tr><td>Высота поля</td><td><code class="dim">.mm-field</code></td><td><code>44px</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sec" id="when">
+    <h2>Когда употреблять</h2>
+    <p>Возраст спрашивается один раз и здесь: гейт 18+ стоит на настройке профиля,
+      отдельного экрана ему не нужно (<code>D-38</code>).</p>
+      <p>Отказ говорит правило, а не «неверная дата»: <code>You need to be 18 or older</code>.</p>
+    <p class="kit-origin"><b>Из витрины:</b> Три поля, а не одно с маской: маску не видно, пока в неё не попал, а здесь сразу видно, что и куда. Возраст спрашивается один раз и здесь — гейт 18+ стоит на настройке профиля, отдельного экрана ему не нужно (<code>D-38</code>). Отказ говорит правило, а не «неверная дата».</p>
+  </section>
+
+  <section class="sec" id="rules">
+    <h2>Правило и антиправило</h2>
+    <div class="rules">
+      <div class="rule rule--do">
+        <p class="rule-h">Так</p>
+        <div class="kit-stage"><div class="kit-block">
+          <span class="mm-label">Date of birth</span>
+          <div class="mm-dates"><div class="mm-field mm-field--error"><input id="f40" type="text" inputmode="numeric" placeholder="DD" value="14"><label class="mm-vh" for="f40">DD</label></div><div class="mm-field mm-field--error"><input id="f41" type="text" inputmode="numeric" placeholder="MM" value="03"><label class="mm-vh" for="f41">MM</label></div><div class="mm-field mm-field--error"><input id="f42" type="text" inputmode="numeric" placeholder="YYYY" value="2012"><label class="mm-vh" for="f42">YYYY</label></div></div>
+          <span class="mm-field-note mm-field-note--error">You need to be 18 or older</span>
+        </div></div>
+        <p>Отказ называет условие продукта, и по нему понятно, что делать дальше — а делать нечего, и это тоже ответ.</p>
+      </div>
+      <div class="rule rule--dont">
+        <p class="rule-h">Не так — возьмите другой компонент</p>
+        <div class="kit-stage"><div class="kit-block">
+          <label class="mm-label" for="f1">Email</label>
+          <div class="mm-field"><input id="f1" type="email" placeholder="name@example.com"></div>
+          
+        </div></div>
+        <p>Одно поле с маской не берут: маску не видно, пока в неё не попал.</p>
+        <p class="rule-go"><a href="field-text.html">Текстовое &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+</article>
+
+</main>
+
+<footer class="foot">
+  <p>Страницы собраны <code>node scripts/build-docs.mjs</code> из того же набора, что рисует
+  витрину, и одеты <code>design-system/index.css</code>. Размеры прочитаны из
+  <code>design-system/components/*.css</code>: свойство, которого в файле нет, роняет сборку.</p>
+  <p>Источники текста: <code>DESIGN.md</code> · <code>ui/inventory.md</code> ·
+  <code>microcopy.md</code> · <code>voice.md</code> · <code>concept/concept.md</code> ·
+  <code>concept/references.md</code> · <code>CLAUDE.md</code> · <code>DECISIONS.md</code>.</p>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'mm-theme';
+  function theme(t) {
+    if (t === 'dark') root.dataset.theme = 'dark'; else root.removeAttribute('data-theme');
+    document.querySelectorAll('.theme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
+    });
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+  }
+  var saved; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  theme(saved === 'dark' ? 'dark' : 'light');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.theme button');
+    if (b) theme(b.dataset.themeSet);
+  });
+  // Анатомия: наведение на часть подсвечивает её в живом образце.
+  // Без скрипта страница читается по-прежнему — это подсказка, а не способ понять.
+  document.querySelectorAll('.anat').forEach(function (block) {
+    var demo = block.querySelector('.anat-demo');
+    block.querySelectorAll('[data-part]').forEach(function (row) {
+      function mark(on) {
+        var el = demo.querySelector('.' + row.dataset.part);
+        if (el) el.classList.toggle('is-marked', on);
+        row.classList.toggle('is-marked', on);
+      }
+      row.addEventListener('mouseenter', function () { mark(true); });
+      row.addEventListener('mouseleave', function () { mark(false); });
+      row.addEventListener('focusin', function () { mark(true); });
+      row.addEventListener('focusout', function () { mark(false); });
+    });
+  });
+})();
+</script>
+</body>
+</html>
