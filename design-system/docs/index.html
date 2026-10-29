@@ -47,6 +47,19 @@
   Композиции из этих компонентов, которые повторяются на экранах, — <a href="patterns.html">«Паттерны»</a>;
   откуда взялся сам визуальный язык — <a href="why.html">«Почему так»</a>.</p>
 
+  <nav class="tabs" aria-label="Группы компонентов">
+    <a href="#g1"><span class="tabs-n">1</span>Кнопки <i>5</i></a>
+    <a href="#g2"><span class="tabs-n">2</span>Поля <i>6</i></a>
+    <a href="#g3"><span class="tabs-n">3</span>Навигация и переключатели <i>2</i></a>
+    <a href="#g4"><span class="tabs-n">4</span>Карточки и списки <i>5</i></a>
+    <a href="#g5"><span class="tabs-n">5</span>Отметки и факты <i>6</i></a>
+    <a href="#g6"><span class="tabs-n">6</span>Состояния экрана <i>2</i></a>
+    <a href="#g7"><span class="tabs-n">7</span>Загрузка <i>1</i></a>
+    <a href="#g8"><span class="tabs-n">8</span>Чат <i>1</i></a>
+    <a href="#g9"><span class="tabs-n">9</span>Оболочка <i>1</i></a>
+    <a href="#g10"><span class="tabs-n">10</span>Онбординг и слои <i>4</i></a>
+  </nav>
+
   <section class="grp" id="g1">
     <h2><span class="grp-n">1</span>Кнопки</h2>
     <div class="cards">
@@ -439,6 +452,46 @@
     var b = e.target.closest && e.target.closest('.theme button');
     if (b) theme(b.dataset.themeSet);
   });
+  // Ряд оглавления помечает ту группу, что сейчас на экране. Это подсказка:
+  // без скрипта ссылки работают по-прежнему, просто без отметки.
+  var tabs = [].slice.call(document.querySelectorAll('.tabs a[href^="#"]'));
+  if (tabs.length) {
+    var LINE = 184;  // линия чуть ниже липкого ряда: по ней и считаем
+    var blocks = [];
+    tabs.forEach(function (a) {
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if (el) blocks.push({ tab: a, el: el });
+    });
+    var mark = function () {
+      // Высота берётся по документу, а не по body: у body своя высота,
+        // и по ней «мы внизу» выходило всегда, отчего горел последний пункт.
+        var docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+        var atBottom = window.innerHeight + window.scrollY >= docH - 4;
+      var active = blocks[0];
+      if (atBottom) {
+        active = blocks[blocks.length - 1];
+      } else {
+        for (var i = 0; i < blocks.length; i++) {
+          if (blocks[i].el.getBoundingClientRect().top <= LINE) active = blocks[i];
+        }
+      }
+      tabs.forEach(function (a) { a.removeAttribute('aria-current'); });
+      if (active) active.tab.setAttribute('aria-current', 'true');
+    };
+    var waiting = false;
+    var onScroll = function () {
+      if (waiting) return;
+      waiting = true;
+      requestAnimationFrame(function () { waiting = false; mark(); });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    // Снимки грузятся лениво и меняют высоту блоков: после загрузки
+    // отметку надо пересчитать, иначе она останется от прежней раскладки.
+    window.addEventListener('load', onScroll);
+    mark();
+  }
+
   // Анатомия: наведение на часть подсвечивает её в живом образце.
   // Без скрипта страница читается по-прежнему — это подсказка, а не способ понять.
   document.querySelectorAll('.anat').forEach(function (block) {

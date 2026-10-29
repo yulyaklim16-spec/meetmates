@@ -970,6 +970,46 @@ ${body}
     var b = e.target.closest && e.target.closest('.theme button');
     if (b) theme(b.dataset.themeSet);
   });
+  // Ряд оглавления помечает ту группу, что сейчас на экране. Это подсказка:
+  // без скрипта ссылки работают по-прежнему, просто без отметки.
+  var tabs = [].slice.call(document.querySelectorAll('.tabs a[href^="#"]'));
+  if (tabs.length) {
+    var LINE = 184;  // линия чуть ниже липкого ряда: по ней и считаем
+    var blocks = [];
+    tabs.forEach(function (a) {
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if (el) blocks.push({ tab: a, el: el });
+    });
+    var mark = function () {
+      // Высота берётся по документу, а не по body: у body своя высота,
+        // и по ней «мы внизу» выходило всегда, отчего горел последний пункт.
+        var docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+        var atBottom = window.innerHeight + window.scrollY >= docH - 4;
+      var active = blocks[0];
+      if (atBottom) {
+        active = blocks[blocks.length - 1];
+      } else {
+        for (var i = 0; i < blocks.length; i++) {
+          if (blocks[i].el.getBoundingClientRect().top <= LINE) active = blocks[i];
+        }
+      }
+      tabs.forEach(function (a) { a.removeAttribute('aria-current'); });
+      if (active) active.tab.setAttribute('aria-current', 'true');
+    };
+    var waiting = false;
+    var onScroll = function () {
+      if (waiting) return;
+      waiting = true;
+      requestAnimationFrame(function () { waiting = false; mark(); });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    // Снимки грузятся лениво и меняют высоту блоков: после загрузки
+    // отметку надо пересчитать, иначе она останется от прежней раскладки.
+    window.addEventListener('load', onScroll);
+    mark();
+  }
+
   // Анатомия: наведение на часть подсвечивает её в живом образце.
   // Без скрипта страница читается по-прежнему — это подсказка, а не способ понять.
   document.querySelectorAll('.anat').forEach(function (block) {
@@ -1132,6 +1172,10 @@ const indexPage = () => {
   Композиции из этих компонентов, которые повторяются на экранах, — <a href="patterns.html">«Паттерны»</a>;
   откуда взялся сам визуальный язык — <a href="why.html">«Почему так»</a>.</p>
 
+  <nav class="tabs" aria-label="Группы компонентов">
+${GROUPS.map((g) => `    <a href="#g${g.n}"><span class="tabs-n">${g.n}</span>${esc(g.title)} <i>${g.cases.length}</i></a>`).join('\n')}
+  </nav>
+
 ${GROUPS.map((g) => `  <section class="grp" id="g${g.n}">
     <h2><span class="grp-n">${g.n}</span>${esc(g.title)}</h2>
     <div class="cards">
@@ -1174,6 +1218,10 @@ const patternsPage = () => {
   которая повторяется: шапка экрана, лента карточек, пустое состояние с выходом.
   Здесь только те композиции, которые <b>уже стоят на трёх и более экранах</b>, —
   и у каждой эти экраны названы.</p>
+
+  <nav class="tabs" aria-label="Паттерны">
+${PATTERNS.map((pt) => `    <a href="#${pt.slug}">${esc(pt.name)} <i>${pt.screens.length}</i></a>`).join('\n')}
+  </nav>
 
   <section class="sec">
     <h2>Когда брать паттерн, а когда отдельные компоненты</h2>
@@ -1419,6 +1467,31 @@ h2 { margin: 0 0 12px; font-size: 22px; line-height: 1.2; letter-spacing: -.02em
 .lede b { color: var(--ink); }
 .dim { color: var(--dim); }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
+
+/* Оглавление лентой: какие группы есть, видно до прокрутки. Ряд липнет
+   под шапку — с ним можно уйти в любую группу с любого места страницы.
+   Текущая помечается при прокрутке; без скрипта ряд остаётся обычными
+   ссылками и работает так же. */
+.tabs {
+  position: sticky; top: 57px; z-index: 4;
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin: 0 0 32px; padding: 10px 0;
+  background: var(--page);
+}
+.tabs a {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  padding: 7px 12px; border-radius: 999px;
+  border: 1px solid var(--edge); background: var(--paper);
+  color: var(--dim); font-size: 13px; text-decoration: none;
+}
+.tabs a:hover { color: var(--ink); border-color: var(--mark); }
+.tabs a[aria-current="true"] { color: var(--ink); border-color: var(--mark); background: color-mix(in srgb, var(--mark) 8%, var(--paper)); }
+.tabs-n { font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
+.tabs i { font-style: normal; font-size: 11px; color: var(--dim); }
+
+/* Якорь не заезжает под шапку и липкий ряд. Запас считан по худшему
+   случаю: десять табов переносятся на две строки, и ряд с полями занимает 100px. */
+.grp, .pat { scroll-margin-top: 176px; }
 
 .sec { margin: 0 0 48px; }
 .sec p { max-width: 72ch; }

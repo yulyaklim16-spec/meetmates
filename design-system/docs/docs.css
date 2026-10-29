@@ -62,6 +62,31 @@ h2 { margin: 0 0 12px; font-size: 22px; line-height: 1.2; letter-spacing: -.02em
 .dim { color: var(--dim); }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
 
+/* Оглавление лентой: какие группы есть, видно до прокрутки. Ряд липнет
+   под шапку — с ним можно уйти в любую группу с любого места страницы.
+   Текущая помечается при прокрутке; без скрипта ряд остаётся обычными
+   ссылками и работает так же. */
+.tabs {
+  position: sticky; top: 57px; z-index: 4;
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin: 0 0 32px; padding: 10px 0;
+  background: var(--page);
+}
+.tabs a {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  padding: 7px 12px; border-radius: 999px;
+  border: 1px solid var(--edge); background: var(--paper);
+  color: var(--dim); font-size: 13px; text-decoration: none;
+}
+.tabs a:hover { color: var(--ink); border-color: var(--mark); }
+.tabs a[aria-current="true"] { color: var(--ink); border-color: var(--mark); background: color-mix(in srgb, var(--mark) 8%, var(--paper)); }
+.tabs-n { font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
+.tabs i { font-style: normal; font-size: 11px; color: var(--dim); }
+
+/* Якорь не заезжает под шапку и липкий ряд. Запас считан по худшему
+   случаю: десять табов переносятся на две строки, и ряд с полями занимает 100px. */
+.grp, .pat { scroll-margin-top: 176px; }
+
 .sec { margin: 0 0 48px; }
 .sec p { max-width: 72ch; }
 .sec-lead { margin: 0 0 16px; color: var(--dim); font-size: 14px; }

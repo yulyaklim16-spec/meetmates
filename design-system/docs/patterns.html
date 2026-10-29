@@ -44,6 +44,18 @@
   Здесь только те композиции, которые <b>уже стоят на трёх и более экранах</b>, —
   и у каждой эти экраны названы.</p>
 
+  <nav class="tabs" aria-label="Паттерны">
+    <a href="#action-pair">Пара действий <i>8</i></a>
+    <a href="#bottom-nav">Нижнее меню <i>10</i></a>
+    <a href="#empty-state">Состояние вместо содержимого <i>9</i></a>
+    <a href="#event-feed">Лента карточек события <i>4</i></a>
+    <a href="#exit-link">Выход в соседний контур <i>10</i></a>
+    <a href="#list-loading">Заглушка вместо списка <i>6</i></a>
+    <a href="#photo-overlay">Знак поверх снимка <i>7</i></a>
+    <a href="#row-list">Список строк <i>3</i></a>
+    <a href="#screen-header">Шапка экрана <i>10</i></a>
+  </nav>
+
   <section class="sec">
     <h2>Когда брать паттерн, а когда отдельные компоненты</h2>
     <div class="pat-when">
@@ -372,6 +384,46 @@
     var b = e.target.closest && e.target.closest('.theme button');
     if (b) theme(b.dataset.themeSet);
   });
+  // Ряд оглавления помечает ту группу, что сейчас на экране. Это подсказка:
+  // без скрипта ссылки работают по-прежнему, просто без отметки.
+  var tabs = [].slice.call(document.querySelectorAll('.tabs a[href^="#"]'));
+  if (tabs.length) {
+    var LINE = 184;  // линия чуть ниже липкого ряда: по ней и считаем
+    var blocks = [];
+    tabs.forEach(function (a) {
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if (el) blocks.push({ tab: a, el: el });
+    });
+    var mark = function () {
+      // Высота берётся по документу, а не по body: у body своя высота,
+        // и по ней «мы внизу» выходило всегда, отчего горел последний пункт.
+        var docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+        var atBottom = window.innerHeight + window.scrollY >= docH - 4;
+      var active = blocks[0];
+      if (atBottom) {
+        active = blocks[blocks.length - 1];
+      } else {
+        for (var i = 0; i < blocks.length; i++) {
+          if (blocks[i].el.getBoundingClientRect().top <= LINE) active = blocks[i];
+        }
+      }
+      tabs.forEach(function (a) { a.removeAttribute('aria-current'); });
+      if (active) active.tab.setAttribute('aria-current', 'true');
+    };
+    var waiting = false;
+    var onScroll = function () {
+      if (waiting) return;
+      waiting = true;
+      requestAnimationFrame(function () { waiting = false; mark(); });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    // Снимки грузятся лениво и меняют высоту блоков: после загрузки
+    // отметку надо пересчитать, иначе она останется от прежней раскладки.
+    window.addEventListener('load', onScroll);
+    mark();
+  }
+
   // Анатомия: наведение на часть подсвечивает её в живом образце.
   // Без скрипта страница читается по-прежнему — это подсказка, а не способ понять.
   document.querySelectorAll('.anat').forEach(function (block) {
