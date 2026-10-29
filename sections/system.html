@@ -375,6 +375,7 @@ footer p { max-width: 72ch; }
         <nav class="subtabs" aria-label="Части раздела">
           <a href="#package" data-spy="package" aria-current="true">Пакет</a>
           <a href="#components" data-spy="components">Компоненты</a>
+          <a href="#patterns" data-spy="patterns">Паттерны</a>
           <a href="#page" data-spy="page">Страница компонента</a>
           <a href="#why" data-spy="why">Почему так</a>
           <a href="#rules" data-spy="rules">Правила, которые держат систему</a>
@@ -470,6 +471,20 @@ footer p { max-width: 72ch; }
       </ul>
     </section>
 
+    <section class="block" id="patterns">
+      <h2>Паттерны</h2>
+<p><strong>Компонент — один кирпич, паттерн — кладка</strong> <code class="dcode">D-94</code>. Восемь композиций, которые повторяются на трёх и более экранах: шапка экрана, лента карточек события, список строк, состояние вместо содержимого, заглушка вместо списка, выход в соседний контур, пара действий и знак поверх снимка.</p>
+<p><strong>Порог — три экрана, и он проверяется.</strong> У каждого паттерна названы экраны, где он уже стоит; сборка роняется, если экранов меньше трёх, если названного экрана нет в <code>concept/screens/</code>, если в разметке есть класс не из кита, если у паттерна свои стили или если ядро стоит не на всех названных экранах. Последнее и есть защита от выдуманного паттерна: сказать «так везде» и не показать где — не выйдет.</p>
+<p><strong>Своих правил вида паттерн не добавляет.</strong> В файле только разметка из классов кита и шапка: имя, экраны, ядро, варианты, когда брать и когда не брать.</p>
+      <ul class="live">
+        <li>
+          <p class="framelink"><a href="../design-system/docs/patterns.html">Паттерны — открыть страницей &rarr;</a></p>
+          <p class="cap">Восемь кладок, которые повторяются на трёх и более экранах — у каждой названы экраны</p>
+          <iframe src="../design-system/docs/patterns.html#bare" loading="lazy" scrolling="no" title="Паттерны"></iframe>
+        </li>
+      </ul>
+    </section>
+
     <section class="block" id="page">
       <h2>Страница компонента</h2>
 <p>Четыре части отвечают на четыре разных вопроса, и порядок у них не случайный.</p>
@@ -552,7 +567,7 @@ footer p { max-width: 72ch; }
 
 <script>
 (function () {
-  var ids = ["package","components","page","why","rules","checks","open"];
+  var ids = ["package","components","patterns","page","why","rules","checks","open"];
   var links = {};
   var all = document.querySelectorAll('.subtabs a[data-spy]');
   for (var i = 0; i < all.length; i++) links[all[i].getAttribute('data-spy')] = all[i];

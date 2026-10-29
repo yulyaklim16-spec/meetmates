@@ -1,0 +1,33 @@
+<!--
+  Паттерн: Состояние вместо содержимого
+  Экраны: chats, deck, feed, invite, match, my-events, plan, search, verify
+  Из чего: mm-stretch, mm-state, mm-state-ico, mm-actions, mm-btn
+  Когда брать: показывать нечего или показать не вышло — пусто, сбой, ждём
+    чужого решения, подтверждено. Один блок на все четыре смысла.
+  Когда не брать: содержимое есть, а сказать надо что-то рядом с ним. Тогда
+    это примечание под блоком или плашка итога, а не состояние вместо экрана.
+-->
+
+<!-- Пусто. Выход обязателен: тупиков в продукте нет (правило 10).
+     Скрытый заголовок называет зону, а не повторяет кнопку. -->
+<section class="mm-stretch" aria-labelledby="p-empty">
+  <h2 id="p-empty" class="mm-vh">My events</h2>
+  <article class="mm-state">
+    <span class="mm-state-ico" data-ico="state-empty" aria-hidden="true"></span>
+    <h3>No events yet</h3>
+    <p>Events you post and events you join will show up here &mdash; along with the ones that already happened.</p>
+    <p class="mm-actions"><button type="button" class="mm-btn mm-btn--primary">Post an event</button></p>
+  </article>
+</section>
+
+<!-- Сбой. Тот же блок с role="alert": скринридер объявляет его сам,
+     а человек видит причину и повтор, а не «что-то пошло не так». -->
+<section class="mm-stretch" aria-labelledby="p-error">
+  <h2 id="p-error" class="mm-vh">Status</h2>
+  <article class="mm-state mm-state--alert" role="alert">
+    <span class="mm-state-ico" data-ico="state-alert" aria-hidden="true"></span>
+    <h3>Couldn&rsquo;t load events nearby</h3>
+    <p>The connection dropped. Your own events and requests are safe.</p>
+    <p class="mm-actions"><button type="button" class="mm-btn mm-btn--primary">Try again</button></p>
+  </article>
+</section>

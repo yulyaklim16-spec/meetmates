@@ -1,0 +1,29 @@
+<!--
+  Паттерн: Знак поверх снимка
+  Экраны: deck, feed, invite, my-events, my-profile, plan, profile
+  Из чего: mm-cardtop
+  Варианты: mm-photo и mm-cover — снимок человека и обложка события;
+    mm-chip, mm-verified, mm-pager — то, что кладут поверх
+  Когда брать: факт относится к самому снимку и читается вместе с ним —
+    далеко ли идти, проверен ли человек, сколько ещё кадров.
+  Снимок показан в своём контейнере — карточке человека: накладки
+    позиционируются ею, и вне карточки паттерн не живёт.
+  Когда не брать: факт относится к тексту под снимком — место, время, места.
+    Это строка фактов, и на фотографию она не лезет.
+  На снимке события знак один — расстояние: `Verified` ставится там, где
+    рядом виден человек (D-66). Кружки пагинации лежат на самом снимке,
+    внизу по центру: полосы под фотографией отнимали у карточки строку.
+-->
+
+<!-- Карточка человека: проверка и расстояние сверху, счёт кадров снизу -->
+<article class="mm-person">
+  <figure>
+  <p class="mm-photo"><img data-img="olena-720" alt="" loading="lazy"></p>
+  <figcaption class="mm-vh">Photo 1 of 4</figcaption>
+  <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
+  <p class="mm-cardtop">
+    <span class="mm-verified"><span class="mm-ico" data-ico="verified" aria-hidden="true"></span>Verified</span>
+    <span class="mm-chip"><span class="mm-ico" data-ico="pin" aria-hidden="true"></span>~2 km</span>
+  </p>
+  </figure>
+</article>

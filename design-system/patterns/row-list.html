@@ -1,0 +1,39 @@
+<!--
+  Паттерн: Список строк
+  Экраны: chats, my-profile, search
+  Из чего: mm-list, mm-row, mm-row-head
+  Варианты: mm-meta — время и счётчик справа; mm-facts — вторая строка;
+    mm-avatar и mm-thumb — лицо кругом, обложка квадратом
+  Когда брать: экран отвечает на «что у меня есть» или «что нашлось». Строка —
+    инструмент «найти и перейти»: заголовок, время справа, факты второй строкой.
+  Когда не брать: по снимку принимают решение. Тогда это карточка во всю
+    ширину, а не строка с миниатюрой.
+  Форма миниатюры говорит, что нашлось, раньше имени: у человека круг,
+    у события — скруглённый квадрат (D-70).
+-->
+
+<!-- Строка чата: аватар внутри строки фактов, время и непрочитанные справа -->
+<ul class="mm-list">
+  <li><a class="mm-row" href="#">
+    <span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span>
+    <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img data-img="olena-112" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span>
+  </a></li>
+</ul>
+
+<!-- Строка выдачи: миниатюра слева, действий нет — тап открывает объект -->
+<ul class="mm-list">
+  <li><a class="mm-row mm-row--media" href="#">
+    <span class="mm-thumb" aria-hidden="true"><img data-img="ev-games" alt="" loading="lazy"></span>
+    <span class="mm-row-body">
+      <span class="mm-row-head"><b>Board games</b></span>
+      <span class="mm-facts">26 Sep &middot; 18:00 &middot; Kyiv Games Club &middot; ~3 km &middot; 1 spot left</span>
+    </span>
+  </a></li>
+  <li><a class="mm-row mm-row--media" href="#">
+    <span class="mm-thumb mm-thumb--round" aria-hidden="true"><img data-img="olena-112" alt="" loading="lazy"></span>
+    <span class="mm-row-body">
+      <span class="mm-row-head"><b>Olena, 27</b></span>
+      <span class="mm-facts">3 common interests &middot; ~2 km</span>
+    </span>
+  </a></li>
+</ul>

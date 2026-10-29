@@ -39,7 +39,8 @@ const kitCss = compFiles.map((f) => read('design-system/components/' + f)).join(
 const classCount = new Set([...kitCss.matchAll(/\.(mm-[a-z0-9-]+)/g)].map((m) => m[1])).size;
 
 const docsFiles = readdirSync(join(ROOT, 'design-system/docs')).filter((f) => f.endsWith('.html')).sort();
-const compPages = docsFiles.filter((f) => f !== 'index.html' && f !== 'why.html');
+// Страницы компонентов — всё, кроме трёх общих: showcase, паттерны и «почему так»
+const compPages = docsFiles.filter((f) => !['index.html', 'why.html', 'patterns.html'].includes(f));
 if (!compPages.length) throw new Error('в design-system/docs нет страниц компонентов — раздел нечего показывать');
 
 // ── живые рамки ───────────────────────────────────────────────────────
@@ -96,6 +97,11 @@ const TABS = [
     id: 'components',
     title: 'Компоненты',
     html: live([docFrame('index.html', 'Showcase компонентов', 'Тридцать три компонента живыми — те же классы и тот же файл стилей, что в продукте')]) + '\n' + pageList,
+  },
+  {
+    id: 'patterns',
+    title: 'Паттерны',
+    html: live([docFrame('patterns.html', 'Паттерны', 'Восемь кладок, которые повторяются на трёх и более экранах — у каждой названы экраны')]),
   },
   {
     id: 'page',

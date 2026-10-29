@@ -18,9 +18,9 @@
 //
 // Запуск: node scripts/build-docs.mjs
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { GROUPS } from './build-kit-pages.mjs';
+import { GROUPS, I } from './build-kit-pages.mjs';
 
 const ROOT = process.cwd();
 const OUT = join(ROOT, 'design-system/docs');
@@ -805,6 +805,76 @@ const DOCS = [
   },
 ];
 
+
+// Склонение числа: «3 экрана», а не «3 экранов» — страницу читают люди.
+const plural = (n, one, few, many) => {
+  const m10 = n % 10, m100 = n % 100;
+  const word = m10 === 1 && m100 !== 11 ? one : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? few : many;
+  return n + ' ' + word;
+};
+
+// ── паттерны: композиции, которые стоят на трёх и более экранах ───────
+// Файл паттерна — источник: здесь он только читается и проверяется.
+const PATTERNS_DIR = join(ROOT, 'design-system/patterns');
+const SCREENS_DIR = join(ROOT, 'concept/screens');
+
+const screenPages = readdirSync(SCREENS_DIR).filter((f) => f.endsWith('.html'));
+const screenExists = (name) => screenPages.some((f) => f === `${name}.html` || f.startsWith(`${name}-`));
+const screenHtml = (name) => screenPages.filter((f) => f === `${name}.html` || f.startsWith(`${name}-`))
+  .map((f) => readFileSync(join(SCREENS_DIR, f), 'utf8')).join('\n');
+
+// все классы кита: по ним проверяется, что паттерн собран из имеющегося
+const KIT_CLASSES = new Set(
+  readdirSync(CSS_DIR).filter((f) => f.endsWith('.css'))
+    .flatMap((f) => [...readFileSync(join(CSS_DIR, f), 'utf8').matchAll(/\.(mm-[a-z0-9-]+|is-[a-z-]+)/g)].map((m) => m[1])),
+);
+
+const PATTERNS = readdirSync(PATTERNS_DIR).filter((f) => f.endsWith('.html')).sort().map((file) => {
+  const raw = readFileSync(join(PATTERNS_DIR, file), 'utf8');
+  const head = raw.match(/<!--([\s\S]*?)-->/);
+  if (!head) throw new Error(`${file}: нет шапки с описанием паттерна`);
+  const field = (name) => {
+    const m = head[1].match(new RegExp(`${name}:\\s*([\\s\\S]*?)(?=\\n\\s*[А-ЯЁA-Z][а-яёa-z ]+:|$)`));
+    return m ? m[1].trim().replace(/\s*\n\s*/g, ' ') : null;
+  };
+  const name = field('Паттерн');
+  const screens = (field('Экраны') || '').split(',').map((x) => x.trim()).filter(Boolean);
+  const parts = (field('Из чего') || '').split(',').map((x) => x.trim()).filter(Boolean);
+  const variants = field('Варианты');
+  const take = field('Когда брать');
+  const avoid = field('Когда не брать');
+  if (!name || !take || !avoid) throw new Error(`${file}: в шапке нет имени, «когда брать» или «когда не брать»`);
+
+  // 1. три экрана — иначе это не паттерн
+  if (screens.length < 3) throw new Error(`${file}: названо ${screens.length} экрана, а паттерн начинается с трёх`);
+  // 2. экран обязан существовать
+  for (const sc of screens) if (!screenExists(sc)) throw new Error(`${file}: экрана ${sc} нет в concept/screens`);
+
+  const markup = raw.slice(head.index + head[0].length).trim();
+  // 3. классы — только из кита
+  const used = new Set([...markup.matchAll(/class="([^"]+)"/g)].flatMap((m) => m[1].split(/\s+/)));
+  const stranger = [...used].filter((c) => !KIT_CLASSES.has(c));
+  if (stranger.length) throw new Error(`${file}: классов нет в ките — ${stranger.join(', ')}`);
+  // 4. своих стилей у паттерна не бывает
+  if (/<style|style="/.test(markup)) throw new Error(`${file}: у паттерна свои стили, а он сборка из кита`);
+  // 5. ядро обязано стоять на ВСЕХ названных экранах: то, что есть не везде,
+  //    живёт в «Вариантах» — оно часть паттерна, но не то, без чего он не он
+  for (const part of parts) {
+    const seen = screens.filter((sc) => new RegExp(`\\b${part}\\b`).test(screenHtml(sc)));
+    if (seen.length < screens.length) {
+      throw new Error(`${file}: ядро .${part} стоит на ${seen.length} из ${screens.length} экранов — это вариант, а не ядро`);
+    }
+  }
+  return { file, slug: file.replace('.html', ''), name, screens, parts, variants, take, avoid, markup };
+});
+
+// Разметка паттерна живёт без иконок и снимков: data-ico и data-img
+// подставляются здесь, из того же набора, что у витрины и экранов.
+const dressPattern = (html) => html
+  .replace(/<span class="mm-ico" data-ico="([a-z-]+)"([^>]*)><\/span>/g,
+    (m, n, rest) => `<span class="mm-ico"${rest}>${I[n] || ''}</span>`)
+  .replace(/<img data-img="([a-z0-9-]+)"/g, '<img src="../../ui/img/$1.jpg"');
+
 // ── проверки, которые держат страницы честными ───────────────────────
 for (const d of DOCS) {
   const demo = pick(...d.demo);
@@ -850,6 +920,7 @@ const page = ({ title, lead, body, here }) => `<!doctype html>
   <p class="top-name"><a href="index.html">Дизайн-система MeetMates</a></p>
   <nav class="top-nav" aria-label="Разделы документации">
     <a href="index.html"${here === 'index' ? ' aria-current="page"' : ''}>Компоненты</a>
+    <a href="patterns.html"${here === 'patterns' ? ' aria-current="page"' : ''}>Паттерны</a>
     <a href="why.html"${here === 'why' ? ' aria-current="page"' : ''}>Почему так</a>
     <a href="../../ui/kit.html">Витрина</a>
     <a href="../../sections/tokens.html">Токены</a>
@@ -1053,7 +1124,8 @@ const indexPage = () => {
   Поменяется компонент, поменяется и эта страница; соврать ей нечем.</p>
   <p class="lede">У каждого своя страница из четырёх частей: <b>анатомия</b> с подписями частей,
   <b>варианты и размеры</b>, <b>когда употреблять</b> и <b>правило с антиправилом</b>.
-  Откуда взялся сам визуальный язык — <a href="why.html">«Почему так»</a>.</p>
+  Композиции из этих компонентов, которые повторяются на экранах, — <a href="patterns.html">«Паттерны»</a>;
+  откуда взялся сам визуальный язык — <a href="why.html">«Почему так»</a>.</p>
 
 ${GROUPS.map((g) => `  <section class="grp" id="g${g.n}">
     <h2><span class="grp-n">${g.n}</span>${esc(g.title)}</h2>
@@ -1071,6 +1143,72 @@ ${g.cases.map((c) => {
 </div>
 `;
   return page({ title: 'Компоненты', lead: 'Showcase дизайн-системы MeetMates: 33 живых компонента, у каждого своя страница.', body, here: 'index' });
+};
+
+// ── паттерны: страница ───────────────────────────────────────────────
+// Паттерн показан живым и назван экранами, на которых стоит: три экрана —
+// это и есть его право на существование.
+const patternsPage = () => {
+  const card = (pt) => `  <section class="pat" id="${pt.slug}">
+    <h2>${esc(pt.name)}</h2>
+    <p class="pat-screens"><b>${plural(pt.screens.length, 'экран', 'экрана', 'экранов')}:</b> ${pt.screens.map((x) => `<code>${esc(x)}</code>`).join(' ')}</p>
+    <div class="pat-stage">${dressPattern(pt.markup)}</div>
+    <dl class="pat-facts">
+      <dt>Ядро</dt><dd>${pt.parts.map((x) => `<code>.${esc(x)}</code>`).join(' ')}</dd>
+      ${pt.variants ? `<dt>Варианты</dt><dd>${pt.variants}</dd>` : ''}
+      <dt>Когда брать</dt><dd>${pt.take}</dd>
+      <dt>Когда не брать</dt><dd>${pt.avoid}</dd>
+      <dt>Файл</dt><dd><code>design-system/patterns/${esc(pt.file)}</code></dd>
+    </dl>
+  </section>`;
+
+  const body = `
+<div class="doc">
+  <h1>Паттерны</h1>
+  <p class="lede">Компонент — один кирпич: кнопка, карточка, поле. Паттерн — кладка,
+  которая повторяется: шапка экрана, лента карточек, пустое состояние с выходом.
+  Здесь только те композиции, которые <b>уже стоят на трёх и более экранах</b>, —
+  и у каждой эти экраны названы.</p>
+
+  <section class="sec">
+    <h2>Когда брать паттерн, а когда отдельные компоненты</h2>
+    <div class="pat-when">
+      <div>
+        <p class="pat-when-h">Берите паттерн</p>
+        <ul>
+          <li><b>Вы делаете то же, что уже сделано.</b> Экран со списком, пустое
+            состояние, шапка с действием — это решённые задачи, и решать их заново
+            значит разойтись с остальными экранами.</li>
+          <li><b>Порядок частей несёт смысл.</b> В карточке события снимок идёт первым,
+            потом «что и когда», потом «где и сколько мест» — переставить их можно,
+            но тогда карточка начнёт отвечать на другой вопрос.</li>
+          <li><b>Нужна предсказуемость, а не выразительность.</b> Человек должен узнать
+            экран за секунду взгляда, а не рассматривать его.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="pat-when-h">Берите компоненты</p>
+        <ul>
+          <li><b>Задача одноразовая.</b> Радар на онбординге, слой совпадения, кадр
+            видоискателя — каждый стоит на одном экране, и паттерна из них нет.</li>
+          <li><b>Паттерн подходит на три четверти.</b> Натянуть его и переопределить
+            половину — хуже, чем собрать нужное из кирпичей: правка паттерна поедет
+            по всем экранам, где он стоит.</li>
+          <li><b>Вы не можете назвать три экрана.</b> Это главный признак: композиция,
+            которой нет на трёх экранах, — частный случай, а не паттерн. Появится
+            третий экран — паттерн заведём тогда.</li>
+        </ul>
+      </div>
+    </div>
+    <p>Паттерн не добавляет ни одного нового правила вида: в его файле нет стилей
+    и нет классов, которых не было бы в ките. Он говорит только о составе
+    и о порядке — и потому не может разойтись с компонентами.</p>
+  </section>
+
+${PATTERNS.map(card).join('\n\n')}
+</div>
+`;
+  return page({ title: 'Паттерны', lead: 'Композиции, которые повторяются на трёх и более экранах: шапка, ленты, состояния, выходы.', body, here: 'patterns' });
 };
 
 // ── «Почему так»: откуда взялся визуальный язык ───────────────────────
@@ -1354,6 +1492,27 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .card-name a::after { content: ""; position: absolute; inset: 0; border-radius: 16px; }
 .card-cls { display: block; margin-top: 2px; font-size: 12px; color: var(--dim); }
 
+/* паттерны: показ в своей площадке и факты списком определений */
+.pat { margin: 0 0 48px; padding-top: 8px; border-top: 1px solid var(--edge); }
+.pat h2 { margin: 16px 0 6px; }
+.pat-screens { margin: 0 0 16px; font-size: 13px; color: var(--dim); }
+.pat-screens code { margin-right: 4px; }
+/* Паттерн показан в своей ширине — 390px, базовый макет: растянутый
+   на всю страницу, он выглядит не так, как на экране. */
+.pat-stage { padding: 20px; border-radius: 16px; border: 1px solid var(--edge); background: var(--paper); display: grid; gap: 20px; }
+.pat-stage > * { width: 100%; max-width: 390px; margin-inline: auto; }
+.pat-facts { display: grid; grid-template-columns: 120px 1fr; gap: 8px 16px; margin: 16px 0 0; font-size: 14px; }
+.pat-facts dt { color: var(--dim); }
+.pat-facts dd { margin: 0; }
+.pat-when { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); margin: 0 0 16px; }
+.pat-when > div { padding: 16px; border-radius: 14px; border: 1px solid var(--edge); background: var(--paper); }
+.pat-when-h { margin: 0 0 10px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+.pat-when > div:first-child .pat-when-h { color: #1C7A4E; }
+.pat-when > div:last-child .pat-when-h { color: #C01F4A; }
+.pat-when ul { margin: 0; padding-left: 18px; font-size: 14px; }
+.pat-when li { margin: 0 0 8px; }
+@media (max-width: 760px) { .pat-when, .pat-facts { grid-template-columns: 1fr; } }
+
 /* why */
 .pairs, .refs, .nos, .rules-list, .links { font-size: 15px; }
 .pairs { width: 100%; border-collapse: collapse; margin: 0 0 12px; }
@@ -1394,7 +1553,8 @@ mkdirSync(OUT, { recursive: true });
 writeFileSync(join(OUT, 'docs.css'), DOCS_CSS, 'utf8');
 writeFileSync(join(OUT, 'index.html'), indexPage(), 'utf8');
 writeFileSync(join(OUT, 'why.html'), whyPage(), 'utf8');
+writeFileSync(join(OUT, 'patterns.html'), patternsPage(), 'utf8');
 for (const d of DOCS) writeFileSync(join(OUT, `${d.slug}.html`), compPage(d), 'utf8');
 
-console.log(`design-system/docs/: ${DOCS.length} страниц компонентов + index.html + why.html + docs.css`);
+console.log(`design-system/docs/: ${DOCS.length} страниц компонентов + index.html + patterns.html (${PATTERNS.length} паттернов) + why.html + docs.css`);
 }

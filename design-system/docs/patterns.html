@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Паттерны · Дизайн-система MeetMates</title>
+<meta name="description" content="Композиции, которые повторяются на трёх и более экранах: шапка, ленты, состояния, выходы.">
+<!--
+  СГЕНЕРИРОВАНО scripts/build-docs.mjs — руками не править.
+  Компоненты на странице живые и одеты ../index.css: это сама система,
+  а не её копия. Размеры прочитаны из components/*.css при сборке.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../index.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<i id="bare" hidden></i>
+<a class="skip" href="#content">К содержимому</a>
+
+<header class="top">
+  <p class="top-name"><a href="index.html">Дизайн-система MeetMates</a></p>
+  <nav class="top-nav" aria-label="Разделы документации">
+    <a href="index.html">Компоненты</a>
+    <a href="patterns.html" aria-current="page">Паттерны</a>
+    <a href="why.html">Почему так</a>
+    <a href="../../ui/kit.html">Витрина</a>
+    <a href="../../sections/tokens.html">Токены</a>
+  </nav>
+  <div class="theme" role="group" aria-label="Тема">
+    <button type="button" data-theme-set="light" aria-pressed="true">Светлая</button>
+    <button type="button" data-theme-set="dark" aria-pressed="false">Тёмная</button>
+  </div>
+</header>
+
+<main id="content">
+
+<div class="doc">
+  <h1>Паттерны</h1>
+  <p class="lede">Компонент — один кирпич: кнопка, карточка, поле. Паттерн — кладка,
+  которая повторяется: шапка экрана, лента карточек, пустое состояние с выходом.
+  Здесь только те композиции, которые <b>уже стоят на трёх и более экранах</b>, —
+  и у каждой эти экраны названы.</p>
+
+  <section class="sec">
+    <h2>Когда брать паттерн, а когда отдельные компоненты</h2>
+    <div class="pat-when">
+      <div>
+        <p class="pat-when-h">Берите паттерн</p>
+        <ul>
+          <li><b>Вы делаете то же, что уже сделано.</b> Экран со списком, пустое
+            состояние, шапка с действием — это решённые задачи, и решать их заново
+            значит разойтись с остальными экранами.</li>
+          <li><b>Порядок частей несёт смысл.</b> В карточке события снимок идёт первым,
+            потом «что и когда», потом «где и сколько мест» — переставить их можно,
+            но тогда карточка начнёт отвечать на другой вопрос.</li>
+          <li><b>Нужна предсказуемость, а не выразительность.</b> Человек должен узнать
+            экран за секунду взгляда, а не рассматривать его.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="pat-when-h">Берите компоненты</p>
+        <ul>
+          <li><b>Задача одноразовая.</b> Радар на онбординге, слой совпадения, кадр
+            видоискателя — каждый стоит на одном экране, и паттерна из них нет.</li>
+          <li><b>Паттерн подходит на три четверти.</b> Натянуть его и переопределить
+            половину — хуже, чем собрать нужное из кирпичей: правка паттерна поедет
+            по всем экранам, где он стоит.</li>
+          <li><b>Вы не можете назвать три экрана.</b> Это главный признак: композиция,
+            которой нет на трёх экранах, — частный случай, а не паттерн. Появится
+            третий экран — паттерн заведём тогда.</li>
+        </ul>
+      </div>
+    </div>
+    <p>Паттерн не добавляет ни одного нового правила вида: в его файле нет стилей
+    и нет классов, которых не было бы в ките. Он говорит только о составе
+    и о порядке — и потому не может разойтись с компонентами.</p>
+  </section>
+
+  <section class="pat" id="action-pair">
+    <h2>Пара действий</h2>
+    <p class="pat-screens"><b>8 экранов:</b> <code>chats</code> <code>deck</code> <code>dialog</code> <code>feed</code> <code>invite</code> <code>match</code> <code>plan</code> <code>verify</code></p>
+    <div class="pat-stage"><!-- Решение в колоде: пропустить и позвать -->
+<p class="mm-actions">
+  <a class="mm-btn" href="#">Skip</a>
+  <a class="mm-btn mm-btn--primary" href="#">Like</a>
+</p>
+
+<!-- Ответ на напоминание: подтвердить или снять место -->
+<p class="mm-actions">
+  <button type="button" class="mm-btn mm-btn--primary">Yes, I am going</button>
+  <button type="button" class="mm-btn mm-btn--quiet">Can&rsquo;t make it</button>
+</p></div>
+    <dl class="pat-facts">
+      <dt>Ядро</dt><dd><code>.mm-actions</code> <code>.mm-btn</code></dd>
+      
+      <dt>Когда брать</dt><dd>на экране два ответа на один вопрос — согласиться или отказаться, пойти или пропустить, написать или вернуться.</dd>
+      <dt>Когда не брать</dt><dd>действий три и больше. Строка держит два; третье значит, что решение не одно, и экран стоит пересобрать.</dd>
+      <dt>Файл</dt><dd><code>design-system/patterns/action-pair.html</code></dd>
+    </dl>
+  </section>
+
+  <section class="pat" id="empty-state">
+    <h2>Состояние вместо содержимого</h2>
+    <p class="pat-screens"><b>9 экранов:</b> <code>chats</code> <code>deck</code> <code>feed</code> <code>invite</code> <code>match</code> <code>my-events</code> <code>plan</code> <code>search</code> <code>verify</code></p>
+    <div class="pat-stage"><!-- Пусто. Выход обязателен: тупиков в продукте нет (правило 10).
+     Скрытый заголовок называет зону, а не повторяет кнопку. -->
+<section class="mm-stretch" aria-labelledby="p-empty">
+  <h2 id="p-empty" class="mm-vh">My events</h2>
+  <article class="mm-state">
+    <span class="mm-state-ico" data-ico="state-empty" aria-hidden="true"></span>
+    <h3>No events yet</h3>
+    <p>Events you post and events you join will show up here &mdash; along with the ones that already happened.</p>
+    <p class="mm-actions"><button type="button" class="mm-btn mm-btn--primary">Post an event</button></p>
+  </article>
+</section>
+
+<!-- Сбой. Тот же блок с role="alert": скринридер объявляет его сам,
+     а человек видит причину и повтор, а не «что-то пошло не так». -->
+<section class="mm-stretch" aria-labelledby="p-error">
+  <h2 id="p-error" class="mm-vh">Status</h2>
+  <article class="mm-state mm-state--alert" role="alert">
+    <span class="mm-state-ico" data-ico="state-alert" aria-hidden="true"></span>
+    <h3>Couldn&rsquo;t load events nearby</h3>
+    <p>The connection dropped. Your own events and requests are safe.</p>
+    <p class="mm-actions"><button type="button" class="mm-btn mm-btn--primary">Try again</button></p>
+  </article>
+</section></div>
+    <dl class="pat-facts">
+      <dt>Ядро</dt><dd><code>.mm-stretch</code> <code>.mm-state</code> <code>.mm-state-ico</code> <code>.mm-actions</code> <code>.mm-btn</code></dd>
+      
+      <dt>Когда брать</dt><dd>показывать нечего или показать не вышло — пусто, сбой, ждём чужого решения, подтверждено. Один блок на все четыре смысла.</dd>
+      <dt>Когда не брать</dt><dd>содержимое есть, а сказать надо что-то рядом с ним. Тогда это примечание под блоком или плашка итога, а не состояние вместо экрана.</dd>
+      <dt>Файл</dt><dd><code>design-system/patterns/empty-state.html</code></dd>
+    </dl>
+  </section>
+
+  <section class="pat" id="event-feed">
+    <h2>Лента карточек события</h2>
+    <p class="pat-screens"><b>4 экрана:</b> <code>feed</code> <code>invite</code> <code>my-events</code> <code>profile</code></p>
+    <div class="pat-stage"><ul class="mm-list">
+  <li class="mm-event">
+    <span class="mm-cover"><img src="../../ui/img/ev-games.jpg" alt="" loading="lazy">
+      <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~3 km</span></span>
+    </span>
+    <span class="mm-event-body">
+      <a class="mm-event-head" href="#"><b>Board games</b><time class="mm-meta" datetime="2026-09-26T18:00"><b>26 Sep</b> &middot; 18:00</time></a>
+      <span class="mm-facts">Kyiv Games Club &middot; Podil</span>
+      <span class="mm-facts">2 going &middot; 1 spot left</span>
+    </span>
+    <span class="mm-event-acts"><a class="mm-btn mm-btn--primary" href="#">Ask to join</a></span>
+  </li>
+  <li class="mm-event">
+    <span class="mm-cover"><img src="../../ui/img/ev-run.jpg" alt="" loading="lazy">
+      <span class="mm-cardtop"><span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~1 km</span></span>
+    </span>
+    <span class="mm-event-body">
+      <a class="mm-event-head" href="#"><b>Morning run along the embankment</b><time class="mm-meta">No date yet</time></a>
+      <span class="mm-facts">Podil &middot; ~1 km</span>
+      <span class="mm-facts">1 going &middot; 2 spots left</span>
+    </span>
+    <span class="mm-event-acts">
+      <a class="mm-btn mm-btn--primary" href="#">Ask to join</a>
+      <a class="mm-btn mm-btn--quiet" href="#">Invite</a>
+    </span>
+  </li>
+</ul></div>
+    <dl class="pat-facts">
+      <dt>Ядро</dt><dd><code>.mm-list</code> <code>.mm-event</code> <code>.mm-cover</code> <code>.mm-cardtop</code> <code>.mm-chip</code> <code>.mm-event-body</code> <code>.mm-event-head</code> <code>.mm-meta</code> <code>.mm-facts</code> <code>.mm-btn</code></dd>
+      <dt>Варианты</dt><dd>mm-event-acts — действий нет только в «моих событиях»: своё событие не просят, в него уже идёшь</dd>
+      <dt>Когда брать</dt><dd>экран отвечает на «куда пойти». Карточка — инструмент «посмотреть и выбрать», и снимок в ней решает, а не уточняет.</dd>
+      <dt>Когда не брать</dt><dd>экран отвечает на «что нашлось» — выдача поиска. Там строка с миниатюрой, и действий на ней нет (D-67, D-70). Действие стоит на самой карточке (D-54): открывать событие ради той же кнопки не нужно. Где мест два и больше, рядом встаёт `Invite`.</dd>
+      <dt>Файл</dt><dd><code>design-system/patterns/event-feed.html</code></dd>
+    </dl>
+  </section>
+
+  <section class="pat" id="exit-link">
+    <h2>Выход в соседний контур</h2>
+    <p class="pat-screens"><b>10 экранов:</b> <code>chats</code> <code>deck</code> <code>dialog</code> <code>feed</code> <code>invite</code> <code>my-events</code> <code>plan</code> <code>profile</code> <code>search</code> <code>verify</code></p>
+    <div class="pat-stage"><section class="mm-section" aria-labelledby="p-exit">
+  <h2 id="p-exit" class="mm-vh">Nearby</h2>
+  <a class="mm-btn" href="#">
+    <span>Look at events</span>
+    <span aria-hidden="true">&rarr;</span>
+  </a>
+</section></div>
+    <dl class="pat-facts">
+      <dt>Ядро</dt><dd><code>.mm-section</code> <code>.mm-btn</code></dd>
+      
+      <dt>Когда брать</dt><dd>с экрана видно, что делать, если здесь не вышло. Это вторая дверь продукта: из людей — в события, из событий — в людей (§4).</dd>
+      <dt>Когда не брать</dt><dd>действие продвигает человека по этому же экрану. Тогда это кнопка экрана, и стрелки у неё нет.</dd>
+      <dt>Файл</dt><dd><code>design-system/patterns/exit-link.html</code></dd>
+    </dl>
+  </section>
+
+  <section class="pat" id="list-loading">
+    <h2>Заглушка вместо списка</h2>
+    <p class="pat-screens"><b>6 экранов:</b> <code>chats</code> <code>feed</code> <code>my-events</code> <code>my-profile</code> <code>profile</code> <code>search</code></p>
+    <div class="pat-stage"><section class="mm-scrolly" aria-labelledby="p-load">
+  <h2 id="p-load" class="mm-vh">Events</h2>
+  <p class="mm-note" role="status">Loading events nearby</p>
+  <ul class="mm-list" aria-hidden="true">
+    <li class="mm-event">
+      <span class="mm-cover" aria-hidden="true"></span>
+      <span class="mm-event-body">
+        <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
+        <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+        <span class="mm-skel mm-skel--line mm-skel--w-s"></span>
+      </span>
+      <span class="mm-event-acts"><span class="mm-skel mm-skel--btn mm-skel--w-l"></span></span>
+    </li>
+    <li class="mm-event">
+      <span class="mm-cover" aria-hidden="true"></span>
+      <span class="mm-event-body">
+        <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
+        <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+        <span class="mm-skel mm-skel--line mm-skel--w-s"></span>
+      </span>
+      <span class="mm-event-acts"><span class="mm-skel mm-skel--btn mm-skel--w-l"></span></span>
+    </li>
+  </ul>
+</section></div>
+    <dl class="pat-facts">
+      <dt>Ядро</dt><dd><code>.mm-list</code> <code>.mm-skel</code> <code>.mm-note</code></dd>
+      <dt>Варианты</dt><dd>mm-event, mm-row — заглушка повторяет форму того списка, вместо которого стоит: карточки в ленте, строки в чатах и выдаче</dd>
+      <dt>Когда брать</dt><dd>список считает сервер, и известно, какой формы он придёт. Заглушка держит то же место, что придёт содержимое: ничего не прыгнет.</dd>
+      <dt>Когда не брать</dt><dd>ждут не данные, а человека — отклик, согласие, подтверждение. Это не загрузка, а ожидание чужого решения (D-42), и у него свои слова: кто должен ответить и сколько это живёт. Заглушка стоит у того, что считается, а не вместо блока целиком: на своём профиле строка сигналов остаётся текстом, а полоса — на месте счётчика.</dd>
+      <dt>Файл</dt><dd><code>design-system/patterns/list-loading.html</code></dd>
+    </dl>
+  </section>
+
+  <section class="pat" id="photo-overlay">
+    <h2>Знак поверх снимка</h2>
+    <p class="pat-screens"><b>7 экранов:</b> <code>deck</code> <code>feed</code> <code>invite</code> <code>my-events</code> <code>my-profile</code> <code>plan</code> <code>profile</code></p>
+    <div class="pat-stage"><!-- Карточка человека: проверка и расстояние сверху, счёт кадров снизу -->
+<article class="mm-person">
+  <figure>
+  <p class="mm-photo"><img src="../../ui/img/olena-720.jpg" alt="" loading="lazy"></p>
+  <figcaption class="mm-vh">Photo 1 of 4</figcaption>
+  <p class="mm-pager" aria-hidden="true"><span class="is-current"></span><span></span><span></span><span></span></p>
+  <p class="mm-cardtop">
+    <span class="mm-verified"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" clip-rule="evenodd"/></svg></span>Verified</span>
+    <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
+  </p>
+  </figure>
+</article></div>
+    <dl class="pat-facts">
+      <dt>Ядро</dt><dd><code>.mm-cardtop</code></dd>
+      <dt>Варианты</dt><dd>mm-photo и mm-cover — снимок человека и обложка события; mm-chip, mm-verified, mm-pager — то, что кладут поверх</dd>
+      <dt>Когда брать</dt><dd>факт относится к самому снимку и читается вместе с ним — далеко ли идти, проверен ли человек, сколько ещё кадров. Снимок показан в своём контейнере — карточке человека: накладки позиционируются ею, и вне карточки паттерн не живёт.</dd>
+      <dt>Когда не брать</dt><dd>факт относится к тексту под снимком — место, время, места. Это строка фактов, и на фотографию она не лезет. На снимке события знак один — расстояние: `Verified` ставится там, где рядом виден человек (D-66). Кружки пагинации лежат на самом снимке, внизу по центру: полосы под фотографией отнимали у карточки строку.</dd>
+      <dt>Файл</dt><dd><code>design-system/patterns/photo-overlay.html</code></dd>
+    </dl>
+  </section>
+
+  <section class="pat" id="row-list">
+    <h2>Список строк</h2>
+    <p class="pat-screens"><b>3 экрана:</b> <code>chats</code> <code>my-profile</code> <code>search</code></p>
+    <div class="pat-stage"><!-- Строка чата: аватар внутри строки фактов, время и непрочитанные справа -->
+<ul class="mm-list">
+  <li><a class="mm-row" href="#">
+    <span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span>
+    <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-112.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span>
+  </a></li>
+</ul>
+
+<!-- Строка выдачи: миниатюра слева, действий нет — тап открывает объект -->
+<ul class="mm-list">
+  <li><a class="mm-row mm-row--media" href="#">
+    <span class="mm-thumb" aria-hidden="true"><img src="../../ui/img/ev-games.jpg" alt="" loading="lazy"></span>
+    <span class="mm-row-body">
+      <span class="mm-row-head"><b>Board games</b></span>
+      <span class="mm-facts">26 Sep &middot; 18:00 &middot; Kyiv Games Club &middot; ~3 km &middot; 1 spot left</span>
+    </span>
+  </a></li>
+  <li><a class="mm-row mm-row--media" href="#">
+    <span class="mm-thumb mm-thumb--round" aria-hidden="true"><img src="../../ui/img/olena-112.jpg" alt="" loading="lazy"></span>
+    <span class="mm-row-body">
+      <span class="mm-row-head"><b>Olena, 27</b></span>
+      <span class="mm-facts">3 common interests &middot; ~2 km</span>
+    </span>
+  </a></li>
+</ul></div>
+    <dl class="pat-facts">
+      <dt>Ядро</dt><dd><code>.mm-list</code> <code>.mm-row</code> <code>.mm-row-head</code></dd>
+      <dt>Варианты</dt><dd>mm-meta — время и счётчик справа; mm-facts — вторая строка; mm-avatar и mm-thumb — лицо кругом, обложка квадратом</dd>
+      <dt>Когда брать</dt><dd>экран отвечает на «что у меня есть» или «что нашлось». Строка — инструмент «найти и перейти»: заголовок, время справа, факты второй строкой.</dd>
+      <dt>Когда не брать</dt><dd>по снимку принимают решение. Тогда это карточка во всю ширину, а не строка с миниатюрой. Форма миниатюры говорит, что нашлось, раньше имени: у человека круг, у события — скруглённый квадрат (D-70).</dd>
+      <dt>Файл</dt><dd><code>design-system/patterns/row-list.html</code></dd>
+    </dl>
+  </section>
+
+  <section class="pat" id="screen-header">
+    <h2>Шапка экрана</h2>
+    <p class="pat-screens"><b>10 экранов:</b> <code>deck</code> <code>dialog</code> <code>feed</code> <code>invite</code> <code>my-events</code> <code>my-profile</code> <code>plan</code> <code>profile</code> <code>search</code> <code>verify</code></p>
+    <div class="pat-stage"><!-- С действием: заголовок и кнопки-иконки справа. Подпись кнопки скрыта
+     для скринридера, смысл берётся из места — feed, my-events, my-profile. -->
+<header class="mm-head">
+  <h1 class="mm-head-title">Events nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
+  <button type="button" class="mm-head-btn mm-head-btn--primary" aria-label="Post an event"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12.0205 3.25C12.4347 3.25005 12.7705 3.58582 12.7705 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.7705V20C12.7705 20.4142 12.4347 20.75 12.0205 20.75C11.6063 20.75 11.2705 20.4142 11.2705 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.2705V4C11.2705 3.58579 11.6063 3.25 12.0205 3.25Z"/></svg></span><span class="mm-vh">Post</span></button>
+</header>
+
+<!-- С возвратом: экран, на который пришли из другого. Стрелка слева, справа —
+     опасное действие со словом: флажок сам по себе не читается, а угадывать
+     действие безопасности нельзя — dialog, invite, plan, profile, verify. -->
+<header class="mm-head">
+  <a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>
+  <h1 class="mm-head-title">Board games</h1>
+  <button type="button" class="mm-head-btn mm-head-btn--danger"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.75 1C6.16421 1 6.5 1.33579 6.5 1.75V3.6L8.22067 3.25587C9.8712 2.92576 11.5821 3.08284 13.1449 3.70797L13.3486 3.78943C14.9097 4.41389 16.628 4.53051 18.2592 4.1227C19.0165 3.93339 19.75 4.50613 19.75 5.28669V12.6537C19.75 13.298 19.3115 13.8596 18.6864 14.0159L18.472 14.0695C16.7024 14.5119 14.8385 14.3854 13.1449 13.708C11.5821 13.0828 9.8712 12.9258 8.22067 13.2559L6.5 13.6V21.75C6.5 22.1642 6.16421 22.5 5.75 22.5C5.33579 22.5 5 22.1642 5 21.75V1.75C5 1.33579 5.33579 1 5.75 1Z"/></svg></span>Report</button>
+</header></div>
+    <dl class="pat-facts">
+      <dt>Ядро</dt><dd><code>.mm-head</code> <code>.mm-head-title</code> <code>.mm-head-btn</code></dd>
+      
+      <dt>Когда брать</dt><dd>у экрана есть имя и одно-два действия над всем, что на нём лежит — фильтры, создание, правка, возврат, жалоба.</dd>
+      <dt>Когда не брать</dt><dd>действие относится к одному объекту на экране, а не ко всему экрану. Тогда оно живёт на самом объекте — как `Ask to join` на карточке события, а не в шапке.</dd>
+      <dt>Файл</dt><dd><code>design-system/patterns/screen-header.html</code></dd>
+    </dl>
+  </section>
+</div>
+
+</main>
+
+<footer class="foot">
+  <p>Страницы собраны <code>node scripts/build-docs.mjs</code> из того же набора, что рисует
+  витрину, и одеты <code>design-system/index.css</code>. Размеры прочитаны из
+  <code>design-system/components/*.css</code>: свойство, которого в файле нет, роняет сборку.</p>
+  <p>Источники текста: <code>DESIGN.md</code> · <code>ui/inventory.md</code> ·
+  <code>microcopy.md</code> · <code>voice.md</code> · <code>concept/concept.md</code> ·
+  <code>concept/references.md</code> · <code>CLAUDE.md</code> · <code>DECISIONS.md</code>.</p>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'mm-theme';
+  function theme(t) {
+    if (t === 'dark') root.dataset.theme = 'dark'; else root.removeAttribute('data-theme');
+    document.querySelectorAll('.theme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
+    });
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+  }
+  // В рамке (раздел 09) тема приходит от страницы раздела, а не из памяти:
+  // тёмный островок посреди светлой страницы читается как чужой экран.
+  var inFrame = window.top !== window.self;
+  var saved;
+  if (!inFrame) { try { saved = localStorage.getItem(KEY); } catch (e) {} }
+  theme(saved === 'dark' ? 'dark' : 'light');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.theme button');
+    if (b) theme(b.dataset.themeSet);
+  });
+  // Анатомия: наведение на часть подсвечивает её в живом образце.
+  // Без скрипта страница читается по-прежнему — это подсказка, а не способ понять.
+  document.querySelectorAll('.anat').forEach(function (block) {
+    var demo = block.querySelector('.anat-demo');
+    block.querySelectorAll('[data-part]').forEach(function (row) {
+      function mark(on) {
+        var el = demo.querySelector('.' + row.dataset.part);
+        if (el) el.classList.toggle('is-marked', on);
+        row.classList.toggle('is-marked', on);
+      }
+      row.addEventListener('mouseenter', function () { mark(true); });
+      row.addEventListener('mouseleave', function () { mark(false); });
+      row.addEventListener('focusin', function () { mark(true); });
+      row.addEventListener('focusout', function () { mark(false); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

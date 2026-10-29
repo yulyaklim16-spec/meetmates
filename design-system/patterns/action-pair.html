@@ -1,0 +1,23 @@
+<!--
+  Паттерн: Пара действий
+  Экраны: chats, deck, dialog, feed, invite, match, plan, verify
+  Из чего: mm-actions, mm-btn
+  Когда брать: на экране два ответа на один вопрос — согласиться или
+    отказаться, пойти или пропустить, написать или вернуться.
+  Когда не брать: действий три и больше. Строка держит два; третье значит,
+    что решение не одно, и экран стоит пересобрать.
+  Залита всегда одна: вторая — светлая пилюля, третья ступень — белая
+    с обводкой. Форма у всех одна, различает их заливка.
+-->
+
+<!-- Решение в колоде: пропустить и позвать -->
+<p class="mm-actions">
+  <a class="mm-btn" href="#">Skip</a>
+  <a class="mm-btn mm-btn--primary" href="#">Like</a>
+</p>
+
+<!-- Ответ на напоминание: подтвердить или снять место -->
+<p class="mm-actions">
+  <button type="button" class="mm-btn mm-btn--primary">Yes, I am going</button>
+  <button type="button" class="mm-btn mm-btn--quiet">Can&rsquo;t make it</button>
+</p>

@@ -1,0 +1,27 @@
+<!--
+  Паттерн: Шапка экрана
+  Экраны: deck, dialog, feed, invite, my-events, my-profile, plan, profile, search, verify
+  Из чего: mm-head, mm-head-title, mm-head-btn
+  Когда брать: у экрана есть имя и одно-два действия над всем, что на нём лежит —
+    фильтры, создание, правка, возврат, жалоба.
+  Когда не брать: действие относится к одному объекту на экране, а не ко всему
+    экрану. Тогда оно живёт на самом объекте — как `Ask to join` на карточке
+    события, а не в шапке.
+-->
+
+<!-- С действием: заголовок и кнопки-иконки справа. Подпись кнопки скрыта
+     для скринридера, смысл берётся из места — feed, my-events, my-profile. -->
+<header class="mm-head">
+  <h1 class="mm-head-title">Events nearby</h1>
+  <button type="button" class="mm-head-btn"><span class="mm-ico" data-ico="filters" aria-hidden="true"></span><span class="mm-vh">Filters</span></button>
+  <button type="button" class="mm-head-btn mm-head-btn--primary" aria-label="Post an event"><span class="mm-ico" data-ico="post" aria-hidden="true"></span><span class="mm-vh">Post</span></button>
+</header>
+
+<!-- С возвратом: экран, на который пришли из другого. Стрелка слева, справа —
+     опасное действие со словом: флажок сам по себе не читается, а угадывать
+     действие безопасности нельзя — dialog, invite, plan, profile, verify. -->
+<header class="mm-head">
+  <a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>
+  <h1 class="mm-head-title">Board games</h1>
+  <button type="button" class="mm-head-btn mm-head-btn--danger"><span class="mm-ico" data-ico="report" aria-hidden="true"></span>Report</button>
+</header>

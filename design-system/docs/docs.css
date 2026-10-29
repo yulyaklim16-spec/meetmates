@@ -139,6 +139,27 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .card-name a::after { content: ""; position: absolute; inset: 0; border-radius: 16px; }
 .card-cls { display: block; margin-top: 2px; font-size: 12px; color: var(--dim); }
 
+/* паттерны: показ в своей площадке и факты списком определений */
+.pat { margin: 0 0 48px; padding-top: 8px; border-top: 1px solid var(--edge); }
+.pat h2 { margin: 16px 0 6px; }
+.pat-screens { margin: 0 0 16px; font-size: 13px; color: var(--dim); }
+.pat-screens code { margin-right: 4px; }
+/* Паттерн показан в своей ширине — 390px, базовый макет: растянутый
+   на всю страницу, он выглядит не так, как на экране. */
+.pat-stage { padding: 20px; border-radius: 16px; border: 1px solid var(--edge); background: var(--paper); display: grid; gap: 20px; }
+.pat-stage > * { width: 100%; max-width: 390px; margin-inline: auto; }
+.pat-facts { display: grid; grid-template-columns: 120px 1fr; gap: 8px 16px; margin: 16px 0 0; font-size: 14px; }
+.pat-facts dt { color: var(--dim); }
+.pat-facts dd { margin: 0; }
+.pat-when { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); margin: 0 0 16px; }
+.pat-when > div { padding: 16px; border-radius: 14px; border: 1px solid var(--edge); background: var(--paper); }
+.pat-when-h { margin: 0 0 10px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+.pat-when > div:first-child .pat-when-h { color: #1C7A4E; }
+.pat-when > div:last-child .pat-when-h { color: #C01F4A; }
+.pat-when ul { margin: 0; padding-left: 18px; font-size: 14px; }
+.pat-when li { margin: 0 0 8px; }
+@media (max-width: 760px) { .pat-when, .pat-facts { grid-template-columns: 1fr; } }
+
 /* why */
 .pairs, .refs, .nos, .rules-list, .links { font-size: 15px; }
 .pairs { width: 100%; border-collapse: collapse; margin: 0 0 12px; }

@@ -1,0 +1,39 @@
+<!--
+  Паттерн: Заглушка вместо списка
+  Экраны: chats, feed, my-events, my-profile, profile, search
+  Из чего: mm-list, mm-skel, mm-note
+  Варианты: mm-event, mm-row — заглушка повторяет форму того списка, вместо
+    которого стоит: карточки в ленте, строки в чатах и выдаче
+  Когда брать: список считает сервер, и известно, какой формы он придёт.
+    Заглушка держит то же место, что придёт содержимое: ничего не прыгнет.
+  Когда не брать: ждут не данные, а человека — отклик, согласие, подтверждение.
+    Это не загрузка, а ожидание чужого решения (D-42), и у него свои слова:
+    кто должен ответить и сколько это живёт.
+  Заглушка стоит у того, что считается, а не вместо блока целиком: на своём
+    профиле строка сигналов остаётся текстом, а полоса — на месте счётчика.
+-->
+
+<section class="mm-scrolly" aria-labelledby="p-load">
+  <h2 id="p-load" class="mm-vh">Events</h2>
+  <p class="mm-note" role="status">Loading events nearby</p>
+  <ul class="mm-list" aria-hidden="true">
+    <li class="mm-event">
+      <span class="mm-cover" aria-hidden="true"></span>
+      <span class="mm-event-body">
+        <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
+        <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+        <span class="mm-skel mm-skel--line mm-skel--w-s"></span>
+      </span>
+      <span class="mm-event-acts"><span class="mm-skel mm-skel--btn mm-skel--w-l"></span></span>
+    </li>
+    <li class="mm-event">
+      <span class="mm-cover" aria-hidden="true"></span>
+      <span class="mm-event-body">
+        <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
+        <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+        <span class="mm-skel mm-skel--line mm-skel--w-s"></span>
+      </span>
+      <span class="mm-event-acts"><span class="mm-skel mm-skel--btn mm-skel--w-l"></span></span>
+    </li>
+  </ul>
+</section>
