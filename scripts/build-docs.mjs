@@ -965,6 +965,14 @@ ${body}
   var inFrame = window.top !== window.self;
   var saved;
   if (!inFrame) { try { saved = localStorage.getItem(KEY); } catch (e) {} }
+  // Страница сайта в рамке не живёт: ссылка наружу — на витрину, токены,
+  // документы — открывается во всём окне, а не внутри рамки раздела 09.
+  // Иначе целый раздел с боковой колонкой оказывается в окне на 681px.
+  if (inFrame) {
+    document.querySelectorAll('a[href^="../"]').forEach(function (a) {
+      a.setAttribute('target', '_top');
+    });
+  }
   theme(saved === 'dark' ? 'dark' : 'light');
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('.theme button');
@@ -973,7 +981,10 @@ ${body}
   // Ряд оглавления помечает ту группу, что сейчас на экране. Это подсказка:
   // без скрипта ссылки работают по-прежнему, просто без отметки.
   var tabs = [].slice.call(document.querySelectorAll('.tabs a[href^="#"]'));
-  if (tabs.length) {
+  // В рамке своей прокрутки у страницы нет — её листает раздел целиком,
+  // и «я сейчас здесь» там считать не по чему: отметка стояла бы на последнем
+  // пункте всегда. Ряд в рамке остаётся оглавлением со ссылками.
+  if (tabs.length && !inFrame) {
     var LINE = 184;  // линия чуть ниже липкого ряда: по ней и считаем
     var blocks = [];
     tabs.forEach(function (a) {
@@ -1173,7 +1184,7 @@ const indexPage = () => {
   откуда взялся сам визуальный язык — <a href="why.html">«Почему так»</a>.</p>
 
   <nav class="tabs" aria-label="Группы компонентов">
-${GROUPS.map((g) => `    <a href="#g${g.n}"><span class="tabs-n">${g.n}</span>${esc(g.title)} <i>${g.cases.length}</i></a>`).join('\n')}
+${GROUPS.map((g) => `    <a href="#g${g.n}">${esc(g.title)}</a>`).join('\n')}
   </nav>
 
 ${GROUPS.map((g) => `  <section class="grp" id="g${g.n}">
@@ -1220,7 +1231,7 @@ const patternsPage = () => {
   и у каждой эти экраны названы.</p>
 
   <nav class="tabs" aria-label="Паттерны">
-${PATTERNS.map((pt) => `    <a href="#${pt.slug}">${esc(pt.name)} <i>${pt.screens.length}</i></a>`).join('\n')}
+${PATTERNS.map((pt) => `    <a href="#${pt.slug}">${esc(pt.name)}</a>`).join('\n')}
   </nav>
 
   <section class="sec">
@@ -1486,8 +1497,6 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 }
 .tabs a:hover { color: var(--ink); border-color: var(--mark); }
 .tabs a[aria-current="true"] { color: var(--ink); border-color: var(--mark); background: color-mix(in srgb, var(--mark) 8%, var(--paper)); }
-.tabs-n { font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
-.tabs i { font-style: normal; font-size: 11px; color: var(--dim); }
 
 /* Якорь не заезжает под шапку и липкий ряд. Запас считан по худшему
    случаю: десять табов переносятся на две строки, и ряд с полями занимает 100px. */

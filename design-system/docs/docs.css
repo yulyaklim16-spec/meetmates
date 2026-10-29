@@ -80,8 +80,6 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 }
 .tabs a:hover { color: var(--ink); border-color: var(--mark); }
 .tabs a[aria-current="true"] { color: var(--ink); border-color: var(--mark); background: color-mix(in srgb, var(--mark) 8%, var(--paper)); }
-.tabs-n { font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
-.tabs i { font-style: normal; font-size: 11px; color: var(--dim); }
 
 /* Якорь не заезжает под шапку и липкий ряд. Запас считан по худшему
    случаю: десять табов переносятся на две строки, и ряд с полями занимает 100px. */

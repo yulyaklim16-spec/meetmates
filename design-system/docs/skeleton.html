@@ -147,6 +147,14 @@
   var inFrame = window.top !== window.self;
   var saved;
   if (!inFrame) { try { saved = localStorage.getItem(KEY); } catch (e) {} }
+  // Страница сайта в рамке не живёт: ссылка наружу — на витрину, токены,
+  // документы — открывается во всём окне, а не внутри рамки раздела 09.
+  // Иначе целый раздел с боковой колонкой оказывается в окне на 681px.
+  if (inFrame) {
+    document.querySelectorAll('a[href^="../"]').forEach(function (a) {
+      a.setAttribute('target', '_top');
+    });
+  }
   theme(saved === 'dark' ? 'dark' : 'light');
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('.theme button');
@@ -155,7 +163,10 @@
   // Ряд оглавления помечает ту группу, что сейчас на экране. Это подсказка:
   // без скрипта ссылки работают по-прежнему, просто без отметки.
   var tabs = [].slice.call(document.querySelectorAll('.tabs a[href^="#"]'));
-  if (tabs.length) {
+  // В рамке своей прокрутки у страницы нет — её листает раздел целиком,
+  // и «я сейчас здесь» там считать не по чему: отметка стояла бы на последнем
+  // пункте всегда. Ряд в рамке остаётся оглавлением со ссылками.
+  if (tabs.length && !inFrame) {
     var LINE = 184;  // линия чуть ниже липкого ряда: по ней и считаем
     var blocks = [];
     tabs.forEach(function (a) {

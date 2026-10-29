@@ -152,11 +152,16 @@ const head = shell.slice(0, shell.indexOf('</style>'))
 
 const extraCss = `
 /* ── Раздел 09: дизайн-система ──────────────────────────────── */
+/* Раздел показывает живые страницы рамкой, и рамке нужно место: документация
+   просит 1240px, витрина — 390px на макет плюс поля. Поэтому оболочка здесь
+   шире обычной; текст в ней по-прежнему ограничен 72ch и не растягивается. */
+.shell { max-width: 1600px; }
+
 ${TABS_CSS}
 /* Страницы документации стоят живыми, рамкой на самих себя: адрес #bare
    убирает их шапку, навигация раздела уже стоит слева. Своей прокрутки
    у рамки нет — высоту задаёт скрипт внизу, до него держится запас. */
-.live { margin: var(--s-5) 0 0; padding: 0; list-style: none; display: grid; gap: var(--s-6); }
+.live { margin: var(--s-5) 0 0; padding: 0; list-style: none; display: grid; gap: var(--s-6); max-width: none; }
 .live iframe { width: 100%; min-height: 560px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); display: block; }
 .framelink { margin: 0 0 var(--s-2); font-size: var(--t-caption); }
 .cap { margin: 0 0 var(--s-3); font-size: var(--t-caption); color: var(--ink-600); }

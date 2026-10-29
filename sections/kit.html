@@ -306,6 +306,11 @@ footer p { max-width: 72ch; }
 .section-nav .soon { color: var(--ink-600); }
 
 /* ── Раздел 07: сборка UI ───────────────────────────────────── */
+/* Раздел показывает живые страницы рамкой, и рамке нужно место: документация
+   просит 1240px, витрина — 390px на макет плюс поля. Поэтому оболочка здесь
+   шире обычной; текст в ней по-прежнему ограничен 72ch и не растягивается. */
+.shell { max-width: 1600px; }
+
 
 .vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
@@ -343,7 +348,7 @@ footer p { max-width: 72ch; }
    адресом #b-gN и видит одну группу — со своим заголовком и своим разбором.
    Своей прокрутки у рамки нет, высоту ей задаёт скрипт внизу; пока он
    не отработал, держится запас, иначе страница прыгала бы с нуля. */
-.live { list-style: none; margin: var(--s-4) 0 0; padding: 0; max-width: none; }
+.live { list-style: none; margin: var(--s-4) 0 0; padding: 0; max-width: none; max-width: none; }
 .live > li { margin: 0 0 var(--s-6); }
 .live .framelink { margin: 0 0 var(--s-2); font-size: var(--t-caption); }
 /* подпись под ссылкой — не выноска: .note на этой странице носит лиловую

@@ -45,15 +45,15 @@
   и у каждой эти экраны названы.</p>
 
   <nav class="tabs" aria-label="Паттерны">
-    <a href="#action-pair">Пара действий <i>8</i></a>
-    <a href="#bottom-nav">Нижнее меню <i>10</i></a>
-    <a href="#empty-state">Состояние вместо содержимого <i>9</i></a>
-    <a href="#event-feed">Лента карточек события <i>4</i></a>
-    <a href="#exit-link">Выход в соседний контур <i>10</i></a>
-    <a href="#list-loading">Заглушка вместо списка <i>6</i></a>
-    <a href="#photo-overlay">Знак поверх снимка <i>7</i></a>
-    <a href="#row-list">Список строк <i>3</i></a>
-    <a href="#screen-header">Шапка экрана <i>10</i></a>
+    <a href="#action-pair">Пара действий</a>
+    <a href="#bottom-nav">Нижнее меню</a>
+    <a href="#empty-state">Состояние вместо содержимого</a>
+    <a href="#event-feed">Лента карточек события</a>
+    <a href="#exit-link">Выход в соседний контур</a>
+    <a href="#list-loading">Заглушка вместо списка</a>
+    <a href="#photo-overlay">Знак поверх снимка</a>
+    <a href="#row-list">Список строк</a>
+    <a href="#screen-header">Шапка экрана</a>
   </nav>
 
   <section class="sec">
@@ -379,6 +379,14 @@
   var inFrame = window.top !== window.self;
   var saved;
   if (!inFrame) { try { saved = localStorage.getItem(KEY); } catch (e) {} }
+  // Страница сайта в рамке не живёт: ссылка наружу — на витрину, токены,
+  // документы — открывается во всём окне, а не внутри рамки раздела 09.
+  // Иначе целый раздел с боковой колонкой оказывается в окне на 681px.
+  if (inFrame) {
+    document.querySelectorAll('a[href^="../"]').forEach(function (a) {
+      a.setAttribute('target', '_top');
+    });
+  }
   theme(saved === 'dark' ? 'dark' : 'light');
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('.theme button');
@@ -387,7 +395,10 @@
   // Ряд оглавления помечает ту группу, что сейчас на экране. Это подсказка:
   // без скрипта ссылки работают по-прежнему, просто без отметки.
   var tabs = [].slice.call(document.querySelectorAll('.tabs a[href^="#"]'));
-  if (tabs.length) {
+  // В рамке своей прокрутки у страницы нет — её листает раздел целиком,
+  // и «я сейчас здесь» там считать не по чему: отметка стояла бы на последнем
+  // пункте всегда. Ряд в рамке остаётся оглавлением со ссылками.
+  if (tabs.length && !inFrame) {
     var LINE = 184;  // линия чуть ниже липкого ряда: по ней и считаем
     var blocks = [];
     tabs.forEach(function (a) {

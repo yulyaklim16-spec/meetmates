@@ -48,16 +48,16 @@
   откуда взялся сам визуальный язык — <a href="why.html">«Почему так»</a>.</p>
 
   <nav class="tabs" aria-label="Группы компонентов">
-    <a href="#g1"><span class="tabs-n">1</span>Кнопки <i>5</i></a>
-    <a href="#g2"><span class="tabs-n">2</span>Поля <i>6</i></a>
-    <a href="#g3"><span class="tabs-n">3</span>Навигация и переключатели <i>2</i></a>
-    <a href="#g4"><span class="tabs-n">4</span>Карточки и списки <i>5</i></a>
-    <a href="#g5"><span class="tabs-n">5</span>Отметки и факты <i>6</i></a>
-    <a href="#g6"><span class="tabs-n">6</span>Состояния экрана <i>2</i></a>
-    <a href="#g7"><span class="tabs-n">7</span>Загрузка <i>1</i></a>
-    <a href="#g8"><span class="tabs-n">8</span>Чат <i>1</i></a>
-    <a href="#g9"><span class="tabs-n">9</span>Оболочка <i>1</i></a>
-    <a href="#g10"><span class="tabs-n">10</span>Онбординг и слои <i>4</i></a>
+    <a href="#g1">Кнопки</a>
+    <a href="#g2">Поля</a>
+    <a href="#g3">Навигация и переключатели</a>
+    <a href="#g4">Карточки и списки</a>
+    <a href="#g5">Отметки и факты</a>
+    <a href="#g6">Состояния экрана</a>
+    <a href="#g7">Загрузка</a>
+    <a href="#g8">Чат</a>
+    <a href="#g9">Оболочка</a>
+    <a href="#g10">Онбординг и слои</a>
   </nav>
 
   <section class="grp" id="g1">
@@ -447,6 +447,14 @@
   var inFrame = window.top !== window.self;
   var saved;
   if (!inFrame) { try { saved = localStorage.getItem(KEY); } catch (e) {} }
+  // Страница сайта в рамке не живёт: ссылка наружу — на витрину, токены,
+  // документы — открывается во всём окне, а не внутри рамки раздела 09.
+  // Иначе целый раздел с боковой колонкой оказывается в окне на 681px.
+  if (inFrame) {
+    document.querySelectorAll('a[href^="../"]').forEach(function (a) {
+      a.setAttribute('target', '_top');
+    });
+  }
   theme(saved === 'dark' ? 'dark' : 'light');
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('.theme button');
@@ -455,7 +463,10 @@
   // Ряд оглавления помечает ту группу, что сейчас на экране. Это подсказка:
   // без скрипта ссылки работают по-прежнему, просто без отметки.
   var tabs = [].slice.call(document.querySelectorAll('.tabs a[href^="#"]'));
-  if (tabs.length) {
+  // В рамке своей прокрутки у страницы нет — её листает раздел целиком,
+  // и «я сейчас здесь» там считать не по чему: отметка стояла бы на последнем
+  // пункте всегда. Ряд в рамке остаётся оглавлением со ссылками.
+  if (tabs.length && !inFrame) {
     var LINE = 184;  // линия чуть ниже липкого ряда: по ней и считаем
     var blocks = [];
     tabs.forEach(function (a) {
