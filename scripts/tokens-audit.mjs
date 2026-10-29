@@ -156,6 +156,42 @@ for (const { path, prefix, declaredIn, checkSizes } of FILES) {
   console.log('');
 }
 
+// Тема на поддереве: носитель атрибута одевается сам.
+//
+// [data-theme] на элементе меняет роли во всём поддереве, но не трогает уже
+// вычисленные свойства: color объявлен на body страницы и наследуется вниз
+// готовым значением. Поэтому элемент с темой обязан объявить свои фон и цвет
+// сам — иначе чернила приходят со страницы, и в блоке состояний получался
+// чёрный заголовок на чёрной карточке.
+//
+// Проверяется только носитель: селектор, который кончается на [data-theme…].
+// Потомок (`.states-row[data-theme] .kit-stage`) цвет наследует от него
+// и объявлять ничего не должен.
+{
+  const files = ['design-system/docs/docs.css', 'design-system/components/index.css', 'concept/components.css'];
+  const naked = [];
+  for (const rel of files) {
+    let css;
+    try { css = readFileSync(join(ROOT, rel), 'utf8'); } catch { continue; }
+    const bare = css.replace(/\/\*[\s\S]*?\*\//g, '');
+    for (const m of bare.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+      const [, sel, body] = m;
+      // носитель темы: атрибут стоит в последней части селектора
+      const carries = sel.split(',').map((x) => x.trim()).filter((x) => /\[data-theme[^\]]*\]\s*$/.test(x));
+      if (!carries.length) continue;
+      if (/^\s*\[data-theme/.test(sel.trim())) continue;   // блок самих ролей — он их и объявляет
+      const has = (prop) => new RegExp(`(^|;|\\s)${prop}\\s*:`).test(body);
+      const miss = ['background', 'color'].filter((prop) =>
+        prop === 'background' ? !(has('background') || has('background-color')) : !has(prop));
+      if (miss.length) naked.push(`${rel}: ${carries[0]} — нет ${miss.join(' и ')}`);
+    }
+  }
+
+  console.log('## Тема на поддереве\n');
+  say(!naked.length, `носитель темы без своих фона и цвета: ${naked.join(' · ') || 'нет'}`);
+  console.log('');
+}
+
 // один токен — одно значение в обоих файлах
 const hex = (css, prefix) =>
   Object.fromEntries([...css.matchAll(new RegExp(`${prefix}([a-z0-9-]+):\\s*(#[0-9A-Fa-f]{6}|[0-9.]+(?:em)?);`, 'g'))]

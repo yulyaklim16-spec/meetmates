@@ -1083,7 +1083,7 @@ const statesBlock = (d) => {
   </section>`;
   }
   const demo = pick(...(d.states.demo || d.demo));
-  const row = (theme) => `      <div class="states-row"${theme === 'dark' ? ' data-theme="dark"' : ''}>
+  const row = (theme) => `      <div class="states-row" data-theme="${theme}">
         <p class="states-theme">${theme === 'dark' ? 'Тёмная' : 'Светлая'}</p>
 ${STATE_LABELS.map(([state]) => `        <div class="states-cell"><div class="kit-stage">${withState(demo, d.states.target, state)}</div></div>`).join('\n')}
       </div>`;
@@ -1569,14 +1569,18 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .states { display: grid; gap: 2px; margin: 0 0 16px; overflow-x: auto; }
 .states-head, .states-row { display: grid; grid-template-columns: 92px repeat(3, minmax(434px, 1fr)); gap: var(--gap); align-items: center; }
 .states-row { padding: 12px; border-radius: 14px; }
-.states-row[data-theme="dark"] { background: var(--bg-page); }
+/* Строка объявляет свою тему, а с ней — фон и цвет текста. Без color
+   компонент внутри берёт цвет, вычисленный на body страницы: роли на
+   строке уже тёмные, а чернила приходят светлые, и заголовок карточки
+   остаётся чёрным на чёрном — D-98. */
+.states-row[data-theme] { background: var(--bg-page); color: var(--text-primary); }
 .states-theme { margin: 0; font-size: 12px; color: var(--dim); }
-.states-row[data-theme="dark"] .states-theme { color: var(--text-muted); }
+.states-row[data-theme] .states-theme { color: var(--text-muted); }
 .states-head .states-cell { display: grid; gap: 2px; }
 .states-head b { font-size: 13px; }
 .states-head span { font-size: 12px; color: var(--dim); }
 .states-row .kit-stage { min-height: 84px; }
-.states-row[data-theme="dark"] .kit-stage { background: var(--bg-surface); border-color: var(--border-hairline); }
+.states-row[data-theme] .kit-stage { background: var(--bg-surface); border-color: var(--border-hairline); }
 .states-none { padding: 12px 16px; border-left: 2px solid var(--edge); color: var(--dim); }
 .states-none b { color: var(--ink); }
 .states-note { margin-top: 12px; font-size: 14px; color: var(--dim); }
