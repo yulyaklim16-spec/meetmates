@@ -871,8 +871,13 @@ const PATTERNS = readdirSync(PATTERNS_DIR).filter((f) => f.endsWith('.html')).so
 // Разметка паттерна живёт без иконок и снимков: data-ico и data-img
 // подставляются здесь, из того же набора, что у витрины и экранов.
 const dressPattern = (html) => html
-  .replace(/<span class="mm-ico" data-ico="([a-z-]+)"([^>]*)><\/span>/g,
-    (m, n, rest) => `<span class="mm-ico"${rest}>${I[n] || ''}</span>`)
+  // Знак ставится по data-ico, а не по классу: его носят и .mm-ico в кнопке,
+  // и .mm-state-ico — кружок в карточке состояния. Имени, которого нет
+  // в наборе, быть не может: пустой кружок читается как решение.
+  .replace(/<span class="([a-z- ]+)" data-ico="([a-z0-9-]+)"([^>]*)><\/span>/g, (m, cls, name, rest) => {
+    if (!I[name]) throw new Error(`в наборе нет иконки ${name}`);
+    return `<span class="${cls}"${rest}>${I[name]}</span>`;
+  })
   .replace(/<img data-img="([a-z0-9-]+)"/g, '<img src="../../ui/img/$1.jpg"');
 
 // ── проверки, которые держат страницы честными ───────────────────────
@@ -1400,7 +1405,10 @@ body {
 }
 .theme button[aria-pressed="true"] { background: var(--page); color: var(--ink); }
 
-.doc { max-width: 900px; margin: 0 auto; padding: 32px 24px 64px; }
+/* Страница шире обычной статьи: на ней стоят живые макеты шириной 390px,
+   и трём таким в ряд нужно место. Текст при этом остаётся узким — ширину
+   абзаца держат .lede и .sec p. */
+.doc { max-width: 1240px; margin: 0 auto; padding: 32px 24px 64px; }
 .doc--why { max-width: 820px; }
 h1 { margin: 0 0 8px; font-size: 34px; line-height: 1.1; letter-spacing: -.035em; }
 h2 { margin: 0 0 12px; font-size: 22px; line-height: 1.2; letter-spacing: -.02em; }
@@ -1416,15 +1424,42 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .sec p { max-width: 72ch; }
 .sec-lead { margin: 0 0 16px; color: var(--dim); font-size: 14px; }
 
-/* площадка под живой компонент: нейтральный фон, компонент не трогаем */
+/* Площадка под живой компонент: нейтральный фон, компонент не трогаем.
+   Не режет и не жмёт — высота идёт по содержимому, и если компоненту нужно
+   249px (радар) или 400px (карточка человека), он их получает. */
 .kit-stage {
   display: flex; align-items: center; justify-content: center; gap: 12px;
   padding: 20px; min-height: 96px; border-radius: 14px; background: var(--paper);
-  border: 1px solid var(--edge); overflow: hidden;
+  border: 1px solid var(--edge); overflow: visible;
 }
+/* Ширину блочного компонента задаёт экран — 390px, базовый макет. Без неё
+   поле даты просит 553px (три поля по своей min-width), а карточка человека
+   тянется под фотографию: и то, и другое — не тот вид, что в продукте.
+   Строчное — кнопка, чип, лейба, аватар — остаётся по содержимому. */
+.kit-stage > :is(.kit-block, .kit-radar, .mm-head, .mm-segmented,
+  .mm-person, .mm-screen, .mm-list, .mm-event, .mm-row, .mm-state, .mm-banner,
+  .mm-evcover, .mm-layer, .mm-msgs, .mm-actions, .mm-promise, .mm-skelrow, section) {
+  width: 100%;
+  max-width: 390px;
+}
+/* Обвязка образцов, которую витрина держит у себя: радару нужна своя
+   высота, открытому списку — место под меню, блоку поля — вся ширина.
+   Это не компоненты, а площадка под них, и правила те же, что в ките. */
+.kit-stage > .kit-radar { height: 460px; }
+.kit-stage > .kit-drop { padding-bottom: 128px; }
 
-.anat-grid { display: grid; grid-template-columns: minmax(260px, 420px) 1fr; gap: 24px; align-items: start; }
-.anat-demo { min-height: 160px; }
+/* Панель меню в ширину макета здесь не ставится: в клетке витрины у неё
+   одна вкладка, и на 390px эта вкладка растянулась бы во всю панель.
+   Вместо этого вкладке задаётся её доля: на 390px панель за вычетом полей
+   делится на пять, и каждой достаётся 75px — ровно столько она занимает
+   на экране. Целиком меню показано паттерном «Нижнее меню», D-94. */
+.kit-stage > .mm-tabs > .mm-tab { flex: none; width: 75px; }
+
+/* Ряд строк и реплик — такой же блок: иначе список жмётся к середине */
+.kit-stage > ul, .kit-stage > p.mm-facts { width: 100%; max-width: 390px; }
+
+.anat-grid { display: grid; grid-template-columns: minmax(434px, 480px) 1fr; gap: 24px; align-items: start; }
+.anat-demo { min-height: 160px; align-items: flex-start; }
 .anat-parts { margin: 0; padding: 0 0 0 20px; display: grid; gap: 10px; }
 .anat-parts li { padding: 8px 12px; border-radius: 10px; border: 1px solid transparent; cursor: default; }
 .anat-parts li:focus-visible { outline: 2px solid var(--mark); outline-offset: 2px; }
@@ -1434,7 +1469,8 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .anat-parts span { font-size: 14px; color: var(--dim); }
 .is-marked { outline: 2px dashed var(--mark); outline-offset: 3px; }
 
-.matrix { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--gap); margin: 0 0 24px; }
+/* Клетка вмещает макет целиком: 390px плюс поля площадки */
+.matrix { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 434px), 1fr)); gap: var(--gap); margin: 0 0 24px; }
 .cell { margin: 0; }
 .cell figcaption { margin-top: 8px; font-size: 12px; color: var(--dim); }
 
@@ -1446,8 +1482,10 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 
 /* Состояния: три колонки и две строки — по строке на тему. Тёмная половина
    стоит в [data-theme="dark"], и это настоящий вид, а не снимок. */
-.states { display: grid; gap: 2px; margin: 0 0 16px; }
-.states-head, .states-row { display: grid; grid-template-columns: 92px repeat(3, 1fr); gap: var(--gap); align-items: center; }
+/* Три состояния стоят в ряд и каждое — в ширине макета. Если ряд не влез,
+   его листают: сжать макет значило бы показать не тот вид. */
+.states { display: grid; gap: 2px; margin: 0 0 16px; overflow-x: auto; }
+.states-head, .states-row { display: grid; grid-template-columns: 92px repeat(3, minmax(434px, 1fr)); gap: var(--gap); align-items: center; }
 .states-row { padding: 12px; border-radius: 14px; }
 .states-row[data-theme="dark"] { background: var(--bg-page); }
 .states-theme { margin: 0; font-size: 12px; color: var(--dim); }
@@ -1480,10 +1518,10 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .grp { margin: 0 0 40px; }
 .grp h2 { display: flex; align-items: baseline; gap: 10px; }
 .grp-n { font-size: 13px; color: var(--dim); font-variant-numeric: tabular-nums; }
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--gap); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 434px), 1fr)); gap: var(--gap); }
 .card { position: relative; padding: 12px; border-radius: 16px; border: 1px solid var(--edge); background: var(--paper); }
 .card:hover, .card:focus-within { border-color: var(--mark); }
-.card-stage { min-height: 120px; margin-bottom: 12px; }
+.card-stage { min-height: 140px; margin-bottom: 12px; }
 /* Образец показывает вид, но не ловит ни клик, ни фокус: нажимают карточку */
 .card-stage > * { pointer-events: none; }
 .card-name { margin: 0; font-weight: 600; }
@@ -1536,8 +1574,12 @@ body:has(#bare:target) .skip { display: none; }
 body:has(#bare:target) .doc { padding-top: 24px; }
 .foot p { max-width: 80ch; margin: 0 0 8px; }
 
+@media (max-width: 1100px) {
+  .anat-grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 760px) {
-  .anat-grid, .rules { grid-template-columns: 1fr; }
+  .rules { grid-template-columns: 1fr; }
+  .kit-stage { overflow-x: auto; justify-content: flex-start; }
   .doc { padding: 24px 16px 48px; }
   .top { padding: 12px 16px; }
 }

@@ -1,0 +1,23 @@
+<!--
+  Паттерн: Нижнее меню
+  Экраны: chats, deck, dialog, feed, invite, my-events, my-profile, plan, profile, search
+  Из чего: mm-tabs, mm-tab, mm-ico
+  Когда брать: экран живёт внутри вкладки. Меню стоит на всех десяти таких
+    экранах и выглядит одинаково: пять входов, подписи короткие, иконки
+    обязательные — на 390px панели достаётся по 78px на вкладку.
+  Варианты: текущая вкладка помечена подложкой, залитой иконкой
+    и `aria-current="page"`; остальные четыре — контурные.
+  Когда не брать: экран вне вкладок — онбординг, радар, верификация — или
+    это слой поверх экрана. Там меню не стоит, и подменять его нечем:
+    уйти с такого экрана можно только тем действием, которое на нём есть.
+  Вкладок ровно пять и порядок у них один (D-43). Шестая не добавляется:
+    на 390px для неё нет места, а короткая подпись перестанет читаться.
+-->
+
+<nav class="mm-tabs" aria-label="Main navigation">
+  <a class="mm-tab" href="#"><span class="mm-ico" data-ico="tab-people" aria-hidden="true"></span>People</a>
+  <a class="mm-tab is-current" href="#" aria-current="page"><span class="mm-ico" data-ico="tab-events-bold" aria-hidden="true"></span>Events</a>
+  <a class="mm-tab" href="#"><span class="mm-ico" data-ico="tab-search" aria-hidden="true"></span>Search</a>
+  <a class="mm-tab" href="#"><span class="mm-ico" data-ico="tab-chats" aria-hidden="true"></span>Chats</a>
+  <a class="mm-tab" href="#"><span class="mm-ico" data-ico="tab-profile" aria-hidden="true"></span>Profile</a>
+</nav>
