@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кто дошёл · пример страницы на системе</title>
+<!--
+  ПРИМЕР: целый экран, собранный из design-system/ и ничего больше.
+
+  Экран:  V.2 «Кто дошёл» (post-meet check-in) — sitemap.md, ветка «Встреча».
+          В продукте он числится, но не нарисован: wireframes/_screens.md, §3
+          «Что не вошло и почему» — «после назначенного дня: R3, R4, S3 — шаг 8».
+  Job:    M1 — репутация копится из подтверждённых встреч (§5.5.1).
+          Метрика §11: заполняемость check-in, порог 40 % `D-18`.
+  Тон:    voice.md, «Экраны, которых ещё нет» → «Check-in Who made it?».
+          Копирайт взят оттуда дословно, а не придуман заново.
+
+  ПРАВИЛО ЭТОГО ФАЙЛА: ни одного своего стиля. Нет <style>, нет style="",
+  нет своего класса. Всё, что видно, — классы из design-system/components/
+  и значения из design-system/tokens.css.
+
+  Чего в системе не хватило — выписано в ../backlog.md, по пунктам,
+  с местом в этом файле. Нехватка здесь НЕ дорисована: там, где компонента
+  нет, стоит голый элемент браузера, и это видно глазом. Так и задумано:
+  дыра в системе должна выглядеть дырой, а не самоделкой на экране.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../index.css">
+</head>
+<body>
+
+<div class="mm-screen">
+
+  <!-- Шапка экрана: паттерн screen-header. Возврат + имя экрана.
+       Двухуровневая шапка (--stack) здесь не нужна: второго уровня нет,
+       подзаголовок живёт в теле, рядом с тем, к чему относится. -->
+  <header class="mm-head">
+    <a class="mm-head-btn mm-head-btn--back" href="#" aria-label="Back to my events"><span aria-hidden="true">&larr;</span></a>
+    <h1 class="mm-head-title">Who did you meet?</h1>
+  </header>
+
+  <main class="mm-app">
+    <div class="mm-pane">
+
+      <!-- Какая встреча и когда она была. Факт, а не заголовок:
+           экран открывается из пуша, и первым делом надо узнать повод. -->
+      <section class="mm-section" aria-labelledby="ci-what">
+        <h2 class="mm-vh" id="ci-what">The meetup</h2>
+        <p class="mm-subhead">Board games</p>
+        <p class="mm-facts">Kyiv Games Club &middot; Podil &middot; 26 Sep</p>
+      </section>
+
+      <!-- Список участников. Строка списка — тот же .mm-row--media, что несёт
+           чат и выдачу поиска: круглая миниатюра слева, имя, факты второй
+           строкой. Отметка — <input type="checkbox"> без стилей:
+           компонента выбора в системе нет, см. ../backlog.md, заказ 1. -->
+      <section class="mm-scrolly" aria-labelledby="ci-people">
+        <h2 class="mm-vh" id="ci-people">People who were going</h2>
+        <p class="mm-note">Mark everyone you saw in person. Nobody sees who you marked.</p>
+
+        <ul class="mm-list">
+          <li>
+            <label class="mm-row mm-row--media">
+              <input type="checkbox" name="met" value="olena">
+              <span class="mm-thumb mm-thumb--round"><img src="../../ui/img/olena-112.jpg" alt="" loading="lazy"></span>
+              <span class="mm-row-body">
+                <span class="mm-row-head"><b>Olena</b></span>
+                <span class="mm-facts">Said yes &middot; 6 meetups attended</span>
+              </span>
+            </label>
+          </li>
+          <li>
+            <label class="mm-row mm-row--media">
+              <input type="checkbox" name="met" value="andrii">
+              <span class="mm-thumb mm-thumb--round"><img src="../../ui/img/andrii-112.jpg" alt="" loading="lazy"></span>
+              <span class="mm-row-body">
+                <span class="mm-row-head"><b>Andrii</b></span>
+                <span class="mm-facts">Said yes &middot; 2 meetups attended</span>
+              </span>
+            </label>
+          </li>
+          <li>
+            <label class="mm-row mm-row--media">
+              <input type="checkbox" name="met" value="dasha">
+              <span class="mm-thumb mm-thumb--round"><img src="../../ui/img/dasha-112.jpg" alt="" loading="lazy"></span>
+              <span class="mm-row-body">
+                <span class="mm-row-head"><b>Dasha</b></span>
+                <span class="mm-facts">Said yes</span>
+              </span>
+            </label>
+          </li>
+        </ul>
+
+        <!-- Приватная обратная связь, §7.5. Поле необязательное и стоит
+             после списка: рядом с «кого видел» оно читалось бы оценкой
+             человека, а это заметка о встрече. -->
+        <label class="mm-label" for="ci-off">Anything off?</label>
+        <div class="mm-field mm-field--multi"><textarea id="ci-off" placeholder="A note about the meetup, not about a person"></textarea></div>
+        <span class="mm-field-note">Only our team sees this.</span>
+
+        <p class="mm-note">14 days left to answer.</p>
+      </section>
+
+    </div>
+
+    <!-- Пара действий, закреплённая снизу: паттерн action-pair в .mm-pin.
+         Пропуск — нормальный ответ, поэтому стоит рядом, а не спрятан. -->
+    <div class="mm-pin">
+      <p class="mm-actions">
+        <button type="button" class="mm-btn mm-btn--primary">Done</button>
+        <button type="button" class="mm-btn mm-btn--quiet">Skip</button>
+      </p>
+    </div>
+  </main>
+
+</div>
+
+</body>
+</html>
