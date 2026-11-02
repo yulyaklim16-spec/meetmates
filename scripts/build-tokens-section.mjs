@@ -274,6 +274,26 @@ const weightHtml = sampleTable(
 const spaceHtml = barTable(desc(group(prim, /^--space/)), (r) =>
   (/^\d+px$/.test(r.value) ? `<i class="bar" style="width:${r.value}"></i>` : '<span class="dim">—</span>'));
 const radiusHtml = radiusGrid(desc(group(prim, /^--radius/)));
+
+// Ширина и сетка: точки изменения поведения и число колонок за ними `D-104`.
+// Полосы настоящей длины здесь не бывает — 1440px в таблицу не влезает, —
+// поэтому рядом со значением стоит то же число в пикселях при корне 16px:
+// точка задана в rem, а проверяют её линейкой, и обе записи должны быть видны.
+// Порядок файла, а не убывание: сначала точки, потом сетка за ними.
+const px16 = (v) => {
+  const rem = v.match(/^([\d.]+)rem$/);
+  if (rem) return `${parseFloat(rem[1]) * 16}px`;
+  const ref = v.match(/^var\((--[a-z0-9-]+)\)$/);
+  if (ref) return (prim.find((r) => r.name === ref[1]) || {}).value || '—';
+  return '—';
+};
+const layoutHtml = tokTable(
+  '<th>Токен</th><th class="c-num">Значение</th><th class="c-num">При корне 16px</th><th>Что за ним</th>',
+  group(prim, /^--bp-|^--container-|^--grid-|^--col-count-/).map((r) =>
+    `    <tr><td><code>${esc(r.name)}</code></td>`
+    + `<td class="c-num"><code>${esc(r.value)}</code></td>`
+    + `<td class="c-num"><code>${esc(px16(r.value))}</code></td>`
+    + `<td class="tnote">${inline(r.note || '—')}</td></tr>`));
 // Образец показывает само свойство, а не его долю: длительность — проездом
 // бегунка по дорожке, кривая — тем же проездом рядом с линейным, увеличение —
 // наездом на контур исходного размера, прозрачность — парой одинаковых плашек.
@@ -424,6 +444,9 @@ ${spaceHtml}
 
       <h3>Радиусы</h3>
 ${radiusHtml}
+
+      <h3>Ширина и сетка</h3>
+${layoutHtml}
 
       <h3>Гарнитура</h3>
 ${fontHtml}

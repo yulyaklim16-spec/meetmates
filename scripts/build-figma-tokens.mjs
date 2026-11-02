@@ -62,7 +62,12 @@ const groupOf = (name) => {
     [/^text-\d/, 'font-size'], [/^weight/, 'weight'], [/^leading/, 'leading'],
     [/^tracking/, 'tracking'], [/^duration/, 'duration'],
     [/^shadow|^ring/, 'effect'], [/^gradient/, 'gradient'],
-    [/^width|^measure/, 'measure'], [/^font-sans|^ease|^opacity|^zoom/, 'misc'],
+    [/^width|^measure/, 'measure'],
+    // Точки изменения поведения и сетка стоят своей группой, а не в «прочем»:
+    // в Figma по ним собирают фреймы, и искать их среди кривых и прозрачностей
+    // значит не находить `D-104`.
+    [/^bp-|^container-|^grid-|^col-count-/, 'layout'],
+    [/^font-sans|^ease|^opacity|^zoom/, 'misc'],
   ];
   const hit = map.find(([re]) => re.test(name));
   return hit ? hit[1] : 'misc';
@@ -76,19 +81,32 @@ const leaf = (name, group) => {
   return name.replace(new RegExp(`^${group}-?`), '') || name;
 };
 
+// Примитив может ссылаться на примитив: `--grid-gap` держит ступень шкалы,
+// а не своё значение `D-104`. В CSS это одна правда на два имени, но алиасов
+// внутри коллекции Primitive плагин не создаёт — их умеет только семантика.
+// Поэтому значение подставляется, а имя источника уходит в описание:
+// в Figma видно и число, и то, что оно не своё.
+const primValue = new Map(prim.map((t) => [`--${t.name}`, t.value]));
+const deref = (v) => {
+  const ref = v.match(/^var\((--[a-z0-9-]+)\)$/);
+  return ref && primValue.has(ref[1]) ? { value: primValue.get(ref[1]), from: ref[1] } : null;
+};
+
 // ── 1. JSON для Tokens Studio ────────────────────────────────────────
 const typeOf = { color: 'color', px: 'sizing', number: 'number', percent: 'sizing',
   gradient: 'other', shadow: 'boxShadow', string: 'other' };
 
 const tree = { primitive: {}, semantic: {} };
-for (const { name, value } of prim) {
+for (const { name, value: raw } of prim) {
   const g = groupOf(name);
+  const d = deref(raw);
+  const value = d ? d.value : raw;
   const k = kind(value);
   tree.primitive[g] = tree.primitive[g] || {};
   tree.primitive[g][leaf(name, g)] = {
     value: k === 'px' ? value.replace('px', '') : value,
     type: typeOf[k] || 'other',
-    description: `--${name}`,
+    description: d ? `--${name} → ${d.from}` : `--${name}`,
   };
 }
 for (const { name, value } of sem) {
@@ -128,13 +146,16 @@ const hexToRgb = (h) => ({
   b: parseInt(h.slice(5, 7), 16) / 255,
 });
 
-const primEntries = prim.map(({ name, value }) => {
+const primEntries = prim.map(({ name, value: raw }) => {
+  const d = deref(raw);
+  const value = d ? d.value : raw;
+  const css = d ? `${name} → ${d.from}` : name;
   const k = kind(value);
   const path = `${groupOf(name)}/${leaf(name, groupOf(name))}`;
-  if (k === 'color') return { path, type: 'COLOR', value: hexToRgb(value), css: name };
-  if (k === 'px') return { path, type: 'FLOAT', value: parseFloat(value), css: name };
-  if (k === 'number') return { path, type: 'FLOAT', value: parseFloat(value), css: name };
-  return { path, type: 'STRING', value, css: name };
+  if (k === 'color') return { path, type: 'COLOR', value: hexToRgb(value), css };
+  if (k === 'px') return { path, type: 'FLOAT', value: parseFloat(value), css };
+  if (k === 'number') return { path, type: 'FLOAT', value: parseFloat(value), css };
+  return { path, type: 'STRING', value, css };
 });
 const semEntries = sem.map(({ name, value }) => {
   const ref = value.match(/^var\(--([a-z0-9-]+)\)$/);

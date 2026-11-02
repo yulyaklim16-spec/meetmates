@@ -529,6 +529,42 @@ const PRIMITIVE = [
     "css": "radius-sm"
   },
   {
+    "path": "layout/bp-tablet",
+    "type": "STRING",
+    "value": "52rem",
+    "css": "bp-tablet"
+  },
+  {
+    "path": "layout/bp-desktop",
+    "type": "STRING",
+    "value": "80rem",
+    "css": "bp-desktop"
+  },
+  {
+    "path": "layout/container-max",
+    "type": "STRING",
+    "value": "90rem",
+    "css": "container-max"
+  },
+  {
+    "path": "layout/grid-gap",
+    "type": "FLOAT",
+    "value": 16,
+    "css": "grid-gap → --space-16"
+  },
+  {
+    "path": "layout/col-count-tablet",
+    "type": "FLOAT",
+    "value": 2,
+    "css": "col-count-tablet"
+  },
+  {
+    "path": "layout/col-count-desktop",
+    "type": "FLOAT",
+    "value": 3,
+    "css": "col-count-desktop"
+  },
+  {
     "path": "duration/slow",
     "type": "STRING",
     "value": "300ms",
