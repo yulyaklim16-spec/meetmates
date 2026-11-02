@@ -100,7 +100,7 @@
     .kit-cell--wide, .kit-cell--tall, .kit-cell--card { grid-column: span 1; }
   }
 
-  /* высоту растягивающимся компонентам задаёт витрина, а не компонент */
+  /* высоту растягивающимся компонентам задаёт площадка, а не компонент */
   .kit-tall { height: 300px; display: flex; flex-direction: column; width: 100%; }
   .kit-radar { height: 460px; width: 390px; display: flex; }
   .kit-layer { height: 420px; width: 390px; display: flex; flex-direction: column; }
@@ -108,6 +108,8 @@
      свои 360px и снимала карточке её высоту — витрина правила компонент,
      вместо того чтобы дать ему место -D-101-. */
   .kit-shot { display: flex; flex-direction: column; width: 100%; }
+  /* Кнопка под карточкой состояния: тот же шаг, что между блоками экрана.
+     Без него она прилипала к карточке и читалась её частью. */
   .kit-after { margin-top: 12px; }
   .kit-one { width: 120px; }
   /* Одиночный сегмент показывается клавишей, но в своей дорожке: поле
@@ -1366,7 +1368,7 @@
         <div class="kit-stage"><div class="kit-shot">
         <article class="mm-person">
           <figure>
-            <p class="mm-photo"><img src="img/dasha-112.jpg" alt="" loading="lazy"></p>
+            <p class="mm-photo"><img src="img/dasha-720.jpg" alt="" loading="lazy"></p>
             <figcaption class="mm-photo-cap">Camera</figcaption>
           </figure>
           <section class="mm-person-body">

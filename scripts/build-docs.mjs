@@ -20,7 +20,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { GROUPS, I } from './build-kit-pages.mjs';
+import { GROUPS, I, STAGE_CSS } from './build-kit-pages.mjs';
 
 const ROOT = process.cwd();
 const OUT = join(ROOT, 'design-system/docs');
@@ -1596,7 +1596,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
    поле даты просит 553px (три поля по своей min-width), а карточка человека
    тянется под фотографию: и то, и другое — не тот вид, что в продукте.
    Строчное — кнопка, чип, лейба, аватар — остаётся по содержимому. */
-.kit-stage > :is(.kit-block, .kit-radar, .mm-head, .mm-segmented,
+.kit-stage > :is(.kit-block, .kit-radar, .kit-shot, .kit-tall, .mm-head, .mm-segmented,
   .mm-person, .mm-list, .mm-event, .mm-row, .mm-state, .mm-banner,
   .mm-evcover, .mm-layer, .mm-msgs, .mm-actions, .mm-promise, .mm-skelrow, section) {
   width: 100%;
@@ -1607,11 +1607,12 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 }
 /* Сам экран — ровно макет: поля он задаёт у себя внутри */
 .kit-stage > .mm-screen { width: 100%; max-width: 390px; }
-/* Обвязка образцов, которую витрина держит у себя: радару нужна своя
-   высота, открытому списку — место под меню, блоку поля — вся ширина.
-   Это не компоненты, а площадка под них, и правила те же, что в ките. */
-.kit-stage > .kit-radar { height: 460px; }
-.kit-stage > .kit-drop { padding-bottom: 128px; }
+/* Обвязка образцов — одной строкой из того же файла, что рисует витрину
+   -D-102-. Прежде она стояла здесь вторым, неполным списком: у радара
+   не хватало display: flex, и он схлопывался в точку, а кольца уезжали
+   за клетку; у кнопки под карточкой состояния не было шага, и она
+   прилипала к карточке. Копия списка расходится, общая строка — нет. */
+${STAGE_CSS}
 
 /* Панель меню в ширину макета здесь не ставится: в клетке витрины у неё
    одна вкладка, и на 390px эта вкладка растянулась бы во всю панель.
@@ -1691,7 +1692,10 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .grp { margin: 0 0 40px; }
 .grp h2 { display: flex; align-items: baseline; gap: 10px; }
 .grp-n { font-size: 13px; color: var(--dim); font-variant-numeric: tabular-nums; }
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 434px), 1fr)); gap: var(--gap); }
+/* Карточки встают по верху, а не растягиваются под самую высокую в ряду
+   -D-102-: рядом с радаром в 460px «Обещание» в 99px получало полтысячи
+   пикселей пустоты под собой и читалось сломанным. */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 434px), 1fr)); gap: var(--gap); align-items: start; }
 .card { position: relative; padding: 12px; border-radius: 16px; border: 1px solid var(--edge); background: var(--paper); }
 .card:hover, .card:focus-within { border-color: var(--mark); }
 .card-stage { min-height: 140px; margin-bottom: 12px; }

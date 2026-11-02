@@ -667,7 +667,7 @@ const GROUPS = [
       cell('Viewfinder-Default', `<div class="kit-shot">
         <article class="mm-person">
           <figure>
-            <p class="mm-photo"><img src="img/dasha-112.jpg" alt="" loading="lazy"></p>
+            <p class="mm-photo"><img src="img/dasha-720.jpg" alt="" loading="lazy"></p>
             <figcaption class="mm-photo-cap">Camera</figcaption>
           </figure>
           <section class="mm-person-body">
@@ -679,6 +679,36 @@ const GROUPS = [
     ], 'Видоискатель верификации — та же карточка человека, что в колоде: вместо снимка кадр камеры, вместо фактов подсказка позы. Подпись лежит на самом снимке.'),
   ]),
 ];
+
+// ── обвязка образцов: один источник на витрину и на документацию ─────
+//
+// Это не стили компонентов, а площадка под них: растягивающемуся нужна
+// высота, раскрытому списку — место под слоем, паре «карточка + кнопка» —
+// шаг между ними. Прежде те же правила стояли вторым списком в docs.css,
+// и списки разошлись `D-102`: у радара там не было `display: flex`, и он,
+// растягиваясь во flex-родителе, которого не оказалось, схлопывался
+// в точку — кольца уезжали за клетку. Теперь строка одна и общая.
+const STAGE_CSS = `  /* высоту растягивающимся компонентам задаёт площадка, а не компонент */
+  .kit-tall { height: 300px; display: flex; flex-direction: column; width: 100%; }
+  .kit-radar { height: 460px; width: 390px; display: flex; }
+  .kit-layer { height: 420px; width: 390px; display: flex; flex-direction: column; }
+  /* Площадка видоискателя идёт по высоте компонента: прежде она держала
+     свои 360px и снимала карточке её высоту — витрина правила компонент,
+     вместо того чтобы дать ему место -D-101-. */
+  .kit-shot { display: flex; flex-direction: column; width: 100%; }
+  /* Кнопка под карточкой состояния: тот же шаг, что между блоками экрана.
+     Без него она прилипала к карточке и читалась её частью. */
+  .kit-after { margin-top: 12px; }
+  .kit-one { width: 120px; }
+  /* Одиночный сегмент показывается клавишей, но в своей дорожке: поле
+     дорожки остаётся -D-101-. Снятое, оно давало высоту 44px вместо 52 —
+     клетка показывала не тот размер, что в продукте, а то, ради чего она
+     стоит, видно и так: белая клавиша против серой дорожки. */
+  .mm-segmented.kit-one { width: auto; }
+  .mm-segmented.kit-one > * { flex: none; min-width: 112px; }
+  .kit-block { width: 100%; }
+  /* место под раскрытый список: он лежит слоем, высоту клетке он не задаёт */
+  .kit-drop { padding-bottom: 128px; }`;
 
 // ── список групп: прямо из данных ────────────────────────────────────
 // Прежде он разбирался регуляркой из собранной разметки — потому что данных
@@ -796,25 +826,7 @@ ${FONT}
     .kit-cell--wide, .kit-cell--tall, .kit-cell--card { grid-column: span 1; }
   }
 
-  /* высоту растягивающимся компонентам задаёт витрина, а не компонент */
-  .kit-tall { height: 300px; display: flex; flex-direction: column; width: 100%; }
-  .kit-radar { height: 460px; width: 390px; display: flex; }
-  .kit-layer { height: 420px; width: 390px; display: flex; flex-direction: column; }
-  /* Площадка видоискателя идёт по высоте компонента: прежде она держала
-     свои 360px и снимала карточке её высоту — витрина правила компонент,
-     вместо того чтобы дать ему место -D-101-. */
-  .kit-shot { display: flex; flex-direction: column; width: 100%; }
-  .kit-after { margin-top: 12px; }
-  .kit-one { width: 120px; }
-  /* Одиночный сегмент показывается клавишей, но в своей дорожке: поле
-     дорожки остаётся -D-101-. Снятое, оно давало высоту 44px вместо 52 —
-     клетка показывала не тот размер, что в продукте, а то, ради чего она
-     стоит, видно и так: белая клавиша против серой дорожки. */
-  .mm-segmented.kit-one { width: auto; }
-  .mm-segmented.kit-one > * { flex: none; min-width: 112px; }
-  .kit-block { width: 100%; }
-  /* место под раскрытый список: он лежит слоем, высоту клетке он не задаёт */
-  .kit-drop { padding-bottom: 128px; }
+${STAGE_CSS}
   code { font-family: ui-monospace, monospace; font-size: 12px; }
 
   /* полоса разделов проекта: та же, что на макетах и экранах концепта */
@@ -898,4 +910,4 @@ if (process.argv[1] && process.argv[1].endsWith('build-kit-pages.mjs')) {
   console.log(`ui/kit.html: ${(kit.match(/class="kit-case"/g) || []).length} компонентов · ui/shell.html: три шапки и меню`);
 }
 
-export { GROUPS, I, ico };
+export { GROUPS, I, ico, STAGE_CSS };
