@@ -110,8 +110,8 @@ const headBack = `<header class="mm-head">
 
 // ═══════════════════════════ shell.html ═══════════════════════════
 
-const shellPage = (head, current, note) => `  <figure class="shelf">
-    <div class="mm-screen">
+const shellPage = (head, current, note, mod = '') => `  <figure class="shelf${mod ? ` shelf--${mod}` : ''}">
+    <div class="mm-screen${mod ? ` mm-screen--${mod}` : ''}">
       ${head}
       <main class="mm-app">
         <div class="mm-pane">
@@ -140,6 +140,14 @@ const shell = `<!doctype html>
     у секций внутри своих горизонтальных полей нет;
   - .mm-tabs — нижнее меню, пять вкладок (D-43), активная одна.
 
+  Оболочка адаптивная, и условий у этого два (D-107). Страница, где оболочка
+  не макет, а само приложение, ставит на .mm-screen модификатор --window:
+  экран берёт отданную ширину до --container-max. От --bp-desktop (80rem)
+  нижнее меню на таком экране становится рейкой слева, а шапке остаётся
+  вторая колонка. Макет 390px без модификатора не меняется ни на какой
+  ширине окна — иначе рейка встала бы внутрь телефонного мокапа.
+  Разметка при этом одна: пункты навигации, их порядок и состояния те же.
+
   Чего в ней нет: мокапа телефона. Системная строка, панель браузера
   и индикатор жеста — чужие зоны, продукт ими не владеет; их рисует
   страница макета, а не оболочка.
@@ -162,6 +170,10 @@ ${FONT}
   .shelves { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
   .shelf { margin: 0; }
   .shelf figcaption { max-width: 390px; margin-top: 10px; font-size: 12px; line-height: 1.45; color: var(--text-muted); }
+  /* Экран-окно занимает свою строку целиком: рядом с телефонами он не стоит —
+     это не четвёртая шапка, а тот же каркас в других условиях. */
+  .shelf--window { flex: 1 0 100%; }
+  .shelf--window figcaption { max-width: 80ch; }
   .shelf .mm-screen { border-radius: 26px; box-shadow: 0 0 0 1px #DCD6E4, 0 8px 28px rgba(17, 17, 17, .1); }
   .slot { flex: 1; display: grid; place-content: center; margin: 0; border-radius: 26px;
     background: rgba(255, 255, 255, .55); box-shadow: inset 0 0 0 1px #DCD6E4; text-align: center;
@@ -205,11 +217,14 @@ ${themeBar()}
 <h1 class="t">Оболочка экрана</h1>
 <p class="lead">Три шапки на выбор и одно нижнее меню. Серый экран берёт отсюда каркас:
 копируется <code>.mm-screen</code>, внутрь <code>.mm-pane</code> кладётся содержимое.
-Поля экрана задаёт <code>.mm-app</code>.</p>
+Поля экрана задаёт <code>.mm-app</code>. Четвёртый вид — тот же каркас на рабочем
+столе: <code>.mm-screen--window</code>, и от <code>--bp-desktop</code> нижнее меню
+встаёт рейкой слева.</p>
 <div class="shelves">
 ${shellPage(headPlain, 'Events', 'Шапка в одну строку: заголовок, <code>Filters</code>, тёмный <code>Post</code>. Порядок на экране обратен разметке — тёмная кнопка стоит левее (<code>order</code>).')}
 ${shellPage(headStack, 'Search', 'Двухуровневая шапка: заголовок строкой, под ним поле и фильтры. Второй уровень — <code>.mm-head-line</code>.')}
 ${shellPage(headBack, 'People', 'Шапка экрана, куда пришли с другого: стрелка возврата слева, <code>Report</code> справа — единственная кнопка шапки со словом.')}
+${shellPage(headPlain, 'Events', 'Тот же каркас на рабочем столе: <code>.mm-screen--window</code> берёт отданную ширину до <code>--container-max</code>, и от <code>--bp-desktop</code> (80rem) нижнее меню становится рейкой слева, а шапке остаётся вторая колонка. Разметка не менялась ни на символ: пункты, их порядок и состояния те же, что в меню выше. <b>Условие смотрит на окно</b> — сузьте его, и рейка вернётся вниз; полки́ выше останутся телефонами при любой ширине, потому что модификатора на них нет.', 'window')}
 </div>
 ${themeJs()}
 </body>
@@ -253,9 +268,10 @@ ${g.cases.map(renderComp).join('\n')}
 // ── заготовки, которые нужны в нескольких клетках ─────────────────────
 const btn = (mod, state, text) => `<a class="mm-btn${mod}${state}" href="#">${text}</a>`;
 
-const evCard = (acts, pic = 'games', head = 'Board games', when = '<b>26 Sep</b> &middot; 18:00', where = 'Kyiv Games Club &middot; Podil', spots = '2 going &middot; 1 spot left') =>
-  `<ul class="mm-list">
-          <li class="mm-event${acts.cardState || ''}">
+// Карточка отдельно от списка: в ленте их несколько, и для страницы
+// «на трёх ширинах» нужна именно лента — на одной карточке колонок не видно.
+const evItem = (acts, pic = 'games', head = 'Board games', when = '<b>26 Sep</b> &middot; 18:00', where = 'Kyiv Games Club &middot; Podil', spots = '2 going &middot; 1 spot left') =>
+  `<li class="mm-event${acts.cardState || ''}">
             <span class="mm-cover">${cover(pic)}<span class="mm-cardtop"><span class="mm-chip">${ico('pin')}~3 km</span></span></span>
             <span class="mm-event-body">
               <a class="mm-event-head" href="#"><b>${head}</b><span class="mm-meta">${when}</span></a>
@@ -263,7 +279,10 @@ const evCard = (acts, pic = 'games', head = 'Board games', when = '<b>26 Sep</b>
               <span class="mm-facts">${spots}</span>
             </span>
             <span class="mm-event-acts">${acts.html}</span>
-          </li>
+          </li>`;
+
+const evCard = (...args) => `<ul class="mm-list">
+          ${evItem(...args)}
         </ul>`;
 
 const person = (mod = '') => `<article class="mm-person">
@@ -914,7 +933,27 @@ ${themeJs()}
 if (process.argv[1] && process.argv[1].endsWith('build-kit-pages.mjs')) {
   writeFileSync(join(OUT, 'shell.html'), shell, 'utf8');
   writeFileSync(join(OUT, 'kit.html'), kit, 'utf8');
-  console.log(`ui/kit.html: ${(kit.match(/class="kit-case"/g) || []).length} компонентов · ui/shell.html: три шапки и меню`);
+  console.log(`ui/kit.html: ${(kit.match(/class="kit-case"/g) || []).length} компонентов · ui/shell.html: три шапки, меню и экран-окно с рейкой`);
 }
 
-export { GROUPS, I, ico, STAGE_CSS };
+// ── образцы для страницы «на трёх ширинах» в docs/ ───────────────────
+// Те же куски, что в витрине, только в количестве, на котором видно поведение:
+// одна карточка колонок не показывает, нужна лента из нескольких.
+const WIDTH_DEMOS = {
+  feed: `<ul class="mm-list">
+          ${evItem({ html: btn(' mm-btn--primary', '', 'Ask to join') })}
+          ${evItem({ html: btn(' mm-btn--primary', '', 'Ask to join') + btn(' mm-btn--quiet', '', 'Invite') }, 'run', 'Morning run along the embankment', 'No date yet', 'Podil', '1 going &middot; 2 spots left')}
+          ${evItem({ html: btn(' mm-btn--primary', '', 'Ask to join') }, 'coffee', 'Coffee and a walk in Podil', '<b>27 Sep</b> &middot; 11:00', 'Podil', '1 spot left &middot; Women only')}
+        </ul>`,
+  rows: `<ul class="mm-list">
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true">${face('olena')}</span>Let&rsquo;s go then. Which day works for you?</span></a></li>
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Board games</b><span class="mm-meta">Mon</span></span><span class="mm-facts">Event chat &middot; 3 people &middot; Andrii: see you at six</span></a></li>
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Maryna</b><span class="mm-meta">12 Jun</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true">${face('dasha')}</span>You both said yes &mdash; no messages yet</span></a></li>
+        </ul>`,
+};
+// Шапка группы показывается над самой лентой: её поведение на ширине в том
+// и состоит, что она остаётся строкой над сеткой, а не становится клеткой.
+WIDTH_DEMOS.group = `<div class="mm-grouphead"><h3 class="mm-subhead">Events</h3><a class="mm-more" href="#" aria-label="Look at all events">Look at all <span aria-hidden="true">&rarr;</span></a></div>
+        ${WIDTH_DEMOS.feed}`;
+
+export { GROUPS, I, ico, STAGE_CSS, WIDTH_DEMOS };

@@ -283,6 +283,33 @@ for (const { path, prefix, declaredIn, checkSizes } of FILES) {
   console.log('');
 }
 
+// ── точка изменения поведения: число в запросе равно токену `D-107` ──
+//
+// var() в условии @media и @container CSS не принимает: значение там обязано
+// стоять числом. Значит точка живёт в двух местах — токеном --bp-* в наборе
+// и числом в компоненте, — и разъехаться они могут молча: правка токена
+// раскладку не сдвинет, а гейты останутся зелёными. Поэтому каждое число
+// из запроса сверяется с объявленными точками.
+{
+  const tokens = strip(readFileSync(join(ROOT, 'design-system/tokens.css'), 'utf8'));
+  const bps = new Map([...tokens.matchAll(/(--bp-[a-z0-9-]+)\s*:\s*([^;]+);/g)].map((m) => [m[2].trim(), m[1]]));
+  const stray = [];
+  const used = new Set();
+  for (const f of readdirSync(join(ROOT, 'design-system/components')).filter((x) => x.endsWith('.css')).sort()) {
+    const css = strip(readFileSync(join(ROOT, `design-system/components/${f}`), 'utf8'));
+    for (const m of css.matchAll(/@(?:media|container)[^{]*?\(\s*(?:min|max)-width\s*:\s*([^)]+)\)/g)) {
+      const v = m[1].trim();
+      if (bps.has(v)) used.add(bps.get(v));
+      else stray.push(`${f}: ${v}`);
+    }
+  }
+
+  console.log('## Точка изменения поведения\n');
+  say(!stray.length, `число в запросе мимо токена --bp-*: ${stray.join(' · ') || 'нет'}`);
+  console.log(`  —   объявлено точек: ${[...bps.values()].join(' · ') || 'нет'}; занято раскладкой: ${[...used].sort().join(' · ') || 'ни одной'}`);
+  console.log('');
+}
+
 // один токен — одно значение в обоих файлах
 const hex = (css, prefix) =>
   Object.fromEntries([...css.matchAll(new RegExp(`${prefix}([a-z0-9-]+):\\s*(#[0-9A-Fa-f]{6}|[0-9.]+(?:em)?);`, 'g'))]

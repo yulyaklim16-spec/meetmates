@@ -204,6 +204,37 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .states-head .states-cell { display: grid; gap: 2px; }
 .states-head b { font-size: 13px; }
 .states-head span { font-size: 12px; color: var(--dim); }
+/* ── на трёх ширинах -D-108- ─────────────────────────────────────────
+   Рамка держит уменьшенный рисунок, ящик внутри — настоящую ширину класса
+   и объявляет себя контейнером с именем экрана. Поэтому внутри срабатывают
+   ветки самого набора, а не правила документации. */
+.w-row { --k: .26; display: flex; gap: 20px; align-items: flex-start; margin: 14px 0 0; }
+.w-case { flex: none; margin: 0; --h: 1020px; }
+.w-case--short { --h: 360px; }
+.w-390 { --w: 390px; }
+.w-834 { --w: 834px; }
+.w-1280 { --w: 1280px; }
+.w-frame {
+  width: calc(var(--w) * var(--k)); height: calc(var(--h) * var(--k));
+  overflow: hidden; border-radius: 8px; border: 1px solid var(--edge); background: var(--paper);
+}
+/* Поля внутри ящика даёт сама система: внутри стоит настоящая цепочка
+   экрана — .mm-app с его полями и .mm-pane. Своего padding у ящика нет
+   нарочно: контейнерный запрос меряет внутреннюю коробку, и поле в 16px
+   увело бы 834 в 802 — ветка планшета не сработала бы на планшете. */
+.w-box {
+  container: mm-screen / inline-size;
+  width: var(--w); height: var(--h);
+  transform: scale(var(--k)); transform-origin: top left;
+  font: var(--weight-400) var(--text-16)/var(--leading-150) var(--font-sans);
+  color: var(--text-primary);
+}
+.w-case figcaption { margin-top: 8px; font-size: 13px; line-height: 1.4; color: var(--dim); }
+.w-case figcaption b { display: block; color: var(--ink); font-weight: 600; }
+@media (max-width: 760px) {
+  .w-row { --k: .2; gap: 12px; }
+}
+
 .states-row .kit-stage { min-height: 84px; }
 .states-row[data-theme] .kit-stage { background: var(--bg-surface); border-color: var(--border-hairline); }
 /* Подложка, а не полоса слева: вертикальная линия в 2px — самый

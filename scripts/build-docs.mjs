@@ -20,7 +20,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { GROUPS, I, STAGE_CSS } from './build-kit-pages.mjs';
+import { GROUPS, I, STAGE_CSS, WIDTH_DEMOS } from './build-kit-pages.mjs';
 
 const ROOT = process.cwd();
 const OUT = join(ROOT, 'design-system/docs');
@@ -355,7 +355,11 @@ const DOCS = [
     role: `<p>Глобальная навигация: пять вкладок, каждая — вход в кластер jobs (§6).
       На 390px это по 78px ширины, отсюда короткие подписи и обязательные иконки.</p>
       <p>Текущая — на сиреневой пилюле с залитой иконкой; и знак, и слово на ней берут
-      <code>--text-on-selected</code>, а не цвет основного текста (<code>D-80</code>).</p>`,
+      <code>--text-on-selected</code>, а не цвет основного текста (<code>D-80</code>).</p>
+      <p><b>От <code>--bp-desktop</code> та же панель становится рейкой слева</b> (<code>D-107</code>) —
+      на экране, помеченном <code>.mm-screen--window</code>. Пункты, их порядок, разметка
+      и состояния те же: меняется направление панели, подпись вырастает до 14px и встаёт
+      рядом со знаком, а строка добирается до 44px. Второй навигации в наборе нет.</p>`,
     rule: { pick: ['Вкладка нижнего меню', 'Tab-Current'], text: 'Текущая вкладка помечена подложкой и залитой иконкой — где человек находится, видно без чтения.' },
     anti: { pick: ['Срез вкладки', 'Segment-Current-Whole control'], instead: 'Срез вкладки', text: 'Переключение среза внутри вкладки — не навигация: <code>Nearby</code> и <code>Mine</code> не уводят с экрана, и в нижнее меню они не попадают.' },
   },
@@ -383,6 +387,7 @@ const DOCS = [
 
   {
     states: { target: 'mm-event-head', note: 'Состояния несут две вещи внутри карточки: заголовок-ссылка и кнопка под обложкой. Сама карточка под курсором приближает снимок — внутри своей рамки, габаритов не меняя.' },
+    widths: { demo: 'feed', box: 'tall', lead: 'Одна карточка колонок не показывает — здесь лента из трёх. Ящики — настоящей ширины классов <code>D-104</code>, уменьшен только рисунок.', note: 'В ряду карточки равняются по самой высокой, и высоту забирает тело: действие остаётся прижатым к низу, иначе кнопки в ряду стояли бы на разной высоте. Обложка держит свои 168px при любом числе колонок — у неё своя мерка, а не доля ширины.' },
     name: 'Карточка события', slug: 'event-card', file: 'card.css',
     demo: ['Карточка события', 'Event-Default'],
     parts: [
@@ -410,6 +415,7 @@ const DOCS = [
   },
   {
     states: { target: 'mm-row', note: 'Строка — ссылка целиком, поэтому состояния на ней самой. Там, где у строки есть снимок, наведение приближает его; где снимка нет, не меняется ничего.' },
+    widths: { demo: 'rows', box: 'short', lead: 'Список строк на ширине не меняется, и это решение набора, а не пропущенный случай.', note: 'Колонки множит только лента — список, в котором лежат карточки события. Чат и выдача поиска отвечают на «что нашлось», и строка читается быстрее ряда карточек (<code>D-70</code>): в три колонки она стала бы карточкой, которой не является. Ширину строка берёт всю — растёт сама строка, а не их число.' },
     name: 'Строка списка', slug: 'row', file: 'row.css',
     demo: ['Строка списка', 'Row-Default'],
     parts: [
@@ -433,6 +439,7 @@ const DOCS = [
   },
   {
     states: { target: 'mm-more', demo: ['Заголовок группы', 'Grouphead-Default'], note: 'Нажимается дверь, а не заголовок: сам заголовок никуда не ведёт. Наведение меняет цвет слова с тихого на основной — других состояний у строки текста нет.' },
+    widths: { demo: 'group', box: 'tall', lead: 'Шапка над той же лентой: видно, что она остаётся строкой над сеткой при любом числе колонок.', note: 'Лежащая внутри списка, шапка занимает всю строку сетки (<code>grid-column: 1 / -1</code>); стоя перед списком соседом — как в выдаче поиска, — она и так во всю ширину. Дверь остаётся у правого края: чем шире экран, тем дальше она от заголовка, и это цена того, что заголовок и дверь — концы одной строки.' },
     name: 'Заголовок группы', slug: 'grouphead', file: 'row.css',
     demo: ['Заголовок группы', 'Grouphead-Default'],
     parts: [
@@ -943,8 +950,11 @@ const dressPattern = (html) => demote(html)
   }
   const ghosts = new Set();
   for (const t of texts) {
-    for (const m of String(t).matchAll(/(--[a-z0-9-]+)/g)) {
-      if (!known.has(m[1]) && !OWN.test(m[1])) ghosts.add(m[1]);
+    // Два дефиса после буквы — не токен, а модификатор класса
+    // (.mm-screen--window): имя токена всегда начинается с них, а не
+    // продолжается ими. Без этой проверки гейт ловил бы любое имя по БЭМ.
+    for (const m of String(t).matchAll(/(^|[^a-z0-9-])(--[a-z0-9-]+)/g)) {
+      if (!known.has(m[2]) && !OWN.test(m[2])) ghosts.add(m[2]);
     }
   }
   if (ghosts.size) throw new Error(`имя токена, которого нет в наборе: ${[...ghosts].join(', ')}`);
@@ -1176,6 +1186,45 @@ ${d.states.note ? `    <p class="states-note">${d.states.note}</p>` : ''}
   </section>`;
 };
 
+// ── «на трёх ширинах»: поведение компонента, когда места больше `D-108` ──
+//
+// Ящик объявляет себя контейнером с тем же именем, что экран продукта,
+// и ровно той ширины, что класс ширины из `D-104`. Поэтому внутри срабатывают
+// те же ветки набора — ни одного правила «для документации» здесь нет,
+// и страница не может показать то, чего продукт не делает.
+//
+// Ящики уменьшены на глаз (--k), но их ширина для раскладки настоящая:
+// transform меняет только рисунок, а контейнерный запрос меряет ширину
+// до него. В таблице состояний мы выбрали обратное — настоящий размер
+// и прокрутку вбок (`D-95`), — потому что там смотрят сам компонент.
+// Здесь смотрят, как три ширины отличаются друг от друга, а в настоящем
+// размере 390 + 834 + 1280 рядом не ставятся вовсе: это 2,5 тысячи пикселей,
+// и «рядом» превратилось бы в «по одному за раз».
+const WIDTHS = [
+  ['390', 'Телефон', 'одна колонка'],
+  ['834', 'Планшет', '<code>--col-count-tablet</code>'],
+  ['1280', 'Рабочий стол', '<code>--col-count-desktop</code>'],
+];
+
+const widthsBlock = (d) => {
+  if (!d.widths) return '';   // страница без блока не получает и пустых строк
+  const demo = WIDTH_DEMOS[d.widths.demo];
+  if (!demo) throw new Error(`${d.name}: образца «${d.widths.demo}» нет в WIDTH_DEMOS`);
+  return `
+  <section class="sec" id="widths">
+    <h2>На трёх ширинах</h2>
+    <p class="sec-lead">${d.widths.lead}</p>
+    <div class="w-row">
+${WIDTHS.map(([w, who, what]) => `      <figure class="w-case w-case--${d.widths.box}">
+        <div class="w-frame w-${w}"><div class="w-box"><div class="mm-app"><div class="mm-pane">${fixPaths(demo)}</div></div></div></div>
+        <figcaption><b>${w}px — ${who}</b><span>${what}</span></figcaption>
+      </figure>`).join('\n')}
+    </div>
+    <p class="states-note">${d.widths.note}</p>
+  </section>
+`;
+};
+
 const compPage = (d) => {
   const g = groupOf(d.name);
   const c0 = BY_NAME.get(d.name);
@@ -1215,7 +1264,7 @@ ${sizeRows(d.sizes)}
   </section>
 
 ${statesBlock(d)}
-
+${widthsBlock(d)}
   <section class="sec" id="when">
     <h2>Когда употреблять</h2>
     ${d.role}
@@ -1667,6 +1716,37 @@ ${STAGE_CSS}
 .states-head .states-cell { display: grid; gap: 2px; }
 .states-head b { font-size: 13px; }
 .states-head span { font-size: 12px; color: var(--dim); }
+/* ── на трёх ширинах -D-108- ─────────────────────────────────────────
+   Рамка держит уменьшенный рисунок, ящик внутри — настоящую ширину класса
+   и объявляет себя контейнером с именем экрана. Поэтому внутри срабатывают
+   ветки самого набора, а не правила документации. */
+.w-row { --k: .26; display: flex; gap: 20px; align-items: flex-start; margin: 14px 0 0; }
+.w-case { flex: none; margin: 0; --h: 1020px; }
+.w-case--short { --h: 360px; }
+.w-390 { --w: 390px; }
+.w-834 { --w: 834px; }
+.w-1280 { --w: 1280px; }
+.w-frame {
+  width: calc(var(--w) * var(--k)); height: calc(var(--h) * var(--k));
+  overflow: hidden; border-radius: 8px; border: 1px solid var(--edge); background: var(--paper);
+}
+/* Поля внутри ящика даёт сама система: внутри стоит настоящая цепочка
+   экрана — .mm-app с его полями и .mm-pane. Своего padding у ящика нет
+   нарочно: контейнерный запрос меряет внутреннюю коробку, и поле в 16px
+   увело бы 834 в 802 — ветка планшета не сработала бы на планшете. */
+.w-box {
+  container: mm-screen / inline-size;
+  width: var(--w); height: var(--h);
+  transform: scale(var(--k)); transform-origin: top left;
+  font: var(--weight-400) var(--text-16)/var(--leading-150) var(--font-sans);
+  color: var(--text-primary);
+}
+.w-case figcaption { margin-top: 8px; font-size: 13px; line-height: 1.4; color: var(--dim); }
+.w-case figcaption b { display: block; color: var(--ink); font-weight: 600; }
+@media (max-width: 760px) {
+  .w-row { --k: .2; gap: 12px; }
+}
+
 .states-row .kit-stage { min-height: 84px; }
 .states-row[data-theme] .kit-stage { background: var(--bg-surface); border-color: var(--border-hairline); }
 /* Подложка, а не полоса слева: вертикальная линия в 2px — самый

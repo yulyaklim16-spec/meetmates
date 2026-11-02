@@ -128,6 +128,38 @@
     <p class="states-note">Строка — ссылка целиком, поэтому состояния на ней самой. Там, где у строки есть снимок, наведение приближает его; где снимка нет, не меняется ничего.</p>
   </section>
 
+  <section class="sec" id="widths">
+    <h2>На трёх ширинах</h2>
+    <p class="sec-lead">Список строк на ширине не меняется, и это решение набора, а не пропущенный случай.</p>
+    <div class="w-row">
+      <figure class="w-case w-case--short">
+        <div class="w-frame w-390"><div class="w-box"><div class="mm-app"><div class="mm-pane"><ul class="mm-list">
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li>
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Board games</b><span class="mm-meta">Mon</span></span><span class="mm-facts">Event chat &middot; 3 people &middot; Andrii: see you at six</span></a></li>
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Maryna</b><span class="mm-meta">12 Jun</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/dasha-48.jpg" alt="" loading="lazy"></span>You both said yes &mdash; no messages yet</span></a></li>
+        </ul></div></div></div></div>
+        <figcaption><b>390px — Телефон</b><span>одна колонка</span></figcaption>
+      </figure>
+      <figure class="w-case w-case--short">
+        <div class="w-frame w-834"><div class="w-box"><div class="mm-app"><div class="mm-pane"><ul class="mm-list">
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li>
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Board games</b><span class="mm-meta">Mon</span></span><span class="mm-facts">Event chat &middot; 3 people &middot; Andrii: see you at six</span></a></li>
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Maryna</b><span class="mm-meta">12 Jun</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/dasha-48.jpg" alt="" loading="lazy"></span>You both said yes &mdash; no messages yet</span></a></li>
+        </ul></div></div></div></div>
+        <figcaption><b>834px — Планшет</b><span><code>--col-count-tablet</code></span></figcaption>
+      </figure>
+      <figure class="w-case w-case--short">
+        <div class="w-frame w-1280"><div class="w-box"><div class="mm-app"><div class="mm-pane"><ul class="mm-list">
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-48.jpg" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span></a></li>
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Board games</b><span class="mm-meta">Mon</span></span><span class="mm-facts">Event chat &middot; 3 people &middot; Andrii: see you at six</span></a></li>
+          <li><a class="mm-row" href="#"><span class="mm-row-head"><b>Maryna</b><span class="mm-meta">12 Jun</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/dasha-48.jpg" alt="" loading="lazy"></span>You both said yes &mdash; no messages yet</span></a></li>
+        </ul></div></div></div></div>
+        <figcaption><b>1280px — Рабочий стол</b><span><code>--col-count-desktop</code></span></figcaption>
+      </figure>
+    </div>
+    <p class="states-note">Колонки множит только лента — список, в котором лежат карточки события. Чат и выдача поиска отвечают на «что нашлось», и строка читается быстрее ряда карточек (<code>D-70</code>): в три колонки она стала бы карточкой, которой не является. Ширину строка берёт всю — растёт сама строка, а не их число.</p>
+  </section>
+
   <section class="sec" id="when">
     <h2>Когда употреблять</h2>
     <p>Список чатов, «Мои события», выдача поиска, группы на профиле. Карточка —
