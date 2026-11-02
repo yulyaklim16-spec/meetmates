@@ -192,6 +192,97 @@ for (const { path, prefix, declaredIn, checkSizes } of FILES) {
   console.log('');
 }
 
+// ── Две шкалы одного продукта: карта имён `D-101` ────────────────────
+//
+// Шкалы живут в двух файлах под разными именами: продукт назвал их по роли
+// (`--t-body`, `--s-4`), набор — по значению (`--text-16`, `--space-16`),
+// и ни одно имя не встречается в обоих. Проверка ниже сверяла только
+// совпадающие имена, поэтому по типографике и шкале она молчала всегда:
+// кегль можно было поменять в наборе и не поменять в продукте, и экраны
+// разъехались бы молча.
+//
+// Поэтому пары названы здесь явно. Скрипт требует трёх вещей:
+//   1. оба имени пары объявлены — иначе имя переименовали, а карту не поправили;
+//   2. значения равны — иначе шкала разъехалась;
+//   3. имя шкалы, не попавшее в карту, названо в SOLO с причиной — иначе
+//      ступень завели с одной стороны и забыли про другую.
+{
+  const PAIRS = [
+    // гарнитура и кегль
+    ['--font', '--font-sans'], ['--t-display', '--text-34'], ['--t-h1', '--text-28'],
+    ['--t-h2', '--text-22'], ['--t-h3', '--text-18'], ['--t-body', '--text-16'],
+    ['--t-body-sm', '--text-14'], ['--t-caption', '--text-12'],
+    // вес, межстрочное, трекинг
+    ['--fw-regular', '--weight-400'], ['--fw-medium', '--weight-500'],
+    ['--fw-semibold', '--weight-600'], ['--fw-bold', '--weight-700'],
+    ['--lh-flat', '--leading-100'], ['--lh-tight', '--leading-105'],
+    ['--lh-heading', '--leading-125'], ['--lh-promise', '--leading-145'],
+    ['--lh-body', '--leading-150'],
+    ['--tr-btn', '--tracking-button'], ['--tr-heading', '--tracking-heading'],
+    ['--tr-display', '--tracking-display'],
+    // шаг и радиус
+    ['--s-1', '--space-4'], ['--s-2', '--space-8'], ['--s-3', '--space-12'],
+    ['--s-4', '--space-16'], ['--s-5', '--space-24'], ['--s-6', '--space-32'],
+    ['--s-7', '--space-48'], ['--label-pad', '--space-label'],
+    ['--r-sm', '--radius-sm'], ['--r-md', '--radius-md'], ['--r-lg', '--radius-lg'],
+    ['--r-pill', '--radius-pill'],
+    // движение
+    ['--dur-fast', '--duration-fast'], ['--dur-slow', '--duration-slow'],
+    ['--ease-out', '--ease-out'],
+  ];
+
+  // Ступени без пары. Каждая — с причиной, иначе это недосмотр, а не решение.
+  const SOLO = {
+    '--text-20': 'знак возврата: кегля 20px в продуктовой шкале нет',
+    '--space-2': 'самый мелкий шаг кита — время реплики, подпись тега',
+    '--space-6': 'поля нижнего меню и вкладки',
+    '--space-mark': 'оптический воздух вокруг выделенного слова, не ступень',
+    '--duration-skeleton': 'пробег блика по заглушке — своя длительность',
+    '--r-xl': '30px снят из набора `D-79`: остался на стенде радиусов concept.html',
+    '--dur-base': '250ms в наборе не встречается: переходов этой длины у кита нет',
+    '--ease-spring': 'возврат свайп-карточки: движения свайпа в ките нет',
+  };
+
+  // Берём объявления из :root, а не из @media: блок prefers-reduced-motion
+  // глушит длительности до 1ms, и это не значение шкалы, а её выключение.
+  const valuesOf = (rel) => {
+    const bare = strip(readFileSync(join(ROOT, rel), 'utf8')).replace(/@media[^{]*\{[\s\S]*?\}\s*\}/g, '');
+    const out = {};
+    for (const m of bare.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/g)) if (!(m[1] in out)) out[m[1]] = m[2].trim();
+    return out;
+  };
+  const prodV = valuesOf('tokens/tokens.css');
+  const kitV = valuesOf('design-system/tokens.css');
+
+  const missing = [];
+  const apart = [];
+  for (const [p, k] of PAIRS) {
+    if (!(p in prodV)) missing.push(`${p} нет в tokens/tokens.css`);
+    if (!(k in kitV)) missing.push(`${k} нет в design-system/tokens.css`);
+    if (p in prodV && k in kitV && prodV[p] !== kitV[k]) apart.push(`${p}: ${prodV[p]} / ${k}: ${kitV[k]}`);
+  }
+
+  // что считать шкалой: гарнитура, кегль, вес, межстрочное, трекинг, шаг,
+  // радиус и движение. Цвет сюда не входит — его сверяет проверка ниже.
+  // Кегль — только числовое имя: --text-16 это шкала, --text-primary роль цвета.
+  const SCALE = /^--(font$|font-sans$|t-[a-z]|text-\d|fw-|weight-\d|lh-|leading-\d|tr-|tracking-|s-\d|space-|r-[a-z]|radius-|dur-|duration-|ease-|label-pad$)/;
+  const paired = new Set(PAIRS.flat());
+  const orphans = [];
+  for (const [file, vals] of [['tokens/tokens.css', prodV], ['design-system/tokens.css', kitV]]) {
+    for (const name of Object.keys(vals)) {
+      if (!SCALE.test(name) || paired.has(name) || name in SOLO) continue;
+      orphans.push(`${file}: ${name}`);
+    }
+  }
+
+  console.log('## Две шкалы одного продукта\n');
+  say(!missing.length, `имя пары не объявлено: ${missing.join(' · ') || 'нет'}`);
+  say(!apart.length, `шкала разъехалась: ${apart.join(' · ') || 'нет'}`);
+  say(!orphans.length, `ступень без пары и без причины: ${orphans.join(' · ') || 'нет'}`);
+  console.log(`  —   ступеней с записанной причиной: ${Object.keys(SOLO).length}`);
+  console.log('');
+}
+
 // один токен — одно значение в обоих файлах
 const hex = (css, prefix) =>
   Object.fromEntries([...css.matchAll(new RegExp(`${prefix}([a-z0-9-]+):\\s*(#[0-9A-Fa-f]{6}|[0-9.]+(?:em)?);`, 'g'))]

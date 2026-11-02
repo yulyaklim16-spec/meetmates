@@ -248,6 +248,14 @@ const PARA = 'Events here are posted by people like you — and yours would be t
 const typeSample = (r) => (/^--text-/.test(r.name)
   ? `<span class="type" style="font-size:${r.value}">${LINE}</span>`
   : `<span class="type type--para" style="line-height:${r.value}">${PARA}</span>`);
+// Гарнитура — одна строка, и до `D-101` её на странице не было вовсе: она
+// считалась «не шкалой» и жила только в тексте блока. Но теперь шрифт объявляет
+// сама система — базовой строкой на `.mm-screen`, — и имя токена обязано стоять
+// там, где его ищут: в наборе значений, а не в абзаце рядом.
+const fontHtml = sampleTable(
+  desc(group(prim, /^--font-sans/)),
+  () => `<span class="type" style="font-size:16px">${LINE}</span>`);
+
 const typeHtml = sampleTable(
   [...desc(group(prim, /^--text-\d/)), ...desc(group(prim, /^--leading/))],
   typeSample);
@@ -416,6 +424,9 @@ ${spaceHtml}
 
       <h3>Радиусы</h3>
 ${radiusHtml}
+
+      <h3>Гарнитура</h3>
+${fontHtml}
 
       <h3>Кегль и интерлиньяж</h3>
 ${typeHtml}

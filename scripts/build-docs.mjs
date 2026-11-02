@@ -69,9 +69,21 @@ for (const g of GROUPS) for (const c of g.cases) BY_NAME.set(c.name, { ...c, gro
 
 // Снимки в разметке витрины лежат путями от ui/ — страницы docs стоят
 // в другом месте. Файл при этом один: копий снимков для документации не заводим.
-const fixPaths = (html) => html
+const fixPaths = (html) => demote(html)
   .replace(/(src|srcset)="img\//g, '$1="../../ui/img/')
   .replace(/, img\//g, ', ../../ui/img/');
+
+// Заголовки образца — не заголовки страницы -D-101-. Образец экрана приносит
+// свой <h1> («Who did you meet?»), и на странице документации их становилось
+// несколько, а уровень после <h2> секции прыгал с единицы на тройку: для
+// читателя с экранным диктором структура страницы ломалась (WCAG 1.3.1).
+// Поэтому заголовки образца опускаются на два уровня — вид их задают классы,
+// а не теги, и внешне не меняется ничего.
+function demote(html) {
+  return html
+    .replace(/<(\/?)h1/g, '<$1h3')
+    .replace(/<(\/?)h2/g, '<$1h4');
+}
 
 const pick = (name, label) => {
   const c = BY_NAME.get(name);
@@ -413,6 +425,30 @@ const DOCS = [
       а действия живут внутри него.</p>`,
     rule: { pick: ['Строка списка', 'Row-Default-With a portrait'], text: 'Человек в выдаче — портрет кругом; событие — обложка скруглённым квадратом. Форма миниатюры говорит, что нашлось.' },
     anti: { pick: ['Карточка события', 'Event-Default'], instead: 'Карточка события', text: 'В ленте строку не ставят: лента отвечает на «куда пойти», и снимок там решает, а не уточняет.' },
+  },
+  {
+    states: { target: 'mm-more', demo: ['Заголовок группы', 'Grouphead-Default'], note: 'Нажимается дверь, а не заголовок: сам заголовок никуда не ведёт. Наведение меняет цвет слова с тихого на основной — других состояний у строки текста нет.' },
+    name: 'Заголовок группы', slug: 'grouphead', file: 'row.css',
+    demo: ['Заголовок группы', 'Grouphead-Default'],
+    parts: [
+      ['mm-grouphead', 'Строка над списком: заголовок слева, дверь справа, по базовой линии'],
+      ['mm-subhead', 'Что за группа — тот же заголовок предмета, что на карточке'],
+      ['mm-more', 'Дверь: короткое имя плюс стрелка, полное — в <code>aria-label</code>'],
+    ],
+    sizes: [
+      ['row.css', '.mm-grouphead', 'gap', 'Просвет до двери'],
+      ['row.css', '.mm-more', 'min-height', 'Тач-таргет двери'],
+      ['row.css', '.mm-more', 'font', 'Шрифт двери'],
+    ],
+    role: `<p>Шапка группы в выдаче поиска и на профиле: <code>Events</code> и <code>People</code>
+      двумя группами в одном запросе, у каждой своя дверь в полный список (<code>D-70</code>).</p>
+      <p><b>Дверь стоит в заголовке, а не под списком</b>: группа едет вбок и кончается не концом,
+      а краем экрана — под обрывом продолжение никто не найдёт.</p>
+      <p><b>Имя двери короткое, и это не экономия:</b> объект назван слева, и
+      <code>Look at all</code> рядом с <code>Events</code> читается целиком. Полное имя
+      живёт в <code>aria-label</code> (<code>D-60</code>).</p>`,
+    rule: { pick: ['Заголовок группы', 'Grouphead-Default'], text: 'Список оборван — дверь нужна. Группа показана целиком — двери нет, уводить некуда.' },
+    anti: { pick: ['Строка списка', 'Row-Default-One line'], instead: 'Строка списка', text: 'Где за группой стоит целый экран, а не её остаток, ставится строка со счётчиком: она ведёт внутрь сама, и заголовок с дверью над ней — два входа в одно место.' },
   },
   {
     states: { target: 'mm-cardlink', note: 'Нажимается не карточка, а ссылка на профиль внутри неё: решение в колоде принимают кнопками Skip и Like, а не касанием по фотографии.' },
@@ -870,7 +906,7 @@ const PATTERNS = readdirSync(PATTERNS_DIR).filter((f) => f.endsWith('.html')).so
 
 // Разметка паттерна живёт без иконок и снимков: data-ico и data-img
 // подставляются здесь, из того же набора, что у витрины и экранов.
-const dressPattern = (html) => html
+const dressPattern = (html) => demote(html)
   // Знак ставится по data-ico, а не по классу: его носят и .mm-ico в кнопке,
   // и .mm-state-ico — кружок в карточке состояния. Имени, которого нет
   // в наборе, быть не может: пустой кружок читается как решение.
@@ -878,9 +914,37 @@ const dressPattern = (html) => html
     if (!I[name]) throw new Error(`в наборе нет иконки ${name}`);
     return `<span class="${cls}"${rest}>${I[name]}</span>`;
   })
-  .replace(/<img data-img="([a-z0-9-]+)"/g, '<img src="../../ui/img/$1.jpg"');
+  // Снимок стоит в самом файле паттерна: он обязан открываться как страница,
+  // а не только внутри сборки -D-101-. data-img остаётся именем снимка — по нему
+  // подставит другой потребитель, которому нужен свой путь.
+  .replace(/<img data-img="([a-z0-9-]+)"(?![^>]*src=)/g, '<img src="../../ui/img/$1.jpg"');
 
 // ── проверки, которые держат страницы честными ───────────────────────
+
+// Имя токена в тексте обязано существовать -D-101-. Страницы ссылались
+// на --mm-danger, --mm-ink-400 и --mm-label — таких токенов в наборе нет
+// и не было: имена остались от старого набора и пережили переименование,
+// потому что текст никто не сверял. Читатель по такому имени идёт в tokens.css
+// и не находит ничего.
+{
+  const bare = readFileSync(join(ROOT, 'design-system/tokens.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const known = new Set([...bare.matchAll(/(--[a-z0-9-]+)\s*:/g)].map((m) => m[1]));
+  // имена, объявленные не набором: оформление самих страниц документации
+  const OWN = /^--(paper|edge|ink|dim|gap|accent)$/;
+  const texts = [];
+  for (const d of DOCS) {
+    texts.push(d.role || '', d.rule?.text || '', d.anti?.text || '', d.states?.note || '', BY_NAME.get(d.name)?.note || '');
+    for (const [, what] of d.parts) texts.push(what);
+  }
+  const ghosts = new Set();
+  for (const t of texts) {
+    for (const m of String(t).matchAll(/(--[a-z0-9-]+)/g)) {
+      if (!known.has(m[1]) && !OWN.test(m[1])) ghosts.add(m[1]);
+    }
+  }
+  if (ghosts.size) throw new Error(`имя токена, которого нет в наборе: ${[...ghosts].join(', ')}`);
+}
+
 for (const d of DOCS) {
   const demo = pick(...d.demo);
   for (const [cls] of d.parts) {
@@ -1513,17 +1577,27 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
   display: flex; align-items: center; justify-content: center; gap: 12px;
   padding: 20px; min-height: 96px; border-radius: 14px; background: var(--paper);
   border: 1px solid var(--edge); overflow: visible;
+  /* Кегль площадки — продуктовый, а не страничный -D-101-. Страница
+     документации набрана 15px/1.6, и компонент, стоящий вне экрана, брал
+     эту базу: строка выходила 86,4px против 85 в продукте, реплика —
+     59,6 против 57. Площадка обязана воспроизводить условия экрана. */
+  font: var(--weight-400) var(--text-16)/var(--leading-150) var(--font-sans);
 }
 /* Ширину блочного компонента задаёт экран — 390px, базовый макет. Без неё
    поле даты просит 553px (три поля по своей min-width), а карточка человека
    тянется под фотографию: и то, и другое — не тот вид, что в продукте.
    Строчное — кнопка, чип, лейба, аватар — остаётся по содержимому. */
 .kit-stage > :is(.kit-block, .kit-radar, .mm-head, .mm-segmented,
-  .mm-person, .mm-screen, .mm-list, .mm-event, .mm-row, .mm-state, .mm-banner,
+  .mm-person, .mm-list, .mm-event, .mm-row, .mm-state, .mm-banner,
   .mm-evcover, .mm-layer, .mm-msgs, .mm-actions, .mm-promise, .mm-skelrow, section) {
   width: 100%;
-  max-width: 390px;
+  /* Колонка экрана, а не экран -D-101-: поля экрана по 16px с каждой стороны,
+     и в продукте карточка лежит в 358px. На 390 она была на 32px шире, чем
+     бывает, и от этого на 24px ниже. */
+  max-width: 358px;
 }
+/* Сам экран — ровно макет: поля он задаёт у себя внутри */
+.kit-stage > .mm-screen { width: 100%; max-width: 390px; }
 /* Обвязка образцов, которую витрина держит у себя: радару нужна своя
    высота, открытому списку — место под меню, блоку поля — вся ширина.
    Это не компоненты, а площадка под них, и правила те же, что в ките. */
@@ -1581,7 +1655,9 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .states-head span { font-size: 12px; color: var(--dim); }
 .states-row .kit-stage { min-height: 84px; }
 .states-row[data-theme] .kit-stage { background: var(--bg-surface); border-color: var(--border-hairline); }
-.states-none { padding: 12px 16px; border-left: 2px solid var(--edge); color: var(--dim); }
+/* Подложка, а не полоса слева: вертикальная линия в 2px — самый
+   узнаваемый признак сгенерированной страницы -D-101-. */
+.states-none { padding: 12px 16px; border-radius: 10px; background: var(--paper); color: var(--dim); }
 .states-none b { color: var(--ink); }
 .states-note { margin-top: 12px; font-size: 14px; color: var(--dim); }
 @media (max-width: 760px) {
@@ -1589,13 +1665,15 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
   .states-row { grid-template-columns: 1fr; }
 }
 
-.kit-origin { margin-top: 16px; padding: 12px 16px; border-left: 2px solid var(--edge); color: var(--dim); font-size: 14px; }
+.kit-origin { margin-top: 16px; padding: 12px 16px; border-radius: 10px; background: var(--paper); color: var(--dim); font-size: 14px; }
 
 .rules { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
 .rule { padding: 16px; border-radius: 14px; border: 1px solid var(--edge); background: var(--paper); }
 .rule .kit-stage { background: var(--page); }
 .rule p { margin: 12px 0 0; font-size: 14px; color: var(--dim); }
-.rule-h { margin: 0 0 12px !important; font-weight: 700; font-size: 13px !important; text-transform: uppercase; letter-spacing: .04em; }
+/* Обычный регистр: подпись до тридцати четырёх знаков заглавными съедает
+   форму слова, а вес её и так выделяет -D-101-. */
+.rule-h { margin: 0 0 12px !important; font-weight: 700; font-size: 14px !important; }
 .rule--do .rule-h { color: #1C7A4E; }
 .rule--dont .rule-h { color: #C01F4A; }
 .rule-go a { color: var(--mark); }
@@ -1630,7 +1708,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .pat-facts dd { margin: 0; }
 .pat-when { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); margin: 0 0 16px; }
 .pat-when > div { padding: 16px; border-radius: 14px; border: 1px solid var(--edge); background: var(--paper); }
-.pat-when-h { margin: 0 0 10px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+.pat-when-h { margin: 0 0 10px; font-weight: 700; font-size: 14px; }
 .pat-when > div:first-child .pat-when-h { color: #1C7A4E; }
 .pat-when > div:last-child .pat-when-h { color: #C01F4A; }
 .pat-when ul { margin: 0; padding-left: 18px; font-size: 14px; }

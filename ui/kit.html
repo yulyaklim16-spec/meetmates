@@ -71,10 +71,15 @@
     box-shadow: 0 0 0 1px var(--edge);
   }
   .kit-stage > * { max-width: 100%; }
-  /* Список на площадке держит ширину колонки экрана: в продукте карточка
-     события и строка лежат в 358px, и мерить их надо тем же. Без этого
-     карточка ужималась по содержимому и выглядела уже, чем бывает. */
-  .kit-stage > .mm-list { width: 100%; max-width: 358px; }
+  /* Кегль площадки — продуктовый -D-101-. Оболочка витрины базовой строки
+     не задавала, и компонент вне экрана брал её у браузера: межстрочное
+     normal вместо 1,5 давало карточке события 340px против 316 в продукте. */
+  .kit-stage { font: var(--weight-400) var(--text-16)/var(--leading-150) var(--font-sans); }
+  /* Список и дорожка реплик держат на площадке ширину колонки экрана:
+     в продукте карточка события, строка и реплика лежат в 358px, и мерить
+     их надо тем же. Без этого карточка ужималась по содержимому и выглядела
+     уже, чем бывает, а реплика переносилась и вставала на 21px выше -D-101-. */
+  .kit-stage > :is(.mm-list, .mm-msgs) { width: 100%; max-width: 358px; }
   .kit-cell figcaption { font: 12px/1.3 ui-monospace, monospace; color: var(--dim); }
   /* перенос строки внутри матрицы: иконочная кнопка начинает новый ряд
      с первой колонки, чтобы стоять под своей текстовой ролью */
@@ -99,13 +104,17 @@
   .kit-tall { height: 300px; display: flex; flex-direction: column; width: 100%; }
   .kit-radar { height: 460px; width: 390px; display: flex; }
   .kit-layer { height: 420px; width: 390px; display: flex; flex-direction: column; }
-  .kit-shot { height: 360px; display: flex; flex-direction: column; width: 100%; }
-  .kit-shot .mm-person { height: auto; flex: 1; }
+  /* Площадка видоискателя идёт по высоте компонента: прежде она держала
+     свои 360px и снимала карточке её высоту — витрина правила компонент,
+     вместо того чтобы дать ему место -D-101-. */
+  .kit-shot { display: flex; flex-direction: column; width: 100%; }
   .kit-after { margin-top: 12px; }
   .kit-one { width: 120px; }
-  /* одиночный сегмент показывается клавишей: дорожка ужата до неё самой,
-     и видно то, ради чего клетка стоит — белая клавиша против серой */
-  .mm-segmented.kit-one { width: auto; padding: 0; }
+  /* Одиночный сегмент показывается клавишей, но в своей дорожке: поле
+     дорожки остаётся -D-101-. Снятое, оно давало высоту 44px вместо 52 —
+     клетка показывала не тот размер, что в продукте, а то, ради чего она
+     стоит, видно и так: белая клавиша против серой дорожки. */
+  .mm-segmented.kit-one { width: auto; }
   .mm-segmented.kit-one > * { flex: none; min-width: 112px; }
   .kit-block { width: 100%; }
   /* место под раскрытый список: он лежит слоем, высоту клетке он не задаёт */
@@ -362,7 +371,7 @@
         <figcaption>Danger-Hover/Active-In header</figcaption>
       </figure>
     </div>
-    <p class="kit-note">Названа по роли, а не по экрану: это не «кнопка Report», а опасное действие — туда же встанут <code>Block</code> и удаление, когда понадобятся. Не заливка, а строка с иконкой: <code>--mm-danger</code> в продукте носит только опасное. Вторая строка — она же в шапке: мельче и со словом, потому что флажок сам по себе не читается, а угадывать действие безопасности нельзя. Отключённой она не бывает нигде: пожаловаться можно всегда.</p>
+    <p class="kit-note">Названа по роли, а не по экрану: это не «кнопка Report», а опасное действие — туда же встанут <code>Block</code> и удаление, когда понадобятся. Не заливка, а строка с иконкой: <code>--color-danger</code> в продукте носит только опасное. Вторая строка — она же в шапке: мельче и со словом, потому что флажок сам по себе не читается, а угадывать действие безопасности нельзя. Отключённой она не бывает нигде: пожаловаться можно всегда.</p>
   </section>
   <section class="kit-case">
     <p class="kit-h"><b>Без заливки</b><code>.mm-head-btn--back</code></p>
@@ -724,7 +733,7 @@
         <figcaption>Tab-Current</figcaption>
       </figure>
     </div>
-    <p class="kit-note">Активная — на сиренево-серой пилюле, иконка залитая и тёмная; неактивные контурные, цвета <code>--mm-ink-400</code>. Форма у обоих наборов одна, меняется только вес.</p>
+    <p class="kit-note">Активная — на сиренево-серой пилюле, иконка залитая и тёмная; неактивные контурные, цвета <code>--icon-muted</code>. Форма у обоих наборов одна, меняется только вес.</p>
   </section>
   <section class="kit-case">
     <p class="kit-h"><b>Срез вкладки</b><code>.mm-segmented</code></p>
@@ -842,6 +851,24 @@
     <p class="kit-note">Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка со снимком на наведении приближает обложку; строка без снимка и строка без ссылки не отзываются вовсе. Строка несёт и выдачу поиска: слева миниатюра — у события обложка скруглённым квадратом, у человека портрет кругом, и круг говорит «человек» раньше, чем прочитано имя (<code>D-70</code>).</p>
   </section>
   <section class="kit-case">
+    <p class="kit-h"><b>Заголовок группы</b><code>.mm-grouphead</code></p>
+    <div class="kit-matrix">
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block"><div class="mm-grouphead"><h3 class="mm-subhead">Events</h3><a class="mm-more" href="#" aria-label="Look at all events">Look at all <span aria-hidden="true">&rarr;</span></a></div></div></div>
+        <figcaption>Grouphead-Default</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block"><div class="mm-grouphead"><h3 class="mm-subhead">People</h3><a class="mm-more is-hover" href="#" aria-label="See all people">See all <span aria-hidden="true">&rarr;</span></a></div></div></div>
+        <figcaption>Grouphead-Hover-Door</figcaption>
+      </figure>
+      <figure class="kit-cell kit-cell--wide">
+        <div class="kit-stage"><div class="kit-block"><div class="mm-grouphead"><h3 class="mm-subhead">Recent searches</h3></div></div></div>
+        <figcaption>Grouphead-Default-No door</figcaption>
+      </figure>
+    </div>
+    <p class="kit-note">Заголовок группы и дверь на одной строке. Дверь нужна там, где список оборван: в выдаче поиска группа кончается не концом, а краем экрана, и без двери продолжение осталось бы незамеченным (<code>D-70</code>). Имя двери короткое, потому что объект уже назван слева; полное стоит в <code>aria-label</code> (<code>D-60</code>). Высота строки 21px, поэтому тач-таргет двери добирается невидимым полем до 44px, а не кеглем. Группа без обрыва двери не получает.</p>
+  </section>
+  <section class="kit-case">
     <p class="kit-h"><b>Карточка человека</b><code>.mm-person</code></p>
     <div class="kit-matrix">
       <figure class="kit-cell kit-cell--card">
@@ -922,7 +949,7 @@
         <figcaption>Verified-Default</figcaption>
       </figure>
     </div>
-    <p class="kit-note">Одна на весь продукт: слово с галочкой на лаймовой лейбе. Стоит и сама по себе — в превью события от автора остаётся один <code>Verified</code> (<code>D-57</code>), — и первой строкой в сигналах доверия, поэтому у неё своя клетка. Пустой <code>--mm-label</code> выключает подложку, и слово возвращается к цвету текста.</p>
+    <p class="kit-note">Одна на весь продукт: слово с галочкой на лаймовой лейбе. Стоит и сама по себе — в превью события от автора остаётся один <code>Verified</code> (<code>D-57</code>), — и первой строкой в сигналах доверия, поэтому у неё своя клетка. Пустой <code>--color-verified</code> выключает подложку, и слово возвращается к цвету текста.</p>
   </section>
   <section class="kit-case">
     <p class="kit-h"><b>Сигналы доверия</b><code>.mm-signals</code></p>
