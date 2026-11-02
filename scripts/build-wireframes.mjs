@@ -15,7 +15,7 @@
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { subtabsHtml, TABS_CSS, tabsJs } from './lib/tabs.mjs';
-import { rail } from './lib/chrome.mjs';
+import { rail, FAVICON } from './lib/chrome.mjs';
 import { deviceBar, deviceJs, kindBar } from './lib/screenbar.mjs';
 
 // скрипт выбора ширины: ищем прежний, чтобы заменить его, а не дописать второй
@@ -234,6 +234,7 @@ function stubPage(s, p) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${FAVICON}
 <title>${esc(s.name)} · ${esc(p.title)} · MeetMates wireframe</title>
 <!-- stub -->
 <!--

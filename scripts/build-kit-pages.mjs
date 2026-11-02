@@ -12,7 +12,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { rail } from './lib/chrome.mjs';
+import { rail, FAVICON } from './lib/chrome.mjs';
 import { themeBar, themeJs } from './lib/screenbar.mjs';
 
 const ROOT = process.cwd();
@@ -128,6 +128,7 @@ const shell = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${FAVICON}
 <title>Оболочка экрана · MeetMates UI kit</title>
 <!--
   ОБОЛОЧКА КАК РАЗМЕТКА. Отсюда её берёт экран, которому нужен каркас:
@@ -757,6 +758,7 @@ const kit = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${FAVICON}
 <title>Витрина компонентов · MeetMates UI kit</title>
 <!--
   ВИТРИНА. У каждого компонента нарисовано каждое состояние, которое у него есть,

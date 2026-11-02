@@ -145,6 +145,24 @@ for (const [dir, sheet] of WEARS) {
   }
 }
 
+// ── значок вкладки: каждая страница сайта объявляет свой `D-109` ──────
+//
+// Без него браузер просит /favicon.ico в корне домена и получает 404:
+// сайт лежит в подпапке, и корень домена нам не принадлежит — положить
+// туда файл нельзя. Проверяются целые страницы, а не куски: паттерны
+// в design-system/patterns/ — фрагменты без head, их вставляют в docs.
+const PAGE_DIRS = ['', 'sections', 'research', 'wireframes', 'ui', 'concept', 'concept/screens',
+  'design-system/docs', 'design-system/examples'];
+const noIcon = [];
+for (const dir of PAGE_DIRS) {
+  for (const f of readdirSync(join(ROOT, dir || '.')).filter((f) => f.endsWith('.html'))) {
+    const rel = dir ? `${dir}/${f}` : f;
+    const src = read(rel);
+    if (!/<html[\s>]/i.test(src)) continue;
+    if (!/rel="icon"/.test(src)) noIcon.push(rel);
+  }
+}
+
 // ── отчёт ─────────────────────────────────────────────────────────────
 const report = (title, list, how = (x) => x) => {
   console.log(`\n## ${title}\n`);
@@ -158,6 +176,7 @@ const bad = report('Тупик — в содержимом нет ни выхо�
   + report('Состояние отмечено в _screens.md, страницы нет', noPage)
   + report('Страница есть, в задании состояние не отмечено', noTask)
   + report('Экрана нет в дереве sitemap.md — имя разошлось', offMap)
-  + report('Страница одевается сама, мимо кита и _wire.css', ownStyle);
+  + report('Страница одевается сама, мимо кита и _wire.css', ownStyle)
+  + report('Страница без значка вкладки — браузер просит /favicon.ico и получает 404', noIcon);
 console.log(bad ? `\nРасхождений: ${bad}\n` : '\nВсе проверки проходят.\n');
 if (bad) process.exitCode = 1;

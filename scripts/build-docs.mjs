@@ -20,6 +20,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { FAVICON } from './lib/chrome.mjs';
 import { GROUPS, I, STAGE_CSS, WIDTH_DEMOS } from './build-kit-pages.mjs';
 
 const ROOT = process.cwd();
@@ -983,12 +984,9 @@ const page = ({ title, lead, body, here }) => `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${FAVICON}
 <title>${esc(title)} · Дизайн-система MeetMates</title>
 <meta name="description" content="${esc(lead)}">
-<!-- Значок вкладки: лавандовая точка набора. Отдельным файлом он не лежит —
-     одна фигура дешевле запроса, а без него браузер просил /favicon.ico
-     и получал 404 на каждой странице. -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231A1026'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23AB9FF2'/%3E%3C/svg%3E">
 <!--
   СГЕНЕРИРОВАНО scripts/build-docs.mjs — руками не править.
   Компоненты на странице живые и одеты ../index.css: это сама система,
@@ -1623,6 +1621,12 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 /* Якорь не заезжает под шапку и липкий ряд. Запас считан по худшему
    случаю: десять табов переносятся на две строки, и ряд с полями занимает 100px. */
 .grp, .pat { scroll-margin-top: 176px; }
+
+/* Якорь ведёт к заголовку, а не под шапку -D-109-. Шапка документации
+   липкая и высотой 66px: без отступа прокрутки переход по #states или
+   #widths ставил заголовок блока ровно под неё, и человек попадал
+   в середину предыдущего. */
+.sec, .doc h1 { scroll-margin-top: 80px; }
 
 .sec { margin: 0 0 48px; }
 .sec p { max-width: 72ch; }

@@ -85,6 +85,12 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
    случаю: десять табов переносятся на две строки, и ряд с полями занимает 100px. */
 .grp, .pat { scroll-margin-top: 176px; }
 
+/* Якорь ведёт к заголовку, а не под шапку -D-109-. Шапка документации
+   липкая и высотой 66px: без отступа прокрутки переход по #states или
+   #widths ставил заголовок блока ровно под неё, и человек попадал
+   в середину предыдущего. */
+.sec, .doc h1 { scroll-margin-top: 80px; }
+
 .sec { margin: 0 0 48px; }
 .sec p { max-width: 72ch; }
 .sec-lead { margin: 0 0 16px; color: var(--dim); font-size: 14px; }

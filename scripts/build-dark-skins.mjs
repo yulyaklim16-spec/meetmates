@@ -14,6 +14,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { FAVICON } from './lib/chrome.mjs';
 
 const ROOT = process.cwd();
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -259,6 +260,7 @@ const page = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${FAVICON}
 <title>Тёмные облики · MeetMates</title>
 <meta name="description" content="Пять наборов значений для тёмной темы на одном экране: выбор облика до того, как он станет токенами.">
 <!--

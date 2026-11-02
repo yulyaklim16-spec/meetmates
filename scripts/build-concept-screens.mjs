@@ -19,7 +19,7 @@
 // отцеплены 2026-10-16: он одевал их до кита и остался только под стенд стиля.
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { rail } from './lib/chrome.mjs';
+import { rail, FAVICON } from './lib/chrome.mjs';
 import { kindBar, themeBar } from './lib/screenbar.mjs';
 import { wireframeOrder, flatPages } from './lib/wfnav.mjs';
 import { join } from 'node:path';
@@ -532,6 +532,7 @@ ${themeBar()}
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${FAVICON}
 <title>${title}</title>
 <!-- Сгенерировано scripts/build-concept-screens.mjs из wireframes/${name}.html — руками не править. -->
 ${docComment}

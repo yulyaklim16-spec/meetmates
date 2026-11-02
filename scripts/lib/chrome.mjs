@@ -29,3 +29,10 @@ export function rail({ prefix, current }) {
 ${items}
 </nav>`;
 }
+
+// Значок вкладки — одна фигура в data:URI, отдельным файлом он не лежит:
+// запрос дороже фигуры. Страница без него просит /favicon.ico в корне
+// домена и получает 404 — сайт лежит в подпапке, и корень домена нам
+// не принадлежит, положить туда файл нельзя. Поэтому значок объявляет
+// каждая страница, и это проверяет `node scripts/screens-audit.mjs`.
+export const FAVICON = `<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231A1026'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23AB9FF2'/%3E%3C/svg%3E">`;

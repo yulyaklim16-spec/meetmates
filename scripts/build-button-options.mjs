@@ -13,6 +13,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { FAVICON } from './lib/chrome.mjs';
 
 const ROOT = process.cwd();
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -119,6 +120,7 @@ const page = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${FAVICON}
 <title>Третичная кнопка — варианты · MeetMates</title>
 <meta name="description" content="Четыре варианта третичной кнопки на одних и тех же экранах, в светлой и тёмной теме.">
 <!--

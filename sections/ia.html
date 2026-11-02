@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231A1026'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23AB9FF2'/%3E%3C/svg%3E">
 <title>Информационная архитектура · MeetMates</title>
 <meta name="description" content="Дерево экранов с job у каждого экрана, навигация в три слоя, матрица покрытия jobs × экраны и потоки как Mermaid-диаграммы.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -800,7 +801,7 @@ a.lk.in .ar { color: var(--accent); }
 <p><strong>Почему в дереве нет вкладок.</strong> Дерево — не навигация: ветки здесь объекты, а не разделы. Как до экранов добираться, выведено ниже в разделе «Навигация» из того, что человек делает чаще — и получилось три вкладки, а не четыре <code class="dcode">D-33</code>.</p>
 <h3 id="сводка">Сводка</h3>
 <div class="tw"><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody>
-<tr><td>Экранов</td><td><strong>31</strong></td><td>без состояний; верификация посчитана один раз, хотя стоит в двух ветках. Было 35: пять стали состояниями по трассировке, один добавлен <code class="dcode">D-43</code></td></tr>
+<tr><td>Экранов</td><td><strong>31</strong></td><td>без состояний; верификация посчитана один раз, хотя стоит в двух ветках. Было 35: пять стали состояниями по трассировке, один добавлен <code class="dcode">D-43</code>. <strong>Ширина счёта не меняет</strong> <code class="dcode">D-106</code>: список чатов и диалог с 834 стоят рядом, но объектов по-прежнему два. <strong>Два экрана живут только на телефоне и планшете</strong> <code class="dcode">D-105</code>: II.2 и III.2 — с 1280 фильтры стоят рейкой, и экрана нет</td></tr>
 <tr><td>С job</td><td><strong>31</strong></td><td>три из них — по трассировке (<code>✓*</code>): регистрация, интент, геолокация</td></tr>
 <tr><td><strong>Сироты</strong></td><td><strong>0</strong></td><td>было 8; решения по каждой — раздел «Трассировка»</td></tr>
 <tr><td>Только secondary</td><td><strong>2</strong></td><td>фильтры ленты (G3, R3) · напоминание «Still going?» (R3)</td></tr>
