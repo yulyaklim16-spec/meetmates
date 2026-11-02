@@ -970,6 +970,10 @@ const page = ({ title, lead, body, here }) => `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)} · Дизайн-система MeetMates</title>
 <meta name="description" content="${esc(lead)}">
+<!-- Значок вкладки: лавандовая точка набора. Отдельным файлом он не лежит —
+     одна фигура дешевле запроса, а без него браузер просил /favicon.ico
+     и получал 404 на каждой странице. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231A1026'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23AB9FF2'/%3E%3C/svg%3E">
 <!--
   СГЕНЕРИРОВАНО scripts/build-docs.mjs — руками не править.
   Компоненты на странице живые и одеты ../index.css: это сама система,
@@ -1239,7 +1243,7 @@ const indexPage = () => {
   const body = `
 <div class="doc">
   <h1>Компоненты</h1>
-  <p class="lede">Тридцать три компонента, из которых собраны все пятьдесят экранов концепта.
+  <p class="lede">${DOCS.length} компонента, из которых собраны все пятьдесят экранов концепта.
   Здесь они живые: страница одета <code>design-system/index.css</code> — тем же файлом, что и продукт.
   Поменяется компонент, поменяется и эта страница; соврать ей нечем.</p>
   <p class="lede">У каждого своя страница из четырёх частей: <b>анатомия</b> с подписями частей,

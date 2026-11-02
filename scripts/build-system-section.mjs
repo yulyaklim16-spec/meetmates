@@ -96,7 +96,7 @@ const TABS = [
   {
     id: 'components',
     title: 'Компоненты',
-    html: live([docFrame('index.html', 'Showcase компонентов', 'Тридцать три компонента живыми — те же классы и тот же файл стилей, что в продукте')]) + '\n' + pageList,
+    html: live([docFrame('index.html', 'Showcase компонентов', `${compPages.length} компонента живыми — те же классы и тот же файл стилей, что в продукте`)]) + '\n' + pageList,
   },
   {
     id: 'patterns',
