@@ -1526,7 +1526,7 @@ body {
 }
 .top-name { margin: 0; font-weight: 700; letter-spacing: -.01em; }
 .top-name a, .top-nav a { color: inherit; text-decoration: none; }
-.top-nav { display: flex; gap: 16px; margin-right: auto; font-size: 14px; }
+.top-nav { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-right: auto; font-size: 14px; }
 .top-nav a { color: var(--dim); padding: 4px 0; border-bottom: 2px solid transparent; }
 .top-nav a:hover { color: var(--ink); }
 .top-nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--mark); }
@@ -1650,7 +1650,11 @@ ${STAGE_CSS}
    стоит в [data-theme="dark"], и это настоящий вид, а не снимок. */
 /* Три состояния стоят в ряд и каждое — в ширине макета. Если ряд не влез,
    его листают: сжать макет значило бы показать не тот вид. */
-.states { display: grid; gap: 2px; margin: 0 0 16px; overflow-x: auto; }
+/* Опора для абсолютных потомков -D-103-. Скрытая подпись для скринридера
+   (.mm-vh) — абсолютная и без координат: если опоры нет, её содержащим блоком
+   становится страница, и подпись, стоящая в прокрученной части таблицы,
+   распирала документ — страница поля пароля ехала вбок на 166px. */
+.states { display: grid; gap: 2px; margin: 0 0 16px; overflow-x: auto; position: relative; }
 .states-head, .states-row { display: grid; grid-template-columns: 92px repeat(3, minmax(434px, 1fr)); gap: var(--gap); align-items: center; }
 .states-row { padding: 12px; border-radius: 14px; }
 /* Строка объявляет свою тему, а с ней — фон и цвет текста. Без color
@@ -1714,7 +1718,7 @@ ${STAGE_CSS}
 .pat-screens code { margin-right: 4px; }
 /* Паттерн показан в своей ширине — 390px, базовый макет: растянутый
    на всю страницу, он выглядит не так, как на экране. */
-.pat-stage { padding: 20px; border-radius: 16px; border: 1px solid var(--edge); background: var(--paper); display: grid; gap: 20px; }
+.pat-stage { position: relative; padding: 20px; border-radius: 16px; border: 1px solid var(--edge); background: var(--paper); display: grid; gap: 20px; }
 .pat-stage > * { width: 100%; max-width: 390px; margin-inline: auto; }
 .pat-facts { display: grid; grid-template-columns: 120px 1fr; gap: 8px 16px; margin: 16px 0 0; font-size: 14px; }
 .pat-facts dt { color: var(--dim); }
@@ -1757,8 +1761,27 @@ body:has(#bare:target) .doc { padding-top: 24px; }
 @media (max-width: 760px) {
   .rules { grid-template-columns: 1fr; }
   .kit-stage { overflow-x: auto; justify-content: flex-start; }
+  /* Площадка паттерна — так же: образец в ней шириной с макет, и ниже 390px
+     он распирал страницу вместо того, чтобы прокрутиться у себя. */
+  .pat-stage { overflow-x: auto; }
+  .pat-stage > * { margin-inline: 0; }
   .doc { padding: 24px 16px 48px; }
   .top { padding: 12px 16px; }
+  /* Таблица уже страницы не станет — она прокручивается сама */
+  .doc table { display: block; overflow-x: auto; }
+}
+/* Клетке сетки нельзя ужаться ниже своего содержимого, пока ей не сказать
+   min-width: 0 -D-103-. Без этого прокрутка внутри площадки не спасала:
+   колонка с образцом в 358px распирала страницу, и документация ехала вбок —
+   до 111px лишней ширины на «Слое». Правило стоит вне media: узкой колонка
+   бывает и на широком экране, когда блоков в ряду два. */
+.rules > *, .cards > *, .anat-grid > *, .pat-when > *, .pat-facts > *,
+.states-row > *, .states-head > *, .why-grid > * { min-width: 0; }
+
+/* Два блока в ряду просят по 400px на образец с полями. Ниже этого ряд
+   распадается на один столбец — иначе образец не влезает в половину. */
+@media (max-width: 880px) {
+  .rules, .pat-when, .pat-facts { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .01ms !important; transition-duration: .01ms !important; }

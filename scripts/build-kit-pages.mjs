@@ -460,7 +460,7 @@ const GROUPS = [
       cell('Row-Hover', `<ul class="mm-list"><li><a class="mm-row is-hover" href="#"><span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span><span class="mm-facts"><span class="mm-avatar" aria-hidden="true">${face('olena')}</span>Let&rsquo;s go then. Which day works for you?</span></a></li></ul>`, 'kit-cell--wide'),
       cell('Row-Default-No link', '<ul class="mm-list"><li class="mm-row"><span class="mm-row-head"><b>Location</b><span class="mm-meta">On &middot; rounded</span></span></li></ul>', 'kit-cell--wide'),
       cell('Row-Default-With a thumbnail', `<ul class="mm-list"><li><a class="mm-row mm-row--media" href="#"><span class="mm-thumb" aria-hidden="true">${cover('games')}</span><span class="mm-row-body"><span class="mm-row-head"><b>Board games</b></span><span class="mm-facts">26 Sep &middot; 18:00 &middot; Kyiv Games Club &middot; ~3 km &middot; 1 spot left</span></span></a></li></ul>`, 'kit-cell--wide'),
-      cell('Row-Default-With a portrait', `<ul class="mm-list"><li><a class="mm-row mm-row--media" href="#"><span class="mm-thumb mm-thumb--round" aria-hidden="true">${face('olena')}</span><span class="mm-row-body"><span class="mm-row-head"><b>Olena, 26</b></span><span class="mm-facts">3 common interests &middot; Verified &middot; 6 meetups attended &middot; ~2 km</span></span></a></li></ul>`, 'kit-cell--wide'),
+      cell('Row-Default-With a portrait', `<ul class="mm-list"><li><a class="mm-row mm-row--media" href="#"><span class="mm-thumb mm-thumb--round" aria-hidden="true">${face('olena', 112)}</span><span class="mm-row-body"><span class="mm-row-head"><b>Olena, 26</b></span><span class="mm-facts">3 common interests &middot; Verified &middot; 6 meetups attended &middot; ~2 km</span></span></a></li></ul>`, 'kit-cell--wide'),
       cell('Row-Default-One line', '<ul class="mm-list"><li><a class="mm-row" href="#"><span class="mm-row-head"><b>My events</b><span class="mm-meta">1 request</span></span></a></li></ul>', 'kit-cell--wide'),
     ], 'Одна и та же строка несёт чат, событие и строку глубокого слоя. Строка-ссылка со снимком на наведении приближает обложку; строка без снимка и строка без ссылки не отзываются вовсе. Строка несёт и выдачу поиска: слева миниатюра — у события обложка скруглённым квадратом, у человека портрет кругом, и круг говорит «человек» раньше, чем прочитано имя (<code>D-70</code>).'),
 
@@ -529,7 +529,7 @@ const GROUPS = [
 
   grp(7, 'Загрузка', 'Заглушки держат раскладку и показывают, что именно грузится. Спиннер не делает ни того, ни другого. При <code>prefers-reduced-motion</code> полоса стоит на месте.', [
     comp('Заглушка', '.mm-skel', [
-      cell('Skel-Line', '<p class="kit-block"><span class="mm-skel mm-skel--line mm-skel--w-l"></span><span class="mm-skel mm-skel--line mm-skel--w-m"></span><span class="mm-skel mm-skel--line mm-skel--w-s"></span></p>', 'kit-cell--wide'),
+      cell('Skel-Line', '<p class="kit-block kit-stack"><span class="mm-skel mm-skel--line mm-skel--w-l"></span><span class="mm-skel mm-skel--line mm-skel--w-m"></span><span class="mm-skel mm-skel--line mm-skel--w-s"></span></p>', 'kit-cell--wide'),
       cell('Skel-Pill', '<span class="mm-skel mm-skel--pill mm-skel--w-s"></span>', 'kit-cell--wide'),
       cell('Skel-Button', '<span class="mm-skel mm-skel--btn mm-skel--w-l"></span>', 'kit-cell--wide'),
       cell('Skel-Thumb', '<p class="mm-skelrow kit-block"><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span><span class="mm-skel mm-skel--thumb"></span></p>', 'kit-cell--wide'),
@@ -707,6 +707,13 @@ const STAGE_CSS = `  /* высоту растягивающимся компон
   .mm-segmented.kit-one { width: auto; }
   .mm-segmented.kit-one > * { flex: none; min-width: 112px; }
   .kit-block { width: 100%; }
+  /* Площадка — опора для абсолютных потомков: скрытая подпись .mm-vh
+     абсолютна и без координат, и без опоры утекает за пределы прокрутки. */
+  .kit-stage { position: relative; }
+  /* Столбец с шагом тела карточки: сама заглушка шага не несёт — его задаёт
+     контейнер, в котором она лежит — тело карточки, шаг 4px. На площадке
+     этого контейнера нет, и три полосы слипались в одно пятно -D-103-. */
+  .kit-stack { display: flex; flex-direction: column; gap: var(--space-4); }
   /* место под раскрытый список: он лежит слоем, высоту клетке он не задаёт */
   .kit-drop { padding-bottom: 128px; }`;
 

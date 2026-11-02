@@ -119,6 +119,13 @@
   .mm-segmented.kit-one { width: auto; }
   .mm-segmented.kit-one > * { flex: none; min-width: 112px; }
   .kit-block { width: 100%; }
+  /* Площадка — опора для абсолютных потомков: скрытая подпись .mm-vh
+     абсолютна и без координат, и без опоры утекает за пределы прокрутки. */
+  .kit-stage { position: relative; }
+  /* Столбец с шагом тела карточки: сама заглушка шага не несёт — его задаёт
+     контейнер, в котором она лежит — тело карточки, шаг 4px. На площадке
+     этого контейнера нет, и три полосы слипались в одно пятно -D-103-. */
+  .kit-stack { display: flex; flex-direction: column; gap: var(--space-4); }
   /* место под раскрытый список: он лежит слоем, высоту клетке он не задаёт */
   .kit-drop { padding-bottom: 128px; }
   code { font-family: ui-monospace, monospace; font-size: 12px; }
@@ -842,7 +849,7 @@
         <figcaption>Row-Default-With a thumbnail</figcaption>
       </figure>
       <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><ul class="mm-list"><li><a class="mm-row mm-row--media" href="#"><span class="mm-thumb mm-thumb--round" aria-hidden="true"><img src="img/olena-48.jpg" alt="" loading="lazy"></span><span class="mm-row-body"><span class="mm-row-head"><b>Olena, 26</b></span><span class="mm-facts">3 common interests &middot; Verified &middot; 6 meetups attended &middot; ~2 km</span></span></a></li></ul></div>
+        <div class="kit-stage"><ul class="mm-list"><li><a class="mm-row mm-row--media" href="#"><span class="mm-thumb mm-thumb--round" aria-hidden="true"><img src="img/olena-112.jpg" alt="" loading="lazy"></span><span class="mm-row-body"><span class="mm-row-head"><b>Olena, 26</b></span><span class="mm-facts">3 common interests &middot; Verified &middot; 6 meetups attended &middot; ~2 km</span></span></a></li></ul></div>
         <figcaption>Row-Default-With a portrait</figcaption>
       </figure>
       <figure class="kit-cell kit-cell--wide">
@@ -1079,7 +1086,7 @@
     <p class="kit-h"><b>Заглушка</b><code>.mm-skel</code></p>
     <div class="kit-matrix">
       <figure class="kit-cell kit-cell--wide">
-        <div class="kit-stage"><p class="kit-block"><span class="mm-skel mm-skel--line mm-skel--w-l"></span><span class="mm-skel mm-skel--line mm-skel--w-m"></span><span class="mm-skel mm-skel--line mm-skel--w-s"></span></p></div>
+        <div class="kit-stage"><p class="kit-block kit-stack"><span class="mm-skel mm-skel--line mm-skel--w-l"></span><span class="mm-skel mm-skel--line mm-skel--w-m"></span><span class="mm-skel mm-skel--line mm-skel--w-s"></span></p></div>
         <figcaption>Skel-Line</figcaption>
       </figure>
       <figure class="kit-cell kit-cell--wide">
