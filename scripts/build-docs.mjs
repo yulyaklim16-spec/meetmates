@@ -80,9 +80,14 @@ const fixPaths = (html) => demote(html)
 // Поэтому заголовки образца опускаются на два уровня — вид их задают классы,
 // а не теги, и внешне не меняется ничего.
 function demote(html) {
-  return html
-    .replace(/<(\/?)h1/g, '<$1h3')
-    .replace(/<(\/?)h2/g, '<$1h4');
+  const levels = [...html.matchAll(/<h([1-6])/g)].map((m) => Number(m[1]));
+  if (!levels.length) return html;
+  // Самый верхний заголовок образца становится h3: образец стоит внутри
+  // секции страницы, у которой h2. Сдвиг считается, а не задан числом, —
+  // иначе образец без h1 получал h4 сразу после h2, и уровень опять прыгал.
+  const shift = 3 - Math.min(...levels);
+  if (shift <= 0) return html;
+  return html.replace(/<(\/?)h([1-6])/g, (m, slash, n) => `<${slash}h${Math.min(6, Number(n) + shift)}`);
 }
 
 const pick = (name, label) => {

@@ -604,7 +604,7 @@ const GROUPS = [
         </header>
         <main class="mm-app">
           <div class="mm-pane">
-            <section class="mm-stretch">${person()}</section>
+            <section class="mm-stretch" aria-labelledby="kit-who"><h2 id="kit-who" class="mm-vh">Who</h2>${person()}</section>
             <p class="mm-actions">
               <a class="mm-btn" href="#">Skip</a>
               <a class="mm-btn mm-btn--primary" href="#">Like</a>

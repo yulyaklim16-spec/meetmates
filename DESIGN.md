@@ -66,8 +66,9 @@ typography:
     fontWeight: 600
     lineHeight: 1.5
     letterSpacing: "normal"
-  code:                 # только документация: имя класса, токена и решения
-    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+  # только документация: имя класса, токена и решения
+  code:
+    fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace"
     fontSize: "12px"
     fontWeight: 400
     lineHeight: 1.5
