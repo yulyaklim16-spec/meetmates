@@ -191,6 +191,25 @@
   .mm-split > .mm-split-list { flex: none; display: flex; width: 320px; }
   .mm-split > .mm-split-detail { display: flex; }
 
+  /* Правая панель начинается там же, где первая строка списка. «Ничего
+     не выбрано» — ответ на список, и стоять выше его первой строки ему
+     незачем: шапка над списком («New matches») относится к левой колонке.
+     Считается сеткой, а не отступом в пикселях: высоту шапки меряет браузер,
+     и правило не поедет, когда шапка изменится. Там, где шапки нет (диалог:
+     в левой панели только список), пара остаётся прежней парой флексов. */
+  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-12);
+  }
+  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-list { display: contents; }
+  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-list > * { grid-column: 1; }
+  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-list > .mm-scrolly { grid-row: 2; }
+  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-list > :last-child:not(.mm-scrolly) { grid-row: 3; }
+  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-detail { grid-column: 2; grid-row: 2 / -1; }
+
   /* Решение в широкой панели — колонка с потолком: без него кнопка повтора
      растягивается на девятьсот пикселей и перестаёт читаться кнопкой.
      Блок состояния — наоборот: в правой панели пары он и есть панель
@@ -447,6 +466,14 @@
     overflow: hidden;
   }
 
+  /* Прокручиваемая секция выходит в края экрана отрицательным полем —
+     на телефоне это верно: панель там одна, и карточка идёт от края
+     до края. В колонке пары это поле лишнее: карточка вылезала на 16px
+     влево за поле экрана и на столько же вправо, прямо под фрейм решения,
+     и две колонки читались слипшимися. Поля тексту раздаёт `.mm-sheet-body`,
+     обложке они не нужны вовсе. */
+  .mm-sheet.mm-scrolly { margin-inline: 0; padding: 0; }
+
   .mm-sheet > .mm-evcover { border-radius: 0; box-shadow: none; }
 
   .mm-sheet > .mm-sheet-body {
@@ -651,6 +678,11 @@
     max-width: 390px;
   }
 }
+
+/* Строка фактов переносится по разделителям, а не посреди пары слов.
+   `pretty` не даёт последней строке остаться из одного слова: без него
+   в колонке пары «Replies» оставалось наверху, а «quickly» уезжало вниз. */
+.mm-facts { text-wrap: pretty; }
 
 /* ── мера строки: 46ch, и это правило одно на все абзацы `D-120` ────────
    В списке все, кто несёт предложение, а не ярлык: заметка, абзац плашки,

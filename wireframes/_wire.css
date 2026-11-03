@@ -1142,6 +1142,30 @@ a { color: var(--w-ink); }
      и первую реплику, не перенося их */
   flex: none; display: flex; width: var(--w-list-col);
 }
+
+/* Правая панель начинается там же, где первая строка списка: «ничего
+   не выбрано» — ответ на список, и стоять выше его первой строки ему незачем,
+   а шапка над списком относится к левой колонке. Считается сеткой, а не
+   отступом в пикселях: высоту шапки меряет браузер. Где шапки нет (диалог),
+   пара остаётся парой флексов. */
+:root[data-w="tablet"] .split:has(> .split-list > :first-child:not(.scrolly)),
+:root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)) {
+  display: grid;
+  grid-template-columns: var(--w-list-col) minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  column-gap: var(--w-gap-grid);
+  row-gap: var(--s-3);
+}
+:root[data-w="tablet"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-list,
+:root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-list { display: contents; }
+:root[data-w="tablet"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-list > *,
+:root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-list > * { grid-column: 1; }
+:root[data-w="tablet"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-list > .scrolly,
+:root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-list > .scrolly { grid-row: 2; }
+:root[data-w="tablet"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-list > :last-child:not(.scrolly),
+:root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-list > :last-child:not(.scrolly) { grid-row: 3; }
+:root[data-w="tablet"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-detail,
+:root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-detail { grid-column: 2; grid-row: 2 / -1; }
 /* Волосяная линия между панелями `D-117`: своего вида у пары нет, но
    граница — не вид, а разделитель. Просвета в 24px мало: обе панели белые,
    и пара читалась одним полем, в котором строки почему-то кончаются
@@ -1264,6 +1288,12 @@ a { color: var(--w-ink); }
   border-radius: var(--r-sm);
   overflow: hidden;
 }
+/* Прокручиваемая секция выходит в края экрана отрицательным полем — на
+   телефоне это верно, панель там одна. В колонке пары поле лишнее: карточка
+   вылезала за поле экрана слева и под фрейм решения справа, и две колонки
+   читались слипшимися. Поля тексту раздаёт `.facts`, обложке они не нужны. */
+:root[data-w="tablet"] .sheet.scrolly,
+:root[data-w="desktop"] .sheet.scrolly { margin-inline: 0; padding: 0; }
 :root[data-w="tablet"] .sheet > .evcover,
 :root[data-w="desktop"] .sheet > .evcover { border: 0; border-radius: 0; }
 :root[data-w="tablet"] .sheet > .facts,
@@ -1298,6 +1328,10 @@ a { color: var(--w-ink); }
    показывает ровно ту карточку, что лежит в колоде, то есть портрет. */
 :root[data-w="tablet"] .card,
 :root[data-w="desktop"] .card { max-width: var(--w-card-max); }
+
+/* Строка автора переносится по разделителям, а не посреди пары слов:
+   `pretty` не даёт последней строке остаться из одного слова. */
+.who { text-wrap: pretty; }
 
 /* ── мера строки: 46ch, и это правило одно на все абзацы `D-120` ─────────
    Прежде потолок стоял списком имён, и каждый новый блок текста проезжал
