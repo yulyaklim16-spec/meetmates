@@ -260,7 +260,7 @@
 @container mm-screen (min-width: 80rem) {
   .mm-cols--3 { grid-template-columns: repeat(var(--col-count-desktop), minmax(0, 1fr)); }
 
-  .mm-cap--cell {
+  .mm-cell {
     max-width: calc((100% - (var(--col-count-desktop) - 1) * var(--grid-gap)) / var(--col-count-desktop));
   }
 }
@@ -317,13 +317,17 @@
      Экран объявляет это классом, а файл не угадывает. */
   .mm-cap--left { margin-inline: 0; }
 
-  /* …а `.mm-cap--cell` — потолок в одну клетку сетки, по центру (`D-118`):
-     срез `Nearby`/`Mine` стоит над лентой, и мерить его строкой не по чему —
-     строки на экране нет, есть колонки. */
-  .mm-cap--cell {
+  /* …а `.mm-cell` — потолок в одну клетку сетки (`D-118`): над лентой стоят
+     органы, которые мерить строкой не по чему — строки на экране нет, есть
+     колонки. Срез `Nearby`/`Mine` равняется по первой карточке (`--left`),
+     выход `See people` стоит по центру, в ширину средней. */
+  .mm-cell {
+    width: 100%;
     max-width: calc((100% - (var(--col-count-tablet) - 1) * var(--grid-gap)) / var(--col-count-tablet));
     margin-inline: auto;
   }
+
+  .mm-cell.mm-cap--left { margin-inline: 0; }
 }
 
 /* Сцена: тот же ответ, доведённый до конца там, где экран — одна фигура,

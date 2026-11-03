@@ -764,18 +764,7 @@ a { color: var(--w-ink); }
    которому аудит назначил центр. Догадка снята. */
 :root[data-w="tablet"] .cap.left,
 :root[data-w="desktop"] .cap.left { margin-inline: 0; }
-/* …а `.cap.cell` — потолок в одну клетку сетки, по центру `D-118`.
-   Срез `Nearby`/`Mine` стоит над лентой, и мерить его строкой не по чему:
-   строки на экране нет, есть колонки. В ширину карточки он читается
-   органом той же сетки, а по центру — стоит над средней карточкой ряда. */
-:root[data-w="tablet"] .cap.cell,
-:root[data-w="desktop"] .cap.cell {
-  max-width: calc((100% - (var(--w-col-tablet) - 1) * var(--w-gap-grid)) / var(--w-col-tablet));
-  margin-inline: auto;
-}
-:root[data-w="desktop"] .cap.cell {
-  max-width: calc((100% - (var(--w-col-desktop) - 1) * var(--w-gap-grid)) / var(--w-col-desktop));
-}
+
 
 /* Внутри колонки лента колонок больше не множит: ширину уже поделили.
    Одна карточка события в правой колонке профиля получала бы на 1280 треть
@@ -1173,6 +1162,27 @@ a { color: var(--w-ink); }
   margin-inline: auto;
   padding-inline: var(--s-5);
 }
+
+/* ── `.cell`: потолок в одну клетку сетки `D-118` ────────────────────────
+   Над лентой стоят органы, которые мерить строкой не по чему: строки
+   на экране нет, есть колонки. Срез `Nearby`/`Mine` и выход `See people`
+   получают ширину карточки — и читаются органами той же сетки.
+   По умолчанию по центру (выход — дверь под рядом карточек), с `.left` —
+   у края, над первой карточкой (срез управляет лентой и равняется по ней).
+   Ширина считается от сетки, а не числом: прибавится колонка — подстроится.
+   Стоит после потолка выходов нарочно: тот ставит `.exit` свои 390,
+   и перебить их можно только правилом ниже. */
+:root[data-w="tablet"] .pane .cell,
+:root[data-w="desktop"] .pane .cell {
+  width: 100%;
+  max-width: calc((100% - (var(--w-col-tablet) - 1) * var(--w-gap-grid)) / var(--w-col-tablet));
+  margin-inline: auto;
+}
+:root[data-w="desktop"] .pane .cell {
+  max-width: calc((100% - (var(--w-col-desktop) - 1) * var(--w-gap-grid)) / var(--w-col-desktop));
+}
+:root[data-w="tablet"] .pane .cell.left,
+:root[data-w="desktop"] .pane .cell.left { margin-inline: 0; }
 
 /* Карточка человека растёт до своего потолка, а не до колонки: `--card-h`
    фиксирован, и на 500px кадр становился ландшафтом 2:1 — а «как меня видят»
