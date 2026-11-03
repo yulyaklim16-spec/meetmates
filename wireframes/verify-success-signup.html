@@ -132,33 +132,35 @@
   <h1>Verification</h1>
 </header>
   <main class="app">
-  <div class="pane">
-    <!-- Ширина: «всё равно» (аудит, I.5 Верификация). Видоискатель упирается
-         в потолок кадра — лицо должно помещаться, а не заполнять монитор, —
-         подсказка остаётся под кадром, а действие и выход под ней. Поэтому
-         потолок `.cap` стоит на каждой зоне по отдельности: `.pane` держит
-         просвет между детьми, и одна общая обёртка склеила бы зоны в одну.
-         Таб-бара на этом экране нет (онбординг), значит и рейки слева на 1280
-         не будет — экран остаётся колонкой по центру на всех трёх ступенях. -->
-    <!-- ЗОНА 2: факт и что он даёт с самого начала -->
-    <section class="stretch cap" aria-labelledby="ok-h">
-      <h2 id="ok-h" class="vh">Verified</h2>
-      <article class="state">
-        <h3>You&rsquo;re verified</h3>
-        <p>The badge is on your card from the start. You can message anyone you both said yes to and join events right away.</p>
-        <ul class="signals">
-          <li><span class="ico sm" aria-hidden="true"></span>Verified</li>
-        </ul>
-      </article>
-    </section>
+  <!-- Ширина: пара «предмет и решение» `D-115` — та же, что на колоде
+       и карточке события. Слева видоискатель во всю свободную ширину:
+       кадр с лицом и есть предмет экрана. Справа одним фреймом то, что
+       с ним делают. Таб-бара на этом экране нет (онбординг), рейки слева
+       на 1280 тоже, поэтому паре достаётся весь кадр. -->
+  <div class="pane cols aside">
+    <div class="col">
+      <!-- ЗОНА 2: факт и что он даёт с самого начала -->
+      <section class="stretch" aria-labelledby="ok-h">
+        <h2 id="ok-h" class="vh">Verified</h2>
+        <article class="state">
+          <h3>You&rsquo;re verified</h3>
+          <p>The badge is on your card from the start. You can message anyone you both said yes to and join events right away.</p>
+          <ul class="signals">
+            <li><span class="ico sm" aria-hidden="true"></span>Verified</li>
+          </ul>
+        </article>
+      </section>
+    </div>
 
-    <!-- ЗОНА 3: дальше — в продукт, а не назад -->
-    <section class="cap" aria-labelledby="act-h">
-      <h2 id="act-h" class="vh">What next</h2>
-      <p class="row">
-        <a class="btn primary" href="deck.html">See people</a>
-      </p>
-    </section>
+    <div class="col">
+      <!-- ЗОНА 3: дальше — в продукт, а не назад -->
+      <section aria-labelledby="act-h">
+        <h2 id="act-h" class="vh">What next</h2>
+        <p class="row">
+          <a class="btn primary" href="deck.html">See people</a>
+        </p>
+      </section>
+    </div>
   </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->

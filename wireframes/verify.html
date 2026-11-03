@@ -133,46 +133,48 @@
   <h1>Verification</h1>
 </header>
   <main class="app">
-  <div class="pane">
-    <!-- Ширина: «всё равно» (аудит, I.5 Верификация). Видоискатель упирается
-         в потолок кадра — лицо должно помещаться, а не заполнять монитор, —
-         подсказка остаётся под кадром, а действие и выход под ней. Поэтому
-         потолок `.cap` стоит на каждой зоне по отдельности: `.pane` держит
-         просвет между детьми, и одна общая обёртка склеила бы зоны в одну.
-         Таб-бара на этом экране нет (онбординг), значит и рейки слева на 1280
-         не будет — экран остаётся колонкой по центру на всех трёх ступенях. -->
-    <!-- ЗОНА 2: видоискатель. Поза — то, что отличает живое фото от чужого -->
-    <section class="stretch cap" aria-labelledby="cam-h">
-      <h2 id="cam-h" class="vh">Selfie</h2>
-      <article class="card">
-        <figure>
-          <p class="photo" aria-hidden="true"></p>
-          <figcaption>Camera</figcaption>
-        </figure>
-        <section class="body">
-          <p class="common">Turn your head slightly to the left</p>
-          <p class="distance">Face the light, no sunglasses, no filters.</p>
-        </section>
-      </article>
-    </section>
+  <!-- Ширина: пара «предмет и решение» `D-115` — та же, что на колоде
+       и карточке события. Слева видоискатель во всю свободную ширину:
+       кадр с лицом и есть предмет экрана. Справа одним фреймом то, что
+       с ним делают. Таб-бара на этом экране нет (онбординг), рейки слева
+       на 1280 тоже, поэтому паре достаётся весь кадр. -->
+  <div class="pane cols aside">
+    <div class="col">
+      <!-- ЗОНА 2: видоискатель. Поза — то, что отличает живое фото от чужого -->
+      <section class="stretch" aria-labelledby="cam-h">
+        <h2 id="cam-h" class="vh">Selfie</h2>
+        <article class="card">
+          <figure>
+            <p class="photo" aria-hidden="true"></p>
+            <figcaption>Camera</figcaption>
+          </figure>
+          <section class="body">
+            <p class="common">Turn your head slightly to the left</p>
+            <p class="distance">Face the light, no sunglasses, no filters.</p>
+          </section>
+        </article>
+      </section>
+    </div>
 
-    <!-- ЗОНА 3: снять. Одно действие, и оно главное -->
-    <section class="cap" aria-labelledby="act-h">
-      <h2 id="act-h" class="vh">Decision</h2>
-      <p class="row">
-        <a class="btn primary" href="verify-loading.html">Take selfie</a>
-      </p>
-    </section>
+    <div class="col">
+      <!-- ЗОНА 3: снять. Одно действие, и оно главное -->
+      <section aria-labelledby="act-h">
+        <h2 id="act-h" class="vh">Decision</h2>
+        <p class="row">
+          <a class="btn primary" href="verify-loading.html">Take selfie</a>
+        </p>
+      </section>
 
-    <!-- ЗОНА 4: пропуск с названной ценой (§7.3) -->
-    <section class="cap" aria-labelledby="skip-h">
-      <h2 id="skip-h" class="vh">Later</h2>
-      <p>You can browse now &mdash; verify to start chatting.</p>
-      <a class="exit" href="deck.html">
-        <span>Keep browsing</span>
-        <span aria-hidden="true">&rarr;</span>
-      </a>
-    </section>
+      <!-- ЗОНА 4: пропуск с названной ценой (§7.3) -->
+      <section aria-labelledby="skip-h">
+        <h2 id="skip-h" class="vh">Later</h2>
+        <p>You can browse now &mdash; verify to start chatting.</p>
+        <a class="exit" href="deck.html">
+          <span>Keep browsing</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </section>
+    </div>
   </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->

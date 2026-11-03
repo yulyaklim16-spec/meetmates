@@ -146,46 +146,48 @@
   <h1 class="mm-head-title">Verification</h1>
 </header>
   <main class="mm-app">
-  <div class="mm-pane">
-    <!-- Ширина: «всё равно» (аудит, I.5 Верификация). Видоискатель упирается
-         в потолок кадра — лицо должно помещаться, а не заполнять монитор, —
-         подсказка остаётся под кадром, а действие и выход под ней. Поэтому
-         потолок `.cap` стоит на каждой зоне по отдельности: `.pane` держит
-         просвет между детьми, и одна общая обёртка склеила бы зоны в одну.
-         Таб-бара на этом экране нет (онбординг), значит и рейки слева на 1280
-         не будет — экран остаётся колонкой по центру на всех трёх ступенях. -->
-    <!-- ЗОНА 2: видоискатель. Поза — то, что отличает живое фото от чужого -->
-    <section class="mm-stretch mm-cap" aria-labelledby="cam-h">
-      <h2 id="cam-h" class="mm-vh">Selfie</h2>
-      <article class="mm-person">
-        <figure>
-          <p class="mm-photo"><img src="../img/dasha-720.jpg" alt="" loading="lazy"></p>
-          <figcaption class="mm-photo-cap">Camera</figcaption>
-        </figure>
-        <section class="mm-person-body">
-          <p class="mm-common">Turn your head slightly to the left</p>
-          <p class="mm-distance">Face the light, no sunglasses, no filters.</p>
-        </section>
-      </article>
-    </section>
+  <!-- Ширина: пара «предмет и решение» `D-115` — та же, что на колоде
+       и карточке события. Слева видоискатель во всю свободную ширину:
+       кадр с лицом и есть предмет экрана. Справа одним фреймом то, что
+       с ним делают. Таб-бара на этом экране нет (онбординг), рейки слева
+       на 1280 тоже, поэтому паре достаётся весь кадр. -->
+  <div class="mm-pane mm-cols mm-cols--aside">
+    <div class="mm-col">
+      <!-- ЗОНА 2: видоискатель. Поза — то, что отличает живое фото от чужого -->
+      <section class="mm-stretch" aria-labelledby="cam-h">
+        <h2 id="cam-h" class="mm-vh">Selfie</h2>
+        <article class="mm-person">
+          <figure>
+            <p class="mm-photo"><img src="../img/dasha-720.jpg" alt="" loading="lazy"></p>
+            <figcaption class="mm-photo-cap">Camera</figcaption>
+          </figure>
+          <section class="mm-person-body">
+            <p class="mm-common">Turn your head slightly to the left</p>
+            <p class="mm-distance">Face the light, no sunglasses, no filters.</p>
+          </section>
+        </article>
+      </section>
+    </div>
 
-    <!-- ЗОНА 3: снять. Одно действие, и оно главное -->
-    <section class="mm-cap" aria-labelledby="act-h">
-      <h2 id="act-h" class="mm-vh">Decision</h2>
-      <p class="mm-actions">
-        <a class="mm-btn mm-btn--primary" href="verify-loading.html">Take selfie</a>
-      </p>
-    </section>
+    <div class="mm-col">
+      <!-- ЗОНА 3: снять. Одно действие, и оно главное -->
+      <section class="mm-section" aria-labelledby="act-h">
+        <h2 id="act-h" class="mm-vh">Decision</h2>
+        <p class="mm-actions">
+          <a class="mm-btn mm-btn--primary" href="verify-loading.html">Take selfie</a>
+        </p>
+      </section>
 
-    <!-- ЗОНА 4: пропуск с названной ценой (§7.3) -->
-    <section class="mm-cap" aria-labelledby="skip-h">
-      <h2 id="skip-h" class="mm-vh">Later</h2>
-      <p>You can browse now &mdash; verify to start chatting.</p>
-      <a class="mm-btn" href="deck.html">
-        <span>Keep browsing</span>
-        <span aria-hidden="true">&rarr;</span>
-      </a>
-    </section>
+      <!-- ЗОНА 4: пропуск с названной ценой (§7.3) -->
+      <section class="mm-section" aria-labelledby="skip-h">
+        <h2 id="skip-h" class="mm-vh">Later</h2>
+        <p>You can browse now &mdash; verify to start chatting.</p>
+        <a class="mm-btn" href="deck.html">
+          <span>Keep browsing</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </section>
+    </div>
   </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->

@@ -134,40 +134,42 @@
   <h1>Verification</h1>
 </header>
   <main class="app">
-  <div class="pane">
-    <!-- Ширина: «всё равно» (аудит, I.5 Верификация). Видоискатель упирается
-         в потолок кадра — лицо должно помещаться, а не заполнять монитор, —
-         подсказка остаётся под кадром, а действие и выход под ней. Поэтому
-         потолок `.cap` стоит на каждой зоне по отдельности: `.pane` держит
-         просвет между детьми, и одна общая обёртка склеила бы зоны в одну.
-         Таб-бара на этом экране нет (онбординг), значит и рейки слева на 1280
-         не будет — экран остаётся колонкой по центру на всех трёх ступенях. -->
-    <!-- ЗОНА 2: причина. Не «something went wrong», а что именно не так -->
-    <section class="stretch cap" aria-labelledby="err-h">
-      <h2 id="err-h" class="vh">Verification failed</h2>
-      <article class="state" role="alert">
-        <h3>Couldn&rsquo;t read your face</h3>
-        <p>Part of your face was out of frame. Hold the phone at eye level and try once more.</p>
-      </article>
-      <p class="note">This was your first try. There&rsquo;s no limit on tries &mdash; after two, someone from the team looks at your selfie.</p>
-    </section>
+  <!-- Ширина: пара «предмет и решение» `D-115` — та же, что на колоде
+       и карточке события. Слева видоискатель во всю свободную ширину:
+       кадр с лицом и есть предмет экрана. Справа одним фреймом то, что
+       с ним делают. Таб-бара на этом экране нет (онбординг), рейки слева
+       на 1280 тоже, поэтому паре достаётся весь кадр. -->
+  <div class="pane cols aside">
+    <div class="col">
+      <!-- ЗОНА 2: причина. Не «something went wrong», а что именно не так -->
+      <section class="stretch" aria-labelledby="err-h">
+        <h2 id="err-h" class="vh">Verification failed</h2>
+        <article class="state" role="alert">
+          <h3>Couldn&rsquo;t read your face</h3>
+          <p>Part of your face was out of frame. Hold the phone at eye level and try once more.</p>
+        </article>
+        <p class="note">This was your first try. There&rsquo;s no limit on tries &mdash; after two, someone from the team looks at your selfie.</p>
+      </section>
+    </div>
 
-    <!-- ЗОНА 3: пересдать. Без таймаутов и без наказания -->
-    <section class="cap" aria-labelledby="act-h">
-      <h2 id="act-h" class="vh">What next</h2>
-      <p class="row">
-        <a class="btn primary" href="verify.html">Try again</a>
-      </p>
-    </section>
+    <div class="col">
+      <!-- ЗОНА 3: пересдать. Без таймаутов и без наказания -->
+      <section aria-labelledby="act-h">
+        <h2 id="act-h" class="vh">What next</h2>
+        <p class="row">
+          <a class="btn primary" href="verify.html">Try again</a>
+        </p>
+      </section>
 
-    <!-- ЗОНА 4: выход. Колода и просмотр остаются открытыми (§7.3) -->
-    <section class="cap" aria-labelledby="skip-h">
-      <h2 id="skip-h" class="vh">Later</h2>
-      <a class="exit" href="deck.html">
-        <span>Keep browsing</span>
-        <span aria-hidden="true">&rarr;</span>
-      </a>
-    </section>
+      <!-- ЗОНА 4: выход. Колода и просмотр остаются открытыми (§7.3) -->
+      <section aria-labelledby="skip-h">
+        <h2 id="skip-h" class="vh">Later</h2>
+        <a class="exit" href="deck.html">
+          <span>Keep browsing</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </section>
+    </div>
   </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
