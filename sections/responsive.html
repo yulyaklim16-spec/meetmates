@@ -348,12 +348,19 @@ footer p { max-width: 72ch; }
    убирает их шапку, навигация раздела уже стоит слева. Своей прокрутки
    у рамки нет — высоту задаёт скрипт внизу, до него держится запас. */
 .live { margin: var(--s-5) 0 0; padding: 0; list-style: none; display: grid; gap: var(--s-6); max-width: none; }
-.live.wide li { overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
-.live.wide .box { overflow: hidden; height: 560px; }
+/* Рамку держит сам бокс, а не пункт списка: подпись и ссылка стоят над ним
+   в потоке, и обрезать их скруглению нечем. Скругление одно — у бокса,
+   мокап внутри на ширине своего уже не носит (`D-121`). */
+.live.wide { grid-template-columns: minmax(0, 1fr); }
+.live.wide .box { width: 100%; overflow: hidden; border: 1px solid var(--line);
+  border-radius: var(--r-md); background: var(--surface);
+  /* рамка сама себе контейнер: масштаб внутри считается от её ширины */
+  container-type: inline-size; aspect-ratio: 1340 / 900; }
 /* Макет на 1280 в колонку раздела не входит: рамка берёт настоящую ширину
-   и уменьшается целиком — пропорции остаются теми же, что в браузере. */
+   и уменьшается целиком — пропорции те же, что в браузере, и поля
+   по бокам не остаётся при любой ширине окна. */
 .live.wide iframe.scale { width: 1340px; height: 900px; min-height: 0; border: 0; border-radius: 0;
-  transform: scale(.62); transform-origin: top left; }
+  transform: scale(calc(100cqw / 1340px)); transform-origin: top left; }
 .live iframe { width: 100%; min-height: 560px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); display: block; }
 .framelink { margin: 0 0 var(--s-2); font-size: var(--t-caption); }
 .cap { margin: 0 0 var(--s-3); font-size: var(--t-caption); color: var(--ink-600); }
@@ -384,16 +391,7 @@ footer p { max-width: 72ch; }
         <a class="mat" href="kit.html"><span class="n">07</span><span class="t">Сборка UI<i>готово</i></span></a>
         <a class="mat" href="tokens.html"><span class="n">08</span><span class="t">Дизайн-токены<i>готово</i></span></a>
         <a class="mat" href="system.html"><span class="n">09</span><span class="t">Дизайн-система<i>готово</i></span></a>
-        <a class="mat current" href="responsive.html" aria-current="page"><span class="n">10</span><span class="t">Responsive<i>текущий раздел</i></span></a>
-        <nav class="subtabs" aria-label="Части раздела">
-          <a href="#widths" data-spy="widths" aria-current="true">Три ширины</a>
-          <a href="#shell" data-spy="shell">Оболочка</a>
-          <a href="#forms" data-spy="forms">Четыре формы подачи</a>
-          <a href="#kladki" data-spy="kladki">Чем это собрано</a>
-          <a href="#switch" data-spy="switch">Переключатель, а не окно</a>
-          <a href="#checks" data-spy="checks">Что проверено замером</a>
-          <a href="#open" data-spy="open">Что открыто</a>
-        </nav>
+        <a class="mat" href="responsive.html"><span class="n">10</span><span class="t">Responsive<i>готово</i></span></a>
         <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
         <a class="mat soon" href="?section=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
       </div>

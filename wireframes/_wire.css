@@ -84,6 +84,22 @@ body:has(#bare:target) .anns { display: none; }
   max-width: none;
   justify-content: stretch;
 }
+/* …и сам мокап на ширине отдаётся рамке целиком: ни своей подложки,
+   ни своего скругления. Два скругления одно в другом читаются рамкой
+   в рамке, а корпуса у этой ширины и так нет — на 834 и 1280 это
+   уже не телефон `D-121`. На 390 всё остаётся: там скругление — корпус
+   устройства, и галерея раздела 04 показывает именно его. */
+:root[data-w="tablet"] body:has(#bare:target) .device,
+:root[data-w="desktop"] body:has(#bare:target) .device {
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+:root[data-w="tablet"] body:has(#bare:target) .screen,
+:root[data-w="desktop"] body:has(#bare:target) .screen {
+  border: 0;
+  border-radius: 0;
+}
 body:has(#bare:target) .device {
   grid-column: 1;
   margin: 0 auto;
