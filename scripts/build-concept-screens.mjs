@@ -20,7 +20,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { rail, FAVICON } from './lib/chrome.mjs';
-import { kindBar, themeBar } from './lib/screenbar.mjs';
+import { kindBar, themeBar, themeJs } from './lib/screenbar.mjs';
 import { wireframeOrder, flatPages } from './lib/wfnav.mjs';
 import { join } from 'node:path';
 
@@ -581,6 +581,7 @@ ${kit ? '<link rel="stylesheet" href="../../design-system/index.css">\n' : ''}</
 ${rail({ prefix: '../../', current: '06' })}
 ${tree(name)}
 ${body.trim()}
+${themeJs()}
 </body>
 </html>
 `;

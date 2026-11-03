@@ -292,5 +292,26 @@
   });
 })();
 </script>
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'mm-theme';
+  function theme(t) {
+    if (t === 'dark') root.dataset.theme = 'dark';
+    else root.removeAttribute('data-theme');
+    document.querySelectorAll('.wftheme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
+    });
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+  }
+  var saved;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  theme(saved === 'dark' ? 'dark' : 'light');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.wftheme button');
+    if (b) theme(b.dataset.themeSet);
+  });
+})();
+</script>
 </body>
 </html>
