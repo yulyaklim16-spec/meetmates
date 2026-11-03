@@ -684,6 +684,11 @@ const SEMANTIC = [
     "css": "border-hairline"
   },
   {
+    "path": "border/control",
+    "alias": "color/plum-400",
+    "css": "border-control"
+  },
+  {
     "path": "bg/hover",
     "alias": "color/lilac-100",
     "css": "bg-hover"
@@ -842,6 +847,11 @@ const SEMANTIC_DARK = [
     "path": "border/hairline",
     "alias": "misc/coal-500",
     "css": "border-hairline"
+  },
+  {
+    "path": "border/control",
+    "alias": "misc/coal-500",
+    "css": "border-control"
   },
   {
     "path": "color/focus",
