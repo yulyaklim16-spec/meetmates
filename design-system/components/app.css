@@ -345,11 +345,20 @@
 
 /* Линия между панелями пары (`D-117`): просвета мало — обе панели белые,
    и пара читается одним полем, в котором строки кончаются на трети ширины.
-   Одна волосяная на границу зоны, та же, что у рейки (`D-72`). */
+   Одна волосяная на границу зоны, та же, что у рейки (`D-72`).
+   Рисует её экран, а не панель: полоса ввода лежит рядом с парой, и граница
+   на панели кончалась бы выше поля. Линия идёт от шапки до низа кадра. */
 @container mm-screen (min-width: 52rem) {
-  .mm-split > .mm-split-list {
-    padding-right: var(--grid-gap);
-    border-right: 1px solid var(--border-hairline);
+  .mm-app:has(> .mm-split) { position: relative; }
+
+  .mm-app:has(> .mm-split)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--space-16) + 320px + var(--grid-gap) / 2);
+    width: 1px;
+    background: var(--border-hairline);
   }
 }
 
