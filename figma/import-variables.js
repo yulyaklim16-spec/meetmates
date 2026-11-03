@@ -29,6 +29,16 @@ const PRIMITIVE = [
     "css": "gray-100"
   },
   {
+    "path": "color/gray-300",
+    "type": "COLOR",
+    "value": {
+      "r": 0.7686274509803922,
+      "g": 0.7607843137254902,
+      "b": 0.8
+    },
+    "css": "gray-300"
+  },
+  {
     "path": "color/plum-950",
     "type": "COLOR",
     "value": {
@@ -685,7 +695,7 @@ const SEMANTIC = [
   },
   {
     "path": "border/control",
-    "alias": "color/plum-400",
+    "alias": "color/gray-300",
     "css": "border-control"
   },
   {
