@@ -213,6 +213,11 @@ body:has(#bare:target) .device { margin: 0 auto; }
 :root[data-w="desktop"] .device > .mm-screen { border-radius: var(--r-md); }
 :root[data-w="tablet"] .wfbar { max-width: 902px; }
 :root[data-w="desktop"] .wfbar { max-width: 1348px; }
+/* Колонке макета нужно место: иначе экран на 1280 вылезал за свои 780px
+   и ложился на дерево слева. Страница перестаёт центрироваться — на узком
+   мониторе левый край важнее симметрии. То же правило, что у вайрфреймов. */
+:root[data-w="tablet"] body { grid-template-columns: 52px 236px minmax(0, 902px); justify-content: start; }
+:root[data-w="desktop"] body { grid-template-columns: 52px 236px minmax(0, 1348px); justify-content: start; }
 /* Чужие зоны на этой ширине не существуют: safe-area, панель браузера и «сгиб» —
    свойства устройства, а не окна `D-107`. Подписи зон описывают телефонную
    раскладку и рядом с широкой врали бы. */
