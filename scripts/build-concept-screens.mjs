@@ -290,10 +290,18 @@ function dressInKit(body, name) {
   // кнопка в содержимом: шапку уже перевели выше, значит это она
   s = s.replace(/<button([^>]*)class="primary"/g, '<button$1class="mm-btn mm-btn--primary"');
   s = s.replace(/<button([^>]*)class="quiet"/g, '<button$1class="mm-btn mm-btn--quiet"');
-  s = s.replace(/(<section aria-labelledby="seg-h">[\s\S]*?)<p class="row">([\s\S]*?)<\/p>/,
+  // Срез вкладки: секция узнаётся по `seg-h`, а не по дословному тегу — на ней
+  // теперь стоят кладки ширины (`cell left`), и дословная строка перестала
+  // совпадать. Срез из-за этого показывался парой кнопок вместо дорожки.
+  s = s.replace(/(<section[^>]*aria-labelledby="seg-h"[^>]*>[\s\S]*?)<p class="row">([\s\S]*?)<\/p>/,
     (m, head, inner) => `${head}<p class="mm-segmented">${inner
       .replace(/class="mm-btn mm-btn--primary"/, 'class="mm-btn is-current"')
       .replace(/class="mm-btn mm-btn--quiet"/, 'class="mm-btn"')}</p>`);
+  // Имя `mid` носят двое: среднее кольцо радара и короткий выход под сеткой
+  // (`D-117`). Кольцо остаётся частью радара и переводу не подлежит, поэтому
+  // выход переводится здесь, парой со своим `exit`, — до общего прохода.
+  s = s.replace(/class="exit mid"/g, 'class="mm-btn mm-btn--mid"');
+  s = s.replace(/class="exit cell"/g, 'class="mm-btn mm-cell"');
   s = s.replace(/<p class="row">/g, '<p class="mm-actions">');
 
   // 7. пусто и сбой
