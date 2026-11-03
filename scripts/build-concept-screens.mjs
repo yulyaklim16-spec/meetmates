@@ -199,7 +199,7 @@ const CLASS_MAP = {
   cols: 'mm-cols', col: 'mm-col', full: 'mm-cols-full', wide3: 'mm-cols--3',
   wide: 'mm-wide', narrow: 'mm-narrow', cap: 'mm-cap', left: 'mm-cap--left',
   stage: 'mm-stage', aside: 'mm-cols--aside', pair: 'mm-app--pair',
-  apart: 'mm-col--apart', name: 'mm-subhead', mid: 'mm-btn--mid',
+  apart: 'mm-col--apart', name: 'mm-subhead', mid: 'mm-btn--mid', cell: 'mm-cap--cell',
   // размер иконки задаёт место, где она стоит, а не её собственный класс
   sm: null, lg: null,
 };

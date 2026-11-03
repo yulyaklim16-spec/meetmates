@@ -764,6 +764,18 @@ a { color: var(--w-ink); }
    которому аудит назначил центр. Догадка снята. */
 :root[data-w="tablet"] .cap.left,
 :root[data-w="desktop"] .cap.left { margin-inline: 0; }
+/* …а `.cap.cell` — потолок в одну клетку сетки, по центру `D-118`.
+   Срез `Nearby`/`Mine` стоит над лентой, и мерить его строкой не по чему:
+   строки на экране нет, есть колонки. В ширину карточки он читается
+   органом той же сетки, а по центру — стоит над средней карточкой ряда. */
+:root[data-w="tablet"] .cap.cell,
+:root[data-w="desktop"] .cap.cell {
+  max-width: calc((100% - (var(--w-col-tablet) - 1) * var(--w-gap-grid)) / var(--w-col-tablet));
+  margin-inline: auto;
+}
+:root[data-w="desktop"] .cap.cell {
+  max-width: calc((100% - (var(--w-col-desktop) - 1) * var(--w-gap-grid)) / var(--w-col-desktop));
+}
 
 /* Внутри колонки лента колонок больше не множит: ширину уже поделили.
    Одна карточка события в правой колонке профиля получала бы на 1280 треть
@@ -1110,11 +1122,16 @@ a { color: var(--w-ink); }
 :root[data-w="tablet"] .split-detail .msgs,
 :root[data-w="desktop"] .split-detail .msgs { margin-top: auto; }
 
-/* Пустое, сбой и решение в широкой панели — колонка с потолком: без него
-   строка идёт во всю панель, а кнопка растягивается на девятьсот пикселей
-   и перестаёт читаться кнопкой (сквозные решения аудита). */
-:root[data-w="tablet"] .split-detail > :is(.state, .acts),
-:root[data-w="desktop"] .split-detail > :is(.state, .acts),
+/* Решение в широкой панели — колонка с потолком: без него кнопка
+   растягивается на девятьсот пикселей и перестаёт читаться кнопкой
+   (сквозные решения аудита). Блок состояния — наоборот: в правой панели
+   пары он и есть панель («ничего не выбрано»), и рамка в 390 посреди
+   шестисот читалась карточкой, которую кто-то забыл раскрыть `D-118`.
+   Меру строки внутри держит абзац — у него свои 46ch. */
+:root[data-w="tablet"] .split-detail > .state,
+:root[data-w="desktop"] .split-detail > .state { width: 100%; max-width: none; }
+:root[data-w="tablet"] .split-detail > .acts,
+:root[data-w="desktop"] .split-detail > .acts,
 /* и полоса выходов: в разметке она `section > p.row`, а `.row > * { flex: 1 }`
    разгоняла пару кнопок на всю панель — 334px на кнопку. Правило ждало
    только `.acts` и потому молчало. */
