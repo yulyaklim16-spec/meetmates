@@ -868,8 +868,10 @@ a { color: var(--w-ink); }
      фрейм держит свою мерку и стоит вплотную к правому полю. Центрировать
      пару нечем — поля экрана и есть её края. */
   grid-template-columns: minmax(0, 1fr) var(--w-read-max);
-  /* обе колонки одного роста: иначе рядом с карточкой стоят три органа,
-     висящие в воздухе, и пара читается перепадом, а не парой */
+  /* Предмет слева занимает кадр, фрейм справа — только свой рост. Прежде
+     фрейм тянулся вровень с карточкой, и под тремя кнопками оставалось
+     полкадра пустой поверхности. Перепад высот — принятая цена: пару
+     держат общий верх и общая ширина колонок, а не одинаковый низ. */
   align-items: stretch;
   /* Место под полосу прокрутки здесь не резервируется: пара в кадр
      помещается, а шесть пикселей, зарезервированных справа, делали поля
@@ -921,7 +923,10 @@ a { color: var(--w-ink); }
 :root[data-w="tablet"] .app.pair > .pin,
 :root[data-w="desktop"] .app.pair > .pin { grid-column: 2; grid-row: 1; }
 :root[data-w="tablet"] .app.pair .cols > .col:last-child,
-:root[data-w="desktop"] .app.pair .cols > .col:last-child { grid-column: 2; grid-row: 2; }
+:root[data-w="desktop"] .app.pair .cols > .col:last-child { grid-column: 2; grid-row: 2;
+  /* своим ростом, а не до низа кадра: ряд под фреймом — `1fr`, и без этого
+     под единственным событием оставалось полколонки пустой поверхности */
+  align-self: start; }
 /* Карточка занимает свою колонку целиком — иначе рядом с двумя фреймами
    справа она стоит короче обоих, и пара снова читается перепадом. */
 :root[data-w="tablet"] .app.pair .cols > .col:first-child > section,
@@ -966,6 +971,7 @@ a { color: var(--w-ink); }
    компонентом, с клеткой в витрине и страницей в документации. */
 :root[data-w="tablet"] .cols.aside > .col:last-child,
 :root[data-w="desktop"] .cols.aside > .col:last-child {
+  align-self: start;
   padding: var(--s-4);
   border: 1px solid var(--w-line);
   border-radius: var(--r-sm);
@@ -977,6 +983,7 @@ a { color: var(--w-ink); }
    в один список (`D-116`). */
 :root[data-w="tablet"] .cols.aside > .col.apart,
 :root[data-w="desktop"] .cols.aside > .col.apart {
+  align-self: start;
   padding: 0; border: 0; background: none;
 }
 :root[data-w="tablet"] .cols.aside > .col.apart > section,
@@ -1277,9 +1284,11 @@ a { color: var(--w-ink); }
    кто несёт предложение, а не ярлык: заметка, абзац плашки и состояния,
    текст в карточке и в рамке события, строка автора и строка площадки.
    Ярлыки (`.when`, `.chip`, пилюли) меры не знают — они короткие
-   по определению, и потолок им только мешал бы. */
-:root[data-w="tablet"] :is(.note, .banner p, .state p, .facts p, .card .body p, .who, .distance),
-:root[data-w="desktop"] :is(.note, .banner p, .state p, .facts p, .card .body p, .who, .distance) {
+   по определению, и потолок им только мешал бы. Строка автора `.who`
+   из списка ушла: это полоса ярлыков через точку, а не абзац, и на 46ch
+   она рвалась посреди «Replies quickly». */
+:root[data-w="tablet"] :is(.note, .banner p, .state p, .facts p:not(.who), .card .body p, .distance),
+:root[data-w="desktop"] :is(.note, .banner p, .state p, .facts p:not(.who), .card .body p, .distance) {
   max-width: 46ch;
 }
 /* Подсказки в пустом разговоре — кнопки в строке, и на 1280 строка из трёх

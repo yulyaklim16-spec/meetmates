@@ -540,9 +540,28 @@ for (const name of SCREENS) {
   body = body.replace(/<(h[1-6])([^>]*?)\shidden(\s[^>]*)?>/g,
     (m, tag, before, after) => `<${tag}${before}${after || ''} class="vh">`);
 
-  // 6. иконка состояния: ошибка — опасность, пусто — событие
-  body = body.replace(/<article class="state(?: [\w-]+)*"( role="alert")?>/g, (m, alert) =>
-    `${m}\n        <span class="state-ico" aria-hidden="true">${svg(alert ? 'danger-circle' : 'ticket')}</span>`);
+  // 6. иконка состояния: ошибка — опасность, пусто — предмет, которого нет.
+  // Один билет на все пустые состояния врал: «No chat open» и пустая колода
+  // показывали значок Events. Икона выбирается по заголовку блока — это
+  // единственное, что о предмете говорит сама страница; чего в списке нет,
+  // остаётся билетом, потому что остальные пустые — про события.
+  const STATE_ICON = [
+    [/chat|message/i, 'chat-round-dots'],
+    [/caught up/i, 'users-group-rounded'],
+    [/&ldquo;|search/i, 'magnifer'],
+    [/verified|confirmed|checking your selfie/i, 'verified-check'],
+  ];
+  body = body.replace(/<article class="state(?: [\w-]+)*"( role="alert")?>/g, (m, alert, off, src) => {
+    // заголовок ищется во всём блоке, а не сразу за тегом: на «Совпадении»
+    // перед ним стоят два снимка, и блок без иконки уронил бы сборку
+    // документации — `.mm-state-ico` там часть анатомии, а не вариант
+    const head = src.slice(off, src.indexOf('</article>', off));
+    const h = (head.match(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/) || [, ''])[1];
+    const icon = alert ? 'danger-circle'
+      : (STATE_ICON.find(([re]) => re.test(h)) || [null, 'ticket'])[1];
+    return `${m}
+        <span class="state-ico" aria-hidden="true">${svg(icon)}</span>`;
+  });
 
   // 6б. переключатель набора: страница пришла из вайрфрейма, активен там другой
   body = body.replace(/<nav class="wfkind"[\s\S]*?<\/nav>/, kindBar('design', name));
