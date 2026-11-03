@@ -1056,6 +1056,13 @@ a { color: var(--w-ink); }
   /* 320px — мерка этой детали: в ней строка чата держит имя, время
      и первую реплику, не перенося их */
   flex: none; display: flex; width: var(--w-list-col);
+  /* Волосяная линия между панелями `D-117`: своего вида у пары нет, но
+     граница — не вид, а разделитель. Просвета в 24px между списком
+     и разговором мало: обе панели белые, и пара читалась одним полем,
+     в котором строки почему-то кончаются на трети ширины. Линия — та же,
+     что у рейки навигации: одна волосяная на границу зоны (`D-72`). */
+  padding-right: var(--w-gap-grid);
+  border-right: 1px solid var(--w-line);
 }
 :root[data-w="tablet"] .split > .split-detail,
 :root[data-w="desktop"] .split > .split-detail { display: flex; }
@@ -1123,6 +1130,18 @@ a { color: var(--w-ink); }
 :root[data-w="tablet"] .col :is(.exit, .state, .banner),
 :root[data-w="desktop"] .col :is(.exit, .state, .banner) {
   width: 100%; max-width: var(--w-read-max);
+}
+
+/* Выход под сеткой карточек: короче и по центру `D-117`. Во всю меру
+   строки он читался четвёртой карточкой ряда — такой же ширины, с такой же
+   рамкой, только пустой. Под сеткой выход — дверь, а не клетка, и мерить
+   её строкой незачем. Экран объявляет это классом: там, где выход стоит
+   в колонке решения, он по-прежнему во всю её ширину. */
+:root[data-w="tablet"] .exit.mid,
+:root[data-w="desktop"] .exit.mid {
+  width: fit-content; min-width: 0;
+  margin-inline: auto;
+  padding-inline: var(--s-5);
 }
 
 /* Карточка человека растёт до своего потолка, а не до колонки: `--card-h`
