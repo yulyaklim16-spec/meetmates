@@ -182,12 +182,22 @@ body:has(#bare:target) .device { margin: 0 auto; }
 .wfdev button:hover { color: var(--ink-900); }
 .wfdev button[aria-pressed="true"] { background: var(--action); color: var(--ink-on-action); }
 
-/* Ширина. Раскладок под планшет и десктоп ещё нет — это раздел 10, Responsive.
-   Рамка расширяется, а экран остаётся колонкой 390px по центру: так видно,
-   что адаптив не нарисован, вместо того чтобы растянуть мобильный макет
-   и выдать его за десктопный. */
-:root[data-w="tablet"] .device { width: 834px; }
-:root[data-w="desktop"] .device { width: 1280px; }
+/* Ширина `D-122`. Экран концепта одевается теми же тремя ступенями, что серый
+   макет: 390 · 834 · 1280. Раскладку внутри экрана кит считает сам — он берёт
+   её из контейнерных запросов к `mm-screen`, и достаточно дать экрану ширину.
+   Оболочку (рейку навигации вместо нижней панели) кит спрашивает у хозяина:
+   корпус объявлен контейнером `mm-shell`, и запрос отвечает по ширине макета,
+   а не монитора. */
+.device { container: mm-shell / inline-size; }
+
+/* Ширина корпуса названа числом, а не `max-content`: контейнер с запросом
+   по инлайн-оси не имеет права считать свою ширину по содержимому — иначе
+   `contain: inline-size` схлопывает её, и запрос отвечает по месту на странице,
+   а не по макету. Поэтому корпус = экран плюс два поля. */
+:root[data-w="tablet"] .mm-screen { width: 834px; }
+:root[data-w="desktop"] .mm-screen { width: 1280px; }
+:root[data-w="tablet"] .device { width: calc(834px + var(--s-5) * 2); }
+:root[data-w="desktop"] .device { width: calc(1280px + var(--s-5) * 2); }
 /* корпус телефона снимается: на этой ширине он врёт — это уже не телефон */
 :root[data-w="tablet"] .device,
 :root[data-w="desktop"] .device {
@@ -198,14 +208,16 @@ body:has(#bare:target) .device { margin: 0 auto; }
 }
 :root[data-w="tablet"] :is(.screen, .mm-screen),
 :root[data-w="desktop"] :is(.screen, .mm-screen) { margin: 0 auto; }
-:root[data-w="tablet"] .wfbar { max-width: 834px; }
-:root[data-w="desktop"] .wfbar { max-width: 1280px; }
-:root[data-w="tablet"] .device::after,
-:root[data-w="desktop"] .device::after {
-  content: "Раскладка под эту ширину не нарисована — раздел 10, Responsive";
-  position: absolute; left: 0; right: 0; bottom: calc(var(--s-5) * -1);
-  text-align: center; font-size: var(--t-caption); color: var(--ink-600);
-}
+/* Скругление корпуса экрану больше не нужно: рамку держит сам корпус */
+:root[data-w="tablet"] .device > .mm-screen,
+:root[data-w="desktop"] .device > .mm-screen { border-radius: var(--r-md); }
+:root[data-w="tablet"] .wfbar { max-width: 902px; }
+:root[data-w="desktop"] .wfbar { max-width: 1348px; }
+/* Чужие зоны на этой ширине не существуют: safe-area, панель браузера и «сгиб» —
+   свойства устройства, а не окна `D-107`. Подписи зон описывают телефонную
+   раскладку и рядом с широкой врали бы. */
+:root[data-w="tablet"] :is(.statusbar, .browserbar, .homebar, .fold, .anns),
+:root[data-w="desktop"] :is(.statusbar, .browserbar, .homebar, .fold, .anns) { display: none; }
 /* ── устройство: корпус и экран ───────────────────────────── */
 .device {
   position: relative;

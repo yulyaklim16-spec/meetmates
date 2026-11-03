@@ -50,7 +50,10 @@
   .shelf figcaption { max-width: 390px; margin-top: 10px; font-size: 12px; line-height: 1.45; color: var(--text-muted); }
   /* Экран-окно занимает свою строку целиком: рядом с телефонами он не стоит —
      это не четвёртая шапка, а тот же каркас в других условиях. */
-  .shelf--window { flex: 1 0 100%; }
+  /* Полка-окно объявлена контейнером mm-shell: кит спрашивает ширину
+     у хозяина экрана, а не у окна браузера (D-122). Здесь хозяин и есть
+     окно — полка занимает всю строку, — поэтому поведение прежнее. */
+  .shelf--window { flex: 1 0 100%; container: mm-shell / inline-size; }
   .shelf--window figcaption { max-width: 80ch; }
   .shelf .mm-screen { border-radius: 26px; box-shadow: 0 0 0 1px #DCD6E4, 0 8px 28px rgba(17, 17, 17, .1); }
   .slot { flex: 1; display: grid; place-content: center; margin: 0; border-radius: 26px;
