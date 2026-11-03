@@ -122,7 +122,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -133,8 +133,15 @@
 </header>
   <main class="app">
   <div class="pane">
+    <!-- Ширина: «всё равно» (аудит, I.5 Верификация). Видоискатель упирается
+         в потолок кадра — лицо должно помещаться, а не заполнять монитор, —
+         подсказка остаётся под кадром, а действие и выход под ней. Поэтому
+         потолок `.cap` стоит на каждой зоне по отдельности: `.pane` держит
+         просвет между детьми, и одна общая обёртка склеила бы зоны в одну.
+         Таб-бара на этом экране нет (онбординг), значит и рейки слева на 1280
+         не будет — экран остаётся колонкой по центру на всех трёх ступенях. -->
     <!-- ЗОНА 2: факт и его последствие -->
-    <section class="stretch" aria-labelledby="ok-h">
+    <section class="stretch cap" aria-labelledby="ok-h">
       <h2 id="ok-h" class="vh">Verified</h2>
       <article class="state">
         <h3>You&rsquo;re verified</h3>
@@ -146,7 +153,7 @@
     </section>
 
     <!-- ЗОНА 3: возврат ровно туда, откуда пришёл гейт -->
-    <section aria-labelledby="act-h">
+    <section class="cap" aria-labelledby="act-h">
       <h2 id="act-h" class="vh">Back to the chat</h2>
       <p class="row">
         <a class="btn primary" href="dialog-empty.html">Open the chat</a>
@@ -154,7 +161,7 @@
     </section>
 
     <!-- ЗОНА 4: второй путь тоже открылся -->
-    <section aria-labelledby="exit-h">
+    <section class="cap" aria-labelledby="exit-h">
       <h2 id="exit-h" class="vh">Events</h2>
       <a class="exit" href="feed.html">
         <span>Look at events</span>

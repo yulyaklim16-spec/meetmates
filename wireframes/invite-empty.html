@@ -122,7 +122,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -139,8 +139,11 @@
       <p class="who"><span class="avatar" aria-hidden="true"></span>You&rsquo;re inviting <a href="profile.html">Olena</a></p>
     </section>
 
-    <!-- ЗОНА 3: выбирать не из чего. Причина названа, а не спрятана -->
-    <section class="stretch" aria-labelledby="pl-h">
+    <!-- ЗОНА 3: выбирать не из чего. Причина названа, а не спрятана.
+         `cap` здесь и в зоне выходов: сетки нет — событий, которые вместили
+         бы двоих, не нашлось, и в колонки раскладывать нечего. Состояние
+         упирается в потолок, а оба выхода стоят рядом с ним (правило 10). -->
+    <section class="cap stretch" aria-labelledby="pl-h">
       <h2 id="pl-h">Events that fit two</h2>
       <article class="state">
         <h3>No events that fit two yet</h3>
@@ -149,7 +152,7 @@
     </section>
 
     <!-- ЗОНА 4: два выхода, оба ведут к той же встрече -->
-    <section aria-labelledby="ex-h">
+    <section class="cap" aria-labelledby="ex-h">
       <h2 id="ex-h" class="vh">What next</h2>
       <p class="row">
         <a class="btn primary" href="dialog-waiting.html">Suggest a day</a>

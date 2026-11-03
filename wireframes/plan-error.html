@@ -123,7 +123,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -135,8 +135,13 @@
 </header>
   <main class="app">
   <div class="pane">
-    <!-- ЗОНА 2: отказ. Без выдуманной причины и без упрёка -->
-    <section class="stretch" aria-labelledby="err-h">
+    <!-- ЗОНА 2: отказ. Без выдуманной причины и без упрёка.
+         `cap` на состоянии и на обеих зонах ниже: двух колонок карточки
+         (аудит, III.3) здесь нет из чего собрать — ни обложки, ни автора,
+         ни счётчика, отклик отклонён. Значит работает сквозное решение
+         для состояний: блок упирается в потолок и центрируется, а следующий
+         шаг и свой план стоят рядом с ним, а не у краёв (правило 10). -->
+    <section class="cap stretch" aria-labelledby="err-h">
       <h2 id="err-h" class="vh">Declined</h2>
       <article class="state" role="alert">
         <h3>Andrii didn&rsquo;t take this one</h3>
@@ -145,7 +150,7 @@
     </section>
 
     <!-- ЗОНА 3: следующий шаг. Ровно то, что делает поток: искать дальше -->
-    <section aria-labelledby="act-h">
+    <section class="cap" aria-labelledby="act-h">
       <h2 id="act-h" class="vh">What next</h2>
       <p class="row">
         <a class="btn primary" href="feed.html">Look at other events</a>
@@ -156,7 +161,7 @@
     </section>
 
     <!-- ЗОНА 4: свой план — путь, где отказать некому -->
-    <section aria-labelledby="ex-h">
+    <section class="cap" aria-labelledby="ex-h">
       <h2 id="ex-h" class="vh">Your own</h2>
       <!-- Адреса нет нарочно: экран создания (III.4) вне набора, и это
            записанный долг `_screens.md` п. 6. Так же набрана эта кнопка

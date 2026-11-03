@@ -133,7 +133,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="mm-screen">
+ <div class="mm-screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -145,16 +145,24 @@
 </header>
   <main class="mm-app">
   <div class="mm-pane">
-    <!-- ЗОНА 2: срез вкладки. Он местный, не с сервера, — значит стоит во всех состояниях -->
-    <section class="mm-section" aria-labelledby="seg-h">
+    <!-- ЗОНА 2: срез вкладки. Он местный, не с сервера, — значит стоит во всех состояниях.
+         `cap` — тот же потолок, что в рабочем виде: переключатель из двух
+         пилюль на полпанели перестаёт читаться переключателем. -->
+    <section class="mm-cap" aria-labelledby="seg-h">
       <h2 id="seg-h" class="mm-vh">Which events</h2>
-      <p class="mm-segmented">
-        <a class="mm-btn is-current" href="feed.html">Nearby</a>
-        <a class="mm-btn" href="my-events.html">Mine</a>
+      <p class="mm-actions">
+        <a class="mm-btn mm-btn--primary" href="feed.html">Nearby</a>
+        <a class="mm-btn mm-btn--quiet" href="my-events.html">Mine</a>
       </p>
     </section>
 
-    <!-- ЗОНА 3: скелет ленты. Три строки на карточку — как в рабочем виде -->
+    <!-- ЗОНА 3: скелет ленты. Три строки на карточку — как в рабочем виде.
+         Раскладка на ширине у заглушки та же, что у ленты, и приходит тем же
+         правилом: скелет собран из `.item.ev` внутри `.rows`, поэтому `D-108`
+         ставит ему две колонки на 834 и три на 1280 — ровно столько, сколько
+         встанет карточек, когда данные придут. Собери скелет из чего-нибудь
+         другого — и при приходе данных вернулся бы прыжок, которого заглушка
+         и должна не допустить (сквозное решение аудита). -->
     <section class="mm-scrolly" aria-labelledby="fd-h">
       <p class="mm-note" role="status">Looking for events near you</p>
       <ul class="mm-list" aria-hidden="true">

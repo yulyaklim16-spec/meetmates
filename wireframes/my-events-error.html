@@ -120,7 +120,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -143,7 +143,10 @@
     <!-- ЗОНА 3: причина и то, что ничего не потеряно -->
     <section class="stretch" aria-labelledby="mine-h">
       <h2 id="mine-h" class="vh">My events</h2>
-      <article class="state" role="alert">
+      <!-- Ширина: «всё равно» (аудит, «Состояния, которые меняют ответ» — пустые
+           и сбои). Блок упирается в потолок 390px и становится по центру,
+           а не растягивается на 1060px: `.cap` из общего слоя `_wire.css`. -->
+      <article class="state cap" role="alert">
         <h3>Couldn&rsquo;t load your events</h3>
         <p>The connection dropped. Nothing is lost &mdash; your events and the people who joined them are safe.</p>
         <p class="row"><a class="btn primary" href="my-events-loading.html">Try again</a></p>
@@ -153,7 +156,9 @@
     <!-- ЗОНА 4: выход -->
     <section aria-labelledby="ex-h">
       <h2 id="ex-h" class="vh">Nearby</h2>
-      <a class="exit" href="feed.html">
+      <!-- Выход с тем же потолком: на ширине он иначе уехал бы к краю экрана,
+           а правило 10 требует выход рядом с блоком состояния. -->
+      <a class="exit cap" href="feed.html">
         <span>Look at events</span>
         <span aria-hidden="true">&rarr;</span>
       </a>

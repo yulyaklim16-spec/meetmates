@@ -136,7 +136,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="mm-screen">
+ <div class="mm-screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -157,7 +157,15 @@
       <p class="mm-note">The invite stays open while the event does &mdash; until Saturday. Withdrawing it cancels the invite for Olena.</p>
     </section>
 
-    <!-- ЗОНА 3: во что именно зовём — чтобы ожидание не было абстрактным -->
+    <!-- ЗОНА 3: во что именно зовём — чтобы ожидание не было абстрактным.
+         Карточка остаётся во всю ширину панели нарочно: `D-108` множит любую
+         `.rows` с `.item.ev` в колонки по классу ширины, и одна карточка
+         занимает одну клетку — на 834 это ровно 390px, на 1280 — около 330px,
+         то есть нормальная ширина карточки. Внутри половинной колонки та же
+         клетка схлопнулась бы до ~156px, где заголовок и время уже
+         не помещаются, — поэтому в `.cols` эта зона не уходит. Чего из-за
+         этого не сделано, записано в отчёте: «что можно вместо» осталось
+         под парой, а не справа от неё (аудит, ожидание чужого решения). -->
     <section class="mm-scrolly" aria-labelledby="pl-h">
       <h2 id="pl-h" class="mm-vh">The event</h2>
       <ul class="mm-list">
@@ -174,8 +182,10 @@
       </ul>
     </section>
 
-    <!-- ЗОНА 4: что можно вместо ожидания — третье требование D-42 -->
-    <section class="mm-section" aria-labelledby="ex-h">
+    <!-- ЗОНА 4: что можно вместо ожидания — третье требование D-42.
+         `cap`: кнопки упираются в потолок, иначе «Look at other events»
+         растянется на всю панель и перестанет читаться кнопкой. -->
+    <section class="mm-cap" aria-labelledby="ex-h">
       <h2 id="ex-h" class="mm-vh">Meanwhile</h2>
       <p class="mm-actions">
         <a class="mm-btn mm-btn--primary" href="feed.html">Look at other events</a>

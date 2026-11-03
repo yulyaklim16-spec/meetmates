@@ -135,7 +135,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="mm-screen">
+ <div class="mm-screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -151,25 +151,39 @@
     <section class="mm-scrolly" aria-labelledby="pl-h">
       <h2 id="pl-h" class="mm-vh">The event</h2>
       <p class="mm-note" role="status">Opening the event</p>
-      <!-- Обложка идёт первой и в рабочем виде (D-56): без её места
-           карточка подпрыгивала на две сотни пикселей, когда снимок
-           приходил. Серый прямоугольник .evcover и есть это место. -->
-      <figure class="mm-evcover" aria-hidden="true">
-        <p class="mm-photo"><img src="../img/dasha-720.jpg" alt="" loading="lazy"></p>
-        <p class="mm-pager"><span class="is-current"></span><span></span></p>
-      </figure>
-      <p class="mm-skel mm-skel--line mm-skel--w-m" aria-hidden="true"></p>
-      <p class="mm-skel mm-skel--line mm-skel--w-l" aria-hidden="true"></p>
-      <p class="mm-skel mm-skel--line mm-skel--w-m" aria-hidden="true"></p>
-      <!-- Аватар автора в заглушке не стоит: автор ещё неизвестен,
-           а заглушка не показывает данных. -->
-      <p class="mm-skelrow" aria-hidden="true">
-        <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
-      </p>
+      <!-- Заглушка одета раскладкой рабочего вида (сквозное решение аудита):
+           те же две колонки, что на карточке запроса, и те же заглушки по
+           колонкам — иначе при приходе данных текст перескочил бы из одной
+           колонки в другую. Заглушек не прибавилось: переставлены те же. -->
+      <div class="mm-cols">
+        <!-- слева: место обложки, даты и площадки -->
+        <div class="mm-col">
+          <!-- Обложка идёт первой и в рабочем виде (D-56): без её места
+               карточка подпрыгивала на две сотни пикселей, когда снимок
+               приходил. Серый прямоугольник .evcover и есть это место. -->
+          <figure class="mm-evcover" aria-hidden="true">
+            <p class="mm-photo"><img src="../img/dasha-720.jpg" alt="" loading="lazy"></p>
+            <p class="mm-pager"><span class="is-current"></span><span></span></p>
+          </figure>
+          <p class="mm-skel mm-skel--line mm-skel--w-m" aria-hidden="true"></p>
+          <p class="mm-skel mm-skel--line mm-skel--w-m" aria-hidden="true"></p>
+        </div>
+        <!-- справа: место описания и строки автора -->
+        <div class="mm-col">
+          <p class="mm-skel mm-skel--line mm-skel--w-l" aria-hidden="true"></p>
+          <!-- Аватар автора в заглушке не стоит: автор ещё неизвестен,
+               а заглушка не показывает данных. -->
+          <p class="mm-skelrow" aria-hidden="true">
+            <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
+          </p>
+        </div>
+      </div>
     </section>
 
-    <!-- ЗОНА 3: действие на паузе, место под него занято -->
-    <section class="mm-section" aria-labelledby="act-h">
+    <!-- ЗОНА 3: действие на паузе, место под него занято.
+         `cap` — тот же потолок, что у решения в рабочем виде: место кнопки
+         не должно отличаться от того, где она встанет. -->
+    <section class="mm-cap" aria-labelledby="act-h">
       <h2 id="act-h" class="mm-vh">Decision</h2>
       <p class="mm-actions">
         <button type="button" class="mm-btn mm-btn--primary" disabled>Ask to join</button>

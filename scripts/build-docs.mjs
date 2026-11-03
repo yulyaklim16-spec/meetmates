@@ -892,10 +892,19 @@ const PATTERNS = readdirSync(PATTERNS_DIR).filter((f) => f.endsWith('.html')).so
   const variants = field('Варианты');
   const take = field('Когда брать');
   const avoid = field('Когда не брать');
+  // Ширины: раскладка паттерна зависит от ширины экрана, и показать его
+  // в одном размере значит показать половину. Названные классы ширины
+  // `D-104` страница документации ставит рядом.
+  const widths = (field('Ширины') || '').split(',').map((x) => x.trim()).filter(Boolean);
+  // Порог: исключение из правила трёх экранов, названное словами.
+  // Без этого поля правило работает как работало.
+  const waiver = field('Порог');
   if (!name || !take || !avoid) throw new Error(`${file}: в шапке нет имени, «когда брать» или «когда не брать»`);
 
-  // 1. три экрана — иначе это не паттерн
-  if (screens.length < 3) throw new Error(`${file}: названо ${screens.length} экрана, а паттерн начинается с трёх`);
+  // 1. три экрана — иначе это не паттерн. Исключение возможно, но только
+  //    с причиной в поле «Порог»: молчаливого исключения не бывает.
+  if (!screens.length) throw new Error(`${file}: не назван ни один экран`);
+  if (screens.length < 3 && !waiver) throw new Error(`${file}: названо ${screens.length} экрана, а паттерн начинается с трёх`);
   // 2. экран обязан существовать
   for (const sc of screens) if (!screenExists(sc)) throw new Error(`${file}: экрана ${sc} нет в concept/screens`);
 
@@ -908,13 +917,16 @@ const PATTERNS = readdirSync(PATTERNS_DIR).filter((f) => f.endsWith('.html')).so
   if (/<style|style="/.test(markup)) throw new Error(`${file}: у паттерна свои стили, а он сборка из кита`);
   // 5. ядро обязано стоять на ВСЕХ названных экранах: то, что есть не везде,
   //    живёт в «Вариантах» — оно часть паттерна, но не то, без чего он не он
-  for (const part of parts) {
+  //    Паттерн с названным порогом эту проверку не проходит по определению:
+  //    его ядра на экранах ещё нет, и ровно это сказано в «Пороге».
+  for (const part of waiver ? [] : parts) {
     const seen = screens.filter((sc) => new RegExp(`\\b${part}\\b`).test(screenHtml(sc)));
     if (seen.length < screens.length) {
       throw new Error(`${file}: ядро .${part} стоит на ${seen.length} из ${screens.length} экранов — это вариант, а не ядро`);
     }
   }
-  return { file, slug: file.replace('.html', ''), name, screens, parts, variants, take, avoid, markup };
+  if (waiver) console.log(`  ! ${file}: порог трёх экранов не пройден — названо ${screens.length}, причина стоит в шапке`);
+  return { file, slug: file.replace('.html', ''), name, screens, parts, variants, take, avoid, markup, widths, waiver };
 });
 
 // Разметка паттерна живёт без иконок и снимков: data-ico и data-img
@@ -1328,14 +1340,37 @@ ${g.cases.map((c) => {
 // ── паттерны: страница ───────────────────────────────────────────────
 // Паттерн показан живым и назван экранами, на которых стоит: три экрана —
 // это и есть его право на существование.
+// Паттерн, у которого раскладка зависит от ширины, показывается на каждой
+// названной ширине — и поблочно: у каждого куска свой случай, и ставить
+// рядом надо один и тот же кусок в двух видах, а не весь файл дважды.
+const patBlocks = (markup) => markup.split(/\n\n(?=<!--)/).map((b) => {
+  const m = b.match(/^<!--\s*([\s\S]*?)\s*-->\s*/);
+  return { caption: m ? m[1].replace(/\s*\n\s*/g, ' ') : '', html: m ? b.slice(m[0].length) : b };
+});
+
 const patternsPage = () => {
+  const stage = (pt) => (pt.widths.length
+    ? `    <div class="pat-widths">
+${patBlocks(pt.markup).map((b) => `      <figure class="pat-wcase">
+        <figcaption>${esc(b.caption)}</figcaption>
+        <div class="w-row">
+${pt.widths.map((w) => `          <div class="w-case w-case--split">
+            <div class="w-frame w-${w}"><div class="w-box"><div class="mm-app"><div class="mm-pane">${dressPattern(b.html)}</div></div></div></div>
+            <p class="w-tag">${esc(w)}px</p>
+          </div>`).join('\n')}
+        </div>
+      </figure>`).join('\n')}
+    </div>`
+    : `    <div class="pat-stage">${dressPattern(pt.markup)}</div>`);
+
   const card = (pt) => `  <section class="pat" id="${pt.slug}">
     <h2>${esc(pt.name)}</h2>
     <p class="pat-screens"><b>${plural(pt.screens.length, 'экран', 'экрана', 'экранов')}:</b> ${pt.screens.map((x) => `<code>${esc(x)}</code>`).join(' ')}</p>
-    <div class="pat-stage">${dressPattern(pt.markup)}</div>
+${stage(pt)}
     <dl class="pat-facts">
       <dt>Ядро</dt><dd>${pt.parts.map((x) => `<code>.${esc(x)}</code>`).join(' ')}</dd>
       ${pt.variants ? `<dt>Варианты</dt><dd>${pt.variants}</dd>` : ''}
+      ${pt.waiver ? `<dt>Порог</dt><dd class="pat-waiver">${pt.waiver}</dd>` : ''}
       <dt>Когда брать</dt><dd>${pt.take}</dd>
       <dt>Когда не брать</dt><dd>${pt.avoid}</dd>
       <dt>Файл</dt><dd><code>design-system/patterns/${esc(pt.file)}</code></dd>
@@ -1348,7 +1383,8 @@ const patternsPage = () => {
   <p class="lede">Компонент — один кирпич: кнопка, карточка, поле. Паттерн — кладка,
   которая повторяется: шапка экрана, лента карточек, пустое состояние с выходом.
   Здесь только те композиции, которые <b>уже стоят на трёх и более экранах</b>, —
-  и у каждой эти экраны названы.</p>
+  и у каждой эти экраны названы. Исключение одно, и оно названо словами
+  в строке «Порог»: раскладку решил аудит ширины, а экраны её ещё не носят.</p>
 
   <nav class="tabs" aria-label="Паттерны">
 ${PATTERNS.map((pt) => `    <a href="#${pt.slug}">${esc(pt.name)}</a>`).join('\n')}
@@ -1746,6 +1782,15 @@ ${STAGE_CSS}
   color: var(--text-primary);
 }
 .w-case figcaption { margin-top: 8px; font-size: 13px; line-height: 1.4; color: var(--dim); }
+/* Паттерн, у которого раскладка зависит от ширины: каждый кусок показан
+   в обеих, и подпись объясняет случай, а не ширину — ширину говорит метка
+   под ящиком. */
+.pat-widths { display: flex; flex-direction: column; gap: 22px; margin: 14px 0 20px; }
+.pat-wcase { margin: 0; }
+.pat-wcase > figcaption { margin: 0 0 8px; font-size: 13px; line-height: 1.45; color: var(--dim); }
+.w-case--split { --h: 420px; }
+.w-tag { margin: 6px 0 0; font-size: 12px; color: var(--dim); font-variant-numeric: tabular-nums; }
+.pat-waiver { color: var(--dim); }
 .w-case figcaption b { display: block; color: var(--ink); font-weight: 600; }
 @media (max-width: 760px) {
   .w-row { --k: .2; gap: 12px; }

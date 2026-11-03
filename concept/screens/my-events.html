@@ -133,7 +133,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="mm-screen">
+ <div class="mm-screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -145,15 +145,23 @@
   <main class="mm-app">
   <div class="mm-pane">
     <!-- ЗОНА 2: сегмент вкладки. Лента и «мои» — один объект, два среза -->
-    <section class="mm-section" aria-labelledby="seg-h">
+    <section class="mm-cap mm-cap--left" aria-labelledby="seg-h">
       <h2 id="seg-h" class="mm-vh">Which events</h2>
-      <p class="mm-segmented">
-        <a class="mm-btn" href="feed.html">Nearby</a>
-        <a class="mm-btn is-current" href="my-events.html">Mine</a>
+      <p class="mm-actions">
+        <a class="mm-btn mm-btn--quiet" href="feed.html">Nearby</a>
+        <a class="mm-btn mm-btn--primary" href="my-events.html">Mine</a>
       </p>
     </section>
 
-    <!-- ЗОНА 3: мои события. Первыми — те, где ждут моего ответа -->
+    <!-- ЗОНА 3: мои события. Первыми — те, где ждут моего ответа.
+         Ширина: «раскладка шире» — три группы тем же порядком сверху вниз,
+         а внутри группы карточки множатся в колонки сами (`D-108`, общий слой
+         `_wire.css`: список, в котором лежат `li.item.ev`, и есть лента).
+         Заголовок группы остаётся строкой над сеткой — он сосед `ul`, а не её клетка.
+         ОГОВОРКА к аудиту (строка III.6): исключение «`Requests to confirm`
+         остаётся в одну колонку» здесь не срабатывает — в группе лежит
+         карточка события, а не строка человека. Строка на человека живёт
+         на III.5 «Отклики на мой запрос», и там она сеткой не множится. -->
     <section class="mm-scrolly" aria-labelledby="mine-h">
       <h2 id="mine-h" class="mm-vh">All my events</h2>
       <h3 class="mm-subhead">Requests to confirm</h3>

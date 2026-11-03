@@ -134,7 +134,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="mm-screen">
+ <div class="mm-screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -151,7 +151,10 @@
   </div>
 </header>
   <main class="mm-app">
-  <div class="mm-pane">
+  <!-- Ширина: «всё равно» (аудит, состояние `search-start`). Недавние запросы
+       и каталог интересов: чипы переливаются сами, колонок не прибавляется.
+       `.cap` даёт потолок и центр — шире растёт только поле вокруг. -->
+  <div class="mm-pane mm-cap mm-cap--left">
     <!-- ЗОНА 2: недавние запросы. Появляются, когда есть что помнить -->
     <section class="mm-scrolly" aria-labelledby="st-h">
       <h2 id="st-h" class="mm-vh">Where to start</h2>

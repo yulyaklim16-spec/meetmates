@@ -1,0 +1,122 @@
+<!--
+  Паттерн: Список и деталь рядом
+  Экраны: chats, dialog
+  Ширины: 390, 1280
+  Из чего: mm-split, mm-split-list, mm-split-detail
+  Варианты: mm-split--detail — на узком экране открыта деталь, а не список;
+    mm-state — «ничего не выбрано», «не загрузилось»; mm-skel — заглушки обеих
+    панелей; mm-msgs и mm-bubble — деталь разговора. Правила раскладки стоят
+    в components/app.css, у самого паттерна стилей нет — он состав и порядок
+  Порог: экранов два, а порог паттерна — три (D-94), и ядро на них ещё
+    не стоит. Раскладка решена аудитом ширины (D-106), но экраны остаются
+    мокапами 390px и панелями пока не становятся. Исключение названо здесь,
+    печатается сборкой и снимается, когда chats и dialog перерисуют окнами.
+  Когда брать: на телефоне экрана два и один вытесняет другой — список
+    исчезает, когда открыта деталь, и вернуться к нему стоит тап. Если
+    к списку возвращаются часто, а деталь читают подолгу, на ширине они
+    обязаны стоять рядом. Это ровно случай чата (D-37): к разговору
+    возвращаются, и выбор следующего — такая же работа, как сам разговор.
+  Когда не брать: деталь читают один раз и уходят. Карточка события —
+    именно такая: действие стоит на самой карточке в ленте (D-54), и панель
+    рядом решала бы задачу, которой у нас нет; лента вместо этого множится
+    в колонки (D-108). Выдача поиска тоже не пара: там два списка рядом,
+    а решают внутри объекта (D-67). Свой профиль — не пара: хаб с деталью
+    вернул бы экран настроек, снятый D-38.
+-->
+
+<!-- Рабочий вид: на телефоне открыт разговор, список за ним; на ширине оба видны сразу -->
+<div class="mm-split mm-split--detail">
+  <div class="mm-split-list">
+    <ul class="mm-list">
+      <li><a class="mm-row" href="#">
+        <span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span>
+        <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-112.jpg" data-img="olena-112" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span>
+      </a></li>
+      <li><a class="mm-row" href="#">
+        <span class="mm-row-head"><b>Board games</b><span class="mm-meta">Mon</span></span>
+        <span class="mm-facts">Event chat &middot; 3 people &middot; Andrii: see you at six</span>
+      </a></li>
+      <li><a class="mm-row" href="#">
+        <span class="mm-row-head"><b>Maryna</b><span class="mm-meta">12 Jun</span></span>
+        <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/dasha-112.jpg" data-img="dasha-112" alt="" loading="lazy"></span>You both said yes &mdash; no messages yet</span>
+      </a></li>
+    </ul>
+  </div>
+  <div class="mm-split-detail">
+    <div class="mm-msgs">
+      <p class="mm-bubble">Hi! Saw you&rsquo;re into board games too<span class="mm-bubble-time">Olena &middot; 19:04</span></p>
+      <p class="mm-bubble mm-bubble--mine">Yes &mdash; there&rsquo;s a game caf&eacute; on Podil I keep meaning to try<span class="mm-bubble-time">19:06 &middot; Read</span></p>
+      <p class="mm-bubble">Let&rsquo;s go then. Which day works for you?<span class="mm-bubble-time">Olena &middot; 19:08</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- Ничего не выбрано: на телефоне это просто список, на ширине — панель, которая называет, чего ждёт -->
+<div class="mm-split">
+  <div class="mm-split-list">
+    <ul class="mm-list">
+      <li><a class="mm-row" href="#">
+        <span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span>
+        <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-112.jpg" data-img="olena-112" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span>
+      </a></li>
+      <li><a class="mm-row" href="#">
+        <span class="mm-row-head"><b>Board games</b><span class="mm-meta">Mon</span></span>
+        <span class="mm-facts">Event chat &middot; 3 people &middot; Andrii: see you at six</span>
+      </a></li>
+    </ul>
+  </div>
+  <div class="mm-split-detail">
+    <article class="mm-state">
+      <span class="mm-state-ico" data-ico="state-empty" aria-hidden="true"></span>
+      <h3>No chat open</h3>
+      <p>Pick a chat on the left and it opens here.</p>
+    </article>
+  </div>
+</div>
+
+<!-- Загрузка: заглушка в обеих панелях, и каждая повторяет свою раскладку -->
+<div class="mm-split mm-split--detail">
+  <div class="mm-split-list">
+    <ul class="mm-list">
+      <li class="mm-row">
+        <span class="mm-row-head"><span class="mm-skel mm-skel--line mm-skel--w-m"></span></span>
+        <span class="mm-facts"><span class="mm-skel mm-skel--line mm-skel--w-l"></span></span>
+      </li>
+      <li class="mm-row">
+        <span class="mm-row-head"><span class="mm-skel mm-skel--line mm-skel--w-m"></span></span>
+        <span class="mm-facts"><span class="mm-skel mm-skel--line mm-skel--w-l"></span></span>
+      </li>
+    </ul>
+  </div>
+  <div class="mm-split-detail">
+    <div class="mm-msgs">
+      <p class="mm-bubble"><span class="mm-skel mm-skel--line mm-skel--w-l"></span></p>
+      <p class="mm-bubble mm-bubble--mine"><span class="mm-skel mm-skel--line mm-skel--w-m"></span></p>
+      <p class="mm-bubble"><span class="mm-skel mm-skel--line mm-skel--w-m"></span></p>
+    </div>
+  </div>
+</div>
+
+<!-- Сбой: ломается одна панель, вторая остаётся рабочей — список цел, повтор стоит в детали -->
+<div class="mm-split mm-split--detail">
+  <div class="mm-split-list">
+    <ul class="mm-list">
+      <li><a class="mm-row" href="#">
+        <span class="mm-row-head"><b>Olena</b><span class="mm-meta">19:08 &middot; 1 new</span></span>
+        <span class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../../ui/img/olena-112.jpg" data-img="olena-112" alt="" loading="lazy"></span>Let&rsquo;s go then. Which day works for you?</span>
+      </a></li>
+      <li><a class="mm-row" href="#">
+        <span class="mm-row-head"><b>Board games</b><span class="mm-meta">Mon</span></span>
+        <span class="mm-facts">Event chat &middot; 3 people &middot; Andrii: see you at six</span>
+      </a></li>
+    </ul>
+  </div>
+  <div class="mm-split-detail">
+    <article class="mm-state mm-state--alert" role="alert">
+      <span class="mm-state-ico" data-ico="state-alert" aria-hidden="true"></span>
+      <h3>Couldn&rsquo;t load this chat</h3>
+      <p>The connection dropped. Nothing is lost &mdash; your messages are on the server.</p>
+    </article>
+    <p class="mm-actions"><a class="mm-btn mm-btn--primary" href="#">Try again</a></p>
+  </div>
+</div>

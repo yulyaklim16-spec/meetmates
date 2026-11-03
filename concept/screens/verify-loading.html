@@ -135,7 +135,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="mm-screen">
+ <div class="mm-screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -146,8 +146,15 @@
 </header>
   <main class="mm-app">
   <div class="mm-pane">
+    <!-- Ширина: «всё равно» (аудит, I.5 Верификация). Видоискатель упирается
+         в потолок кадра — лицо должно помещаться, а не заполнять монитор, —
+         подсказка остаётся под кадром, а действие и выход под ней. Поэтому
+         потолок `.cap` стоит на каждой зоне по отдельности: `.pane` держит
+         просвет между детьми, и одна общая обёртка склеила бы зоны в одну.
+         Таб-бара на этом экране нет (онбординг), значит и рейки слева на 1280
+         не будет — экран остаётся колонкой по центру на всех трёх ступенях. -->
     <!-- ЗОНА 2: обработка. Кадр остаётся на месте: человек видит, что проверяют -->
-    <section class="mm-stretch" aria-labelledby="cam-h">
+    <section class="mm-stretch mm-cap" aria-labelledby="cam-h">
       <h2 id="cam-h" class="mm-vh">Checking</h2>
       <p class="mm-note" role="status">Checking your selfie</p>
       <article class="mm-person">
@@ -163,7 +170,7 @@
     </section>
 
     <!-- ЗОНА 3: действие выключено, но стоит на месте -->
-    <section class="mm-section" aria-labelledby="act-h">
+    <section class="mm-cap" aria-labelledby="act-h">
       <h2 id="act-h" class="mm-vh">Decision</h2>
       <p class="mm-actions">
         <button type="button" class="mm-btn mm-btn--primary" disabled>Take selfie</button>
@@ -171,7 +178,7 @@
     </section>
 
     <!-- ЗОНА 4: ждать необязательно -->
-    <section class="mm-section" aria-labelledby="skip-h">
+    <section class="mm-cap" aria-labelledby="skip-h">
       <h2 id="skip-h" class="mm-vh">Later</h2>
       <p>This takes a few seconds. You can keep browsing while the check runs.</p>
       <a class="mm-btn" href="deck.html">

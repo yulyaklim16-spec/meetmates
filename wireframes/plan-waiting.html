@@ -123,7 +123,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -135,8 +135,16 @@
 </header>
   <main class="app">
   <div class="pane">
+    <!-- Ожидание чужого решения на ширине (аудит, состояния): три
+         обязательные вещи `D-42` перестают стоять столбиком. Слева — кто
+         должен ответить и сколько это живёт вместе с самим планом, которого
+         ждут; справа — что можно сделать вместо ожидания. На телефоне `.cols`
+         остаётся одной колонкой, и порядок зон тот же: ждём → план → вместо.
+         Раскладка состояния сильнее раскладки экрана: ответ состоянию аудит
+         дал отдельной строкой, и он важнее двух колонок карточки (III.3). -->
+    <div class="cols">
     <!-- ЗОНА 2: кто должен ответить и сколько это живёт -->
-    <section class="scrolly" aria-labelledby="w-h">
+    <section class="col scrolly" aria-labelledby="w-h">
       <h2 id="w-h" class="vh">Waiting</h2>
       <article class="banner">
         <b>Waiting for Andrii</b>
@@ -159,6 +167,9 @@
       <output class="note">2 going &middot; 1 spot left &middot; your request doesn&rsquo;t take a spot yet</output>
     </section>
 
+    <!-- Справа: что можно вместо ожидания — третье требование `D-42`.
+         Обе зоны в одной колонке: это один ответ на «а пока что?» -->
+    <div class="col">
     <!-- ЗОНА 3: что можно вместо ожидания — третье требование D-42 -->
     <section aria-labelledby="act-h">
       <h2 id="act-h" class="vh">Meanwhile</h2>
@@ -178,6 +189,8 @@
         <span aria-hidden="true">&rarr;</span>
       </a>
     </section>
+    </div>
+    </div>
   </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->

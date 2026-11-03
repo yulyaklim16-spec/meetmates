@@ -122,7 +122,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -133,8 +133,13 @@
 </header>
   <main class="app">
   <div class="pane">
-    <!-- ЗОНА 2: факт и что он означает для обоих -->
-    <section class="stretch" aria-labelledby="ok-h">
+    <!-- ЗОНА 2: факт и что он означает для обоих.
+         Успех с последствием одевается раскладкой своего экрана (аудит,
+         состояния), но событий на нём больше нет — остался один факт, —
+         поэтому раскладка сводится к потолку: `cap` на состоянии, на дороге
+         дальше и на ссылке в карточку, чтобы выходы стояли рядом с фактом,
+         а не у краёв панели. -->
+    <section class="cap stretch" aria-labelledby="ok-h">
       <h2 id="ok-h" class="vh">Confirmed</h2>
       <article class="state">
         <h3>You&rsquo;re both confirmed</h3>
@@ -143,7 +148,7 @@
     </section>
 
     <!-- ЗОНА 3: дорога дальше — чат запроса -->
-    <section aria-labelledby="act-h">
+    <section class="cap" aria-labelledby="act-h">
       <h2 id="act-h" class="vh">What next</h2>
       <p class="row">
         <a class="btn primary" href="dialog.html">Open the chat</a>
@@ -152,7 +157,7 @@
     </section>
 
     <!-- ЗОНА 4: карточка плана -->
-    <section aria-labelledby="ex-h">
+    <section class="cap" aria-labelledby="ex-h">
       <h2 id="ex-h" class="vh">The event</h2>
       <a class="exit" href="plan-success.html">
         <span>Board games at Kyiv Games Club &middot; Sat 18:00</span>

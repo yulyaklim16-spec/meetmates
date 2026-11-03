@@ -136,7 +136,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="mm-screen">
+ <div class="mm-screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -147,13 +147,19 @@
 </header>
   <main class="mm-app">
   <div class="mm-pane">
-    <!-- ЗОНА 2: кого зовём. Названо до выбора плана: согласие второго обязательно -->
+    <!-- ЗОНА 2: кого зовём. Названо до выбора плана: согласие второго
+         обязательно. На ширине строка остаётся во всю ширину панели (аудит,
+         IV.3): это условие выбора, а не одна из колонок, и обёртка `.cols`
+         ей не нужна — зона и так стоит отдельной строкой над сеткой. -->
     <section class="mm-section" aria-labelledby="who-h">
       <h2 id="who-h" class="mm-vh">Who</h2>
       <p class="mm-facts"><span class="mm-avatar" aria-hidden="true"><img src="../img/olena-96.jpg" alt="" loading="lazy"></span>You&rsquo;re inviting <a href="profile.html">Olena</a>. You go as a pair once Olena confirms</p>
     </section>
 
-    <!-- ЗОНА 3: во что идём. Только те запросы, где помещаются двое -->
+    <!-- ЗОНА 3: во что идём. Только те запросы, где помещаются двое.
+         Колонки приходят сами: это `.rows` с карточками `.item.ev`, и `D-108`
+         ставит две на 834 и три на 1280 — ровно то, что аудит назвал IV.3.
+         Разметка не правится, `Invite Olena` остаётся на самой карточке. -->
     <section class="mm-scrolly" aria-labelledby="pl-h">
       <h2 class="mm-h2" id="pl-h">Events that fit two</h2>
       <ul class="mm-list">

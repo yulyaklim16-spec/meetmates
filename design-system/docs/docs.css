@@ -236,6 +236,15 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
   color: var(--text-primary);
 }
 .w-case figcaption { margin-top: 8px; font-size: 13px; line-height: 1.4; color: var(--dim); }
+/* Паттерн, у которого раскладка зависит от ширины: каждый кусок показан
+   в обеих, и подпись объясняет случай, а не ширину — ширину говорит метка
+   под ящиком. */
+.pat-widths { display: flex; flex-direction: column; gap: 22px; margin: 14px 0 20px; }
+.pat-wcase { margin: 0; }
+.pat-wcase > figcaption { margin: 0 0 8px; font-size: 13px; line-height: 1.45; color: var(--dim); }
+.w-case--split { --h: 420px; }
+.w-tag { margin: 6px 0 0; font-size: 12px; color: var(--dim); font-variant-numeric: tabular-nums; }
+.pat-waiver { color: var(--dim); }
 .w-case figcaption b { display: block; color: var(--ink); font-weight: 600; }
 @media (max-width: 760px) {
   .w-row { --k: .2; gap: 12px; }

@@ -123,7 +123,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -134,8 +134,12 @@
 </header>
   <main class="app">
   <div class="pane">
-    <!-- ЗОНА 2: кого зовём и почему пока нельзя -->
-    <section class="stretch" aria-labelledby="who-h">
+    <!-- ЗОНА 2: кого зовём и почему пока нельзя.
+         `cap` на всех трёх зонах: совместный отклик не проходит, значит
+         списка событий на экране нет и колонкам нечего нести. Состояние
+         упирается в потолок, действие и выход стоят рядом с ним
+         (правило 10, сквозное решение аудита для состояний). -->
+    <section class="cap stretch" aria-labelledby="who-h">
       <h2 id="who-h" class="vh">Why this can&rsquo;t go through</h2>
       <article class="state" role="alert">
         <h3>Olena isn&rsquo;t verified yet</h3>
@@ -144,7 +148,7 @@
     </section>
 
     <!-- ЗОНА 3: что можно сделать сейчас -->
-    <section aria-labelledby="act-h">
+    <section class="cap" aria-labelledby="act-h">
       <h2 id="act-h" class="vh">What next</h2>
       <p class="row">
         <a class="btn primary" href="dialog.html">Ask Olena to verify</a>
@@ -155,7 +159,7 @@
     </section>
 
     <!-- ЗОНА 4: одной пойти можно всегда -->
-    <section aria-labelledby="ex-h">
+    <section class="cap" aria-labelledby="ex-h">
       <h2 id="ex-h" class="vh">Events on your own</h2>
       <a class="exit" href="feed.html">
         <span>Look at events on your own</span>

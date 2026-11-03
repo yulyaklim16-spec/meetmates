@@ -125,7 +125,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -137,52 +137,72 @@
 </header>
 
   <main class="app" aria-busy="true">
-  <div class="pane">
-    <!-- ЗОНА 2: скелет карточки. Те же блоки и те же размеры, что в рабочем виде -->
-    <section class="stretch" aria-labelledby="deck-h">
-      <p class="note" role="status">Looking for people near you</p>
+  <!-- Ширина: пара «карточка и решение» `D-113` — та же, что в рабочем виде.
+       Заглушка одевается раскладкой рабочего вида, включая полосу имени:
+       она тоже переезжает вправо, иначе при приходе данных имя прыгнуло бы
+       из карточки в соседнюю колонку («Заглушки одеваются той же раскладкой»,
+       сквозные решения аудита). -->
+  <div class="pane cols aside">
+    <!-- Левая колонка: предмет решения. Карточка держит свой потолок —
+         `D-13` ставит решение по одному человеку, и сетки людей нет ни на какой
+         ширине. -->
+    <div class="col">
+      <!-- ЗОНА 2: скелет карточки. Те же блоки и те же размеры, что в рабочем виде -->
+      <section class="stretch" aria-labelledby="deck-h">
+        <p class="note" role="status">Looking for people near you</p>
 
-      <article class="card" aria-hidden="true">
-        <figure>
-          <p class="photo"></p>
-        </figure>
+        <article class="card" aria-hidden="true">
+          <figure>
+            <p class="photo"></p>
+          </figure>
 
-        <section class="body skeleton">
-          <!-- порядок скелета повторяет порядок чтения D-13: интересы → имя →
-               сигналы → расстояние. Иначе при подгрузке блоки поменялись бы местами -->
-          <p class="skel line w-l"></p>
-          <p class="skelrow">
-            <span class="skel pill w-s"></span>
-            <span class="skel pill w-s"></span>
-            <span class="skel pill w-s"></span>
-          </p>
-          <p class="skel line w-m"></p>
-          <p class="skelrow">
-            <span class="skel pill w-m"></span>
-            <span class="skel pill w-m"></span>
-          </p>
-          <p class="skel line w-s"></p>
-        </section>
-      </article>
-    </section>
+          <section class="body skeleton">
+            <!-- порядок скелета повторяет порядок чтения D-13: интересы → имя →
+                 сигналы → расстояние. Иначе при подгрузке блоки поменялись бы местами -->
+            <p class="skel line w-l"></p>
+            <p class="skelrow">
+              <span class="skel pill w-s"></span>
+              <span class="skel pill w-s"></span>
+              <span class="skel pill w-s"></span>
+            </p>
+            <p class="skel line w-m narrow"></p>
+            <p class="skelrow">
+              <span class="skel pill w-m"></span>
+              <span class="skel pill w-m"></span>
+            </p>
+            <p class="skel line w-s"></p>
+          </section>
+        </article>
+      </section>
 
-    <!-- ЗОНА 3: решение по карточке. Кнопки на месте, но нажимать нечего -->
-    <section aria-labelledby="act-h">
-      <h2 id="act-h" class="vh">Decision</h2>
-      <p class="row">
-        <button type="button" class="btn" disabled>Skip</button>
-        <button type="button" class="primary" disabled>Like</button>
-      </p>
-    </section>
+    </div>
 
-    <!-- ЗОНА 4: выход во второй путь. Живой: ждать загрузку необязательно -->
-    <section aria-labelledby="exit-h">
-      <h2 id="exit-h" class="vh">Events</h2>
-      <a class="exit" href="feed.html">
-        <span>Look at events</span>
-        <span aria-hidden="true">&rarr;</span>
-      </a>
-    </section>
+    <!-- Правая колонка: кто это и что с этим делать. На телефоне эти зоны
+         стоят под карточкой, потому что рядом им места нет; на ширине место
+         есть, и триста пикселей справа от карточки — не воздух, а дыра. -->
+    <div class="col">
+      <!-- ЗОНА 2б: место имени. На ширине имя стоит здесь и в рабочем виде,
+           значит и полоса под него стоит здесь: иначе прыжок при загрузке -->
+      <p class="skel line w-m wide" aria-hidden="true"></p>
+
+      <!-- ЗОНА 3: решение по карточке. Кнопки на месте, но нажимать нечего -->
+      <section aria-labelledby="act-h">
+        <h2 id="act-h" class="vh">Decision</h2>
+        <p class="row">
+          <button type="button" class="btn" disabled>Skip</button>
+          <button type="button" class="primary" disabled>Like</button>
+        </p>
+      </section>
+
+      <!-- ЗОНА 4: выход во второй путь. Живой: ждать загрузку необязательно -->
+      <section aria-labelledby="exit-h">
+        <h2 id="exit-h" class="vh">Events</h2>
+        <a class="exit" href="feed.html">
+          <span>Look at events</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </section>
+    </div>
   </div>
 </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->

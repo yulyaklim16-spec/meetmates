@@ -190,6 +190,13 @@ const CLASS_MAP = {
   field: 'mm-field', banner: 'mm-banner', skelrow: 'mm-skelrow', vh: 'mm-vh', screen: 'mm-screen',
   'state-ico': 'mm-state-ico', promise: 'mm-promise', radar: 'mm-radar', rings: 'mm-rings',
   pins: 'mm-pins', band: 'mm-band', scan: 'mm-scan', ico: 'mm-ico',
+  // раскладка на ширине: вайрфрейм называет кладки коротко, кит — своим
+  // префиксом. Правила обеих — в components/app.css (`D-110` и ниже)
+  split: 'mm-split', 'split-list': 'mm-split-list', 'split-detail': 'mm-split-detail',
+  detail: 'mm-split--detail', 'split-aside': 'mm-split-aside',
+  cols: 'mm-cols', col: 'mm-col', full: 'mm-cols-full', wide3: 'mm-cols--3',
+  wide: 'mm-wide', narrow: 'mm-narrow', cap: 'mm-cap', left: 'mm-cap--left',
+  stage: 'mm-stage', aside: 'mm-cols--aside', pair: 'mm-app--pair',
   // размер иконки задаёт место, где она стоит, а не её собственный класс
   sm: null, lg: null,
 };
@@ -223,7 +230,11 @@ function dressInKit(body, name) {
       (b, inner2) => `<button type="button" class="mm-head-btn mm-head-btn--danger">${inner2.replace(/<span class="label">([^<]*)<\/span>/, '$1')}</button>`);
     h = h.replace(/<button type="button" class="primary"([^>]*)>/, '<button type="button" class="mm-head-btn mm-head-btn--primary"$1>');
     h = h.replace(/<button type="button"((?:(?!class=)[^>])*)>/g, '<button type="button" class="mm-head-btn"$1>');
-    h = h.replace(/<a class="back"/, '<a class="mm-head-btn mm-head-btn--back"');
+    // `narrow` на кнопке «назад» — кладка ширины, а не вид: с 834 список
+    // чатов стоит слева и уходить некуда (`D-110`). Имя переводится вместе
+    // с кнопкой, иначе общий переводчик классов не найдёт `back` в ките.
+    h = h.replace(/<a class="back( narrow)?"/,
+      (m, n) => `<a class="mm-head-btn mm-head-btn--back${n ? ' mm-narrow' : ''}"`);
     h = h.replace(/<span class="label">/g, '<span class="mm-vh">');
     return `<header class="mm-head${stack ? ' mm-head--stack' : ''}">${h}</header>`;
   });
@@ -253,7 +264,10 @@ function dressInKit(body, name) {
   s = s.replace(/<p class="photo blur"/g, '<p class="mm-photo mm-photo--blur"');
   s = s.replace(/<figcaption>([^<]*)<\/figcaption>/g, '<figcaption class="mm-photo-cap">$1</figcaption>');
   s = s.replace(/<span class="thumb blur"><\/span>/g, '<span class="mm-skel mm-skel--thumb"></span>');
-  s = s.replace(/(<section class="mm-person-body"[^>]*>[\s\S]*?)<h3>/g, '$1<h3 class="mm-subhead">');
+  // Заголовок карточки может нести кладку ширины (`narrow` — имя уходит
+  // в соседнюю колонку, `D-113`): класс сохраняется, перевод не отменяется.
+  s = s.replace(/(<section class="mm-person-body"[^>]*>[\s\S]*?)<h3(?: class="([^"]*)")?>/g,
+    (m, pre, cls) => `${pre}<h3 class="mm-subhead${cls ? ` ${cls}` : ''}">`);
   s = s.replace(/<span class="dot sm"/g, '<span class="mm-dot mm-dot--sm"');
   s = s.replace(/<span class="dot lg"/g, '<span class="mm-dot mm-dot--lg"');
   s = s.replace(/<span class="dot"/g, '<span class="mm-dot"');
@@ -279,8 +293,10 @@ function dressInKit(body, name) {
   s = s.replace(/<p class="row">/g, '<p class="mm-actions">');
 
   // 7. пусто и сбой
-  s = s.replace(/<article class="state" role="alert">/g, '<article class="mm-state mm-state--alert" role="alert">');
-  s = s.replace(/<article class="state">/g, '<article class="mm-state">');
+  // Кладки ширины стоят на том же блоке (`state cap` — потолок и центр),
+  // и имя состояния идёт первым: остальные имена переводит общий проход.
+  s = s.replace(/<article class="state((?: [\w-]+)*)"( role="alert")?>/g,
+    (m, extra, alert) => `<article class="mm-state${alert ? ' mm-state--alert' : ''}${extra}"${alert || ''}>`);
 
   // 8. заглушки: skel line w-l → mm-skel mm-skel--line mm-skel--w-l
   s = s.replace(/class="skel(?![a-z])([^"]*)"/g, (m, rest) =>
@@ -328,6 +344,10 @@ function dressInKit(body, name) {
     (m) => m.replace(/<h([123])>/g, '<h$1 data-in-state>'));
   s = s.replace(/<h2(?![^>]*(?:class=|hidden|data-in-state))([^>]*)>/g, '<h2 class="mm-h2"$1>');
   s = s.replace(/<h3(?![^>]*(?:class=|data-in-state))([^>]*)>/g, '<h3 class="mm-subhead"$1>');
+  // …и тот же заголовок, если он уже несёт кладку ширины и ничего больше.
+  // h1 здесь — имя человека во фрейме решения (`D-114`): в шапке оно стоять
+  // перестало, а заголовком экрана осталось.
+  s = s.replace(/<h([13]) class="(mm-wide|mm-narrow)"/g, '<h$1 class="mm-subhead $2"');
   s = s.replace(/ data-in-state/g, '');
 
   // 15. секция экрана: шаг между блоками
@@ -509,7 +529,7 @@ for (const name of SCREENS) {
     (m, tag, before, after) => `<${tag}${before}${after || ''} class="vh">`);
 
   // 6. иконка состояния: ошибка — опасность, пусто — событие
-  body = body.replace(/<article class="state"( role="alert")?>/g, (m, alert) =>
+  body = body.replace(/<article class="state(?: [\w-]+)*"( role="alert")?>/g, (m, alert) =>
     `${m}\n        <span class="state-ico" aria-hidden="true">${svg(alert ? 'danger-circle' : 'ticket')}</span>`);
 
   // 6б. переключатель набора: страница пришла из вайрфрейма, активен там другой

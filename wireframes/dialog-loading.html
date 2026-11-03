@@ -12,6 +12,9 @@
   Состояние: загрузка истории. Ограничена именно этими двумя входами
           (_screens.md): из совпадения чат открывается пустым, грузить нечего.
   Скелет повторяет раскладку реплик: свои справа, чужие слева.
+  Ширина: IV.2 — «новое поведение»: пара `D-110`. Загрузка повторяет раскладку
+          рабочего вида — аудит, «Заглушки одеваются той же раскладкой»:
+          заглушка стоит в обеих панелях.
 -->
 <link rel="stylesheet" href="_wire.css">
 </head>
@@ -122,19 +125,50 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <a class="back" href="chats.html" aria-label="Back to chats"><span aria-hidden="true">&larr;</span></a>
+  <a class="back narrow" href="chats.html" aria-label="Back to chats"><span aria-hidden="true">&larr;</span></a>
   <span class="avatar" aria-hidden="true"></span>
   <h1>Olena</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
 </header>
   <main class="app">
-  <div class="pane">
+  <!-- Пара «список + деталь» `D-110`. Аудит, IV.2 Диалог — «новое поведение»:
+       с 834 список чатов стоит слева, разговор справа. Модификатор detail
+       значит «открыта деталь»: на телефоне видна ровно она, список за ней.
+       Цена названа аудитом: с 834 `back` в шапке лишний — уходить некуда. -->
+  <div class="split detail">
+  <!-- Левая панель — тот же список, что на экране IV.1: с 834 он перестаёт
+       быть отдельным экраном (аудит, «Диалог и список чатов — одно решение
+       с двух сторон»). Открытый разговор помечен aria-current.
+       Заглушка, а не строки: вход бывает и из подтверждённого отклика, где
+       списка на руках ещё нет, и прыжка раскладки быть не должно. -->
+  <div class="split-list">
+    <ul class="rows" aria-hidden="true">
+      <li class="item">
+        <span class="top"><span class="skel line w-m"></span></span>
+        <span class="who"><span class="avatar"></span><span class="skel line w-l"></span></span>
+      </li>
+      <li class="item">
+        <span class="top"><span class="skel line w-m"></span></span>
+        <span class="who"><span class="avatar"></span><span class="skel line w-l"></span></span>
+      </li>
+      <li class="item">
+        <span class="top"><span class="skel line w-m"></span></span>
+        <span class="who"><span class="avatar"></span><span class="skel line w-l"></span></span>
+      </li>
+    </ul>
+  </div>
+  <!-- Правая панель: сам разговор. `Report` остаётся в шапке разговора,
+       а не уезжает в общий тулбар — правило 4, `D-44`, и аудит, «Чего
+       ширина не отменяет», п. 3. Выходы наружу стоят в ней же: третью
+       зону `.split-aside` (аудит, 1280) поставить нечем — без примитива
+       «скрыто с 1280» та же пара кнопок показалась бы дважды. -->
+  <div class="split-detail pane">
     <!-- ЗОНА 2: скелет истории. Реплики разной длины и с обеих сторон -->
     <section class="scrolly" aria-labelledby="msg-h">
       <h2 id="msg-h" class="vh">Chat with Olena</h2>
@@ -154,6 +188,7 @@
         <button type="button" class="quiet" disabled>Invite together</button>
       </p>
     </section>
+  </div>
   </div>
   <!-- ЗОНА 4: поле ввода. Верификация пройдена, гейта нет (§7.3) -->
   <section class="pin" aria-labelledby="in-h">

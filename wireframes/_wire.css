@@ -163,6 +163,8 @@ body:has(#bare:target) .device {
    Корпус и экран — единственные два `div` в наборе: семантики
    у них нет, это устройство, а не содержимое (_conventions.md §5). */
 .device {
+  /* подпись «раскладка не нарисована» стоит абсолютом и считается отсюда */
+  position: relative;
   grid-column: 3;
   width: calc(var(--screen-max) + 24px);
   padding: 12px;
@@ -605,29 +607,541 @@ a { color: var(--w-ink); }
 .wfdev button:hover { color: var(--w-ink); }
 .wfdev button[aria-pressed="true"] { background: var(--w-ink); color: var(--w-surface); }
 
-/* Ширина. Раскладок под планшет и десктоп ещё нет — это раздел 10, Responsive.
-   Поэтому рамка расширяется, а сам экран остаётся колонкой 390px по центру:
-   так видно, что адаптив не нарисован, вместо того чтобы растянуть мобильный
-   макет и выдать это за десктопный. */
-:root[data-w="tablet"] .device { width: 834px; }
-:root[data-w="desktop"] .device { width: 1280px; }
-/* корпус телефона снимается: на этой ширине он врёт — это уже не телефон */
+/* ── Ширина: три класса, и раскладку выбирает переключатель ──────────────
+   390 телефон · 834 планшет · 1280 десктоп `D-104`. Четвёртой ступени нет,
+   сетка упирается в 1440 — дальше растёт только поле вокруг.
+
+   Раскладку включает `:root[data-w]`, который ставит переключатель над
+   мокапом, а НЕ ширина окна браузера. Это важно: страницу макета смотрят
+   на мониторе, и медиазапрос растянул бы телефонный макет, выдав это
+   за десктопный. Переключатель спрашивает «какой класс ширины смотрим»,
+   окно — «какой монитор у человека»; это разные вопросы.
+
+   Поведение названо аудитом `responsive/width-audit.md` и живёт здесь,
+   в общем файле: у страницы макета своих стилей нет и не будет
+   (правило 14, проверяет screens-audit.mjs). Экран выбирает раскладку
+   разметкой — классом `.split`, `.cols`, `.wide`, — а не своим медиазапросом.
+
+   Пока у экрана раскладка не нарисована, он говорит об этом сам: подпись
+   под мокапом снимает `data-wide` на `.screen`. Атрибут стоит на экране,
+   а не на корпусе, потому что строку `<div class="device">` скрипты
+   (screens-audit, microcopy-audit, build-wireframes) ищут дословно. */
+
+:root {
+  /* Те же числа, что у сеток кита (`design-system/tokens.css`), но своим
+     слоем: вайрфрейм живёт на `--w-*` нарочно (CLAUDE.md, «Вайрфреймы
+     живут отдельно и нарочно»). */
+  --w-col-tablet: 2;        /* столько колонок аудит назвал планшету */
+  --w-col-desktop: 3;       /* и столько — рабочему столу */
+  --w-gap-grid: var(--s-4); /* просвет сетки — ступень шкалы, а не новое значение */
+  --w-rail: 220px;          /* рейка навигации на десктопе `D-107` */
+  --w-list-col: 320px;      /* левая панель пары «список + деталь» `D-110` */
+  --w-read-max: 390px;      /* потолок колонки текста: у воздуха есть предел */
+  /* У карточки человека потолок свой, хотя число пока то же: фото —
+     не колонка текста (§8, «фото главный носитель решения»), и когда
+     карточке назначат её ширину, мера строки за ней не поедет. */
+  --w-card-max: 390px;
+  /* Сцена: потолок фигуры, а не строки. Считается от высоты кадра, а не
+     от ширины — 844 ниже, чем 834 и 1280 широки, и квадрат упирается
+     именно в высоту: 844 − (поля 32 + обещание 60 + два просвета 48 +
+     полоса кнопок 44) = 660. Дальше фигура вытолкнула бы кнопки за сгиб. */
+  --w-stage-fig: 540px;
+}
+
+/* ── рамка и место под неё ───────────────────────────────────────────── */
+/* Корпус телефона снимается: на этой ширине он врёт — это уже не телефон. */
 :root[data-w="tablet"] .device,
 :root[data-w="desktop"] .device {
+  width: max-content;
   background: var(--w-fill);
   border-radius: var(--r-md);
   box-shadow: inset 0 0 0 1px var(--w-line);
   padding: var(--s-5);
 }
+:root[data-w="tablet"] .screen { width: 834px; }
+:root[data-w="desktop"] .screen { width: 1280px; }
 :root[data-w="tablet"] .screen,
 :root[data-w="desktop"] .screen { margin: 0 auto; }
-:root[data-w="tablet"] .wfbar { max-width: 834px; }
-:root[data-w="desktop"] .wfbar { max-width: 1280px; }
-:root[data-w="tablet"] .device::after,
-:root[data-w="desktop"] .device::after {
+
+/* Колонке макета нужно место: иначе экран на 1280 вылезал за свои 780px
+   и уезжал под дерево слева. Страница перестаёт центрироваться — на узком
+   мониторе левый край важнее симметрии. */
+:root[data-w="tablet"] body { grid-template-columns: 52px 236px minmax(0, 902px); justify-content: start; }
+:root[data-w="desktop"] body { grid-template-columns: 52px 236px minmax(0, 1348px); justify-content: start; }
+/* Просвет сетки — ступень по классу ширины: 16px между колонками по 500px
+   читается внутренним отступом, а не разделителем, и две колонки сливаются
+   в один блок. На планшете колонки уже, и 16px там ещё работают. */
+:root[data-w="desktop"] { --w-gap-grid: var(--s-5); --w-stage-fig: 620px; }
+:root[data-w="tablet"] .wfbar { max-width: 902px; }
+:root[data-w="desktop"] .wfbar { max-width: 1348px; }
+
+/* Чужие зоны телефона на этой ширине не существуют: safe-area, панель
+   браузера и «сгиб» — свойства устройства, а не окна `D-107`. Подписи зон
+   описывают телефонную раскладку и рядом с широкой врали бы. */
+:root[data-w="tablet"] :is(.statusbar, .browserbar, .homebar, .fold, .anns),
+:root[data-w="desktop"] :is(.statusbar, .browserbar, .homebar, .fold, .anns) { display: none; }
+
+/* Подпись стоит только там, где раскладка ещё не нарисована. */
+:root[data-w="tablet"] .device:not(:has(.screen[data-wide]))::after,
+:root[data-w="desktop"] .device:not(:has(.screen[data-wide]))::after {
   content: "Раскладка под эту ширину не нарисована — раздел 10, Responsive";
   position: absolute; left: 0; right: 0; bottom: calc(var(--s-4) * -1 - 6px);
   text-align: center; font-size: 11px; color: var(--w-ink-2);
+}
+
+/* ── навигация: панель снизу → рейка слева, с 1280 `D-107` ───────────── */
+/* Та же разметка и тот же состав пунктов: меняется раскладка, не навигация.
+   Шапка от этого сужается сама — ей остаётся вторая колонка. Планшет
+   остаётся с нижней панелью: рейка забирает 220px, которые аудит отдал
+   двум колонкам содержимого. */
+:root[data-w="desktop"] .screen:has(> nav[aria-label="Main navigation"]) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+}
+:root[data-w="desktop"] .screen > nav[aria-label="Main navigation"] {
+  grid-column: 1; grid-row: 1 / -1;
+  flex-direction: column;
+  width: var(--w-rail);
+  margin-top: 0;
+  padding: var(--s-4) var(--s-3);
+  gap: 2px;
+  border-top: 0;
+  border-right: 1px solid var(--w-line);
+}
+:root[data-w="desktop"] .screen > nav[aria-label="Main navigation"] a {
+  flex: none;
+  flex-direction: row; justify-content: flex-start;
+  gap: var(--s-3);
+  min-height: var(--tap-min);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: 14px;
+}
+/* активный пункт: заливка вместо полосы сверху — полоса на рейке читалась
+   границей колонки, а не состоянием пункта */
+:root[data-w="desktop"] .screen > nav[aria-label="Main navigation"] a[aria-current="page"] {
+  background: var(--w-fill);
+  box-shadow: none;
+}
+:root[data-w="desktop"] .screen > header { grid-column: 2; grid-row: 1; }
+:root[data-w="desktop"] .screen > :is(.app, dialog) { grid-column: 2; grid-row: 2; }
+
+/* ── лента: одна колонка, две, три `D-108` ──────────────────────────────
+   Лента узнаётся по содержимому, а не по классу в разметке: список,
+   в котором лежат карточки события, и есть лента. Поэтому правило приходит
+   на все места, где она стоит, и разметку править не нужно.
+   Горизонтальная рейка (`.rows.rail` — ближайшие события в профиле) колонок
+   не множит: она и так едет вбок. */
+:root[data-w="tablet"] .rows:not(.rail):has(> .ev),
+:root[data-w="desktop"] .rows:not(.rail):has(> .ev) {
+  display: grid;
+  grid-template-columns: repeat(var(--w-col-tablet), minmax(0, 1fr));
+  gap: var(--w-gap-grid);
+  /* по высоте клетки НЕ выравниваются по содержимому: `align-items: start`
+     оставлял бы карточку с коротким заголовком ниже соседки, и кнопки
+     в ряду стояли бы на разной высоте. Ряд равняется по самой высокой,
+     а лишнюю высоту забирает тело карточки — правило ниже. */
+  align-items: stretch;
+}
+:root[data-w="desktop"] .rows:not(.rail):has(> .ev) {
+  grid-template-columns: repeat(var(--w-col-desktop), minmax(0, 1fr));
+}
+/* Шапка группы остаётся шапкой: строкой над сеткой, а не её клеткой. */
+:root[data-w="tablet"] .rows:has(> .ev) > .grouphead,
+:root[data-w="desktop"] .rows:has(> .ev) > .grouphead { grid-column: 1 / -1; }
+/* В ряду соседки равняются по самой высокой — лишняя высота уходит в тело,
+   а не оставляет кнопку висеть посередине (то же правило, что в card.css). */
+:root[data-w="tablet"] .rows:not(.rail):has(> .ev) > .ev,
+:root[data-w="desktop"] .rows:not(.rail):has(> .ev) > .ev { grid-template-rows: auto 1fr; }
+
+/* Потолок по умолчанию центрирует — это верно для экрана-колонки: кадр
+   селфи, карточка колоды, кольца радара. Там, где под потолком стоит
+   управляющая полоса над сеткой (срез `Nearby`/`Mine`, решение `Skip`/`Like`),
+   центр отрывает её от того, чем она управляет, — и тогда экран объявляет
+   левый край сам, классом. Прежде это правило угадывало такие полосы по
+   «секция с кнопкой в строке» и уводило влево главное действие верификации,
+   которому аудит назначил центр. Догадка снята. */
+:root[data-w="tablet"] .cap.left,
+:root[data-w="desktop"] .cap.left { margin-inline: 0; }
+
+/* Внутри колонки лента колонок больше не множит: ширину уже поделили.
+   Одна карточка события в правой колонке профиля получала бы на 1280 треть
+   от 620px — около 200px, — а обложка `D-56` в такой ширине не живёт.
+   Это и был записанный долг «колонки считаются от ширины экрана, а не
+   панели»: здесь он закрыт — панель отменяет сетку, экран её задаёт. */
+:root[data-w="tablet"] :is(.col, .split-list, .split-detail) .rows:has(> .ev),
+:root[data-w="desktop"] :is(.col, .split-list, .split-detail) .rows:has(> .ev) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  /* обязательно: `align-items: start` остаётся от сетки, а в колонке он
+     значит «по левому краю» — карточка переставала занимать колонку
+     и сжималась до своего содержимого */
+  align-items: stretch;
+}
+
+/* ── две и три колонки одного и того же: `.cols` ─────────────────────────
+   «Раскладка шире» из аудита: содержимое то же, а на телефоне блоки стоят
+   друг под другом только потому, что не поместились. Экран объявляет, что
+   он так устроен, обёрткой `.cols` и колонками `.col`; что в какой колонке
+   лежит — решает он, а сколько их и чем они разделены — этот файл.
+   `.cols > .full` — строка во всю ширину над колонками. */
+/* На телефоне обёртки не существуют вовсе: `display: contents` отдаёт зоны
+   прямо родителю, и базовый макет 390 остаётся байт в байт прежним — свой
+   просвет обёртки добавили бы к просвету панели и сбили ритм (на карточке
+   запроса шаг между зонами вырос бы с 12 на 16). Раскладка появляется
+   только там, где её назвал аудит. */
+.cols, .col { display: contents; }
+:root[data-w="tablet"] .col,
+:root[data-w="desktop"] .col {
+  display: flex; flex-direction: column; gap: var(--s-4); min-width: 0;
+}
+:root[data-w="tablet"] .cols,
+:root[data-w="desktop"] .cols {
+  display: grid;
+  grid-template-columns: repeat(var(--w-col-tablet), minmax(0, 1fr));
+  gap: var(--w-gap-grid);
+  align-items: start;
+}
+/* Внутри панели пары `.cols` на планшете не раскрывается: 834 минус колонка
+   списка оставляют панели ~450px, и делить их ещё надвое значит получить две
+   колонки по 215px, где ломается и реплика, и строка баннера. Тот же запрет,
+   что у ленты внутри колонки. На 1280 остаток ~660px, и две колонки живут. */
+:root[data-w="tablet"] .split-detail .cols { display: contents; }
+
+:root[data-w="desktop"] .cols.wide3 {
+  grid-template-columns: repeat(var(--w-col-desktop), minmax(0, 1fr));
+}
+
+/* `.cols.aside` — колонки неравные: слева предмет решения, справа кто это
+   и что с этим делать (колода `D-113`). Две равные доли здесь врут: карточка
+   человека упёрлась бы в свой потолок и оставила полколонки пустой.
+   Пара стоит по центру свободного поля, а не растягивается по краям:
+   кнопка решения в шестистах пикселях от карточки перестаёт к ней
+   относиться — ровно та болезнь, от которой это и лечит. */
+:root[data-w="tablet"] .cols.aside,
+:root[data-w="desktop"] .cols.aside {
+  /* Пара занимает кадр целиком: карточка забирает всё, что осталось,
+     фрейм держит свою мерку и стоит вплотную к правому полю. Центрировать
+     пару нечем — поля экрана и есть её края. */
+  grid-template-columns: minmax(0, 1fr) var(--w-read-max);
+  /* обе колонки одного роста: иначе рядом с карточкой стоят три органа,
+     висящие в воздухе, и пара читается перепадом, а не парой */
+  align-items: stretch;
+  /* Место под полосу прокрутки здесь не резервируется: пара в кадр
+     помещается, а шесть пикселей, зарезервированных справа, делали поля
+     по бокам разными — 17 слева против 27 справа на планшете. */
+  scrollbar-gutter: auto;
+}
+/* Карточка растёт вместе с колонкой: общий потолок `--w-card-max` держит её
+   там, где она стоит одна, а в паре ширину назначает сетка. */
+:root[data-w="tablet"] .cols.aside .card,
+:root[data-w="desktop"] .cols.aside .card { max-width: none; }
+
+/* ── `.app.pair`: в пару входит и закреплённая полоса `D-114` ────────────
+   Профиль другого человека — единственный экран, где решение лежит вне
+   панели: на телефоне оно закреплено под ней и видно до прокрутки. На ширине
+   закрепление не нужно (содержимое помещается), а место решения — правая
+   колонка, над планами человека: имя, `Skip`/`Like`, и сразу под ними то,
+   куда она идёт. Перенести полосу разметкой нельзя, не сломав телефон,
+   поэтому на ширине панель и обёртка колонок растворяются, и все три зоны
+   становятся клетками одной сетки. */
+:root[data-w="tablet"] .app.pair,
+:root[data-w="desktop"] .app.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--w-read-max);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--w-gap-grid);
+  align-content: start;
+}
+:root[data-w="tablet"] .app.pair > .pane,
+:root[data-w="desktop"] .app.pair > .pane,
+:root[data-w="tablet"] .app.pair > .pane > .cols,
+:root[data-w="desktop"] .app.pair > .pane > .cols { display: contents; }
+/* слева — кто это, во всю высоту пары; справа сверху решение, под ним планы */
+:root[data-w="tablet"] .app.pair .cols > .col:first-child,
+:root[data-w="desktop"] .app.pair .cols > .col:first-child { grid-column: 1; grid-row: 1 / -1; }
+:root[data-w="tablet"] .app.pair > .pin,
+:root[data-w="desktop"] .app.pair > .pin { grid-column: 2; grid-row: 1; }
+:root[data-w="tablet"] .app.pair .cols > .col:last-child,
+:root[data-w="desktop"] .app.pair .cols > .col:last-child { grid-column: 2; grid-row: 2; }
+/* Карточка занимает свою колонку целиком — иначе рядом с двумя фреймами
+   справа она стоит короче обоих, и пара снова читается перепадом. */
+:root[data-w="tablet"] .app.pair .cols > .col:first-child > section,
+:root[data-w="desktop"] .app.pair .cols > .col:first-child > section { flex: 1; min-height: 0; }
+:root[data-w="tablet"] .app.pair .card,
+:root[data-w="desktop"] .app.pair .card {
+  max-width: none;
+  height: 100%; min-height: var(--card-h);
+}
+/* Оба блока справа — фреймы, те же, что у пары колоды. */
+:root[data-w="tablet"] .app.pair > .pin,
+:root[data-w="desktop"] .app.pair > .pin,
+:root[data-w="tablet"] .app.pair .cols > .col:last-child,
+:root[data-w="desktop"] .app.pair .cols > .col:last-child {
+  padding: var(--s-4);
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-sm);
+  background: var(--w-surface);
+}
+/* Потолок решению больше не нужен: ширину задаёт колонка, а `.cap` внутри
+   фрейма оставлял бы кнопки уже рамки. */
+:root[data-w="tablet"] .app.pair > .pin.cap,
+:root[data-w="desktop"] .app.pair > .pin.cap { max-width: none; }
+
+/* Возврат со словом: стрелка получает подпись, и ей нужен просвет и своя
+   ширина — тач-цель в 44px считалась по одной стрелке. Вправо «назад»
+   больше не толкает ничего: имя из шапки ушло, а `margin-right: auto`
+   стоял на нём, и жалоба съезжала к середине. */
+:root[data-w="tablet"] header .back:has(> .wide),
+:root[data-w="desktop"] header .back:has(> .wide) {
+  gap: var(--s-2);
+  padding-inline: var(--s-3);
+  margin-right: auto;
+}
+/* стрелка остаётся крупной, слово рядом — ростом строки интерфейса */
+:root[data-w="tablet"] header .back > .wide,
+:root[data-w="desktop"] header .back > .wide { font-size: 15px; }
+/* Вторая колонка пары — фрейм: та же поверхность и та же обводка, что
+   у карточки напротив. Своего содержимого и своих состояний у него нет,
+   и вне пары он не встречается — поэтому это правило кладки, а не новый
+   компонент. Понадобится обрамлённая группа где-то ещё — заведём его
+   компонентом, с клеткой в витрине и страницей в документации. */
+:root[data-w="tablet"] .cols.aside > .col:last-child,
+:root[data-w="desktop"] .cols.aside > .col:last-child {
+  padding: var(--s-4);
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-sm);
+  background: var(--w-surface);
+}
+/* Пустота сбоку чинилась бы наполовину, если бы осталась пустота снизу:
+   карточка в 400px посреди кадра 844 оставляет под собой ровно столько же.
+   На ширине она становится портретом 3:4 — той же формы, что фото в ней,
+   — а пара встаёт по центру кадра. Высота не «во всю оставшуюся»: кадр
+   вытянул бы карточку в 1:1.9, и снимок перестал бы быть снимком. */
+:root[data-w="tablet"] .cols.aside .card,
+:root[data-w="desktop"] .cols.aside .card {
+  height: calc(var(--w-card-max) / 3 * 4);
+}
+:root[data-w="tablet"] .app:has(> .pane.cols.aside),
+:root[data-w="desktop"] .app:has(> .pane.cols.aside) { justify-content: center; }
+:root[data-w="tablet"] .cols > .full,
+:root[data-w="desktop"] .cols > .full { grid-column: 1 / -1; }
+
+/* ── «всё равно»: потолок и центр ────────────────────────────────────────
+   Четырём экранам аудит не дал ничего, кроме воздуха: колода, радар,
+   видоискатель верификации, слой совпадения. Воздух — не растяжка:
+   содержимое упирается в свой потолок и становится по центру, иначе
+   карточка решения на 1280 растянулась бы на весь монитор, а фото
+   перестало бы быть фото. */
+:root[data-w="tablet"] .cap,
+:root[data-w="desktop"] .cap {
+  width: 100%; max-width: var(--w-read-max); margin-inline: auto;
+}
+
+/* ── сцена: экран — одна фигура `.stage` ─────────────────────────────────
+   Потолок в 390px честен для строки и кнопки, но рисунку он не потолок,
+   а клетка: радар на 1280 занимал четверть кадра и объяснял устройство
+   продукта шёпотом, а объясняет он его один раз в жизни `D-47`.
+   Сцена — тот же ответ «всё равно», доведённый до конца: растёт фигура,
+   а не текст. Она упирается в свой потолок по высоте кадра и встаёт
+   по центру — и по горизонтали, и по вертикали; обещание и кнопки
+   остаются в своей мере и стоят над и под ней в той же оси.
+   Кнопки по-прежнему в одной строке: шире — не значит врозь. */
+:root[data-w="tablet"] .app > .pane.stage,
+:root[data-w="desktop"] .app > .pane.stage {
+  /* сцене нужен весь кадр: по нему считается центр. Общее правило
+     «панель не растягивается» здесь отменяется осознанно — там оно
+     отрывало полосу решения от карточки, здесь центр и есть раскладка */
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: var(--s-5);
+}
+/* зоны вокруг фигуры держат меру строки и стоят по центру той же оси */
+:root[data-w="tablet"] .pane.stage > section,
+:root[data-w="desktop"] .pane.stage > section {
+  width: 100%; max-width: var(--w-read-max); margin-inline: auto;
+}
+:root[data-w="tablet"] .pane.stage > section:has(> .radar),
+:root[data-w="desktop"] .pane.stage > section:has(> .radar) { max-width: none; }
+:root[data-w="tablet"] .pane.stage .radar,
+:root[data-w="desktop"] .pane.stage .radar { width: min(100%, var(--w-stage-fig)); }
+/* Кружки растут вместе с кольцами: при фигуре в 620px прежние 34px
+   читались бы крошками на поле, а не людьми и событиями на расстоянии.
+   Доля от диаметра сохраняется — та же картинка, снятая ближе. */
+:root[data-w="tablet"] .pane.stage .radar,
+:root[data-w="desktop"] .pane.stage .radar { --w-dot-s: 34px; --w-dot-m: 48px; --w-dot-l: 62px; }
+:root[data-w="desktop"] .pane.stage .radar { --w-dot-s: 38px; --w-dot-m: 54px; --w-dot-l: 70px; }
+/* подписи полос — на той же фигуре, и мельчить их не за чем */
+:root[data-w="tablet"] .pane.stage .radar .band,
+:root[data-w="desktop"] .pane.stage .radar .band { font-size: 12px; }
+:root[data-w="tablet"] .pane.stage .radar .pins li,
+:root[data-w="desktop"] .pane.stage .radar .pins li { font-size: 11px; }
+
+/* Видно только на ширине: то, чего на телефоне нет вовсе — правая панель
+   пары, превью событий у пустой колоды. Не «спрятано на телефоне»,
+   а «появляется, когда есть место». */
+.wide { display: none; }
+:root[data-w="tablet"] .wide,
+:root[data-w="desktop"] .wide { display: flex; }
+
+/* И наоборот: то, что на ширине перестаёт иметь смысл. `back` в шапке
+   диалога — ровно такой орган: с 834 список чатов стоит слева, и уходить
+   «назад» некуда (аудит, IV.2: «`back` исчезает: уходить некуда»). */
+:root[data-w="tablet"] .narrow,
+:root[data-w="desktop"] .narrow { display: none; }
+
+/* ── список и деталь рядом: паттерн split-view `D-110` ───────────────────
+   На телефоне это два экрана, и видна ровно одна панель; какая — говорит
+   разметка, то есть маршрут: без `detail` открыт список, с ним — деталь.
+   С 834 панели встают рядом, и обе видны сразу.
+   Своего вида у раскладки нет — ни фона, ни границы: панели разделяет
+   просвет сетки, поверхности приносят карточки и реплики внутри. */
+.split { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.split-list,
+.split-detail {
+  flex: 1; min-width: 0; min-height: 0;
+  display: flex; flex-direction: column; gap: var(--s-4);
+}
+.split > .split-detail { display: none; }
+.split.detail > .split-list { display: none; }
+.split.detail > .split-detail { display: flex; }
+
+:root[data-w="tablet"] .split,
+:root[data-w="desktop"] .split { flex-direction: row; gap: var(--w-gap-grid); }
+:root[data-w="tablet"] .split > .split-list,
+:root[data-w="desktop"] .split > .split-list {
+  /* 320px — мерка этой детали: в ней строка чата держит имя, время
+     и первую реплику, не перенося их */
+  flex: none; display: flex; width: var(--w-list-col);
+}
+:root[data-w="tablet"] .split > .split-detail,
+:root[data-w="desktop"] .split > .split-detail { display: flex; }
+/* Третья зона пары — выходы наружу рейкой справа, и только с 1280
+   (аудит, IV.2 Диалог): по `D-37` смысл чата — выход в конкретный день,
+   а на телефоне этот выход стоит над полем ввода и отнимает высоту
+   у истории. На 1280 он перестаёт с ней конкурировать. На планшете рейки
+   нет: 834 уже поделены между списком и разговором. */
+.split-aside { display: none; }
+:root[data-w="desktop"] .split > .split-aside {
+  flex: none;
+  display: flex; flex-direction: column; gap: var(--s-4);
+  width: 280px;
+  overflow-y: auto;
+}
+
+/* Каждая панель прокручивается своим: иначе список уезжает вместе
+   с историей разговора. */
+:root[data-w="tablet"] .split > :is(.split-list, .split-detail),
+:root[data-w="desktop"] .split > :is(.split-list, .split-detail) {
+  overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--w-line) transparent;
+}
+/* История забирает свободную высоту панели, и выходы наружу стоят внизу —
+   там же, где на телефоне. Без этого пара кнопок висела посреди панели,
+   а под ней оставалась пустая половина экрана.
+   Сами реплики при этом прижаты к низу своей области: разговор растёт
+   снизу вверх, последняя реплика стоит у поля ввода, а пустота копится
+   сверху — там, где «начало переписки». Иначе выход в день (`D-37`)
+   оказывался в 450px от реплики, из-за которой его нажимают. */
+:root[data-w="tablet"] .split-detail > .scrolly,
+:root[data-w="desktop"] .split-detail > .scrolly { flex: 1; min-height: 0; }
+:root[data-w="tablet"] .split-detail .msgs,
+:root[data-w="desktop"] .split-detail .msgs { margin-top: auto; }
+
+/* Пустое, сбой и решение в широкой панели — колонка с потолком: без него
+   строка идёт во всю панель, а кнопка растягивается на девятьсот пикселей
+   и перестаёт читаться кнопкой (сквозные решения аудита). */
+:root[data-w="tablet"] .split-detail > :is(.state, .acts),
+:root[data-w="desktop"] .split-detail > :is(.state, .acts),
+/* и полоса выходов: в разметке она `section > p.row`, а `.row > * { flex: 1 }`
+   разгоняла пару кнопок на всю панель — 334px на кнопку. Правило ждало
+   только `.acts` и потому молчало. */
+:root[data-w="tablet"] .split-detail > section:has(> .row > .btn),
+:root[data-w="desktop"] .split-detail > section:has(> .row > .btn) {
+  width: 100%; max-width: var(--w-read-max); margin-inline: auto;
+}
+
+/* Закреплённая полоса под парой панелей относится к детали, а не к списку:
+   поле ввода тянулось под списком чатов, к которому не относится. Полоса
+   лежит рядом со `.split` (иначе на телефоне она уехала бы в прокрутку
+   разговора), поэтому её сдвигает отступ, равный колонке списка. */
+:root[data-w="tablet"] .app:has(> .split) > .pin,
+:root[data-w="desktop"] .app:has(> .split) > .pin {
+  margin-left: calc(var(--w-list-col) + var(--w-gap-grid));
+}
+
+/* Потолок распространяется на всё, что на ширине перестаёт читаться собой:
+   строку-выход (`See people` на 1015px — это уже не строка, а поле),
+   блок состояния (рамка шире своего текста в два с половиной раза читается
+   заглушкой загрузки, а не сообщением — `D-42` запрещает именно это),
+   полосу кнопок и карточку человека. Левый край, а не центр: все они стоят
+   над сеткой или в колонке и равняются по ней. */
+:root[data-w="tablet"] .pane :is(.exit, .state, .banner),
+:root[data-w="desktop"] .pane :is(.exit, .state, .banner),
+:root[data-w="tablet"] .col :is(.exit, .state, .banner),
+:root[data-w="desktop"] .col :is(.exit, .state, .banner) {
+  width: 100%; max-width: var(--w-read-max);
+}
+
+/* Карточка человека растёт до своего потолка, а не до колонки: `--card-h`
+   фиксирован, и на 500px кадр становился ландшафтом 2:1 — а «как меня видят»
+   показывает ровно ту карточку, что лежит в колоде, то есть портрет. */
+:root[data-w="tablet"] .card,
+:root[data-w="desktop"] .card { max-width: var(--w-card-max); }
+
+/* Абзац не шире меры: `.note` и текст объявления несли на 1280 строки
+   под сто знаков. Реплике потолок дали сразу, этим двум забыли. */
+:root[data-w="tablet"] :is(.note, .banner p, .state p),
+:root[data-w="desktop"] :is(.note, .banner p, .state p) { max-width: 46ch; }
+
+/* Свободная высота не копится в одном зазоре. `.stretch` забирает остаток
+   кадра, и на телефоне он мал — читается полем; на 834 и 1280 он становится
+   разрывом в полэкрана между сообщением и выходом из него, хотя аудит
+   обещал обратное: «выходы остаются рядом с ним». Зоны встают подряд
+   сверху, пустота уходит вниз одним куском. */
+:root[data-w="tablet"] .pane > .stretch,
+:root[data-w="desktop"] .pane > .stretch { flex: none; }
+
+/* Выбранная строка в левой панели пары. Без неё панель не говорит, что
+   в ней открыто, и пара читается двумя независимыми списками — а стоит она
+   рядом именно ради связи. Тот же рецепт, что у активного пункта рейки:
+   заливка, не рамка. `aria-current` в разметке уже стоял и вида не имел. */
+:root[data-w="tablet"] .split-list .item[aria-current="page"],
+:root[data-w="desktop"] .split-list .item[aria-current="page"] {
+  background: var(--w-fill);
+  box-shadow: inset 0 0 0 1px var(--w-ink-2);
+}
+
+/* Слой центрируется и по вертикали: аудит II.3 обещал «потолок ширины
+   и центр», а карточка совпадения стояла в левом верхнем углу белого поля —
+   на пиковом моменте продукта. */
+:root[data-w="tablet"] .screen dialog[open],
+:root[data-w="desktop"] .screen dialog[open] { justify-content: center; }
+
+/* Закреплённая полоса раскрепляется, когда содержимое помещается — сквозное
+   решение аудита. На телефоне панель забирает остаток высоты и прижимает
+   полосу решения к низу кадра: это и есть закрепление. На ширине содержимое
+   помещается, и полоса, оставшаяся внизу, отрывается от карточки, по которой
+   принимают решение, — на 1280 это 300px пустоты между ними. Панель перестаёт
+   растягиваться, и полоса встаёт сразу под содержимым. Прокрутка не теряется:
+   длинная панель по-прежнему сжимается и прокручивается своим. */
+:root[data-w="tablet"] .app > .pane,
+:root[data-w="desktop"] .app > .pane { flex: 0 1 auto; }
+
+/* ── потолок колонки текста ──────────────────────────────────────────────
+   «Больше воздуха» не значит «строка во всю ширину». Реплика в панели
+   912px при 78% растянулась бы на 711px — глаз теряет начало строки. */
+:root[data-w="tablet"] .bubble,
+:root[data-w="desktop"] .bubble { max-width: min(78%, 46ch); }
+
+/* ── слои остаются слоями ────────────────────────────────────────────────
+   Совпадение, шит фильтров, жалоба, safety tips: потолок ширины и центр,
+   а не растяжка во весь экран. */
+:root[data-w="tablet"] .screen dialog[open],
+:root[data-w="desktop"] .screen dialog[open] {
+  width: 100%; max-width: var(--w-read-max); margin-inline: auto;
 }
 
 /* ── состояние вместо содержимого: пусто и ошибка ───────────
@@ -676,6 +1190,16 @@ a { color: var(--w-ink); }
 /* фото, дошедшее не целиком: заблюрено, а не заменено серым  D-51.
    Мягкие пятна дают предмет, который блюру есть что размывать; масштаб срезает
    размытые края, иначе они светлеют по контуру. Анимации нет — правило 8 не задето */
+/* Строка выдачи: миниатюра слева, тело справа (`D-70`, §6 — «строками
+   с миниатюрой»). Правила у `.item.media` не было, и `.thumb` с `flex: 1`
+   внутри колоночной строки получал основную ось по вертикали: ширина
+   схлопывалась в ноль, и миниатюры не было видно ни на одной ширине.
+   В ските это `.mm-row--media` + `.mm-thumb`, здесь — тот же состав. */
+.item.media { flex-direction: row; align-items: center; gap: var(--s-3); }
+.item.media > .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.item.media > .thumb { flex: none; width: 56px; height: 56px; }
+.item.media > .thumb.round { border-radius: 50%; }
+
 .thumb { flex: 1; height: 64px; background: var(--w-zone); border-radius: var(--r-sm); }
 .skelrow { overflow: hidden; }
 .blur {
@@ -762,6 +1286,11 @@ a { color: var(--w-ink); }
 .item.ev .when { font-size: 12px; }
 /* обложка на карточке события: во всю ширину, полос пагинации столько же, сколько фото  D-56 */
 .evcover {
+  /* flex: none обязателен и проверен критикой: обёртка колонок на телефоне
+     прозрачна (`display: contents`), поэтому обложка оказывается прямым
+     ребёнком флекс-панели и сжимается до нуля — событие без фотографии
+     не существует (`D-56`). То же правило стоит в ките, card.css. */
+  flex: none;
   position: relative; margin: 0; height: 180px;
   border: 1px solid var(--w-line); border-radius: var(--r-sm); overflow: hidden;
 }
@@ -851,6 +1380,9 @@ a { color: var(--w-ink); }
   aspect-ratio: 1;
   margin: auto;
   flex: none;
+  /* диаметры кружков — переменными, потому что на сцене (`.stage`) они
+     растут вместе с кольцами: доля от фигуры та же, число другое */
+  --w-dot-s: 24px; --w-dot-m: 34px; --w-dot-l: 44px;
 }
 .radar .rings, .radar .rings span {
   position: absolute; top: 50%; left: 50%;
@@ -878,13 +1410,13 @@ a { color: var(--w-ink); }
 }
 .radar .pins .dot {
   display: block;
-  width: 34px; height: 34px;
+  width: var(--w-dot-m); height: var(--w-dot-m);
   border: 1px solid var(--w-line);
   border-radius: 50%;
   background: var(--w-zone);
 }
-.radar .pins .dot.sm { width: 24px; height: 24px; }
-.radar .pins .dot.lg { width: 44px; height: 44px; }
+.radar .pins .dot.sm { width: var(--w-dot-s); height: var(--w-dot-s); }
+.radar .pins .dot.lg { width: var(--w-dot-l); height: var(--w-dot-l); }
 /* точки расставлены руками: это макет, а не расчёт расстояний */
 .radar .pins .a { top: 8%; left: 62%; }
 .radar .pins .b { top: 20%; left: 8%; }

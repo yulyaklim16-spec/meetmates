@@ -133,7 +133,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="mm-screen">
+ <div class="mm-screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -155,54 +155,67 @@
     <section class="mm-scrolly" aria-labelledby="res-h">
       <h2 id="res-h" class="mm-vh">Results</h2>
       <p class="mm-note" role="status">Searching events and people</p>
-      <div class="mm-grouphead">
-        <h3 class="mm-subhead">Events</h3>
-        <a class="mm-more" href="feed.html" aria-label="Look at all events">Look at all <span aria-hidden="true">&rarr;</span></a>
-      </div>
-      <ul class="mm-list" aria-hidden="true">
-        <li class="mm-row mm-row--media">
-          <span class="mm-thumb"></span>
-          <span class="mm-row-body">
-            <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
-            <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
-          </span>
-        </li>
-        <li class="mm-row mm-row--media">
-          <span class="mm-thumb"></span>
-          <span class="mm-row-body">
-            <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
-            <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
-          </span>
-        </li>
-        <li class="mm-row mm-row--media">
-          <span class="mm-thumb"></span>
-          <span class="mm-row-body">
-            <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
-            <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
-          </span>
-        </li>
-      </ul>
+      <!-- Ширина: ответ аудита «новое поведение» (IX.1 Поиск) — две группы
+           РЯДОМ: события левой колонкой, люди правой. На телефоне человек
+           видит либо одно, либо другое: вторая группа лежит за прокруткой,
+           и дверь в заголовке группы `D-70` — единственный способ увидеть
+           остальное. Колонки рядом отвечают на весь запрос сразу, и обрезка
+           перестаёт быть решением. Третьей панели с предпросмотром нет
+           `D-67`, `D-77`; действий в выдаче нет — тап открывает объект. -->
+      <div class="mm-cols">
+        <div class="mm-col">
+          <div class="mm-grouphead">
+            <h3 class="mm-subhead">Events</h3>
+            <a class="mm-more" href="feed.html" aria-label="Look at all events">Look at all <span aria-hidden="true">&rarr;</span></a>
+          </div>
+          <ul class="mm-list" aria-hidden="true">
+            <li class="mm-row mm-row--media">
+              <span class="mm-thumb"></span>
+              <span class="mm-row-body">
+                <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+                <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
+              </span>
+            </li>
+            <li class="mm-row mm-row--media">
+              <span class="mm-thumb"></span>
+              <span class="mm-row-body">
+                <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+                <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
+              </span>
+            </li>
+            <li class="mm-row mm-row--media">
+              <span class="mm-thumb"></span>
+              <span class="mm-row-body">
+                <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+                <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
+              </span>
+            </li>
+          </ul>
+        </div>
 
-      <div class="mm-grouphead">
-        <h3 class="mm-subhead">People</h3>
-        <a class="mm-more" href="deck.html" aria-label="See all people">See all <span aria-hidden="true">&rarr;</span></a>
+        <div class="mm-col">
+          <div class="mm-grouphead">
+            <h3 class="mm-subhead">People</h3>
+            <a class="mm-more" href="deck.html" aria-label="See all people">See all <span aria-hidden="true">&rarr;</span></a>
+          </div>
+          <ul class="mm-list" aria-hidden="true">
+            <li class="mm-row mm-row--media">
+              <span class="mm-thumb"></span>
+              <span class="mm-row-body">
+                <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+                <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
+              </span>
+            </li>
+            <li class="mm-row mm-row--media">
+              <span class="mm-thumb"></span>
+              <span class="mm-row-body">
+                <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+                <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
+              </span>
+            </li>
+          </ul>
+        </div>
       </div>
-      <ul class="mm-list" aria-hidden="true">
-        <li class="mm-row mm-row--media">
-          <span class="mm-thumb"></span>
-          <span class="mm-row-body">
-            <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
-            <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
-          </span>
-        </li>
-        <li class="mm-row mm-row--media">
-          <span class="mm-thumb"></span>
-          <span class="mm-row-body">
-            <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
-            <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
-          </span>
-        </li>
-      </ul>
     </section>
 
     <!-- ЗОНА 4: выход живой — ждать выдачу необязательно -->

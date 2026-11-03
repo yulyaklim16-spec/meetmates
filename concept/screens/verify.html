@@ -136,7 +136,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="mm-screen">
+ <div class="mm-screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -147,8 +147,15 @@
 </header>
   <main class="mm-app">
   <div class="mm-pane">
+    <!-- Ширина: «всё равно» (аудит, I.5 Верификация). Видоискатель упирается
+         в потолок кадра — лицо должно помещаться, а не заполнять монитор, —
+         подсказка остаётся под кадром, а действие и выход под ней. Поэтому
+         потолок `.cap` стоит на каждой зоне по отдельности: `.pane` держит
+         просвет между детьми, и одна общая обёртка склеила бы зоны в одну.
+         Таб-бара на этом экране нет (онбординг), значит и рейки слева на 1280
+         не будет — экран остаётся колонкой по центру на всех трёх ступенях. -->
     <!-- ЗОНА 2: видоискатель. Поза — то, что отличает живое фото от чужого -->
-    <section class="mm-stretch" aria-labelledby="cam-h">
+    <section class="mm-stretch mm-cap" aria-labelledby="cam-h">
       <h2 id="cam-h" class="mm-vh">Selfie</h2>
       <article class="mm-person">
         <figure>
@@ -163,7 +170,7 @@
     </section>
 
     <!-- ЗОНА 3: снять. Одно действие, и оно главное -->
-    <section class="mm-section" aria-labelledby="act-h">
+    <section class="mm-cap" aria-labelledby="act-h">
       <h2 id="act-h" class="mm-vh">Decision</h2>
       <p class="mm-actions">
         <a class="mm-btn mm-btn--primary" href="verify-loading.html">Take selfie</a>
@@ -171,7 +178,7 @@
     </section>
 
     <!-- ЗОНА 4: пропуск с названной ценой (§7.3) -->
-    <section class="mm-section" aria-labelledby="skip-h">
+    <section class="mm-cap" aria-labelledby="skip-h">
       <h2 id="skip-h" class="mm-vh">Later</h2>
       <p>You can browse now &mdash; verify to start chatting.</p>
       <a class="mm-btn" href="deck.html">

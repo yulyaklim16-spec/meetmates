@@ -121,70 +121,94 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <a class="back" href="deck.html" aria-label="Back to people nearby"><span aria-hidden="true">&larr;</span></a>
-  <h1>Olena, 26</h1>
+  <!-- На ширине имя стоит во фрейме решения, а шапке остаётся возврат —
+       и он называет себя словом: стрелка одна посреди пустой шапки
+       не читается органом (`D-114`). -->
+  <a class="back" href="deck.html" aria-label="Back to people nearby"><span aria-hidden="true">&larr;</span><span class="wide">Back</span></a>
+  <h1 class="narrow">Olena, 26</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
 </header>
-  <main class="app">
+  <main class="app pair">
   <div class="pane">
-    <!-- ЗОНА 2: кто это. Прокручивается, решение остаётся закреплённым -->
-    <section class="scrolly" aria-labelledby="who-h">
-      <h2 id="who-h" class="vh">Who</h2>
-      <!-- та же карточка, что в колоде: фото во всю площадь, текст подложкой снизу (§8).
-           Имя не повторяем — оно в шапке экрана; порядок чтения остальной D-13 -->
-      <article class="card">
-        <figure>
-          <p class="photo" aria-hidden="true"></p>
-          <figcaption class="vh">Photo 1 of 4</figcaption>
-          <p class="pager" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></p>
-          <p class="cardtop">
-            <span class="verified"><span class="ico sm" aria-hidden="true"></span>Verified</span>
-            <span class="chip"><span class="ico sm" aria-hidden="true"></span>~2 km</span>
-          </p>
-        </figure>
-        <section class="body" aria-label="Olena">
-          <p class="common">3 common interests</p>
-          <ul class="tags">
-            <li>Hiking</li>
-            <li>Board games</li>
-            <li>Coffee</li>
-          </ul>
-          <ul class="signals">
-                <li>6 meetups attended</li>
-            <li>Replies quickly</li>
-          </ul>
+    <!-- Ширина: ответ аудита «раскладка шире» (I.1 Профиль другого человека) —
+         две колонки одного и того же: карточка с фото слева, факты человека
+         и его ближайшие события справа. На телефоне `.cols` остаётся колонкой,
+         и порядок чтения `D-13` не меняется ни на одной ступени.
+         Полосы пагинации остаются на карточке — они часть фотографии, а не
+         раскладки. Горизонтальная рейка событий колонок не множит: она
+         и так едет вбок (общий слой `_wire.css`). -->
+    <div class="cols">
+      <div class="col">
+        <!-- ЗОНА 2: кто это. Прокручивается, решение остаётся закреплённым -->
+        <section class="scrolly" aria-labelledby="who-h">
+          <h2 id="who-h" class="vh">Who</h2>
+          <!-- та же карточка, что в колоде: фото во всю площадь, текст подложкой снизу (§8).
+               Имя не повторяем — оно в шапке экрана; порядок чтения остальной D-13 -->
+          <article class="card">
+            <figure>
+              <p class="photo" aria-hidden="true"></p>
+              <figcaption class="vh">Photo 1 of 4</figcaption>
+              <p class="pager" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></p>
+              <p class="cardtop">
+                <span class="verified"><span class="ico sm" aria-hidden="true"></span>Verified</span>
+                <span class="chip"><span class="ico sm" aria-hidden="true"></span>~2 km</span>
+              </p>
+            </figure>
+            <section class="body" aria-label="Olena">
+              <p class="common">3 common interests</p>
+              <ul class="tags">
+                <li>Hiking</li>
+                <li>Board games</li>
+                <li>Coffee</li>
+              </ul>
+              <ul class="signals">
+                    <li>6 meetups attended</li>
+                <li>Replies quickly</li>
+              </ul>
+            </section>
+          </article>
         </section>
-      </article>
-    </section>
+      </div>
 
-    <!-- ЗОНА 3: ближайшие запросы человека — второй путь прямо отсюда (§5.2) -->
-    <section aria-labelledby="pl-h">
-      <h2 id="pl-h">Olena&rsquo;s events</h2>
-      <ul class="rows">
-        <li class="item ev">
-          <span class="cover">
-            <span class="cardtop"><span class="chip"><span class="ico sm" aria-hidden="true"></span>~3 km</span></span>
-          </span>
-          <span class="body">
-            <a class="top" href="plan.html"><b>Board games</b><time class="when" datetime="2026-09-26T18:00"><b>26 Sep</b> &middot; 18:00</time></a>
-            <span class="who">Kyiv Games Club &middot; Podil</span>
-            <span class="who">1 spot left</span>
-          </span>
-          <span class="acts"><a class="btn quiet" href="plan-waiting.html">Ask to join</a></span>
-        </li>
-      </ul>
-      <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
-    </section>
+      <div class="col">
+        <!-- ЗОНА 3: ближайшие запросы человека — второй путь прямо отсюда (§5.2) -->
+        <section aria-labelledby="pl-h">
+          <h2 id="pl-h">Olena&rsquo;s events</h2>
+          <ul class="rows">
+            <li class="item ev">
+              <span class="cover">
+                <span class="cardtop"><span class="chip"><span class="ico sm" aria-hidden="true"></span>~3 km</span></span>
+              </span>
+              <span class="body">
+                <a class="top" href="plan.html"><b>Board games</b><time class="when" datetime="2026-09-26T18:00"><b>26 Sep</b> &middot; 18:00</time></a>
+                <span class="who">Kyiv Games Club &middot; Podil</span>
+                <span class="who">1 spot left</span>
+              </span>
+              <span class="acts"><a class="btn quiet" href="plan-waiting.html">Ask to join</a></span>
+            </li>
+          </ul>
+          <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
+        </section>
+      </div>
+    </div>
   </div>
   <!-- ЗОНА 4: решение. Закреплено внизу: оно должно быть видно до того,
        как человек долистает профиль, — и доступно при любом состоянии дозагрузки -->
-  <section class="pin" aria-labelledby="act-h">
+  <!-- Закрепление на ширине перестаёт быть нужным само: содержимое помещается,
+       и панель под решением больше не прокручивается («Закреплённые полосы
+       раскрепляются, когда содержимое помещается», сквозные решения аудита).
+       `.cap` не даёт двум кнопкам растянуться во всю ширину экрана: кнопка
+       на девятьсот пикселей перестаёт читаться кнопкой. -->
+  <section class="pin cap left" aria-labelledby="act-h">
+    <!-- ЗОНА 2б: кто это. На ширине имя переезжает сюда, к решению:
+         его читают перед тем, как нажать. На телефоне оно в шапке. -->
+    <h1 class="wide">Olena, 26</h1>
     <h2 id="act-h" class="vh">Decision</h2>
     <p class="row">
       <a class="btn" href="deck.html">Skip</a>

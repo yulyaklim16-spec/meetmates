@@ -133,7 +133,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="mm-screen">
+ <div class="mm-screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -156,7 +156,10 @@
     <!-- ЗОНА 3: причина и то, что ничего не потеряно -->
     <section class="mm-stretch" aria-labelledby="mine-h">
       <h2 id="mine-h" class="mm-vh">My events</h2>
-      <article class="mm-state mm-state--alert" role="alert">
+      <!-- Ширина: «всё равно» (аудит, «Состояния, которые меняют ответ» — пустые
+           и сбои). Блок упирается в потолок 390px и становится по центру,
+           а не растягивается на 1060px: `.cap` из общего слоя `_wire.css`. -->
+      <article class="mm-state mm-state--alert mm-cap" role="alert">
         <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span>
         <h3>Couldn&rsquo;t load your events</h3>
         <p>The connection dropped. Nothing is lost &mdash; your events and the people who joined them are safe.</p>
@@ -167,7 +170,9 @@
     <!-- ЗОНА 4: выход -->
     <section class="mm-section" aria-labelledby="ex-h">
       <h2 id="ex-h" class="mm-vh">Nearby</h2>
-      <a class="mm-btn" href="feed.html">
+      <!-- Выход с тем же потолком: на ширине он иначе уехал бы к краю экрана,
+           а правило 10 требует выход рядом с блоком состояния. -->
+      <a class="mm-btn mm-cap" href="feed.html">
         <span>Look at events</span>
         <span aria-hidden="true">&rarr;</span>
       </a>

@@ -123,7 +123,7 @@
 <!-- Мокап телефона: 390 × 844. Системная строка, панель браузера и индикатор
      жеста — чужие зоны, продукт ими не владеет. Ему остаётся 713px. -->
 <div class="device">
- <div class="screen">
+ <div class="screen" data-wide>
 
   <!-- зона системы: safe-area сверху, 47px -->
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
@@ -135,28 +135,47 @@
 </header>
   <main class="app">
   <div class="pane">
-    <!-- ЗОНА 2: что за план. Место публичное: название, район, расстояние -->
+    <!-- ЗОНА 2: что за план. Место публичное: название, район, расстояние.
+         На 834 и 1280 то же содержимое ложится в две колонки (аудит, III.3):
+         слева — обложка, дата и место, справа — описание, автор и счётчик.
+         Порядок на телефоне не меняется: `.cols` там обычная колонка, и первой
+         по-прежнему идёт обложка `D-56`. Зачем это нужно: в один столбец
+         `Ask to join` уезжал за сгиб, а аудит требует видеть действие без
+         прокрутки. Панелью рядом с лентой экран не становится `D-106` —
+         событие читают один раз, возвращаются к разговору. -->
     <section class="scrolly" aria-labelledby="pl-h">
       <h2 id="pl-h" class="vh">The event</h2>
-      <figure class="evcover">
-        <p class="photo" aria-hidden="true"></p>
-        <figcaption class="vh">Photo 1 of 2</figcaption>
-        <p class="cardtop"><span class="chip"><span class="ico sm" aria-hidden="true"></span>~3 km</span></p>
-        <p class="pager" aria-hidden="true"><span class="on"></span><span></span></p>
-      </figure>
-      <ul class="signals">
-        <li><time datetime="2026-09-26T18:00"><b>Sat, 26 Sep</b> &middot; 18:00</time></li>
-        <li>Free</li>
-      </ul>
-      <p class="distance">Kyiv Games Club &middot; Podil</p>
-      <p>Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.</p>
-      <p class="who"><span class="avatar" aria-hidden="true"></span>Andrii &middot; Verified &middot; 12 meetups attended &middot; Replies quickly</p>
-
-      <output class="note">2 going &middot; 1 spot left</output>
+      <div class="cols">
+        <!-- слева: что это и где. Карты нет ни на какой ширине (правило 5) -->
+        <div class="col">
+          <figure class="evcover">
+            <p class="photo" aria-hidden="true"></p>
+            <figcaption class="vh">Photo 1 of 2</figcaption>
+            <p class="cardtop"><span class="chip"><span class="ico sm" aria-hidden="true"></span>~3 km</span></p>
+            <p class="pager" aria-hidden="true"><span class="on"></span><span></span></p>
+          </figure>
+          <ul class="signals">
+            <li><time datetime="2026-09-26T18:00"><b>Sat, 26 Sep</b> &middot; 18:00</time></li>
+            <li>Free</li>
+          </ul>
+          <p class="distance">Kyiv Games Club &middot; Podil</p>
+        </div>
+        <!-- справа: о чём договариваются, с кем и сколько мест. Строка автора
+             остаётся на карточке при любой ширине — сигналы доверия стоят
+             до первого сообщения, и `Verified` живёт в ней (правило 12, `D-66`) -->
+        <div class="col">
+          <p>Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.</p>
+          <p class="who"><span class="avatar" aria-hidden="true"></span>Andrii &middot; Verified &middot; 12 meetups attended &middot; Replies quickly</p>
+          <output class="note">2 going &middot; 1 spot left</output>
+        </div>
+      </div>
     </section>
 
-    <!-- ЗОНА 3: отклик. Требует верификации (§7.3), автор подтверждает (§5.4) -->
-    <section aria-labelledby="act-h">
+    <!-- ЗОНА 3: отклик. Требует верификации (§7.3), автор подтверждает (§5.4).
+         `cap`: кнопка решения упирается в потолок. Во всю ширину панели она
+         перестаёт читаться кнопкой — тот же довод, что у общего слоя
+         про решение в широкой панели. -->
+    <section class="cap" aria-labelledby="act-h">
       <h2 id="act-h" class="vh">Decision</h2>
       <p class="row">
         <a class="btn primary" href="plan-waiting.html">Ask to join</a>
