@@ -644,7 +644,6 @@
 | рабочий вид | Глубокий слой | `My events 1 request` | подпись |
 | рабочий вид | Глубокий слой | `My matches 3 new` | подпись |
 | рабочий вид | Глубокий слой | `Verification Verified` | подпись |
-| рабочий вид | Как меня видят | `Kyiv · distance is always rounded for others` | подпись |
 | рабочий вид | Глубокий слой | `Everything else` | скрытый заголовок |
 | рабочий вид | Глубокий слой | `You’ll need to sign in again to get back to your chats and events.` | сообщение состояния |
 | загрузка | шапка | `Edit profile` | aria-label |
