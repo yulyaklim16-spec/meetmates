@@ -142,13 +142,18 @@
     <div class="col">
     <!-- ЗОНА 2: известное — сразу, скелет — у того, что считает сервер -->
     <section class="scrolly" aria-labelledby="see-h">
-      <h2 id="see-h">How others see you</h2>
+      <!-- Заголовок зоны скрыт, как в рабочем виде `D-116`: карточка и есть
+           ответ на «как меня видят». -->
+      <h2 id="see-h" class="vh">How others see you</h2>
       <p class="note" role="status">Updating your meetup count</p>
       <article class="card">
         <figure>
           <p class="photo" aria-hidden="true"></p>
           <figcaption class="vh">Photo 1 of 3</figcaption>
-          <p class="cardtop"><span class="verified"><span class="ico sm" aria-hidden="true"></span>Verified</span></p>
+          <p class="cardtop">
+            <span class="verified"><span class="ico sm" aria-hidden="true"></span>Verified</span>
+            <span class="chip"><span class="ico sm" aria-hidden="true"></span>0 km</span>
+          </p>
           <p class="pager" aria-hidden="true"><span class="on"></span><span></span><span></span></p>
         </figure>
         <!-- Блок фактов тот же, что в рабочем виде: известное стоит текстом,
@@ -161,7 +166,7 @@
             <li>Coffee</li>
             <li>Running</li>
           </ul>
-          <h3>Dasha, 27</h3>
+          <h3 class="narrow">Dasha, 27</h3>
           <ul class="signals">
             <li aria-hidden="true"><span class="skel line"></span></li>
             <li>Replies quickly</li>
@@ -172,9 +177,16 @@
     </section>
 
     </div>
-    <!-- Вторая колонка — всё редкое. Порядок пунктов тот же, что на телефоне:
-         ширина меняет раскладку, а не состав и не очерёдность. -->
-    <div class="col">
+    <!-- Вторая колонка — кто я и всё редкое, двумя фреймами `D-116`.
+         Порядок пунктов тот же, что на телефоне: ширина меняет раскладку,
+         а не состав и не очерёдность. -->
+    <div class="col apart">
+    <!-- ЗОНА 2б: кто я. Появляется только на ширине -->
+    <section class="wide" aria-labelledby="me-h">
+      <h2 id="me-h" class="vh">Me</h2>
+      <p class="name">Dasha, 27</p>
+    </section>
+
     <!-- ЗОНА 3: глубокий слой доступен и во время загрузки -->
     <section aria-labelledby="deep-h">
       <h2 id="deep-h" class="vh">Everything else</h2>

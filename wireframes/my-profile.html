@@ -138,18 +138,25 @@
          по-прежнему уводит на свой экран и возвращает назад, и редкие
          действия остаются в один тап от вкладки. -->
     <!-- Пара «предмет и решение» `D-115`: слева то, что показывают другим,
-         справа — куда отсюда ходят. Фрейма справа нет: там уже стоят свои
-         строки-карточки, и рамка вокруг рамок ничего не добавляет. -->
+         справа — кто я и куда отсюда ходят, двумя фреймами. -->
     <div class="cols aside">
     <div class="col">
     <!-- ЗОНА 2: как меня видят. Ровно то же, что видит другой человек -->
     <section class="scrolly" aria-labelledby="see-h">
-      <h2 id="see-h">How others see you</h2>
+      <!-- Заголовок зоны скрыт: карточка и есть ответ на «как меня видят»,
+           а подпись над ней повторяла то, что видно. Строка остаётся
+           в разметке — зону надо назвать (`_conventions.md`). -->
+      <h2 id="see-h" class="vh">How others see you</h2>
       <article class="card">
         <figure>
           <p class="photo" aria-hidden="true"></p>
           <figcaption class="vh">Photo 1 of 3</figcaption>
-          <p class="cardtop"><span class="verified"><span class="ico sm" aria-hidden="true"></span>Verified</span></p>
+          <p class="cardtop">
+            <span class="verified"><span class="ico sm" aria-hidden="true"></span>Verified</span>
+            <!-- Расстояние стоит там же, где на чужой карточке: это та же
+                 карточка, и знак на ней один и тот же. До себя — ноль. -->
+            <span class="chip"><span class="ico sm" aria-hidden="true"></span>0 km</span>
+          </p>
           <p class="pager" aria-hidden="true"><span class="on"></span><span></span><span></span></p>
         </figure>
         <!-- Факты лежат в карточке, а не под ней: это та же карточка, что видит
@@ -162,7 +169,9 @@
             <li>Coffee</li>
             <li>Running</li>
           </ul>
-          <h3>Dasha, 27</h3>
+          <!-- На ширине имя стоит отдельным блоком справа, рядом
+               с карточкой; в карточке оно при этом не дублируется. -->
+          <h3 class="narrow">Dasha, 27</h3>
           <ul class="signals">
             <li>4 meetups attended</li>
             <li>Replies quickly</li>
@@ -173,9 +182,18 @@
     </section>
 
     </div>
-    <!-- Вторая колонка — всё редкое. Порядок пунктов тот же, что на телефоне:
-         ширина меняет раскладку, а не состав и не очерёдность. -->
-    <div class="col">
+    <!-- Вторая колонка — кто я и всё редкое, двумя фреймами: имя и список
+         «всего остального» — два разных предмета, и один фрейм склеил бы их
+         в один список. Порядок пунктов тот же, что на телефоне: ширина
+         меняет раскладку, а не состав и не очерёдность. -->
+    <div class="col apart">
+    <!-- ЗОНА 2б: кто я. Появляется только на ширине — на телефоне имя
+         стоит в самой карточке, по порядку чтения `D-13`. -->
+    <section class="wide" aria-labelledby="me-h">
+      <h2 id="me-h" class="vh">Me</h2>
+      <p class="name">Dasha, 27</p>
+    </section>
+
     <!-- ЗОНА 3: глубокий слой. Всё редкое — здесь, экрана настроек нет D-38 -->
     <section aria-labelledby="deep-h">
       <h2 id="deep-h" class="vh">Everything else</h2>

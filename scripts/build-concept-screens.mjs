@@ -106,7 +106,9 @@ const ICON_BY_PLACE = [
   // в поле иконка контурная: поле ничего не утверждает, оно ждёт ввода
   [/<form class="field" role="search">\s*<span class="ico[^"]*" aria-hidden="true"><\/span>/, 'magnifer', ICONS_LINEAR],
   [/<label class="field" for="msg">\s*<span class="ico[^"]*" aria-hidden="true"><\/span>/, 'chat-round-dots', ICONS_LINEAR],
-  [/<span class="ico[^"]*" aria-hidden="true"><\/span>~/, 'map-point'],
+  // Расстояние на снимке: `~3 km` на чужой карточке и `0 km` на своей
+  // (`D-116`) — знак один и тот же, различается только число.
+  [/<span class="ico[^"]*" aria-hidden="true"><\/span>(?=[~\d])/, 'map-point'],
   [/<span class="retry ico[^"]*" aria-hidden="true"><\/span>/, 'danger-circle'],
 ];
 
@@ -197,6 +199,7 @@ const CLASS_MAP = {
   cols: 'mm-cols', col: 'mm-col', full: 'mm-cols-full', wide3: 'mm-cols--3',
   wide: 'mm-wide', narrow: 'mm-narrow', cap: 'mm-cap', left: 'mm-cap--left',
   stage: 'mm-stage', aside: 'mm-cols--aside', pair: 'mm-app--pair',
+  apart: 'mm-col--apart', name: 'mm-subhead',
   // размер иконки задаёт место, где она стоит, а не её собственный класс
   sm: null, lg: null,
 };

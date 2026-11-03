@@ -929,12 +929,23 @@ a { color: var(--w-ink); }
   border-radius: var(--r-sm);
   background: var(--w-surface);
 }
-/* …кроме той, где уже стоят свои карточки: рамка вокруг списка строк —
-   рамка в рамке, и она ничего не добавляет (мой профиль, `D-115`). */
-:root[data-w="tablet"] .cols.aside > .col:last-child:has(> section > .rows),
-:root[data-w="desktop"] .cols.aside > .col:last-child:has(> section > .rows) {
+/* …кроме колонки, объявившей, что блоки в ней стоят порознь: тогда фрейм
+   получает каждый блок, а не колонка. Так стоят имя и «всё остальное»
+   в своём профиле — это два разных предмета, и один фрейм склеил бы их
+   в один список (`D-116`). */
+:root[data-w="tablet"] .cols.aside > .col.apart,
+:root[data-w="desktop"] .cols.aside > .col.apart {
   padding: 0; border: 0; background: none;
 }
+:root[data-w="tablet"] .cols.aside > .col.apart > section,
+:root[data-w="desktop"] .cols.aside > .col.apart > section {
+  padding: var(--s-4);
+  border: 1px solid var(--w-line);
+  border-radius: var(--r-sm);
+  background: var(--w-surface);
+}
+/* Имя рядом с карточкой набрано как в карточке: тот же вес и тот же рост. */
+.name { margin: 0; font-size: 1rem; font-weight: 600; line-height: 1.3; }
 /* Карточка в 400px посреди кадра 844 оставляет под собой ровно столько же
    пустоты, сколько раньше оставалось сбоку. В паре она растёт: нижняя
    граница — 520 (3:4 от потолка ширины), дальше по соседней колонке, если

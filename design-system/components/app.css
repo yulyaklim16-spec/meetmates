@@ -281,6 +281,19 @@
     background: var(--bg-surface);
     box-shadow: var(--shadow-2);
   }
+
+  /* …кроме колонки, объявившей, что блоки в ней стоят порознь: тогда фрейм
+     получает каждый блок, а не колонка. Так стоят имя и «всё остальное»
+     в своём профиле — два разных предмета, и один фрейм склеил бы их
+     в один список (`D-116`). */
+  .mm-cols--aside > .mm-col--apart { padding: 0; background: none; box-shadow: none; }
+
+  .mm-cols--aside > .mm-col--apart > .mm-section {
+    padding: var(--space-16);
+    border-radius: var(--radius-lg);
+    background: var(--bg-surface);
+    box-shadow: var(--shadow-2);
+  }
 }
 
 /* «Всё равно»: ширина не добавляет ничего, кроме воздуха, — а воздух
