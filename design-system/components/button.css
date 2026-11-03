@@ -51,7 +51,7 @@
  линия плюс мягкая тень. Фокус перекрывает её целиком. */
 .mm-btn--quiet {
   background: var(--bg-secondary);
-  box-shadow: 0 0 0 1px var(--border-control);
+  box-shadow: var(--ring-hairline-inset), var(--shadow-1);
 }
 
 /* Недоступна — это та же кнопка в половину силы, а не третий вид: роль видно

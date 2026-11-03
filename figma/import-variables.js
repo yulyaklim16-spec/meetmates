@@ -29,16 +29,6 @@ const PRIMITIVE = [
     "css": "gray-100"
   },
   {
-    "path": "color/gray-300",
-    "type": "COLOR",
-    "value": {
-      "r": 0.7686274509803922,
-      "g": 0.7607843137254902,
-      "b": 0.8
-    },
-    "css": "gray-300"
-  },
-  {
     "path": "color/plum-950",
     "type": "COLOR",
     "value": {
@@ -694,11 +684,6 @@ const SEMANTIC = [
     "css": "border-hairline"
   },
   {
-    "path": "border/control",
-    "alias": "color/gray-300",
-    "css": "border-control"
-  },
-  {
     "path": "bg/hover",
     "alias": "color/lilac-100",
     "css": "bg-hover"
@@ -857,11 +842,6 @@ const SEMANTIC_DARK = [
     "path": "border/hairline",
     "alias": "misc/coal-500",
     "css": "border-hairline"
-  },
-  {
-    "path": "border/control",
-    "alias": "misc/coal-500",
-    "css": "border-control"
   },
   {
     "path": "color/focus",
