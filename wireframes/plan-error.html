@@ -134,45 +134,48 @@
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
 </header>
   <main class="app">
-  <div class="pane">
-    <!-- ЗОНА 2: отказ. Без выдуманной причины и без упрёка.
-         `cap` на состоянии и на обеих зонах ниже: двух колонок карточки
-         (аудит, III.3) здесь нет из чего собрать — ни обложки, ни автора,
-         ни счётчика, отклик отклонён. Значит работает сквозное решение
-         для состояний: блок упирается в потолок и центрируется, а следующий
-         шаг и свой план стоят рядом с ним, а не у краёв (правило 10). -->
-    <section class="cap stretch" aria-labelledby="err-h">
-      <h2 id="err-h" class="vh">Declined</h2>
-      <article class="state" role="alert">
-        <h3>Andrii didn&rsquo;t take this one</h3>
-        <p>Board games at Kyiv Games Club is closed for you. It happens &mdash; people pick who they go with, and that&rsquo;s the point of confirming.</p>
-      </article>
-    </section>
+  <!-- Ширина: пара «предмет и решение» `D-115` — та же, что в рабочем виде
+       и у сбоя колоды. Слева то, что вместо события: обложки, автора
+       и счётчика здесь нет — отклик отклонён, и предметом становится
+       сам отказ. Справа фрейм: следующий шаг и свой план. Выходы остаются
+       рядом с сообщением, а не у краёв (правило 10). -->
+  <div class="pane cols aside">
+    <!-- ЗОНА 2: отказ. Без выдуманной причины и без упрёка -->
+    <div class="col">
+      <section class="stretch" aria-labelledby="err-h">
+        <h2 id="err-h" class="vh">Declined</h2>
+        <article class="state" role="alert">
+          <h3>Andrii didn&rsquo;t take this one</h3>
+          <p>Board games at Kyiv Games Club is closed for you. It happens &mdash; people pick who they go with, and that&rsquo;s the point of confirming.</p>
+        </article>
+      </section>
+    </div>
 
-    <!-- ЗОНА 3: следующий шаг. Ровно то, что делает поток: искать дальше -->
-    <section class="cap" aria-labelledby="act-h">
-      <h2 id="act-h" class="vh">What next</h2>
-      <p class="row">
-        <a class="btn primary" href="feed.html">Look at other events</a>
-      </p>
-      <p class="row">
-        <a class="btn quiet" href="deck.html">See people</a>
-      </p>
-    </section>
+    <div class="col">
+      <!-- ЗОНА 3: следующий шаг. Ровно то, что делает поток: искать дальше -->
+      <section aria-labelledby="act-h">
+        <h2 id="act-h" class="vh">What next</h2>
+        <p class="row">
+          <a class="btn primary" href="feed.html">Look at other events</a>
+        </p>
+        <p class="row">
+          <a class="btn quiet" href="deck.html">See people</a>
+        </p>
+      </section>
 
-    <!-- ЗОНА 4: свой план — путь, где отказать некому -->
-    <section class="cap" aria-labelledby="ex-h">
-      <h2 id="ex-h" class="vh">Your own</h2>
-      <!-- Адреса нет нарочно: экран создания (III.4) вне набора, и это
-           записанный долг `_screens.md` п. 6. Так же набрана эта кнопка
-           на шести других экранах. Прежде она вела на feed-empty — экран,
-           который говорит «No events within 5 km yet» человеку, пришедшему
-           из полной ленты. -->
-      <p class="row">
-        <button type="button" class="btn quiet">Post an event</button>
-      </p>
-    </section>
-  </div>
+      <!-- ЗОНА 4: свой план — путь, где отказать некому -->
+      <section aria-labelledby="ex-h">
+        <h2 id="ex-h" class="vh">Your own</h2>
+        <!-- Адреса нет нарочно: экран создания (III.4) вне набора, и это
+             записанный долг `_screens.md` п. 6. Так же набрана эта кнопка
+             на шести других экранах. Прежде она вела на feed-empty — экран,
+             который говорит «No events within 5 km yet» человеку, пришедшему
+             из полной ленты. -->
+        <p class="row">
+          <button type="button" class="btn quiet">Post an event</button>
+        </p>
+      </section>
+    </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
