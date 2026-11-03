@@ -246,8 +246,16 @@
 
 <script>
 (function () {
-  if (location.hash === '#bare') return;
   var root = document.documentElement;
+  // Ширину можно назвать адресом: ?w=tablet. Нужно разделу 10 — он
+  // показывает те же страницы рамкой, и выбор посетителя в localStorage
+  // не должен решать, что ему там покажут. Адрес сильнее памяти и её
+  // не переписывает.
+  var forced = (location.search.match(/[?&]w=(mobile|tablet|desktop)/) || [])[1];
+  if (location.hash === '#bare') {
+    if (forced) root.dataset.w = forced;
+    return;
+  }
   var KEY = 'mm-screen-width';
   function set(w) {
     root.dataset.w = w;
@@ -258,29 +266,12 @@
   }
   var saved;
   try { saved = localStorage.getItem(KEY); } catch (e) {}
-  set(saved || 'mobile');
+  if (forced) { root.dataset.w = forced; document.querySelectorAll('.wfdev button').forEach(function (b) {
+    b.setAttribute('aria-pressed', String(b.dataset.w === forced)); }); }
+  else set(saved || 'mobile');
   document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.wfdev:not(.wftheme) button');
+    var b = e.target.closest && e.target.closest('.wfdev button');
     if (b) set(b.dataset.w);
-  });
-
-  // тема: та же механика, свой ключ. Светлая остаётся умолчанием — тёмную
-  // выбирает человек, и выбор держится между страницами так же, как ширина
-  var TKEY = 'mm-theme';
-  function theme(t) {
-    if (t === 'dark') root.dataset.theme = 'dark';
-    else root.removeAttribute('data-theme');
-    document.querySelectorAll('.wftheme button').forEach(function (b) {
-      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
-    });
-    try { localStorage.setItem(TKEY, t); } catch (e) {}
-  }
-  var savedTheme;
-  try { savedTheme = localStorage.getItem(TKEY); } catch (e) {}
-  theme(savedTheme === 'dark' ? 'dark' : 'light');
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.wftheme button');
-    if (b) theme(b.dataset.themeSet);
   });
 })();
 </script>

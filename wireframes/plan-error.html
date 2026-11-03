@@ -132,7 +132,7 @@
   <!-- На ширине название стоит во фрейме решения, а шапке остаётся возврат —
        и он называет себя словом (`D-114`, то же, что на профиле человека). -->
   <a class="back" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span><span class="wide">Back</span></a>
-  <h1 class="narrow">Board games</h1>
+  <h1 class="hush">Board games</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
 </header>
   <main class="app">
@@ -155,7 +155,7 @@
 
     <div class="col">
       <!-- ЗОНА 2б: что это. На телефоне название стоит в шапке экрана -->
-      <h1 class="wide">Board games</h1>
+      <p class="name wide">Board games</p>
 
       <!-- ЗОНА 3: следующий шаг. Ровно то, что делает поток: искать дальше -->
       <section aria-labelledby="act-h">
@@ -234,8 +234,16 @@
 
 <script>
 (function () {
-  if (location.hash === '#bare') return;
   var root = document.documentElement;
+  // Ширину можно назвать адресом: ?w=tablet. Нужно разделу 10 — он
+  // показывает те же страницы рамкой, и выбор посетителя в localStorage
+  // не должен решать, что ему там покажут. Адрес сильнее памяти и её
+  // не переписывает.
+  var forced = (location.search.match(/[?&]w=(mobile|tablet|desktop)/) || [])[1];
+  if (location.hash === '#bare') {
+    if (forced) root.dataset.w = forced;
+    return;
+  }
   var KEY = 'mm-screen-width';
   function set(w) {
     root.dataset.w = w;
@@ -246,29 +254,12 @@
   }
   var saved;
   try { saved = localStorage.getItem(KEY); } catch (e) {}
-  set(saved || 'mobile');
+  if (forced) { root.dataset.w = forced; document.querySelectorAll('.wfdev button').forEach(function (b) {
+    b.setAttribute('aria-pressed', String(b.dataset.w === forced)); }); }
+  else set(saved || 'mobile');
   document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.wfdev:not(.wftheme) button');
+    var b = e.target.closest && e.target.closest('.wfdev button');
     if (b) set(b.dataset.w);
-  });
-
-  // тема: та же механика, свой ключ. Светлая остаётся умолчанием — тёмную
-  // выбирает человек, и выбор держится между страницами так же, как ширина
-  var TKEY = 'mm-theme';
-  function theme(t) {
-    if (t === 'dark') root.dataset.theme = 'dark';
-    else root.removeAttribute('data-theme');
-    document.querySelectorAll('.wftheme button').forEach(function (b) {
-      b.setAttribute('aria-pressed', String(b.dataset.themeSet === t));
-    });
-    try { localStorage.setItem(TKEY, t); } catch (e) {}
-  }
-  var savedTheme;
-  try { savedTheme = localStorage.getItem(TKEY); } catch (e) {}
-  theme(savedTheme === 'dark' ? 'dark' : 'light');
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.wftheme button');
-    if (b) theme(b.dataset.themeSet);
   });
 })();
 </script>

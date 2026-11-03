@@ -200,7 +200,7 @@ const CLASS_MAP = {
   wide: 'mm-wide', narrow: 'mm-narrow', cap: 'mm-cap', left: 'mm-cap--left',
   stage: 'mm-stage', aside: 'mm-cols--aside', pair: 'mm-app--pair',
   apart: 'mm-col--apart', name: 'mm-subhead', mid: 'mm-btn--mid', cell: 'mm-cell',
-  sheet: 'mm-sheet', facts: 'mm-sheet-body',
+  sheet: 'mm-sheet', facts: 'mm-sheet-body', hush: 'mm-hush',
   // размер иконки задаёт место, где она стоит, а не её собственный класс
   sm: null, lg: null,
 };

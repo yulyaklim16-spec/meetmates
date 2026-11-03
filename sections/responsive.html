@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231A1026'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23AB9FF2'/%3E%3C/svg%3E">
+<title>Responsive · MeetMates</title>
+<meta name="description" content="Система одним пакетом: страница на каждый компонент — анатомия, варианты, когда употреблять, правило и антиправило, — и «Почему так».">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<!-- Единственный источник правды по цвету, радиусам, шкалам и движению -->
+<link rel="stylesheet" href="../tokens/site.css">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Итоги исследования. Все значения — из tokens/site.css:
+   собственных цветов и радиусов здесь нет (Рабочие соглашения, п. 2).
+   Тёмная тема вне объёма v1 (§10), страница осознанно светлая.
+   Градиент — только на акцентах (§8).
+   ───────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-family: var(--font);
+  font-size: var(--t-body-sm);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip {
+  position: absolute; left: -9999px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface); border-radius: var(--r-sm);
+  font-weight: var(--fw-medium);
+}
+.skip:focus { left: var(--s-4); top: var(--s-4); z-index: 50; outline: 2px solid var(--brand-a); }
+
+.shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  gap: var(--s-7);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  align-items: start;
+}
+
+/* ── Боковая колонка ───────────────────────────────────────── */
+.side {
+  position: sticky; top: 0;
+  max-height: 100vh; overflow-y: auto;
+  padding: var(--s-6) 0 var(--s-6);
+}
+.side .brand {
+  display: flex; align-items: center; gap: var(--s-3);
+  margin-bottom: var(--s-2);
+}
+.side .dot {
+  width: 26px; height: 26px; border-radius: var(--r-pill);
+  background: var(--brand-gradient); flex: none; box-shadow: var(--shadow-sm);
+}
+.side .brand b { font-size: var(--t-body); letter-spacing: -0.01em; }
+.side .stage { font-size: var(--t-caption); color: var(--ink-600); margin: 0 0 var(--s-5); }
+
+.side .lbl {
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-600); margin: 0 0 var(--s-3);
+}
+
+.matlist { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--s-6); }
+.mat {
+  display: flex; gap: var(--s-3); align-items: baseline;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  text-decoration: none; color: var(--ink-900);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.mat:hover, .mat:focus-visible { background: var(--surface-2); }
+.mat:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+.mat .n {
+  font-size: var(--t-micro); color: var(--ink-600);
+  font-variant-numeric: tabular-nums; flex: none; min-width: 2ch;
+}
+.mat .t { font-size: var(--t-caption); line-height: 1.45; }
+.mat .t i { display: block; font-style: normal; color: var(--ink-600); font-size: var(--t-micro); }
+.mat.current { background: var(--surface-2); }
+.mat.current .t { font-weight: var(--fw-medium); }
+.mat.soon .t { color: var(--ink-600); }
+.mat.soon .n { color: var(--line); }
+
+.anchors {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: var(--s-4); border-top: 1px solid var(--line);
+}
+.anchors a {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--t-caption);
+  text-decoration: none; color: var(--ink-600);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.anchors a:hover, .anchors a:focus-visible { background: var(--surface-2); color: var(--ink-900); }
+.anchors a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+
+/* ── Основная колонка ──────────────────────────────────────── */
+main { padding: var(--s-7) 0 var(--s-7); min-width: 0; }
+
+.masthead { padding-bottom: var(--s-6); }
+h1 {
+  font-size: var(--t-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+  margin: 0 0 var(--s-4);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.lede { font-size: var(--t-body); color: var(--ink-600); max-width: 60ch; margin: 0 0 var(--s-5); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+.chips span { font-size: var(--t-caption); color: var(--ink-600); }
+.chips b { font-weight: var(--fw-bold); color: var(--ink-900); font-variant-numeric: tabular-nums; }
+.chips a { color: var(--brand-a); }
+
+/* ── Секции ────────────────────────────────────────────────── */
+section { padding-top: var(--s-7); scroll-margin-top: var(--s-4); }
+section > h2 {
+  font-size: var(--t-h1); font-weight: var(--fw-black);
+  letter-spacing: -0.02em; margin: 0 0 var(--s-3);
+  padding-bottom: var(--s-3); border-bottom: 1px solid var(--line);
+}
+section > .intro { font-size: var(--t-body-sm); color: var(--ink-600); max-width: 66ch; margin: 0 0 var(--s-5); }
+
+h3 {
+  font-size: var(--t-h3); font-weight: var(--fw-bold);
+  letter-spacing: -0.01em; margin: var(--s-6) 0 var(--s-3);
+}
+h4 { font-size: var(--t-body-sm); font-weight: var(--fw-bold); margin: var(--s-5) 0 var(--s-2); }
+p { margin: 0 0 var(--s-3); max-width: 72ch; }
+a { color: var(--brand-a); text-underline-offset: 3px; }
+strong { font-weight: var(--fw-bold); }
+
+ul { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+li { margin-bottom: var(--s-2); }
+ol { margin: 0 0 var(--s-4); padding-left: var(--s-5); max-width: 72ch; }
+
+/* ── Пара колонок «что видели / что решили» ────────────────── */
+.duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+.duo > div { border-top: 2px solid var(--ink-900); padding-top: var(--s-4); }
+.duo h3 { margin: 0 0 var(--s-3); font-size: var(--t-body); }
+.duo ul { margin: 0; }
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+
+/* ── Таблицы ───────────────────────────────────────────────── */
+.tw {
+  overflow-x: auto; margin: 0 0 var(--s-4);
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+}
+table { border-collapse: collapse; width: 100%; font-size: var(--t-caption); }
+caption {
+  caption-side: bottom; text-align: left;
+  padding: var(--s-3) var(--s-4) 0;
+  font-size: var(--t-micro); color: var(--ink-600); line-height: 1.6;
+}
+th, td {
+  text-align: left; vertical-align: top;
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+thead th {
+  background: var(--surface-2);
+  font-size: var(--t-micro); font-weight: var(--fw-medium);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600);
+  white-space: nowrap;
+}
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+tbody th { font-weight: var(--fw-bold); font-size: var(--t-caption); white-space: nowrap; }
+td .lbl-cell { display: none; }
+.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+/* ── Чипы источников ───────────────────────────────────────── */
+.src {
+  display: inline-block;
+  font-size: var(--t-micro); line-height: 1.6;
+  padding: 1px var(--s-2); border-radius: var(--r-sm);
+  background: var(--surface-2); color: var(--ink-600);
+  white-space: nowrap;
+}
+.src.own { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.src.none { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+
+/* ── Выноски ───────────────────────────────────────────────── */
+.note {
+  border-left: 3px solid var(--brand-a);
+  padding: var(--s-2) 0 var(--s-2) var(--s-4);
+  margin: 0 0 var(--s-4); max-width: 72ch;
+  color: var(--ink-600);
+}
+.note.warn { border-left-color: var(--warn); }
+.note p:last-child, .note ul:last-child { margin-bottom: 0; }
+
+.panel {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5);
+  margin: 0 0 var(--s-4); max-width: 80ch;
+}
+.panel h4 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child, .panel ol:last-child { margin-bottom: 0; }
+
+.scores { display: grid; gap: var(--s-1); margin: 0 0 var(--s-4); max-width: 620px; }
+.srow { display: grid; grid-template-columns: 108px 1fr 34px; align-items: center; gap: var(--s-3); }
+.srow .nm { font-size: var(--t-caption); color: var(--ink-600); }
+.srow .bar { height: 16px; border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--brand-a); }
+.srow .v { font-size: var(--t-caption); font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-600); }
+.srow.us .nm, .srow.us .v { color: var(--ink-900); font-weight: var(--fw-bold); }
+.srow.us .bar { background: var(--brand-gradient); }
+.srow.bg .nm, .srow.bg .v { color: var(--ink-600); }
+.srow.bg .bar { background: var(--surface-2); border: 1px solid var(--line); }
+
+/* ── Скриншоты ─────────────────────────────────────────────── */
+.gallery {
+  display: grid; gap: var(--s-5);
+  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+}
+figure { margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+figure a {
+  display: block; border: 1px solid var(--line); border-radius: var(--r-md);
+  overflow: hidden; background: var(--surface-2); line-height: 0;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+figure a:hover, figure a:focus-visible { border-color: var(--brand-a); box-shadow: var(--shadow-md); }
+figure a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: 3px; }
+figure img { width: 100%; height: 268px; object-fit: cover; object-position: top center; display: block; }
+figcaption { font-size: var(--t-caption); color: var(--ink-600); line-height: 1.5; }
+figcaption b { display: block; color: var(--ink-900); font-weight: var(--fw-bold); margin-bottom: 2px; }
+figcaption .fn { display: block; margin-top: var(--s-2); font-size: var(--t-micro); color: var(--ink-600); word-break: break-all; }
+
+.wide-shot { grid-column: 1 / -1; }
+.wide-shot .frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-2); line-height: 0; }
+.wide-shot img { height: 260px; width: auto; max-width: none; object-fit: fill; }
+
+.section-nav {
+  display: flex; justify-content: space-between; gap: var(--s-4);
+  margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--line);
+  font-weight: var(--fw-medium);
+}
+.section-nav a { text-decoration: none; }
+footer {
+  margin-top: var(--s-6); padding: var(--s-5) 0 var(--s-7);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-caption); color: var(--ink-600);
+}
+footer a { color: var(--brand-a); }
+footer p { max-width: 72ch; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; gap: 0; }
+  .side { position: static; max-height: none; padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); }
+  .matlist { display: none; }
+  .side .stage { margin-bottom: var(--s-3); }
+  .anchors { flex-direction: row; flex-wrap: wrap; border-top: none; padding-top: 0; }
+}
+
+/* ── Персоны ───────────────────────────────────────────────── */
+.persona {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--s-5); margin: 0 0 var(--s-5);
+}
+.persona.primary { border-color: var(--brand-a); box-shadow: var(--shadow-sm); }
+.persona.supply { border-style: dashed; }
+.phead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s-4); }
+.phead h3 { margin: 0 0 var(--s-1); }
+.pscene { margin: 0; color: var(--ink-600); font-size: var(--t-caption); max-width: 60ch; }
+.pneed { margin: var(--s-4) 0; padding: var(--s-3) var(--s-4); background: var(--surface-2); border-radius: var(--r-sm); font-size: var(--t-caption); max-width: none; }
+.pgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4) var(--s-5); }
+.pgrid h4 { margin: 0 0 var(--s-2); font-size: var(--t-micro); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-600); }
+.pgrid ul { margin: 0; padding-left: var(--s-4); font-size: var(--t-caption); }
+.pgrid li { margin-bottom: var(--s-1); }
+.pquote {
+  margin: var(--s-5) 0 0; padding: var(--s-4) var(--s-5);
+  border-left: 3px solid var(--brand-a); background: var(--surface-2); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-body-sm); line-height: 1.5;
+}
+.pquote cite { display: block; margin-top: var(--s-2); font-style: normal; font-size: var(--t-micro); color: var(--ink-600); }
+.pnote { margin: var(--s-4) 0 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+@media (max-width: 760px) { .pgrid { grid-template-columns: 1fr; } .phead { flex-direction: column; } }
+
+/* ── Пилюли статуса (как на хабе) ─────────────────────────── */
+.pill { flex: none; font-size: var(--t-micro); font-weight: var(--fw-medium); padding: 3px 10px; border-radius: var(--r-pill); letter-spacing: 0.02em; white-space: nowrap; }
+.pill.ready { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: #00795C; }
+.pill.rules { background: color-mix(in srgb, var(--warn) 20%, var(--surface)); color: #8A5A00; }
+.pill.empty { background: var(--surface-2); color: var(--ink-600); }
+
+/* ── Jobs ──────────────────────────────────────────────────── */
+.job { margin: 0 0 var(--s-4); padding: var(--s-4) var(--s-5); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.job.main { border-color: var(--brand-a); }
+.jcode { font-size: var(--t-micro); font-weight: var(--fw-medium); letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-a); margin-bottom: var(--s-2); }
+.job blockquote { margin: 0 0 var(--s-2); font-size: var(--t-body-sm); font-weight: var(--fw-medium); line-height: 1.5; }
+.job.main blockquote { font-size: var(--t-body); }
+.jmeta { margin: 0; font-size: var(--t-caption); color: var(--ink-600); max-width: none; }
+.jlist li { margin-bottom: var(--s-2); }
+.section-nav .soon { color: var(--ink-600); }
+
+/* ── Раздел 09: дизайн-система ──────────────────────────────── */
+/* Раздел показывает живые страницы рамкой, и рамке нужно место: документация
+   просит 1240px, витрина — 390px на макет плюс поля. Поэтому оболочка здесь
+   шире обычной; текст в ней по-прежнему ограничен 72ch и не растягивается. */
+.shell { max-width: 1600px; }
+
+
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ── Что показывать в разделе: подпункты в самом дереве ───── */
+.subtabs { display: flex; flex-direction: column; gap: 1px; margin: var(--s-2) 0 var(--s-4) 30px; padding-left: var(--s-3); border-left: 1px solid var(--line); }
+.subtabs a { position: relative; padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); font-size: var(--t-caption); color: var(--ink-600); text-decoration: none; transition: background var(--dur-fast) var(--ease-out); }
+.subtabs a:hover { background: var(--surface-2); color: var(--ink-900); }
+.subtabs a:focus-visible { outline: 2px solid var(--brand-a); outline-offset: -2px; }
+/* Выбранный подпункт — жирный и с точкой слева, а не залитый: заливка занята
+   самим разделом, и два залитых пятна в колонке спорят друг с другом */
+.subtabs a[aria-current="true"] { color: var(--ink-900); font-weight: var(--fw-bold); }
+.subtabs a[aria-current="true"]::before {
+  content: ""; position: absolute; left: calc(var(--s-3) * -1 - 1px); top: 50%;
+  width: 5px; height: 5px; margin-top: -2px; border-radius: 50%; background: var(--ink-900);
+}
+
+/* Нажат любой подпункт — разделы сжимаются до номеров.
+   Сами подпункты остаются: иначе, нажав первый, человек в нём запрётся */
+.shell[data-collapsed] { grid-template-columns: 124px minmax(0, 1fr); gap: var(--s-5); }
+.shell[data-collapsed] .side .stage,
+.shell[data-collapsed] .side .lbl,
+.shell[data-collapsed] .side .brand b,
+.shell[data-collapsed] .side .mat .t { display: none; }
+.shell[data-collapsed] .side .brand { justify-content: center; margin-bottom: var(--s-5); }
+.shell[data-collapsed] .side .mat { justify-content: center; padding: var(--s-3) 0; }
+.shell[data-collapsed] .side .mat .n { font-size: var(--t-caption); min-width: 0; }
+.shell[data-collapsed] .side .mat.current .n { color: var(--ink-900); font-weight: var(--fw-medium); }
+.shell[data-collapsed] .side .subtabs { margin-left: 0; padding-left: var(--s-2); border-left-color: var(--line); }
+.shell[data-collapsed] .side .subtabs a { font-size: var(--t-micro); padding: var(--s-2); }
+@media (max-width: 900px) {
+  .shell[data-collapsed] { grid-template-columns: minmax(0, 1fr); }
+}
+/* Страницы документации стоят живыми, рамкой на самих себя: адрес #bare
+   убирает их шапку, навигация раздела уже стоит слева. Своей прокрутки
+   у рамки нет — высоту задаёт скрипт внизу, до него держится запас. */
+.live { margin: var(--s-5) 0 0; padding: 0; list-style: none; display: grid; gap: var(--s-6); max-width: none; }
+.live.wide li { overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.live.wide .box { overflow: hidden; height: 560px; }
+/* Макет на 1280 в колонку раздела не входит: рамка берёт настоящую ширину
+   и уменьшается целиком — пропорции остаются теми же, что в браузере. */
+.live.wide iframe.scale { width: 1340px; height: 900px; min-height: 0; border: 0; border-radius: 0;
+  transform: scale(.62); transform-origin: top left; }
+.live iframe { width: 100%; min-height: 560px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); display: block; }
+.framelink { margin: 0 0 var(--s-2); font-size: var(--t-caption); }
+.cap { margin: 0 0 var(--s-3); font-size: var(--t-caption); color: var(--ink-600); }
+/* Список страниц: отсюда уходят в любой компонент, не листая showcase */
+.pagelist { margin: var(--s-5) 0 0; padding: 0; list-style: none; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--s-2) var(--s-4); }
+.pagelist li { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: baseline; font-size: var(--t-caption); }
+.pagelist code { color: var(--ink-600); font-size: var(--t-micro); }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">К содержимому</a>
+
+<div class="shell">
+<aside class="side">
+    <div class="brand"><span class="dot" aria-hidden="true"></span><b>MeetMates</b></div>
+    <p class="stage">Разделы проекта</p>
+
+    <nav aria-label="Разделы">
+      <p class="lbl">Разделы</p>
+      <div class="matlist">
+        <a class="mat" href="../research/research.html"><span class="n">01</span><span class="t">Ресерч и бенчмарк<i>готово</i></span></a>
+        <a class="mat" href="../research/persones.html"><span class="n">02</span><span class="t">Персоны и JTBD<i>готово</i></span></a>
+        <a class="mat" href="ia.html"><span class="n">03</span><span class="t">Информационная архитектура<i>готово</i></span></a>
+        <a class="mat" href="wireframes.html"><span class="n">04</span><span class="t">Прототипирование и вайрфрейминг<i>готово</i></span></a>
+        <a class="mat" href="voice.html"><span class="n">05</span><span class="t">Tone of voice и микрокопи<i>готово</i></span></a>
+        <a class="mat" href="concept.html"><span class="n">06</span><span class="t">Концепт<i>готово</i></span></a>
+        <a class="mat" href="kit.html"><span class="n">07</span><span class="t">Сборка UI<i>готово</i></span></a>
+        <a class="mat" href="tokens.html"><span class="n">08</span><span class="t">Дизайн-токены<i>готово</i></span></a>
+        <a class="mat" href="system.html"><span class="n">09</span><span class="t">Дизайн-система<i>готово</i></span></a>
+        <a class="mat current" href="responsive.html" aria-current="page"><span class="n">10</span><span class="t">Responsive<i>текущий раздел</i></span></a>
+        <nav class="subtabs" aria-label="Части раздела">
+          <a href="#widths" data-spy="widths" aria-current="true">Три ширины</a>
+          <a href="#shell" data-spy="shell">Оболочка</a>
+          <a href="#forms" data-spy="forms">Четыре формы подачи</a>
+          <a href="#kladki" data-spy="kladki">Чем это собрано</a>
+          <a href="#switch" data-spy="switch">Переключатель, а не окно</a>
+          <a href="#checks" data-spy="checks">Что проверено замером</a>
+          <a href="#open" data-spy="open">Что открыто</a>
+        </nav>
+        <a class="mat soon" href="?section=11"><span class="n">11</span><span class="t">Анимация и микроинтеракции<i>скоро</i></span></a>
+        <a class="mat soon" href="?section=12"><span class="n">12</span><span class="t">Хендофф и документация<i>скоро</i></span></a>
+      </div>
+    </nav>
+
+  </aside>
+
+  <main id="content">
+    <div class="masthead">
+      <p class="eyebrow">Раздел 10</p>
+      <h1>Responsive</h1>
+      <p class="lede">Три класса ширины, и больше их не будет: 390 телефон, 834 планшет,
+        1280 рабочий стол. Каждому из 31 экрана карты задан один ответ из трёх, и ответ
+        записан до того, как нарисован. Раскладку включает переключатель над мокапом,
+        а не окно браузера, а живёт она одним слоем: своих стилей у страницы макета нет.</p>
+      <div class="chips">
+        <span>50 страниц на трёх ширинах</span>
+        <span>девять кладок</span>
+        <span>ноль медиазапросов в экранах</span>
+        <span>150 комбинаций проверено замером</span>
+      </div>
+    </div>
+
+    <section class="block" id="widths">
+      <h2>Три ширины</h2>
+<blockquote><p>Раздел 10. Адаптив здесь — не «растянуть на монитор», а <strong>ответ на вопрос, что на этой ширине меняется в поведении</strong>. Ответов ровно три, и каждый экран получает один: «всё равно», «раскладка шире», «новое поведение».</p></blockquote>
+<p><strong>Ступеней три, и четвёртой не будет</strong> <code class="dcode">D-104</code>. Сетка упирается в 1440 — дальше растёт только поле вокруг, а колонок не прибавляется. 1024 (планшет лёжа) попадает в класс планшета.</p>
+<div class="tw"><table><thead><tr><th>Класс</th><th>Ширина</th><th>Колонок</th><th>Что это за устройство</th></tr></thead><tbody>
+<tr><td><strong>Телефон</strong></td><td>390</td><td>1</td><td>Базовый макет, iPhone 14/15. С него всё начинается</td></tr>
+<tr><td><strong>Планшет</strong></td><td>834</td><td>2</td><td>iPad портретом и он же лёжа — 1024 попадает сюда</td></tr>
+<tr><td><strong>Рабочий стол</strong></td><td>1280</td><td>3</td><td>Ноутбук и монитор; сетка упирается в 1440</td></tr>
+</tbody></table></div>
+<p><strong>Ответ каждому экрану записан</strong> в <a href="../responsive/width-audit.md">responsive/width-audit.md</a> — таблица на все 31 экран карты и отдельная таблица состояний, которые меняют ответ экрана: ожидание чужого решения, пустое, загрузка, сбой. Несколько ответов в таблице перечёркнуты и переписаны: это места, где нарисованное опровергло задуманное, и они оставлены видимыми нарочно.</p>
+
+    </section>
+
+    <section class="block" id="shell">
+      <h2>Оболочка</h2>
+<p><strong>С 1280 панель вкладок уходит из низа в рейку слева</strong> <code class="dcode">D-105</code> <code class="dcode">D-107</code>. Те же пять пунктов и те же состояния, сеткой из двух колонок; шапка от этого сужается сама.</p>
+<p><strong>Порог сдвинут с 834 на 1280 при отрисовке:</strong> рейка забирает 220px плюс поля, а на планшете эту ширину аудит уже отдал двум колонкам содержимого. Планшет остаётся с нижней панелью — это тот случай, когда ответ поменялся от столкновения с сеткой, а не от вкуса.</p>
+<div class="tw"><table><thead><tr><th>Что</th><th>390</th><th>834</th><th>1280</th></tr></thead><tbody>
+<tr><td>Навигация</td><td>панель снизу</td><td>панель снизу</td><td><strong>рейка слева, 220px</strong></td></tr>
+<tr><td>Фильтры</td><td>шит снизу</td><td>шит снизу</td><td><strong>постоянная рейка</strong> — объявлена, не нарисована</td></tr>
+<tr><td>Слои: совпадение, жалоба</td><td>во всю ширину</td><td colspan="2"><strong>потолок и центр</strong> — слой остаётся слоем</td></tr>
+<tr><td>Закреплённые полосы</td><td>закреплены</td><td colspan="2">раскрепляются, когда содержимое помещается</td></tr>
+<tr><td>Чужие зоны: safe-area, сгиб</td><td>показаны</td><td colspan="2">исчезают — это свойства устройства, а не окна</td></tr>
+</tbody></table></div>
+
+    </section>
+
+    <section class="block" id="forms">
+      <h2>Четыре формы подачи</h2>
+<p><strong>Форму выбирает не вкус, а то, что на экране есть</strong> <code class="dcode">D-115</code>. Пятой формы нет: четвёртого рода содержимого в продукте не нашлось.</p>
+<div class="tw"><table><thead><tr><th>Форма</th><th>Когда</th><th>Экраны</th></tr></thead><tbody>
+<tr><td><strong>Пара «предмет и решение»</strong></td><td>На экране один объект, по которому принимают решение</td><td>Колода, профиль человека, свой профиль, карточка события со всеми состояниями, верификация</td></tr>
+<tr><td><strong>Сцена</strong></td><td>Экран из одной фигуры, с которой ничего не выбирают</td><td>Радар онбординга</td></tr>
+<tr><td><strong>Сетка</strong></td><td>Список карточек</td><td>Лента, мои события, поиск, приглашение вдвоём</td></tr>
+<tr><td><strong>Пара панелей</strong></td><td>Переписка: список и то, что в нём открыто</td><td>Список чатов, диалог</td></tr>
+</tbody></table></div>
+<p><strong>В паре «предмет и решение»</strong> слева стоит то, по чему решают, — карточка человека, обложка события, кадр селфи, — а справа одним фреймом то, кто это и что с этим делать. Колонки одного роста, предмет забирает свободную ширину, фрейм держит мерку в 390. Имя и название переезжают из шапки во фрейм, а шапке остаётся <code>Back</code>.</p>
+      <ul class="live wide">
+        <li>
+          <p class="framelink"><a href="../wireframes/plan.html">Карточка события — открыть страницей &rarr;</a></p>
+          <p class="cap">1280: снимок и факты одним предметом слева, название и решение фреймом справа</p>
+          <div class="box"><iframe class="scale" src="../wireframes/plan.html?w=desktop#bare" loading="lazy" scrolling="no" title="Карточка события на 1280"></iframe></div>
+        </li>
+        <li>
+          <p class="framelink"><a href="../wireframes/dialog.html">Диалог — открыть страницей &rarr;</a></p>
+          <p class="cap">1280: пара панелей — список чатов слева, разговор справа, между ними волосяная линия во всю высоту кадра</p>
+          <div class="box"><iframe class="scale" src="../wireframes/dialog.html?w=desktop#bare" loading="lazy" scrolling="no" title="Диалог на 1280"></iframe></div>
+        </li>
+        <li>
+          <p class="framelink"><a href="../wireframes/feed.html">Лента запросов — открыть страницей &rarr;</a></p>
+          <p class="cap">1280: лента множится в колонки сама, по содержимому; срез равняется по первой карточке, выход — по средней</p>
+          <div class="box"><iframe class="scale" src="../wireframes/feed.html?w=desktop#bare" loading="lazy" scrolling="no" title="Лента на 1280"></iframe></div>
+        </li>
+      </ul>
+<p class="cap">Рамки живые: это те же страницы макетов, открытые с <code>?w=desktop</code>. Ширину можно назвать адресом — <code>?w=mobile</code>, <code>?w=tablet</code>, <code>?w=desktop</code>.</p>
+
+    </section>
+
+    <section class="block" id="kladki">
+      <h2>Чем это собрано</h2>
+<p><strong>Девять кладок в одном файле</strong> — <a href="../wireframes/_wire.css">wireframes/_wire.css</a>. Экран объявляет разметкой, <em>что</em> встаёт рядом; файл решает, <em>сколько</em> колонок и чем они разделены. Своих стилей у страницы макета нет — это держит <code>screens-audit.mjs</code>.</p>
+<div class="tw"><table><thead><tr><th>Кладка</th><th>Что делает</th><th>Где стоит</th></tr></thead><tbody>
+<tr><td><code>.cols</code> · <code>.col</code></td><td>Раскладка шире: то же содержимое в две-три колонки. На телефоне обёртки прозрачны, и базовый макет остаётся прежним</td><td>Профиль, карточка события, приглашение, свой профиль</td></tr>
+<tr><td><code>.cols.aside</code></td><td>Неравная пара: предмет забирает свободную ширину, фрейм держит 390. Колонки одного роста</td><td>Колода, оба профиля, карточка события, верификация</td></tr>
+<tr><td><code>.col.apart</code></td><td>Блоки в колонке стоят порознь: фрейм получает каждый, а не колонка</td><td>Свой профиль</td></tr>
+<tr><td><code>.split</code></td><td>Пара «список + деталь» <code class="dcode">D-110</code>: на телефоне это два экрана, с 834 — две панели</td><td>Чаты, диалог</td></tr>
+<tr><td><code>.cap</code> · <code>.cap.left</code></td><td>Потолок колонки текста, центр либо левый край</td><td>Сквозная: состояния, решения, слои</td></tr>
+<tr><td><code>.cell</code> · <code>.cell.left</code></td><td>Потолок в одну клетку сетки: орган равняется по карточке, а не по строке</td><td>Срез <code>Nearby</code>/<code>Mine</code>, выход под сеткой</td></tr>
+<tr><td><code>.stage</code></td><td>Экран — одна фигура: растёт она, а не поле вокруг</td><td>Радар</td></tr>
+<tr><td><code>.sheet</code></td><td>Снимок и то, что под ним, в общей рамке</td><td>Карточка события, все пять состояний</td></tr>
+<tr><td><code>.wide</code> · <code>.narrow</code> · <code>.hush</code></td><td>Чего на другой ширине нет вовсе; <code>.hush</code> — заголовок перестаёт показываться, но остаётся для чтения с экрана</td><td><code>back</code> в диалоге, имя и название во фрейме</td></tr>
+</tbody></table></div>
+<p><strong>То же самое есть в ките</strong> — <a href="../design-system/components/app.css">components/app.css</a>, на контейнерных запросах: <code>@container mm-screen (min-width: 52rem)</code> и <code>80rem</code>. Это те же значения, что токены <code>--bp-tablet</code> и <code>--bp-desktop</code>; равенство числа токену держит <code>tokens-audit.mjs</code>. Кит спрашивает <strong>контейнер</strong>, а не окно: мокап 390px остаётся мокапом на любом мониторе.</p>
+
+    </section>
+
+    <section class="block" id="switch">
+      <h2>Переключатель, а не окно</h2>
+<p><strong>Класс ширины ставит переключатель над мокапом</strong> <code class="dcode">D-111</code>, а не окно браузера. Это не удобство, а требование правды: страницу макета смотрят на мониторе, и медиазапрос растянул бы телефонный макет, выдав его за десктопный. Переключатель спрашивает «какой класс ширины смотрим», окно — «какой монитор у человека»; это разные вопросы.</p>
+<p><strong>Медиазапросов в экранах — ноль.</strong> Во всём слое их два, и оба про страницу макета, а не про экран: на 900px дерево макетов уходит в поток над мокапом, на 760px подписи зон возвращаются в поток под ним. Числа взяты не от устройства, а от того, что перестаёт помещаться, и арифметика записана рядом с каждым.</p>
+<p><strong>Ширину можно назвать адресом:</strong> <code>?w=tablet</code>. Этим живут рамки выше — выбор посетителя в памяти браузера не должен решать, что ему покажут в разделе.</p>
+
+    </section>
+
+    <section class="block" id="checks">
+      <h2>Что проверено замером</h2>
+<p>Пятьдесят страниц на трёх ширинах — 150 комбинаций, и каждая проверена скриптом в браузере, а не глазами.</p>
+<div class="tw"><table><thead><tr><th>Что искали</th><th>Результат</th></tr></thead><tbody>
+<tr><td>Горизонтальный скрол внутри экрана</td><td><strong>ноль</strong> на всех 150 комбинациях</td></tr>
+<tr><td>Медиазапрос в самом экране</td><td><strong>ноль</strong> — держит <code>screens-audit.mjs</code></td></tr>
+<tr><td>Исчезнувшее действие</td><td><strong>ни одного.</strong> Единственное исчезновение — <code>back</code> в диалоге: с 834 список стоит слева, и уходить некуда</td></tr>
+<tr><td>Строка сверх меры</td><td>Была на пяти экранах, до 114 знаков. Потолок 46ch теперь одним правилом на все абзацы</td></tr>
+<tr><td>Тач-цели</td><td>Были 19–22px у строк-ссылок. Добирают до 44px невидимой накладкой, ничего не двигая</td></tr>
+<tr><td>Контраст текста</td><td>AA проходит и в сером слое, и в ките, в обеих темах</td></tr>
+<tr><td>Фокус с клавиатуры</td><td>Виден у всего нажимаемого</td></tr>
+</tbody></table></div>
+<p><strong>Где прокрутка осталась — это не дефект.</strong> На «моих событиях» и в ленте на 834 содержимое честно выше кадра, и панель прокручивается: панель для того и нужна. Заставлять содержимое влезать — значит врать о его количестве.</p>
+
+    </section>
+
+    <section class="block" id="open">
+      <h2>Что открыто</h2>
+<div class="tw"><table><thead><tr><th>Что</th><th>Почему не сделано</th></tr></thead><tbody>
+<tr><td><strong>Рейка фильтров на 1280</strong></td><td>Объявлена решением <code class="dcode">D-107</code>, но не нарисована. Из-за этого колода и поиск на рабочем столе выглядят так, будто слева чего-то не хватает</td></tr>
+<tr><td><strong>Превью событий в пустой колоде</strong></td><td>Нужны строки, которых на экране нет: занятие, дата, площадка, число мест. Это решение о тексте, а не о раскладке</td></tr>
+<tr><td><strong>Экраны концепта</strong></td><td>Кладки в ките есть, но мокап остаётся 390px, а рейка <code class="dcode">D-107</code> спрашивает окно, не контейнер. Это переделка, а не доделка</td></tr>
+<tr><td><strong>Плотность моков</strong></td><td>Три события на ленту и по одной карточке в группе «моих»: на 1280 ряд обрывается. Чинится наполнением (§12), а не раскладкой</td></tr>
+</tbody></table></div>
+<p>Решения этого раздела — <code class="dcode">D-104</code> … <code class="dcode">D-120</code> в <a href="../DECISIONS.md">журнале решений</a>: у каждого записана цена.</p>
+
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  var ids = ["widths","shell","forms","kladki","switch","checks","open"];
+  var links = {};
+  var all = document.querySelectorAll('.subtabs a[data-spy]');
+  for (var i = 0; i < all.length; i++) links[all[i].getAttribute('data-spy')] = all[i];
+  function mark(id) {
+    for (var k in links) {
+      if (k === id) links[k].setAttribute('aria-current', 'true');
+      else links[k].removeAttribute('aria-current');
+    }
+  }
+  if (!('IntersectionObserver' in window)) return;
+  var seen = {};
+  var io = new IntersectionObserver(function (entries) {
+    for (var j = 0; j < entries.length; j++) seen[entries[j].target.id] = entries[j].isIntersecting;
+    for (var k = 0; k < ids.length; k++) if (seen[ids[k]]) { mark(ids[k]); return; }
+  }, { rootMargin: '-8% 0px -72% 0px' });
+  for (var n = 0; n < ids.length; n++) {
+    var el = document.getElementById(ids[n]);
+    if (el) io.observe(el);
+  }
+  // Последний блок короче окна и в полосу наблюдения целиком не попадает:
+  // докрутив страницу до конца, человек видел отметку на предпоследнем.
+  window.addEventListener('scroll', function () {
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) mark(ids[ids.length - 1]);
+  }, { passive: true });
+})();
+</script>
+<script>
+// Рамка принимает высоту своей страницы: прокрутки внутри нет, страницу
+// листает общая полоса раздела. Страницы свои, с того же домена, поэтому
+// высота читается напрямую; всё в try — если доступа не будет, рамка
+// останется с запасом высоты из стилей, а не схлопнется.
+(function () {
+  var frames = document.querySelectorAll('.live iframe');
+  function fit(f) {
+    try {
+      var d = f.contentDocument;
+      if (!d || !d.body) return;
+      var h = Math.max(d.body.scrollHeight, d.documentElement.scrollHeight);
+      if (h > 80) f.style.height = h + 'px';
+    } catch (e) {}
+  }
+  frames.forEach(function (f) {
+    f.addEventListener('load', function () { fit(f); setTimeout(function () { fit(f); }, 400); });
+    fit(f);
+  });
+  window.addEventListener('resize', function () { frames.forEach(fit); });
+})();
+</script>
+</body>
+</html>

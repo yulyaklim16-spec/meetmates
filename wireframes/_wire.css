@@ -37,7 +37,21 @@ body {
   justify-content: center;
   align-items: start;
 }
+/* ── Две ступени страницы макета, и обе названы поведением `D-120` ───────
+   Это единственные медиазапросы во всём слое, и они про СТРАНИЦУ, а не
+   про экран: экран спрашивает переключатель, страницу показывает браузер.
+   Числа взяты не от устройства, а от того, что перестаёт помещаться:
+
+   · 900px — рейка разделов (52) + дерево макетов (236) + мокап (390)
+     + просветы (2 × 32) не помещаются в строку. Поведение: дерево
+     и рейка уходят в поток над мокапом.
+   · 760px — колонка подписей зон (300 + 16) не помещается справа
+     от мокапа. Поведение: подписи возвращаются в поток под ним.
+
+   Именно поэтому они не токены: токен — общая мера набора, а здесь
+   у каждой ступени своя арифметика, и она записана строкой выше. */
 @media (max-width: 900px) {
+  /* дерево и рейка — в поток над мокапом */
   body { grid-template-columns: minmax(0, 1fr); }
   .wfnav { position: static !important; border-right: 0; }
   .wfrail { position: static !important; flex-direction: row !important; border-right: 0; padding-right: 0; }
@@ -57,9 +71,19 @@ body:has(#bare:target) {
 }
 body:has(#bare:target) .wfrail,
 body:has(#bare:target) .wfnav,
+body:has(#bare:target) .wfbar,
 body:has(#bare:target) .wfstates,
 body:has(#bare:target) .meta,
 body:has(#bare:target) .anns { display: none; }
+/* Голый вид сильнее класса ширины: иначе колонки страницы, заданные
+   переключателем, оставляют рядом с мокапом место под дерево, которого
+   в голом виде нет. Раздел 10 показывает эти страницы рамкой, и место
+   под ничто в рамке читается полем `D-120`. */
+:root[data-w] body:has(#bare:target) {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: none;
+  justify-content: stretch;
+}
 body:has(#bare:target) .device {
   grid-column: 1;
   margin: 0 auto;
@@ -471,8 +495,10 @@ a { color: var(--w-ink); }
   padding-left: var(--s-3);
 }
 .ann b { font-weight: 700; color: var(--w-ink); }
+/* вторая ступень страницы макета — см. разбор у первой, `D-120` */
 @media (max-width: 760px) {
-  /* на узком экране подписи возвращаются в поток — макет читается хуже, но не рвётся */
+  /* подписи зон возвращаются в поток: сбоку от мокапа им больше не хватает
+     места. Макет читается хуже, но не рвётся */
   .ann { position: static; width: auto; margin: 0 0 var(--s-2); }
 }
 
@@ -583,8 +609,7 @@ a { color: var(--w-ink); }
    «как показывать» — ширина. Разводит их распор, а не колонка сетки */
 .wfstates { order: 1; }
 .wfkind { order: 2; }
-.wfdev:not(.wftheme) { order: 3; margin-left: auto; }
-.wftheme { order: 4; }
+.wfdev { order: 3; margin-left: auto; }
 
 /* ширина устройства: три кнопки, активная залита. Что показывает каждая —
    в title; подпись скрыта, иконка сама называет форму */
@@ -1031,6 +1056,20 @@ a { color: var(--w-ink); }
 /* И наоборот: то, что на ширине перестаёт иметь смысл. `back` в шапке
    диалога — ровно такой орган: с 834 список чатов стоит слева, и уходить
    «назад» некуда (аудит, IV.2: «`back` исчезает: уходить некуда»). */
+/* `.hush` — на ширине заголовок экрана перестаёт показываться, но остаётся
+   в разметке и в чтении с экрана: имя человека и название события на ширине
+   стоят во фрейме рядом, а снять `h1` насовсем значило бы оставить экран
+   без заголовка первого уровня `D-120`. */
+:root[data-w="tablet"] .hush,
+:root[data-w="desktop"] .hush {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 :root[data-w="tablet"] .narrow,
 :root[data-w="desktop"] .narrow { display: none; }
 
@@ -1215,10 +1254,23 @@ a { color: var(--w-ink); }
 :root[data-w="tablet"] .card,
 :root[data-w="desktop"] .card { max-width: var(--w-card-max); }
 
-/* Абзац не шире меры: `.note` и текст объявления несли на 1280 строки
-   под сто знаков. Реплике потолок дали сразу, этим двум забыли. */
-:root[data-w="tablet"] :is(.note, .banner p, .state p),
-:root[data-w="desktop"] :is(.note, .banner p, .state p) { max-width: 46ch; }
+/* ── мера строки: 46ch, и это правило одно на все абзацы `D-120` ─────────
+   Прежде потолок стоял списком имён, и каждый новый блок текста проезжал
+   мимо: описание события в рамке `.sheet` шло на 1280 в 77 знаков, строка
+   автора — в 89, подсказка под кадром селфи — в 114. Теперь в списке все,
+   кто несёт предложение, а не ярлык: заметка, абзац плашки и состояния,
+   текст в карточке и в рамке события, строка автора и строка площадки.
+   Ярлыки (`.when`, `.chip`, пилюли) меры не знают — они короткие
+   по определению, и потолок им только мешал бы. */
+:root[data-w="tablet"] :is(.note, .banner p, .state p, .facts p, .card .body p, .who, .distance),
+:root[data-w="desktop"] :is(.note, .banner p, .state p, .facts p, .card .body p, .who, .distance) {
+  max-width: 46ch;
+}
+/* Подсказки в пустом разговоре — кнопки в строке, и на 1280 строка из трёх
+   растягивалась на 90 знаков. Потолок ставится строке, а не кнопке:
+   кнопки переносятся и остаются во всю её ширину. */
+:root[data-w="tablet"] .split-detail p.rows,
+:root[data-w="desktop"] .split-detail p.rows { max-width: var(--w-read-max); }
 
 /* Свободная высота не копится в одном зазоре. `.stretch` забирает остаток
    кадра, и на телефоне он мал — читается полем; на 834 и 1280 он становится
@@ -1351,6 +1403,24 @@ a { color: var(--w-ink); }
   color: var(--w-ink);
 }
 .item .top { display: flex; align-items: baseline; gap: var(--s-3); }
+/* Нажимаемая строка добирает до тач-цели в 44px (§8) невидимой накладкой,
+   а не отступом: заголовок карточки события, дверь группы и имя человека
+   в предложении — ссылки ростом в строку, 19–22px, а палец не меньше
+   сорока четырёх. Накладка стоит абсолютом и **ничего не двигает**:
+   отступ пришлось бы возвращать отрицательным полем, и строка съезжала бы
+   на пиксель. Соседние строки не нажимаются, и то, что накладка их
+   накрывает, ничего не ломает `D-120`. */
+.item a.top, .grouphead .more, .who > a, .state p > a, .pane p > a {
+  position: relative;
+}
+.item a.top::after, .grouphead .more::after, .who > a::after,
+.state p > a::after, .pane p > a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: var(--tap-min);
+  transform: translateY(-50%);
+}
 .item .top b { font-size: 15px; }
 .item .when { margin-left: auto; flex: none; color: var(--w-ink-2); font-size: 13px; }
 .who { display: flex; align-items: center; gap: var(--s-2); color: var(--w-ink-2); font-size: 13px; }
