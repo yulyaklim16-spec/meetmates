@@ -66,12 +66,7 @@
       <ul>
         <li class="scr"><a class="s" href="dialog.html">Диалог</a></li>
         <li class="scr"><a class="s" href="invite.html">Позвать вдвоём в запрос</a></li>
-        <li class="scr now"><a class="s" href="chats.html" aria-current="true">Список чатов</a>
-          <ul class="sts">
-            <li class="st"><a href="chats-empty.html">пусто</a></li>
-            <li class="st"><a href="chats-error.html">ошибка</a></li>
-            <li class="st now"><b aria-current="page">загрузка</b></li>
-          </ul></li>
+        <li class="scr now"><a class="s" href="chats.html" aria-current="true">Список чатов</a></li>
       </ul>
     </li>
     <li class="grp">
@@ -89,8 +84,7 @@
       </ul>
     </li>
   </ul>
-  <p class="n">Дерево: ветка → экран → состояния. Состояния раскрыты у того
-    экрана, на котором стоишь; те же — полосой над мокапом.
+  <p class="n">Дерево: ветка → экран. Состояния экрана — полосой над мокапом.
     Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
     текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
 </nav>
@@ -247,6 +241,7 @@
   <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
     Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
+
 
 <script>
 (function () {

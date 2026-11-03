@@ -59,14 +59,7 @@
       <p class="gt"><span class="gn">3</span>Человек</p>
       <ul>
         <li class="scr"><a class="s" href="profile.html">Профиль другого человека</a></li>
-        <li class="scr now"><a class="s" href="verify.html" aria-current="true">Верификация</a>
-          <ul class="sts">
-            <li class="st"><a href="verify-error.html">ошибка</a></li>
-            <li class="st"><a href="verify-loading.html">загрузка</a></li>
-            <li class="st"><a href="verify-success.html">успех</a></li>
-            <li class="st now"><b aria-current="page">ожидание</b></li>
-            <li class="st"><a href="verify-success-signup.html">онбординг</a></li>
-          </ul></li>
+        <li class="scr now"><a class="s" href="verify.html" aria-current="true">Верификация</a></li>
         <li class="scr"><a class="s" href="my-profile.html">Мой профиль — как меня видят</a></li>
       </ul>
     </li>
@@ -93,8 +86,7 @@
       </ul>
     </li>
   </ul>
-  <p class="n">Дерево: ветка → экран → состояния. Состояния раскрыты у того
-    экрана, на котором стоишь; те же — полосой над мокапом.
+  <p class="n">Дерево: ветка → экран. Состояния экрана — полосой над мокапом.
     Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
     текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
 </nav>
@@ -248,6 +240,7 @@
   <p>Источники: sitemap.md · flows.md · _screens.md · _conventions.md.
     Серый ничего не кодирует: состояние читается из текста.</p>
 </footer>
+
 
 <script>
 (function () {

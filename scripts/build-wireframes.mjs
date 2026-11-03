@@ -121,18 +121,6 @@ if (!drawn.length) throw new Error('в wireframes/ нет ни одного на
 const current = drawn[0];
 const currentScreen = list.find((s) => s.pages.includes(current));
 
-// Короткое имя состояния — одно правило на полосу над мокапом и на дерево:
-// «успех в онбординге: до первого свайпа…» в обойму не влезает и выдавливает
-// переключатель ширины за край. Полное имя остаётся в подсказке.
-const SHORT_STATE = {
-  'ожидание чужого решения': 'ожидание',
-  'успех в онбординге': 'онбординг',
-};
-const shortState = (title) => {
-  const cut = title.split(/\s[·—]\s|:\s/)[0].trim();
-  return SHORT_STATE[cut] || cut;
-};
-
 // ── панель навигации внутри макетов ────────────────────────────────────
 // Дерево: раздел → экран → состояния. Текущая страница отмечена aria-current.
 function panel(activeFile) {
@@ -141,11 +129,8 @@ function panel(activeFile) {
     const g = groups.find((x) => x.title === s.branch) || (groups.push({ title: s.branch, screens: [] }), groups.at(-1));
     g.screens.push(s);
   }
-  // Состояния стоят третьим уровнем — и только у того экрана, на котором
-  // мы сейчас. Так дерево отвечает и «где я в наборе», и «в каком виде этот
-  // экран», не превращаясь в список из полусотни строк: раскрыта одна ветка
-  // из тринадцати. Полоса над мокапом остаётся — там состояния сравнивают,
-  // стоя на экране, и переключают в один тап.
+  // Состояний в дереве нет: они переехали в полосу над мокапом. Экран здесь
+  // один пункт, и он подсвечен, на каком бы из своих состояний мы ни стояли.
   const rows = groups.map((g, gi) => {
     const hereGroup = g.screens.some((s) => s.pages.some((p) => p.file === activeFile));
     return `    <li class="grp${hereGroup ? ' now' : ''}">
@@ -159,19 +144,7 @@ ${g.screens.map((s) => {
       const head = base.file === activeFile
         ? `<b class="s" aria-current="page">${label}</b>`
         : `<a class="s" href="${base.file}"${here ? ' aria-current="true"' : ''}>${label}</a>`;
-      // уровень 3 — состояния этого экрана; рабочий вид уже назван строкой выше
-      const states = here && s.pages.length > 1 ? `
-          <ul class="sts">
-${s.pages.slice(1).map((p) => {
-        const cur = p.file === activeFile;
-        const short = esc(shortState(p.title));
-        const full = esc(p.title);
-        const tip = short === full ? '' : ` title="${full}"`;
-        return `            <li class="st${cur ? ' now' : ''}${p.stub ? ' stub' : ''}">` +
-          (cur ? `<b${tip} aria-current="page">${short}</b>` : `<a href="${p.file}"${tip}>${short}</a>`) + `</li>`;
-      }).join('\n')}
-          </ul>` : '';
-      return `        <li class="${cls}">${head}${states}</li>`;
+      return `        <li class="${cls}">${head}</li>`;
     }).join('\n')}
       </ul>
     </li>`;
@@ -181,9 +154,8 @@ ${s.pages.slice(1).map((p) => {
   <ul>
 ${rows}
   </ul>
-  <p class="n">Дерево: раздел → экран → состояния. Состояния раскрыты у того
-    экрана, на котором стоишь: раскрыть все значило бы полсотни строк вместо
-    тринадцати. Те же состояния — полосой над мокапом, там их переключают в тап.
+  <p class="n">Дерево: раздел → экран. Состояния экрана — полосой над мокапом:
+    их сравнивают, стоя на одном экране, а в дереве они раздували список втрое.
     Серым — заглушка: страница есть, макет не нарисован. Панель собирается
     из _screens.md и sitemap.md скриптом build-wireframes.mjs.</p>
 </nav>`;
@@ -200,10 +172,15 @@ function strip(s, activeFile) {
   // Два имени не укорачиваются сами собой — у них нет ни двоеточия, ни тире,
   // а в одну строку обоймы они не помещаются. Короткое имя задано явно; полное
   // по-прежнему в подсказке, и в списке состояний под мокапом оно не меняется.
+  const SHORT = {
+    'ожидание чужого решения': 'ожидание',
+    'успех в онбординге': 'онбординг',
+  };
   const items = s.pages.map((p) => {
     const cur = p.file === activeFile;
     const cls = [cur ? 'now' : '', p.stub ? 'stub' : ''].filter(Boolean).join(' ');
-    const short = esc(shortState(p.title));
+    const cut = p.title.split(/\s[\u00B7\u2014]\s|:\s/)[0].trim();
+    const short = esc(SHORT[cut] || cut);
     const full = esc(p.title);
     const tip = short === full ? '' : ` title="${full}"`;
     return `    <li${cls ? ` class="${cls}"` : ''}>` +

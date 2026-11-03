@@ -134,25 +134,15 @@ ${BRANCHES.map((b, bi) => {
       <ul>
 ${b.screens.map((scr) => {
     const here = [scr, ...scr.pages].some((x) => x.file === current);
-    const head = scr.file === current
+    return `        <li class="scr${here ? ' now' : ''}">${scr.file === current
       ? `<b class="s" aria-current="page">${scr.title}</b>`
-      : `<a class="s" href="${scr.file}.html"${here ? ' aria-current="true"' : ''}>${scr.title}</a>`;
-    // уровень 3 — состояния, и только у того экрана, на котором стоим:
-    // раскрыть все значило бы полсотни строк вместо тринадцати
-    const states = here && scr.pages.length ? `
-          <ul class="sts">
-${scr.pages.map((st) => `            <li class="st${st.file === current ? ' now' : ''}">${st.file === current
-      ? `<b aria-current="page">${st.title}</b>`
-      : `<a href="${st.file}.html">${st.title}</a>`}</li>`).join('\n')}
-          </ul>` : '';
-    return `        <li class="scr${here ? ' now' : ''}">${head}${states}</li>`;
+      : `<a class="s" href="${scr.file}.html"${here ? ' aria-current="true"' : ''}>${scr.title}</a>`}</li>`;
   }).join('\n')}
       </ul>
     </li>`;
 }).join('\n')}
   </ul>
-  <p class="n">Дерево: ветка → экран → состояния. Состояния раскрыты у того
-    экрана, на котором стоишь; те же — полосой над мокапом.
+  <p class="n">Дерево: ветка → экран. Состояния экрана — полосой над мокапом.
     Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
     текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
 </nav>`;

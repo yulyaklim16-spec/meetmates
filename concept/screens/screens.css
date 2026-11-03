@@ -92,25 +92,7 @@ body {
 /* уровень 2 — экран: сдвинут вправо от названия раздела */
 .wfnav .s { position: relative; display: block; padding: 5px var(--s-3); border-radius: var(--r-sm);
   font-size: 12px; font-weight: 600; color: var(--ink-900); text-decoration: none; }
-/* уровень 3 — состояния: ещё правее, вдоль линии своего экрана, и только
-   у того, на котором стоим. Это не ещё один экран, а его вид, поэтому набран
-   тише; текущее состояние жирное, точка ему не нужна — в раскрытой ветке оно
-   единственное. На ширине дерево остаётся тем же: третий уровень не мельчает. */
-.wfnav .sts {
-  margin: 1px 0 var(--s-2) var(--s-3);
-  padding-left: var(--s-3);
-  border-left: 1px solid var(--line);
-  list-style: none;
-}
-.wfnav .st > a, .wfnav .st > b {
-  display: block;
-  padding: 3px var(--s-3);
-  border-radius: var(--r-sm);
-  font-size: 12px; font-weight: 400;
-  color: var(--ink-600);
-  text-decoration: none;
-}
-.wfnav .st.now > b { font-weight: 700; color: var(--ink-900); }
+/* уровень 3 — состояния: ещё правее, вдоль линии своего экрана */
 /* текущий экран — жирный и с точкой слева; заливка занята веткой, и двух
    залитых пятен рядом быть не должно */
 .wfnav .scr.now > .s { font-weight: 700; color: var(--ink-900); }
