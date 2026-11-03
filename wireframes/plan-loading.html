@@ -128,8 +128,10 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <a class="back" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>
-  <h1>Board games</h1>
+  <!-- На ширине название стоит во фрейме решения, а шапке остаётся возврат —
+       и он называет себя словом (`D-114`, то же, что на профиле человека). -->
+  <a class="back" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span><span class="wide">Back</span></a>
+  <h1 class="narrow">Board games</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
 </header>
   <main class="app">
@@ -139,9 +141,13 @@
        иначе при приходе данных текст перескочил бы из колонки в колонку.
        Заглушек не прибавилось: переставлены те же. -->
   <div class="pane cols aside">
-    <!-- ЗОНА 2: полный скелет: данных нет вовсе, это холодное открытие -->
+    <!-- ЗОНА 2: полный скелет: данных нет вовсе, это холодное открытие.
+         Заглушка одета раскладкой рабочего вида `D-119`: тот же предмет
+         слева — снимок и место фактов под ним в общей рамке, — и тот же
+         фрейм справа. Иначе при приходе данных текст перескочил бы
+         из колонки в колонку. -->
     <div class="col">
-      <section class="scrolly" aria-labelledby="pl-h">
+      <section class="scrolly sheet" aria-labelledby="pl-h">
         <h2 id="pl-h" class="vh">The event</h2>
         <!-- Обложка идёт первой и в рабочем виде (D-56): без её места
              карточка подпрыгивала на две сотни пикселей, когда снимок
@@ -150,22 +156,25 @@
           <p class="photo"></p>
           <p class="pager"><span class="on"></span><span></span></p>
         </figure>
+        <!-- место даты, площадки, описания и строки автора -->
+        <div class="facts">
+          <p class="note" role="status">Opening the event</p>
+          <p class="skel line w-m" aria-hidden="true"></p>
+          <p class="skel line w-m" aria-hidden="true"></p>
+          <p class="skel line w-l" aria-hidden="true"></p>
+          <!-- Аватар автора в заглушке не стоит: автор ещё неизвестен,
+               а заглушка не показывает данных. -->
+          <p class="skelrow" aria-hidden="true">
+            <span class="skel line w-l"></span>
+          </p>
+        </div>
       </section>
     </div>
 
-    <!-- Справа: место даты, площадки, описания и строки автора -->
     <div class="col">
-      <section>
-        <p class="note" role="status">Opening the event</p>
-        <p class="skel line w-m" aria-hidden="true"></p>
-        <p class="skel line w-m" aria-hidden="true"></p>
-        <p class="skel line w-l" aria-hidden="true"></p>
-        <!-- Аватар автора в заглушке не стоит: автор ещё неизвестен,
-             а заглушка не показывает данных. -->
-        <p class="skelrow" aria-hidden="true">
-          <span class="skel line w-l"></span>
-        </p>
-      </section>
+      <!-- ЗОНА 2б: что это. Название известно до загрузки — человек пришёл
+           сюда по нему, и заглушки ему не нужно. -->
+      <h1 class="wide">Board games</h1>
 
       <!-- ЗОНА 3: действие на паузе, место под него занято -->
       <section aria-labelledby="act-h">

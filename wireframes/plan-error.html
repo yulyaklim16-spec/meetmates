@@ -129,8 +129,10 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <a class="back" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>
-  <h1>Board games</h1>
+  <!-- На ширине название стоит во фрейме решения, а шапке остаётся возврат —
+       и он называет себя словом (`D-114`, то же, что на профиле человека). -->
+  <a class="back" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span><span class="wide">Back</span></a>
+  <h1 class="narrow">Board games</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
 </header>
   <main class="app">
@@ -152,6 +154,9 @@
     </div>
 
     <div class="col">
+      <!-- ЗОНА 2б: что это. На телефоне название стоит в шапке экрана -->
+      <h1 class="wide">Board games</h1>
+
       <!-- ЗОНА 3: следующий шаг. Ровно то, что делает поток: искать дальше -->
       <section aria-labelledby="act-h">
         <h2 id="act-h" class="vh">What next</h2>

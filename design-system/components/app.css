@@ -356,6 +356,34 @@
   .mm-stage .mm-radar { scale: 1.7; }
 }
 
+/* `.mm-sheet` — снимок и то, что под ним, одним предметом (`D-119`).
+   Карточка человека показывает снимок и факты в общей рамке; карточка
+   события собрана из двух кусков, и рядом с фреймом решения это читается
+   снимком, к которому приписали абзац. Обложка уходит в край, поля
+   достаются тексту — та же анатомия, что у превью в ленте.
+   На 390 кладки нет: там снимок и так идёт первым, а общей рамки экран
+   не носил. */
+.mm-sheet-body { display: contents; }
+
+@container mm-screen (min-width: 52rem) {
+  .mm-sheet {
+    gap: 0;
+    border-radius: var(--radius-lg);
+    background: var(--bg-surface);
+    box-shadow: var(--shadow-2);
+    overflow: hidden;
+  }
+
+  .mm-sheet > .mm-evcover { border-radius: 0; box-shadow: none; }
+
+  .mm-sheet > .mm-sheet-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    padding: var(--space-16);
+  }
+}
+
 /* Выход под сеткой карточек: короче и по центру (`D-117`). Во всю меру
    строки он читается лишней карточкой ряда — такой же ширины и с такой же
    рамкой, только пустой. Под сеткой выход — дверь, а не клетка. */

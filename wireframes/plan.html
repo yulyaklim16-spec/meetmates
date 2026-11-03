@@ -129,8 +129,10 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <a class="back" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>
-  <h1>Board games</h1>
+  <!-- На ширине название стоит во фрейме решения, а шапке остаётся возврат —
+       и он называет себя словом (`D-114`, то же, что на профиле человека). -->
+  <a class="back" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span><span class="wide">Back</span></a>
+  <h1 class="narrow">Board games</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
 </header>
   <main class="app">
@@ -142,10 +144,12 @@
        обложка `D-56`. Панелью рядом с лентой экран не становится `D-106` —
        событие читают один раз и возвращаются к разговору. -->
   <div class="pane cols aside">
-    <!-- ЗОНА 2: что за план. Слева — снимок места: карты нет ни на какой
-         ширине (правило 5), и обложка — всё, что про место показывают. -->
+    <!-- ЗОНА 2: что за план. Слева один предмет — снимок и то, что под ним,
+         в общей рамке `D-119`: та же анатомия, что у карточки человека
+         на профиле. Карты нет ни на какой ширине (правило 5), и обложка —
+         всё, что про место показывают. -->
     <div class="col">
-      <section class="scrolly" aria-labelledby="pl-h">
+      <section class="scrolly sheet" aria-labelledby="pl-h">
         <h2 id="pl-h" class="vh">The event</h2>
         <figure class="evcover">
           <p class="photo" aria-hidden="true"></p>
@@ -153,23 +157,30 @@
           <p class="cardtop"><span class="chip"><span class="ico sm" aria-hidden="true"></span>~3 km</span></p>
           <p class="pager" aria-hidden="true"><span class="on"></span><span></span></p>
         </figure>
+        <!-- Когда, где, о чём и с кем — под снимком, в той же рамке.
+             Строка автора остаётся при любой ширине: сигналы доверия стоят
+             до первого сообщения, и `Verified` живёт в ней (правило 12, `D-66`).
+             На телефоне обёртки нет вовсе (`display: contents`), и порядок
+             зон остаётся прежним. -->
+        <div class="facts">
+          <ul class="signals">
+            <li><time datetime="2026-09-26T18:00"><b>Sat, 26 Sep</b> &middot; 18:00</time></li>
+            <li>Free</li>
+          </ul>
+          <p class="distance">Kyiv Games Club &middot; Podil</p>
+          <p>Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.</p>
+          <p class="who"><span class="avatar" aria-hidden="true"></span>Andrii &middot; Verified &middot; 12 meetups attended &middot; Replies quickly</p>
+          <output class="note">2 going &middot; 1 spot left</output>
+        </div>
       </section>
     </div>
 
-    <!-- Справа: когда, где, о чём, с кем — и решение под этим. Строка автора
-         остаётся при любой ширине: сигналы доверия стоят до первого
-         сообщения, и `Verified` живёт в ней (правило 12, `D-66`) -->
+    <!-- Справа: что это и что с этим делать — одним фреймом, как имя
+         и решение на профиле человека `D-114`. -->
     <div class="col">
-      <section>
-        <ul class="signals">
-          <li><time datetime="2026-09-26T18:00"><b>Sat, 26 Sep</b> &middot; 18:00</time></li>
-          <li>Free</li>
-        </ul>
-        <p class="distance">Kyiv Games Club &middot; Podil</p>
-        <p>Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.</p>
-        <p class="who"><span class="avatar" aria-hidden="true"></span>Andrii &middot; Verified &middot; 12 meetups attended &middot; Replies quickly</p>
-        <output class="note">2 going &middot; 1 spot left</output>
-      </section>
+      <!-- ЗОНА 2б: что это. Появляется только на ширине — на телефоне
+           название стоит в шапке экрана. -->
+      <h1 class="wide">Board games</h1>
 
       <!-- ЗОНА 3: отклик. Требует верификации (§7.3), автор подтверждает (§5.4) -->
       <section aria-labelledby="act-h">

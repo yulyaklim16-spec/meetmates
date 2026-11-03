@@ -129,8 +129,10 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <a class="back" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span></a>
-  <h1>Board games</h1>
+  <!-- На ширине название стоит во фрейме решения, а шапке остаётся возврат —
+       и он называет себя словом (`D-114`, то же, что на профиле человека). -->
+  <a class="back" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span><span class="wide">Back</span></a>
+  <h1 class="narrow">Board games</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
 </header>
   <main class="app">
@@ -145,10 +147,11 @@
       <p>Andrii confirmed you. The chat is open and the exact address is now visible.</p>
     </article>
 
-    <!-- слева: что это и где. Точный адрес открылся, но карты нет
-         и здесь — правило 5 ширину не знает -->
+    <!-- Слева один предмет `D-119`: снимок и то, что под ним, в общей рамке.
+         Точный адрес открылся, но карты нет и здесь — правило 5 ширину
+         не знает. -->
     <div class="col">
-      <section class="scrolly" aria-labelledby="ok-h">
+      <section class="scrolly sheet" aria-labelledby="ok-h">
         <h2 id="ok-h" class="vh">Confirmed</h2>
         <figure class="evcover">
           <p class="photo" aria-hidden="true"></p>
@@ -156,22 +159,25 @@
           <p class="cardtop"><span class="chip"><span class="ico sm" aria-hidden="true"></span>~3 km</span></p>
           <p class="pager" aria-hidden="true"><span class="on"></span><span></span></p>
         </figure>
+        <!-- когда и где, описание, автор с сигналами доверия (правило 12)
+             и счётчик — под снимком, в той же рамке -->
+        <div class="facts">
+          <ul class="signals">
+            <li><time datetime="2026-09-26T18:00"><b>Sat, 26 Sep</b> &middot; 18:00</time></li>
+            <li>Free</li>
+          </ul>
+          <p class="distance">Kyiv Games Club &middot; Podil</p>
+          <p>Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.</p>
+          <p class="who"><span class="avatar" aria-hidden="true"></span>Andrii &middot; Verified &middot; 12 meetups attended &middot; Replies quickly</p>
+          <output class="note">3 going &middot; No spots left &middot; Still going? comes the day before</output>
+        </div>
       </section>
     </div>
 
-    <!-- справа: когда и где, описание, автор с сигналами доверия
-         (правило 12), счётчик — и дорога дальше под ними -->
+    <!-- Справа: что это и дорога дальше — одним фреймом -->
     <div class="col">
-      <section>
-        <ul class="signals">
-          <li><time datetime="2026-09-26T18:00"><b>Sat, 26 Sep</b> &middot; 18:00</time></li>
-          <li>Free</li>
-        </ul>
-        <p class="distance">Kyiv Games Club &middot; Podil</p>
-        <p>Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.</p>
-        <p class="who"><span class="avatar" aria-hidden="true"></span>Andrii &middot; Verified &middot; 12 meetups attended &middot; Replies quickly</p>
-        <output class="note">3 going &middot; No spots left &middot; Still going? comes the day before</output>
-      </section>
+      <!-- ЗОНА 2б: что это. На телефоне название стоит в шапке экрана -->
+      <h1 class="wide">Board games</h1>
 
       <!-- ЗОНА 3: дорога дальше — чат и напоминание -->
       <section aria-labelledby="act-h">
