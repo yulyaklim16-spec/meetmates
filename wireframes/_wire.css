@@ -170,8 +170,7 @@ body:has(#bare:target) .device {
 .wfnav .grp.now > .gt { background: var(--w-zone); }
 
 /* уровень 2 — экран: ссылка на свой рабочий вид. Текущий — жирный и с точкой
-   слева; заливки у него нет, она занята веткой. Состояний в дереве больше нет:
-   они живут полосой над мокапом */
+   слева; заливки у него нет, она занята веткой. */
 .wfnav .grp > ul { margin-left: var(--s-4); border-left: 1px solid var(--w-line); }
 .wfnav .scr { margin-bottom: 1px; }
 .wfnav .s {
@@ -190,6 +189,29 @@ body:has(#bare:target) .device {
   background: var(--w-ink);
 }
 .wfnav .scr.stub > .s { color: var(--w-dim); }
+
+/* уровень 3 — состояния: ещё правее, вдоль линии своего экрана, и только
+   у того, на котором стоим. Набраны тише экрана — это не ещё один экран,
+   а его вид; текущее состояние жирное, точки ему не нужно: в раскрытой
+   ветке оно и так единственное. Кегль не уменьшается ниже 12px — на ширине
+   дерево остаётся тем же деревом, и мелкого третьего уровня там нет. */
+.wfnav .sts {
+  margin: 1px 0 var(--s-2) var(--s-3);
+  padding-left: var(--s-3);
+  border-left: 1px solid var(--w-line);
+  list-style: none;
+}
+.wfnav .st > a, .wfnav .st > b {
+  display: block;
+  padding: 3px var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: 12px; font-weight: 400;
+  color: var(--w-ink-2);
+  text-decoration: none;
+}
+.wfnav .st.now > b { font-weight: 700; color: var(--w-ink); }
+.wfnav .st.stub > a { color: var(--w-dim); }
+.wfnav .st > a:hover, .wfnav .st > a:focus-visible { background: var(--w-zone); color: var(--w-ink); }
 
 /* текущий экран в дереве — только жирный и точка: цветной заливки здесь нет,
    иначе два залитых пятна спорят друг с другом */

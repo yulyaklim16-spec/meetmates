@@ -66,7 +66,12 @@
     <li class="grp now">
       <p class="gt"><span class="gn">5</span>Запрос на компанию</p>
       <ul>
-        <li class="scr now"><a class="s" href="feed.html" aria-current="true">Лента запросов</a></li>
+        <li class="scr now"><a class="s" href="feed.html" aria-current="true">Лента запросов</a>
+          <ul class="sts">
+            <li class="st"><a href="feed-empty.html">пусто</a></li>
+            <li class="st now"><b aria-current="page">ошибка</b></li>
+            <li class="st"><a href="feed-loading.html">загрузка</a></li>
+          </ul></li>
         <li class="scr"><a class="s" href="plan.html">Карточка запроса</a></li>
         <li class="scr"><a class="s" href="my-events.html">Мои события — сегмент вкладки Events</a></li>
       </ul>
@@ -78,8 +83,9 @@
       </ul>
     </li>
   </ul>
-  <p class="n">Дерево: раздел → экран. Состояния экрана — полосой над мокапом:
-    их сравнивают, стоя на одном экране, а в дереве они раздували список втрое.
+  <p class="n">Дерево: раздел → экран → состояния. Состояния раскрыты у того
+    экрана, на котором стоишь: раскрыть все значило бы полсотни строк вместо
+    тринадцати. Те же состояния — полосой над мокапом, там их переключают в тап.
     Серым — заглушка: страница есть, макет не нарисован. Панель собирается
     из _screens.md и sitemap.md скриптом build-wireframes.mjs.</p>
 </nav>

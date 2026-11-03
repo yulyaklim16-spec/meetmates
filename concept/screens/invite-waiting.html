@@ -67,7 +67,13 @@
       <p class="gt"><span class="gn">4</span>Чат</p>
       <ul>
         <li class="scr"><a class="s" href="dialog.html">Диалог</a></li>
-        <li class="scr now"><a class="s" href="invite.html" aria-current="true">Позвать вдвоём в запрос</a></li>
+        <li class="scr now"><a class="s" href="invite.html" aria-current="true">Позвать вдвоём в запрос</a>
+          <ul class="sts">
+            <li class="st"><a href="invite-empty.html">пусто</a></li>
+            <li class="st"><a href="invite-error.html">ошибка</a></li>
+            <li class="st"><a href="invite-success.html">успех</a></li>
+            <li class="st now"><b aria-current="page">ожидание</b></li>
+          </ul></li>
         <li class="scr"><a class="s" href="chats.html">Список чатов</a></li>
       </ul>
     </li>
@@ -86,7 +92,8 @@
       </ul>
     </li>
   </ul>
-  <p class="n">Дерево: ветка → экран. Состояния экрана — полосой над мокапом.
+  <p class="n">Дерево: ветка → экран → состояния. Состояния раскрыты у того
+    экрана, на котором стоишь; те же — полосой над мокапом.
     Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
     текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
 </nav>

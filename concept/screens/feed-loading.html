@@ -72,7 +72,12 @@
     <li class="grp now">
       <p class="gt"><span class="gn">5</span>Запрос на компанию</p>
       <ul>
-        <li class="scr now"><a class="s" href="feed.html" aria-current="true">Лента запросов</a></li>
+        <li class="scr now"><a class="s" href="feed.html" aria-current="true">Лента запросов</a>
+          <ul class="sts">
+            <li class="st"><a href="feed-empty.html">пусто</a></li>
+            <li class="st"><a href="feed-error.html">ошибка</a></li>
+            <li class="st now"><b aria-current="page">загрузка</b></li>
+          </ul></li>
         <li class="scr"><a class="s" href="plan.html">Карточка запроса</a></li>
         <li class="scr"><a class="s" href="my-events.html">Мои события — сегмент вкладки Events</a></li>
       </ul>
@@ -84,7 +89,8 @@
       </ul>
     </li>
   </ul>
-  <p class="n">Дерево: ветка → экран. Состояния экрана — полосой над мокапом.
+  <p class="n">Дерево: ветка → экран → состояния. Состояния раскрыты у того
+    экрана, на котором стоишь; те же — полосой над мокапом.
     Экраны собираются из вайрфреймов скриптом build-concept-screens.mjs:
     текст и структура те же, добавлены фото, цвет, шрифт и иконки.</p>
 </nav>

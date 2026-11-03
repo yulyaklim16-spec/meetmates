@@ -52,7 +52,11 @@
     <li class="grp now">
       <p class="gt"><span class="gn">3</span>Человек</p>
       <ul>
-        <li class="scr now"><a class="s" href="profile.html" aria-current="true">Профиль другого человека</a></li>
+        <li class="scr now"><a class="s" href="profile.html" aria-current="true">Профиль другого человека</a>
+          <ul class="sts">
+            <li class="st"><a href="profile-empty.html">пусто</a></li>
+            <li class="st now"><b aria-current="page">загрузка</b></li>
+          </ul></li>
         <li class="scr"><a class="s" href="verify.html">Верификация</a></li>
         <li class="scr"><a class="s" href="my-profile.html">Мой профиль — как меня видят</a></li>
       </ul>
@@ -80,8 +84,9 @@
       </ul>
     </li>
   </ul>
-  <p class="n">Дерево: раздел → экран. Состояния экрана — полосой над мокапом:
-    их сравнивают, стоя на одном экране, а в дереве они раздували список втрое.
+  <p class="n">Дерево: раздел → экран → состояния. Состояния раскрыты у того
+    экрана, на котором стоишь: раскрыть все значило бы полсотни строк вместо
+    тринадцати. Те же состояния — полосой над мокапом, там их переключают в тап.
     Серым — заглушка: страница есть, макет не нарисован. Панель собирается
     из _screens.md и sitemap.md скриптом build-wireframes.mjs.</p>
 </nav>
