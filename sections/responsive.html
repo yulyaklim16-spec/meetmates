@@ -355,11 +355,13 @@ footer p { max-width: 72ch; }
 .live.wide .box { width: 100%; overflow: hidden; border: 1px solid var(--line);
   border-radius: var(--r-md); background: var(--surface);
   /* рамка сама себе контейнер: масштаб внутри считается от её ширины */
-  container-type: inline-size; aspect-ratio: 1340 / 900; }
+  /* 844 — ровно высота кадра: рамка кончается там же, где мокап, и линии
+     внутри доходят до её края, а не обрываются над белой полосой */
+  container-type: inline-size; aspect-ratio: 1340 / 844; }
 /* Макет на 1280 в колонку раздела не входит: рамка берёт настоящую ширину
    и уменьшается целиком — пропорции те же, что в браузере, и поля
    по бокам не остаётся при любой ширине окна. */
-.live.wide iframe.scale { width: 1340px; height: 900px; min-height: 0; border: 0; border-radius: 0;
+.live.wide iframe.scale { width: 1340px; height: 844px; min-height: 0; border: 0; border-radius: 0;
   transform: scale(calc(100cqw / 1340px)); transform-origin: top left; }
 .live iframe { width: 100%; min-height: 560px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); display: block; }
 .framelink { margin: 0 0 var(--s-2); font-size: var(--t-caption); }
