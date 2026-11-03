@@ -50,7 +50,7 @@
  тот же `--shadow-1`, что держит карточку на том же размытии: волосяная
  линия плюс мягкая тень. Фокус перекрывает её целиком. */
 .mm-btn--quiet {
-  background: var(--bg-secondary);
+  background: var(--bg-quiet);
   box-shadow: var(--ring-hairline-inset), var(--shadow-1);
 }
 
