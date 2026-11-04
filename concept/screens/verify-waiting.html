@@ -147,9 +147,21 @@
   <h1 class="mm-head-title">Verification</h1>
 </header>
   <main class="mm-app">
-  <!-- Ширина: состояние по центру `D-131`, как у остальных экранов-состояний:
-       одна ось — состояние, цветное действие, выход. -->
-  <div class="mm-pane mm-pane--center">
+  <div class="mm-pane">
+    <!-- Ширина: «раскладка шире», и ответ взят не из строки экрана, а из
+         таблицы «Состояния, которые меняют ответ»: ручная проверка селфи —
+         одно из четырёх ожиданий чужого решения `D-42`, а им аудит дал
+         «кто отвечает и сколько это живёт» слева, «что можно вместо» справа.
+         Остальным пяти состояниям верификации стоит «всё равно» (`.cap`):
+         там ждут машину или смотрят в кадр, и колонке рядом нечего держать.
+         Три обязательных вещи `D-42` от этого перестают стоять столбиком,
+         а выход из экрана остаётся видимым без прокрутки — `D-26`:
+         непройденная проверка не тупик и не проступок. -->
+    <!-- Пара собрана той же кладкой, что видоискатель и карточка события
+         `D-115`: справа фрейм, обе колонки одного роста. -->
+    <div class="mm-cols mm-cols--aside">
+    <div class="mm-col">
+    <!-- ЗОНА 2: кто ответит и сколько это живёт — два из трёх требований D-42 -->
     <section class="mm-stretch" aria-labelledby="w-h">
       <h2 id="w-h" class="mm-vh">In manual review</h2>
       <article class="mm-state">
@@ -158,6 +170,13 @@
         <p>The automatic check couldn&rsquo;t read your face twice. Usually minutes, at most 24 hours. You&rsquo;ll hear back either way.</p>
       </article>
     </section>
+
+    </div>
+    <!-- Вторая колонка — «что можно сделать вместо ожидания»: колода, лента
+         и сам разговор. На телефоне эти зоны стоят под блоком состояния
+         только потому, что не поместились рядом. -->
+    <div class="mm-col">
+    <!-- ЗОНА 3: что можно делать вместо ожидания — третье требование D-42 -->
     <section class="mm-section" aria-labelledby="act-h">
       <h2 id="act-h" class="mm-vh">Meanwhile</h2>
       <p class="mm-actions">
@@ -165,6 +184,8 @@
         <a class="mm-btn mm-btn--quiet" href="feed.html">Look at events</a>
       </p>
     </section>
+
+    <!-- ЗОНА 4: разговор ждёт — гейт остаётся, но чат не исчезает -->
     <section class="mm-section" aria-labelledby="exit-h">
       <h2 id="exit-h" class="mm-vh">The chat</h2>
       <a class="mm-btn" href="dialog.html">
@@ -172,6 +193,8 @@
         <span aria-hidden="true">&rarr;</span>
       </a>
     </section>
+    </div>
+    </div>
   </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
