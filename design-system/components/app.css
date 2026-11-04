@@ -212,14 +212,17 @@
   .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) {
     display: grid;
     grid-template-columns: 320px minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr) auto;
+    /* Строка списка — по содержимому, но не выше остатка (`D-132`): выход
+       (`See people`) стоит сразу под последней карточкой, а не у низа кадра.
+       Четвёртая строка забирает остаток, чтобы деталь доходила до низа. */
+    grid-template-rows: auto minmax(0, auto) auto minmax(0, 1fr);
     column-gap: var(--grid-gap);
     row-gap: var(--space-12);
   }
   .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-list { display: contents; }
   .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-list > * { grid-column: 1; }
   .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-list > .mm-scrolly { grid-row: 2; }
-  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-list > :last-child:not(.mm-scrolly) { grid-row: 3; }
+  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-list > :last-child:not(.mm-scrolly) { grid-row: 3; margin-top: var(--space-12); }
   .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-detail { grid-column: 2; grid-row: 2 / -1; }
 
   /* Решение в широкой панели — колонка с потолком: без него кнопка повтора
@@ -582,8 +585,18 @@
 
   .mm-app--pair > .mm-pin { grid-column: 2; grid-row: 2; }
 
+  /* `overflow-y: auto` обрезает и по горизонтали: тень и волосяная обводка
+     рамок у краёв колонки пропадали, и карточки читались порезанными
+     (особенно в тёмной теме). Поле под тень вынесено в отступ колонки и снято
+     отрицательным полем — тем же приёмом, что у правой панели ленты: рамки
+     остаются на своих местах, ширина содержимого прежняя (трек минус ноль),
+     а нижний минус не даёт колонке стать выше клетки (`D-132`). Полоса
+     решения стоит в другой строке сетки и не перекрывается: выступ колонки
+     падает в просвет `--grid-gap`. */
   .mm-app--pair .mm-cols > .mm-col:last-child {
     grid-column: 2; grid-row: 1; min-height: 0; overflow-y: auto;
+    padding: 0 var(--space-12) var(--space-12);
+    margin: 0 calc(var(--space-12) * -1) calc(var(--space-12) * -1);
   }
 
   /* Фрейм достаётся колонке целиком — или каждому её блоку порознь, если
@@ -642,6 +655,15 @@
    на 390 экран остаётся экраном, и выход из него обязателен. */
 @container mm-screen (min-width: 52rem) {
   .mm-narrow { display: none; }
+
+  /* У тела карточки человека свой `display: flex` в `person.css`, он подключён
+     позже и весит столько же — и «только на телефоне» на ширине не срабатывало:
+     факты стояли дважды, в карточке и в правой колонке (`D-132`). Прежде это
+     прятала ошибка сборщика, из-за которой тело вообще не было телом карточки;
+     исправив её, пришлось сказать это правилом. Тело названо явно, а не
+     повышен вес всему `.mm-narrow`: прячущее правило остаётся простым там,
+     где ему ничто не мешает. */
+  .mm-person-body.mm-narrow { display: none; }
 }
 
 /* Третья зона пары — выходы наружу рейкой справа, и только с 1280

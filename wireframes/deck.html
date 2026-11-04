@@ -312,20 +312,31 @@
     return;
   }
   var KEY = 'mm-screen-width';
-  function set(w) {
-    root.dataset.w = w;
-    document.querySelectorAll('.wfdev button').forEach(function (b) {
+  // Группа кнопок темы несёт тот же класс .wfdev, что и группа ширины, —
+  // у них общий вид. Поэтому и слушатель, и перебор aria-pressed ходят
+  // только по кнопкам с data-w: иначе клик по «Dark» ставил ширину
+  // undefined, устройство схлопывалось до телефона, а значение ещё и
+  // запоминалось — «слёт» переживал переходы между страницами. Допустимые
+  // значения названы явно, чтобы испорченное запомненное тоже не проходило.
+  var WIDTHS = /^(mobile|tablet|desktop)$/;
+  var SEL = '.wfdev button[data-w]';
+  function press(w) {
+    document.querySelectorAll(SEL).forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.dataset.w === w));
     });
+  }
+  function set(w) {
+    if (!WIDTHS.test(w)) return;
+    root.dataset.w = w;
+    press(w);
     try { localStorage.setItem(KEY, w); } catch (e) {}
   }
   var saved;
   try { saved = localStorage.getItem(KEY); } catch (e) {}
-  if (forced) { root.dataset.w = forced; document.querySelectorAll('.wfdev button').forEach(function (b) {
-    b.setAttribute('aria-pressed', String(b.dataset.w === forced)); }); }
-  else set(saved || 'mobile');
+  if (forced) { root.dataset.w = forced; press(forced); }
+  else set(WIDTHS.test(saved || '') ? saved : 'mobile');
   document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.wfdev button');
+    var b = e.target.closest && e.target.closest(SEL);
     if (b) set(b.dataset.w);
   });
 })();

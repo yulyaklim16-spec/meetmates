@@ -264,7 +264,10 @@ function dressInKit(body, name) {
   // 5. карточка человека, видоискатель верификации и снимки на радаре
   s = s.replace(/<article class="card"/g, '<article class="mm-person"');
   s = s.replace(/<section class="body skeleton"/g, '<section class="mm-person-body"');
-  s = s.replace(/<section class="body"/g, '<section class="mm-person-body"');
+  // Модификатор ширины (`narrow`, `D-127`) не должен менять, чем тело карточки
+  // является: с ним оно уходило в `mm-row-body` — тело строки списка — и теряло
+  // поля и шаг. Класс ищется как «body и что угодно после», а не дословно.
+  s = s.replace(/<section class="body((?: [\w-]+)*)"/g, '<section class="mm-person-body$1"');
   s = s.replace(/<p class="photo blur"/g, '<p class="mm-photo mm-photo--blur"');
   s = s.replace(/<figcaption>([^<]*)<\/figcaption>/g, '<figcaption class="mm-photo-cap">$1</figcaption>');
   s = s.replace(/<span class="thumb blur"><\/span>/g, '<span class="mm-skel mm-skel--thumb"></span>');
@@ -290,10 +293,14 @@ function dressInKit(body, name) {
   // кнопка в содержимом: шапку уже перевели выше, значит это она
   s = s.replace(/<button([^>]*)class="primary"/g, '<button$1class="mm-btn mm-btn--primary"');
   s = s.replace(/<button([^>]*)class="quiet"/g, '<button$1class="mm-btn mm-btn--quiet"');
+  // Срез вкладки в списке слева на страницах карточки запроса (`D-128`) стоит копией
+  // ленты, и якорь у копии с приставкой `ls-`, чтобы id не повторялся в одной
+  // странице. Приставка необязательна — иначе копия теряла вид дорожки и
+  // рисовалась двумя обычными кнопками.
   // Срез вкладки: секция узнаётся по `seg-h`, а не по дословному тегу — на ней
   // теперь стоят кладки ширины (`cell left`), и дословная строка перестала
   // совпадать. Срез из-за этого показывался парой кнопок вместо дорожки.
-  s = s.replace(/(<section[^>]*aria-labelledby="seg-h"[^>]*>[\s\S]*?)<p class="row">([\s\S]*?)<\/p>/,
+  s = s.replace(/(<section[^>]*aria-labelledby="(?:ls-)?seg-h"[^>]*>[\s\S]*?)<p class="row">([\s\S]*?)<\/p>/,
     (m, head, inner) => `${head}<p class="mm-segmented">${inner
       .replace(/class="mm-btn mm-btn--primary"/, 'class="mm-btn is-current"')
       .replace(/class="mm-btn mm-btn--quiet"/, 'class="mm-btn"')}</p>`);

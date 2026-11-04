@@ -129,65 +129,56 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
 <header>
-  <!-- На ширине название стоит во фрейме решения, а шапке остаётся возврат —
-       и он называет себя словом (`D-114`, то же, что на профиле человека). -->
+  <!-- Название события стоит в шапке на всех ширинах `D-131`; возврат на ширине
+       называет себя словом (`D-114`, то же, что на профиле человека). -->
   <a class="back" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span><span class="wide">Back</span></a>
-  <h1 class="hush">Board games</h1>
+  <h1>Board games</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
 </header>
   <main class="app">
-  <!-- Ширина: пара «предмет и решение» `D-115` — та же, что в рабочем виде
-       и у сбоя колоды. Слева то, что вместо события: обложки, автора
-       и счётчика здесь нет — отклик отклонён, и предметом становится
-       сам отказ. Справа фрейм: следующий шаг и свой план. Выходы остаются
-       рядом с сообщением, а не у краёв (правило 10). -->
-  <div class="pane cols aside">
+  <!-- Ширина: раскладка «по центру» `D-131` — та же, что у сбоя ленты запросов
+       (feed-error.html); план-error переведён по аналогии `D-132`. Отказ стоит
+       столбцом посередине: обложки, автора и счётчика здесь нет — отклик
+       отклонён, и предметом становится сам отказ. Пары колонок нет: название
+       события остаётся в шапке, поэтому заголовок на ширине виден. -->
+  <div class="pane center">
     <!-- ЗОНА 2: отказ. Без выдуманной причины и без упрёка -->
-    <div class="col">
-      <section class="stretch" aria-labelledby="err-h">
-        <h2 id="err-h" class="vh">Declined</h2>
-        <article class="state" role="alert">
-          <h3>Andrii didn&rsquo;t take this one</h3>
-          <p>Board games at Kyiv Games Club is closed for you. It happens &mdash; people pick who they go with, and that&rsquo;s the point of confirming.</p>
-        </article>
-      </section>
-    </div>
+    <section class="stretch" aria-labelledby="err-h">
+      <h2 id="err-h" class="vh">Declined</h2>
+      <article class="state" role="alert">
+        <h3>Andrii didn&rsquo;t take this one</h3>
+        <p>Board games at Kyiv Games Club is closed for you. It happens &mdash; people pick who they go with, and that&rsquo;s the point of confirming.</p>
+      </article>
+    </section>
 
-    <div class="col">
-      <!-- ЗОНА 2б: что это. На телефоне название стоит в шапке экрана -->
-      <p class="name wide">Board games</p>
+    <!-- ЗОНА 3: следующий шаг. Главное — искать дальше (поток: Rejected → Feed);
+         рядом вторым цветным действием — свой план, путь, где отказать некому.
+         Адреса у Post an event нет нарочно: экран создания (III.4) вне набора,
+         это записанный долг `_screens.md` п. 6. -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" class="vh">What next</h2>
+      <p class="row">
+        <a class="btn primary" href="feed.html">Look at other events</a>
+        <button type="button" class="btn quiet">Post an event</button>
+      </p>
+    </section>
 
-      <!-- ЗОНА 3: следующий шаг. Ровно то, что делает поток: искать дальше -->
-      <section aria-labelledby="act-h">
-        <h2 id="act-h" class="vh">What next</h2>
-        <p class="row">
-          <a class="btn primary" href="feed.html">Look at other events</a>
-        </p>
-        <p class="row">
-          <a class="btn quiet" href="deck.html">See people</a>
-        </p>
-      </section>
-
-      <!-- ЗОНА 4: свой план — путь, где отказать некому -->
-      <section aria-labelledby="ex-h">
-        <h2 id="ex-h" class="vh">Your own</h2>
-        <!-- Адреса нет нарочно: экран создания (III.4) вне набора, и это
-             записанный долг `_screens.md` п. 6. Так же набрана эта кнопка
-             на шести других экранах. Прежде она вела на feed-empty — экран,
-             который говорит «No events within 5 km yet» человеку, пришедшему
-             из полной ленты. -->
-        <p class="row">
-          <button type="button" class="btn quiet">Post an event</button>
-        </p>
-      </section>
-    </div>
+    <!-- ЗОНА 4: выход в первый путь, кнопка с обводкой, как у сбоя ленты -->
+    <section aria-labelledby="ex-h">
+      <h2 id="ex-h" class="vh">People</h2>
+      <a class="exit" href="deck.html">
+        <span>See people</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
     <p class="ann"><b>Зона 1 — шапка.</b> Report здесь же: на карточке запроса виден автор, значит до жалобы один тап — правило 4, `D-44`</p>
     <p class="ann"><b>Зона 2 — отказ.</b> Причину автор не объясняет, и мы её не выдумываем. Текст переводит человека к следующему шагу, а не к разбору</p>
-    <p class="ann"><b>Зона 3 — следующий шаг.</b> Поток говорит прямо: <code>Rejected → Feed</code>. Главное действие — другой план, а не повтор в тот же</p>
-    <p class="ann"><b>Зона 4 — свой план.</b> Единственный путь, где чужого решения нет вовсе: создание в один шаг (§2.1, п. 3)</p>
+    <p class="ann"><b>Зона 3 — следующий шаг.</b> Поток говорит прямо: <code>Rejected → Feed</code>. Главное действие — другой план, а не повтор в тот же; рядом вторым — свой план</p>
+    <p class="ann"><b>Зона 4 — выход.</b> Люди — первый путь, где чужого решения о событии нет; свой план (§2.1, п. 3) стоит рядом с главным</p>
   </div>
 
   <!-- ЗОНА 5: глобальная навигация, пять вкладок D-43 -->
@@ -246,20 +237,31 @@
     return;
   }
   var KEY = 'mm-screen-width';
-  function set(w) {
-    root.dataset.w = w;
-    document.querySelectorAll('.wfdev button').forEach(function (b) {
+  // Группа кнопок темы несёт тот же класс .wfdev, что и группа ширины, —
+  // у них общий вид. Поэтому и слушатель, и перебор aria-pressed ходят
+  // только по кнопкам с data-w: иначе клик по «Dark» ставил ширину
+  // undefined, устройство схлопывалось до телефона, а значение ещё и
+  // запоминалось — «слёт» переживал переходы между страницами. Допустимые
+  // значения названы явно, чтобы испорченное запомненное тоже не проходило.
+  var WIDTHS = /^(mobile|tablet|desktop)$/;
+  var SEL = '.wfdev button[data-w]';
+  function press(w) {
+    document.querySelectorAll(SEL).forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.dataset.w === w));
     });
+  }
+  function set(w) {
+    if (!WIDTHS.test(w)) return;
+    root.dataset.w = w;
+    press(w);
     try { localStorage.setItem(KEY, w); } catch (e) {}
   }
   var saved;
   try { saved = localStorage.getItem(KEY); } catch (e) {}
-  if (forced) { root.dataset.w = forced; document.querySelectorAll('.wfdev button').forEach(function (b) {
-    b.setAttribute('aria-pressed', String(b.dataset.w === forced)); }); }
-  else set(saved || 'mobile');
+  if (forced) { root.dataset.w = forced; press(forced); }
+  else set(WIDTHS.test(saved || '') ? saved : 'mobile');
   document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.wfdev button');
+    var b = e.target.closest && e.target.closest(SEL);
     if (b) set(b.dataset.w);
   });
 })();

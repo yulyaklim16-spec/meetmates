@@ -415,11 +415,11 @@
 | рабочий вид | Что за план | `2 going · 1 spot left` | сообщение состояния |
 | ошибка | Отказ | `Andrii didn’t take this one` | заголовок |
 | ошибка | Следующий шаг | `Look at other events` | кнопка |
-| ошибка | Следующий шаг | `See people` | кнопка |
-| ошибка | Свой план | `Post an event` | кнопка |
+| ошибка | Выход | `See people` | кнопка |
+| ошибка | Следующий шаг | `Post an event` | кнопка |
 | ошибка | Отказ | `Declined` | скрытый заголовок |
 | ошибка | Следующий шаг | `What next` | скрытый заголовок |
-| ошибка | Свой план | `Your own` | скрытый заголовок |
+| ошибка | Выход | `People` | скрытый заголовок |
 | ошибка | Отказ | `Board games at Kyiv Games Club is closed for you. It happens — people pick who they go with, and that’s the point of confirming.` | сообщение состояния |
 | ошибка | Отказ | `Board games at Kyiv Games Club is closed for you. It happens — people pick who they go with, and that’s the point of confirming.` | текст экрана |
 | загрузка | Действие на паузе | `Ask to join` | кнопка |
