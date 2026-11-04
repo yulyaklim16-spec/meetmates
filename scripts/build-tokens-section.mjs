@@ -337,6 +337,8 @@ const PAIRS = [
   ['Слово на кнопке действия', '--text-on-action', '--color-action', 4.5],
   ['Слово на лейбе Verified', '--text-on-verified', '--color-verified', 4.5],
   ['Подпись выбранной вкладки', '--text-on-selected', '--bg-selected', 4.5],
+  ['Текст на текущей строке списка', '--text-primary', '--bg-current', 4.5],
+  ['Вторичный текст на текущей строке', '--text-muted', '--bg-current', 4.5],
   ['Своя реплика в диалоге', '--text-primary', '--bg-mine', 4.5],
   ['Реплика, которая не ушла', '--text-primary', '--bg-undelivered', 4.5],
   ['Опасное словом на карточке', '--text-danger', '--bg-surface', 4.5],

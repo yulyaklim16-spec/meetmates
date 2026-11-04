@@ -694,6 +694,11 @@ const SEMANTIC = [
     "css": "bg-selected"
   },
   {
+    "path": "bg/current",
+    "alias": "color/lilac-100",
+    "css": "bg-current"
+  },
+  {
     "path": "bg/quiet",
     "alias": "color/lilac-300",
     "css": "bg-quiet"
@@ -862,6 +867,11 @@ const SEMANTIC_DARK = [
     "path": "bg/selected",
     "alias": "misc/lavender-400",
     "css": "bg-selected"
+  },
+  {
+    "path": "bg/current",
+    "alias": "misc/coal-600",
+    "css": "bg-current"
   },
   {
     "path": "bg/quiet",
