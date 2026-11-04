@@ -60,7 +60,9 @@ const FACES = {
 // чей экран — тот и на снимке; верификация показывает своё лицо в камере
 const PORTRAIT_BY_SCREEN = [
   [/^my-profile/, FACES.dasha],
-  [/^verify/, FACES.dasha],
+  // кадр камеры — тот же снимок, обрезанный по лицу: в портретной рамке
+  // `cover` по центру прижимал лицо к левому краю
+  [/^verify/, 'dasha-selfie'],
   [/^(deck|profile|match|search)/, FACES.olena],
 ];
 const portraitFor = (name) =>

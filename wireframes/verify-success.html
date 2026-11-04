@@ -132,44 +132,32 @@
   <h1>Verification</h1>
 </header>
   <main class="app">
-  <!-- Ширина: пара «предмет и решение» `D-115` — та же, что на колоде
-       и карточке события. Слева видоискатель во всю свободную ширину:
-       кадр с лицом и есть предмет экрана. Справа одним фреймом то, что
-       с ним делают. Таб-бара на этом экране нет (онбординг), рейки слева
-       на 1280 тоже, поэтому паре достаётся весь кадр. -->
-  <div class="pane cols aside">
-    <div class="col">
-      <!-- ЗОНА 2: факт и его последствие -->
-      <section class="stretch" aria-labelledby="ok-h">
-        <h2 id="ok-h" class="vh">Verified</h2>
-        <article class="state">
-          <h3>You&rsquo;re verified</h3>
-          <p>The badge is on your card now. You can message, join events and confirm people who ask to join yours.</p>
-          <ul class="signals">
-            <li><span class="ico sm" aria-hidden="true"></span>Verified</li>
-          </ul>
-        </article>
-      </section>
-    </div>
-
-    <div class="col">
-      <!-- ЗОНА 3: возврат ровно туда, откуда пришёл гейт -->
-      <section aria-labelledby="act-h">
-        <h2 id="act-h" class="vh">Back to the chat</h2>
-        <p class="row">
-          <a class="btn primary" href="dialog-empty.html">Open the chat</a>
-        </p>
-      </section>
-
-      <!-- ЗОНА 4: второй путь тоже открылся -->
-      <section aria-labelledby="exit-h">
-        <h2 id="exit-h" class="vh">Events</h2>
-        <a class="exit" href="feed.html">
-          <span>Look at events</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </section>
-    </div>
+  <!-- Ширина: состояние по центру `D-131`, как у остальных экранов-состояний:
+       одна ось — состояние, цветное действие, выход. -->
+  <div class="pane center">
+    <section class="stretch" aria-labelledby="ok-h">
+      <h2 id="ok-h" class="vh">Verified</h2>
+      <article class="state">
+        <h3>You&rsquo;re verified</h3>
+        <p>The badge is on your card now. You can message, join events and confirm people who ask to join yours.</p>
+        <ul class="signals">
+          <li><span class="ico sm" aria-hidden="true"></span>Verified</li>
+        </ul>
+      </article>
+    </section>
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" class="vh">Back to the chat</h2>
+      <p class="row">
+        <a class="btn primary" href="dialog-empty.html">Open the chat</a>
+      </p>
+    </section>
+    <section aria-labelledby="exit-h">
+      <h2 id="exit-h" class="vh">Events</h2>
+      <a class="exit" href="feed.html">
+        <span>Look at events</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
   </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
