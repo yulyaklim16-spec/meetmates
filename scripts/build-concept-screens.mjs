@@ -198,7 +198,7 @@ const CLASS_MAP = {
   detail: 'mm-split--detail', 'split-aside': 'mm-split-aside',
   cols: 'mm-cols', col: 'mm-col', full: 'mm-cols-full', wide3: 'mm-cols--3',
   wide: 'mm-wide', narrow: 'mm-narrow', cap: 'mm-cap', left: 'mm-cap--left',
-  stage: 'mm-stage', aside: 'mm-cols--aside', framed: 'mm-cols--framed', stack: 'mm-stack', under: 'mm-stack-layer', whocol: 'mm-section', pair: 'mm-app--pair',
+  stage: 'mm-stage', aside: 'mm-cols--aside', framed: 'mm-cols--framed', stack: 'mm-stack', under: 'mm-stack-layer', whocol: 'mm-section', center: 'mm-pane--center', pair: 'mm-app--pair',
   apart: 'mm-col--apart', name: 'mm-subhead', mid: 'mm-btn--mid', cell: 'mm-cell',
   sheet: 'mm-sheet', facts: 'mm-sheet-body', hush: 'mm-hush',
   // размер иконки задаёт место, где она стоит, а не её собственный класс

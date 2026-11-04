@@ -791,3 +791,84 @@
      в селекторе стоит ради веса, не ради адреса. */
   .mm-pane.mm-stage > .mm-stretch { flex: 1; }
 }
+
+/* ── экран-состояние по центру: пусто, ошибка, итог `D-131` ──────────────
+   Одна ось вместо трёх. Прежде переключатель стоял у левого края, карточка
+   состояния — по центру колонки, а две кнопки под ней лепились друг к другу,
+   и третья, короткая, прижималась влево чужой. Теперь всё лежит по оси экрана:
+   переключатель, иконка с заголовком и подписью прямо на фоне — без белой
+   плашки, — затем действия одной шириной, и выход обводкой под ними.
+
+   Две цветные кнопки (главная и тихая) стоят в один ряд, если места хватает;
+   на телефоне — столбиком с нормальным зазором, а не вплотную. Выход —
+   кнопка с обводкой, как и была, на ту же ширину, а не короткая пилюля у края.
+
+   Модификатор объявляет экран, а не файл угадывает: тот же приём, что
+   `.mm-cap--left` (`D-118`). Стоит последним в файле нарочно — потолки
+   `.mm-cap` и выхода (`D-117`) имеют ту же специфичность и перебить их
+   можно только порядком. */
+.mm-pane--center {
+  align-items: center;
+  gap: var(--space-24);
+  text-align: center;
+}
+
+.mm-pane--center > :is(section, .mm-btn) {
+  width: 100%;
+  max-width: 440px;
+  margin-inline: auto;
+}
+
+/* Секция с потолком `.mm-cap` — блок, и кнопка с выходом в ней стояли
+   вплотную. Колонка с шагом одна на все секции экрана, а не только на те,
+   что объявлены `.mm-section`. */
+.mm-pane--center > section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+/* срез Nearby/Mine — управляющая полоса, а не строка: по оси и вполовину уже */
+.mm-pane--center > .mm-cell,
+.mm-pane--center > .mm-cell.mm-cap--left {
+  width: min(100%, 240px);
+  max-width: none;
+  margin-inline: auto;
+}
+
+.mm-pane--center > .mm-cell .mm-segmented { width: 100%; }
+
+/* растягивающаяся секция здесь не растягивается: пустоту не прячем вниз,
+   а держим одним куском под содержимым */
+.mm-pane--center > .mm-stretch { flex: none; }
+
+/* состояние — иконка, заголовок и подпись прямо на фоне экрана */
+.mm-pane.mm-pane--center .mm-state {
+  width: 100%;
+  max-width: 440px;
+  margin-inline: auto;
+  padding: var(--space-16) 0 0;
+  background: none;
+  box-shadow: none;
+}
+
+.mm-pane--center .mm-actions {
+  flex-direction: column;
+  width: 100%;
+  max-width: 440px;
+  margin-inline: auto;
+}
+
+/* выход: кнопка на ширину действий, а не пилюля по тексту. Потолок выхода
+   в 390px (`D-117`) весит (0,4,0), и обычным правилом его не перебить, —
+   поэтому класс повторён: это вес, а не опечатка. */
+.mm-pane--center.mm-pane > section > .mm-btn.mm-btn,
+.mm-pane--center.mm-pane > .mm-btn.mm-btn {
+  width: 100%;
+  max-width: 440px;
+  margin-inline: auto;
+}
+
+@container mm-screen (min-width: 52rem) {
+  .mm-pane--center .mm-actions { flex-direction: row; }
+}
