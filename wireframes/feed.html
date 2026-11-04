@@ -133,7 +133,13 @@
   <button type="button" class="primary" aria-label="Post an event"><span class="ico" aria-hidden="true"></span>Post</button>
 </header>
   <main class="app">
-  <div class="pane">
+  <!-- Ширина: пара «список + деталь» `D-128`, тот же паттерн, что у чатов
+       (`D-110`). Слева — лента строками: тап по строке открывает событие
+       справа, не уводя со списка. Выбрана первая: пустая правая панель
+       на старте читалась бы дырой (§2.1, п. 1). На телефоне панели деталь
+       нет — это два экрана, как раньше: лента, тап, карточка запроса. -->
+  <div class="split">
+  <div class="split-list pane">
     <!-- ЗОНА 2: срез вкладки. «Рядом» и «мои» — один объект, два среза.
          `cap`: срез — управляющая строка, а не содержимое ленты, и у неё
          свой потолок. Без него на 1280 две пилюли растягиваются на полпанели
@@ -156,7 +162,7 @@
          карточки и заголовок не больше двух строк (`D-55`…`D-58`). -->
     <section class="scrolly" aria-labelledby="fd-h">
       <ul class="rows">
-        <li class="item ev">
+        <li class="item ev" aria-current="page">
           <span class="cover">
             <span class="cardtop"><span class="chip"><span class="ico sm" aria-hidden="true"></span>~3 km</span></span>
           </span>
@@ -200,6 +206,55 @@
         <span aria-hidden="true">&rarr;</span>
       </a>
     </section>
+  </div>
+  <div class="split-detail">
+<div class="pane cols aside">
+    <div class="col">
+      <div class="stack">
+        <span class="under" aria-hidden="true"></span>
+        <span class="under" aria-hidden="true"></span>
+        <section class="scrolly sheet" aria-labelledby="dt-pl-h">
+        <h2 id="dt-pl-h" class="vh">The event</h2>
+        <figure class="evcover">
+          <p class="photo" aria-hidden="true"></p>
+          <figcaption class="vh">Photo 1 of 2</figcaption>
+          <p class="cardtop"><span class="chip"><span class="ico sm" aria-hidden="true"></span>~3 km</span></p>
+          <p class="pager" aria-hidden="true"><span class="on"></span><span></span></p>
+        </figure>
+        <div class="facts">
+          <ul class="signals">
+            <li><time datetime="2026-09-26T18:00"><b>Sat, 26 Sep</b> &middot; 18:00</time></li>
+            <li>Free</li>
+          </ul>
+          <p class="distance">Kyiv Games Club &middot; Podil</p>
+          <p>Bringing Codenames and Wingspan. Anyone who knows the rules or wants to learn.</p>
+          <p class="who"><span class="avatar" aria-hidden="true"></span>Andrii &middot; Verified &middot; 12 meetups attended &middot; Replies quickly</p>
+          <output class="note">2 going &middot; 1 spot left</output>
+        </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="col">
+      <p class="name wide">Board games</p>
+
+      <section aria-labelledby="dt-act-h">
+        <h2 id="dt-act-h" class="vh">Decision</h2>
+        <p class="row">
+          <a class="btn primary" href="plan-waiting.html">Ask to join</a>
+        </p>
+      </section>
+
+      <section class="narrow" aria-labelledby="dt-ex-h">
+        <h2 id="dt-ex-h" class="vh">Other events</h2>
+        <a class="exit" href="feed.html">
+          <span>Look at other events</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </section>
+    </div>
+    </div>
+  </div>
   </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->

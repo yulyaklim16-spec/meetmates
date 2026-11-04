@@ -130,7 +130,8 @@
   <button type="button" class="primary" aria-label="Post an event"><span class="ico" aria-hidden="true"></span>Post</button>
 </header>
   <main class="app">
-  <div class="pane">
+  <div class="split">
+  <div class="split-list pane">
     <!-- ЗОНА 2: сегмент вкладки. Лента и «мои» — один объект, два среза -->
     <section class="cell left" aria-labelledby="seg-h">
       <h2 id="seg-h" class="vh">Which events</h2>
@@ -188,6 +189,16 @@
         </li>
       </ul>
     </section>
+  </div>
+  <!-- Ширина: пара «список + деталь» `D-128`. Справа — состояние «ничего
+       не выбрано»: на телефоне его нет, а на ширине пустая панель читалась бы
+       дырой, поэтому она называет, что делать (`D-110`). -->
+  <div class="split-detail">
+    <article class="state">
+      <h3>No event open</h3>
+      <p>Pick an event on the left and it opens here.</p>
+    </article>
+  </div>
   </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->

@@ -155,7 +155,7 @@
      токен, а не наследует цвет основного текста (правило 4 токенов).
      На 390 строки не видно вовсе: при открытой детали список скрыт целиком,
      поэтому правило живёт только здесь. */
-  .mm-split-list .mm-row[aria-current="page"] {
+  .mm-split-list :is(.mm-row, .mm-event)[aria-current="page"] {
     background: var(--bg-selected);
     color: var(--text-on-selected);
   }
@@ -163,9 +163,37 @@
   /* Второстепенные строки внутри выбранной перестают быть второстепенными
      по цвету: --text-muted на заливке выбранного даёт 1,33:1 в тёмной теме.
      Тон уступает, иерархию дальше держит вес — имя полужирное, превью нет. */
-  .mm-split-list .mm-row[aria-current="page"] :is(.mm-facts, .mm-meta) {
+  .mm-split-list :is(.mm-row, .mm-event)[aria-current="page"] :is(.mm-facts, .mm-meta) {
     color: inherit;
   }
+
+  /* Событие в левой панели пары — строка, а не карточка (`D-128`). Лента
+     на телефоне и в сетке остаётся карточкой с обложкой во всю ширину; когда
+     рядом открыто событие, панели отдали 320px, и обложка в них не живёт.
+     Разметка та же, что у карточки: меняется только то, что с ней делает
+     панель — обложка уходит в миниатюру, расстояние со снимка и кнопки
+     действий уходят вовсе. Решение по событию стоит справа, в детали:
+     открывать событие ради кнопки не нужно, а две кнопки в строке
+     по 320px читались лишним рядом. */
+  .mm-split-list .mm-event {
+    grid-template-columns: 56px minmax(0, 1fr);
+    grid-template-rows: auto;
+    align-items: center;
+    column-gap: var(--space-12);
+    padding: var(--space-12);
+  }
+
+  .mm-split-list .mm-event .mm-cover {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+  }
+
+  .mm-split-list .mm-event .mm-event-body { padding: 0; }
+
+  .mm-split-list .mm-event .mm-event-head { flex-wrap: wrap; row-gap: 0; }
+
+  .mm-split-list .mm-event :is(.mm-cardtop, .mm-event-acts) { display: none; }
 }
 
 @container mm-screen (min-width: 80rem) {

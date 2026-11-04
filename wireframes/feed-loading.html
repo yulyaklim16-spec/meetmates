@@ -131,7 +131,8 @@
   <button type="button" class="primary" aria-label="Post an event"><span class="ico" aria-hidden="true"></span>Post</button>
 </header>
   <main class="app">
-  <div class="pane">
+  <div class="split">
+  <div class="split-list pane">
     <!-- ЗОНА 2: срез вкладки. Он местный, не с сервера, — значит стоит во всех состояниях.
          `cap` — тот же потолок, что в рабочем виде: переключатель из двух
          пилюль на полпанели перестаёт читаться переключателем. -->
@@ -191,6 +192,13 @@
         <span aria-hidden="true">&rarr;</span>
       </a>
     </section>
+  </div>
+  <div class="split-detail">
+    <article class="state">
+      <h3>No event open</h3>
+      <p>Pick an event on the left and it opens here.</p>
+    </article>
+  </div>
   </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->

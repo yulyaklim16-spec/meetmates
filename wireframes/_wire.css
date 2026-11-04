@@ -1403,6 +1403,56 @@ a { color: var(--w-ink); }
   box-shadow: inset 0 0 0 1px var(--w-ink-2);
 }
 
+/* Событие в левой панели пары — строка, а не карточка `D-128`. Лента на телефоне
+   и в сетке остаётся карточкой с обложкой во всю ширину; в панели в 320px
+   обложка не живёт. Разметка та же: обложка уходит в миниатюру, расстояние
+   со снимка и кнопки действий — вовсе. Решение стоит справа, в детали. */
+:root[data-w="tablet"] .split-list .item.ev,
+:root[data-w="desktop"] .split-list .item.ev {
+  grid-template-columns: 56px minmax(0, 1fr);
+  grid-template-rows: auto;
+  align-items: center;
+  column-gap: var(--s-3);
+  padding: var(--s-3);
+}
+:root[data-w="tablet"] .split-list .item.ev .cover,
+:root[data-w="desktop"] .split-list .item.ev .cover { width: 56px; height: 56px; border-radius: var(--r-sm); }
+:root[data-w="tablet"] .split-list .item.ev .body,
+:root[data-w="desktop"] .split-list .item.ev .body { padding: 0; }
+:root[data-w="tablet"] .split-list .item.ev .top,
+:root[data-w="desktop"] .split-list .item.ev .top { flex-wrap: wrap; row-gap: 0; }
+:root[data-w="tablet"] .split-list .item.ev :is(.cardtop, .acts),
+:root[data-w="desktop"] .split-list .item.ev :is(.cardtop, .acts) { display: none; }
+
+/* Карточка запроса в правой панели ленты: пара «предмет и решение» в панель
+   шириной 460–640px не помещается и складывается в колонку — снимок и текст
+   сверху, решение под ними. Раскладку задаёт панель, а не экран. */
+:root[data-w="tablet"] .split-detail .cols.aside,
+:root[data-w="desktop"] .split-detail .cols.aside {
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  overflow-y: auto;
+  /* `overflow-y: auto` обрезает и по горизонтали: граница карточек у края панели
+     пропадала. Поле под неё вынесено в отступ и снято отрицательным полем. */
+  padding: 0 var(--s-3) var(--s-3);
+  margin: 0 calc(var(--s-3) * -1);
+}
+:root[data-w="tablet"] .split-detail .cols.aside > .col:last-child,
+:root[data-w="desktop"] .split-detail .cols.aside > .col:last-child { align-self: stretch; }
+
+/* В панели обложка ниже, чем на отдельной странице: снимок, текст и решение
+   должны уместиться в одну высоту кадра, иначе решение уезжает за край. */
+:root[data-w="tablet"] .split-detail .cols.aside > .col .sheet > .evcover,
+:root[data-w="desktop"] .split-detail .cols.aside > .col .sheet > .evcover { flex: none; height: 240px; min-height: 0; }
+/* Пропорция снимка при заданной высоте сама выводит ширину; ширину берёт панель. */
+:root[data-w="tablet"] .split-detail .cols.aside > .col .sheet > .evcover > .photo,
+:root[data-w="desktop"] .split-detail .cols.aside > .col .sheet > .evcover > .photo { aspect-ratio: auto; width: 100%; height: 100%; }
+
+/* Потолок «одна клетка сетки» `D-118` придуман для строки под сеткой карточек.
+   В узкой панели списка треть — это 96px, и переключатель сжимался до кнопки. */
+:root[data-w="tablet"] .split-list .cell,
+:root[data-w="desktop"] .split-list .cell { max-width: none; }
+
 /* Слой центрируется и по вертикали: аудит II.3 обещал «потолок ширины
    и центр», а карточка совпадения стояла в левом верхнем углу белого поля —
    на пиковом моменте продукта. */

@@ -249,8 +249,8 @@ function dressInKit(body, name) {
       `<a class="mm-tab${/aria-current/.test(attrs) ? ' is-current' : ''}" ${attrs}>`)}</nav>`);
 
   // 3. карточка события
-  s = s.replace(/<li class="item ev">([\s\S]*?)<\/li>/g, (li, inner) =>
-    `<li class="mm-event">${inner
+  s = s.replace(/<li class="item ev"([^>]*)>([\s\S]*?)<\/li>/g, (li, attrs, inner) =>
+    `<li class="mm-event"${attrs}>${inner
       .replace(/<span class="cover"/, '<span class="mm-cover"')
       .replace(/<span class="body">/, '<span class="mm-event-body">')
       .replace(/<(a|span) class="top"/, '<$1 class="mm-event-head"')
@@ -381,7 +381,7 @@ for (const name of SCREENS) {
   let body = src.slice(from, to);
 
   // 3. фото в обложки
-  body = body.replace(/<li class="item ev">([\s\S]*?)<\/li>/g, (li, inner) => {
+  body = body.replace(/<li class="item ev"([^>]*)>([\s\S]*?)<\/li>/g, (li, attrs, inner) => {
     const t = (inner.match(/<b>([^<]*)<\/b>/) || [])[1] || '';
     // карточка-заглушка: названия нет, потому что данные ещё не пришли —
     // обложка остаётся серым прямоугольником, местом под фотографию
@@ -476,7 +476,11 @@ for (const name of SCREENS) {
   // 3б. портрет в карточке профиля — на месте серой плашки .photo
   // обложка на карточке события — по названию события в заголовке экрана
   body = body.replace(/(<figure class="evcover">\s*)<p class="photo"[^>]*><\/p>/g, (m, head) => {
-    const t = (src.match(/<h1[^>]*>([^<]*)<\/h1>/) || [])[1] || '';
+    // Событие называет выбранная строка списка рядом, если она есть (лента
+    // в паре «список + деталь», `D-128`): заголовок экрана там — название
+    // ленты, а не события. Иначе — заголовок экрана, как и раньше.
+    const chosen = (src.match(/<li class="item ev" aria-current="page">[\s\S]*?<b>([^<]*)<\/b>/) || [])[1];
+    const t = chosen || (src.match(/<h1[^>]*>([^<]*)<\/h1>/) || [])[1] || '';
     const hit = PHOTOS.find(([k]) => t.startsWith(k));
     if (!hit) throw new Error(`${name}: нет обложки для события «${t}»`);
     // на карточке события снимок идёт во всю ширину — берём широкий кадр

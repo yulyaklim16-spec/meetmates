@@ -131,11 +131,69 @@
 <header>
   <!-- На ширине название стоит во фрейме решения, а шапке остаётся возврат —
        и он называет себя словом (`D-114`, то же, что на профиле человека). -->
-  <a class="back" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span><span class="wide">Back</span></a>
+  <a class="back narrow" href="feed.html" aria-label="Back to events"><span aria-hidden="true">&larr;</span><span class="wide">Back</span></a>
   <h1 class="hush">Board games</h1>
   <button type="button"><span class="ico" aria-hidden="true"></span>Report</button>
 </header>
   <main class="app">
+  <div class="split detail">
+  <div class="split-list pane">
+    <section class="cell left" aria-labelledby="ls-seg-h">
+      <h2 id="ls-seg-h" class="vh">Which events</h2>
+      <p class="row">
+        <a class="btn primary" href="feed.html">Nearby</a>
+        <a class="btn quiet" href="my-events.html">Mine</a>
+      </p>
+    </section>
+
+    <section class="scrolly" aria-label="Events nearby">
+      <ul class="rows">
+        <li class="item ev" aria-current="page">
+          <span class="cover">
+            <span class="cardtop"><span class="chip"><span class="ico sm" aria-hidden="true"></span>~3 km</span></span>
+          </span>
+          <span class="body">
+            <a class="top" href="plan.html"><b>Board games</b><time class="when" datetime="2026-09-26T18:00"><b>26 Sep</b> &middot; 18:00</time></a>
+            <span class="who">Kyiv Games Club &middot; Podil</span>
+            <span class="who">2 going &middot; 1 spot left</span>
+          </span>
+          <span class="acts"><a class="btn primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+        <li class="item ev">
+          <span class="cover">
+            <span class="cardtop"><span class="chip"><span class="ico sm" aria-hidden="true"></span>~1 km</span></span>
+          </span>
+          <span class="body">
+            <a class="top" href="plan.html"><b>Morning run along the embankment</b><span class="when">No date yet</span></a>
+            <span class="who">Podil</span>
+            <span class="who">1 going &middot; 2 spots left</span>
+          </span>
+          <span class="acts"><a class="btn primary" href="plan-waiting.html">Ask to join</a><a class="btn quiet" href="invite.html">Invite</a></span>
+        </li>
+        <li class="item ev">
+          <span class="cover">
+            <span class="cardtop"><span class="chip"><span class="ico sm" aria-hidden="true"></span>~2 km</span></span>
+          </span>
+          <span class="body">
+            <a class="top" href="plan.html"><b>Coffee and a walk in Podil</b><time class="when" datetime="2026-09-27T11:00"><b>27 Sep</b> &middot; 11:00</time></a>
+            <span class="who">Podil</span>
+            <span class="who">1 spot left &middot; Women only</span>
+          </span>
+          <span class="acts"><a class="btn primary" href="plan-waiting.html">Ask to join</a></span>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="ls-ex-h">
+      <h2 id="ls-ex-h" class="vh">People</h2>
+      <a class="exit cell" href="deck.html">
+        <span>See people</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  
+  </div>
+  <div class="split-detail">
   <!-- Ширина: пара «предмет и решение» `D-115` — та же, что на карточке
        события. Плашка итога идёт во всю ширину пары классом `full`: это
        не предмет и не решение, а то, чем кончилось. Ниже слева обложка,
@@ -195,7 +253,7 @@
       </section>
 
       <!-- ЗОНА 4: мои события -->
-      <section aria-labelledby="ex-h">
+      <section class="narrow" aria-labelledby="ex-h">
         <h2 id="ex-h" class="vh">My events</h2>
         <a class="exit" href="my-events.html">
           <span>It&rsquo;s in My events</span>
@@ -203,6 +261,9 @@
         </a>
       </section>
     </div>
+    </div>
+  </div>
+  </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
