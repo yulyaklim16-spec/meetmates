@@ -141,7 +141,7 @@
   <p class="statusbar"><span>09:41</span><span>Wi-Fi · 100%</span></p>
 
   <main class="mm-app">
-  <div class="mm-pane">
+  <div class="mm-pane mm-pane--center">
     <!-- Модальный момент целиком: конвенции §2 — <dialog open>.
          Ширина: аудит дал экрану «всё равно» — слой упирается в потолок
          и центрируется, растяжки во весь монитор нет. Это общее правило
@@ -166,8 +166,11 @@
       <h2 id="act-h" class="mm-vh">What next</h2>
       <p class="mm-actions">
         <a class="mm-btn mm-btn--primary" href="dialog-empty.html">Say hi</a>
-        <a class="mm-btn mm-btn--quiet" href="deck.html">See people</a>
       </p>
+      <a class="mm-btn" href="deck.html">
+        <span>See people</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
     </section>
     </dialog>
   </div>

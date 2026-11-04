@@ -481,6 +481,8 @@ button.quiet, a.btn.quiet { background: var(--w-surface); }
    Гашение — не кодирование состояния цветом: оттенка тут нет, есть приглушённость */
 button[disabled] { opacity: 0.5; cursor: default; }
 .row { display: flex; gap: var(--s-3); }
+/* решение и выход под ним в закреплённой полосе — с просветом, не слипшиеся */
+.pin:has(> .row) { display: flex; flex-direction: column; gap: var(--s-3); }
 .row > * { flex: 1; }
 :where(a, button, [tabindex]):focus-visible { outline: 2px solid var(--w-ink); outline-offset: 2px; }
 a { color: var(--w-ink); }
