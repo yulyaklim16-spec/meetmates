@@ -198,7 +198,12 @@ const CLASS_MAP = {
   detail: 'mm-split--detail', 'split-aside': 'mm-split-aside',
   cols: 'mm-cols', col: 'mm-col', full: 'mm-cols-full', wide3: 'mm-cols--3',
   wide: 'mm-wide', narrow: 'mm-narrow', cap: 'mm-cap', left: 'mm-cap--left',
-  stage: 'mm-stage', aside: 'mm-cols--aside', framed: 'mm-cols--framed', stack: 'mm-stack', under: 'mm-stack-layer', whocol: 'mm-section', center: 'mm-pane--center', pair: 'mm-app--pair',
+  stage: 'mm-stage', aside: 'mm-cols--aside', framed: 'mm-cols--framed', stack: 'mm-stack', under: 'mm-stack-layer', whocol: 'mm-section', center: 'mm-pane--center',
+  // Признак серого слоя («заглушка»): в ките его нет, заглушкой тело делают
+  // `.mm-skel` внутри. Пустое значение — «имя известно, класса в ките нет»,
+  // поэтому класс снимается, а не валит сборку. Порядок слов при этом любой:
+  // `body skeleton narrow` и `body narrow skeleton` — одно и то же.
+  skeleton: '', pair: 'mm-app--pair',
   apart: 'mm-col--apart', name: 'mm-subhead', mid: 'mm-btn--mid', cell: 'mm-cell',
   sheet: 'mm-sheet', facts: 'mm-sheet-body', hush: 'mm-hush',
   // размер иконки задаёт место, где она стоит, а не её собственный класс
@@ -267,7 +272,11 @@ function dressInKit(body, name) {
   // Модификатор ширины (`narrow`, `D-127`) не должен менять, чем тело карточки
   // является: с ним оно уходило в `mm-row-body` — тело строки списка — и теряло
   // поля и шаг. Класс ищется как «body и что угодно после», а не дословно.
-  s = s.replace(/<section class="body((?: [\w-]+)*)"/g, '<section class="mm-person-body$1"');
+  // `skeleton` — признак серого слоя («заглушка»), в ките его нет: тело остаётся
+  // телом карточки, а заглушкой его делают `.mm-skel` внутри. Снимается здесь,
+  // а не перечисляется парой с `narrow` — сочетаний будет больше одного.
+  s = s.replace(/<section class="body((?: [\w-]+)*)"/g,
+    (m, mods) => `<section class="mm-person-body${mods.replace(/ skeleton/g, '')}"`);
   s = s.replace(/<p class="photo blur"/g, '<p class="mm-photo mm-photo--blur"');
   s = s.replace(/<figcaption>([^<]*)<\/figcaption>/g, '<figcaption class="mm-photo-cap">$1</figcaption>');
   s = s.replace(/<span class="thumb blur"><\/span>/g, '<span class="mm-skel mm-skel--thumb"></span>');
@@ -300,10 +309,19 @@ function dressInKit(body, name) {
   // Срез вкладки: секция узнаётся по `seg-h`, а не по дословному тегу — на ней
   // теперь стоят кладки ширины (`cell left`), и дословная строка перестала
   // совпадать. Срез из-за этого показывался парой кнопок вместо дорожки.
-  s = s.replace(/(<section[^>]*aria-labelledby="(?:ls-)?seg-h"[^>]*>[\s\S]*?)<p class="row">([\s\S]*?)<\/p>/,
+  s = s.replace(/(<section[^>]*aria-labelledby="[\w-]*seg-h"[^>]*>[\s\S]*?)<p class="row">([\s\S]*?)<\/p>/,
     (m, head, inner) => `${head}<p class="mm-segmented">${inner
       .replace(/class="mm-btn mm-btn--primary"/, 'class="mm-btn is-current"')
       .replace(/class="mm-btn mm-btn--quiet"/, 'class="mm-btn"')}</p>`);
+  // Предохранитель. Страница объявила срез (`seg-h`), а дорожки на выходе нет —
+  // он остался парой кнопок, чёрной и сиреневой. Это ломали дважды, и оба раза
+  // молча: серый макет выглядит верно, а собранный экран — нет, и заметить это
+  // можно только глазами, после выкатки. Теперь сборка падает сама.
+  // Ищется по содержимому — паре ссылок `Nearby` и `Mine` подряд, — а не по имени
+  // секции: имя уже раз переименовали, и защита, привязанная к нему, молчала.
+  if (/>Nearby<\/a>\s*<a[^>]*>Mine<\/a>/.test(s) && !/<p class="mm-segmented">/.test(s)) {
+    throw new Error(`${name}: срез Nearby/Mine остался парой кнопок, а не дорожкой — сборщик не узнал его секцию; проверь aria-labelledby (должен кончаться на seg-h) и что кнопки лежат в первом <p class="row"> секции`);
+  }
   // Имя `mid` носят двое: среднее кольцо радара и короткий выход под сеткой
   // (`D-117`). Кольцо остаётся частью радара и переводу не подлежит, поэтому
   // выход переводится здесь, парой со своим `exit`, — до общего прохода.
@@ -371,6 +389,9 @@ function dressInKit(body, name) {
 
   // 15. секция экрана: шаг между блоками
   s = s.replace(/<section(?![^>]*class=)([^>]*)>/g, '<section class="mm-section"$1>');
+  // Секция, у которой из классов только кладка ширины, остаётся секцией экрана:
+  // без `mm-section` кнопка в ней сжимается по подписи, а не тянется на колонку.
+  s = s.replace(/<section class="(mm-narrow|mm-wide)"/g, '<section class="mm-section $1"');
 
   return s.replace(/\u0000(\d+)\u0000/g, (m, i) => notes[Number(i)]);
 }

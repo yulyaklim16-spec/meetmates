@@ -225,6 +225,30 @@
   .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-list > :last-child:not(.mm-scrolly) { grid-row: 3; margin-top: var(--space-12); }
   .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-detail { grid-column: 2; grid-row: 2 / -1; }
 
+  /* «Ничего не выбрано» и загрузка стоят на уровне первой КАРТОЧКИ списка `D-133`:
+     не по центру панели и не на уровне её верха. Деталь уже вровень с верхом
+     прокручиваемого списка (строка 2); над первой карточкой внутри него могут
+     стоять заголовок группы или строка статуса — их высоту состояние пропускает
+     отступом. Только пара с шапкой (сетка выше): в диалоге панель по-прежнему
+     центрирует состояние. Поле по горизонтали и подпись по центру остаются.
+       лента, чаты — над карточкой ничего: 0;
+       «Мои» — подзаголовок: --space-2 (его margin-top) + 22 × 1.25 + шаг списка 12;
+       загрузка — строка статуса: 14 × 1.5 + 12 (+ скелет-заголовок 12px + 12). */
+  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)) > .mm-split-detail > .mm-state {
+    justify-content: flex-start;
+    padding-top: 0;
+  }
+  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)):has(> .mm-split-list > .mm-scrolly > .mm-subhead) > .mm-split-detail > .mm-state {
+    margin-top: calc(var(--space-2) + var(--text-22) * var(--leading-125) + var(--space-12));
+  }
+  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)):has(> .mm-split-list > .mm-scrolly > .mm-note) > .mm-split-detail > .mm-state {
+    margin-top: calc(var(--text-14) * var(--leading-150) + var(--space-12));
+  }
+  /* скелет-заголовок группы (12px, `.mm-skel--line`) стоит следом за строкой статуса */
+  .mm-split:has(> .mm-split-list > :first-child:not(.mm-scrolly)):has(> .mm-split-list > .mm-scrolly > .mm-note + .mm-skel) > .mm-split-detail > .mm-state {
+    margin-top: calc(var(--text-14) * var(--leading-150) + var(--space-12) + var(--space-12) + var(--space-12));
+  }
+
   /* Решение в широкой панели — колонка с потолком: без него кнопка повтора
      растягивается на девятьсот пикселей и перестаёт читаться кнопкой.
      Блок состояния — наоборот: в правой панели пары он и есть панель
@@ -893,4 +917,22 @@
 
 @container mm-screen (min-width: 52rem) {
   .mm-pane--center .mm-actions { flex-direction: row; }
+
+  /* Два выхода подряд (`Look at all events →` и `See all people →`, поиск «пусто»)
+     на ширине встают рядом `D-133`: ряд на те же 440px, зазор 12px, кнопки
+     поровну. На телефоне остаются столбиком: две подписи со стрелкой в 358px
+     в одну строку не помещаются. Секция с цветной парой (кнопки внутри
+     `.mm-actions`) и секция с одним выходом под селектор не попадают — кнопки
+     там не соседи-прямые-дети. Вес (0,5,1) и порядок — после правила выхода
+     выше (0,4,1): ему нужно снять width 100% и потолок 440. */
+  .mm-pane--center.mm-pane > section:has(> .mm-btn + .mm-btn) { flex-direction: row; flex-wrap: wrap; }
+  /* цветная пара над выходами занимает весь ряд, выходы делят следующий */
+  .mm-pane--center.mm-pane > section:has(> .mm-btn + .mm-btn) > .mm-actions { flex: 0 0 100%; margin-inline: 0; max-width: none; }
+  .mm-pane--center.mm-pane > section:has(> .mm-btn + .mm-btn) > .mm-btn.mm-btn {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    max-width: none;
+    margin-inline: 0;
+  }
 }

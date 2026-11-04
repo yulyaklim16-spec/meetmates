@@ -236,7 +236,7 @@
 
   <section class="pat" id="list-loading">
     <h2>Заглушка вместо списка</h2>
-    <p class="pat-screens"><b>6 экранов:</b> <code>chats</code> <code>feed</code> <code>my-events</code> <code>my-profile</code> <code>profile</code> <code>search</code></p>
+    <p class="pat-screens"><b>5 экранов:</b> <code>chats</code> <code>feed</code> <code>my-events</code> <code>my-profile</code> <code>search</code></p>
     <div class="pat-stage"><section class="mm-scrolly" aria-labelledby="p-load">
   <h3 id="p-load" class="mm-vh">Events</h3>
   <p class="mm-note" role="status">Loading events nearby</p>
@@ -263,7 +263,7 @@
 </section></div>
     <dl class="pat-facts">
       <dt>Ядро</dt><dd><code>.mm-list</code> <code>.mm-skel</code> <code>.mm-note</code></dd>
-      <dt>Варианты</dt><dd>mm-event, mm-row — заглушка повторяет форму того списка, вместо которого стоит: карточки в ленте, строки в чатах и выдаче</dd>
+      <dt>Варианты</dt><dd>mm-event, mm-row — заглушка повторяет форму того списка, вместо которого стоит: карточки в ленте, строки в чатах и выдаче; на чужом профиле видимой подписи нет, она скрыта для скринридера: рядом полный экран, и слово над заглушкой повторило бы то, что и так видно</dd>
       
       <dt>Когда брать</dt><dd>список считает сервер, и известно, какой формы он придёт. Заглушка держит то же место, что придёт содержимое: ничего не прыгнет.</dd>
       <dt>Когда не брать</dt><dd>ждут не данные, а человека — отклик, согласие, подтверждение. Это не загрузка, а ожидание чужого решения (D-42), и у него свои слова: кто должен ответить и сколько это живёт. Заглушка стоит у того, что считается, а не вместо блока целиком: на своём профиле строка сигналов остаётся текстом, а полоса — на месте счётчика.</dd>

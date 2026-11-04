@@ -137,55 +137,45 @@
 </header>
 
   <main class="app">
-  <!-- Ширина: пара «карточка и решение» `D-113` — та же, что в рабочем виде,
-       иначе при приходе «пусто» зона решения прыгала бы из правой колонки вниз.
-       Превью событий `D-106` по-прежнему не нарисовано: нужны строки, которых
-       на этом экране нет, — и пока их нет, подпись под мокапом стоит. -->
-  <div class="pane cols aside">
-    <!-- Левая колонка: предмет решения. Карточка держит свой потолок —
-         `D-13` ставит решение по одному человеку, и сетки людей нет ни на какой
-         ширине. -->
-    <div class="col">
-      <!-- ЗОНА 2: вместо карточки — состояние. Занимает ту же площадь: тот же экран -->
-      <section class="stretch" aria-labelledby="st-h">
-        <!-- Заголовок состояния идёт третьим уровнем — он одинаков на всех
-             21 экране с .mm-state, и разметку блока мы не трогаем. Ступень
-             добавляет зона: без неё уровень прыгал с h1 на h3. -->
-        <h2 id="st-h" class="vh">Status</h2>
-        <article class="state">
-          <h3>You are all caught up</h3>
-          <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
-        </article>
-      </section>
+  <!-- Ширина: экран-состояние «по центру» `D-131`, как пустая лента: одна ось —
+       состояние, действия, выход. Прежняя пара «состояние | рамка с действиями»
+       ушла вместе с парой «карточка и решение». Превью событий `D-106`
+       (§2.1, п. 1: пустая колода не выглядит пустой) по-прежнему не нарисовано:
+       нужны строки, которых на этом экране нет. -->
+  <div class="pane center">
+    <!-- ЗОНА 2: вместо карточки — состояние -->
+    <section class="stretch" aria-labelledby="st-h">
+      <!-- Заголовок состояния идёт третьим уровнем — он одинаков на всех
+           экранах с .mm-state, и разметку блока мы не трогаем. Ступень
+           добавляет зона: без неё уровень прыгал с h1 на h3. -->
+      <h2 id="st-h" class="vh">Status</h2>
+      <article class="state">
+        <h3>You are all caught up</h3>
+        <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
+      </article>
+    </section>
 
-    </div>
+    <!-- ЗОНА 3: что дальше. Skip / Like ушли — решать нечего.
+         Оба действия в одной строке: это две стороны одного вопроса — «почему пусто» -->
+    <section aria-labelledby="act-h">
+      <h2 id="act-h" class="vh">What next</h2>
+      <p class="row">
+        <a class="btn primary" href="deck-loading.html" aria-label="Show people further out">Expand search</a>
+        <a class="btn quiet" href="deck.html">Reset filters</a>
+      </p>
+    </section>
 
-    <!-- Правая колонка: кто это и что с этим делать. На телефоне эти зоны
-         стоят под карточкой, потому что рядом им места нет; на ширине место
-         есть, и триста пикселей справа от карточки — не воздух, а дыра. -->
-    <div class="col">
-      <!-- ЗОНА 3: что дальше. Skip / Like ушли — решать нечего.
-           Оба действия в одной строке: это две стороны одного вопроса — «почему пусто» -->
-      <section aria-labelledby="act-h">
-        <h2 id="act-h" class="vh">What next</h2>
-        <p class="row">
-          <a class="btn primary" href="deck-loading.html" aria-label="Show people further out">Expand search</a>
-          <a class="btn quiet" href="deck.html">Reset filters</a>
-        </p>
-      </section>
-
-      <!-- ЗОНА 4: выход во второй путь. В пустом виде это уже не запасной выход,
-           а основной: событие не зависит от взаимности (§4, §2.1 п. 1) -->
-      <section aria-labelledby="exit-h">
-        <h2 id="exit-h" class="vh">Events</h2>
-        <a class="exit" href="feed.html">
-          <span>Look at events</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </section>
-    </div>
+    <!-- ЗОНА 4: выход во второй путь. В пустом виде это уже не запасной выход,
+         а основной: событие не зависит от взаимности (§4, §2.1 п. 1) -->
+    <section aria-labelledby="exit-h">
+      <h2 id="exit-h" class="vh">Events</h2>
+      <a class="exit" href="feed.html">
+        <span>Look at events</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
   </div>
-</main>
+  </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
     <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Фильтры остаются: колода часто пуста из-за них, и вход в них не убирают</p>

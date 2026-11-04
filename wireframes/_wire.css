@@ -1204,6 +1204,18 @@ a { color: var(--w-ink); }
 :root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-list > :last-child:not(.scrolly) { grid-row: 3; margin-top: var(--s-3); }
 :root[data-w="tablet"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-detail,
 :root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-detail { grid-column: 2; grid-row: 2 / -1; }
+/* Состояние на уровне первой карточки списка `D-133`: сверху, а не по центру
+   панели; смещение — то, что стоит над первой карточкой в .scrolly.
+   Лента, чаты — 0; «Мои» — заголовок h3 (16 × 1.3) + шаг 12;
+   загрузка — строка статуса (14 × 1.45) + шаг 12 (+ скелет 13px + 12). */
+:root[data-w="tablet"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-detail > .state,
+:root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)) > .split-detail > .state { justify-content: flex-start; padding-top: 0; }
+:root[data-w="tablet"] .split:has(> .split-list > :first-child:not(.scrolly)):has(> .split-list > .scrolly > h3:not(.skel)) > .split-detail > .state,
+:root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)):has(> .split-list > .scrolly > h3:not(.skel)) > .split-detail > .state { margin-top: calc(1rem * 1.3 + var(--s-3)); }
+:root[data-w="tablet"] .split:has(> .split-list > :first-child:not(.scrolly)):has(> .split-list > .scrolly > .note) > .split-detail > .state,
+:root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)):has(> .split-list > .scrolly > .note) > .split-detail > .state { margin-top: calc(14px * 1.45 + var(--s-3)); }
+:root[data-w="tablet"] .split:has(> .split-list > :first-child:not(.scrolly)):has(> .split-list > .scrolly > .note + .skel) > .split-detail > .state,
+:root[data-w="desktop"] .split:has(> .split-list > :first-child:not(.scrolly)):has(> .split-list > .scrolly > .note + .skel) > .split-detail > .state { margin-top: calc(14px * 1.45 + var(--s-3) + 13px + var(--s-3)); }
 /* Волосяная линия между панелями `D-117`: своего вида у пары нет, но
    граница — не вид, а разделитель. Просвета в 24px мало: обе панели белые,
    и пара читалась одним полем, в котором строки почему-то кончаются
@@ -1859,6 +1871,16 @@ a { color: var(--w-ink); }
 .pane.center .exit {
   width: 100%; max-width: 440px; margin-inline: auto;
   justify-content: center;
+}
+/* два выхода подряд (поиск «пусто») на ширине — рядом `D-133`; на телефоне
+   столбиком: две подписи со стрелкой в 358px в строку не помещаются */
+:root[data-w="tablet"] .pane.center > section:has(> .exit + .exit),
+:root[data-w="desktop"] .pane.center > section:has(> .exit + .exit) { flex-direction: row; flex-wrap: wrap; }
+:root[data-w="tablet"] .pane.center > section:has(> .exit + .exit) > .row,
+:root[data-w="desktop"] .pane.center > section:has(> .exit + .exit) > .row { flex: 0 0 100%; }
+:root[data-w="tablet"] .pane.center > section:has(> .exit + .exit) > .exit,
+:root[data-w="desktop"] .pane.center > section:has(> .exit + .exit) > .exit {
+  flex: 1; min-width: 0; width: auto; max-width: none; margin-inline: 0;
 }
 :root[data-w="tablet"] .pane.center .state .row,
 :root[data-w="desktop"] .pane.center .state .row,

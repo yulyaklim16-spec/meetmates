@@ -136,79 +136,75 @@
   <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
 </header>
 
-  <main class="app" aria-busy="true">
-  <!-- Ширина: пара «карточка и решение» `D-113` — та же, что в рабочем виде.
-       Заглушка одевается раскладкой рабочего вида, включая полосу имени:
-       она тоже переезжает вправо, иначе при приходе данных имя прыгнуло бы
-       из карточки в соседнюю колонку («Заглушки одеваются той же раскладкой»,
-       сквозные решения аудита). -->
-  <div class="pane cols aside">
-    <!-- Левая колонка: предмет решения. Карточка держит свой потолок —
-         `D-13` ставит решение по одному человеку, и сетки людей нет ни на какой
-         ширине. -->
-    <div class="col">
-      <!-- ЗОНА 2: скелет карточки. Те же блоки и те же размеры, что в рабочем виде -->
-      <section class="stretch" aria-labelledby="deck-h">
-        <p class="note" role="status">Looking for people near you</p>
+  <main class="app pair" aria-busy="true">
+  <!-- Ширина: тот же каркас, что в рабочем виде (`D-127`, `D-132`): заглушка
+       одевается раскладкой рабочего вида, иначе при приходе данных всё
+       прыгнуло бы («Заглушки одеваются той же раскладкой», сквозные решения аудита). -->
+  <div class="pane">
+    <div class="cols">
+      <div class="col">
+        <!-- ЗОНА 2: скелет карточки. Те же блоки и те же размеры, что в рабочем виде -->
+        <section class="scrolly" aria-labelledby="deck-h">
+          <!-- Статусную строку читает скринридер, глаз её не видит: видимая,
+               она сдвигала карточку вниз относительно правой колонки. -->
+          <p class="note vh" role="status">Looking for people near you</p>
 
-        <div class="stack">
-          <span class="under" aria-hidden="true"></span>
-          <span class="under" aria-hidden="true"></span>
-          <article class="card" aria-hidden="true">
-          <figure>
-            <p class="photo"></p>
-          </figure>
+          <div class="stack">
+            <span class="under" aria-hidden="true"></span>
+            <span class="under" aria-hidden="true"></span>
+            <article class="card" aria-hidden="true">
+            <figure>
+              <p class="photo"></p>
+            </figure>
 
-          <section class="body skeleton">
-            <!-- порядок скелета повторяет порядок чтения D-13: интересы → имя →
-                 сигналы → расстояние. Иначе при подгрузке блоки поменялись бы местами -->
-            <p class="skel line w-l"></p>
-            <p class="skelrow">
-              <span class="skel pill w-s"></span>
-              <span class="skel pill w-s"></span>
-              <span class="skel pill w-s"></span>
-            </p>
-            <p class="skel line w-m narrow"></p>
-            <p class="skelrow">
-              <span class="skel pill w-m"></span>
-              <span class="skel pill w-m"></span>
-            </p>
-            <p class="skel line w-s"></p>
-          </section>
-          </article>
-        </div>
-      </section>
+            <section class="body skeleton narrow">
+              <!-- порядок скелета повторяет порядок чтения D-13: интересы → имя →
+                   сигналы → расстояние. Иначе при подгрузке блоки поменялись бы местами -->
+              <p class="skel line w-l"></p>
+              <p class="skelrow">
+                <span class="skel pill w-s"></span>
+                <span class="skel pill w-s"></span>
+                <span class="skel pill w-s"></span>
+              </p>
+              <p class="skel line w-m narrow"></p>
+              <p class="skelrow">
+                <span class="skel pill w-m"></span>
+                <span class="skel pill w-m"></span>
+              </p>
+              <p class="skel line w-s"></p>
+            </section>
+            </article>
+          </div>
+        </section>
+      </div>
 
-    </div>
-
-    <!-- Правая колонка: кто это и что с этим делать. На телефоне эти зоны
-         стоят под карточкой, потому что рядом им места нет; на ширине место
-         есть, и триста пикселей справа от карточки — не воздух, а дыра. -->
-    <div class="col">
-      <!-- ЗОНА 2б: место имени. На ширине имя стоит здесь и в рабочем виде,
-           значит и полоса под него стоит здесь: иначе прыжок при загрузке -->
-      <p class="skel line w-m wide" aria-hidden="true"></p>
-
-      <!-- ЗОНА 3: решение по карточке. Кнопки на месте, но нажимать нечего -->
-      <section aria-labelledby="act-h">
-        <h2 id="act-h" class="vh">Decision</h2>
-        <p class="row">
-          <button type="button" class="btn" disabled>Skip</button>
-          <button type="button" class="primary" disabled>Like</button>
-        </p>
-      </section>
-
-      <!-- ЗОНА 4: выход во второй путь. Живой: ждать загрузку необязательно -->
-      <section aria-labelledby="exit-h">
-        <h2 id="exit-h" class="vh">Events</h2>
-        <a class="exit" href="feed.html">
-          <span>Look at events</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </section>
+      <div class="col apart">
+        <!-- ЗОНА 2б на ширине: факты человека ещё неизвестны — строки-заглушки
+             на месте текстов рабочего вида -->
+        <section class="wide whocol" aria-hidden="true">
+          <span class="skel line w-m"></span>
+          <span class="skel line w-l"></span>
+          <span class="skel line w-s"></span>
+          <span class="skel line w-m"></span>
+        </section>
+      </div>
     </div>
   </div>
-</main>
+  <!-- ЗОНА 3: решение по карточке. Кнопки на месте, но нажимать нечего -->
+  <section class="pin cap left" aria-labelledby="act-h">
+    <h2 id="act-h" class="vh">Decision</h2>
+    <p class="row">
+      <button type="button" class="btn" disabled>Skip</button>
+      <button type="button" class="primary" disabled>Like</button>
+    </p>
+    <!-- ЗОНА 4: выход во второй путь. Живой: ждать загрузку необязательно -->
+    <h2 id="exit-h" class="vh">Events</h2>
+    <a class="exit" href="feed.html">
+      <span>Look at events</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
+  </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
     <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Приходит сразу: экран начинается не с пустоты, а с известного</p>

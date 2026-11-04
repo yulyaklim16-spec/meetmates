@@ -143,7 +143,7 @@
 | пусто | Планов нет | `Look at events →` | кнопка |
 | пусто | Планов нет | `Events here are posted by people themselves — Olena hasn’t posted one yet.` | сообщение состояния |
 | пусто | Планов нет | `Events here are posted by people themselves — Olena hasn’t posted one yet.` | текст экрана |
-| загрузка | Шапка готова | `Loading photos and events` | сообщение состояния |
+| загрузка | Шапка готова | `Loading photos and events` | скрытая подпись |
 
 ### II.3 Совпадение
 

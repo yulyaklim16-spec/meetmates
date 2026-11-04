@@ -149,79 +149,75 @@
   <button type="button" class="mm-head-btn"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.25 14C10.9069 14 12.25 15.3431 12.25 17C12.25 18.6569 10.9069 20 9.25 20C7.59315 20 6.25 18.6569 6.25 17C6.25 15.3431 7.59315 14 9.25 14Z"/><path d="M14.25 4C12.5931 4 11.25 5.34315 11.25 7C11.25 8.65685 12.5931 10 14.25 10C15.9069 10 17.25 8.65685 17.25 7C17.25 5.34315 15.9069 4 14.25 4Z"/><path d="M8.75 6.20852C9.16421 6.20852 9.5 6.54431 9.5 6.95852C9.5 7.37273 9.16421 7.70852 8.75 7.70852L1.75 7.70852C1.33579 7.70852 1 7.37273 1 6.95852C1 6.54431 1.33579 6.20852 1.75 6.20852H8.75Z"/><path d="M14.75 16.2085C14.3358 16.2085 14 16.5443 14 16.9585C14 17.3727 14.3358 17.7085 14.75 17.7085H21.75C22.1642 17.7085 22.5 17.3727 22.5 16.9585C22.5 16.5443 22.1642 16.2085 21.75 16.2085H14.75Z"/><path d="M1 16.9585C1 16.5443 1.33579 16.2085 1.75 16.2085H3.75C4.16421 16.2085 4.5 16.5443 4.5 16.9585C4.5 17.3727 4.16421 17.7085 3.75 17.7085H1.75C1.33579 17.7085 1 17.3727 1 16.9585Z"/><path d="M21.75 6.20852C22.1642 6.20852 22.5 6.54431 22.5 6.95852C22.5 7.37273 22.1642 7.70852 21.75 7.70852L19.75 7.70852C19.3358 7.70852 19 7.37273 19 6.95852C19 6.54431 19.3358 6.20852 19.75 6.20852H21.75Z"/></g></svg></span><span class="mm-vh">Filters</span></button>
 </header>
 
-  <main class="mm-app" aria-busy="true">
-  <!-- Ширина: пара «карточка и решение» `D-113` — та же, что в рабочем виде.
-       Заглушка одевается раскладкой рабочего вида, включая полосу имени:
-       она тоже переезжает вправо, иначе при приходе данных имя прыгнуло бы
-       из карточки в соседнюю колонку («Заглушки одеваются той же раскладкой»,
-       сквозные решения аудита). -->
-  <div class="mm-pane mm-cols mm-cols--aside">
-    <!-- Левая колонка: предмет решения. Карточка держит свой потолок —
-         `D-13` ставит решение по одному человеку, и сетки людей нет ни на какой
-         ширине. -->
-    <div class="mm-col">
-      <!-- ЗОНА 2: скелет карточки. Те же блоки и те же размеры, что в рабочем виде -->
-      <section class="mm-stretch" aria-labelledby="deck-h">
-        <p class="mm-note" role="status">Looking for people near you</p>
+  <main class="mm-app mm-app--pair" aria-busy="true">
+  <!-- Ширина: тот же каркас, что в рабочем виде (`D-127`, `D-132`): заглушка
+       одевается раскладкой рабочего вида, иначе при приходе данных всё
+       прыгнуло бы («Заглушки одеваются той же раскладкой», сквозные решения аудита). -->
+  <div class="mm-pane">
+    <div class="mm-cols">
+      <div class="mm-col">
+        <!-- ЗОНА 2: скелет карточки. Те же блоки и те же размеры, что в рабочем виде -->
+        <section class="mm-scrolly" aria-labelledby="deck-h">
+          <!-- Статусную строку читает скринридер, глаз её не видит: видимая,
+               она сдвигала карточку вниз относительно правой колонки. -->
+          <p class="mm-note mm-vh" role="status">Looking for people near you</p>
 
-        <div class="mm-stack">
-          <span class="mm-stack-layer" aria-hidden="true"></span>
-          <span class="mm-stack-layer" aria-hidden="true"></span>
-          <article class="mm-person" aria-hidden="true">
-          <figure>
-            <p class="mm-photo"><img src="../img/olena-720.jpg" alt="" loading="lazy"></p>
-          </figure>
+          <div class="mm-stack">
+            <span class="mm-stack-layer" aria-hidden="true"></span>
+            <span class="mm-stack-layer" aria-hidden="true"></span>
+            <article class="mm-person" aria-hidden="true">
+            <figure>
+              <p class="mm-photo"><img src="../img/olena-720.jpg" alt="" loading="lazy"></p>
+            </figure>
 
-          <section class="mm-person-body">
-            <!-- порядок скелета повторяет порядок чтения D-13: интересы → имя →
-                 сигналы → расстояние. Иначе при подгрузке блоки поменялись бы местами -->
-            <p class="mm-skel mm-skel--line mm-skel--w-l"></p>
-            <p class="mm-skelrow">
-              <span class="mm-skel mm-skel--pill mm-skel--w-s"></span>
-              <span class="mm-skel mm-skel--pill mm-skel--w-s"></span>
-              <span class="mm-skel mm-skel--pill mm-skel--w-s"></span>
-            </p>
-            <p class="mm-skel mm-skel--line mm-skel--w-m mm-skel--narrow"></p>
-            <p class="mm-skelrow">
-              <span class="mm-skel mm-skel--pill mm-skel--w-m"></span>
-              <span class="mm-skel mm-skel--pill mm-skel--w-m"></span>
-            </p>
-            <p class="mm-skel mm-skel--line mm-skel--w-s"></p>
-          </section>
-          </article>
-        </div>
-      </section>
+            <section class="mm-person-body mm-narrow">
+              <!-- порядок скелета повторяет порядок чтения D-13: интересы → имя →
+                   сигналы → расстояние. Иначе при подгрузке блоки поменялись бы местами -->
+              <p class="mm-skel mm-skel--line mm-skel--w-l"></p>
+              <p class="mm-skelrow">
+                <span class="mm-skel mm-skel--pill mm-skel--w-s"></span>
+                <span class="mm-skel mm-skel--pill mm-skel--w-s"></span>
+                <span class="mm-skel mm-skel--pill mm-skel--w-s"></span>
+              </p>
+              <p class="mm-skel mm-skel--line mm-skel--w-m mm-skel--narrow"></p>
+              <p class="mm-skelrow">
+                <span class="mm-skel mm-skel--pill mm-skel--w-m"></span>
+                <span class="mm-skel mm-skel--pill mm-skel--w-m"></span>
+              </p>
+              <p class="mm-skel mm-skel--line mm-skel--w-s"></p>
+            </section>
+            </article>
+          </div>
+        </section>
+      </div>
 
-    </div>
-
-    <!-- Правая колонка: кто это и что с этим делать. На телефоне эти зоны
-         стоят под карточкой, потому что рядом им места нет; на ширине место
-         есть, и триста пикселей справа от карточки — не воздух, а дыра. -->
-    <div class="mm-col">
-      <!-- ЗОНА 2б: место имени. На ширине имя стоит здесь и в рабочем виде,
-           значит и полоса под него стоит здесь: иначе прыжок при загрузке -->
-      <p class="mm-skel mm-skel--line mm-skel--w-m mm-skel--wide" aria-hidden="true"></p>
-
-      <!-- ЗОНА 3: решение по карточке. Кнопки на месте, но нажимать нечего -->
-      <section class="mm-section" aria-labelledby="act-h">
-        <h2 id="act-h" class="mm-vh">Decision</h2>
-        <p class="mm-actions">
-          <button type="button" class="mm-btn" disabled>Skip</button>
-          <button type="button" class="mm-btn mm-btn--primary" disabled>Like</button>
-        </p>
-      </section>
-
-      <!-- ЗОНА 4: выход во второй путь. Живой: ждать загрузку необязательно -->
-      <section class="mm-section" aria-labelledby="exit-h">
-        <h2 id="exit-h" class="mm-vh">Events</h2>
-        <a class="mm-btn" href="feed.html">
-          <span>Look at events</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </section>
+      <div class="mm-col mm-col--apart">
+        <!-- ЗОНА 2б на ширине: факты человека ещё неизвестны — строки-заглушки
+             на месте текстов рабочего вида -->
+        <section class="mm-wide mm-section" aria-hidden="true">
+          <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+          <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
+          <span class="mm-skel mm-skel--line mm-skel--w-s"></span>
+          <span class="mm-skel mm-skel--line mm-skel--w-m"></span>
+        </section>
+      </div>
     </div>
   </div>
-</main>
+  <!-- ЗОНА 3: решение по карточке. Кнопки на месте, но нажимать нечего -->
+  <section class="mm-pin mm-cap mm-cap--left" aria-labelledby="act-h">
+    <h2 id="act-h" class="mm-vh">Decision</h2>
+    <p class="mm-actions">
+      <button type="button" class="mm-btn" disabled>Skip</button>
+      <button type="button" class="mm-btn mm-btn--primary" disabled>Like</button>
+    </p>
+    <!-- ЗОНА 4: выход во второй путь. Живой: ждать загрузку необязательно -->
+    <h2 id="exit-h" class="mm-vh">Events</h2>
+    <a class="mm-btn" href="feed.html">
+      <span>Look at events</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
+  </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
     <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Приходит сразу: экран начинается не с пустоты, а с известного</p>

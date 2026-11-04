@@ -150,56 +150,46 @@
 </header>
 
   <main class="mm-app">
-  <!-- Ширина: пара «карточка и решение» `D-113` — та же, что в рабочем виде,
-       иначе при приходе «пусто» зона решения прыгала бы из правой колонки вниз.
-       Превью событий `D-106` по-прежнему не нарисовано: нужны строки, которых
-       на этом экране нет, — и пока их нет, подпись под мокапом стоит. -->
-  <div class="mm-pane mm-cols mm-cols--aside">
-    <!-- Левая колонка: предмет решения. Карточка держит свой потолок —
-         `D-13` ставит решение по одному человеку, и сетки людей нет ни на какой
-         ширине. -->
-    <div class="mm-col">
-      <!-- ЗОНА 2: вместо карточки — состояние. Занимает ту же площадь: тот же экран -->
-      <section class="mm-stretch" aria-labelledby="st-h">
-        <!-- Заголовок состояния идёт третьим уровнем — он одинаков на всех
-             21 экране с .mm-state, и разметку блока мы не трогаем. Ступень
-             добавляет зона: без неё уровень прыгал с h1 на h3. -->
-        <h2 id="st-h" class="mm-vh">Status</h2>
-        <article class="mm-state">
+  <!-- Ширина: экран-состояние «по центру» `D-131`, как пустая лента: одна ось —
+       состояние, действия, выход. Прежняя пара «состояние | рамка с действиями»
+       ушла вместе с парой «карточка и решение». Превью событий `D-106`
+       (§2.1, п. 1: пустая колода не выглядит пустой) по-прежнему не нарисовано:
+       нужны строки, которых на этом экране нет. -->
+  <div class="mm-pane mm-pane--center">
+    <!-- ЗОНА 2: вместо карточки — состояние -->
+    <section class="mm-stretch" aria-labelledby="st-h">
+      <!-- Заголовок состояния идёт третьим уровнем — он одинаков на всех
+           экранах с .mm-state, и разметку блока мы не трогаем. Ступень
+           добавляет зона: без неё уровень прыгал с h1 на h3. -->
+      <h2 id="st-h" class="mm-vh">Status</h2>
+      <article class="mm-state">
         <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.00098 13.001C12.867 13.001 16.001 14.7918 16.001 17.001C16.001 19.2101 12.867 21.001 9.00098 21.001C5.13498 21.001 2.00098 19.2101 2.00098 17.001C2.00098 14.7918 5.13498 13.001 9.00098 13.001Z"/><path d="M16.4766 14.001C18.9615 14.0011 20.9996 15.3434 21 17C21 18.6569 18.9638 20 16.4785 20C17.2107 19.1997 17.7148 18.1955 17.7148 17.002C17.7148 15.8071 17.2099 14.8017 16.4766 14.001Z"/><path d="M9.00098 2C11.2101 2 13.001 3.79086 13.001 6C13.001 8.20914 11.2101 10 9.00098 10C6.79184 10 5.00098 8.20914 5.00098 6C5.00098 3.79086 6.79184 2 9.00098 2Z"/><path d="M15 3.00098C16.6567 3.00118 18 4.34425 18 6.00098C17.9999 7.6576 16.6566 9.00078 15 9.00098C14.6388 9.00098 14.2924 8.93633 13.9717 8.81934C14.4445 7.98748 14.7148 7.02523 14.7148 6C14.7148 4.97534 14.4449 4.0132 13.9727 3.18164C14.2931 3.06489 14.6392 3.00098 15 3.00098Z"/></g></svg></span>
-          <h3>You are all caught up</h3>
-          <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
-        </article>
-      </section>
+        <h3>You are all caught up</h3>
+        <p>That&rsquo;s everyone within 5 km who matches your filters.</p>
+      </article>
+    </section>
 
-    </div>
+    <!-- ЗОНА 3: что дальше. Skip / Like ушли — решать нечего.
+         Оба действия в одной строке: это две стороны одного вопроса — «почему пусто» -->
+    <section class="mm-section" aria-labelledby="act-h">
+      <h2 id="act-h" class="mm-vh">What next</h2>
+      <p class="mm-actions">
+        <a class="mm-btn mm-btn--primary" href="deck-loading.html" aria-label="Show people further out">Expand search</a>
+        <a class="mm-btn mm-btn--quiet" href="deck.html">Reset filters</a>
+      </p>
+    </section>
 
-    <!-- Правая колонка: кто это и что с этим делать. На телефоне эти зоны
-         стоят под карточкой, потому что рядом им места нет; на ширине место
-         есть, и триста пикселей справа от карточки — не воздух, а дыра. -->
-    <div class="mm-col">
-      <!-- ЗОНА 3: что дальше. Skip / Like ушли — решать нечего.
-           Оба действия в одной строке: это две стороны одного вопроса — «почему пусто» -->
-      <section class="mm-section" aria-labelledby="act-h">
-        <h2 id="act-h" class="mm-vh">What next</h2>
-        <p class="mm-actions">
-          <a class="mm-btn mm-btn--primary" href="deck-loading.html" aria-label="Show people further out">Expand search</a>
-          <a class="mm-btn mm-btn--quiet" href="deck.html">Reset filters</a>
-        </p>
-      </section>
-
-      <!-- ЗОНА 4: выход во второй путь. В пустом виде это уже не запасной выход,
-           а основной: событие не зависит от взаимности (§4, §2.1 п. 1) -->
-      <section class="mm-section" aria-labelledby="exit-h">
-        <h2 id="exit-h" class="mm-vh">Events</h2>
-        <a class="mm-btn" href="feed.html">
-          <span>Look at events</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </section>
-    </div>
+    <!-- ЗОНА 4: выход во второй путь. В пустом виде это уже не запасной выход,
+         а основной: событие не зависит от взаимности (§4, §2.1 п. 1) -->
+    <section class="mm-section" aria-labelledby="exit-h">
+      <h2 id="exit-h" class="mm-vh">Events</h2>
+      <a class="mm-btn" href="feed.html">
+        <span>Look at events</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
   </div>
-</main>
+  </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
     <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Фильтры остаются: колода часто пуста из-за них, и вход в них не убирают</p>

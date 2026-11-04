@@ -137,97 +137,99 @@
   <button type="button"><span class="ico" aria-hidden="true"></span>Filters</button>
 </header>
 
-  <main class="app">
-  <!-- Ширина: ~~«всё равно»~~ **пара «карточка и решение»** (аудит, II.1 Колода,
-       пересмотрено `D-113`). Карточка стоит слева и держит свой потолок,
-       а справа — кто это и что с этим делать. Прежний ответ ставил карточку
-       по центру: на 1280 справа и слева от неё оставалось по триста пикселей
-       пустоты, и экран читался недоделанным. Сетки людей по-прежнему нет
-       ни на какой ширине: `D-13` ставит решение по одному человеку. -->
-  <div class="pane cols aside">
-    <!-- Левая колонка: предмет решения. Карточка держит свой потолок —
-         `D-13` ставит решение по одному человеку, и сетки людей нет ни на какой
-         ширине. -->
-    <div class="col">
-      <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком -->
-      <section class="stretch" aria-labelledby="who-h">
-        <!-- Зона названа своим заголовком, а не заголовком экрана: имя на карточке
-             идёт третьим уровнем, и без второго уровень прыгал через ступень.
-             Так же названа эта зона на profile.html. -->
-        <h2 id="who-h" class="vh">Who</h2>
+  <main class="app pair">
+  <!-- Ширина: тот же каркас, что у «Профиля другого человека» (`D-127`, `D-132`):
+       слева стопка фотографий, справа факты человека, решение закреплено внизу
+       отдельным фреймом. Био и событий у колоды нет — это факты профиля, их
+       колода не показывает (§5.2). Сетки людей по-прежнему нет ни на какой
+       ширине: `D-13` ставит решение по одному человеку. На телефоне экран
+       прежний: тело карточки (`narrow`) стоит в самой карточке, правая колонка
+       (`wide`) скрыта — видно ровно одно, и зависит это от ширины. -->
+  <div class="pane">
+    <div class="cols">
+      <div class="col">
+        <!-- ЗОНА 2: карточка человека. Главное действие — открыть профиль целиком -->
+        <section class="scrolly" aria-labelledby="who-h">
+          <!-- Зона названа своим заголовком, а не заголовком экрана: имя на карточке
+               идёт третьим уровнем, и без второго уровень прыгал через ступень.
+               Так же названа эта зона на profile.html. -->
+          <h2 id="who-h" class="vh">Who</h2>
+          <div class="stack">
+            <span class="under" aria-hidden="true"></span>
+            <span class="under" aria-hidden="true"></span>
+            <article class="card">
+            <figure>
+              <p class="photo" aria-hidden="true"></p>
+              <figcaption class="vh">Photo 1 of 4</figcaption>
+              <p class="pager" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></p>
+              <p class="cardtop">
+                <span class="verified"><span class="ico sm" aria-hidden="true"></span>Verified</span>
+                <span class="chip"><span class="ico sm" aria-hidden="true"></span>~2 km</span>
+              </p>
+            </figure>
 
-        <div class="stack">
-          <span class="under" aria-hidden="true"></span>
-          <span class="under" aria-hidden="true"></span>
-          <article class="card">
-          <figure>
-            <p class="photo" aria-hidden="true"></p>
-            <figcaption class="vh">Photo 1 of 4</figcaption>
-            <p class="pager" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></p>
-            <p class="cardtop">
-              <span class="verified"><span class="ico sm" aria-hidden="true"></span>Verified</span>
-              <span class="chip"><span class="ico sm" aria-hidden="true"></span>~2 km</span>
-            </p>
-          </figure>
+            <section class="body narrow" aria-label="Olena, 26">
+              <!-- 1. Общие интересы — первой строкой, D-13 -->
+              <p class="common">3 common interests</p>
+              <ul class="tags">
+                <li>Hiking</li>
+                <li>Board games</li>
+                <li>Coffee</li>
+              </ul>
 
-          <section class="body" aria-label="Olena, 26">
-            <!-- 1. Общие интересы — первой строкой, D-13 -->
-            <p class="common">3 common interests</p>
-            <ul class="tags">
-              <li>Hiking</li>
-              <li>Board games</li>
-              <li>Coffee</li>
-            </ul>
+              <!-- 2. Имя и возраст — идентификация, не решение. На ширине оно
+                   стоит в правой колонке, а это тело карточки скрыто. -->
+              <h3 class="narrow">Olena, 26</h3>
 
-            <!-- 2. Имя и возраст — идентификация, не решение. На ширине имя
-                 уходит в правую колонку и стоит над решением: его там читают
-                 перед тем, как нажать. В карточке оно при этом не дублируется —
-                 видно ровно одно, и зависит это от ширины. -->
-            <h3 class="narrow">Olena, 26</h3>
+              <!-- 3. Сигналы доверия. Ступеней профиля нет вовсе D-49: репутация
+                   стоит на проверяемых фактах — встречи и отзывчивость -->
+              <ul class="signals">
+                <li>6 meetups attended</li>
+                <li>Replies quickly</li>
+              </ul>
+            </section>
+            <a class="cardlink" href="profile.html" aria-label="Olena, 26 — open profile"></a>
+            </article>
+          </div>
+        </section>
+      </div>
 
-            <!-- 3. Сигналы доверия. Ступеней профиля нет вовсе D-49: репутация
-                 стоит на проверяемых фактах — встречи и отзывчивость -->
-            <ul class="signals">
-                  <li>6 meetups attended</li>
-              <li>Replies quickly</li>
-            </ul>
-
-          </section>
-          <a class="cardlink" href="profile.html" aria-label="Olena, 26 — open profile"></a>
-          </article>
-        </div>
-      </section>
-
-    </div>
-
-    <!-- Правая колонка: кто это и что с этим делать. На телефоне эти зоны
-         стоят под карточкой, потому что рядом им места нет; на ширине место
-         есть, и триста пикселей справа от карточки — не воздух, а дыра. -->
-    <div class="col">
-      <!-- ЗОНА 2б: кто это. Появляется только на ширине — на телефоне имя
-           стоит в самой карточке (`D-13`), и второго места для него нет. -->
-      <h3 class="wide">Olena, 26</h3>
-
-      <!-- ЗОНА 3: решение по карточке. Главное действие — Like -->
-      <section aria-labelledby="act-h">
-        <h2 id="act-h" class="vh">Decision</h2>
-        <p class="row">
-          <a class="btn" href="deck.html">Skip</a>
-          <a class="btn primary" href="match.html">Like</a>
-        </p>
-      </section>
-
-      <!-- ЗОНА 4: выход во второй путь. Обязателен всегда, а не только в пустом виде (§4, D-10) -->
-      <section aria-labelledby="exit-h">
-        <h2 id="exit-h" class="vh">Events</h2>
-        <a class="exit" href="feed.html">
-          <span>Look at events</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </section>
+      <div class="col apart">
+        <!-- ЗОНА 2б на ширине: кто это. На телефоне те же факты стоят
+             в карточке (`D-127`). -->
+        <section class="wide whocol" aria-label="Olena, 26">
+          <p class="name">Olena, 26</p>
+          <p class="common">3 common interests</p>
+          <ul class="tags">
+            <li>Hiking</li>
+            <li>Board games</li>
+            <li>Coffee</li>
+          </ul>
+          <ul class="signals">
+            <li>6 meetups attended</li>
+            <li>Replies quickly</li>
+          </ul>
+        </section>
+      </div>
     </div>
   </div>
-</main>
+  <!-- ЗОНА 3: решение по карточке. Закреплено внизу, как на profile.html.
+       Главное действие — Like. Взаимный лайк → Совпадение -->
+  <section class="pin cap left" aria-labelledby="act-h">
+    <h2 id="act-h" class="vh">Decision</h2>
+    <p class="row">
+      <a class="btn" href="deck.html">Skip</a>
+      <a class="btn primary" href="match.html">Like</a>
+    </p>
+    <!-- ЗОНА 4: выход во второй путь — в том же фрейме под решением.
+         Обязателен всегда, а не только в пустом виде (§4, D-10) -->
+    <h2 id="exit-h" class="vh">Events</h2>
+    <a class="exit" href="feed.html">
+      <span>Look at events</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
+  </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
     <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Главное действие: Filters → Фильтры колоды. Заголовок называет, что показываем, фильтры стоят в той же строке</p>

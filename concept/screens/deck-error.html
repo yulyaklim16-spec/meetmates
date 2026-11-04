@@ -149,53 +149,41 @@
 </header>
 
   <main class="mm-app">
-  <!-- Ширина: пара «карточка и решение» `D-113` — та же, что в рабочем виде.
-       Сломалась загрузка, а не раскладка: блок состояния стоит там, где стояла
-       бы карточка, а повтор и выход — в колонке решения. Выход в ленту
-       остаётся рядом с состоянием, а не у края — правило 10. -->
-  <div class="mm-pane mm-cols mm-cols--aside">
-    <!-- Левая колонка: предмет решения. Карточка держит свой потолок —
-         `D-13` ставит решение по одному человеку, и сетки людей нет ни на какой
-         ширине. -->
-    <div class="mm-col">
-      <!-- ЗОНА 2: вместо карточки — состояние. Причина названа, вины на человеке нет -->
-      <section class="mm-stretch" aria-labelledby="st-h">
-        <!-- Заголовок состояния идёт третьим уровнем — он одинаков на всех
-             21 экране с .mm-state, и разметку блока мы не трогаем. Ступень
-             добавляет зона: без неё уровень прыгал с h1 на h3. -->
-        <h2 id="st-h" class="mm-vh">Status</h2>
-        <article class="mm-state mm-state--alert" role="alert">
+  <!-- Ширина: экран-состояние «по центру» `D-131`, как ошибка ленты: одна ось —
+       состояние, повтор, выход. Выход в ленту остаётся рядом с состоянием,
+       а не у края — правило 10. -->
+  <div class="mm-pane mm-pane--center">
+    <!-- ЗОНА 2: вместо карточки — состояние. Причина названа, вины на человеке нет -->
+    <section class="mm-stretch" aria-labelledby="st-h">
+      <!-- Заголовок состояния идёт третьим уровнем — он одинаков на всех
+           экранах с .mm-state, и разметку блока мы не трогаем. Ступень
+           добавляет зона: без неё уровень прыгал с h1 на h3. -->
+      <h2 id="st-h" class="mm-vh">Status</h2>
+      <article class="mm-state mm-state--alert" role="alert">
         <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span>
-          <h3>Couldn&rsquo;t load people nearby</h3>
-          <p>The connection dropped. Your likes and matches are safe.</p>
-        </article>
-      </section>
+        <h3>Couldn&rsquo;t load people nearby</h3>
+        <p>The connection dropped. Your likes and matches are safe.</p>
+      </article>
+    </section>
 
-    </div>
+    <!-- ЗОНА 3: что дальше. Повтор — главное действие; flows.md M1: DeckErr → Deck -->
+    <section class="mm-section" aria-labelledby="act-h">
+      <h2 id="act-h" class="mm-vh">What next</h2>
+      <p class="mm-actions">
+        <a class="mm-btn mm-btn--primary" href="deck-loading.html">Try again</a>
+      </p>
+    </section>
 
-    <!-- Правая колонка: кто это и что с этим делать. На телефоне эти зоны
-         стоят под карточкой, потому что рядом им места нет; на ширине место
-         есть, и триста пикселей справа от карточки — не воздух, а дыра. -->
-    <div class="mm-col">
-      <!-- ЗОНА 3: что дальше. Повтор — главное действие; flows.md M1: DeckErr → Deck -->
-      <section class="mm-section" aria-labelledby="act-h">
-        <h2 id="act-h" class="mm-vh">What next</h2>
-        <p class="mm-actions">
-          <a class="mm-btn mm-btn--primary" href="deck-loading.html">Try again</a>
-        </p>
-      </section>
-
-      <!-- ЗОНА 4: выход во второй путь. Обязателен всегда (§4, D-10) -->
-      <section class="mm-section" aria-labelledby="exit-h">
-        <h2 id="exit-h" class="mm-vh">Events</h2>
-        <a class="mm-btn" href="feed.html">
-          <span>Look at events</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </section>
-    </div>
+    <!-- ЗОНА 4: выход во второй путь. Обязателен всегда (§4, D-10) -->
+    <section class="mm-section" aria-labelledby="exit-h">
+      <h2 id="exit-h" class="mm-vh">Events</h2>
+      <a class="mm-btn" href="feed.html">
+        <span>Look at events</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
   </div>
-</main>
+  </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">
     <p class="ann"><b>Зона 1 — что показываем и чем сужаем.</b> Не меняется: сломалась загрузка, а не экран</p>
