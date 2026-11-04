@@ -40,22 +40,27 @@
 
   /* ── B: полоса планов снизу ── */
   .pb { display: flex; flex-direction: column; gap: 20px; }
-  /* Снимок не отдаёт свою высоту тексту: в профиле он и есть предмет,
-     поэтому факты встают рядом, а не под ним. Полоса планов — всё равно снизу:
-     это и есть B. */
-  .pb-main { flex: 1; min-height: 0; display: grid; gap: 24px;
-              grid-template-columns: 360px minmax(0, 1fr); max-width: 860px; margin-inline: auto; }
-  .pb-photo { display: flex; }
+  /* Буквально как на доске «Очередь»: карточка со своими фактами по центру,
+     решение под ней, полоса — ниже. Высоту портрету возвращает не перестановка
+     фактов, а тонкая полоса: обложка 100px и без кнопки на карточке. */
+  .pb-main { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px;
+              width: 460px; margin-inline: auto; }
   .pb-main .mm-person { flex: 1; height: auto; }
-  .pb-act { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
-  .pb-act .mm-actions { margin-top: 8px; }
+  .pb-act { flex: none; }
   .pb-act .mm-note { margin: 0; }
   .pb-act .mm-subhead { margin: 0; }
   .pb-plans { flex: none; display: flex; flex-direction: column; gap: 10px; }
   /* Лента планов: карточки в ряд, а не сеткой — это полоса, а не список */
   .vp .pb-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 12px; }
   /* Обложка в полосе ниже, чем в ленте: полоса не должна съедать портрет. */
-  .pb-row .mm-cover { height: 120px; }
+  .pb-row .mm-cover { height: 100px; }
+  /* Кнопки на карточках полосы нет: тап по карточке открывает событие.
+     Это профиль, а не лента, — правило `D-54` про ленту. */
+  .pb-row .mm-event-acts { display: none; }
+  /* В полосе карточка говорит, что и когда; площадка и места — на самом
+     событии. Полоса худеет с 285 до ~190px, и портрет получает их себе. */
+  .pb-row .mm-facts { display: none; }
+  .pb-row .mm-cover { height: 84px; }
 
   /* ── C: фотографии стопкой ── */
   .pc { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 28px; align-items: stretch; }
@@ -111,7 +116,7 @@
 <main class="mm-app">
   <div class="mm-pane pb">
     <div class="pb-main">
-      <div class="pb-photo"><article class="mm-person">
+      <article class="mm-person">
             <figure>
               <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
               <figcaption class="mm-vh">Photo 1 of 4</figcaption>
@@ -121,9 +126,23 @@
                 <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
               </p>
             </figure>
-            
-          </article></div>
-      <section class="pb-act"><p class="mm-subhead">Olena, 26</p><p class="mm-common">3 common interests</p><ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li></ul><ul class="mm-signals"><li>6 meetups attended</li><li>Replies quickly</li></ul><p class="mm-note">Moved to Kyiv in spring. Weekends are for long walks and board games.</p><p class="mm-actions"><a class="mm-btn" href="#">Skip</a><a class="mm-btn mm-btn--primary" href="#">Like</a></p></section>
+            <section class="mm-person-body" aria-label="Olena">
+              <p class="mm-common">3 common interests</p>
+              <ul class="mm-tags">
+                <li>Hiking</li>
+                <li>Board games</li>
+                <li>Coffee</li>
+              </ul>
+              <h3 class="mm-subhead">Olena, 26</h3><ul class="mm-signals">
+                    <li>6 meetups attended</li>
+                <li>Replies quickly</li>
+              </ul>
+            <!-- био — факт о человеке, а не о его событиях: стоит в карточке,
+                 после сигналов доверия (§5.2, порядок чтения `D-13`) -->
+            <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
+            </section>
+          </article>
+      <section class="pb-act"><p class="mm-actions"><a class="mm-btn" href="#">Skip</a><a class="mm-btn mm-btn--primary" href="#">Like</a></p></section>
     </div>
     <section class="pb-plans">
       <p class="mm-grouphead"><span class="mm-subhead">Olena&rsquo;s events</span><a class="mm-more" href="#">See all <span aria-hidden="true">&rarr;</span></a></p>
@@ -184,7 +203,7 @@
 <main class="mm-app">
   <div class="mm-pane pb">
     <div class="pb-main">
-      <div class="pb-photo"><article class="mm-person">
+      <article class="mm-person">
             <figure>
               <p class="mm-photo"><img src="img/olena-720.jpg" alt="" loading="lazy"></p>
               <figcaption class="mm-vh">Photo 1 of 4</figcaption>
@@ -194,9 +213,23 @@
                 <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
               </p>
             </figure>
-            
-          </article></div>
-      <section class="pb-act"><p class="mm-subhead">Olena, 26</p><p class="mm-common">3 common interests</p><ul class="mm-tags"><li>Hiking</li><li>Board games</li><li>Coffee</li></ul><ul class="mm-signals"><li>6 meetups attended</li><li>Replies quickly</li></ul><p class="mm-note">Moved to Kyiv in spring. Weekends are for long walks and board games.</p><p class="mm-actions"><a class="mm-btn" href="#">Skip</a><a class="mm-btn mm-btn--primary" href="#">Like</a></p></section>
+            <section class="mm-person-body" aria-label="Olena">
+              <p class="mm-common">3 common interests</p>
+              <ul class="mm-tags">
+                <li>Hiking</li>
+                <li>Board games</li>
+                <li>Coffee</li>
+              </ul>
+              <h3 class="mm-subhead">Olena, 26</h3><ul class="mm-signals">
+                    <li>6 meetups attended</li>
+                <li>Replies quickly</li>
+              </ul>
+            <!-- био — факт о человеке, а не о его событиях: стоит в карточке,
+                 после сигналов доверия (§5.2, порядок чтения `D-13`) -->
+            <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
+            </section>
+          </article>
+      <section class="pb-act"><p class="mm-actions"><a class="mm-btn" href="#">Skip</a><a class="mm-btn mm-btn--primary" href="#">Like</a></p></section>
     </div>
     <section class="pb-plans">
       <p class="mm-grouphead"><span class="mm-subhead">Olena&rsquo;s events</span><a class="mm-more" href="#">See all <span aria-hidden="true">&rarr;</span></a></p>

@@ -520,7 +520,10 @@
   .mm-app--pair {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 390px;
-    grid-template-rows: auto minmax(0, 1fr);
+    /* Сверху читают, кто это и куда он идёт, решают — после (`D-127`):
+       колонка фактов занимает гибкий ряд и прокручивается, решение стоит
+       под ней вторым рядом и остаётся на виду. */
+    grid-template-rows: minmax(0, 1fr) auto;
     gap: var(--grid-gap);
     align-content: start;
   }
@@ -530,23 +533,26 @@
 
   .mm-app--pair .mm-cols > .mm-col:first-child { grid-column: 1; grid-row: 1 / -1; }
 
-  .mm-app--pair > .mm-pin { grid-column: 2; grid-row: 1; }
+  .mm-app--pair > .mm-pin { grid-column: 2; grid-row: 2; }
 
-  .mm-app--pair .mm-cols > .mm-col:last-child { grid-column: 2; grid-row: 2; }
-
-  /* Фрейм планов человека стоит своим ростом, а не до низа кадра: ряд под
-     ним — `1fr`, и без этого под единственным событием оставалось
-     полколонки пустой поверхности. Карточка слева ряды по-прежнему
-     перекрывает и кадр держит. */
-  .mm-app--pair .mm-cols > .mm-col:last-child { align-self: start; }
-
-  .mm-app--pair > .mm-pin,
   .mm-app--pair .mm-cols > .mm-col:last-child {
+    grid-column: 2; grid-row: 1; min-height: 0; overflow-y: auto;
+  }
+
+  /* Фрейм достаётся колонке целиком — или каждому её блоку порознь, если
+     колонка объявила `apart`: «кто это» и «его планы» два разных предмета
+     (`D-116`), и один фрейм склеил бы их в один список. */
+  .mm-app--pair > .mm-pin,
+  .mm-app--pair .mm-cols > .mm-col:last-child:not(.mm-col--apart),
+  .mm-app--pair .mm-cols > .mm-col--apart > .mm-section {
     padding: var(--space-16);
     border-radius: var(--radius-lg);
     background: var(--bg-surface);
     box-shadow: var(--shadow-2);
   }
+
+  /* Блоки в прокручиваемой колонке идут одним шагом и не слипаются */
+  .mm-app--pair .mm-cols > .mm-col--apart { gap: var(--space-16); }
 
   /* Рост самой карточки в этой паре задаёт `person.css` — тем же правилом,
      что и в паре колоды: кладка говорит, где колонка, а не как высока

@@ -147,7 +147,10 @@
          фрейм справа. Иначе при приходе данных текст перескочил бы
          из колонки в колонку. -->
     <div class="col">
-      <section class="scrolly sheet" aria-labelledby="pl-h">
+      <div class="stack">
+        <span class="under" aria-hidden="true"></span>
+        <span class="under" aria-hidden="true"></span>
+        <section class="scrolly sheet" aria-labelledby="pl-h">
         <h2 id="pl-h" class="vh">The event</h2>
         <!-- Обложка идёт первой и в рабочем виде (D-56): без её места
              карточка подпрыгивала на две сотни пикселей, когда снимок
@@ -168,7 +171,8 @@
             <span class="skel line w-l"></span>
           </p>
         </div>
-      </section>
+        </section>
+      </div>
     </div>
 
     <div class="col">

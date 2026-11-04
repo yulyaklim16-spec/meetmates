@@ -864,6 +864,28 @@ a { color: var(--w-ink); }
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
+/* ── `.stack`: снимков несколько, и это видно `D-127` ────────────────────
+   Под карточкой лежат два слоя — край того, что ещё есть: у человека это его
+   снимки, у события — его обложки. Настоящих кадров в слоях нет нарочно:
+   второй снимок, показанный краем, читается другим человеком, а разглядеть
+   его всё равно нельзя. На телефоне стопки нет — там о числе снимков говорит
+   пагинация, а высоту отдавать нечему. */
+.stack { position: relative; display: flex; flex-direction: column; min-height: 0; }
+.stack > .under { display: none; }
+:root[data-w="tablet"] .stack,
+:root[data-w="desktop"] .stack { padding-bottom: var(--s-5); flex: 1; min-height: 0; }
+:root[data-w="tablet"] .stack > .under,
+:root[data-w="desktop"] .stack > .under {
+  display: block; position: absolute; left: 0; right: 0; top: 0; bottom: var(--s-5);
+  border: 1px solid var(--w-line); border-radius: var(--r-md); background: var(--w-surface);
+}
+:root[data-w="tablet"] .stack > .under:first-child,
+:root[data-w="desktop"] .stack > .under:first-child { transform: translateY(var(--s-5)) scaleX(.94); }
+:root[data-w="tablet"] .stack > .under:nth-child(2),
+:root[data-w="desktop"] .stack > .under:nth-child(2) { transform: translateY(var(--s-3)) scaleX(.97); }
+:root[data-w="tablet"] .stack > :not(.under),
+:root[data-w="desktop"] .stack > :not(.under) { position: relative; z-index: 1; flex: 1; min-height: 0; }
+
 /* `.cols.framed` — каждая колонка в своей рамке. Нужна там, где колонки —
    не части одного предмета, а два разных ответа на один вопрос: выдача
    поиска, где слева события, справа люди. Без рамки строки обеих групп
@@ -922,16 +944,17 @@ a { color: var(--w-ink); }
 /* ── `.app.pair`: в пару входит и закреплённая полоса `D-114` ────────────
    Профиль другого человека — единственный экран, где решение лежит вне
    панели: на телефоне оно закреплено под ней и видно до прокрутки. На ширине
-   закрепление не нужно (содержимое помещается), а место решения — правая
-   колонка, над планами человека: имя, `Skip`/`Like`, и сразу под ними то,
-   куда она идёт. Перенести полосу разметкой нельзя, не сломав телефон,
-   поэтому на ширине панель и обёртка колонок растворяются, и все три зоны
-   становятся клетками одной сетки. */
+   место решения — низ правой колонки: сверху читают, кто это и куда он идёт,
+   решают — после (`D-127`). Колонка при этом прокручивается: факты, био
+   и планы в неё не помещаются ни на 834, ни на 1280, а решение остаётся
+   на виду — то же правило, что на телефоне. Перенести полосу разметкой
+   нельзя, не сломав телефон, поэтому на ширине панель и обёртка колонок
+   растворяются, и все три зоны становятся клетками одной сетки. */
 :root[data-w="tablet"] .app.pair,
 :root[data-w="desktop"] .app.pair {
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--w-read-max);
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
   gap: var(--w-gap-grid);
   align-content: start;
 }
@@ -943,12 +966,11 @@ a { color: var(--w-ink); }
 :root[data-w="tablet"] .app.pair .cols > .col:first-child,
 :root[data-w="desktop"] .app.pair .cols > .col:first-child { grid-column: 1; grid-row: 1 / -1; }
 :root[data-w="tablet"] .app.pair > .pin,
-:root[data-w="desktop"] .app.pair > .pin { grid-column: 2; grid-row: 1; }
+:root[data-w="desktop"] .app.pair > .pin { grid-column: 2; grid-row: 2; }
 :root[data-w="tablet"] .app.pair .cols > .col:last-child,
-:root[data-w="desktop"] .app.pair .cols > .col:last-child { grid-column: 2; grid-row: 2;
-  /* своим ростом, а не до низа кадра: ряд под фреймом — `1fr`, и без этого
-     под единственным событием оставалось полколонки пустой поверхности */
-  align-self: start; }
+:root[data-w="desktop"] .app.pair .cols > .col:last-child { grid-column: 2; grid-row: 1;
+  /* колонка прокручивается, а решение под ней остаётся на виду */
+  min-height: 0; overflow-y: auto; }
 /* Карточка занимает свою колонку целиком — иначе рядом с двумя фреймами
    справа она стоит короче обоих, и пара снова читается перепадом. */
 :root[data-w="tablet"] .app.pair .cols > .col:first-child > section,
@@ -958,16 +980,26 @@ a { color: var(--w-ink); }
   max-width: none;
   height: 100%; min-height: var(--card-h);
 }
-/* Оба блока справа — фреймы, те же, что у пары колоды. */
+/* Блоки справа — фреймы, те же, что у пары колоды. Колонка, объявившая
+   `apart`, фрейма не получает: он достаётся каждому её блоку порознь —
+   «кто это» и «его планы» два разных предмета (`D-116`). */
 :root[data-w="tablet"] .app.pair > .pin,
 :root[data-w="desktop"] .app.pair > .pin,
-:root[data-w="tablet"] .app.pair .cols > .col:last-child,
-:root[data-w="desktop"] .app.pair .cols > .col:last-child {
+:root[data-w="tablet"] .app.pair .cols > .col:last-child:not(.apart),
+:root[data-w="desktop"] .app.pair .cols > .col:last-child:not(.apart),
+:root[data-w="tablet"] .app.pair .cols > .col.apart > section,
+:root[data-w="desktop"] .app.pair .cols > .col.apart > section {
   padding: var(--s-4);
   border: 1px solid var(--w-line);
   border-radius: var(--r-sm);
   background: var(--w-surface);
 }
+/* Блоки в прокручиваемой колонке идут одним шагом и не слипаются */
+:root[data-w="tablet"] .app.pair .cols > .col.apart,
+:root[data-w="desktop"] .app.pair .cols > .col.apart { gap: var(--s-4); }
+/* Колонка фактов: тот же шаг, что внутри любой секции */
+.whocol { display: flex; flex-direction: column; gap: var(--s-3); }
+.whocol > p:last-child { margin: 0; }
 /* Потолок решению больше не нужен: ширину задаёт колонка, а `.cap` внутри
    фрейма оставлял бы кнопки уже рамки. */
 :root[data-w="tablet"] .app.pair > .pin.cap,

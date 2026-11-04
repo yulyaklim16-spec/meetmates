@@ -160,7 +160,10 @@
          фрейм справа. Иначе при приходе данных текст перескочил бы
          из колонки в колонку. -->
     <div class="mm-col">
-      <section class="mm-scrolly mm-sheet" aria-labelledby="pl-h">
+      <div class="mm-stack">
+        <span class="mm-stack-layer" aria-hidden="true"></span>
+        <span class="mm-stack-layer" aria-hidden="true"></span>
+        <section class="mm-scrolly mm-sheet" aria-labelledby="pl-h">
         <h2 id="pl-h" class="mm-vh">The event</h2>
         <!-- Обложка идёт первой и в рабочем виде (D-56): без её места
              карточка подпрыгивала на две сотни пикселей, когда снимок
@@ -181,7 +184,8 @@
             <span class="mm-skel mm-skel--line mm-skel--w-l"></span>
           </p>
         </div>
-      </section>
+        </section>
+      </div>
     </div>
 
     <div class="mm-col">

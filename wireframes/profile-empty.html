@@ -148,7 +148,10 @@
           <h2 id="who-h" class="vh">Who</h2>
           <!-- та же карточка, что в колоде: фото во всю площадь, текст подложкой снизу (§8).
                Имя не повторяем — оно в шапке экрана; порядок чтения остальной D-13 -->
-          <article class="card">
+          <div class="stack">
+            <span class="under" aria-hidden="true"></span>
+            <span class="under" aria-hidden="true"></span>
+            <article class="card">
             <figure>
               <p class="photo" aria-hidden="true"></p>
               <figcaption class="vh">Photo 1 of 4</figcaption>
@@ -158,7 +161,7 @@
                 <span class="chip"><span class="ico sm" aria-hidden="true"></span>~2 km</span>
               </p>
             </figure>
-            <section class="body" aria-label="Olena">
+            <section class="body narrow" aria-label="Olena">
               <p class="common">3 common interests</p>
               <ul class="tags">
                 <li>Hiking</li>
@@ -173,11 +176,28 @@
                  после сигналов доверия (§5.2, порядок чтения `D-13`) -->
             <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
             </section>
-          </article>
+            </article>
+          </div>
         </section>
       </div>
 
-      <div class="col">
+      <div class="col apart">
+        <!-- ЗОНА 2б на ширине: кто это. На телефоне те же факты стоят
+             в карточке; видно ровно одно, и зависит это от ширины (`D-127`). -->
+        <section class="wide whocol" aria-label="Olena">
+          <p class="name">Olena, 26</p>
+          <p class="common">3 common interests</p>
+          <ul class="tags">
+            <li>Hiking</li>
+            <li>Board games</li>
+            <li>Coffee</li>
+          </ul>
+          <ul class="signals">
+            <li>6 meetups attended</li>
+            <li>Replies quickly</li>
+          </ul>
+          <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
+        </section>
         <!-- ЗОНА 3: планов нет. Пусто здесь — частый вид, а не край (§2.1) -->
         <section aria-labelledby="pl-h">
           <h2 id="pl-h">Olena&rsquo;s events</h2>
@@ -201,9 +221,6 @@
        `.cap` не даёт двум кнопкам растянуться во всю ширину экрана: кнопка
        на девятьсот пикселей перестаёт читаться кнопкой. -->
   <section class="pin cap" aria-labelledby="act-h">
-    <!-- ЗОНА 2б: кто это. На ширине имя переезжает сюда, к решению:
-         его читают перед тем, как нажать. На телефоне оно в шапке. -->
-    <p class="name wide">Olena, 26</p>
     <h2 id="act-h" class="vh">Decision</h2>
     <p class="row">
       <a class="btn" href="deck.html">Skip</a>

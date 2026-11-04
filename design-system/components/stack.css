@@ -1,0 +1,48 @@
+/* Стопка — MeetMates
+ *
+ * Карточка, под которой лежат ещё: у человека это его снимки, у события —
+ * его обложки. Стопка говорит «здесь не один кадр» формой, а не словом.
+ *
+ * Настоящих кадров в слоях нет нарочно: второй снимок, показанный краем,
+ * читается другим человеком, а разглядеть его всё равно нельзя. Слой —
+ * поверхность с той же обводкой и тенью, что у карточки.
+ *
+ * На телефоне стопки нет: там высоту отдавать нечему, и о числе снимков
+ * говорит пагинация на самой карточке. Слои появляются с 834.
+ *
+ * Цвет — только через роли tokens.css; геометрия — из примитивов.
+ */
+
+.mm-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* На 390 слоёв не существует для раскладки: они не занимают ни пикселя */
+.mm-stack > .mm-stack-layer { display: none; }
+
+@container mm-screen (min-width: 52rem) {
+  /* Место под край нижнего слоя. Без него стопка съела бы высоту карточки.
+     `flex: 1` — стопка занимает колонку целиком: она здесь предмет, а не
+     обёртка вокруг карточки своего роста. */
+  .mm-stack { padding-bottom: var(--space-24); flex: 1; min-height: 0; }
+
+  .mm-stack > .mm-stack-layer {
+    display: block;
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: var(--space-24);
+    border-radius: var(--radius-lg);
+    background: var(--bg-surface);
+    box-shadow: var(--shadow-2);
+  }
+
+  /* Первый в разметке лежит глубже: он уже и ниже. Сдвиг вниз, а не вбок —
+     карточка остаётся по центру своей колонки, и пара колонок не косит. */
+  .mm-stack > .mm-stack-layer:first-child { transform: translateY(var(--space-24)) scaleX(.94); }
+  .mm-stack > .mm-stack-layer:nth-child(2) { transform: translateY(var(--space-12)) scaleX(.97); }
+
+  /* Сама карточка — поверх слоёв и во всю высоту стопки */
+  .mm-stack > :not(.mm-stack-layer) { position: relative; z-index: 1; flex: 1; min-height: 0; }
+}

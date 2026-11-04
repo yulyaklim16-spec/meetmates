@@ -163,7 +163,10 @@
           <h2 id="who-h" class="mm-vh">Who</h2>
           <!-- та же карточка, что в колоде: фото во всю площадь, текст подложкой снизу (§8).
                Имя не повторяем — оно в шапке экрана; порядок чтения остальной D-13 -->
-          <article class="mm-person">
+          <div class="mm-stack">
+            <span class="mm-stack-layer" aria-hidden="true"></span>
+            <span class="mm-stack-layer" aria-hidden="true"></span>
+            <article class="mm-person">
             <figure>
               <p class="mm-photo"><img src="../img/olena-720.jpg" alt="" loading="lazy"></p>
               <figcaption class="mm-vh">Photo 1 of 4</figcaption>
@@ -173,7 +176,7 @@
                 <span class="mm-chip"><span class="mm-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2C7.58172 2 4 6.00258 4 10.5C4 14.9622 6.55332 19.8124 10.5371 21.6744C11.4657 22.1085 12.5343 22.1085 13.4629 21.6744C17.4467 19.8124 20 14.9622 20 10.5C20 6.00258 16.4183 2 12 2ZM12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" clip-rule="evenodd"/></svg></span>~2 km</span>
               </p>
             </figure>
-            <section class="mm-person-body" aria-label="Olena">
+            <section class="mm-row-body mm-narrow" aria-label="Olena">
               <p class="mm-common">3 common interests</p>
               <ul class="mm-tags">
                 <li>Hiking</li>
@@ -188,11 +191,28 @@
                  после сигналов доверия (§5.2, порядок чтения `D-13`) -->
             <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
             </section>
-          </article>
+            </article>
+          </div>
         </section>
       </div>
 
-      <div class="mm-col">
+      <div class="mm-col mm-col--apart">
+        <!-- ЗОНА 2б на ширине: кто это. На телефоне те же факты стоят
+             в карточке; видно ровно одно, и зависит это от ширины (`D-127`). -->
+        <section class="mm-wide mm-section" aria-label="Olena">
+          <p class="mm-subhead">Olena, 26</p>
+          <p class="mm-common">3 common interests</p>
+          <ul class="mm-tags">
+            <li>Hiking</li>
+            <li>Board games</li>
+            <li>Coffee</li>
+          </ul>
+          <ul class="mm-signals">
+            <li>6 meetups attended</li>
+            <li>Replies quickly</li>
+          </ul>
+          <p>Moved to Kyiv in spring. Weekends are for long walks and board games.</p>
+        </section>
         <!-- ЗОНА 3: ближайшие запросы человека — второй путь прямо отсюда (§5.2) -->
         <section class="mm-section" aria-labelledby="pl-h">
           <h2 class="mm-h2" id="pl-h">Olena&rsquo;s events</h2>
@@ -221,9 +241,6 @@
        `.cap` не даёт двум кнопкам растянуться во всю ширину экрана: кнопка
        на девятьсот пикселей перестаёт читаться кнопкой. -->
   <section class="mm-pin mm-cap mm-cap--left" aria-labelledby="act-h">
-    <!-- ЗОНА 2б: кто это. На ширине имя переезжает сюда, к решению:
-         его читают перед тем, как нажать. На телефоне оно в шапке. -->
-    <p class="mm-subhead mm-wide">Olena, 26</p>
     <h2 id="act-h" class="mm-vh">Decision</h2>
     <p class="mm-actions">
       <a class="mm-btn" href="deck.html">Skip</a>
