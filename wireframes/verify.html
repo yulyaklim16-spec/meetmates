@@ -132,50 +132,46 @@
   <a class="back" href="dialog.html" aria-label="Back to the chat"><span aria-hidden="true">&larr;</span></a>
   <h1>Verification</h1>
 </header>
-  <main class="app">
-  <!-- Ширина: пара «предмет и решение» `D-115` — та же, что на колоде
-       и карточке события. Слева видоискатель во всю свободную ширину:
-       кадр с лицом и есть предмет экрана. Справа одним фреймом то, что
-       с ним делают. Таб-бара на этом экране нет (онбординг), рейки слева
-       на 1280 тоже, поэтому паре достаётся весь кадр. -->
-  <div class="pane cols aside">
-    <div class="col">
-      <!-- ЗОНА 2: видоискатель. Поза — то, что отличает живое фото от чужого -->
-      <section class="stretch" aria-labelledby="cam-h">
-        <h2 id="cam-h" class="vh">Selfie</h2>
-        <article class="card">
-          <figure>
-            <p class="photo" aria-hidden="true"></p>
-            <figcaption>Camera</figcaption>
-          </figure>
-          <section class="body">
-            <p class="common">Turn your head slightly to the left</p>
-            <p class="distance">Face the light, no sunglasses, no filters.</p>
-          </section>
-        </article>
-      </section>
-    </div>
-
-    <div class="col">
-      <!-- ЗОНА 3: снять. Одно действие, и оно главное -->
-      <section aria-labelledby="act-h">
-        <h2 id="act-h" class="vh">Decision</h2>
-        <p class="row">
-          <a class="btn primary" href="verify-loading.html">Take selfie</a>
-        </p>
-      </section>
-
-      <!-- ЗОНА 4: пропуск с названной ценой (§7.3) -->
-      <section aria-labelledby="skip-h">
-        <h2 id="skip-h" class="vh">Later</h2>
-        <p>You can browse now &mdash; verify to start chatting.</p>
-        <a class="exit" href="deck.html">
-          <span>Keep browsing</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </section>
+  <main class="app pair">
+  <!-- Ширина: пара «предмет и решение» `D-115`, как у профиля человека: слева
+       кадр с лицом — предмет экрана, справа во фрейме пояснение, решение
+       закреплено полосой под ним. Выход `Keep browsing` стоит в той же полосе:
+       верификацию можно отложить, и это видно рядом с кнопкой (`D-26`). -->
+  <div class="pane">
+    <div class="cols">
+      <div class="col">
+        <section class="stretch" aria-labelledby="cam-h">
+          <h2 id="cam-h" class="vh">Selfie</h2>
+          <article class="card">
+            <figure>
+              <p class="photo" aria-hidden="true"></p>
+              <figcaption>Camera</figcaption>
+            </figure>
+            <section class="body">
+              <p class="common">Turn your head slightly to the left</p>
+              <p class="distance">Face the light, no sunglasses, no filters.</p>
+            </section>
+          </article>
+        </section>
+      </div>
+      <div class="col apart">
+        <section aria-labelledby="skip-h">
+          <h2 id="skip-h" class="vh">Later</h2>
+          <p>You can browse now &mdash; verify to start chatting.</p>
+        </section>
+      </div>
     </div>
   </div>
+  <section class="pin cap left" aria-labelledby="act-h">
+    <h2 id="act-h" class="vh">Decision</h2>
+    <p class="row">
+      <a class="btn primary" href="verify-loading.html">Take selfie</a>
+    </p>
+    <a class="exit" href="deck.html">
+      <span>Keep browsing</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">

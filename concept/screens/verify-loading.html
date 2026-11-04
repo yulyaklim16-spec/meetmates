@@ -144,51 +144,47 @@
   <a class="mm-head-btn mm-head-btn--back" href="dialog.html" aria-label="Back to the chat"><span aria-hidden="true">&larr;</span></a>
   <h1 class="mm-head-title">Verification</h1>
 </header>
-  <main class="mm-app">
-  <!-- Ширина: пара «предмет и решение» `D-115` — та же, что на колоде
-       и карточке события. Слева видоискатель во всю свободную ширину:
-       кадр с лицом и есть предмет экрана. Справа одним фреймом то, что
-       с ним делают. Таб-бара на этом экране нет (онбординг), рейки слева
-       на 1280 тоже, поэтому паре достаётся весь кадр. -->
-  <div class="mm-pane mm-cols mm-cols--aside">
-    <div class="mm-col">
-      <!-- ЗОНА 2: обработка. Кадр остаётся на месте: человек видит, что проверяют -->
-      <section class="mm-stretch" aria-labelledby="cam-h">
-        <h2 id="cam-h" class="mm-vh">Checking</h2>
-        <p class="mm-note" role="status">Checking your selfie</p>
-        <article class="mm-person">
-          <figure>
-            <p class="mm-photo"><img src="../img/dasha-720.jpg" alt="" loading="lazy"></p>
-            <figcaption class="mm-photo-cap">Your selfie</figcaption>
-          </figure>
-          <section class="mm-person-body">
-            <p class="mm-skel mm-skel--line mm-skel--w-m"></p>
-            <p class="mm-skel mm-skel--line mm-skel--w-s"></p>
-          </section>
-        </article>
-      </section>
-    </div>
-
-    <div class="mm-col">
-      <!-- ЗОНА 3: действие выключено, но стоит на месте -->
-      <section class="mm-section" aria-labelledby="act-h">
-        <h2 id="act-h" class="mm-vh">Decision</h2>
-        <p class="mm-actions">
-          <button type="button" class="mm-btn mm-btn--primary" disabled>Take selfie</button>
-        </p>
-      </section>
-
-      <!-- ЗОНА 4: ждать необязательно -->
-      <section class="mm-section" aria-labelledby="skip-h">
-        <h2 id="skip-h" class="mm-vh">Later</h2>
-        <p>This takes a few seconds. You can keep browsing while the check runs.</p>
-        <a class="mm-btn" href="deck.html">
-          <span>Keep browsing</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </section>
+  <main class="mm-app mm-app--pair">
+  <!-- Ширина: пара «предмет и решение» `D-115`, как у профиля человека: слева
+       кадр с лицом — предмет экрана, справа во фрейме пояснение, решение
+       закреплено полосой под ним. Выход `Keep browsing` стоит в той же полосе:
+       верификацию можно отложить, и это видно рядом с кнопкой (`D-26`). -->
+  <div class="mm-pane">
+    <div class="mm-cols">
+      <div class="mm-col">
+        <section class="mm-stretch" aria-labelledby="cam-h">
+          <h2 id="cam-h" class="mm-vh">Checking</h2>
+          <p class="mm-note" role="status">Checking your selfie</p>
+          <article class="mm-person">
+            <figure>
+              <p class="mm-photo"><img src="../img/dasha-720.jpg" alt="" loading="lazy"></p>
+              <figcaption class="mm-photo-cap">Your selfie</figcaption>
+            </figure>
+            <section class="mm-person-body">
+              <p class="mm-skel mm-skel--line mm-skel--w-m"></p>
+              <p class="mm-skel mm-skel--line mm-skel--w-s"></p>
+            </section>
+          </article>
+        </section>
+      </div>
+      <div class="mm-col mm-col--apart">
+        <section class="mm-section" aria-labelledby="skip-h">
+          <h2 id="skip-h" class="mm-vh">Later</h2>
+          <p>This takes a few seconds. You can keep browsing while the check runs.</p>
+        </section>
+      </div>
     </div>
   </div>
+  <section class="mm-pin mm-cap mm-cap--left" aria-labelledby="act-h">
+    <h2 id="act-h" class="mm-vh">Decision</h2>
+    <p class="mm-actions">
+      <button type="button" class="mm-btn mm-btn--primary" disabled>Take selfie</button>
+    </p>
+    <a class="mm-btn" href="deck.html">
+      <span>Keep browsing</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
   <div class="anns">

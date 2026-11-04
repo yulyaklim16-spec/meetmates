@@ -147,43 +147,31 @@
   <h1 class="mm-head-title">Verification</h1>
 </header>
   <main class="mm-app">
-  <!-- Ширина: пара «предмет и решение» `D-115` — та же, что на колоде
-       и карточке события. Слева видоискатель во всю свободную ширину:
-       кадр с лицом и есть предмет экрана. Справа одним фреймом то, что
-       с ним делают. Таб-бара на этом экране нет (онбординг), рейки слева
-       на 1280 тоже, поэтому паре достаётся весь кадр. -->
-  <div class="mm-pane mm-cols mm-cols--aside">
-    <div class="mm-col">
-      <!-- ЗОНА 2: причина. Не «something went wrong», а что именно не так -->
-      <section class="mm-stretch" aria-labelledby="err-h">
-        <h2 id="err-h" class="mm-vh">Verification failed</h2>
-        <article class="mm-state mm-state--alert" role="alert">
+  <!-- Ширина: состояние по центру `D-131`, как у остальных экранов-состояний:
+       одна ось — состояние, цветное действие, выход. -->
+  <div class="mm-pane mm-pane--center">
+    <section class="mm-stretch" aria-labelledby="err-h">
+      <h2 id="err-h" class="mm-vh">Verification failed</h2>
+      <article class="mm-state mm-state--alert" role="alert">
         <span class="mm-state-ico" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V7C11.25 6.58579 11.5858 6.25 12 6.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></svg></span>
-          <h3>Couldn&rsquo;t read your face</h3>
-          <p>Part of your face was out of frame. Hold the phone at eye level and try once more.</p>
-        </article>
-        <p class="mm-note">This was your first try. There&rsquo;s no limit on tries &mdash; after two, someone from the team looks at your selfie.</p>
-      </section>
-    </div>
-
-    <div class="mm-col">
-      <!-- ЗОНА 3: пересдать. Без таймаутов и без наказания -->
-      <section class="mm-section" aria-labelledby="act-h">
-        <h2 id="act-h" class="mm-vh">What next</h2>
-        <p class="mm-actions">
-          <a class="mm-btn mm-btn--primary" href="verify.html">Try again</a>
-        </p>
-      </section>
-
-      <!-- ЗОНА 4: выход. Колода и просмотр остаются открытыми (§7.3) -->
-      <section class="mm-section" aria-labelledby="skip-h">
-        <h2 id="skip-h" class="mm-vh">Later</h2>
-        <a class="mm-btn" href="deck.html">
-          <span>Keep browsing</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </section>
-    </div>
+        <h3>Couldn&rsquo;t read your face</h3>
+        <p>Part of your face was out of frame. Hold the phone at eye level and try once more.</p>
+      </article>
+      <p class="mm-note">This was your first try. There&rsquo;s no limit on tries &mdash; after two, someone from the team looks at your selfie.</p>
+    </section>
+    <section class="mm-section" aria-labelledby="act-h">
+      <h2 id="act-h" class="mm-vh">What next</h2>
+      <p class="mm-actions">
+        <a class="mm-btn mm-btn--primary" href="verify.html">Try again</a>
+      </p>
+    </section>
+    <section class="mm-section" aria-labelledby="skip-h">
+      <h2 id="skip-h" class="mm-vh">Later</h2>
+      <a class="mm-btn" href="deck.html">
+        <span>Keep browsing</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
   </div>
   </main>
   <!-- подписи зон: служебные, стоят рядом с телефоном и не едут в прототип -->
