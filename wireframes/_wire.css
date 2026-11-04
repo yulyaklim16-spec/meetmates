@@ -1259,6 +1259,9 @@ a { color: var(--w-ink); }
    Меру строки внутри держит абзац — у него свои 46ch. */
 :root[data-w="tablet"] .split-detail > .state,
 :root[data-w="desktop"] .split-detail > .state { width: 100%; max-width: none; }
+/* и без контейнера: «ничего не выбрано» — пустота панели, а не рамка;
+   остаются иконка, заголовок и подпись по центру области панели */
+.split-detail > .state { border: 0; border-radius: 0; }
 :root[data-w="tablet"] .split-detail > .acts,
 :root[data-w="desktop"] .split-detail > .acts,
 /* и полоса выходов: в разметке она `section > p.row`, а `.row > * { flex: 1 }`
